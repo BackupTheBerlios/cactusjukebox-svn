@@ -1,0 +1,152 @@
+#: mp3:rsex
+msgid "alal"
+msgstr ""
+
+#: mp3:rsquit
+msgid "Quit"
+msgstr "Beenden"
+
+#: mp3:rsfile
+msgid "File"
+msgstr "Datei"
+
+#: mp3:rsopenfile
+msgid "Open File..."
+msgstr "Datei öffnen"
+
+#: mp3:rsplayeronly
+msgid "Player only"
+msgstr "Minimieren"
+
+#: mp3:rschooseskin
+msgid "Choose Skin..."
+msgstr "Skin auswählen"
+
+#: mp3:rssettings
+msgid "Settings..."
+msgstr "Einstellungen"
+
+#: mp3:rslibrary
+msgid "Library"
+msgstr "Bibliothek"
+
+#: mp3:rsnewlibrary
+msgid "New library"
+msgstr "Neue Bibliothek"
+
+#: mp3:rsloadlibrary
+msgid "Load library"
+msgstr "Bibliothek laden"
+
+#: mp3:rssavelibrary
+msgid "Save library"
+msgstr "Bibliothek speichern"
+
+#: mp3:rslibraryinfo
+msgid "Library info"
+msgstr "Info"
+
+#: mp3:rsmanagelibrar
+msgid "Manage library..."
+msgstr "Einstellungen"
+
+#: mp3:rsrescandirect
+msgid "Rescan directories"
+msgstr "Verzeichnisse erneut durchsuchen"
+
+#: mp3:rsplaylist
+msgid "Playlist"
+msgstr "Playlist"
+
+#: mp3:rsplay
+msgid "Play"
+msgstr "Abspielen"
+
+#: mp3:rsnext
+msgid "Next"
+msgstr "Nächster Track"
+
+#: mp3:rsprevious
+msgid "Previous"
+msgstr "Vorheriger Track"
+
+#: mp3:rsmute
+msgid "Mute"
+msgstr "Stumm"
+
+#: mp3:rsloadplaylist
+msgid "Load playlist"
+msgstr "Playlist laden"
+
+#: mp3:rssaveplaylist
+msgid "Save playlist"
+msgstr "Playlist speichern"
+
+#: mp3:rsmobileplayer
+msgid "Mobile player"
+msgstr "Mp3-Player"
+
+#: mp3:rsdeviceinfo
+msgid "Device info"
+msgstr "Geräteinfo"
+
+#: mp3:rsscanplayer
+msgid "Scan player"
+msgstr "Gerät durchsuchen"
+
+#: mp3:rssync
+msgid "Sync"
+msgstr "Synchronisieren"
+
+#: mp3:rsclearplayer
+msgid "Clear player"
+msgstr "Gerät leeren"
+
+#: mp3:rsundoselectio
+msgid "Undo selection"
+msgstr "Änderungen Rückgängig"
+
+#: mp3:rsaudiocd
+msgid "Audio CD"
+msgstr "Audio CD"
+
+#: mp3:rsripencode
+msgid "Rip / Encode..."
+msgstr "Rippen / Kodieren"
+
+#: mp3:rshelp
+msgid "Help"
+msgstr "Hilfe"
+
+#: mp3:rsabout
+msgid "About..."
+msgstr "Über Cactus Jukebox..."
+
+#: mp3:rsmanual
+msgid "Manual..."
+msgstr "Handbuch..."
+
+#: mp3:rsclear
+msgid "Clear"
+msgstr "Löschen"
+
+#: mp3:rssearch
+msgid "Search"
+msgstr "Suchen"
+
+#: mp3:rsalbum
+msgid "Album"
+msgstr "Album"
+
+#: mp3:rsfilename
+msgid "Filename"
+msgstr "Dateiname"
+
+#: mp3:rsartist
+msgid "Artist"
+msgstr "Künstler"
+
+#: mp3:rstitle
+msgid "Title"
+msgstr "Titel"
+

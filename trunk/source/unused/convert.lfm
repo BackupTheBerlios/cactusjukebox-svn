@@ -1,0 +1,84 @@
+object convert: Tconvert
+  ActiveControl = RadioButton2
+  AutoSize = True
+  BorderStyle = bsDialog
+  Caption = 'Choose Bitrate and Format...'
+  ClientHeight = 103
+  ClientWidth = 277
+  FormStyle = fsStayOnTop
+  OnCreate = convertCreate
+  PixelsPerInch = 96
+  Visible = True
+  HorzScrollBar.Page = 280
+  VertScrollBar.Page = 102
+  Left = 338
+  Height = 103
+  Top = 163
+  Width = 277
+  object Label1: TLabel
+    Caption = 'Bitrate(kbit/s)'
+    Color = clNone
+    ParentColor = False
+    Height = 12
+    Top = 6
+    Width = 72
+  end
+  object RadioButton1: TRadioButton
+    AllowGrayed = True
+    Caption = 'WMA'
+    Checked = True
+    Enabled = False
+    State = cbChecked
+    TabOrder = 0
+    Left = 192
+    Height = 24
+    Top = 48
+    Width = 53
+  end
+  object RadioButton2: TRadioButton
+    AllowGrayed = True
+    Caption = 'MP3'
+    TabOrder = 1
+    Left = 192
+    Height = 24
+    Width = 49
+  end
+  object RadioButton3: TRadioButton
+    AllowGrayed = True
+    Caption = 'Ogg Vorbis'
+    Enabled = False
+    TabOrder = 2
+    Left = 192
+    Height = 24
+    Top = 24
+    Width = 85
+  end
+  object Edit1: TEdit
+    MaxLength = 3
+    TabOrder = 3
+    Text = '96 '
+    Left = 88
+    Height = 23
+    Width = 40
+  end
+  object Button1: TButton
+    BorderSpacing.InnerBorder = 2
+    Caption = 'OK'
+    OnClick = Button1Click
+    TabOrder = 5
+    Left = 24
+    Height = 25
+    Top = 78
+    Width = 75
+  end
+  object Button2: TButton
+    BorderSpacing.InnerBorder = 2
+    Caption = 'Cancel'
+    OnClick = Button2Click
+    TabOrder = 4
+    Left = 168
+    Height = 25
+    Top = 78
+    Width = 75
+  end
+end
