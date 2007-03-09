@@ -1,0 +1,82 @@
+object dirwin: Tdirwin
+  Left = 440
+  Height = 278
+  Top = 391
+  Width = 419
+  HorzScrollBar.Page = 418
+  VertScrollBar.Page = 277
+  ActiveControl = dirlistview
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'Directories'
+  ShowInTaskBar = stNever
+  object dirlistview: TListView
+    Left = 16
+    Height = 250
+    Top = 16
+    Width = 296
+    Columns = <    
+      item
+        AutoSize = True
+        Caption = 'Directories'
+        Width = 65
+      end>
+    RowSelect = True
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
+    ViewStyle = vsReport
+  end
+  object add: TButton
+    Left = 332
+    Height = 25
+    Top = 16
+    Width = 75
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Add'
+    OnClick = addClick
+    TabOrder = 1
+  end
+  object removebut: TButton
+    Left = 332
+    Height = 25
+    Top = 48
+    Width = 75
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Remove'
+    OnClick = removeClick
+    TabOrder = 2
+  end
+  object rescan: TButton
+    Left = 332
+    Height = 25
+    Top = 120
+    Width = 75
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Rescan'
+    OnClick = rescanClick
+    TabOrder = 3
+  end
+  object rescanall: TButton
+    Left = 332
+    Height = 25
+    Top = 152
+    Width = 75
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Rescan all'
+    TabOrder = 4
+  end
+  object Button1: TButton
+    Left = 332
+    Height = 25
+    Top = 232
+    Width = 75
+    BorderSpacing.InnerBorder = 4
+    Caption = 'Back'
+    OnClick = Button1Click
+    TabOrder = 5
+  end
+  object SelectDirectoryDialog1: TSelectDirectoryDialog
+    Title = 'Select Directory'
+    FilterIndex = 0
+  end
+end

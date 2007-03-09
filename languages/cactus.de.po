@@ -1,0 +1,272 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: mp3:rsquit
+msgid "Quit"
+msgstr "Beenden"
+
+#: mp3:rsfile
+msgid "File"
+msgstr "Datei"
+
+#: mp3:rsopenfile
+msgid "Open File..."
+msgstr "Datei öffnen"
+
+#: mp3:rsplayeronly
+msgid "Player only"
+msgstr "Minimieren"
+
+#: mp3:rschooseskin
+msgid "Choose Skin..."
+msgstr "Skin auswählen"
+
+#: mp3:rssettings
+msgid "Settings..."
+msgstr "Einstellungen"
+
+#: mp3:rslibrary
+msgid "Library"
+msgstr "Bibliothek"
+
+#: mp3:rsnewlibrary
+msgid "New library"
+msgstr "Neue Bibliothek"
+
+#: mp3:rsloadlibrary
+msgid "Load library"
+msgstr "Bibliothek laden"
+
+#: mp3:rssavelibrary
+msgid "Save library"
+msgstr "Bibliothek speichern"
+
+#: mp3:rslibraryinfo
+msgid "Library info"
+msgstr "Info"
+
+#: mp3:rsmanagelibrar
+msgid "Manage library..."
+msgstr "Einstellungen"
+
+#: mp3:rsrescandirect
+msgid "Rescan directories"
+msgstr "Verzeichnisse erneut durchsuchen"
+
+#: mp3:rsplaylist
+msgid "Playlist"
+msgstr "Playlist"
+
+#: mp3:rsplay
+msgid "Play"
+msgstr "Abspielen"
+
+#: mp3:rsnext
+msgid "Next"
+msgstr "Nächster Track"
+
+#: mp3:rsprevious
+msgid "Previous"
+msgstr "Vorheriger Track"
+
+#: mp3:rsmute
+msgid "Mute"
+msgstr "Stumm"
+
+#: mp3:rsloadplaylist
+msgid "Load playlist"
+msgstr "Playlist laden"
+
+#: mp3:rssaveplaylist
+msgid "Save playlist"
+msgstr "Playlist speichern"
+
+#: mp3:rsmobileplayer
+msgid "Mobile player"
+msgstr "Mp3-Player"
+
+#: mp3:rsdeviceinfo
+msgid "Device info"
+msgstr "Geräteinfo"
+
+#: mp3:rsscanplayer
+msgid "Scan player"
+msgstr "Gerät durchsuchen"
+
+#: mp3:rssync
+msgid "Sync"
+msgstr "Synchronisieren"
+
+#: mp3:rsclearplayer
+msgid "Clear player"
+msgstr "Gerät leeren"
+
+#: mp3:rsundoselectio
+msgid "Undo selection"
+msgstr "Änderungen Rückgängig"
+
+#: mp3:rsaudiocd
+msgid "Audio CD"
+msgstr "Audio CD"
+
+#: mp3:rsripencode
+msgid "Rip / Encode..."
+msgstr "Rippen / Kodieren"
+
+#: mp3:rshelp
+msgid "Help"
+msgstr "Hilfe"
+
+#: mp3:rsabout
+msgid "About..."
+msgstr "Über Cactus Jukebox..."
+
+#: mp3:rsmanual
+msgid "Manual..."
+msgstr "Handbuch..."
+
+#: mp3:rsclear
+msgid "Clear"
+msgstr "Löschen"
+
+#: mp3:rssearch
+msgid "Search"
+msgstr "Suchen"
+
+#: mp3:rsalbum
+msgid "Album"
+msgstr "Album"
+
+#: mp3:rsfilename
+msgid "Filename"
+msgstr "Dateiname"
+
+#: mp3:rsartist
+msgid "Artist"
+msgstr "Künstler"
+
+#: mp3:rstitle
+msgid "Title"
+msgstr "Titel"
+
+#: mp3:rsrandom
+msgid "Random"
+msgstr "Shuffle"
+
+#: mp3:rsnotconnected
+msgid "Device not Connected"
+msgstr "Gerät nicht gefunden"
+
+#: mp3:rsok
+msgid "OK"
+msgstr "OK"
+
+#: cdrip:rsencodetomp3
+msgid "Encode to mp3"
+msgstr "Als mp3 kodieren"
+
+#: cdrip:rsquerrycddb
+msgid "Querry CDDB"
+msgstr "CDDB Abfrage"
+
+#: cdrip:rsload
+msgid "Load"
+msgstr "CD Laden"
+
+#: cdrip:rseject
+msgid "Eject"
+msgstr "Auswerfen"
+
+#: cdrip:rsstart
+msgid "Start"
+msgstr "Start"
+
+#: cdrip:rsback
+msgid "Back"
+msgstr "Zurück"
+
+#: cdrip:rssetid3tag
+msgid "Write ID3-Tags"
+msgstr "ID3 Tags schreiben"
+
+#: cdrip:rscrsubfolders
+msgid "Create artist subfolders"
+msgstr "Unterverzeichnisse erstellen"
+
+#: settings:rsautoloadlast
+msgid "Autoload last library at startup"
+msgstr "Bibliothek beim Start automatisch laden"
+
+#: settings:rsscanfornewfi
+msgid "Scan for new files in background  on startup"
+msgstr "Beim Start Bibliothek im Hintergrund aktualisieren"
+
+#: settings:rslanguage
+msgid "Language"
+msgstr "Sprache"
+
+#: settings:rswhattodowhen
+msgid "What to do when there is no ID3"
+msgstr "Wenn kein ID3-Tag gefunden wurde..."
+
+#: settings:rsguesstagfrom
+msgid "Guess tag from filename"
+msgstr "Dateiinformationen erraten"
+
+#: settings:rsmovetosectio
+msgid "Move to section %sUnknown%s"
+msgstr "Datei zu Unknown einsortieren"
+
+#: settings:rsid3type
+msgid "ID3 type"
+msgstr "ID3 Typ"
+
+#: settings:rsid3v1priorit
+msgid "ID3v1 Priority"
+msgstr "ID3v1 Priorität"
+
+#: settings:rsid3v2priorit
+msgid "ID3v2 Priority"
+msgstr "ID3v2 Priorität"
+
+#: settings:rsgeneral
+msgid "General"
+msgstr "Allgemein"
+
+#: settings:rspathtomp3pla
+msgid "Path to mp3player mountpoint"
+msgstr "Pfad zum Mp3-Player Mountpoint"
+
+#: settings:rscreatesubfol
+msgid "Create subfolders on upload"
+msgstr "Unterverzeichnisse erstellen"
+
+#: settings:rspathstoaddit
+msgid "Paths to additional application needed for Cactus Jukebox"
+msgstr "Pfade zu evtl. benötigten Anwendungen"
+
+#: settings:rscdda2wavtool
+msgid "Cdda2wav (tool to rip CDs)"
+msgstr "Cdda2wav (cd-rip Anwendung)"
+
+#: settings:rssave
+msgid "Save"
+msgstr "Speichern"
+
+#: settings:rscancel
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: settings:rsmobiledevice
+msgid "Mobile Device"
+msgstr "Mp3-Player"
+
+#: settings:rspaths
+msgid "Paths"
+msgstr "Pfade"
+
+#: settings:rslameneededto
+msgid "lame (needed to encode mp3 files)"
+msgstr "lame (enkodiert mp3 Dateien)"
