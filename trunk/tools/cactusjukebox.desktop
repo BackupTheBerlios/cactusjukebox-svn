@@ -1,9 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Name=Cactus Jukebox
-Name[xx]=
-GenericName=
-Exec=/usr/bin/cactus
-Icon=/usr/share/cactusjukebox/icon/cactus-icon.png
-Terminal=false
-Categories=Application;AudioVideo;
