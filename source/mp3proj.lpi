@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="10"/>
+      <ActiveEditorIndexAtStart Value="11"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -40,7 +40,7 @@
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="107">
+    <Units Count="108">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -237,7 +237,7 @@
         <UnitName Value="fmod"/>
         <CursorPos X="15" Y="509"/>
         <TopLine Value="496"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="14"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit23>
@@ -263,7 +263,7 @@
         <UnitName Value="player"/>
         <CursorPos X="23" Y="441"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="13"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit26>
@@ -521,7 +521,7 @@
         <UnitName Value="skin"/>
         <CursorPos X="57" Y="116"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit62>
@@ -842,28 +842,25 @@
         <UsageCount Value="10"/>
         <SyntaxHighlighter Value="None"/>
       </Unit106>
+      <Unit107>
+        <Filename Value="fmodintf/fmodtypes.pas"/>
+        <UnitName Value="fmodtypes"/>
+        <CursorPos X="1" Y="821"/>
+        <TopLine Value="789"/>
+        <EditorIndex Value="11"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit107>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="832" Column="25" TopLine="827"/>
+        <Filename Value="fmodintf/fmodtypes.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position1>
       <Position2>
-        <Filename Value="aws.pas"/>
-        <Caret Line="1" Column="69" TopLine="1"/>
+        <Filename Value="fmodintf/fmodtypes.pas"/>
+        <Caret Line="821" Column="1" TopLine="785"/>
       </Position2>
-      <Position3>
-        <Filename Value="mp3proj.lpr"/>
-        <Caret Line="36" Column="31" TopLine="9"/>
-      </Position3>
-      <Position4>
-        <Filename Value="fmod.pas"/>
-        <Caret Line="767" Column="47" TopLine="747"/>
-      </Position4>
-      <Position5>
-        <Filename Value="mp3proj.lpr"/>
-        <Caret Line="25" Column="24" TopLine="9"/>
-      </Position5>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -874,6 +871,7 @@
     <SearchPaths>
       <IncludeFiles Value="../../lnet-0.4.0/lib/sys/"/>
       <OtherUnitFiles Value="../../lnet-0.4.0/lib/;../../synapse/source/lib/;fmodintf/"/>
+      <UnitOutputDirectory Value="../source"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
     <Parsing>
@@ -904,6 +902,7 @@
       <CustomOptions Value="
 "/>
       <CompilerPath Value="$(CompPath)"/>
+      <CreateMakefileOnBuild Value="True"/>
     </Other>
   </CompilerOptions>
   <Debugging>

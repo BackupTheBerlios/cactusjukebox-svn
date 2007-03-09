@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <CONFIG>
   <Compiler Value="/usr/bin/ppc386" Date="1156281955"/>
-  <Params Value=" -S2i -CX -O1p2 -TLinux -gl -Xs  -k-lgcc -vewnhi -Fi../../lnet-0.4.0/lib/sys/ -Fu../../lnet-0.4.0/lib/ -Fu../../synapse/source/lib/ -Fufmodintf/ -Fu../../lazarus-svn/components/jpeg/lib/i386-linux/ -Fu../../lazarus-svn/lcl/units/i386-linux/ -Fu../../lazarus-svn/lcl/units/i386-linux/gtk2/ -Fu../../lazarus-svn/packager/units/i386-linux/ -Fu. -o../cactus_jukebox -dLCL -dLCLgtk2 mp3proj.lpr"/>
+  <Params Value=" -S2i -CX -O1p2 -TLinux -gl -Xs  -k-lgcc -vewnhi -Fi../../lnet-0.4.0/lib/sys/ -Fu../../lnet-0.4.0/lib/ -Fu../../synapse/source/lib/ -Fufmodintf/ -Fu../../lazarus-svn/components/jpeg/lib/i386-linux/ -Fu../../lazarus-svn/lcl/units/i386-linux/ -Fu../../lazarus-svn/lcl/units/i386-linux/gtk2/ -Fu../../lazarus-svn/packager/units/i386-linux/ -Fu. -FU. -o../cactus_jukebox -dLCL -dLCLgtk2 mp3proj.lpr"/>
 </CONFIG>
