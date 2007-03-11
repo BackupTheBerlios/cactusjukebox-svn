@@ -41,8 +41,6 @@ var i,z, delpos:integer;
        procedure read_tag_mp3;
        function getPath: String;
        mp3filehandle:longint;
-
-       artistv2, albumv2, titlev2, commentv2, yearv2, trackv2: string;
        id3v2, id3v1, read_only:boolean;
        tagpos:byte;
        
@@ -140,7 +138,6 @@ begin
                  writeln(lfile,lib[i].mp3filehandle);
                  writeln(lfile,lib[i].id);
                  writeln(lfile,lib[i].artist); writeln(lfile, lib[i].album); writeln(lfile, lib[i].title);writeln(lfile, lib[i].year);writeln(lfile, lib[i].comment);writeln(lfile, lib[i].track);
-                 writeln(lfile,lib[i].artistv2); writeln(lfile, lib[i].albumv2); writeln(lfile, lib[i].titlev2);writeln(lfile,lib[i].yearv2);writeln(lfile, lib[i].trackv2);
                  writeln(lfile,lib[i].id3v2); writeln(lfile, lib[i].id3v1); writeln(lfile, lib[i].read_only);
                  writeln(lfile,lib[i].size);
                  writeln(lfile,lib[i].filetype);
@@ -190,7 +187,6 @@ begin
                  readln(lfile, lib[i].mp3filehandle);
                  readln(lfile, lib[i].id);
                  readln(lfile, lib[i].artist); readln(lfile, lib[i].album); readln(lfile, lib[i].title);readln(lfile, lib[i].year);readln(lfile, lib[i].comment);readln(lfile, lib[i].track);
-                 readln(lfile, lib[i].artistv2); readln(lfile, lib[i].albumv2); readln(lfile, lib[i].titlev2);readln(lfile, lib[i].yearv2);readln(lfile, lib[i].trackv2);
                  readln(lfile,tmps);
                  if tmps='FALSE' then  lib[i].id3v2:=false else  lib[i].id3v2:=true;
                  readln(lfile,tmps);
@@ -296,9 +292,10 @@ procedure TMp3fileobj.write_tag;
 var
        buf: array[1..1024] of byte;
        bufstr, tmptag:string;
+       artistv2, albumv2, titlev2, commentv2, yearv2, trackv2: string;
 begin
 {id3v2}
-  if id3v2 or (length(artistv2)>30) or (length(titlev2)>30) or (length(albumv2)>30) or (length(commentv2)>30) then
+  if id3v2 or (length(artist)>30) or (length(title)>30) or (length(album)>30) or (length(comment)>30) then
     begin
      mp3filehandle:=fileopen(path,fmOpenRead);
      fileseek(mp3filehandle, 0, fsfrombeginning);
@@ -518,6 +515,7 @@ procedure TMp3fileobj.read_tag_mp3;
 var b, xx:byte;
     i:integer;
     buf: array[1..1024] of byte;
+    artistv2, albumv2, titlev2, commentv2, yearv2, trackv2: string;
     bufstr:string;
 begin
     Try
