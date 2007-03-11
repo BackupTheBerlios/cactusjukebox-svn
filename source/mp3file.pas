@@ -29,68 +29,78 @@ var i,z, delpos:integer;
   type
       PMediaCollection = ^TMediacollection;
       PMp3fileobj = ^TMp3fileobj;
-      
-      { TMp3fileobj }
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      { TMp3fileobj }
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       TMp3fileobj=class
-       constructor index_file(filepath:string);
-       constructor dummy;
-       destructor destroy;
-       procedure write_tag;
-       procedure read_tag;
+      private
+       id3v1str: string[31];
        procedure read_tag_ogg;
        procedure read_tag_wave;
+       procedure read_tag_mp3;
        function getPath: String;
-       mp3filehandle, id:longint;
-
-
-       artist, album, title, comment: ansistring;
-       id3v1str: string[31];
-       year, track, filetype:string[4];
-       size: int64;
-       bitrate, samplerate, playlength: longint;
+       mp3filehandle:longint;
 
        artistv2, albumv2, titlev2, commentv2, yearv2, trackv2: string;
-       playtime: string;
        id3v2, id3v1, read_only:boolean;
        tagpos:byte;
        
-       collection: PMediaCollection;
-       index, action: integer;
        FPath, FRelativePath: string;
-       CoverPath: ansistring;
+      public
        
-       Property path: String read getPath write FPath;
-      end;
-
-      TMediacollection=class
+       constructor index_file(filepath:string);
        constructor create;
        destructor destroy;
-       function  load_lib(path:string):byte;
-       procedure save_lib(path:string);
-       procedure index_directory(dir:string);
-       procedure scan_directory(dir:string);
+       procedure write_tag;
+       procedure read_tag;
+       artist, album, title, comment: ansistring;
+       year, track, filetype:string[4];
+       size: int64;
+       bitrate, samplerate, playlength, id: longint;
+       index, action: integer;
+       CoverPath: ansistring;
+       collection: PMediaCollection;
+       playtime: string;
+       Property path: String read getPath write FPath;
+      end;
+      
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      { TMediaCollection }
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      TMediacollection=class
+       private
        procedure create_artist_order;
        procedure create_title_order;
-       procedure add_file(path:string);
-       procedure remove_entry(ind:integer);
-       function  ScanForNew:byte;
+       procedure scan_directory(dir:string); //scans directory and adds new(!) files to collection
+
+       public
+       constructor create;
+       destructor destroy;
        lib:Array of TMp3FileObj;
-       max_index, index:integer;
-       artist_order, dirlist: ansistring;
-       ready: boolean;
-       guess_tag, saved, get_length, CollectionChanged:boolean;
+       max_index:integer;
+       dirlist: ansistring;
+       guess_tag, saved, CollectionChanged:boolean;
        rootpath, savepath:string;
        PathFmt: TPathFmt;
+       function  load_lib(path:string):byte;
+       procedure save_lib(path:string);
+       procedure add_directory(dir:string);
+       procedure add_file(path:string); //scans directory and adds all(!) files to collection
+       procedure sort;
+
+       procedure remove_entry(ind:integer);
+       function  ScanForNew:byte;   //search all folders for new or changed files
   end;
-  
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 var MediaCollection, PlayerCol :TMediaCollection;
 var mp3buf, mp3buf2: TMp3fileObj;
 
-
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 implementation
 uses status, fmod, mp3, functions;
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 var s, s2: string[8];
     t, min, sec:integer;
@@ -111,7 +121,6 @@ begin
              writeln(lfile,'#####This config file is created by Cactus Jukebox. NEVER(!!) edit by hand!!!####');
              writeln(lfile,'++++Config++++');
              writeln(lfile,max_index);
-             writeln(lfile,index);
              writeln(lfile,guess_tag);
              writeln(lfile,rootpath);
              writeln(lfile,dirlist);
@@ -164,7 +173,6 @@ begin
              readln(lfile,max_index);
              SetLength(lib, max_index+16);
              writeln(high(lib));
-             readln(lfile, index);
              readln(lfile, tmps);
              if tmps='FALSE' then guess_tag:=false else guess_tag:=true;
              readln(lfile, tmps);
@@ -174,7 +182,7 @@ begin
              writeln( dirlist);
              readln(lfile);
              for i:= 1 to  max_index-1 do begin
-                 lib[i]:=TMp3fileobj.dummy;
+                 lib[i]:=TMp3fileobj.create;
                  lib[i].action:=ANOTHING;
                  readln(lfile, lib[i].fpath);
                  lib[i].FRelativePath:=RPath;
@@ -258,10 +266,14 @@ begin
    if CollectionChanged then result:=0 else result:=128;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 destructor TMediaCollection.destroy;
 begin
      for i:= 1 to max_index-1 do lib[i].destroy;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 destructor TMp3fileobj.destroy;
 begin
@@ -500,49 +512,20 @@ begin
   end;
 end;
 
-function TMp3fileobj.getPath: String;
-begin
-  result:= FRelativePath + FPath;
-end;
-
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TMp3fileobj.read_tag_ogg;
-begin
-   tmps:=extractFileName(path);
-   z:=pos(' - ', tmps)+3;
-   if z<>3 then begin
-       title:=copy(tmps,z,length(tmps)-z-3);
-       artist:=copy(tmps,1,z-3);
-       album:='';
-     end else begin
-       artist:='';
-       title:='';
-       album:='';
-    end;
-     artist:=TrimRight(artist);
-     title:=TrimRight(title);
-     album:=TrimRight(Album);
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure TMp3fileobj.read_tag;
+procedure TMp3fileobj.read_tag_mp3;
 var b, xx:byte;
     i:integer;
     buf: array[1..1024] of byte;
     bufstr:string;
 begin
- if filetype='.wav' then read_tag_wave;
- if filetype='.ogg' then read_tag_ogg;
-
- if filetype='.mp3' then begin
     Try
      mp3filehandle:=fileopen(path, fmOpenRead);
 {calculating playtime}
      fileseek(mp3filehandle,0,fsfrombeginning);
      fileread(mp3filehandle,buf,high(buf));
-     
+
      i:=0;
      z:=1;
      repeat begin
@@ -576,7 +559,7 @@ begin
                end;
             end
         else writeln(path+' -> no valid mpeg header found');
-     
+
 {reading ID3-tags}
      fileseek(mp3filehandle,0,fsfrombeginning);
      fileread(mp3filehandle,buf,high(buf));
@@ -605,7 +588,7 @@ begin
 
              i:=pos('TRCK',bufstr);
              if i<> 0 then trackv2:=copy(bufstr,i+11,buf[i+7]-1);
-                    
+
              i:=pos('TRK',bufstr);
              if i<> 0 then trackv2:=copy(bufstr,i+7,buf[i+5]-1);
 
@@ -625,7 +608,7 @@ begin
 {             artistv2:=rmZeroChar(artistv2);
              titlev2:=rmZeroChar(titlev2);
              albumv2:=rmZeroChar(albumv2);     }
-             
+
              artistv2:=Latin1toUTF8(artistv2);
              titlev2:=Latin1toUTF8(titlev2);
              albumv2:=Latin1toUTF8(albumv2);
@@ -678,7 +661,7 @@ begin
      if ((commentv2<>'') and id3v2) and (main.id3v2_prio or (comment='')) then comment:=TrimRight(commentv2);
      if ((yearv2<>'')  and id3v2) and (main.id3v2_prio or (year='')) then year:=TrimRight(yearv2);
      if ((trackv2<>'') and id3v2) and (main.id3v2_prio or (track='')) then track:=TrimRight(trackv2);
-     
+
      artist:=TrimRight(artist);
      title:=TrimRight(title);
      album:=TrimRight(Album);
@@ -688,7 +671,44 @@ begin
      except
         writeln(path+' ->error opening file... skipped!!');
      end;
-   end;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function TMp3fileobj.getPath: String;
+begin
+  result:= FRelativePath + FPath;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMp3fileobj.read_tag_ogg;
+begin
+   tmps:=extractFileName(path);
+   z:=pos(' - ', tmps)+3;
+   if z<>3 then begin
+       title:=copy(tmps,z,length(tmps)-z-3);
+       artist:=copy(tmps,1,z-3);
+       album:='';
+     end else begin
+       artist:='';
+       title:='';
+       album:='';
+    end;
+     artist:=TrimRight(artist);
+     title:=TrimRight(title);
+     album:=TrimRight(Album);
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMp3fileobj.read_tag;
+begin
+ if filetype='.wav' then read_tag_wave;
+ if filetype='.ogg' then read_tag_ogg;
+
+ if filetype='.mp3' then read_tag_mp3;
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -879,16 +899,16 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-constructor TMp3fileobj.dummy;
+constructor TMp3fileobj.create;  //Dummy to create an empty object
 begin
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMediacollection.remove_entry(ind:integer);
 var z: integer;
 begin
      for z:=ind to max_index-2 do begin
-        // tmpfobj:=lib[z+1];
          lib[z]:=lib[z+1]
        end;
      dec(max_index);
@@ -936,13 +956,11 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-// scantype: 0=index file, 1=check if in library
-procedure TMediacollection.index_directory(dir:string);
+procedure TMediacollection.add_directory(dir:string);
 var mp3search,dirsearch:TSearchrec;
     tmps:string;
 begin
-  if (dir[length(dir)]='\') or (dir[length(dir)]='/') then else dir:=dir+DirectorySeparator;
+  if (dir[length(dir)]<>DirectorySeparator)then dir:=dir+DirectorySeparator;
   writeln('scanning through:  '+dir);
   main.StatusBar1.Panels[0].Text :='scanning trough:  '+dir;
   Application.ProcessMessages;
@@ -950,7 +968,7 @@ begin
         begin
           repeat
               begin
-                 tmps:=lowercase(ExtractFileExt(mp3search.name));
+                  tmps:=lowercase(ExtractFileExt(mp3search.name));
                   Application.ProcessMessages;
               //   if statuswin.Cancel=true then exit;
                  if (tmps='.mp3') or (tmps='.wav') or (tmps='.ogg') then begin
@@ -972,7 +990,7 @@ begin
              repeat
                 begin
                    if (dirsearch.attr and FaDirectory)=FaDirectory then begin
-                      if pos('.', dirsearch.name)=0 then index_directory(dir+dirsearch.name+DirectorySeparator);
+                      if pos('.', dirsearch.name)=0 then add_directory(dir+dirsearch.name+DirectorySeparator);
                    end;
                  end;
              until FindNext(dirsearch)<>0;
@@ -1025,6 +1043,12 @@ begin
              until FindNext(dirsearch)<>0;
        end;
      Findclose(dirsearch);
+end;
+
+procedure TMediacollection.sort;
+begin
+  create_artist_order;
+  create_title_order;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

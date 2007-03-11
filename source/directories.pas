@@ -81,7 +81,7 @@ begin
      Enabled:=false;
      Application.ProcessMessages;
      MediaCollection.dirlist:=MediaCollection.dirlist+SelectDirectoryDialog1.FileName+';';
-     MediaCollection.index_directory(SelectDirectoryDialog1.FileName);
+     MediaCollection.add_directory(SelectDirectoryDialog1.FileName);
      Listitem:=dirwin.dirlistview.items.add;
      Listitem.Caption:=SelectDirectoryDialog1.FileName;
 
@@ -141,7 +141,7 @@ begin
      Caption:='Please wait... Scanning...';
      Enabled:=false;
      Application.ProcessMessages;
-     MediaCollection.index_directory(rescandir);
+     MediaCollection.add_directory(rescandir);
      Listitem:=dirwin.dirlistview.items.add;
      Listitem.Caption:=SelectDirectoryDialog1.FileName;
 

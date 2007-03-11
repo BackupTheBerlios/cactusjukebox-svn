@@ -310,7 +310,6 @@ type
     procedure QuitItemClick(Sender: TObject);
     procedure TitleTreeDblClick(Sender: TObject);
     procedure addFileItemClick(Sender: TObject);
-    procedure chdirectoryCLICK(Sender: TObject);
     procedure loadlibClick(Sender: TObject);
     procedure newlibClick(Sender: TObject);
     procedure nextClick(Sender: TObject);
@@ -460,8 +459,7 @@ begin
 
    fstatus:=tmpcollection.ScanForNew;
   // Synchronize(@ShowStatus);
-   tmpcollection.create_artist_order;
-   tmpcollection.create_title_order;
+   tmpcollection.sort;
    Synchronize(@ShowStatus);
 end;
 
@@ -521,30 +519,6 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TMain.chdirectoryCLICK(Sender: TObject);
-begin
-     Selectdirectorydialog1.title:='Add MP3 Directory...';
-     Selectdirectorydialog1.initialdir:='/';
-     if Selectdirectorydialog1.execute=true then begin
-              Setlength(MediaCollection.lib,0);
-              Setlength(MediaCollection.lib,512);
-              MediaCollection.max_index:=1;
-              Statuswin:=TStatus.create(nil);
-              Application.ProcessMessages;
-              MediaCollection.max_index:=1;
-              MediaCollection.index_directory(Selectdirectorydialog1.Filename);
-              MediaCollection.rootpath:=Selectdirectorydialog1.Filename;
-              Statuswin.destroy;
-              if MediaCollection.max_index>1 then begin
-                 writeln('update1');
-                 update_artist_view;
-                writeln('update2');
-              end;
-           end;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 procedure TMain.loadlibClick(Sender: TObject);
 begin
   OpenDialog1.Filter := 'Mp3lib Library|*.mlb';
@@ -566,7 +540,7 @@ begin
               Statuswin:=TStatus.create(nil);
               Application.ProcessMessages;
               MediaCollection.max_index:=1;
-              MediaCollection.index_directory(Selectdirectorydialog1.Filename);
+              MediaCollection.add_directory(Selectdirectorydialog1.Filename);
               MediaCollection.rootpath:=Selectdirectorydialog1.Filename;
               MediaCollection.dirlist:=Selectdirectorydialog1.Filename+';';
               Statuswin.destroy;
@@ -764,7 +738,7 @@ begin
      PlayerCol.max_index:=1;
      playercol.rootpath:=playerpath;
      PlayerCol.PathFmt:=FRelative;
-     PlayerCol.index_directory(playerpath);
+     PlayerCol.add_directory(playerpath);
      PlayerCol.dirlist:=playerpath+';';
      Statuswin.destroy;
      clear_listClick(nil);
@@ -2052,11 +2026,11 @@ begin
         editid3win.commentedit1.text:=mp3fileobj.comment;
         editid3win.yearedit1.text:=mp3fileobj.year;
 
-        editid3win.artistedit2.text:=mp3fileobj.artistv2;
+{        editid3win.artistedit2.text:=mp3fileobj.artistv2;
         editid3win.titleedit2.text:=mp3fileobj.titlev2;
         editid3win.albumedit2.text:=mp3fileobj.albumv2;
         editid3win.yearedit2.text:=mp3fileobj.yearv2;
-        editid3win.trackedit2.text:=mp3fileobj.trackv2;
+        editid3win.trackedit2.text:=mp3fileobj.trackv2;}
         if mp3fileobj.filetype='.mp3' then editid3win.Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mp3_64.png');
         if mp3fileobj.filetype='.ogg' then editid3win.Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'ogg_64.png');
         if mp3fileobj.filetype='.wav' then editid3win.Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'wav_64.png');
@@ -3097,7 +3071,7 @@ begin
      localnode.SelectedIndex:=6;
      localnode.data:=pointer(1);
      PCol:=@MediaCollection;
-     Pcol^.create_artist_order;
+     Pcol^.sort;
      for i:=1 to (MediaCollection.max_index-1) do begin
         MediaCollection.lib[i].index:=i;
         if MediaCollection.lib[i].artist<>'' then tmps:=MediaCollection.lib[i].artist else tmps:='Unknown';
@@ -3141,7 +3115,7 @@ begin
      playernode.ImageIndex:=1;
      playernode.data:=pointer(0);
      PCol:=@PlayerCol;
-     Pcol^.create_artist_order;
+     Pcol^.sort;
      for i:=1 to (PCol^.max_index-1) do begin
         PCol^.lib[i].index:=i;
         if PCol^.lib[i].artist<>'' then tmps:=PCol^.lib[i].artist else tmps:='Unknown';

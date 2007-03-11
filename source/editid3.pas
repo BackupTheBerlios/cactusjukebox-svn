@@ -138,12 +138,12 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
    PFileObj^.comment:=commentedit1.text;
    pfileobj^.track:=trackedit1.text;
 
-   PFileObj^.artistv2:=artistedit1.text;
+{   PFileObj^.artistv2:=artistedit1.text;
    PFileObj^.titlev2:=titleedit1.text;
    PFileObj^.albumv2:=albumedit1.text;
    PFileObj^.yearv2:=yearedit1.text;
    PFileObj^.commentv2:=commentedit1.text;
-   pfileobj^.trackv2:=trackedit1.text;
+   pfileobj^.trackv2:=trackedit1.text; }
 
    PFileObj^.write_tag;
    
@@ -158,7 +158,7 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
    z:=pfileobj^.index;
    while (z<PCol^.max_index) and (oldart=lowercase(PCol^.lib[z].artist)) do begin
          PCol^.lib[z].artist:=newart;
-         PCol^.lib[z].artistv2:=newart;
+//         PCol^.lib[z].artistv2:=newart;
          writeln(newart);
          PCol^.lib[z].write_tag;
          writeln(z);
@@ -178,8 +178,8 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
       if oldalbum=lowercase(PCol^.lib[z].album) then begin
          PCol^.lib[z].album:=newalbum;
          PCol^.lib[z].artist:=newart;
-         PCol^.lib[z].albumv2:=newalbum;
-         PCol^.lib[z].artistv2:=newart;
+//         PCol^.lib[z].albumv2:=newalbum;
+//         PCol^.lib[z].artistv2:=newart;
          PCol^.lib[z].write_tag;
        end;
        inc(z);
@@ -279,7 +279,6 @@ begin
      editid3win.commentedit1.text:=PFobj^.comment;
      editid3win.yearedit1.text:=PFobj^.year;
      editid3win.trackedit1.text:=PFobj^.track;
-     writeln('track: '+PFobj^.trackv2);
      mtype.caption:='Mediatype:  '+PFobj^.filetype;
      if PFobj^.filetype='.mp3' then Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mp3_64.png');
      if PFobj^.filetype='.ogg' then Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'ogg_64.png');
@@ -301,15 +300,15 @@ begin
      srate.Caption:='Samplerate:  '+tmps+' Hz';
      str(PFobj^.bitrate, tmps);
      bitrate.Caption:='Bitrate:  '+tmps+' kbps';
-     editid3win.artistedit2.text:=PFobj^.artistv2;
+//     editid3win.artistedit2.text:=PFobj^.artistv2;
      str(PFobj^.id, tmps);
      idlabel.Caption:='File-Id: '+tmps;
      str(PFobj^.index, tmps);
-     indexlabel.Caption:='File-Index: '+tmps;
+     indexlabel.Caption:='File-Index: '+tmps;    {
      editid3win.titleedit2.text:=PFobj^.titlev2;
      editid3win.albumedit2.text:=PFobj^.albumv2;
      editid3win.yearedit2.text:=PFobj^.yearv2;
-     editid3win.trackedit2.text:=PFobj^.trackv2;
+     editid3win.trackedit2.text:=PFobj^.trackv2;}
      writeln('########AlbumCover');
      AlbumCoverImg.Canvas.Clear;
      AlbumCoverImg.Picture.Clear;
