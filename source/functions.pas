@@ -15,9 +15,10 @@ interface
 
 uses
 //  Classes, SysUtils, dos;
-    Classes, SysUtils, Objects, Process, Forms, crt;
+    Classes, SysUtils, Objects, Process, Forms, crt, mmx;
 
-function crc32(path: string):longint;
+function crc32(path: string):int64;
+function crc32_mmx(path: string):int64;
 function DirectoryIsEmpty(Directory: string): Boolean;
 function UTF8toLatin1(utfstring: ansistring): ansistring;
 function Latin1toUTF8(latin1string: ansistring): ansistring;
@@ -29,23 +30,57 @@ implementation
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function crc32(path: string):longint;  //creates an very, very basic checksum to identify files
+function crc32_mmx(path: string):int64;  //creates an very, very basic checksum to identify files
 var fhandle: THandle;
-    buf: byte;
-    l, i: longint;
+    buf: array [0..31] of int64;
+    z:byte;
+    i, eofile: longint;
+    l: int64;
 begin
      fhandle:=sysutils.fileopen(path, fmOpenRead);
      l:=0;
      i:=0;
-     while (l<>-1) and (i<32000) do
+     z:=0;
+     eofile:=0;
+  {MMX+}
+     while (eofile<>-1) and (i<1024) do
            begin
-                fileread(fhandle, buf, 1);
-                l:=l + buf;
+                eofile:=FileRead(fhandle, buf, high(buf));
+                for z:=0 to high(buf) do L:=l+buf[z];
+              //  if eofile<>-1 then eofile:=FileSeek(fhandle, fsFromCurrent, 1024 - high(buf));
+                inc(i);
+            end;
+  {MMX-}
+     if is_amd_3d_mmx_cpu then femms else emms;
+     FileClose(fhandle);
+     
+     result:= l;
+
+end;
+
+function crc32(path: string):int64;  //creates an very, very basic checksum to identify files
+var fhandle: THandle;
+    buf: array [0..63] of int64;
+    z:byte;
+    i, eofile: longint;
+    l: int64;
+begin
+     fhandle:=sysutils.fileopen(path, fmOpenRead);
+     l:=0;
+     i:=0;
+     z:=0;
+     eofile:=0;
+     while (eofile<>-1) and (i<256) do
+           begin
+                eofile:=FileRead(fhandle, buf, high(buf));
+                for z:=0 to high(buf) do L:=l+buf[z];
                 inc(i);
             end;
      FileClose(fhandle);
-     crc32:= l;
+     result:= l;
+
 end;
+
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

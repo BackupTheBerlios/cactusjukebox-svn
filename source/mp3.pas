@@ -534,12 +534,9 @@ begin
      Selectdirectorydialog1.initialdir:=HomeDir;
      Selectdirectorydialog1.title:='Add Directory...';
      if Selectdirectorydialog1.execute=true then begin
-              Setlength(MediaCollection.lib,0);
-              Setlength(MediaCollection.lib,512);
-              MediaCollection.max_index:=1;
+              MediaCollection.clear;
               Statuswin:=TStatus.create(nil);
               Application.ProcessMessages;
-              MediaCollection.max_index:=1;
               MediaCollection.add_directory(Selectdirectorydialog1.Filename);
               MediaCollection.rootpath:=Selectdirectorydialog1.Filename;
               MediaCollection.dirlist:=Selectdirectorydialog1.Filename+';';
@@ -732,10 +729,8 @@ begin
   If FileExists(playerpath) then begin
      Statuswin:=TStatus.create(nil);
      Application.ProcessMessages;
-     Setlength(PlayerCol.lib,0);
-     
-     Setlength(PlayerCol.lib,512);
-     PlayerCol.max_index:=1;
+
+     PlayerCol.clear;
      playercol.rootpath:=playerpath;
      PlayerCol.PathFmt:=FRelative;
      PlayerCol.add_directory(playerpath);
@@ -1959,9 +1954,7 @@ begin
                     end;
                   inc(i);
                end;
-             PlayerCol.max_index:=1;
-             Setlength(PlayerCol.lib,0);
-             Setlength(PlayerCol.lib,512);
+             PlayerCol.clear;
 
              for i:= 1 to MediaCollection.max_index-1 do MediaCollection.lib[i].action:=-1;
              ArtistTree.Selected:=nil;
@@ -2655,7 +2648,7 @@ end;
 procedure TMain.RemoveClick(Sender: TObject);
 begin
      main.changetree:=true;
-     MediaCollection.max_index:=1;
+     MediaCollection.clear;
      Main.TitleTree.Items.Clear;
      Main.ArtistTree.Items.Clear;
      Main.Playlist.Items.Clear;

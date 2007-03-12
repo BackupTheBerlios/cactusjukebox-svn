@@ -54,8 +54,8 @@ var i,z, delpos:integer;
        procedure read_tag;
        artist, album, title, comment: ansistring;
        year, track, filetype:string[4];
-       size: int64;
-       bitrate, samplerate, playlength, id: longint;
+       size, id: int64;
+       bitrate, samplerate, playlength: longint;
        index, action: integer;
        CoverPath: ansistring;
        collection: PMediaCollection;
@@ -71,22 +71,23 @@ var i,z, delpos:integer;
        procedure create_artist_order;
        procedure create_title_order;
        procedure scan_directory(dir:string); //scans directory and adds new(!) files to collection
+       FMax_Index:Integer;
 
        public
        constructor create;
        destructor destroy;
        lib:Array of TMp3FileObj;
-       max_index:integer;
+       property max_index: Integer Read FMax_Index;
        dirlist: ansistring;
        guess_tag, saved, CollectionChanged:boolean;
        rootpath, savepath:string;
        PathFmt: TPathFmt;
        function  load_lib(path:string):byte;
        procedure save_lib(path:string);
-       procedure add_directory(dir:string);
-       procedure add_file(path:string); //scans directory and adds all(!) files to collection
+       procedure add_directory(dir:string); //scans directory and adds all(!) files to collection
+       procedure add_file(path:string);
        procedure sort;
-
+       procedure clear;
        procedure remove_entry(ind:integer);
        function  ScanForNew:byte;   //search all folders for new or changed files
   end;
@@ -118,12 +119,12 @@ begin
              rewrite(lfile);
              writeln(lfile,'#####This config file is created by Cactus Jukebox. NEVER(!!) edit by hand!!!####');
              writeln(lfile,'++++Config++++');
-             writeln(lfile,max_index);
+             writeln(lfile,fmax_index);
              writeln(lfile,guess_tag);
              writeln(lfile,rootpath);
              writeln(lfile,dirlist);
              writeln(lfile,'++++Files++++');
-             for i:= 1 to max_index-1 do begin
+             for i:= 1 to fmax_index-1 do begin
                  if PathFmt = FDirect then
                             tmps:= lib[i].path
                      else begin
@@ -147,10 +148,10 @@ begin
                  writeln(lfile,lib[i].playtime);
                 end;
              close(lfile);
-             write('written ');write(i);write(' of ');writeln(max_index);
+             write('written ');write(i);write(' of ');writeln(fmax_index);
          except
               writeln('error writing library to disk: check permissions!');
-              write('written ');write(i);write(' of ');writeln(max_index);
+              write('written ');write(i);write(' of ');writeln(fmax_index);
            end;
 end;
 
@@ -167,8 +168,8 @@ begin
        try
              readln(lfile);
              readln(lfile);
-             readln(lfile,max_index);
-             SetLength(lib, max_index+16);
+             readln(lfile,fmax_index);
+             SetLength(lib, fmax_index+16);
              writeln(high(lib));
              readln(lfile, tmps);
              if tmps='FALSE' then guess_tag:=false else guess_tag:=true;
@@ -178,7 +179,7 @@ begin
              readln(lfile, dirlist);
              writeln( dirlist);
              readln(lfile);
-             for i:= 1 to  max_index-1 do begin
+             for i:= 1 to  fmax_index-1 do begin
                  lib[i]:=TMp3fileobj.create;
                  lib[i].action:=ANOTHING;
                  readln(lfile, lib[i].fpath);
@@ -248,7 +249,7 @@ begin
             CollectionChanged:=true;
           end
       end;
-     until K>=max_index-1;
+     until K>=fmax_index-1;
      tmps:=dirlist;
 
      repeat begin
@@ -266,7 +267,7 @@ end;
 
 destructor TMediaCollection.destroy;
 begin
-     for i:= 1 to max_index-1 do lib[i].destroy;
+     for i:= 1 to fmax_index-1 do lib[i].destroy;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -279,7 +280,7 @@ end;
 
 constructor TMediaCollection.create;
 begin
-     max_index:=1;
+     fmax_index:=1;
      saved:=false;
      savepath:='';
      Setlength(lib,512);
@@ -718,9 +719,9 @@ begin
      i:=1;
      z:=2;
      delpos:=1;
-     if max_index>2 then repeat begin
+     if fmax_index>2 then repeat begin
        delpos:=i;
-       while (lowercase(lib[i].artist)=lowercase(lib[z].artist)) and (z<=max_index-2) do
+       while (lowercase(lib[i].artist)=lowercase(lib[z].artist)) and (z<=fmax_index-2) do
            begin
                n:=comparestr(lowercase(lib[delpos].title), lowercase(lib[z].title));
                if n>0 then begin
@@ -738,7 +739,7 @@ begin
          inc(i);
          z:=i+1
        end;
-      until z>=max_index;
+      until z>=fmax_index;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -750,7 +751,7 @@ begin
       z:=1;
       i:=1;
       delpos:=1;
-      if max_index>2 then begin
+      if fmax_index>2 then begin
       repeat begin
         i:=z+1;
         delpos:=z;
@@ -779,7 +780,7 @@ begin
                 end;
            inc(i);
           end;
-        until i>max_index-1;
+        until i>fmax_index-1;
         mp3buf:=lib[delpos];
         mp3buf2:=lib[z];
 
@@ -787,7 +788,7 @@ begin
         lib[delpos]:=mp3buf2;
         inc(z);
        end;
-       until z>max_index-2;
+       until z>fmax_index-2;
        end;
       create_title_order;
 end;     }
@@ -812,7 +813,7 @@ begin
     i:=1;
     biggest:=1;
       
-    if max_index>2 then begin
+    if fmax_index>2 then begin
       repeat begin
       
         biggest:=z;
@@ -833,7 +834,7 @@ begin
               end;
            inc(i);
           end;
-        until (i>max_index-1);
+        until (i>fmax_index-1);
         
         mp3buf:=lib[biggest];
         mp3buf2:=lib[z];
@@ -844,7 +845,7 @@ begin
 
        end;
        
-      until z>max_index-2;
+      until z>fmax_index-2;
     end;
     write(' sorting titles ');
     create_title_order;
@@ -862,7 +863,7 @@ begin
     z:=1;
     i:=1;
     ext:=true;
-    if max_index>2 then begin
+    if fmax_index>2 then begin
       repeat begin
          i:=1;
          ext:=true;
@@ -887,10 +888,10 @@ begin
 
              inc(i);
           end;
-        until i>max_index-z-1;
+        until i>fmax_index-z-1;
         inc(z);
        end;
-      until (z>max_index-1) or (ext=true);
+      until (z>fmax_index-1) or (ext=true);
     end;
     create_title_order;
 end;
@@ -906,10 +907,10 @@ end;
 procedure TMediacollection.remove_entry(ind:integer);
 var z: integer;
 begin
-     for z:=ind to max_index-2 do begin
+     for z:=ind to fmax_index-2 do begin
          lib[z]:=lib[z+1]
        end;
-     dec(max_index);
+     dec(fmax_index);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -917,11 +918,11 @@ end;
 procedure TMediacollection.add_file(path:string);
 begin
   if FileExists(path) then begin
-     lib[max_index]:=TMp3fileobj.index_file(path);
+     lib[fmax_index]:=TMp3fileobj.index_file(path);
      inc(max_index);
-     if high(lib)=max_index then
+     if high(lib)=fmax_index then
          begin {library erweitern um 512 eintraege}
-           Setlength(lib, max_index+1+512);
+           Setlength(lib, fmax_index+1+512);
          end;
      end
   else writeln('ERROR: File not found -> '+path);
@@ -970,11 +971,11 @@ begin
                   Application.ProcessMessages;
               //   if statuswin.Cancel=true then exit;
                  if (tmps='.mp3') or (tmps='.wav') or (tmps='.ogg') then begin
-                    lib[max_index]:=TMp3fileobj.index_file(dir+mp3search.name);
-                    inc(max_index);
-                    if high(lib)=max_index then
+                    lib[fmax_index]:=TMp3fileobj.index_file(dir+mp3search.name);
+                    inc(fmax_index);
+                    if high(lib)=fmax_index then
                             begin {library erweitern um 512 eintraege}
-                                Setlength(lib, max_index+1+512);
+                                Setlength(lib, fmax_index+1+512);
                              end;
                    end;
                end;
@@ -1013,16 +1014,16 @@ begin
                  tmps:=lowercase(ExtractFileExt(mp3search.name));
                  if (tmps='.mp3') or (tmps='.wav') or (tmps='.ogg') then begin
                     i:=0;
-                    repeat inc(i) until (i=max_index) or (lib[i].path=dir+mp3search.Name);
-                    if i=max_index then begin
+                    repeat inc(i) until (i=fmax_index) or (lib[i].path=dir+mp3search.Name);
+                    if i=fmax_index then begin
                        CollectionChanged:=true;
-                       lib[max_index]:=TMp3fileobj.index_file(dir+mp3search.name);
-                       writeln(lib[max_index].path+'added');
-                       inc(max_index);
+                       lib[fmax_index]:=TMp3fileobj.index_file(dir+mp3search.name);
+                       writeln(lib[fmax_index].path+'added');
+                       inc(fmax_index);
 
-                       if high(lib)=max_index then
+                       if high(lib)=fmax_index then
                             begin {library erweitern um 512 eintraege}
-                                Setlength(lib, max_index+1+512);
+                                Setlength(lib, fmax_index+1+512);
                              end;
                       end;
                    end;
@@ -1047,6 +1048,13 @@ procedure TMediacollection.sort;
 begin
   create_artist_order;
   create_title_order;
+end;
+
+procedure TMediacollection.clear;
+begin
+  FMax_Index:=1;
+  Setlength(lib,0);
+  Setlength(lib,512);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
