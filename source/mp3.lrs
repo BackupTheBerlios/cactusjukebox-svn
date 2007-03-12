@@ -249,10 +249,10 @@ LazarusResources.Add('TMain','FORMDATA',[
   +'bbbb*a....",'#10'"......Ia,d*,-a......",'#10'"...................."}'#10#6
   +'Layout'#7#12'blGlyphRight'#9'NumGlyphs'#2#0#7'OnClick'#7#15'clear_listClick'
   +#14'ParentShowHint'#8#8'ShowHint'#9#8'TabOrder'#2#3#0#0#9'TListView'#9'Title'
-  +'Tree'#4'Left'#2#8#6'Height'#3#232#0#3'Top'#2#10#5'Width'#3'<'#2#7'Anchors'
-  +#11#5'akTop'#6'akLeft'#7'akRight'#8'akBottom'#0#20'BorderSpacing.Around'#2#20
-  +#7'Columns'#14#1#9'Alignment'#7#14'taRightJustify'#5'Width'#2#16#0#1#8'AutoS'
-  +'ize'#9#7'Caption'#6#6'Artist'#5'Width'#2'('#0#1#8'AutoSize'#9#7'Caption'#6#5
+  +'Tree'#4'Left'#2#8#6'Height'#3#232#0#3'Top'#2#8#5'Width'#3'<'#2#7'Anchors'#11
+  +#5'akTop'#6'akLeft'#7'akRight'#8'akBottom'#0#20'BorderSpacing.Around'#2#20#7
+  +'Columns'#14#1#9'Alignment'#7#14'taRightJustify'#5'Width'#2#16#0#1#8'AutoSiz'
+  +'e'#9#7'Caption'#6#6'Artist'#5'Width'#2'('#0#1#8'AutoSize'#9#7'Caption'#6#5
   +'Title'#5'Width'#2'"'#0#1#8'AutoSize'#9#7'Caption'#6#5'Album'#5'Width'#2'-'#0
   +#1#8'AutoSize'#9#7'Caption'#6#5'Track'#5'Width'#2'('#0#1#9'Alignment'#7#14't'
   +'aRightJustify'#8'AutoSize'#9#7'Caption'#6#6'Length'#0#0#13'HideSelection'#8

@@ -125,7 +125,6 @@ begin
 
   rescandir:=dirlistview.Selected.Caption;
   dirlistview.show;
-  
   if dirlistview.Selected<>nil then begin
       if rescandir[length(rescandir)]=DirectorySeparator then delete(rescandir,length(rescandir), 1);
       i:=1;
@@ -153,7 +152,6 @@ begin
      Caption:='Directories';
      Enabled:=true;
   end;
-
 end;
 
 procedure Tdirwin.Button1Click(Sender: TObject);

@@ -638,7 +638,7 @@ object Main: TMain
     object TitleTree: TListView
       Left = 8
       Height = 232
-      Top = 10
+      Top = 8
       Width = 572
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Around = 20

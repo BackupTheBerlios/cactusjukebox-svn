@@ -54,8 +54,8 @@ var i,z, delpos:integer;
        procedure read_tag;
        artist, album, title, comment: ansistring;
        year, track, filetype:string[4];
-       size, id: int64;
-       bitrate, samplerate, playlength: longint;
+       size: int64;
+       id, bitrate, samplerate, playlength: longint;
        index, action: integer;
        CoverPath: ansistring;
        collection: PMediaCollection;
@@ -112,6 +112,7 @@ const bitrates: array[0..15] of integer = (0, 32, 40, 48, 56, 64, 80, 96, 112, 1
 procedure TMediacollection.save_lib(path:string);
 var lfile: textfile;
 begin
+       savepath:=path;
        try
            assign(lfile,path);
            savepath:=path;
@@ -163,9 +164,11 @@ var i:integer;
     lfile: textfile;
     RPath: String;
 begin
-           assign(lfile,path);
-           reset(lfile);
+       savepath:=path;
        try
+             assign(lfile,path);
+             reset(lfile);
+
              readln(lfile);
              readln(lfile);
              readln(lfile,fmax_index);
@@ -211,7 +214,6 @@ begin
          except
               writeln('lib seems corupted');
               write('exception at entry ');writeln(i);
-              writeln(lib[i-1].fpath);
               load_lib:=1;
       end;
 end;

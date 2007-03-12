@@ -535,12 +535,14 @@ begin
      Selectdirectorydialog1.title:='Add Directory...';
      if Selectdirectorydialog1.execute=true then begin
               MediaCollection.clear;
-              Statuswin:=TStatus.create(nil);
+//              Statuswin:=TStatus.create(nil);
               Application.ProcessMessages;
+              Enabled:=false;
               MediaCollection.add_directory(Selectdirectorydialog1.Filename);
               MediaCollection.rootpath:=Selectdirectorydialog1.Filename;
               MediaCollection.dirlist:=Selectdirectorydialog1.Filename+';';
-              Statuswin.destroy;
+//              Statuswin.destroy;
+              Enabled:=false;
               Writeln('finished scan of '+MediaCollection.rootpath);
               if MediaCollection.max_index>1 then begin
                 ArtistTree.Selected:=nil;
@@ -649,33 +651,36 @@ procedure TMain.removeselectClick(Sender: TObject);
 var curartist, curalbum: string;
     album_mode:boolean;
     pfobj: PMp3fileobj;
+    PCol: PMediaCollection;
 begin
+tsnode:=Main.ArtistTree.Selected;
+if (tsnode<>nil) and (tsnode.Level>0) then begin
 if MessageDlg('The selected file(s) will permanently be'+#10+#13+'removed from harddisk!'+#10+#13+' Proceed?', mtWarning, mbOKCancel, 0)=mrOK then
  begin
-   tsnode:=Main.ArtistTree.Selected;
-   if (tsnode<>nil) and (tsnode.Level>0) then begin
      if tsnode.level<2 then album_mode:=false else album_mode:=true;
      PFobj:=tsnode.data;
+     PCol:=pfobj^.collection;
      z:=0;
-     repeat inc(z) until (MediaCollection.lib[z].path=pfobj^.path);
-     curartist:=lowercase(MediaCollection.lib[z].artist);
-     curalbum:=lowercase(MediaCollection.lib[z].album);
-     repeat dec(z) until (z=0) or (lowercase(MediaCollection.lib[z].artist)<>curartist);
+     repeat inc(z) until (PCol^.lib[z].path=pfobj^.path);
+     curartist:=lowercase(PCol^.lib[z].artist);
+     curalbum:=lowercase(PCol^.lib[z].album);
+     repeat dec(z) until (z=0) or (lowercase(PCol^.lib[z].artist)<>curartist);
      inc(z);
      repeat begin
-       if ((album_mode=false) and (lowercase(MediaCollection.lib[z].album)=curalbum)) or ((album_mode=true) and (lowercase(MediaCollection.lib[z].album)=curalbum)) then begin
-          if DeleteFile(MediaCollection.lib[z].path) then writeln('deleted file from disk: '+MediaCollection.lib[z].path)
-               else writeln('ERROR deleting file: '+MediaCollection.lib[z].path);
-          MediaCollection.remove_entry(z);
+       if ((album_mode=false) and (lowercase(PCol^.lib[z].album)=curalbum)) or ((album_mode=true) and (lowercase(PCol^.lib[z].album)=curalbum)) then begin
+          if DeleteFile(PCol^.lib[z].path) then writeln('deleted file from disk: '+PCol^.lib[z].path)
+               else writeln('ERROR deleting file: '+PCol^.lib[z].path);
+          PCol^.remove_entry(z);
           dec(z);
         end;
        inc(z);
        end;
-     until (z>MediaCollection.max_index-1) or (curartist<>lowercase(MediaCollection.lib[z].artist));
-    end;
+     until (z>PCol^.max_index-1) or (curartist<>lowercase(PCol^.lib[z].artist));
    update_artist_view;
    update_title_view;
+   PCol^.save_lib(PCol^.savepath);
   end;
+end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -899,21 +904,26 @@ end;
 
 procedure TMain.MenuItem6Click(Sender: TObject);
 var PFobj: PMp3fileobj;
+    pcol: PMediaCollection;
     tsitem: TListitem;
 begin
+if TitleTree.Selected<>nil then
 if MessageDlg('The selected file(s) will permanently be'+#10+#13+'removed from harddisk!'+#10+#13+' Proceed?', mtWarning, mbOKCancel, 0)=mrOK then
  begin
   tsitem:=TitleTree.Selected;
   PFobj:=tsitem.data;
+  pcol:=PFobj^.collection;
+  
   i:=0;
-  repeat inc(i) until (i>=MediaCollection.max_index-1) or (PFobj^.path=MediaCollection.lib[i].path);
-  if i <= MediaCollection.max_index-1 then begin
+  repeat inc(i) until (i>=PCol^.max_index-1) or (PFobj^.path=PCol^.lib[i].path);
+  if i <= PCol^.max_index-1 then begin
      if DeleteFile(PFobj^.path) then writeln('deleted file from disk: '+PFobj^.path)
         else writeln('ERROR deleting file: '+PFobj^.path);
-     MediaCollection.remove_entry(i);
+     PCol^.remove_entry(i);
    end;
   update_artist_view;
   update_title_view;
+  PCol^.save_lib(PCol^.savepath);
  end;
 end;
 

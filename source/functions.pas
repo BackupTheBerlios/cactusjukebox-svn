@@ -15,10 +15,11 @@ interface
 
 uses
 //  Classes, SysUtils, dos;
-    Classes, SysUtils, Objects, Process, Forms, crt, mmx;
+    Classes, SysUtils, Objects, Process, Forms, crt, mmx, math;
 
-function crc32(path: string):int64;
+function crc32(path: string):longint;
 function crc32_mmx(path: string):int64;
+function crc32_math(path: string):int64;
 function DirectoryIsEmpty(Directory: string): Boolean;
 function UTF8toLatin1(utfstring: ansistring): ansistring;
 function Latin1toUTF8(latin1string: ansistring): ansistring;
@@ -58,7 +59,30 @@ begin
 
 end;
 
-function crc32(path: string):int64;  //creates an very, very basic checksum to identify files
+function crc32(path: string):longint;  //creates an very, very basic checksum to identify files
+var fhandle: THandle;
+    buf: array [0..63] of longint;
+    z:byte;
+    i, eofile: longint;
+    l: longint;
+begin
+     fhandle:=sysutils.fileopen(path, fmOpenRead);
+     l:=0;
+     i:=0;
+     z:=0;
+     eofile:=0;
+     while (eofile<>-1) and (i<256) do
+           begin
+                eofile:=FileRead(fhandle, buf, sizeof(buf));
+                if eofile <>-1 then for z:=0 to high(buf) do L:=l+buf[z];
+                inc(i);
+            end;
+     FileClose(fhandle);
+     result:= l;
+
+end;
+
+function crc32_math(path: string):int64;  //creates an very, very basic checksum to identify files
 var fhandle: THandle;
     buf: array [0..63] of int64;
     z:byte;
@@ -73,7 +97,7 @@ begin
      while (eofile<>-1) and (i<256) do
            begin
                 eofile:=FileRead(fhandle, buf, high(buf));
-                for z:=0 to high(buf) do L:=l+buf[z];
+                l:=l+sumInt(buf);
                 inc(i);
             end;
      FileClose(fhandle);
