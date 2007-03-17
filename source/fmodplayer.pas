@@ -74,9 +74,12 @@ TFModPlayerClass = class
      playindex:integer;
      temps: string;
      fTotalLength: int64;
+     FPlaying, FPaused: Boolean;
    Public
      maxlistindex:integer;
-     playing, paused, oss:boolean;
+     oss:boolean;
+     property playing: boolean read FPlaying;
+     property paused: boolean read FPaused;
      ItemCount: integer;
      function TotalLenght:int64;
   end;
@@ -91,7 +94,7 @@ var i:integer;
 
 constructor TFModPlayerClass.create;
 begin
-     playing:=false;
+     fplaying:=false;
      playindex:=0;
      Playlist[0]:=TPlaylistitemclass.create;
      volume:=255;
@@ -101,7 +104,7 @@ end;
 
 destructor TFModPlayerClass.destroy;
 begin
-     playing:=false;
+     fplaying:=false;
 
      for i:= 1 to maxlistindex do begin
             Playlist[i].Free;
@@ -114,12 +117,19 @@ end;
 function TFModPlayerClass.startplay(index:integer):byte;
 {startplay=0 -> succesful
  startplay=1 -> file not found
- startplay=2 -> soundcard init failed}
+ startplay=2 -> soundcard init failed
+ startplay=3 -> index out of bounds
+ startplay=4 -> Last song in List}
 var z: integer;
 begin
- if index<=maxlistindex then begin
-   if (playing=true) then stop;
-   if (playing=false) then begin
+ if (index<=maxlistindex) and (index>0) then begin
+   if (fplaying=true) then begin
+         FSOUND_Stream_Stop(Soundhandle);
+         FSOUND_Stream_Close(Soundhandle);
+         fplaying:=false;
+         FSOUND_Close;
+      end;
+   if (fplaying=false) then begin
 
  {$ifdef linux}
     if oss then begin
@@ -134,7 +144,6 @@ begin
       if (FileExists(playlist[index].path)) then begin
          tmpp:=StrAlloc(length(playlist[index].path)+1);
          StrPCopy(tmpp,playlist[index].path);
-         writeln(tmpp);
          if soundhandle<>nil then FSOUND_Stream_Close(Soundhandle);
          Soundhandle:=FSOUND_Stream_Open(tmpp,{ FSOUND_MPEGACCURATE or FSOUND_NONBLOCKING }FSOUND_NORMAL, 0, 0);    //Fixes Bug when starting VBR files first, FSOUND_NORMAL is faster!!
          z:=0;
@@ -146,10 +155,11 @@ begin
          if z = 0 then begin
             FSOUND_Stream_Play (0,Soundhandle);
             FSOUND_SetVolume(0, volume);
-            playing:=true;
+            fplaying:=true;
             Playlist[index].played:=true;
             startplay:=0;
             playindex:=index;
+            writeln(playindex);
            end else begin
                write('error: can''t play file');writeln(z);
               end;
@@ -157,8 +167,10 @@ begin
      end else startplay:=2;
    end;
   end
-  else writeln('Can''t play! Track number out of playlist!');
-writeln('succes');
+  else begin
+         writeln('INTERNAL error: playlistindex out of bound');
+         Result:=3;
+       end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -168,19 +180,39 @@ begin
    if FSOUND_Getpaused(0)=false then
         FSOUND_Setpaused(0, true)
      else   FSOUND_Setpaused(0, false);
-   paused:=FSOUND_Getpaused(0);
+   fpaused:=FSOUND_Getpaused(0);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TFModPlayerClass.stop;
 begin
-     if playing=true then begin
+     if fplaying=true then begin
          FSOUND_Stream_Stop(Soundhandle);
          FSOUND_Stream_Close(Soundhandle);
-         playing:=false;
+         fplaying:=false;
          FSOUND_Close;
+         reset_random;
+         playindex:=0;
        end;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function TFModPlayerClass.prev_track: byte;
+var r:byte;
+begin
+  r:=127;
+  if fplaying then begin
+    if (playindex<=maxlistindex) and (playindex>1) then begin
+       dec(playindex);
+       r:=startplay(playindex);
+     end else
+         if (playindex<=maxlistindex) and (playindex=1) then begin
+             r:=startplay(playindex);
+           end;
+   end;
+  result:=r;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -188,14 +220,13 @@ end;
 function TFModPlayerClass.next_track: byte;
 var r:byte;
 begin
-  if playindex<maxlistindex then begin
-     inc(playindex);
-     stop;
-     write('startplay... ');
-     write(playindex);
-     r:=startplay(playindex);
-     write(r);
-     writeln('ende');
+  r:=127;
+  if fplaying then begin
+    if playindex<maxlistindex then begin
+       inc(playindex);
+       r:=startplay(playindex);
+       writeln(playindex);
+     end;
    end;
   result:=r;
 end;
@@ -231,15 +262,6 @@ begin
           stop;
           result:=1;
          end;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function TFModPlayerClass.prev_track: byte;
-begin
-     if playindex>1 then dec(playindex);
-     stop;
-     startplay(playindex);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -335,14 +357,14 @@ end;
 
 procedure TFModPlayerClass.set_time(ms: longint);
 begin
-  if playing then FSOUND_Stream_SetTime(Soundhandle,ms);
+  if fplaying then FSOUND_Stream_SetTime(Soundhandle,ms);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TFModPlayerClass.set_file_position(fpos: longint);
 begin
-  if playing then FSOUND_Stream_SetPosition(Soundhandle,fpos);
+  if fplaying then FSOUND_Stream_SetPosition(Soundhandle,fpos);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

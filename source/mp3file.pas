@@ -68,28 +68,29 @@ var i,z, delpos:integer;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       TMediacollection=class
        private
-       procedure create_artist_order;
-       procedure create_title_order;
-       procedure scan_directory(dir:string); //scans directory and adds new(!) files to collection
-       FMax_Index:Integer;
+         procedure create_artist_order;
+         procedure create_title_order;
+         procedure scan_directory(dir:string); //scans directory and adds new(!) files to collection
+         FMax_Index:Integer;
 
        public
-       constructor create;
-       destructor destroy;
-       lib:Array of TMp3FileObj;
-       property max_index: Integer Read FMax_Index;
-       dirlist: ansistring;
-       guess_tag, saved, CollectionChanged:boolean;
-       rootpath, savepath:string;
-       PathFmt: TPathFmt;
-       function  load_lib(path:string):byte;
-       procedure save_lib(path:string);
-       procedure add_directory(dir:string); //scans directory and adds all(!) files to collection
-       procedure add_file(path:string);
-       procedure sort;
-       procedure clear;
-       procedure remove_entry(ind:integer);
-       function  ScanForNew:byte;   //search all folders for new or changed files
+         constructor create;
+         destructor destroy;
+         lib:Array of TMp3FileObj;
+         property max_index: Integer Read FMax_Index;
+         dirlist: ansistring;
+         guess_tag, saved, CollectionChanged:boolean;
+         rootpath, savepath:string;
+         PathFmt: TPathFmt;
+         function  load_lib(path:string):byte;
+         procedure save_lib(path:string);
+         procedure add_directory(dir:string); //scans directory and adds all(!) files to collection
+         procedure add_file(path:string);
+         procedure sort;
+         procedure clear;
+         procedure remove_entry(ind:integer);
+         function get_entry_by_id(id: integer):PMp3fileobj;
+         function  ScanForNew:byte;   //search all folders for new or changed files
   end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -913,6 +914,15 @@ begin
          lib[z]:=lib[z+1]
        end;
      dec(fmax_index);
+end;
+
+function TMediacollection.get_entry_by_id(id: integer): PMp3fileobj;
+var i: integer;
+begin
+     i:=0;
+     repeat inc(i)
+       until (i>=max_index-1) or (lib[i].id=id);
+     if (i<max_index-1) then result:=@lib[i];
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

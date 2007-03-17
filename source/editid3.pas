@@ -191,7 +191,7 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
 
    update_artist_view;
    update_title_view;
-   update_playlist;
+   main.update_playlist;
    
   end else  ShowMessage('Error: File is Read-Only');
 Main.enabled:=true;
@@ -218,7 +218,6 @@ procedure TEditID3.PicDownloadTimerTimer(Sender: TObject);
 
 begin
   inc(timer_loop_count);
-  writeln(timer_loop_count);
   if (timer_loop_count mod 8)=0 then AlbumCoverImg.Canvas.Clear else AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
   if timer_loop_count>20 then begin
      writeln('TIMEOUT while loading album cover mage from Internet');
@@ -234,19 +233,7 @@ begin
              awsclass.free;
              picrequest_send:=false;
              PicDownloadTimer.Enabled:=false;
-             writeln('zzzzzzzzzzzzz');
-             exit;
-
          end;
-
-   if (request_send) and awsclass.data_ready then begin
-             if DirectoryExists(main.ConfigPrefix+DirectorySeparator+'covercache')=false then mkdir(main.ConfigPrefix+DirectorySeparator+'covercache');
-             WriteLn(pfileobj^.CoverPath);
-             awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
-             picrequest_send:=true;
-             writeln('xxxxxxxx');
-             exit;
-           end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -300,15 +287,10 @@ begin
      srate.Caption:='Samplerate:  '+tmps+' Hz';
      str(PFobj^.bitrate, tmps);
      bitrate.Caption:='Bitrate:  '+tmps+' kbps';
-//     editid3win.artistedit2.text:=PFobj^.artistv2;
      str(PFobj^.id, tmps);
      idlabel.Caption:='File-Id: '+tmps;
      str(PFobj^.index, tmps);
-     indexlabel.Caption:='File-Index: '+tmps;    {
-     editid3win.titleedit2.text:=PFobj^.titlev2;
-     editid3win.albumedit2.text:=PFobj^.albumv2;
-     editid3win.yearedit2.text:=PFobj^.yearv2;
-     editid3win.trackedit2.text:=PFobj^.trackv2;}
+     indexlabel.Caption:='File-Index: '+tmps;
      writeln('########AlbumCover');
      AlbumCoverImg.Canvas.Clear;
      AlbumCoverImg.Picture.Clear;
@@ -317,12 +299,12 @@ begin
      if FileExists(pfileobj^.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
         else begin
              awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
-             awsclass.SendRequest;
-             request_send:=true;
+             awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
+             picrequest_send:=true;
              AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
              writeln('yyyyyyyyyyy');
              PicDownloadTimer.Enabled:=true;
-             picrequest_send:=false;
+//             picrequest_send:=false;
            end;
       end;
     end;

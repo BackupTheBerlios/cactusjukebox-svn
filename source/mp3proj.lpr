@@ -114,8 +114,6 @@ begin
   main.tempbitmap.Height:=150;
   
   playwin.DoubleBuffered:=true;
-  SetLength(Main.selected, 512);
-
 
   if skip_config then begin
                  writeln('*removing old config file');

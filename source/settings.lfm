@@ -53,35 +53,6 @@ object Settings: TSettings
         Color = clNone
         ParentColor = False
       end
-      object GuessTagBox: TGroupBox
-        Left = 22
-        Height = 80
-        Top = 171
-        Width = 336
-        Caption = 'What to do when there is no ID3'
-        ParentCtl3D = False
-        TabOrder = 0
-        object guesstag1: TRadioButton
-          Left = 70
-          Height = 22
-          Top = 1
-          Width = 163
-          AllowGrayed = True
-          Caption = 'Guess tag from filename'
-          Checked = True
-          State = cbChecked
-          TabOrder = 0
-        end
-        object unknown1: TRadioButton
-          Left = 70
-          Height = 22
-          Top = 25
-          Width = 174
-          AllowGrayed = True
-          Caption = 'Move to section "Unknown"'
-          TabOrder = 1
-        end
-      end
       object autoload1: TCheckBox
         Left = 38
         Height = 22
@@ -91,36 +62,7 @@ object Settings: TSettings
         Caption = 'Autoload last library at startup'
         Checked = True
         State = cbChecked
-        TabOrder = 1
-      end
-      object ID3typebox: TGroupBox
-        Left = 24
-        Height = 88
-        Top = 275
-        Width = 336
-        Caption = 'ID3 type'
-        ParentCtl3D = False
-        TabOrder = 2
-        object v1_prio: TRadioButton
-          Left = 70
-          Height = 22
-          Top = 1
-          Width = 98
-          AllowGrayed = True
-          Caption = 'ID3v1 Priority'
-          TabOrder = 0
-        end
-        object v2_prio: TRadioButton
-          Left = 70
-          Height = 22
-          Top = 25
-          Width = 98
-          AllowGrayed = True
-          Caption = 'ID3v2 Priority'
-          Checked = True
-          State = cbChecked
-          TabOrder = 1
-        end
+        TabOrder = 0
       end
       object backscan: TCheckBox
         Left = 38
@@ -128,7 +70,7 @@ object Settings: TSettings
         Top = 43
         Width = 266
         Caption = 'Scan for new files in background  on startup'
-        TabOrder = 3
+        TabOrder = 1
       end
       object ComboBox1: TComboBox
         Left = 108
@@ -137,7 +79,7 @@ object Settings: TSettings
         Width = 100
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         MaxLength = 0
-        TabOrder = 4
+        TabOrder = 2
         Text = 'default'
       end
       object kdeservicebox: TCheckBox
@@ -147,6 +89,24 @@ object Settings: TSettings
         Width = 170
         Caption = 'enable KDE service menu'
         OnChange = kdeserviceboxChange
+        TabOrder = 3
+      end
+      object Button2: TButton
+        Left = 310
+        Height = 28
+        Top = 244
+        Width = 80
+        AutoSize = True
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Clear cache'
+        TabOrder = 4
+      end
+      object CheckBox1: TCheckBox
+        Left = 38
+        Height = 22
+        Top = 250
+        Width = 242
+        Caption = 'Download album cover art form internet'
         TabOrder = 5
       end
     end
@@ -192,9 +152,9 @@ object Settings: TSettings
       Caption = 'Paths'
       object Label5: TLabel
         Left = 14
-        Height = 15
+        Height = 17
         Top = 51
-        Width = 282
+        Width = 284
         Color = clNone
         ParentColor = False
       end
@@ -238,6 +198,67 @@ object Settings: TSettings
           Width = 320
           TabOrder = 1
           Text = 'default'
+        end
+      end
+    end
+    object TabSheet4: TTabSheet
+      Caption = 'ID3v2/v1'
+      object ID3typebox: TGroupBox
+        Left = 38
+        Height = 88
+        Top = 162
+        Width = 336
+        Caption = 'ID3 type'
+        ParentCtl3D = False
+        TabOrder = 0
+        object v1_prio: TRadioButton
+          Left = 70
+          Height = 22
+          Top = 1
+          Width = 98
+          AllowGrayed = True
+          Caption = 'ID3v1 Priority'
+          TabOrder = 0
+        end
+        object v2_prio: TRadioButton
+          Left = 70
+          Height = 22
+          Top = 25
+          Width = 98
+          AllowGrayed = True
+          Caption = 'ID3v2 Priority'
+          Checked = True
+          State = cbChecked
+          TabOrder = 1
+        end
+      end
+      object GuessTagBox: TGroupBox
+        Left = 38
+        Height = 80
+        Top = 42
+        Width = 336
+        Caption = 'What to do when there is no ID3'
+        ParentCtl3D = False
+        TabOrder = 1
+        object unknown1: TRadioButton
+          Left = 70
+          Height = 22
+          Top = 31
+          Width = 174
+          AllowGrayed = True
+          Caption = 'Move to section "Unknown"'
+          TabOrder = 0
+        end
+        object guesstag1: TRadioButton
+          Left = 70
+          Height = 22
+          Top = 1
+          Width = 163
+          AllowGrayed = True
+          Caption = 'Guess tag from filename'
+          Checked = True
+          State = cbChecked
+          TabOrder = 1
         end
       end
     end

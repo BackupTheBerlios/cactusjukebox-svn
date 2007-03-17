@@ -31,6 +31,7 @@ type
 
   Tplaywin = class(TForm)
     BackgroundImg: TImage;
+    AlbumCoverImg: TImage;
     ViewImg: TImage;
     PlayImg: TImage;
     StopImg: TImage;
@@ -426,6 +427,7 @@ begin
   titleimg2.Free;
   trackbar.Free;
   timeimage.Free;}
+  AlbumCoverImg.Free;
 
   if main.playermode then begin
      main.Close;
@@ -459,6 +461,12 @@ with SkinData do begin
      TitleImg.Left:=Title.x;
      TitleImg.Picture.LoadFromFile(SkinData.Title.Img);
      TitleImg.AutoSize:=true;
+     
+     AlbumCoverImg.top:=Title.y+3;
+     AlbumCoverImg.left:=Title.x+ TitleImg.Picture.Width-55;
+     AlbumCoverImg.Width:=TitleImg.Picture.Height-6;
+     AlbumCoverImg.Height:=TitleImg.Picture.Height-6;
+     AlbumCoverImg.Stretch:=true;
 
      textBackImg.Top:=TitleBack.y;
      textBackImg.Left:=TitleBack.x;

@@ -55,21 +55,23 @@ type
     autoload1: TCheckBox;
     Button1: TButton;
     backscan: TCheckBox;
+    Button2: TButton;
+    CheckBox1: TCheckBox;
+    guesstag1: TRadioButton;
+    GuessTagBox: TGroupBox;
+    ID3typebox: TGroupBox;
     kdeservicebox: TCheckBox;
     ComboBox1: TComboBox;
     Edit1: TEdit;
     Edit2: TEdit;
-    ID3typebox: TGroupBox;
     PathBox: TGroupBox;
     LLanguage: TLabel;
     Lcdda2wav: TLabel;
     Llame: TLabel;
     Label5: TLabel;
     TabSheet3: TTabSheet;
-    v1_prio: TRadioButton;
+    TabSheet4: TTabSheet;
     subfolders: TCheckBox;
-    GuessTagBox: TGroupBox;
-    guesstag1: TRadioButton;
     LMountpoint: TLabel;
     PageControl1: TPageControl;
     playerpathedit1: TEdit;
@@ -78,9 +80,14 @@ type
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     unknown1: TRadioButton;
+    v1_prio: TRadioButton;
+    v1_prio1: TRadioButton;
     v2_prio: TRadioButton;
+    v2_prio1: TRadioButton;
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure TabSheet4ContextPopup(Sender: TObject; MousePos: TPoint;
+      var Handled: Boolean);
     procedure cancelbutClick(Sender: TObject);
     procedure kdeserviceboxChange(Sender: TObject);
     procedure savebutClick(Sender: TObject);
@@ -194,6 +201,12 @@ begin
  {$endif}
 
    
+end;
+
+procedure TSettings.TabSheet4ContextPopup(Sender: TObject; MousePos: TPoint;
+  var Handled: Boolean);
+begin
+
 end;
 
 initialization

@@ -60,7 +60,7 @@ TAWSAccess = class
     FImgWriter:TFPCustomImageWriter;
     FImgW, FImgH: integer;
     HTTPThread: TNetworkThread;
-    FAlbumCoverPath: ansistring;
+    FSavePath: ansistring;
     FData_Ready: boolean;
     procedure ReceiveData;
     Procedure AlbumcoverReceive;
@@ -68,8 +68,9 @@ TAWSAccess = class
     { public declarations }
     property data_ready: boolean read FData_Ready;
     procedure SendRequest;
-    procedure AlbumCoverToFile(savepath: string);
-    procedure GetAlbumCover;
+    procedure LoadAlbumCover;
+    procedure SaveAlbumCover(savepath: string);
+    procedure AlbumCoverToFile(savepath: string); //Do everything in one procedure. Send request, download and save it
   end;
 
 implementation
@@ -98,7 +99,7 @@ var    node: TDOMNode;
        artistok, albumok: boolean;
 begin
 try
-     writeln('receivedata');
+    // writeln('receivedata');
      XMLResult:=TXMLDocument.Create;
 
      artistok:=false;
@@ -107,13 +108,14 @@ try
      ReadXMLFile(XMLResult, HTTPRecData);
      node:=XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('ItemAttributes').FindNode('Artist');
      if assigned(node) then begin
-        //if node.FirstChild.NodeValue=FArtist then artistok:=true else writeln('wrong artist');
-        artistok:=true;  //artist always ok, only check for album name
+        if node.FirstChild.NodeValue=FArtist then artistok:=true else writeln('wrong artist');
+        //artistok:=true;  //artist always ok, only check for album name
         writeln(FArtist);
        end else writeln('ERROR parsing xml file');
      node:=XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('ItemAttributes').FindNode('Title');
      if assigned(node) then begin
-        if node.FirstChild.NodeValue=FAlbum then albumok:=true else writeln('wrong album');
+        //if node.FirstChild.NodeValue=FAlbum then albumok:=true else writeln('wrong album');
+        albumok:=true;
         writeln(FAlbum);
       end else writeln('ERROR parsing xml file');
 
@@ -139,6 +141,15 @@ try
      XMLResult.Free;
   except writeln('EXCEPTION while parsing xml file');
     end;
+
+     fdata_ready:=false;
+     HTTPThread:=TNetworkThread.Create(true);
+     writeln(FSavePath);
+     HTTPThread.URL:=FAlbumCoverURL;
+     HTTPThread.ReceiveProc:=@AlbumcoverReceive;
+     HTTPThread.ReceiveData:=@HTTPRecData;
+  //   writeln('exec albumcovertofile');
+     HTTPThread.Resume;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -148,9 +159,10 @@ var Teststr: TMemoryStream;
 begin
                 Teststr:=TMemoryStream.Create;
                 Teststr.LoadFromStream(HTTPRecData);
-                Teststr.SaveToFile(FAlbumCoverPath);
+                Teststr.SaveToFile(FSavePath);
                 teststr.free;
                 fdata_ready:=true;
+                writeln('Image written');
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -163,34 +175,41 @@ begin
   FAccessKey:='0ZVTC2NNPR453JRCG8R2';
   url:=Format('http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId=%s&Operation=ItemSearch&Keywords=%s&SearchIndex=Music&ResponseGroup=Medium', [FAccessKey, FArtist+' '+FAlbum]);
   url:=AnsiReplaceStr(url, ' ', '%20');
-  writeln(url);
+ // writeln(url);
   HTTPThread:=TNetworkThread.Create(true);
   HTTPThread.URL:=url;
   HTTPThread.ReceiveProc:=@ReceiveData;
   HTTPThread.ReceiveData:=@HTTPRecData;
-  writeln('startthread');
+ // writeln('startthread');
   HTTPThread.Resume;
+end;
+
+procedure TAWSAccess.LoadAlbumCover;
+begin
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TAWSAccess.AlbumCoverToFile(savepath: ansistring);
+var url: string;
 begin
-     fdata_ready:=false;
-     HTTPThread:=TNetworkThread.Create(true);
-     writeln(savepath);
-     FAlbumCoverPath:=savepath;
-
-     HTTPThread.URL:=FAlbumCoverURL;
-     HTTPThread.ReceiveProc:=@AlbumcoverReceive;
-     HTTPThread.ReceiveData:=@HTTPRecData;
-     writeln('exec albumcovertofile');
-     HTTPThread.Resume;
+  fdata_ready:=false;
+  FAccessKey:='0ZVTC2NNPR453JRCG8R2';
+  url:=Format('http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId=%s&Operation=ItemSearch&Keywords=%s&SearchIndex=Music&ResponseGroup=Medium', [FAccessKey, FArtist+' '+FAlbum]);
+  url:=AnsiReplaceStr(url, ' ', '%20');
+  writeln(url);
+  FSavePath:=savepath;
+  HTTPThread:=TNetworkThread.Create(true);
+  HTTPThread.URL:=url;
+  HTTPThread.ReceiveProc:=@ReceiveData;
+  HTTPThread.ReceiveData:=@HTTPRecData;
+  HTTPThread.Resume;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TAWSAccess.GetAlbumCover;
+procedure TAWSAccess.SaveAlbumCover(savepath: string);
 begin
 
 end;

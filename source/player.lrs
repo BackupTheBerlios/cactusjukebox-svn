@@ -1,5 +1,3 @@
-{ Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
-
 LazarusResources.Add('Tplaywin','FORMDATA',[
   'TPF0'#8'Tplaywin'#7'playwin'#4'Left'#3't'#1#6'Height'#3#213#0#3'Top'#3'l'#1#5
   +'Width'#3#140#1#18'HorzScrollBar.Page'#3#139#1#18'VertScrollBar.Page'#3#212#0
@@ -84,12 +82,13 @@ LazarusResources.Add('Tplaywin','FORMDATA',[
   +#17'NextImgMouseEnter'#12'OnMouseLeave'#7#17'NextImgMouseLeave'#9'OnMouseUp'
   +#7#14'NextImgMouseUp'#0#0#6'TImage'#7'ViewImg'#4'Left'#2#24#6'Height'#2'&'#3
   +'Top'#3#144#0#5'Width'#2' '#7'OnClick'#7#12'ViewImgClick'#12'OnMouseEnter'#7
-  +#17'ViewImgMouseEnter'#12'OnMouseLeave'#7#17'ViewImgMouseLeave'#0#0#10'TPopu'
-  +'pMenu'#10'PopupMenu1'#4'left'#3#192#0#0#9'TMenuItem'#10'popup_open'#7'Capti'
-  +'on'#6#9'Open File'#7'OnClick'#7#9'openClick'#0#0#9'TMenuItem'#9'file_info'#7
-  +'Caption'#6#17'Current File Info'#7'OnClick'#7#14'file_infoClick'#0#0#9'TMen'
-  +'uItem'#9'MenuItem1'#7'Caption'#6#8'Playlist'#0#9'TMenuItem'#9'MenuItem2'#7
-  +'Caption'#6#13'Load Playlist'#7'OnClick'#7#14'MenuItem2Click'#0#0#9'TMenuIte'
-  +'m'#9'MenuItem3'#7'Caption'#6#13'Save Playlist'#7'OnClick'#7#14'MenuItem3Cli'
-  +'ck'#0#0#0#0#0
+  +#17'ViewImgMouseEnter'#12'OnMouseLeave'#7#17'ViewImgMouseLeave'#0#0#6'TImage'
+  +#13'AlbumCoverImg'#4'Left'#3'0'#1#6'Height'#2'>'#3'Top'#2#16#5'Width'#2'@'#0
+  +#0#10'TPopupMenu'#10'PopupMenu1'#4'left'#3#192#0#0#9'TMenuItem'#10'popup_ope'
+  +'n'#7'Caption'#6#9'Open File'#7'OnClick'#7#9'openClick'#0#0#9'TMenuItem'#9'f'
+  +'ile_info'#7'Caption'#6#17'Current File Info'#7'OnClick'#7#14'file_infoClick'
+  +#0#0#9'TMenuItem'#9'MenuItem1'#7'Caption'#6#8'Playlist'#0#9'TMenuItem'#9'Men'
+  +'uItem2'#7'Caption'#6#13'Load Playlist'#7'OnClick'#7#14'MenuItem2Click'#0#0#9
+  +'TMenuItem'#9'MenuItem3'#7'Caption'#6#13'Save Playlist'#7'OnClick'#7#14'Menu'
+  +'Item3Click'#0#0#0#0#0
 ]);
