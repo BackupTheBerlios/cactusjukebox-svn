@@ -141,6 +141,7 @@ begin
   Main.id3v2_prio:=Main.cfgfile.GetValue('Library/id3v2_prio', true);
   Main.background_scan:=Main.cfgfile.GetValue('Library/background_scan', false);
   Main.playerpath:=Main.cfgfile.getValue('Mobile_Player/Mountpoint', '');
+  Main.CoverDownload:=Main.cfgfile.GetValue('Networking/Album_Cover_Download/Enabled', false);
   Main.current_skin:=Main.cfgfile.getValue('Skin/File', 'default.xml');
   s:=Main.cfgfile.GetValue('Library/autoload','');
   Main.lame:=Main.cfgfile.GetValue('Lame/Path', '/usr/bin/lame');

@@ -144,7 +144,7 @@ try
 
      fdata_ready:=false;
      HTTPThread:=TNetworkThread.Create(true);
-     writeln(FSavePath);
+//     writeln(FSavePath);
      HTTPThread.URL:=FAlbumCoverURL;
      HTTPThread.ReceiveProc:=@AlbumcoverReceive;
      HTTPThread.ReceiveData:=@HTTPRecData;
@@ -156,13 +156,24 @@ end;
 
 procedure TAWSAccess.AlbumcoverReceive;
 var Teststr: TMemoryStream;
+    excep: boolean;
 begin
-                Teststr:=TMemoryStream.Create;
-                Teststr.LoadFromStream(HTTPRecData);
-                Teststr.SaveToFile(FSavePath);
-                teststr.free;
-                fdata_ready:=true;
-                writeln('Image written');
+     write('received... ');
+     Teststr:=TMemoryStream.Create;
+     excep:=false;
+     if not DirectoryExists(ExtractFileDir(FSavePath)) then mkdir(ExtractFileDir(FSavePath));
+     try
+        Teststr.LoadFromStream(HTTPRecData);
+        Teststr.SaveToFile(FSavePath);
+      except
+          FData_Ready:=false;
+          excep:=true;
+        end;
+      teststr.free;
+      if not excep then begin
+             fdata_ready:=true;
+             writeln(FSavePath + ' written');
+           end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

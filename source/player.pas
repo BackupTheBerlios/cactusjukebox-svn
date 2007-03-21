@@ -427,7 +427,7 @@ begin
   titleimg2.Free;
   trackbar.Free;
   timeimage.Free;}
-  AlbumCoverImg.Free;
+//  AlbumCoverImg.Free;
 
   if main.playermode then begin
      main.Close;

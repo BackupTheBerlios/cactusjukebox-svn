@@ -220,7 +220,7 @@ begin
   inc(timer_loop_count);
   if (timer_loop_count mod 8)=0 then AlbumCoverImg.Canvas.Clear else AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
   if timer_loop_count>20 then begin
-     writeln('TIMEOUT while loading album cover mage from Internet');
+     writeln('TIMEOUT while loading album cover image from Internet');
      PicDownloadTimer.Enabled:=false;
      AlbumCoverImg.Canvas.Clear;
      AlbumCoverImg.Canvas.TextOut(10,10, 'No cover found :(')
@@ -241,10 +241,10 @@ end;
 procedure TEditID3.EditID3Close(Sender: TObject; var CloseAction: TCloseAction);
 begin
       Main.enabled:=true;
-      Filelogo.free;
-      AlbumCoverImg.free;
-      PicDownloadTimer.Enabled:=false;
-      PicDownloadTimer.Free;
+  //    Filelogo.free;
+  //    AlbumCoverImg.free;
+   //   PicDownloadTimer.Enabled:=false;
+  //    PicDownloadTimer.Free;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -294,18 +294,20 @@ begin
      writeln('########AlbumCover');
      AlbumCoverImg.Canvas.Clear;
      AlbumCoverImg.Picture.Clear;
+     Application.ProcessMessages;
      if pfileobj^.album<>'' then begin
      pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
      if FileExists(pfileobj^.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
         else begin
+           if main.CoverDownload then begin
              awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
              awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
              picrequest_send:=true;
              AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-             writeln('yyyyyyyyyyy');
              PicDownloadTimer.Enabled:=true;
-//             picrequest_send:=false;
+             Application.ProcessMessages;
            end;
+         end;
       end;
     end;
    if artist_only=true then begin
@@ -331,18 +333,20 @@ begin
      writeln('########AlbumCover');
      AlbumCoverImg.Canvas.Clear;
      AlbumCoverImg.Picture.Clear;
+     Application.ProcessMessages;
      if pfileobj^.album<>'' then begin
      pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
      if FileExists(pfileobj^.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
         else begin
+           if main.CoverDownload then begin
              awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
-             awsclass.SendRequest;
-             request_send:=true;
+             awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
+             picrequest_send:=true;
              AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-             writeln('yyyyyyyyyyy');
+             Application.ProcessMessages;
              PicDownloadTimer.Enabled:=true;
-             picrequest_send:=false;
            end;
+         end;
       end;
     end;
    metacontrol.ActivePage:=metatab;

@@ -507,7 +507,7 @@ object EditID3: TEditID3
   end
   object PicDownloadTimer: TTimer
     Enabled = False
-    Interval = 100
+    Interval = 200
     OnTimer = PicDownloadTimerTimer
     OnStartTimer = PicDownloadTimerStartTimer
     left = 394

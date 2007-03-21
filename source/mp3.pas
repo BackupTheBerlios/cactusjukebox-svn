@@ -341,7 +341,7 @@ type
     awsclass: TAWSAccess;
   public
     procedure update_playlist;
-    playing, player_connected, mobile_subfolders, background_scan, playermode: boolean;
+    playing, player_connected, mobile_subfolders, background_scan, playermode, CoverDownload: boolean;
     playpos: integer;
     playnode: TTreeNode;
     playitem:TListitem;
@@ -1095,7 +1095,7 @@ begin
      tempbitmap.Free;
      
      ImageList1.Free;   }
-     CoverImage.Free;
+    // CoverImage.Free;
 
 
      if playermode=false then begin
@@ -1135,6 +1135,7 @@ begin
 
   
   TranslateUnitResourceStrings('mp3', DataPrefix+'languages/cactus.%s.po', 'de', '');
+  if SystemCharSetIsUTF8 then writeln('##System charset is UTF8');
   // Load resourcestrings to Captions
 
   QuitItem.Caption:= Utf8ToAnsi(rsQuit);
@@ -2261,8 +2262,10 @@ begin
   pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';;
   if (pfileobj^.album<>'') then begin
      if (FileExists(pfileobj^.CoverPath)=false) then begin
-             awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
-             awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
+             if  (main.CoverDownload) then begin
+                  awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
+                  awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
+               end;
         end else begin
              CoverImage.Picture.LoadFromFile(pfileobj^.CoverPath);
              playwin.AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath);
@@ -2634,6 +2637,7 @@ begin
     if Main.mobile_subfolders then setupwin.subfolders.checked:=true else setupwin.subfolders.checked:=false;
     if main.id3v2_prio then setupwin.v2_prio.Checked:=true else setupwin.v1_prio.checked:=true;
     setupwin.ShowModal;
+    setupwin.Release;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

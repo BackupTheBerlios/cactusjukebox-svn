@@ -12,6 +12,7 @@ object Settings: TSettings
   BorderStyle = bsDialog
   Caption = 'Settings...'
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   Position = poDefault
   ShowInTaskBar = stNever
   object savebut: TButton
@@ -99,9 +100,10 @@ object Settings: TSettings
         AutoSize = True
         BorderSpacing.InnerBorder = 4
         Caption = 'Clear cache'
+        OnClick = Button2Click
         TabOrder = 4
       end
-      object CheckBox1: TCheckBox
+      object CoverDownload: TCheckBox
         Left = 38
         Height = 22
         Top = 250
@@ -152,9 +154,9 @@ object Settings: TSettings
       Caption = 'Paths'
       object Label5: TLabel
         Left = 14
-        Height = 17
+        Height = 18
         Top = 51
-        Width = 284
+        Width = 285
         Color = clNone
         ParentColor = False
       end

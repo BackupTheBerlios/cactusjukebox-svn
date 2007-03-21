@@ -1,3 +1,5 @@
+{ Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
+
 LazarusResources.Add('TMain','FORMDATA',[
   'TPF0'#5'TMain'#4'Main'#4'Left'#3#162#0#6'Height'#3#165#2#5'Width'#3'W'#3#18
   +'HorzScrollBar.Page'#3'V'#3#19'HorzScrollBar.Range'#3'q'#1#18'VertScrollBar.'
@@ -93,13 +95,13 @@ LazarusResources.Add('TMain','FORMDATA',[
   +#6#4'flac'#6#3'mp3'#6#3'ogg'#6#3'wav'#0#9'MaxLength'#2#0#8'OnChange'#7#17'fi'
   +'letypeboxChange'#5'Style'#7#14'csDropDownList'#8'TabOrder'#2#2#4'Text'#6#9
   +'all types'#0#0#0#6'TPanel'#19'PlayerControlsPanel'#4'Left'#2#12#6'Height'#3
-  +#7#1#3'Top'#3'c'#1#5'Width'#3#224#0#7'Anchors'#11#6'akLeft'#8'akBottom'#0#18
+  +#7#1#3'Top'#3'a'#1#5'Width'#3#224#0#7'Anchors'#11#6'akLeft'#8'akBottom'#0#18
   +'BorderSpacing.Left'#2#20#17'BorderSpacing.Top'#2#20#19'BorderSpacing.Right'
   +#2#20#20'BorderSpacing.Bottom'#2#20'!BorderSpacing.CellAlignHorizontal'#7#9
   +'ccaCenter'#31'BorderSpacing.CellAlignVertical'#7#9'ccaCenter'#11'FullRepain'
   +'t'#8#11'ParentColor'#8#8'TabOrder'#2#0#7'TabStop'#9#7'OnClick'#7#24'PlayerC'
-  +'ontrolsPanelClick'#0#12'TSpeedButton'#4'mute'#4'Left'#3#128#0#6'Height'#2#22
-  +#4'Hint'#6#4'Mute'#3'Top'#3#215#0#5'Width'#2#30#5'Color'#7#9'clBtnFace'#4'Fl'
+  +'ontrolsPanelClick'#0#12'TSpeedButton'#4'mute'#4'Left'#3#132#0#6'Height'#2#22
+  +#4'Hint'#6#4'Mute'#3'Top'#3#205#0#5'Width'#2#30#5'Color'#7#9'clBtnFace'#4'Fl'
   +'at'#9#10'Glyph.Data'#10'F'#6#0#0'B'#6#0#0'/* XPM */'#10'static char * mute2'
   +'_xpm[] = {'#10'"16 16 82 1",'#10'" '#9'c None",'#10'".'#9'c #9E9E9E",'#10'"'
   +'+'#9'c #A6A6A6",'#10'"@'#9'c #ACACAC",'#10'"#'#9'c #C8C8C8",'#10'"$'#9'c #A'
@@ -153,8 +155,8 @@ LazarusResources.Add('TMain','FORMDATA',[
   +#22'NextButtonImgMouseDown'#12'OnMouseEnter'#7#23'NextButtonImgMouseEnter'#12
   +'OnMouseLeave'#7#23'NextButtonImgMouseLeave'#9'OnMouseUp'#7#20'NextButtonImg'
   +'MouseUp'#0#0#6'TImage'#10'CoverImage'#4'Left'#2'$'#6'Height'#2'Q'#3'Top'#3
-  +#172#0#5'Width'#2'T'#7'Stretch'#9#0#0#12'TSpeedButton'#9'Trackinfo'#4'Left'#3
-  +#128#0#6'Height'#2#22#3'Top'#3#181#0#5'Width'#2#30#5'Color'#7#9'clBtnFace'#4
+  +#165#0#5'Width'#2'T'#7'Stretch'#9#0#0#12'TSpeedButton'#9'Trackinfo'#4'Left'#3
+  +#132#0#6'Height'#2#22#3'Top'#3#173#0#5'Width'#2#30#5'Color'#7#9'clBtnFace'#4
   +'Flat'#9#10'Glyph.Data'#10#229#10#0#0#225#10#0#0'/* XPM */'#10'static char *'
   +'graphic[] = {'#10'"16 16 135 2",'#10'".. c None",'#10'"., c #5F839E",'#10'"'
   +'.- c #8CA7BB",'#10'".* c #829FB5",'#10'".a c #517895",'#10'".b c #7595AD",'
@@ -202,17 +204,17 @@ LazarusResources.Add('TMain','FORMDATA',[
   +'K,L,M,N,O,b,P,Q......",'#10'"........,R,S,T,b,b,U,V,W........",'#10'"......'
   +'......,X,Y,Z,0............",'#10'"................................"}'#10#9
   +'NumGlyphs'#2#0#7'OnClick'#7#14'TrackInfoClick'#0#0#9'TTrackBar'#8'trackbar'
-  +#4'Left'#2' '#6'Height'#2#31#3'Top'#2'M'#5'Width'#3#152#0#3'Max'#2'd'#8'Scal'
+  +#4'Left'#2' '#6'Height'#2#31#3'Top'#2'K'#5'Width'#3#152#0#3'Max'#2'd'#8'Scal'
   +'ePos'#7#7'trRight'#9'TickMarks'#7#6'tmBoth'#9'TickStyle'#7#6'tsNone'#11'OnM'
   +'ouseDown'#7#17'trackbarMouseDown'#9'OnMouseUp'#7#15'trackbarMouseUp'#11'Par'
   +'entCtl3D'#8#8'TabOrder'#2#1#0#0#5'TEdit'#8'playtime'#4'Left'#2'['#6'Height'
   +#2#24#3'Top'#2'5'#5'Width'#2'('#9'MaxLength'#2#5#8'ReadOnly'#9#8'TabOrder'#2
   +#2#4'Text'#6#5'00:00'#0#0#5'TEdit'#18'current_title_edit'#4'Left'#2#12#6'Hei'
-  +'ght'#2#23#3'Top'#3#140#0#5'Width'#3#200#0#5'Color'#7#9'clBtnFace'#8'ReadOnl'
+  +'ght'#2#23#3'Top'#3#132#0#5'Width'#3#200#0#5'Color'#7#9'clBtnFace'#8'ReadOnl'
   +'y'#9#8'TabOrder'#2#3#0#0#5'TEdit'#19'current_title_edit1'#4'Left'#2#12#6'He'
-  +'ight'#2#24#3'Top'#2'o'#5'Width'#3#200#0#5'Color'#7#9'clBtnFace'#8'ReadOnly'
-  +#9#8'TabOrder'#2#4#0#0#9'TTrackBar'#9'volumebar'#4'Left'#3#161#0#6'Height'#2
-  +'C'#3'Top'#3#178#0#5'Width'#2#30#3'Max'#2'2'#8'OnChange'#7#15'volumebarChang'
+  +'ight'#2#24#3'Top'#2'h'#5'Width'#3#200#0#5'Color'#7#9'clBtnFace'#8'ReadOnly'
+  +#9#8'TabOrder'#2#4#0#0#9'TTrackBar'#9'volumebar'#4'Left'#3#160#0#6'Height'#2
+  +'@'#3'Top'#3#165#0#5'Width'#2#30#3'Max'#2'2'#8'OnChange'#7#15'volumebarChang'
   +'e'#11'Orientation'#7#10'trVertical'#8'ScalePos'#7#5'trTop'#9'TickMarks'#7#6
   +'tmBoth'#9'TickStyle'#7#6'tsNone'#11'ParentCtl3D'#8#8'TabOrder'#2#0#0#0#0#7
   +'TBitBtn'#10'clear_list'#21'AnchorSideBottom.Side'#7#9'asrCenter'#4'Left'#3

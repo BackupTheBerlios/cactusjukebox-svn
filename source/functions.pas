@@ -21,6 +21,7 @@ function crc32(path: string):longint;
 function crc32_mmx(path: string):int64;
 function crc32_math(path: string):int64;
 function DirectoryIsEmpty(Directory: string): Boolean;
+function EraseDirectory(Directory: string):Boolean; //delete directory and all subdirectories/files in it
 function UTF8toLatin1(utfstring: ansistring): ansistring;
 function Latin1toUTF8(latin1string: ansistring): ansistring;
 function rmZeroChar(s: ansistring): ansistring;
@@ -105,6 +106,29 @@ begin
 
 end;
 
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function EraseDirectory(Directory: string): Boolean;
+var Srec: TSearchRec;
+begin
+     result:=false;
+     if DirectoryExists(Directory)then begin
+        try
+          FindFirst(IncludeTrailingPathDelimiter(Directory) + '*', faAnyFile, Srec);
+          repeat begin
+               if (Srec.Name <> '.') and (Srec.Name <> '..') then
+                      DeleteFile(Directory+DirectorySeparator+Srec.Name);
+             end;
+          until FindNext(Srec)<>0;
+          FindClose(Srec);
+          result:=RemoveDir(Directory);
+        except
+          result:=false;
+        end;
+     end;
+
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -247,7 +271,6 @@ begin
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 
 function DirectoryIsEmpty(Directory: string): Boolean;
 var

@@ -56,7 +56,7 @@ type
     Button1: TButton;
     backscan: TCheckBox;
     Button2: TButton;
-    CheckBox1: TCheckBox;
+    CoverDownload: TCheckBox;
     guesstag1: TRadioButton;
     GuessTagBox: TGroupBox;
     ID3typebox: TGroupBox;
@@ -85,7 +85,9 @@ type
     v2_prio: TRadioButton;
     v2_prio1: TRadioButton;
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure TabSheet4ContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
     procedure cancelbutClick(Sender: TObject);
@@ -135,12 +137,13 @@ begin
      if backscan.Checked then Main.background_scan:= true else Main.background_scan:=false;
      if v2_prio.Checked then main.id3v2_prio:=true else main.id3v2_prio:=false;
      if subfolders.checked then Main.mobile_subfolders:=true else Main.mobile_subfolders:=false;
+     if CoverDownload.Checked then main.CoverDownload:=true else main.CoverDownload:=false;
      
      Main.cfgfile.SetValue('Library/id3v2_prio',Main.id3v2_prio);
      Main.cfgfile.SetValue('Mobile_Player/Mountpoint', Main.playerpath);
      
      Main.cfgfile.SetValue('Mobile_Player/Subfolders',Main.mobile_subfolders);
-
+     Main.cfgfile.SetValue('Networking/Album_Cover_Download/Enabled', main.CoverDownload);
      Main.cfgfile.SetValue('Lame/Path', Main.lame);
      Main.cfgfile.SetValue('Library/GuessTags',MediaCollection.guess_tag);
      Main.cfgfile.SetValue('Library/background_scan',Main.background_scan);
@@ -166,6 +169,15 @@ begin
      if Main.Selectdirectorydialog1.execute=true then begin
                 playerpathedit1.text:=Main.Selectdirectorydialog1.FileName;
             end;
+end;
+
+procedure TSettings.Button2Click(Sender: TObject);
+begin
+  if DirectoryExists(main.ConfigPrefix+DirectorySeparator+'covercache') then begin
+     if EraseDirectory(main.ConfigPrefix+DirectorySeparator+'covercache') then
+        writeln('Covercache has been cleared...')
+      else writeln('ERROR while clearing covercache...');
+   end;
 end;
 
 procedure TSettings.FormCreate(Sender: TObject);
@@ -199,8 +211,13 @@ begin
  {$else}
    kdeservicebox.Visible:=false;
  {$endif}
-
+   CoverDownload.Checked:=main.CoverDownload;
    
+end;
+
+procedure TSettings.FormDestroy(Sender: TObject);
+begin
+  writeln('*******destroyed');
 end;
 
 procedure TSettings.TabSheet4ContextPopup(Sender: TObject; MousePos: TPoint;
