@@ -2259,8 +2259,8 @@ begin
   LoopCount:=0;
   i:=player.get_playlist_index;
   pfileobj:=player.Playlist[i].collection^.get_entry_by_id(player.Playlist[i].id);
-  pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';;
-  if (pfileobj^.album<>'') then begin
+  if (pfileobj<>nil) and (pfileobj^.album<>'') then begin
+     pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
      if (FileExists(pfileobj^.CoverPath)=false) then begin
              if  (main.CoverDownload) then begin
                   awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);

@@ -922,7 +922,7 @@ begin
      i:=0;
      repeat inc(i)
        until (i>=max_index-1) or (lib[i].id=id);
-     if (i<max_index-1) then result:=@lib[i];
+     if (i<max_index-1) then result:=@lib[i] else result:=nil;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -952,6 +952,7 @@ begin
      
      path:=filepath;
      Filemode:=0;
+    try
      assign(tmpfile, path);
      reset(tmpfile);
      size:=filesize(tmpfile); {get filesize}
@@ -959,6 +960,7 @@ begin
      id:= crc32(path) + size;
      filetype:=lowercase(ExtractFileExt(filepath));
      close(tmpfile);
+    except writeln('ERROR reading file '+filepath);end;
      Filemode:=2;
      attr:=FileGetAttr(filepath);
      if (attr and faReadOnly)=0 then read_only:=false else read_only:=true;
@@ -971,7 +973,7 @@ procedure TMediacollection.add_directory(dir:string);
 var mp3search,dirsearch:TSearchrec;
     tmps:string;
 begin
-  if (dir[length(dir)]<>DirectorySeparator)then dir:=dir+DirectorySeparator;
+  dir:=IncludeTrailingPathDelimiter(dir);
   writeln('scanning through:  '+dir);
   main.StatusBar1.Panels[0].Text :='scanning trough:  '+dir;
   Application.ProcessMessages;
@@ -1001,7 +1003,7 @@ begin
              repeat
                 begin
                    if (dirsearch.attr and FaDirectory)=FaDirectory then begin
-                      if pos('.', dirsearch.name)=0 then add_directory(dir+dirsearch.name+DirectorySeparator);
+                      if (dirsearch.name<>'..') and (dirsearch.name<>'.') then add_directory(IncludeTrailingPathDelimiter(dir+dirsearch.name));
                    end;
                  end;
              until FindNext(dirsearch)<>0;

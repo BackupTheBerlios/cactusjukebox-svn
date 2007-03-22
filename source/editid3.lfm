@@ -24,72 +24,72 @@ object EditID3: TEditID3
       Caption = 'Meta-Info'
       object Label1: TLabel
         Left = 20
-        Height = 12
+        Height = 14
         Top = 102
-        Width = 28
+        Width = 27
         Caption = 'Artist'
         Color = clNone
         ParentColor = False
       end
       object Label2: TLabel
         Left = 20
-        Height = 12
+        Height = 14
         Top = 130
-        Width = 24
+        Width = 21
         Caption = 'Title'
         Color = clNone
         ParentColor = False
       end
       object Label3: TLabel
         Left = 20
-        Height = 12
+        Height = 14
         Top = 162
-        Width = 36
+        Width = 30
         Caption = 'Album'
         Color = clNone
         ParentColor = False
       end
       object Label4: TLabel
         Left = 142
-        Height = 12
+        Height = 14
         Top = 190
-        Width = 26
+        Width = 23
         Caption = 'Year'
         Color = clNone
         ParentColor = False
       end
       object Label5: TLabel
         Left = 20
-        Height = 12
+        Height = 14
         Top = 222
-        Width = 35
+        Width = 30
         Caption = 'Genre'
         Color = clNone
         ParentColor = False
       end
       object Label6: TLabel
         Left = 20
-        Height = 12
+        Height = 14
         Top = 266
-        Width = 56
+        Width = 46
         Caption = 'Comment'
         Color = clNone
         ParentColor = False
       end
       object Label8: TLabel
         Left = 14
-        Height = 12
+        Height = 14
         Top = 30
-        Width = 58
+        Width = 53
         Caption = 'Path to file'
         Color = clNone
         ParentColor = False
       end
       object Label20: TLabel
         Left = 20
-        Height = 12
+        Height = 14
         Top = 190
-        Width = 31
+        Width = 27
         Caption = 'Track'
         Color = clNone
         ParentColor = False
@@ -150,10 +150,10 @@ object EditID3: TEditID3
         TabOrder = 8
       end
       object Button1: TButton
-        Left = 270
-        Height = 28
+        Left = 265
+        Height = 25
         Top = 18
-        Width = 83
+        Width = 88
         Anchors = [akTop, akRight]
         AutoSize = True
         BorderSpacing.InnerBorder = 4
@@ -178,9 +178,9 @@ object EditID3: TEditID3
       end
       object guessname1: TButton
         Left = 174
-        Height = 28
+        Height = 25
         Top = 18
-        Width = 98
+        Width = 99
         AutoSize = True
         BorderSpacing.InnerBorder = 4
         Caption = 'Tag from name'
