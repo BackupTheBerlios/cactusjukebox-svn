@@ -4,7 +4,7 @@ object Main: TMain
   Width = 855
   HorzScrollBar.Page = 854
   HorzScrollBar.Range = 369
-  VertScrollBar.Page = 657
+  VertScrollBar.Page = 650
   ActiveControl = volumebar
   BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'titel'
@@ -103,8 +103,8 @@ object Main: TMain
   Position = poDesktopCenter
   ShowInTaskBar = stAlways
   object StatusBar1: TStatusBar
-    Height = 20
-    Top = 638
+    Height = 22
+    Top = 629
     Width = 855
     Panels = <    
       item
@@ -118,7 +118,7 @@ object Main: TMain
   end
   object Splitter1: TSplitter
     Left = 256
-    Height = 638
+    Height = 629
     Width = 8
     Align = alRight
     Color = clBtnFace
@@ -129,7 +129,7 @@ object Main: TMain
   end
   object Panel1: TPanel
     Left = 264
-    Height = 638
+    Height = 629
     Width = 591
     Align = alRight
     AutoSize = True
@@ -141,7 +141,7 @@ object Main: TMain
       Left = 248
       Height = 270
       Hint = 'Press CTRL+Up/Down to move Items'
-      Top = 362
+      Top = 353
       Width = 332
       Anchors = [akLeft, akRight, akBottom]
       BorderSpacing.Bottom = 5
@@ -172,7 +172,7 @@ object Main: TMain
     object SearchPanel: TPanel
       Left = 12
       Height = 81
-      Top = 266
+      Top = 257
       Width = 424
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -196,17 +196,17 @@ object Main: TMain
       end
       object srch_album: TCheckBox
         Left = 140
-        Height = 13
+        Height = 22
         Top = 48
-        Width = 49
+        Width = 62
         Caption = 'Album'
         TabOrder = 5
       end
       object srch_title: TCheckBox
         Left = 84
-        Height = 13
+        Height = 22
         Top = 47
-        Width = 40
+        Width = 50
         Caption = 'Title'
         Checked = True
         ParentShowHint = False
@@ -215,9 +215,9 @@ object Main: TMain
       end
       object srch_artist: TCheckBox
         Left = 16
-        Height = 13
+        Height = 22
         Top = 48
-        Width = 43
+        Width = 54
         Caption = 'Artist'
         Checked = True
         ParentShowHint = False
@@ -239,9 +239,9 @@ object Main: TMain
       end
       object srch_file: TCheckBox
         Left = 209
-        Height = 13
+        Height = 22
         Top = 48
-        Width = 62
+        Width = 79
         Caption = 'Filename'
         ParentShowHint = False
         TabOrder = 6
@@ -270,7 +270,7 @@ object Main: TMain
     object PlayerControlsPanel: TPanel
       Left = 12
       Height = 263
-      Top = 362
+      Top = 353
       Width = 224
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -572,11 +572,11 @@ object Main: TMain
     end
     object clear_list: TBitBtn
       AnchorSideBottom.Side = asrCenter
-      Left = 496
-      Height = 32
+      Left = 504
+      Height = 30
       Hint = 'Clear Playlist'
-      Top = 323
-      Width = 75
+      Top = 316
+      Width = 67
       Anchors = [akRight, akBottom]
       AutoSize = True
       Caption = 'Clear'
@@ -626,7 +626,7 @@ object Main: TMain
     end
     object TitleTree: TListView
       Left = 8
-      Height = 250
+      Height = 241
       Top = 8
       Width = 572
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -678,15 +678,15 @@ object Main: TMain
     end
     object randomcheck: TCheckBox
       Left = 496
-      Height = 13
+      Height = 22
       Top = 288
-      Width = 60
+      Width = 75
       Caption = 'Random'
       TabOrder = 5
     end
   end
   object Panel4: TPanel
-    Height = 638
+    Height = 629
     Width = 256
     Align = alClient
     BevelOuter = bvNone
@@ -695,7 +695,7 @@ object Main: TMain
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 10
-      Height = 623
+      Height = 614
       Top = 10
       Width = 246
       Align = alClient
@@ -734,9 +734,9 @@ object Main: TMain
       OnClick = ArtistSrchFieldClick
       object Label2: TLabel
         Left = 80
-        Height = 14
+        Height = 12
         Top = 18
-        Width = 34
+        Width = 40
         Caption = 'Search'
         Color = clNone
         ParentColor = False

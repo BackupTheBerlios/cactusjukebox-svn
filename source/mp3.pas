@@ -341,6 +341,8 @@ type
     awsclass: TAWSAccess;
   public
     procedure update_playlist;
+    procedure disconnectDAP;
+    function connectDAP:byte;
     playing, player_connected, mobile_subfolders, background_scan, playermode, CoverDownload: boolean;
     playpos: integer;
     playnode: TTreeNode;
@@ -376,6 +378,32 @@ type
    end;
 
  { TScanThread }
+ 
+ Type
+
+   { TSyncThread }
+
+   TSyncAction = (SCopy, SDelete);
+
+   TSyncThread = class(TThread)
+   private
+     procedure SyncStatus;
+   protected
+     procedure Execute; override;
+     CopyList, TargetList, DeleteList: TStringList;
+     DeletedCnt, DeleteTotal, CopyTotal, CopiedCnt: Integer;
+     OpSuccess, finished: boolean;
+     SAction: TSyncAction;
+     TargetCollection: TMediaCollection;
+   public
+     Constructor Create(Suspd : boolean);
+     destructor Destroy; override;
+     procedure CopyFile( fromFile, toFile: string);
+     procedure DeleteFile( path: string);
+     Target: String;
+   end;
+
+ { TSyncThread }
 
 
 var
@@ -403,6 +431,97 @@ uses editid3, status, settings, player, directories, skin, cdrip, translations;
 var    // ext: boolean;
       //  err:integer;
         sizediff: int64;
+        SyncThread: TSyncThread;
+        
+
+
+{ TSyncThread }
+
+procedure TSyncThread.SyncStatus;
+begin
+   if finished=false then begin
+     if SAction=SCopy then Main.StatusBar1.Panels[1].Text:=IntToStr(CopiedCnt)+' of '+IntToStr(CopyTotal)+ ' copied. Don''t Disconnect...';
+     if SAction=SDelete then Main.StatusBar1.Panels[1].Text:=IntToStr(DeletedCnt)+' of '+IntToStr(DeleteTotal)+' deleted. Don''t Disconnect...';
+    end else begin
+     writeln('finished');
+    // TargetCollection.save_lib(TargetCollection.savepath);
+     TargetCollection.Free;
+     main.connectDAP;
+     Main.StatusBar1.Panels[1].Text:='Synchronizing finished. Device Ready...';
+   end;
+end;
+
+procedure TSyncThread.Execute;
+var i: integer;
+begin
+    finished:=false;
+    DeleteTotal:=DeleteList.Count;
+    CopyTotal:=CopyList.Count;
+    DeletedCnt:=0;
+    CopiedCnt:=0;
+    TargetCollection:=TMediacollection.create;
+    TargetCollection.PathFmt:=FRelative;
+    TargetCollection.load_lib(Target);
+    while DeleteList.Count>0 do begin
+           OpSuccess:=false;
+         try
+           if sysutils.DeleteFile(self.DeleteList[0]) then TargetCollection.remove_entry(TargetCollection.get_index_by_path(self.DeleteList[0]));
+           if DirectoryIsEmpty(ExtractFileDir(DeleteList[0])) then
+                  RemoveDir(ExtractFileDir(DeleteList[0]))
+          except end;
+           inc(DeletedCnt);
+           SAction:=SDelete;
+           self.DeleteList.Delete(0);
+           Synchronize(@SyncStatus);
+    end;
+    while CopyList.Count>0 do begin
+            OpSuccess:=false;
+            writeln(TargetList[0]);
+            OpSuccess:=FileCopy(CopyList[0],TargetList[0]);
+            inc(CopiedCnt);
+            SAction:=SCopy;
+            TargetCollection.add_file(TargetList[0]);
+            CopyList.Delete(0);
+            TargetList.Delete(0);
+            Synchronize(@SyncStatus);
+    end;
+
+    Finished:=true;
+    Synchronize(@SyncStatus);
+end;
+
+constructor TSyncThread.Create(Suspd: boolean);
+begin
+  inherited Create(suspd);
+  FreeOnTerminate := True;
+  CopyList:=TStringList.Create;
+  TargetList:=TStringList.Create;
+  DeleteList:=TStringList.Create;
+  DeletedCnt:=0;
+  CopiedCnt:=0;
+end;
+
+destructor TSyncThread.Destroy;
+begin
+  inherited Destroy;
+  CopyList.Free;
+  TargetList.Free;
+  DeleteList.free;
+end;
+
+procedure TSyncThread.CopyFile(fromFile, toFile: string);
+begin
+  CopyList.Add(fromFile);
+  TargetList.Add(toFile);
+
+end;
+
+
+procedure TSyncThread.DeleteFile(path: string);
+begin
+  DeleteList.Add(path);
+end;
+        
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -752,8 +871,8 @@ begin
   If FileExists(playerpath) then begin
      Statuswin:=TStatus.create(nil);
      Application.ProcessMessages;
-
-     PlayerCol.clear;
+     if assigned(PlayerCol) then PlayerCol.Free;
+     PlayerCol:=TMediacollection.create;
      playercol.rootpath:=playerpath;
      PlayerCol.PathFmt:=FRelative;
      PlayerCol.add_directory(playerpath);
@@ -1076,13 +1195,13 @@ begin
               end;
      Main.cfgfile.SetValue('Skin/File', current_skin);
 
-     if MediaCollection<>nil then MediaCollection.destroy;
-     if PlayerCol<>nil then PlayerCol.destroy;
+     MediaCollection.Free;
+     PlayerCol.free;
      checkmobile.Enabled:=false;
      playtimer.Enabled:=false;
 
 
-     player.destroy;
+     player.free;
 
 {     skinmenuitems[1].free;
      PlayButtonImg.free;
@@ -1896,29 +2015,10 @@ var i,z:integer;
 
 begin
      if (player_connected=false) and FileExists(playerpath+'cactuslib') then begin
-       PlayerCol.rootpath:=playerpath;
-       if PlayerCol.load_lib(playerpath+'cactuslib')=0 then begin
-              PlayerCol.dirlist:=playerpath+';';
-              sizediff:=0;
-              write('max_index');writeln(PlayerCol.max_index);
-              for i:= 1 to PlayerCol.max_index-1 do begin
-                z:=1;
-
-                PlayerCol.lib[i].action:=AONPLAYER;
-                while z < MediaCollection.max_index-1 do begin
-                        if MediaCollection.lib[z].id=PlayerCol.lib[i].id then begin
-                             MediaCollection.lib[z].action:=1;
-                             z:= MediaCollection.max_index-1;
-                          end;
-                        inc(z);
-                    end;
-
-              end;
-            update_artist_view;
-            update_title_view;
-            player_connected:=true;
-            
+         write('DAP detected...');
+         if connectDAP=0 then begin
             tmps:=GetCurrentDir;                             // get free memory on player, format string
+            writeln('loaded');
             SetCurrentDir(playerpath);
             str(round((DiskFree(0) / 1024)/100), s);
             SetCurrentDir(tmps);
@@ -1939,27 +2039,11 @@ begin
              player_connected:=true;
             end;
        end;
+
+     Application.ProcessMessages;
      if (player_connected=true) and (FileExists(playerpath+'cactuslib')=false) then begin
-            // playlist.selected:=nil;
-             i:=1;
-             while i <= player.maxlistindex do begin
-                  if player.playlist[i].collection=@PlayerCol then begin
-                     Player.remove_from_playlist(i);
-                     if player.maxlistindex<>0 then Playlist.Items[i-1].Delete;
-                     if player.maxlistindex=0 then playlist.Clear;
-
-                     dec(i);
-                    end;
-                  inc(i);
-               end;
-             PlayerCol.clear;
-
-             for i:= 1 to MediaCollection.max_index-1 do MediaCollection.lib[i].action:=-1;
-             ArtistTree.Selected:=nil;
-             update_artist_view;
-             update_title_view;
-             player_connected:=false;
-            StatusBar1.Panels[1].Text:='Device disconnected';
+          disconnectDAP;
+          StatusBar1.Panels[1].Text:='Device disconnected';
        end;
 end;
 
@@ -2499,96 +2583,45 @@ begin
     if player_connected=false then begin ShowMessage(rsNotConnected);exit;end;
     rcount:=1;
     ucount:=1;
-    bytesneeded:=0;
+    bytesneeded:=0;       //Calculation the disk space that has to be available on player
+    SyncThread:=TSyncThread.Create(true);
+    SyncThread.Target:=PlayerCol.savepath;
+    Enabled:=false;
     for n:= 1 to MediaCollection.max_index-1 do begin
-            if MediaCollection.lib[n].action=2 then begin
-                                                       inc(rcount);
-                                                       bytesneeded:=bytesneeded - MediaCollection.lib[n].size;
-                                                    end;
-            if MediaCollection.lib[n].action=3 then begin
-                                                       inc(ucount);
-                                                       bytesneeded:=bytesneeded + MediaCollection.lib[n].size;
-                                                    end;
-        end;
-    Application.ProcessMessages;
-    writeln(bytesneeded);
-    tmps:=GetCurrentDir;                             // get free memory on player, format string
-    SetCurrentDir(playerpath);
-    if DiskFree(0) < bytesneeded then begin ShowMessage('ERROR: Not enough free disk space on mobile device!');exit;end;
-    SetCurrentDir(tmps);
-    writeln(rcount);
-
-    main.Enabled:=false;
-    Statuswin:=TStatus.create(nil);
-//    statuswin.ShowModal; show modal not working here, don't know why...
-    statuswin.ShowOnTop;
-    statuswin.Statuslabel.Caption:= 'Remove files from player';
-    Application.ProcessMessages;
-    n:=1;
-    ucount2:=1;
-    rcount2:=1;
-    while n < PlayerCol.max_index do begin
-            statuswin.ProgressBar1.Position:=(rcount2*100) div rcount;
-            Application.ProcessMessages;
-            if PlayerCol.lib[n].action = 2 then begin
-               inc(rcount2);
-               res:=DeleteFile(PlayerCol.lib[n].path);
-               writeln('remove file '+PlayerCol.lib[n].path);
-               if DirectoryIsEmpty(ExtractFileDir(PlayerCol.lib[n].path)) then
-                  if RemoveDir(ExtractFileDir(PlayerCol.lib[n].path)) then writeln('Removed Directory '+ExtractFileDir(PlayerCol.lib[n].path))
-                        else writeln('ERROR: couldn''t remove Directory '+ ExtractFileDir(PlayerCol.lib[n].path));
-
-
-               if (res=true) or (FileExists(PlayerCol.lib[n].path)=false) then begin
-                           PlayerCol.remove_entry(n);
-                           dec(n);
+            if MediaCollection.lib[n].action=AUPLOAD then begin
+                       inc(ucount);
+                       bytesneeded:=bytesneeded + MediaCollection.lib[n].size;
+                       if mobile_subfolders then begin
+                           if not DirectoryExists(playerpath+lowercase(MediaCollection.lib[n].artist)) then mkdir(playerpath+lowercase(MediaCollection.lib[n].artist));
+                           newfile:=playerpath+lowercase(MediaCollection.lib[n].artist)+'/'+ExtractFileName(MediaCollection.lib[n].path);
                          end
-                           else  writeln('Couldn''t delete file '+PlayerCol.lib[n].path);
-              end;
-            inc(n);
+                         else
+                           newfile:=playerpath+ExtractFileName(MediaCollection.lib[n].path);
+                       DoDirSeparators(newfile);
+                       SyncThread.copyFile(MediaCollection.lib[n].path, newfile);
+                end;
         end;
-    Application.ProcessMessages;
-    for n:= 1 to MediaCollection.max_index-1 do if MediaCollection.lib[n].action = 2 then MediaCollection.lib[n].action:=-1;
-    statuswin.Statuslabel.caption:= 'Upload files to player';
-    Application.ProcessMessages;
-    for n:= 1 to MediaCollection.max_index-1 do begin
-            statuswin.ProgressBar1.Position:=(ucount2*100) div ucount;
-            Application.ProcessMessages;
-
-            if MediaCollection.lib[n].action = 3 then begin
-               inc(ucount2);
-               if mobile_subfolders then begin
-                  if FileExists(playerpath+lowercase(MediaCollection.lib[n].artist))=false then mkdir(playerpath+lowercase(MediaCollection.lib[n].artist));
-                  newfile:=playerpath+lowercase(MediaCollection.lib[n].artist)+'/'+ExtractFileName(MediaCollection.lib[n].path);
-                 end
-                 else
-                  newfile:=playerpath+ExtractFileName(MediaCollection.lib[n].path);
-               DoDirSeparators(newfile);
-               write('copy...   '+newfile);
-
-               FileCopy(MediaCollection.lib[n].path, newfile);
-               MediaCollection.lib[n].action:=1;
-               writeln('  finished');
-               PlayerCol.add_file(newfile);
-               PlayerCol.lib[PlayerCol.max_index-1].action:=AONPLAYER;
-              end;
-        end;
-    PlayerCol.save_lib(playerpath+'/cactuslib');
-    Statuswin.destroy;
-    Main.Enabled:=true;
-    update_artist_view;
-    update_title_view;
-    
+    for n:= 1 to PlayerCol.max_index-1 do begin
+            if PlayerCol.lib[n].action=AREMOVE then begin
+                      inc(rcount);
+                      bytesneeded:=bytesneeded - PlayerCol.lib[n].size;
+                      SyncThread.deleteFile(PlayerCol.lib[n].path);
+               end;
+      end;
+    Enabled:=true;
     tmps:=GetCurrentDir;                             // get free memory on player, format string
     SetCurrentDir(playerpath);
-    str(round((DiskFree(0) / 1024)/100), s);
+    if DiskFree(0) < bytesneeded then begin
+       ShowMessage('ERROR: Not enough free disk space on mobile device!');
+       SyncThread.Free;
+       exit;
+     end;
     SetCurrentDir(tmps);
-    tmps:=s;
-    s:=copy(tmps, length(tmps), 1);
-    delete(tmps, length(tmps), 1);
-    tmps:=tmps+','+s;
+    disconnectDAP;
+    checkmobile.Enabled:=false;
+    writeln('startingThread');
+    SyncThread.Resume;
 
-    StatusBar1.Panels[1].Text:='Device connected     '+tmps+' MB Free';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2941,6 +2974,7 @@ var tsnode, tempnode:TTreeNode;
     PFobj: PMp3fileobj;
     ext: boolean;
 begin
+     main.Enabled:=false;
      tsnode:=Main.ArtistTree.Selected;
      main.StatusBar1.Panels[0].Text:='Please wait... updating...';
     // Application.ProcessMessages;
@@ -3019,16 +3053,19 @@ begin
      writeln('finished title view ##');
      main.StatusBar1.Panels[0].Text:='Ready.';
      Main.TitleTree.EndUpdate;
+     Main.Enabled:=true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure update_artist_view;
-var existing, existing_album, curartist, tmps2:string;
+var existing, curartist, tmps2:string;
     tsnode, artnode, localnode, playernode, cdnode:Ttreenode;
-    PCol : PMediaCollection;
+    PCol, CurCol: PMediaCollection;
+    AlbumList:TStringList;
     PFobj2: PMp3fileobj;
     pfobj: PMp3fileobj;
+    i:integer;
 begin
      main.changetree:=true;
      main.Enabled:=false;
@@ -3041,58 +3078,55 @@ begin
      tsnode:=Main.ArtistTree.Selected;
      if (tsnode<>nil) and (tsnode.level>0)  then begin
           PFobj:=tsnode.data;
-          i:= PFobj^.index;
-          PCol:=PFobj^.collection;
-          curartist:=lowercase(Pcol^.lib[i].artist);
-          if i>PCol^.max_index-1 then i:=1;
+          CurCol:=pfobj^.collection;
+          curartist:=lowercase(pfobj^.artist);
        end else begin
-           i:=1;
            curartist:='';
          end;
      write(' clear trees...');
      Main.ArtistTree.Items.Clear;
-
-{sorting database}
-     write(' sorting...');
 
      existing:='';
      localnode:=Main.ArtistTree.Items.Add(nil, 'Local Harddisk');
      localnode.ImageIndex:=6;
      localnode.SelectedIndex:=6;
      localnode.data:=pointer(1);
-     PCol:=@MediaCollection;
-     Pcol^.sort;
+{Sorting}
+     write(' sorting... ');
+     MediaCollection.sort;
+     write(' sorted... ');
+     AlbumList:=TStringList.Create;
      for i:=1 to (MediaCollection.max_index-1) do begin
         MediaCollection.lib[i].index:=i;
         if MediaCollection.lib[i].artist<>'' then tmps:=MediaCollection.lib[i].artist else tmps:='Unknown';
         if lowercase(existing)<>lowercase(tmps) then begin
+           AlbumList.Clear;
            existing:=tmps;
-           existing_album:='';
-           artnode:=Main.ArtistTree.Items.AddChild(localnode, existing);
-
+           artnode:=Main.ArtistTree.Items.AddChild(localnode, tmps);
            with artnode do
              begin
                MakeVisible;
                ImageIndex:=-1;
-               MediaCollection.lib[i].collection:=PCol;
                Data:=@MediaCollection.lib[i];
              end;
             artnode.expand(false);
           end;
-        if (MediaCollection.lib[i].action=1) and (artnode.ImageIndex=-1) then artnode.ImageIndex:=1;
-        if (MediaCollection.lib[i].action=2) then artnode.ImageIndex:=2;
-        if (MediaCollection.lib[i].action=3) then artnode.ImageIndex:=3;
+        case MediaCollection.lib[i].action of  //set the right Icon
+               1: if (artnode.ImageIndex=-1) then artnode.ImageIndex:=1;
+               2: artnode.ImageIndex:=2;
+               3: artnode.ImageIndex:=3;
+             end;
         artnode.SelectedIndex:=artnode.ImageIndex;
         
         if MediaCollection.lib[i].album<>'' then tmps2:=MediaCollection.lib[i].album else tmps2:='Unknown';
-        if pos(lowercase(tmps2)+':',lowercase(existing_album)+':')=0 then begin
-           existing_album:=existing_album+tmps2+':';
+
+        if AlbumList.IndexOf(tmps2+':')=-1 then begin
+           AlbumList.Add(tmps2+':');
            with Main.ArtistTree.Items.Addchild(artnode,tmps2) do
              begin
                MakeVisible;
                ImageIndex:=-1;
                SelectedIndex:=-1;
-               MediaCollection.lib[i].collection:=PCol;
                Data:=@MediaCollection.lib[i];
              end;
             artnode.expanded:=(false);
@@ -3100,18 +3134,20 @@ begin
      end;
      existing:='';
      playernode:=Main.ArtistTree.Items.Add(nil, 'Mobile Player');
-     write(' mobile collection...');
      playernode.SelectedIndex:=1;
      playernode.ImageIndex:=1;
      playernode.data:=pointer(0);
+   if Main.player_connected then begin
+     write(' mobile collection...');
      PCol:=@PlayerCol;
      Pcol^.sort;
+     AlbumList.Clear;
      for i:=1 to (PCol^.max_index-1) do begin
         PCol^.lib[i].index:=i;
         if PCol^.lib[i].artist<>'' then tmps:=PCol^.lib[i].artist else tmps:='Unknown';
         if lowercase(existing)<>lowercase(tmps) then begin
+           AlbumList.clear;
            existing:=tmps;
-           existing_album:='';
            artnode:=Main.ArtistTree.Items.AddChild(playernode, existing);
            with artnode do
              begin
@@ -3123,10 +3159,16 @@ begin
              end;
             artnode.expand(false);
           end;
+        case PCol^.lib[i].action of  //set the right Icon
+               1: if (artnode.ImageIndex=-1) then artnode.ImageIndex:=1;
+               2: artnode.ImageIndex:=2;
+               3: artnode.ImageIndex:=3;
+             end;
+        artnode.SelectedIndex:=artnode.ImageIndex;
 
         if PCol^.lib[i].album<>'' then tmps2:=PCol^.lib[i].album else tmps2:='Unknown';
-        if pos(lowercase(tmps2)+':',lowercase(existing_album)+':')=0 then begin
-           existing_album:=existing_album+tmps2+':';
+        if AlbumList.IndexOf(tmps2+':')=-1 then begin
+           AlbumList.Add(tmps2+':');
            with Main.ArtistTree.Items.Addchild(artnode,tmps2) do
              begin
                MakeVisible;
@@ -3138,25 +3180,25 @@ begin
             artnode.expanded:=(false);
           end;
      end;
-    { cdnode:=Main.ArtistTree.Items.Add(nil, 'Audio CD');
-     cdnode.ImageIndex:=4;
-     cdnode.SelectedIndex:=4;
-     cdnode.data:=pointer(FSOUND_CD_GetNumTracks(0));
-     }
+     end;
 
-
-     i:=1;
-     if pfobj<>nil then begin
+     i:=0;
+     if curartist<>'' then begin
      repeat begin
+            repeat inc(i) until (main.ArtistTree.items[i].Level=1) or (i>=main.ArtistTree.Items.Count-1);
             pfobj2:=main.ArtistTree.items[i].data;
-            inc(i);
          end;
-     until ((lowercase(main.artisttree.items[i].text)=curartist) and (main.artisttree.items[i].level=1) and (pfobj2^.collection=PFobj^.collection)) or (i=main.artisttree.items.count-1);
+     until ((lowercase(main.artisttree.items[i].text)=curartist) and (pfobj2^.collection=CurCol)) or (i>=main.artisttree.items.count-1);
      end;
      if lowercase(main.artisttree.items[i].text)=curartist then begin
             main.artisttree.selected:=main.artisttree.items[i];
-       end else if curartist='' then main.artisttree.selected:=main.artisttree.items[1];
-
+            if i >=10 then begin
+                main.ArtistTree.TopItem:=main.artisttree.items[i-10].Parent;
+              end
+            else main.ArtistTree.TopItem:=main.artisttree.items[0];
+            
+       end else main.artisttree.selected:=main.artisttree.items[1];
+     AlbumList.Free;
      main.artisttree.endupdate;
      main.changetree:=false;
      writeln(' finished artistview##');
@@ -3184,6 +3226,7 @@ begin
              end;
          end;
        end;
+   if player_connected then begin
      PCol:=@PlayerCol;
      if PCol^.max_index>1 then begin
         for i:= 1 to main.player.maxlistindex do begin
@@ -3197,10 +3240,67 @@ begin
              end;
          end;
        end;
+   end;
      update_player_display;
 end;
 
+procedure TMain.disconnectDAP;
+var i : integer;
+begin
+    i:=1;
+    Enabled:=false;
+    while i <= player.maxlistindex do begin
+         if player.playlist[i].collection=@PlayerCol then begin
+            Player.remove_from_playlist(i);
+            if player.maxlistindex<>0 then Playlist.Items[i-1].Delete;
+            if player.maxlistindex=0 then playlist.Clear;
+
+            dec(i);
+          end;
+      inc(i);
+    end;
+    FreeAndNil(PlayerCol);
+    player_connected:=false;
+    for i:= 1 to MediaCollection.max_index-1 do MediaCollection.lib[i].action:=-1;
+    ArtistTree.Selected:=nil;
+    Enabled:=true;
+    update_artist_view;
+    update_title_view;
+end;
+
+function TMain.connectDAP:byte;
+var i, z:integer;
+begin
+       Result:=255;
+       PlayerCol:=TMediacollection.create;
+       PlayerCol.PathFmt:=FRelative;
+       PlayerCol.rootpath:=playerpath;
+       writeln('ConnectDAP');
+       if PlayerCol.load_lib(playerpath+'cactuslib')=0 then begin
+              PlayerCol.dirlist:=playerpath+';';
+              sizediff:=0;
+              write('max_index');writeln(PlayerCol.max_index);
+              for i:= 1 to PlayerCol.max_index-1 do begin
+                z:=1;
+                PlayerCol.lib[i].action:=AONPLAYER;
+                while z < MediaCollection.max_index-1 do begin
+                        if MediaCollection.lib[z].id=PlayerCol.lib[i].id then begin
+                             MediaCollection.lib[z].action:=1;
+                             z:= MediaCollection.max_index-1;
+                          end;
+                        inc(z);
+                    end;
+
+              end;
+            player_connected:=true;
+            update_artist_view;
+            update_title_view;
+            result:=0;
+       end;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 initialization
   {$I mp3.lrs}

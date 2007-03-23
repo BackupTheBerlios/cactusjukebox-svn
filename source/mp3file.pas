@@ -75,7 +75,7 @@ var i,z, delpos:integer;
 
        public
          constructor create;
-         destructor destroy;
+         destructor destroy;override;
          lib:Array of TMp3FileObj;
          property max_index: Integer Read FMax_Index;
          dirlist: ansistring;
@@ -90,7 +90,9 @@ var i,z, delpos:integer;
          procedure clear;
          procedure remove_entry(ind:integer);
          function get_entry_by_id(id: integer):PMp3fileobj;
+         function get_index_by_path(path: string):integer;
          function  ScanForNew:byte;   //search all folders for new or changed files
+         procedure Assign(SourceCol:TMediacollection);
   end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -114,9 +116,9 @@ procedure TMediacollection.save_lib(path:string);
 var lfile: textfile;
 begin
        savepath:=path;
+       writeln('saving');
        try
-           assign(lfile,path);
-           savepath:=path;
+           system.assign(lfile,path);
            saved:=true;
              rewrite(lfile);
              writeln(lfile,'#####This config file is created by Cactus Jukebox. NEVER(!!) edit by hand!!!####');
@@ -167,7 +169,7 @@ var i:integer;
 begin
        savepath:=path;
        try
-             assign(lfile,path);
+             system.assign(lfile,path);
              reset(lfile);
 
              readln(lfile);
@@ -208,8 +210,6 @@ begin
                end;
              close(lfile);
              writeln('library sucessfully loaded');
-             update_artist_view;
-             update_title_view;
              Main.curlib:=path;
              load_lib:=0;
          except
@@ -234,7 +234,7 @@ begin
          inc(k);
          if FileExists(lib[k].path) then begin
             try
-              assign(tmpfile, lib[k].path);
+              system.assign(tmpfile, lib[k].path);
               reset(tmpfile);
               if filesize(tmpfile)<>lib[k].size then begin
                                                        writeln(lib[k].path+'changed');
@@ -266,10 +266,29 @@ begin
    if CollectionChanged then result:=0 else result:=128;
 end;
 
+procedure TMediacollection.Assign(SourceCol: TMediacollection);
+var i: integer;
+begin
+  PathFmt:=SourceCol.PathFmt;
+  FMax_Index:=SourceCol.max_index;
+  for i:= 1 to FMax_Index-1 do begin
+     lib[i]:=TMp3fileobj.create;
+//     lib[i].assign(SourceCol.lib[i]);
+  end;
+  dirlist:=SourceCol.dirlist;
+  guess_tag:=SourceCol.guess_tag;
+  saved:=SourceCol.saved;
+  CollectionChanged:=SourceCol.CollectionChanged;
+
+  rootpath:=SourceCol.rootpath;
+  savepath:=SourceCol.savepath;
+end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 destructor TMediaCollection.destroy;
 begin
+     writeln('destructor');
+     save_lib(savepath);
      for i:= 1 to fmax_index-1 do lib[i].destroy;
 end;
 
@@ -718,7 +737,6 @@ end;
 procedure TMediaCollection.create_title_order;
 var n:longint;
 begin
-     write(' create title order...');
      i:=1;
      z:=2;
      delpos:=1;
@@ -862,7 +880,6 @@ var n, l1, l2:integer;
     s1, s2: string;
     ext: boolean;
 begin
-    write(' create artist order... ');
     z:=1;
     i:=1;
     ext:=true;
@@ -896,7 +913,6 @@ begin
        end;
       until (z>fmax_index-1) or (ext=true);
     end;
-    create_title_order;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -916,6 +932,8 @@ begin
      dec(fmax_index);
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 function TMediacollection.get_entry_by_id(id: integer): PMp3fileobj;
 var i: integer;
 begin
@@ -927,10 +945,22 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+function TMediacollection.get_index_by_path(path: string): integer;
+var i: integer;
+begin
+     i:=0;
+     repeat inc(i)
+       until (i>=max_index-1) or (lib[i].path=path);
+     if (i<max_index-1) then result:=i else result:=0;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMediacollection.add_file(path:string);
 begin
   if FileExists(path) then begin
      lib[fmax_index]:=TMp3fileobj.index_file(path);
+     lib[FMax_Index].collection:=@self;
      inc(max_index);
      if high(lib)=fmax_index then
          begin {library erweitern um 512 eintraege}
@@ -1058,11 +1088,15 @@ begin
      Findclose(dirsearch);
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMediacollection.sort;
 begin
   create_artist_order;
   create_title_order;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMediacollection.clear;
 begin

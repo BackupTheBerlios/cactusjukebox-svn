@@ -68,8 +68,6 @@ begin
 {$endif}
 
   MediaCollection:=TMediaCollection.create;
-  PlayerCol:=TMediaCollection.create;
-  PlayerCol.PathFmt:=FRelative;
   SkinData:=TSkin.Create('default.xml', DataPrefix);
  // main:=TMain.create(nil);
   Application.CreateForm(TMain, Main);
@@ -149,6 +147,8 @@ begin
   if FileExists(s) then begin
      Main.StatusBar1.Panels[0].Text:='Loading last library...';
      Mediacollection.load_lib(s);
+     update_artist_view;
+     update_title_view;
    end;
    
 {  if Main.background_scan then begin

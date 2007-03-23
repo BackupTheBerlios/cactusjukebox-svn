@@ -252,7 +252,7 @@ function FileCopy(const FromFile, ToFile: string):boolean;
  var
   FromF, ToF: file;
   NumRead, NumWritten: Word;
-  Buf: array[1..2048] of Char;
+  Buf: array[1..4096] of byte;
 begin
  try
   AssignFile(FromF, FromFile);
