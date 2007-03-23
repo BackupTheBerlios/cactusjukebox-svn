@@ -195,6 +195,8 @@ type
     procedure ArtistTreeDblClick(Sender: TObject);
     procedure ArtistTreeKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
       );
+    procedure ArtistTreeMouseDown(Sender: TOBject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure ArtistTreeSelectionChanged(Sender: TObject);
     procedure FormMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -225,7 +227,6 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure MainClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure MainCreate(Sender: TObject);
-    procedure MainKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure MenuItem11Click(Sender: TObject);
     procedure MenuItem14Click(Sender: TObject);
     procedure MenuItem16Click(Sender: TObject);
@@ -291,6 +292,8 @@ type
     procedure MenuItem33Click(Sender: TObject);
     procedure rm_artist_playeritemClick(Sender: TObject);
     procedure searchstrClick(Sender: TObject);
+    procedure searchstrKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure skinmenuClick(Sender: TObject);
     procedure syncplayeritem(Sender: TObject);
     procedure MenuItem36Click(Sender: TObject);
@@ -1214,7 +1217,7 @@ begin
      tempbitmap.Free;
      
      ImageList1.Free;   }
-    // CoverImage.Free;
+     CoverImage.Free;
 
 
      if playermode=false then begin
@@ -1426,13 +1429,6 @@ begin
       playtime.Text:='00:00';
       trackbar.Position:=0;
     end;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure TMain.MainKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if key=113 then player_libClick(nil);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2377,6 +2373,7 @@ procedure TMain.ArtistTreeKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 var b: byte;
     c:char;
+    i: integer;
 begin
   writeln(key);
   b:=key;
@@ -2401,6 +2398,12 @@ begin
              ArtistTree.Selected:=ArtistTree.Items[i];
           end;
   end;
+end;
+
+procedure TMain.ArtistTreeMouseDown(Sender: TOBject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  ArtistTree.SetFocus;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2562,6 +2565,12 @@ end;
 procedure TMain.searchstrClick(Sender: TObject);
 begin
   ArtistSrchField.Hide;
+end;
+
+procedure TMain.searchstrKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3196,7 +3205,7 @@ begin
                 main.ArtistTree.TopItem:=main.artisttree.items[i-10].Parent;
               end
             else main.ArtistTree.TopItem:=main.artisttree.items[0];
-            
+
        end else main.artisttree.selected:=main.artisttree.items[1];
      AlbumList.Free;
      main.artisttree.endupdate;

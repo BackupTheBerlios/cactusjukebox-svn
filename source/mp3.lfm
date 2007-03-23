@@ -5,7 +5,7 @@ object Main: TMain
   HorzScrollBar.Page = 854
   HorzScrollBar.Range = 369
   VertScrollBar.Page = 650
-  ActiveControl = volumebar
+  ActiveControl = ArtistTree
   BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'titel'
   Icon.Data = {
@@ -97,7 +97,6 @@ object Main: TMain
   Menu = Mainmenu1
   OnClose = MainClose
   OnCreate = MainCreate
-  OnKeyUp = MainKeyUp
   OnResize = FormResize
   ParentFont = True
   Position = poDesktopCenter
@@ -708,11 +707,13 @@ object Main: TMain
       BorderStyle = bsNone
       BorderWidth = 1
       Color = clBtnFace
+      Ctl3D = True
       DefaultItemHeight = 16
       ExpandSignType = tvestArrow
       HideSelection = False
       Images = ImageList1
       PopupMenu = artisttreemenu
+      ReadOnly = True
       RightClickSelect = True
       ScrollBars = ssAutoBoth
       ShowRoot = False
@@ -721,8 +722,8 @@ object Main: TMain
       OnDblClick = ArtistTreeDblClick
       OnKeyUp = ArtistTreeKeyUp
       OnSelectionChanged = ArtistTreeSelectionChanged
-      Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips]
-      ExpandSignColor = clGreen
+      Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips]
+      ExpandSignColor = clSkyBlue
     end
     object ArtistSrchField: TPanel
       Left = 112

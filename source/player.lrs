@@ -1,3 +1,5 @@
+{ Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
+
 LazarusResources.Add('Tplaywin','FORMDATA',[
   'TPF0'#8'Tplaywin'#7'playwin'#4'Left'#3't'#1#6'Height'#3#213#0#3'Top'#3'l'#1#5
   +'Width'#3#140#1#18'HorzScrollBar.Page'#3#139#1#18'VertScrollBar.Page'#3#212#0
