@@ -740,6 +740,7 @@ procedure TMain.stopClick(Sender: TObject);
 begin
     if (player.get_playlist_index>0) then playlist.Items[player.get_playlist_index-1].ImageIndex:=-1;
     player.stop;
+    player.reset_random;
     update_player_display;
 end;
 
@@ -768,14 +769,14 @@ begin
      if (spos=slength) and (player.get_playlist_index<player.maxlistindex) then nextclick(nil);
      if (CoverFound=false) and (LoopCount<20) then begin
                   inc(LoopCount);
-                  if (awsclass<>nil) and (awsclass.data_ready){  }then begin
+                  if (assigned(awsclass)) and (awsclass.data_ready){  }then begin
                        pfileobj:=player.Playlist[player.get_playlist_index].collection^.get_entry_by_id(player.Playlist[player.get_playlist_index].id);
                        if FileExists(pfileobj^.CoverPath) then begin
                           CoverImage.Picture.LoadFromFile(pfileobj^.CoverPath);
                           playwin.AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath);
                          end;
                         CoverFound:=true;
-                        awsclass.free;
+                        FreeAndNil(awsclass);
                     end;
               end;
     end else playtimer.Enabled:=false;
@@ -1398,6 +1399,15 @@ if SimpleIPCServer1.PeekMessage(1,True) then begin
         mp3obj.destroy;
    end
     else writeln(' --> Invalid message/filename received via IPC');
+  case byte(StrToInt(SimpleIPCServer1.StringMessage)) of
+     VOLUME_UP: if volumebar.Position>4 then  volumebar.Position:=volumebar.Position-5;
+     VOLUME_DOWN: if volumebar.Position<46 then volumebar.Position:=volumebar.Position+5;
+     NEXT_TRACK: nextClick(nil);
+     STOP_PLAYING: stopClick(nil);
+     START_PLAYING: playClick(nil);
+     PREV_TRACK: prevClick(nil);
+   else writeln(' --> Invalid message/filename received via IPC');
+  end;
 end;
 
 end;
@@ -2365,6 +2375,7 @@ end;
 procedure TMain.ArtistTreeClick(Sender: TObject);
 begin
   ArtistSrchField.Hide;
+ // if ArtistTree.Selected<>nil then update_title_view;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2983,10 +2994,9 @@ var tsnode, tempnode:TTreeNode;
     PFobj: PMp3fileobj;
     ext: boolean;
 begin
-     main.Enabled:=false;
      tsnode:=Main.ArtistTree.Selected;
      main.StatusBar1.Panels[0].Text:='Please wait... updating...';
-    // Application.ProcessMessages;
+   // Application.ProcessMessages;
     writeln;
     write('## update title view...');
 
@@ -3062,7 +3072,6 @@ begin
      writeln('finished title view ##');
      main.StatusBar1.Panels[0].Text:='Ready.';
      Main.TitleTree.EndUpdate;
-     Main.Enabled:=true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

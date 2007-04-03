@@ -192,7 +192,7 @@ begin
          FSOUND_Stream_Close(Soundhandle);
          fplaying:=false;
          FSOUND_Close;
-         reset_random;
+      //   reset_random;
          playindex:=0;
        end;
 end;

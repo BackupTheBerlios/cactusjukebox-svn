@@ -27,9 +27,9 @@ uses SimpleIPC, Sysutils, dos;
 
 var CactusIPC: TSimpleIPCClient;
     FileName,tmps, WorkingDir: String;
-    tchar: Char;
+    tchar, tchar2: Char;
     i, ActionID: byte;
-    invalid_param: boolean;
+    invalid_param, extd_command: boolean;
 
 
 begin
@@ -37,11 +37,22 @@ begin
    if paramcount > 0 then begin
 	tmps:= paramstr(1);
         tchar:=tmps[2];
+	if length(paramstr(1))>=3 then tchar2:=tmps[3];
         invalid_param:=false;
+	extd_command:=false;
         case tchar of 
-          'o' : ActionID:=OPEN_FILE;
-          'e' : ActionID:=ENQUEU_FILE;
-          'n' : ActionID:=OPEN_AS_NEXT;
+          'o' : begin ActionID:=OPEN_FILE; extd_command:=true; end;
+          'e' : begin ActionID:=ENQUEU_FILE; extd_command:=true; end;
+          'n' : begin ActionID:=OPEN_AS_NEXT; extd_command:=true; end;
+	  'v' : if tchar2='u' then ActionID:=VOLUME_UP else ActionID:=VOLUME_DOWN;
+	  'p' :	begin
+		  case tchar2 of
+		     'n' : ActionID:=NEXT_TRACK;
+		     's' : ActionID:=START_PLAYING;
+		     'x' : ActionID:=STOP_PLAYING;
+		     'p' : ActionID:=PREV_TRACK; 
+		   end;
+		end;
          else invalid_param:=true;
          end
       end
@@ -55,6 +66,15 @@ begin
         writeln('    -o <File>  open file');
         writeln('    -e <File>  enqueu file to playlist');
         writeln('    -n <file>  enqueu file as next track in playlist');
+	writeln();
+        writeln('    -vu Volume up 10%');
+        writeln('    -vd Volume down 10%');
+        writeln();
+        writeln('    -p<command> Control player');
+        writeln('          n     Next track');	
+        writeln('          p     Previous track');	
+        writeln('          s     Start playing');	
+        writeln('          x     Stop playing');	
         writeln();
         writeln('    -h/--help  show this help');
         writeln();
@@ -81,7 +101,8 @@ begin
 
    tmps:=inttostr(ActionID);
    writeln(tmps);
-   CactusIPC.SendStringMessage(tmps+': '+FileName);
+   if extd_command then CactusIPC.SendStringMessage(tmps+': '+FileName) 
+	else  CactusIPC.SendStringMessage(tmps);
    CactusIPC.Free;
 end.
 

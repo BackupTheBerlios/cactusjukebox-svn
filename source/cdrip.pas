@@ -84,7 +84,7 @@ var
 
 
 implementation
-uses mp3file, mp3, translations;
+uses mp3file, mp3, translations, functions;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -321,7 +321,7 @@ begin
          if FileNameType.ItemIndex=2 then OutFileNames[EncodeTrack]:=outfolder+'/'+artistedit.Text+' - '+inttostr(EncodeTrack)+' - '+Trackgrid.Cells[1, EncodeTrack]+'.mp3';
          OutFileNames[EncodeTrack]:=StringReplace(OutFileNames[EncodeTrack], #39, '', [rfReplaceAll]);
          writeln(OutFileNames[EncodeTrack]);
-         EncodeProcess.CommandLine:='/usr/bin/lame -h -b'+bitratebox.Items[bitratebox.ItemIndex]+' --tt "'+Trackgrid.Cells[1, EncodeTrack]+'" --ta "'+artistedit.Text+'" --tl "'+albumedit.Text+'" --tn '+tmps+' "'+outfolder+'/Track'+tmps+'.wav"'+' "'+OutFileNames[EncodeTrack]+'"';
+         EncodeProcess.CommandLine:='/usr/bin/lame -h -b'+bitratebox.Items[bitratebox.ItemIndex]+' --tt "'+UTF8toLatin1(Trackgrid.Cells[1, EncodeTrack])+'" --ta "'+UTF8toLatin1(artistedit.Text)+'" --tl "'+UTF8toLatin1(albumedit.Text)+'" --tn '+tmps+' "'+outfolder+'/Track'+tmps+'.wav"'+' "'+OutFileNames[EncodeTrack]+'"';
          writeln(EncodeProcess.CommandLine);
          Caption:='Encoding Track '+inttostr(EncodeTrack)+' ...';
          EncodeProcess.Options:=[poUsePipes, poStderrToOutPut];

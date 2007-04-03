@@ -1,5 +1,10 @@
-const CACTUS_VERSION: string = '0.3.1.3 unstable';
-      OPEN_FILE : byte = 1;
-      ENQUEU_FILE : byte = 2;
-      OPEN_AS_NEXT : byte = 3;
-
+const CACTUS_VERSION = '0.3.1.3 unstable';
+      OPEN_FILE  = 1;
+      ENQUEU_FILE  = 2;
+      OPEN_AS_NEXT = 3;
+      VOLUME_UP  = 4;
+      VOLUME_DOWN = 5;
+      NEXT_TRACK = 6;
+      PREV_TRACK = 7;
+      STOP_PLAYING = 8;
+      START_PLAYING = 9;	

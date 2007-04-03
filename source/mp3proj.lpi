@@ -47,7 +47,7 @@
         <UnitName Value="mp3proj"/>
         <CursorPos X="91" Y="156"/>
         <TopLine Value="136"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -57,16 +57,16 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="1" Y="103"/>
-        <TopLine Value="86"/>
+        <CursorPos X="43" Y="1404"/>
+        <TopLine Value="1384"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="6">
           <Item0 X="8" Y="706" ID="0"/>
-          <Item1 X="12" Y="1404" ID="1"/>
+          <Item1 X="12" Y="1414" ID="1"/>
           <Item2 X="18" Y="465" ID="2"/>
-          <Item3 X="57" Y="2131" ID="3"/>
-          <Item4 X="11" Y="2599" ID="4"/>
+          <Item3 X="57" Y="2141" ID="3"/>
+          <Item4 X="11" Y="2610" ID="4"/>
           <Item5 X="23" Y="457" ID="5"/>
         </Bookmarks>
         <Loaded Value="True"/>
@@ -77,7 +77,7 @@
         <UnitName Value="mp3file"/>
         <CursorPos X="1" Y="1103"/>
         <TopLine Value="1076"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit2>
@@ -101,8 +101,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="editid3.lrs"/>
         <UnitName Value="editid3"/>
-        <CursorPos X="5" Y="342"/>
-        <TopLine Value="322"/>
+        <CursorPos X="1" Y="132"/>
+        <TopLine Value="131"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -267,7 +267,7 @@
         <UnitName Value="player"/>
         <CursorPos X="68" Y="436"/>
         <TopLine Value="433"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit26>
@@ -329,8 +329,8 @@
         <Filename Value="fmodplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="fmodplayer"/>
-        <CursorPos X="3" Y="180"/>
-        <TopLine Value="199"/>
+        <CursorPos X="9" Y="195"/>
+        <TopLine Value="176"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -449,7 +449,7 @@
         <UnitName Value="directories"/>
         <CursorPos X="31" Y="143"/>
         <TopLine Value="126"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit51>
@@ -527,7 +527,7 @@
         <UnitName Value="skin"/>
         <CursorPos X="1" Y="232"/>
         <TopLine Value="233"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit62>
@@ -599,9 +599,11 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="cdrip.lrs"/>
         <UnitName Value="cdrip"/>
-        <CursorPos X="39" Y="281"/>
-        <TopLine Value="74"/>
+        <CursorPos X="153" Y="324"/>
+        <TopLine Value="313"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
+        <Loaded Value="True"/>
       </Unit71>
       <Unit72>
         <Filename Value="cddb.pas"/>
@@ -762,9 +764,9 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="functions"/>
         <CursorPos X="27" Y="270"/>
-        <TopLine Value="250"/>
-        <EditorIndex Value="5"/>
-        <UsageCount Value="169"/>
+        <TopLine Value="133"/>
+        <EditorIndex Value="6"/>
+        <UsageCount Value="170"/>
         <Loaded Value="True"/>
       </Unit95>
       <Unit96>
@@ -814,7 +816,7 @@
         <UnitName Value="aws"/>
         <CursorPos X="77" Y="174"/>
         <TopLine Value="156"/>
-        <UsageCount Value="93"/>
+        <UsageCount Value="94"/>
       </Unit102>
       <Unit103>
         <Filename Value="../lazarus-svn/lcl/interfaces/win32/win32int.pp"/>
@@ -859,7 +861,48 @@
         <UsageCount Value="9"/>
       </Unit108>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="10" HistoryIndex="9">
+      <Position1>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="779" Column="45" TopLine="212"/>
+      </Position1>
+      <Position2>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1353" Column="38" TopLine="1336"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1410" Column="7" TopLine="1386"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1403" Column="15" TopLine="1386"/>
+      </Position4>
+      <Position5>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1404" Column="17" TopLine="1387"/>
+      </Position5>
+      <Position6>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1402" Column="54" TopLine="1391"/>
+      </Position6>
+      <Position7>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1404" Column="69" TopLine="1383"/>
+      </Position7>
+      <Position8>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="14" Column="62" TopLine="1"/>
+      </Position8>
+      <Position9>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="337" Column="30" TopLine="320"/>
+      </Position9>
+      <Position10>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1353" Column="38" TopLine="1336"/>
+      </Position10>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
