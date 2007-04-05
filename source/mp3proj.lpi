@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveEditorIndexAtStart Value="9"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -40,13 +40,13 @@
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="109">
+    <Units Count="110">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="91" Y="156"/>
-        <TopLine Value="136"/>
+        <CursorPos X="3" Y="22"/>
+        <TopLine Value="5"/>
         <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -57,8 +57,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="43" Y="1404"/>
-        <TopLine Value="1384"/>
+        <CursorPos X="1" Y="103"/>
+        <TopLine Value="86"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="6">
@@ -75,8 +75,8 @@
         <Filename Value="mp3file.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3file"/>
-        <CursorPos X="1" Y="1103"/>
-        <TopLine Value="1076"/>
+        <CursorPos X="17" Y="289"/>
+        <TopLine Value="266"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -182,8 +182,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="77" Y="215"/>
-        <TopLine Value="196"/>
+        <CursorPos X="101" Y="210"/>
+        <TopLine Value="188"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -766,7 +766,7 @@
         <CursorPos X="27" Y="270"/>
         <TopLine Value="133"/>
         <EditorIndex Value="6"/>
-        <UsageCount Value="170"/>
+        <UsageCount Value="171"/>
         <Loaded Value="True"/>
       </Unit95>
       <Unit96>
@@ -816,7 +816,7 @@
         <UnitName Value="aws"/>
         <CursorPos X="77" Y="174"/>
         <TopLine Value="156"/>
-        <UsageCount Value="94"/>
+        <UsageCount Value="95"/>
       </Unit102>
       <Unit103>
         <Filename Value="../lazarus-svn/lcl/interfaces/win32/win32int.pp"/>
@@ -860,48 +860,19 @@
         <TopLine Value="1"/>
         <UsageCount Value="9"/>
       </Unit108>
+      <Unit109>
+        <Filename Value="../../lazarus-svn/lcl/interfaces/gtk/gtkwsmenus.pp"/>
+        <UnitName Value="GtkWSMenus"/>
+        <CursorPos X="69" Y="295"/>
+        <TopLine Value="262"/>
+        <UsageCount Value="10"/>
+      </Unit109>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="1" HistoryIndex="0">
       <Position1>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="779" Column="45" TopLine="212"/>
+        <Filename Value="mp3proj.lpr"/>
+        <Caret Line="156" Column="91" TopLine="136"/>
       </Position1>
-      <Position2>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1353" Column="38" TopLine="1336"/>
-      </Position2>
-      <Position3>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1410" Column="7" TopLine="1386"/>
-      </Position3>
-      <Position4>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1403" Column="15" TopLine="1386"/>
-      </Position4>
-      <Position5>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1404" Column="17" TopLine="1387"/>
-      </Position5>
-      <Position6>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1402" Column="54" TopLine="1391"/>
-      </Position6>
-      <Position7>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1404" Column="69" TopLine="1383"/>
-      </Position7>
-      <Position8>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="14" Column="62" TopLine="1"/>
-      </Position8>
-      <Position9>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="337" Column="30" TopLine="320"/>
-      </Position9>
-      <Position10>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1353" Column="38" TopLine="1336"/>
-      </Position10>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

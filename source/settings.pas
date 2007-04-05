@@ -88,8 +88,6 @@ type
     procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure TabSheet4ContextPopup(Sender: TObject; MousePos: TPoint;
-      var Handled: Boolean);
     procedure cancelbutClick(Sender: TObject);
     procedure kdeserviceboxChange(Sender: TObject);
     procedure savebutClick(Sender: TObject);
@@ -218,12 +216,6 @@ end;
 procedure TSettings.FormDestroy(Sender: TObject);
 begin
   writeln('*******destroyed');
-end;
-
-procedure TSettings.TabSheet4ContextPopup(Sender: TObject; MousePos: TPoint;
-  var Handled: Boolean);
-begin
-
 end;
 
 initialization

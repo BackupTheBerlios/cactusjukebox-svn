@@ -1,12 +1,16 @@
 Changes from 0.3 to 0.3.5
 	- Audio CD Ripper added
+	- GTK2 version is available
 	- Language support. Currently english and german. Please contribute 
 	  to this. Mail sebastian_kraft@gmx.de for instructions.
 	- remove empty directories after removing files
+	- remote control Cactus Jukebox. See docs for more info
+	- Added threading for some operations(copy, scan)
 	- Jump to artist when first key of name is pressed in the artisttree
+	- automatic album coverdownload from internet
 	- New look and feel, some really cool buttons ;)
 	- Window separations kann now be changed with mouse
 	- again: improved handling of non standard tags and files
 	- minor bugfixes
+	- internal code cleanups. SVN repository is available for developers now
 
-	- Now there is also an GTK2 alpha version. Please Check it out!

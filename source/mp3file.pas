@@ -286,6 +286,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 destructor TMediaCollection.destroy;
+var i : integer;
 begin
      writeln('destructor');
      save_lib(savepath);
