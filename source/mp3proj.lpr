@@ -46,8 +46,10 @@ begin
         writeln('cactus_jukebox <OPTIONS> FILE');
         writeln;
         writeln(' Command line options:');
-        writeln('    -c   don''t load config file, overwrite with standard settings');
-        writeln('    -p   start in playermode');
+        writeln('    -c      don''t load config file, overwrite with standard settings');
+        writeln('    -p      start in playermode');
+        writeln();
+        writeln('    --oss   OSS output mode instead of standard alsa output');
         writeln();
         writeln('    -h/--help  show this help');
         writeln();

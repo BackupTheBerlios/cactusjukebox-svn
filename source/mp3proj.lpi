@@ -45,8 +45,8 @@
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="3" Y="22"/>
-        <TopLine Value="5"/>
+        <CursorPos X="77" Y="52"/>
+        <TopLine Value="38"/>
         <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -330,7 +330,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="fmodplayer"/>
         <CursorPos X="9" Y="195"/>
-        <TopLine Value="176"/>
+        <TopLine Value="120"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -868,12 +868,7 @@
         <UsageCount Value="10"/>
       </Unit109>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
-      <Position1>
-        <Filename Value="mp3proj.lpr"/>
-        <Caret Line="156" Column="91" TopLine="136"/>
-      </Position1>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
