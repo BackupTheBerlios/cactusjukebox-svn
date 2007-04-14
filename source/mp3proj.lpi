@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="9"/>
+      <ActiveEditorIndexAtStart Value="2"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -57,8 +57,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="1" Y="103"/>
-        <TopLine Value="86"/>
+        <CursorPos X="9" Y="2423"/>
+        <TopLine Value="2404"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="6">
@@ -66,7 +66,7 @@
           <Item1 X="12" Y="1414" ID="1"/>
           <Item2 X="18" Y="465" ID="2"/>
           <Item3 X="57" Y="2141" ID="3"/>
-          <Item4 X="11" Y="2610" ID="4"/>
+          <Item4 X="11" Y="2616" ID="4"/>
           <Item5 X="23" Y="457" ID="5"/>
         </Bookmarks>
         <Loaded Value="True"/>
@@ -868,7 +868,20 @@
         <UsageCount Value="10"/>
       </Unit109>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="3" HistoryIndex="2">
+      <Position1>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="103" Column="1" TopLine="86"/>
+      </Position1>
+      <Position2>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="2417" Column="23" TopLine="2398"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="2421" Column="7" TopLine="2403"/>
+      </Position3>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
@@ -878,7 +891,7 @@
     <SearchPaths>
       <OtherUnitFiles Value="fmodintf/;C:/Documents and Settings/Sebastian Kraft/My Documents/units/lnet-0.4.0/lib/sys/;C:/Documents and Settings/Sebastian Kraft/My Documents/units/synapse/source/lib/;/home/daseeb/devel/units/lnet-0.4.0/lib/;/home/daseeb/devel/units/synapse/source/lib/"/>
       <UnitOutputDirectory Value="../source"/>
-      <LCLWidgetType Value="gtk2"/>
+      <LCLWidgetType Value="gtk"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

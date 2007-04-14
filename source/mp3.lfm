@@ -721,6 +721,7 @@ object Main: TMain
       OnClick = ArtistTreeClick
       OnDblClick = ArtistTreeDblClick
       OnKeyUp = ArtistTreeKeyUp
+      OnMouseDown = ArtistTreeMouseDown
       OnSelectionChanged = ArtistTreeSelectionChanged
       Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips]
       ExpandSignColor = clSkyBlue

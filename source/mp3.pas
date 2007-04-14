@@ -2415,6 +2415,12 @@ procedure TMain.ArtistTreeMouseDown(Sender: TOBject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   ArtistTree.SetFocus;
+ // ensure that the popup menu is only opened when an item is selected
+ if Button = mbRight then
+    if ArtistTree.GetNodeAt(X, Y) = nil then
+        ArtistTree.PopupMenu.AutoPopup := false
+    else
+        ArtistTree.PopupMenu.AutoPopup := true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
