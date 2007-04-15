@@ -252,106 +252,129 @@ end;
 procedure TEditID3.show_tags(pfobj:PMp3fileobj; col: PMediaCollection);
 var s, tmps:string;
 begin
-   Pcol:=col;
-   pfileobj:=pfobj;
-   fileid:=0;
+  Pcol:=col;
+  pfileobj:=pfobj;
+  fileid:=0;
 
-   if ((artist_only=false) and (album_only=false)) then begin
-     guessname1.Enabled:=true;
-     Button1.Enabled:=true;
-     editid3win.pathedit1.text:=pfobj^.path;
-     editid3win.artistedit1.text:=PFobj^.artist;
-     editid3win.titleedit1.text:=PFobj^.title;
-     editid3win.albumedit1.text:=PFobj^.album;
-     editid3win.commentedit1.text:=PFobj^.comment;
-     editid3win.yearedit1.text:=PFobj^.year;
-     editid3win.trackedit1.text:=PFobj^.track;
-     mtype.caption:='Mediatype:  '+PFobj^.filetype;
-     if PFobj^.filetype='.mp3' then Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mp3_64.png');
-     if PFobj^.filetype='.ogg' then Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'ogg_64.png');
-     if PFobj^.filetype='.wav' then Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'wav_64.png');
-     plength.caption:='Length:  '+PFobj^.playtime;
-     i:=(PFobj^.size div 1024)*100;
-     s:=' kB';
-     if i>100000 then begin
-                s:=' MB';
-                i:=(i div 1000);
-              end;
+  if artist_only = true
+  then
+  begin
+    guessname1.Enabled:=false;
+    Button1.Enabled:=false;
 
-     str(i, tmps);
-     s:=copy(tmps, length(tmps)-1, 2)+s;
-     delete(tmps, length(tmps)-1, 2);
-     tmps:=tmps+','+s;
-     fsize.caption:='Size:  '+tmps;
-     str(PFobj^.samplerate, tmps);
-     srate.Caption:='Samplerate:  '+tmps+' Hz';
-     str(PFobj^.bitrate, tmps);
-     bitrate.Caption:='Bitrate:  '+tmps+' kbps';
-     str(PFobj^.id, tmps);
-     idlabel.Caption:='File-Id: '+tmps;
-     str(PFobj^.index, tmps);
-     indexlabel.Caption:='File-Index: '+tmps;
-     writeln('########AlbumCover');
-     AlbumCoverImg.Canvas.Clear;
-     AlbumCoverImg.Picture.Clear;
-     Application.ProcessMessages;
-     if pfileobj^.album<>'' then begin
-     pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
-     if FileExists(pfileobj^.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
-        else begin
-           if main.CoverDownload then begin
-             awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
-             awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
-             picrequest_send:=true;
-             AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-             PicDownloadTimer.Enabled:=true;
-             Application.ProcessMessages;
-           end;
-         end;
+    editid3win.pathedit1.enabled:=false;
+    editid3win.artistedit1.text:=PFobj^.artist;
+    editid3win.titleedit1.enabled:=false;
+    editid3win.albumedit1.enabled:=false;
+    str(PFobj^.index, tmps);
+    indexlabel.Caption:='File-Index: '+tmps;
+  end
+  else if album_only = true
+  then
+  begin
+    guessname1.Enabled:=false;
+    Button1.Enabled:=false;
+    editid3win.pathedit1.enabled:=false;
+    editid3win.artistedit1.text:=PFobj^.artist;
+    editid3win.titleedit1.enabled:=false;
+    editid3win.albumedit1.text:=PFobj^.album;
+    str(PFobj^.index, tmps);
+    indexlabel.Caption:='File-Index: '+tmps;
+    writeln('########AlbumCover');
+    AlbumCoverImg.Canvas.Clear;
+    AlbumCoverImg.Picture.Clear;
+    Application.ProcessMessages;
+    if pfileobj^.album<>''
+    then
+    begin
+      pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
+      if FileExists(pfileobj^.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
+      else
+      begin
+        if main.CoverDownload
+        then
+        begin
+          awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
+          awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
+          picrequest_send:=true;
+          AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
+          Application.ProcessMessages;
+          PicDownloadTimer.Enabled:=true;
+        end;
       end;
     end;
-   if artist_only=true then begin
-      guessname1.Enabled:=false;
-      Button1.Enabled:=false;
-      
-      editid3win.pathedit1.enabled:=false;
-      editid3win.artistedit1.text:=PFobj^.artist;
-      editid3win.titleedit1.enabled:=false;
-      editid3win.albumedit1.enabled:=false;
-      str(PFobj^.index, tmps);
-      indexlabel.Caption:='File-Index: '+tmps;
+  end
+  else                               //   if artist_only=false and album_only=false
+  begin
+    guessname1.Enabled:=true;
+    Button1.Enabled:=true;
+    editid3win.pathedit1.text:=pfobj^.path;
+    editid3win.artistedit1.text:=PFobj^.artist;
+    editid3win.titleedit1.text:=PFobj^.title;
+    editid3win.albumedit1.text:=PFobj^.album;
+    editid3win.commentedit1.text:=PFobj^.comment;
+    editid3win.yearedit1.text:=PFobj^.year;
+    editid3win.trackedit1.text:=PFobj^.track;
+    mtype.caption:='Mediatype:  '+PFobj^.filetype;
+    if PFobj^.filetype='.mp3' then
+      Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mp3_64.png');
+    if PFobj^.filetype='.ogg' then
+      Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'ogg_64.png');
+    if PFobj^.filetype='.wav' then
+      Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'wav_64.png');
+    plength.caption:='Length:  '+PFobj^.playtime;
+    i:=(PFobj^.size div 1024)*100;
+    s:=' kB';
+    if i>100000
+    then
+    begin
+      s:=' MB';
+      i:=(i div 1000);
     end;
-  if album_only=true then begin
-      guessname1.Enabled:=false;
-      Button1.Enabled:=false;
-      editid3win.pathedit1.enabled:=false;
-      editid3win.artistedit1.text:=PFobj^.artist;
-      editid3win.titleedit1.enabled:=false;
-      editid3win.albumedit1.text:=PFobj^.album;
-      str(PFobj^.index, tmps);
-      indexlabel.Caption:='File-Index: '+tmps;
-     writeln('########AlbumCover');
-     AlbumCoverImg.Canvas.Clear;
-     AlbumCoverImg.Picture.Clear;
-     Application.ProcessMessages;
-     if pfileobj^.album<>'' then begin
-     pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
-     if FileExists(pfileobj^.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
-        else begin
-           if main.CoverDownload then begin
-             awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
-             awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
-             picrequest_send:=true;
-             AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-             Application.ProcessMessages;
-             PicDownloadTimer.Enabled:=true;
-           end;
-         end;
+
+    str(i, tmps);
+    s:=copy(tmps, length(tmps)-1, 2)+s;
+    delete(tmps, length(tmps)-1, 2);
+    tmps:=tmps+','+s;
+    fsize.caption:='Size:  '+tmps;
+    str(PFobj^.samplerate, tmps);
+    srate.Caption:='Samplerate:  '+tmps+' Hz';
+    str(PFobj^.bitrate, tmps);
+    bitrate.Caption:='Bitrate:  '+tmps+' kbps';
+    str(PFobj^.id, tmps);
+    idlabel.Caption:='File-Id: '+tmps;
+    str(PFobj^.index, tmps);
+    indexlabel.Caption:='File-Index: '+tmps;
+    writeln('########AlbumCover');
+    AlbumCoverImg.Canvas.Clear;
+    AlbumCoverImg.Picture.Clear;
+    Application.ProcessMessages;
+    if pfileobj^.album<>''
+    then
+    begin
+      pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
+      if FileExists(pfileobj^.CoverPath)
+      then
+        AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
+      else
+      begin
+        if main.CoverDownload
+        then
+        begin
+          awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
+          awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
+          picrequest_send:=true;
+          AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
+          PicDownloadTimer.Enabled:=true;
+          Application.ProcessMessages;
+        end;
       end;
     end;
-   metacontrol.ActivePage:=metatab;
-   id3v1tab.TabVisible:=false;
-   id3v2tab.TabVisible:=false;
+  end;
+
+  metacontrol.ActivePage:=metatab;
+  id3v1tab.TabVisible:=false;
+  id3v2tab.TabVisible:=false;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

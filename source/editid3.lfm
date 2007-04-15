@@ -481,6 +481,7 @@ object EditID3: TEditID3
     Top = 384
     Width = 75
     BorderSpacing.InnerBorder = 4
+    Cancel = True
     Caption = 'Cancel'
     OnClick = cancelbutClick
     TabOrder = 1
@@ -492,6 +493,7 @@ object EditID3: TEditID3
     Width = 75
     BorderSpacing.InnerBorder = 4
     Caption = 'Save'
+    Default = True
     OnClick = savebutClick
     TabOrder = 2
   end
