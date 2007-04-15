@@ -120,7 +120,7 @@ var
   EditID3win: TEditID3;
 
 implementation
-uses mp3, lazjpeg;
+uses mp3, lazjpeg, settings;
 { TEditID3 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -256,7 +256,7 @@ begin
   pfileobj:=pfobj;
   fileid:=0;
 
-  if artist_only = true
+  if artist_only = true    // show artist info
   then
   begin
     guessname1.Enabled:=false;
@@ -269,7 +269,7 @@ begin
     str(PFobj^.index, tmps);
     indexlabel.Caption:='File-Index: '+tmps;
   end
-  else if album_only = true
+  else if album_only = true //show album info
   then
   begin
     guessname1.Enabled:=false;
@@ -291,7 +291,7 @@ begin
       if FileExists(pfileobj^.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
       else
       begin
-        if main.CoverDownload
+        if CactusConfig.CoverDownload
         then
         begin
           awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
@@ -304,7 +304,7 @@ begin
       end;
     end;
   end
-  else                               //   if artist_only=false and album_only=false
+  else                               //   if artist_only=false and album_only=false -> show title info
   begin
     guessname1.Enabled:=true;
     Button1.Enabled:=true;
@@ -358,7 +358,7 @@ begin
         AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
       else
       begin
-        if main.CoverDownload
+        if CactusConfig.CoverDownload
         then
         begin
           awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);

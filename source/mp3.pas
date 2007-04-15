@@ -25,7 +25,7 @@ interface
 uses
 
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
-  ExtCtrls, ComCtrls, StdCtrls, Menus, xmlcfg, fmod, fmodtypes, fmodplayer,
+  ExtCtrls, ComCtrls, StdCtrls, Menus, fmod, fmodtypes, fmodplayer,
   ActnList, mp3file, dos, SimpleIPC, functions, EditBtn, CheckLst, aws;
   
 resourcestring
@@ -346,20 +346,19 @@ type
     procedure update_playlist;
     procedure disconnectDAP;
     function connectDAP:byte;
-    playing, player_connected, mobile_subfolders, background_scan, playermode, CoverDownload: boolean;
+    playing, player_connected, playermode: boolean;
     playpos: integer;
     playnode: TTreeNode;
     playitem:TListitem;
-    lame:string;
     playerpath, curlib:string;
-    cfgfile:TXMLConfig;
+
     player: TFModPlayerclass;
     tempbitmap, timetmpbmp:TBitmap;
     player_freespace, player_totalspace:longint;
-    id3v2_prio, oss:boolean;
+
     skinmenuitems:array[1..16] of TMenuItem;
     HomeDir: string;
-    current_skin, DataPrefix, ConfigPrefix, LibraryPrefix: string;
+    DataPrefix, ConfigPrefix, LibraryPrefix: string;
     { public declarations }
   end; 
   
@@ -605,7 +604,7 @@ begin
      writeln('loading skin');
      with (sender as TMenuitem) do begin
           SkinData.load_skin(caption);
-          current_skin:=caption;
+          CactusConfig.CurrentSkin:=caption;
        end;
      writeln('xxxxx');
 end;
@@ -1185,20 +1184,15 @@ procedure TMain.MainClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
      writeln('stop playing');
      player.stop;
-     
-     //Main.cfgfile.write_config('[playermount]', Main.playerpath);
-     //Main.cfgfile.write_config('[mpg123]', Main.mpg123);
-     //if MediaCollection.guess_tag then Main.cfgfile.write_config('[guess]','true') else Main.cfgfile.write_config('[guess]', 'false');
-     if MediaCollection.saved then Main.cfgfile.SetValue('autoload', MediaCollection.savepath)
-        else begin
-                  if MediaCollection.max_index<>1 then begin
-                     writeln('save lib');
-                     MediaCollection.save_lib(ConfigPrefix+'lib'+DirectorySeparator+'last.mlb');
-                     Main.cfgfile.SetValue('Library/autoload', ConfigPrefix+'lib'+DirectorySeparator+'last.mlb');
-                   end;
-              end;
-     Main.cfgfile.SetValue('Skin/File', current_skin);
 
+     if (MediaCollection.saved=false) and (MediaCollection.max_index<>1) then
+          begin
+             writeln('save lib');
+             MediaCollection.save_lib(ConfigPrefix+'lib'+DirectorySeparator+'last.mlb');
+          end;
+
+     if CactusConfig.FlushConfig then writeln('Config succesfully written to disk');
+     CactusConfig.Free;
      MediaCollection.Free;
      PlayerCol.free;
      checkmobile.Enabled:=false;
@@ -1225,8 +1219,6 @@ begin
         playwin.close;
        // playwin.Free;
        end;
-     cfgfile.Flush;
-     cfgfile.free;
    try
      SimpleIPCServer1.StopServer;
      SimpleIPCServer1.free;
@@ -1240,7 +1232,7 @@ end;
 
 procedure TMain.MainCreate(Sender: TObject);
 begin
-  cfgfile:=TXMLConfig.Create(nil);
+
   Caption:='Cactus Jukebox '+CACTUS_VERSION;
 
 {$ifdef unix}
@@ -2034,7 +2026,7 @@ begin
             tmps:=tmps+','+s;
 
             StatusBar1.Panels[1].Text:='Device connected     '+tmps+' MB Free';
-            if background_scan then begin
+            if CactusConfig.background_scan then begin
                PlayerScanThread:=TScanThread.Create(true);
                PlayerScanThread.tmpcollection:=PlayerCol;
                PlayerScanThread.Resume;
@@ -2352,7 +2344,7 @@ begin
   if (pfileobj<>nil) and (pfileobj^.album<>'') then begin
      pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
      if (FileExists(pfileobj^.CoverPath)=false) then begin
-             if  (main.CoverDownload) then begin
+             if  (CactusConfig.CoverDownload) then begin
                   awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
                   awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
                end;
@@ -2617,7 +2609,7 @@ begin
             if MediaCollection.lib[n].action=AUPLOAD then begin
                        inc(ucount);
                        bytesneeded:=bytesneeded + MediaCollection.lib[n].size;
-                       if mobile_subfolders then begin
+                       if CactusConfig.mobile_subfolders then begin
                            if not DirectoryExists(playerpath+lowercase(MediaCollection.lib[n].artist)) then mkdir(playerpath+lowercase(MediaCollection.lib[n].artist));
                            newfile:=playerpath+lowercase(MediaCollection.lib[n].artist)+'/'+ExtractFileName(MediaCollection.lib[n].path);
                          end
@@ -2689,12 +2681,7 @@ end;
 procedure TMain.Menuitem22Click(Sender: TObject);
 begin
     setupwin:=Tsettings.create(nil);
-  //  setupwin.mpg123pathedit1.text:= Main.mpg123;
-    setupwin.playerpathedit1.text:=Main.playerpath;
-    if MediaCollection.guess_tag then setupwin.guesstag1.checked:=true else setupwin.unknown1.checked:=true;
-    if Main.background_scan then setupwin.backscan.checked:=true else setupwin.backscan.checked:=false;
-    if Main.mobile_subfolders then setupwin.subfolders.checked:=true else setupwin.subfolders.checked:=false;
-    if main.id3v2_prio then setupwin.v2_prio.Checked:=true else setupwin.v1_prio.checked:=true;
+
     setupwin.ShowModal;
     setupwin.Release;
 end;

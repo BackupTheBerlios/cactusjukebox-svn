@@ -54,6 +54,15 @@ object Settings: TSettings
         Color = clNone
         ParentColor = False
       end
+      object LAudioOut: TLabel
+        Left = 46
+        Height = 12
+        Top = 178
+        Width = 71
+        Caption = 'Audio Output'
+        Color = clNone
+        ParentColor = False
+      end
       object autoload1: TCheckBox
         Left = 38
         Height = 22
@@ -74,7 +83,7 @@ object Settings: TSettings
         TabOrder = 1
       end
       object ComboBox1: TComboBox
-        Left = 108
+        Left = 134
         Height = 25
         Top = 130
         Width = 100
@@ -110,6 +119,21 @@ object Settings: TSettings
         Width = 242
         Caption = 'Download album cover art form internet'
         TabOrder = 5
+      end
+      object AudioOut: TComboBox
+        Left = 134
+        Height = 25
+        Top = 165
+        Width = 100
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemIndex = 0
+        Items.Strings = (
+          'Alsa'
+          'OSS'
+        )
+        MaxLength = 0
+        TabOrder = 6
+        Text = 'Alsa'
       end
     end
     object TabSheet2: TTabSheet

@@ -101,7 +101,7 @@ var mp3buf, mp3buf2: TMp3fileObj;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 implementation
-uses status, fmod, mp3, functions;
+uses status, fmod, mp3, functions, settings;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 var s, s2: string[8];
@@ -677,12 +677,12 @@ begin
                   end;
          end;
 
-     if ((artistv2<>'') and id3v2) and (main.id3v2_prio or (artist='')) then artist:=TrimRight(artistv2);
-     if ((titlev2<>'') and id3v2) and (main.id3v2_prio or (title=''))  then title:=TrimRight(titlev2);
-     if ((albumv2<>'') and id3v2) and (main.id3v2_prio or (album='')) then album:=TrimRight(albumv2);
-     if ((commentv2<>'') and id3v2) and (main.id3v2_prio or (comment='')) then comment:=TrimRight(commentv2);
-     if ((yearv2<>'')  and id3v2) and (main.id3v2_prio or (year='')) then year:=TrimRight(yearv2);
-     if ((trackv2<>'') and id3v2) and (main.id3v2_prio or (track='')) then track:=TrimRight(trackv2);
+     if ((artistv2<>'') and id3v2) and (CactusConfig.id3v2_prio or (artist='')) then artist:=TrimRight(artistv2);
+     if ((titlev2<>'') and id3v2) and (CactusConfig.id3v2_prio or (title=''))  then title:=TrimRight(titlev2);
+     if ((albumv2<>'') and id3v2) and (CactusConfig.id3v2_prio or (album='')) then album:=TrimRight(albumv2);
+     if ((commentv2<>'') and id3v2) and (CactusConfig.id3v2_prio or (comment='')) then comment:=TrimRight(commentv2);
+     if ((yearv2<>'')  and id3v2) and (CactusConfig.id3v2_prio or (year='')) then year:=TrimRight(yearv2);
+     if ((trackv2<>'') and id3v2) and (CactusConfig.id3v2_prio or (track='')) then track:=TrimRight(trackv2);
 
      artist:=TrimRight(artist);
      title:=TrimRight(title);

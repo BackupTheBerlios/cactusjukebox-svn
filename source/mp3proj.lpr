@@ -71,10 +71,9 @@ begin
 
   MediaCollection:=TMediaCollection.create;
   SkinData:=TSkin.Create('default.xml', DataPrefix);
- // main:=TMain.create(nil);
+
   Application.CreateForm(TMain, Main);
   Application.CreateForm(Tplaywin, playwin);
- // playwin:=Tplaywin.create(nil);
 
   invalid_param:=false;
   skip_config:=false;
@@ -86,17 +85,11 @@ begin
       main.hide;
      end;
 
-  main.player.oss:=false;
-  for i:= 1 to paramcount do if paramstr(i)='--oss' then begin
-        main.player.oss:= true;
-        writeln('Outputmode: OSS');
-     end;
-     
   for i:= 1 to paramcount do if paramstr(i)='-c' then begin
         skip_config:=true
      end;
 
-  for i:= 1 to paramcount do if (paramstr(i)<>'--oss') and (paramstr(i)<>'-c') and (paramstr(i)<>'-p') and (paramstr(i)<>'-h') and (paramstr(i)<>'--help') then begin
+  for i:= 1 to paramcount do if (paramstr(i)<>'-c') and (paramstr(i)<>'-p') and (paramstr(i)<>'-h') and (paramstr(i)<>'--help') then begin
         if FileExists(paramstr(i)) then begin
                                          loadfile:=paramstr(i);
                                       end
@@ -124,8 +117,8 @@ begin
               {$endif}
               end;
 
+  CactusConfig:=TConfigObject.create(CONFIGNAME);
 
-  main.cfgfile.Filename:=configname;
 {$ifdef CactusRPM}
   if DirectoryExists(main.ConfigPrefix)=false then mkdir(main.ConfigPrefix);
   if DirectoryExists(main.ConfigPrefix+'/lib')=false then  mkdir(main.ConfigPrefix+'/lib');
@@ -136,19 +129,11 @@ begin
 
 
 
-  MediaCollection.guess_tag:=Main.cfgfile.GetValue('Library/GuessTags', false);
-  Main.mobile_subfolders:= Main.cfgfile.GetValue('Mobile_Player/Subfolders', true);
-  Main.id3v2_prio:=Main.cfgfile.GetValue('Library/id3v2_prio', true);
-  Main.background_scan:=Main.cfgfile.GetValue('Library/background_scan', false);
-  Main.playerpath:=Main.cfgfile.getValue('Mobile_Player/Mountpoint', '');
-  Main.CoverDownload:=Main.cfgfile.GetValue('Networking/Album_Cover_Download/Enabled', false);
-  Main.current_skin:=Main.cfgfile.getValue('Skin/File', 'default.xml');
-  s:=Main.cfgfile.GetValue('Library/autoload','');
-  Main.lame:=Main.cfgfile.GetValue('Lame/Path', '/usr/bin/lame');
-  writeln('last library '+s);
-  if FileExists(s) then begin
+
+  writeln('last library '+CactusConfig.LastLib);
+  if FileExists(CactusConfig.LastLib) then begin
      Main.StatusBar1.Panels[0].Text:='Loading last library...';
-     Mediacollection.load_lib(s);
+     Mediacollection.load_lib(CactusConfig.LastLib);
      update_artist_view;
      update_title_view;
    end;
@@ -167,8 +152,8 @@ begin
                                                 }
   Main.checkmobile.Enabled:=true;
   Register_skins;
-  writeln('-> loading skin '+main.DataPrefix+'skins/'+main.current_skin);
-  SkinData.load_skin(main.current_skin);
+  writeln('-> loading skin '+main.DataPrefix+'skins/'+CactusConfig.CurrentSkin);
+  SkinData.load_skin(CactusConfig.CurrentSkin);
   if loadfile<>'' then main.fileopen(loadfile);
   Application.Run;
 end.

@@ -23,7 +23,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, ComCtrls;
+  ExtCtrls, Buttons, ComCtrls, xmlcfg;
   
 resourcestring
   rsAutoloadLast = 'Autoload last library at startup';
@@ -49,6 +49,28 @@ resourcestring
 
 type
 
+    { TConfigObject }  //Object to read and list config data
+    
+  TConfigObject = class
+   public
+    GuessTag, id3v2_prio: boolean;
+    Mobile_Subfolders, background_scan, CoverDownload: boolean;
+    OutputAlsa, KDEServiceMenu: boolean;
+    
+    DAPPath: string;
+    CurrentSkin, LastLib: string;
+    Lame, CDDA2wav: string;
+
+    constructor create(ConfigFile:string);
+    destructor destroy;
+    
+    function ReadConfig:boolean;
+    function FlushConfig:boolean;
+   private
+    FConfigPath: string;
+    FConfigFile: TXMLConfig;
+ end;
+ 
   { TSettings }
 
   TSettings = class(TForm)
@@ -56,6 +78,7 @@ type
     Button1: TButton;
     backscan: TCheckBox;
     Button2: TButton;
+    AudioOut: TComboBox;
     CoverDownload: TCheckBox;
     guesstag1: TRadioButton;
     GuessTagBox: TGroupBox;
@@ -64,6 +87,7 @@ type
     ComboBox1: TComboBox;
     Edit1: TEdit;
     Edit2: TEdit;
+    LAudioOut: TLabel;
     PathBox: TGroupBox;
     LLanguage: TLabel;
     Lcdda2wav: TLabel;
@@ -100,6 +124,8 @@ type
 
 var
   setupwin: TSettings;
+  CactusConfig: TConfigObject;
+
 
 implementation
 uses mp3, mp3file, translations, functions;
@@ -120,33 +146,27 @@ begin
           if kdeservicebox.checked then begin
                    if FileExists(main.HomeDir+'/.kde/share/apps/konqueror/servicemenus/') then begin
                          if FileCopy(main.DataPrefix+'/tools/cactus_servicemenu.desktop', main.HomeDir+'/.kde/share/apps/konqueror/servicemenus/cactus_servicemenu.desktop')
-                                  then Main.cfgfile.SetValue('KDE/servicemenu', true)
+                                  then CactusConfig.KDEServiceMenu:=true
                                   else begin
-                                         Main.cfgfile.SetValue('KDE/servicemenu', false);
+                                         CactusConfig.KDEServiceMenu:=false;
                                          ShowMessage('ERROR: Couldn''t create service menu...');
                                        end;
                     end;
                 end else begin
                    DeleteFile(main.HomeDir+'/.kde/share/apps/konqueror/servicemenus/cactus_servicemenu.desktop');
-                   Main.cfgfile.SetValue('KDE/servicemenu', false);
+                   CactusConfig.KDEServiceMenu:=true;
               end;
+     If AudioOut.ItemIndex=0 then CactusConfig.OutputAlsa:=true else CactusConfig.OutputAlsa:=false;
 {$endif}
-     if guesstag1.checked then MediaCollection.guess_tag:=true else MediaCollection.guess_tag:=false;
-     if backscan.Checked then Main.background_scan:= true else Main.background_scan:=false;
-     if v2_prio.Checked then main.id3v2_prio:=true else main.id3v2_prio:=false;
-     if subfolders.checked then Main.mobile_subfolders:=true else Main.mobile_subfolders:=false;
-     if CoverDownload.Checked then main.CoverDownload:=true else main.CoverDownload:=false;
+     if guesstag1.checked then CactusConfig.GuessTag:=true else CactusConfig.GuessTag:=false;
+     if backscan.Checked then CactusConfig.background_scan:= true else CactusConfig.background_scan:=false;
+     if v2_prio.Checked then CactusConfig.id3v2_prio:=true else CactusConfig.id3v2_prio:=false;
+     if subfolders.checked then CactusConfig.mobile_subfolders:=true else CactusConfig.mobile_subfolders:=false;
+     if CoverDownload.Checked then CactusConfig.CoverDownload:=true else CactusConfig.CoverDownload:=false;
+     MediaCollection.guess_tag:=CactusConfig.GuessTag;
+     main.player.oss:=not CactusConfig.OutputAlsa;
+     CactusConfig.FlushConfig;
      
-     Main.cfgfile.SetValue('Library/id3v2_prio',Main.id3v2_prio);
-     Main.cfgfile.SetValue('Mobile_Player/Mountpoint', Main.playerpath);
-     
-     Main.cfgfile.SetValue('Mobile_Player/Subfolders',Main.mobile_subfolders);
-     Main.cfgfile.SetValue('Networking/Album_Cover_Download/Enabled', main.CoverDownload);
-     Main.cfgfile.SetValue('Lame/Path', Main.lame);
-     Main.cfgfile.SetValue('Library/GuessTags',MediaCollection.guess_tag);
-     Main.cfgfile.SetValue('Library/background_scan',Main.background_scan);
-     main.cfgfile.Flush;
-
      close;
 end;
 
@@ -203,19 +223,90 @@ begin
    cancelbut.Caption:=rsCancel;
 
  {$ifdef linux}
-   kdeservicebox.Checked:=Main.cfgfile.GetValue('KDE/servicemenu', false);
+   kdeservicebox.Checked:=CactusConfig.KDEServiceMenu;
+   if CactusConfig.OutputAlsa then AudioOut.ItemIndex:=0 else AudioOut.ItemIndex:=1;
    servicemenu_changed:=false;
    kdeservicebox.Visible:=true;
  {$else}
+   AudioOut.Visible:=false;
+   LAudioOut.Visible:=false;
    kdeservicebox.Visible:=false;
  {$endif}
-   CoverDownload.Checked:=main.CoverDownload;
+   CoverDownload.Checked:=CactusConfig.CoverDownload;
+
+   playerpathedit1.text:=CactusConfig.DAPPath;
+   if CactusConfig.GuessTag then guesstag1.checked:=true else unknown1.checked:=true;
+   if CactusConfig.background_scan then backscan.checked:=true else backscan.checked:=false;
+   if CactusConfig.mobile_subfolders then subfolders.checked:=true else subfolders.checked:=false;
+   if CactusConfig.id3v2_prio then v2_prio.Checked:=true else v1_prio.checked:=true;
    
 end;
 
 procedure TSettings.FormDestroy(Sender: TObject);
 begin
-  writeln('*******destroyed');
+end;
+
+{ TConfigObject }
+
+constructor TConfigObject.create(ConfigFile: string);
+begin
+  FConfigPath:=ConfigFile;
+
+  FConfigFile:=TXMLConfig.Create(nil);
+  FConfigFile.Filename:=FConfigPath;
+  ReadConfig;
+  
+end;
+
+destructor TConfigObject.destroy;
+begin
+     FConfigFile.Free;
+end;
+
+function TConfigObject.ReadConfig: boolean;
+begin
+ result:=true;
+ try
+    GuessTag:=FConfigFile.GetValue('Library/GuessTags', false);
+    Mobile_Subfolders:=FConfigFile.GetValue('Mobile_Player/Subfolders', true);
+    id3v2_prio:=FConfigFile.GetValue('Library/id3v2_prio', true);
+    background_scan:=FConfigFile.GetValue('Library/background_scan', false);
+    DAPPath:=FConfigFile.getValue('Mobile_Player/Mountpoint', '');
+    CoverDownload:=FConfigFile.GetValue('Networking/Album_Cover_Download/Enabled', false);
+    CurrentSkin:=FConfigFile.getValue('Skin/File', 'default.xml');
+    KDEServiceMenu:=FConfigFile.GetValue('KDE/servicemenu', false);
+    if FConfigFile.GetValue('Audio/Output', 'Alsa')='Alsa' then OutputAlsa:=true else OutputAlsa:=false;
+    main.player.oss:=not OutputAlsa;
+    
+    LastLib:=FConfigFile.GetValue('Library/autoload','');
+    Lame:=FConfigFile.GetValue('Lame/Path', '/usr/bin/lame');
+ except result:=false;
+ end;
+end;
+
+function TConfigObject.FlushConfig: boolean;
+begin
+  result:=true;
+  try
+    FConfigFile.SetValue('Library/id3v2_prio',id3v2_prio);
+    FConfigFile.SetValue('Mobile_Player/Mountpoint', DAPPath);
+    if OutputAlsa then
+       begin
+            FConfigFile.SetValue('Audio/Output', 'Alsa');
+       end else
+       begin
+            FConfigFile.SetValue('Audio/Output', 'OSS');
+       end;
+    FConfigFile.SetValue('Mobile_Player/Subfolders',mobile_subfolders);
+    FConfigFile.SetValue('Networking/Album_Cover_Download/Enabled', CoverDownload);
+    FConfigFile.SetValue('Lame/Path', lame);
+    FConfigFile.SetValue('Library/GuessTags', guesstag);
+    FConfigFile.SetValue('Library/background_scan', background_scan);
+    FConfigFile.SetValue('autoload', MediaCollection.savepath);
+    FConfigFile.SetValue('Skin/File', CurrentSkin);
+    FConfigFile.Flush;
+  except result:=false;
+  end;
 end;
 
 initialization

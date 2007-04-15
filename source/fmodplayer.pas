@@ -127,10 +127,9 @@ begin
          FSOUND_Stream_Stop(Soundhandle);
          FSOUND_Stream_Close(Soundhandle);
          fplaying:=false;
-         FSOUND_Close;
       end;
    if (fplaying=false) then begin
-
+   FSOUND_Close;
  {$ifdef linux}
     if oss then begin
            if FSOUND_SetOutput(FSOUND_OUTPUT_OSS) then writeln('Oss output openend') else writeln('failed opening oss output')
