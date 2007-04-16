@@ -262,6 +262,10 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure TitleTreeClick(Sender: TObject);
     procedure TitleTreeColumnClick(Sender: TObject; Column: TListColumn);
+    procedure TitleTreeMouseDown(Sender: TOBject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure TitleTreeSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
     procedure TrackInfoClick(Sender: TObject);
     procedure artisttreemenuPopup(Sender: TObject);
     procedure checkmobileTimer(Sender: TObject);
@@ -284,6 +288,8 @@ type
     procedure playlistKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure playlistMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure playlistSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
     procedure playlistStartDrag(Sender: TObject; var DragObject: TDragObject);
     procedure playtimerStartTimer(Sender: TObject);
     procedure prevClick(Sender: TObject);
@@ -1957,6 +1963,22 @@ end;
 //     ArtistTree.al;
 end;
 
+procedure TMain.TitleTreeMouseDown(Sender: TOBject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  // ensure that the popup menu is only opened when an item is selected
+  // the menu is reanabled in TMain.TitleTreeSelectItem
+  if (Button = mbRight) and (TitleTree.Selected = nil) then
+    TitleTree.PopupMenu.AutoPopup := false;
+end;
+
+procedure TMain.TitleTreeSelectItem(Sender: TObject; Item: TListItem;
+  Selected: Boolean);
+begin
+  // reanable the popupmenu in case ist was disabled in TMain.TitleTreeMouseDown
+  TitleTree.PopupMenu.AutoPopup := true;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.TrackInfoClick(Sender: TObject);
@@ -2325,6 +2347,18 @@ begin
   BeginDrag(false);
  end;
   }
+
+  // ensure that the popup menu is only opened when an item is selected
+  // the menu is reanabled in TMain.playlistSelectItem
+  if (Button = mbRight) and (playlist.Selected = nil) then
+    playlist.PopupMenu.AutoPopup := false;
+end;
+
+procedure TMain.playlistSelectItem(Sender: TObject; Item: TListItem;
+  Selected: Boolean);
+begin
+  // reanable the popupmenu in case ist was disabled in TMain.playlistMouseDown
+  playlist.PopupMenu.AutoPopup := true;
 end;
 
 procedure TMain.playlistStartDrag(Sender: TObject; var DragObject: TDragObject);

@@ -38,9 +38,6 @@ begin
   writeln('Cactus Jukebox v'+CACTUS_VERSION);
   writeln('written by Sebastian Kraft, (c) 2006');
   writeln();
-{$ifdef LCLGtk2}
-  writeln('Interface GTK2 is still beta. If you experience problems please give gtk1.2 version a try...');
-{$endif LCLGtk2}
   for i:= 1 to paramcount do if (paramstr(i)='-h') or (paramstr(i)='--help') or invalid_param then begin
 
         writeln('cactus_jukebox <OPTIONS> FILE');
@@ -49,12 +46,8 @@ begin
         writeln('    -c      don''t load config file, overwrite with standard settings');
         writeln('    -p      start in playermode');
         writeln();
-        writeln('    --oss   OSS output mode instead of standard alsa output');
-        writeln();
         writeln('    -h/--help  show this help');
         writeln();
-        main.free;
-        playwin.free;
         halt;
 
       end;
@@ -105,8 +98,7 @@ begin
   main.timetmpbmp:=TBitmap.Create;
   main.tempbitmap.width:=300;
   main.tempbitmap.Height:=150;
-  
-  playwin.DoubleBuffered:=true;
+
 
   if skip_config then begin
                  writeln('*removing old config file');

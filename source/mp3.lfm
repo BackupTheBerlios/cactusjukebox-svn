@@ -167,6 +167,7 @@ object Main: TMain
       OnKeyDown = playlistKeyDown
       OnKeyUp = playlistKeyUp
       OnMouseDown = playlistMouseDown
+      OnSelectItem = playlistSelectItem
     end
     object SearchPanel: TPanel
       Left = 12
@@ -674,6 +675,8 @@ object Main: TMain
       OnClick = TitleTreeClick
       OnColumnClick = TitleTreeColumnClick
       OnDblClick = TitleTreeDblClick
+      OnMouseDown = TitleTreeMouseDown
+      OnSelectItem = TitleTreeSelectItem
     end
     object randomcheck: TCheckBox
       Left = 496

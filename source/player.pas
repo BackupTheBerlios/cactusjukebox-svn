@@ -518,8 +518,8 @@ with SkinData do begin
      backImg.AutoSize:=true;
      backImg.Picture.LoadFromFile(Previous.Img);
      
-     playwin.AutoSize:=true;
-     
+     AutoSize:=true;
+     DoubleBuffered:=true;
    end;
 end;
 
