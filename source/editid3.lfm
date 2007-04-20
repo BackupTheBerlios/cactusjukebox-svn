@@ -50,7 +50,7 @@ object EditID3: TEditID3
         ParentColor = False
       end
       object Label4: TLabel
-        Left = 142
+        Left = 118
         Height = 12
         Top = 190
         Width = 26
@@ -126,10 +126,10 @@ object EditID3: TEditID3
         TabOrder = 3
       end
       object yearEdit1: TEdit
-        Left = 174
+        Left = 150
         Height = 23
         Top = 183
-        Width = 40
+        Width = 64
         MaxLength = 4
         TabOrder = 5
       end
@@ -137,7 +137,7 @@ object EditID3: TEditID3
         Left = 67
         Height = 23
         Top = 211
-        Width = 147
+        Width = 149
         MaxLength = 8
         TabOrder = 6
       end
@@ -172,7 +172,7 @@ object EditID3: TEditID3
         Left = 67
         Height = 23
         Top = 183
-        Width = 51
+        Width = 35
         MaxLength = 4
         TabOrder = 4
       end
@@ -186,6 +186,19 @@ object EditID3: TEditID3
         Caption = 'Tag from name'
         OnClick = guessnameClick
         TabOrder = 9
+      end
+      object cmbYear: TComboBox
+        Left = 150
+        Height = 25
+        Top = 183
+        Width = 64
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        MaxLength = 4
+        OnChange = cmbYearChange
+        Sorted = True
+        TabOrder = 10
+        Text = 'cmbY'
+        Visible = False
       end
     end
     object fileinfo: TTabSheet

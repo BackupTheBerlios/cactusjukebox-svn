@@ -41,6 +41,7 @@ type
     Button1: TButton;
     Button2: TButton;
     cancelbut1: TButton;
+    cmbYear: TComboBox;
     Edit1: TEdit;
     commentedit1: TEdit;
     Edit3: TEdit;
@@ -99,6 +100,7 @@ type
     procedure PicDownloadTimerStartTimer(Sender: TObject);
     procedure PicDownloadTimerTimer(Sender: TObject);
     procedure cancelbutClick(Sender: TObject);
+    procedure cmbYearChange(Sender: TObject);
     procedure guessnameClick(Sender: TObject);
     procedure savebutClick(Sender: TObject);
   private
@@ -126,7 +128,7 @@ uses mp3, lazjpeg, settings;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TEditID3.savebutClick(Sender: TObject);
-var curartist, newart, oldart, oldalbum, newalbum: string;
+var curartist, newart, oldart, oldalbum, newalbum, strNewYear: string;
     i, z:integer;
 begin
 if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
@@ -150,14 +152,18 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
    RenameFile(PFileObj^.path, editid3win.pathedit1.text);
    PFileObj^.path:=editid3win.pathedit1.text;
   end;
+
  if artist_only=true then begin
    oldart:=lowercase(PFileObj^.artist);
    newart:=artistedit1.text;
+   strNewYear := self.cmbYear.Caption;
 
    writeln('artist_mode');
    z:=pfileobj^.index;
    while (z<PCol^.max_index) and (oldart=lowercase(PCol^.lib[z].artist)) do begin
          PCol^.lib[z].artist:=newart;
+         if Length(strNewYear) = 4 then            // FIXME: the user isn't informed if his choice is dropped
+           PCol^.lib[z].year := strNewYear;
 //         PCol^.lib[z].artistv2:=newart;
          writeln(newart);
          PCol^.lib[z].write_tag;
@@ -171,6 +177,8 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
    oldalbum:=lowercase(PFileObj^.album);
    newalbum:=albumedit1.text;
    newart:=artistedit1.text;
+   strNewYear := self.cmbYear.Caption;
+
    Z:=pfileobj^.index;
    while (z>0) and (lowercase(PCol^.lib[z].artist)=curartist) do dec(z);
    inc(z);
@@ -178,8 +186,8 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
       if oldalbum=lowercase(PCol^.lib[z].album) then begin
          PCol^.lib[z].album:=newalbum;
          PCol^.lib[z].artist:=newart;
-//         PCol^.lib[z].albumv2:=newalbum;
-//         PCol^.lib[z].artistv2:=newart;
+         if Length(strNewYear) = 4 then            // FIXME: the user isn't informed if his choice is dropped
+           PCol^.lib[z].year := strNewYear;
          PCol^.lib[z].write_tag;
        end;
        inc(z);
@@ -245,16 +253,43 @@ begin
   //    AlbumCoverImg.free;
    //   PicDownloadTimer.Enabled:=false;
   //    PicDownloadTimer.Free;
+  self.cmbYear.Visible := false;
+  self.yearEdit1.Visible := true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TEditID3.show_tags(pfobj:PMp3fileobj; col: PMediaCollection);
 var s, tmps:string;
+  strYears: Array of String[4];
+  i: Integer;
 begin
-  Pcol:=col;
-  pfileobj:=pfobj;
-  fileid:=0;
+  self.Pcol:=col;
+  self.pfileobj:=pfobj;
+  self.fileid:=0;
+
+  // collect all "years" set for files of the chosen artist/album
+  // and display them
+  if (artist_only = true) or (album_only = true)
+  then
+  begin
+    SetLength(strYears, 0);
+    for i := 1 to col^.max_index -1 do
+      if col^.lib[i].artist = pfobj^.artist
+      then
+      begin
+        if album_only = true then
+          if col^.lib[i].album <> pfobj^.album then continue;
+        SetLength(strYears, Length(strYears) +1);
+        strYears[Length(strYears) -1] := col^.lib[i].year;
+      end;
+
+    self.cmbYear.Clear;
+    self.cmbYear.Visible := true;
+    self.yearEdit1.Visible := false;
+    for i := 0 to Length(strYears) -1 do
+      self.cmbYear.Items.Add(strYears[i]);
+  end;
 
   if artist_only = true    // show artist info
   then
@@ -278,6 +313,9 @@ begin
     editid3win.artistedit1.text:=PFobj^.artist;
     editid3win.titleedit1.enabled:=false;
     editid3win.albumedit1.text:=PFobj^.album;
+
+    if cmbYear.Items.Count>0 then cmbYear.ItemIndex:=0;
+    
     str(PFobj^.index, tmps);
     indexlabel.Caption:='File-Index: '+tmps;
     writeln('########AlbumCover');
@@ -392,6 +430,11 @@ procedure TEditID3.cancelbutClick(Sender: TObject);
 begin
      close;
      Main.enabled:=true;
+end;
+
+procedure TEditID3.cmbYearChange(Sender: TObject);
+begin
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

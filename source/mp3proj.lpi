@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -57,8 +57,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="1" Y="103"/>
-        <TopLine Value="86"/>
+        <CursorPos X="3" Y="2717"/>
+        <TopLine Value="2715"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="6">
@@ -101,8 +101,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="editid3.lrs"/>
         <UnitName Value="editid3"/>
-        <CursorPos X="38" Y="361"/>
-        <TopLine Value="344"/>
+        <CursorPos X="1" Y="316"/>
+        <TopLine Value="291"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -182,8 +182,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="75" Y="291"/>
-        <TopLine Value="263"/>
+        <CursorPos X="15" Y="225"/>
+        <TopLine Value="197"/>
         <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -766,7 +766,7 @@
         <CursorPos X="27" Y="270"/>
         <TopLine Value="133"/>
         <EditorIndex Value="5"/>
-        <UsageCount Value="174"/>
+        <UsageCount Value="175"/>
         <Loaded Value="True"/>
       </Unit95>
       <Unit96>
@@ -816,7 +816,7 @@
         <UnitName Value="aws"/>
         <CursorPos X="77" Y="174"/>
         <TopLine Value="156"/>
-        <UsageCount Value="98"/>
+        <UsageCount Value="99"/>
       </Unit102>
       <Unit103>
         <Filename Value="../lazarus-svn/lcl/interfaces/win32/win32int.pp"/>
@@ -868,11 +868,19 @@
         <UsageCount Value="10"/>
       </Unit109>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
+    <JumpHistory Count="3" HistoryIndex="2">
       <Position1>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1308" Column="35" TopLine="1290"/>
+        <Filename Value="editid3.pas"/>
+        <Caret Line="361" Column="38" TopLine="344"/>
       </Position1>
+      <Position2>
+        <Filename Value="editid3.pas"/>
+        <Caret Line="436" Column="34" TopLine="417"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="103" Column="1" TopLine="86"/>
+      </Position3>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
