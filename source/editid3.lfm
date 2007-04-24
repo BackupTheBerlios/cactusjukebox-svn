@@ -150,7 +150,7 @@ object EditID3: TEditID3
         TabOrder = 8
       end
       object Button1: TButton
-        Left = 270
+        Left = 278
         Height = 28
         Top = 18
         Width = 83
@@ -177,7 +177,7 @@ object EditID3: TEditID3
         TabOrder = 4
       end
       object guessname1: TButton
-        Left = 174
+        Left = 166
         Height = 28
         Top = 18
         Width = 98

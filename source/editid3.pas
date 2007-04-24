@@ -1,23 +1,18 @@
+unit editid3;
+
 {
 
 Edit/show file info dialog for Cactus Jukebox
 
 written by Sebastian Kraft, <c> 2006
-
 Contact the author at: sebastian_kraft@gmx.de
-
 This Software is published under the GPL
-
-
-
-
-
 
 }
 
 
 
-unit editid3; 
+
 
 {$mode objfpc}{$H+}
 
@@ -268,11 +263,29 @@ begin
   self.pfileobj:=pfobj;
   self.fileid:=0;
 
-  // collect all "years" set for files of the chosen artist/album
-  // and display them
+  // set up gui elements
+  metacontrol.ActivePage:=metatab;
+  id3v1tab.TabVisible:=false;
+  id3v2tab.TabVisible:=false;
+
+  self.artistedit1.Text := PFobj^.artist;
+
+  // artist and album(-mode) specific actions
   if (artist_only = true) or (album_only = true)
   then
   begin
+    self.guessname1.Enabled := false;
+    self.Button1.Enabled := false;
+    self.pathedit1.Enabled := false;
+    self.titleedit1.Enabled := false;
+
+    self.cmbYear.Visible := true;
+    self.yearEdit1.Visible := false;
+    
+    self.indexlabel.Caption := 'File-Index: ' + IntToStr(PFobj^.index);
+
+    // collect all "years" set for files of the chosen artist/album
+    // and display them
     SetLength(strYears, 0);
     for i := 1 to col^.max_index -1 do
       if col^.lib[i].artist = pfobj^.artist
@@ -283,76 +296,60 @@ begin
         SetLength(strYears, Length(strYears) +1);
         strYears[Length(strYears) -1] := col^.lib[i].year;
       end;
-
     self.cmbYear.Clear;
-    self.cmbYear.Visible := true;
-    self.yearEdit1.Visible := false;
     for i := 0 to Length(strYears) -1 do
       self.cmbYear.Items.Add(strYears[i]);
-  end;
 
-  if artist_only = true    // show artist info
-  then
-  begin
-    guessname1.Enabled:=false;
-    Button1.Enabled:=false;
-
-    editid3win.pathedit1.enabled:=false;
-    editid3win.artistedit1.text:=PFobj^.artist;
-    editid3win.titleedit1.enabled:=false;
-    editid3win.albumedit1.enabled:=false;
-    str(PFobj^.index, tmps);
-    indexlabel.Caption:='File-Index: '+tmps;
-  end
-  else if album_only = true //show album info
-  then
-  begin
-    guessname1.Enabled:=false;
-    Button1.Enabled:=false;
-    editid3win.pathedit1.enabled:=false;
-    editid3win.artistedit1.text:=PFobj^.artist;
-    editid3win.titleedit1.enabled:=false;
-    editid3win.albumedit1.text:=PFobj^.album;
-
-    if cmbYear.Items.Count>0 then cmbYear.ItemIndex:=0;
-    
-    str(PFobj^.index, tmps);
-    indexlabel.Caption:='File-Index: '+tmps;
-    writeln('########AlbumCover');
-    AlbumCoverImg.Canvas.Clear;
-    AlbumCoverImg.Picture.Clear;
-    Application.ProcessMessages;
-    if pfileobj^.album<>''
+    // artist(-mode) specific actions
+    if artist_only = true
+    then
+      self.albumedit1.Enabled := false;
+      
+    // album(-mode) specific actions
+    if album_only = true
     then
     begin
-      pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
-      if FileExists(pfileobj^.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
-      else
+      self.albumedit1.text := PFobj^.album;
+      if self.cmbYear.Items.Count > 0 then self.cmbYear.ItemIndex := 0;  //Select first year from combobox
+
+      writeln('########AlbumCover');     // DEBUG-INFO
+      AlbumCoverImg.Canvas.Clear;
+      AlbumCoverImg.Picture.Clear;
+      Application.ProcessMessages;
+      if pfileobj^.album<>''
+      then
       begin
-        if CactusConfig.CoverDownload
-        then
+        pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
+        if FileExists(pfileobj^.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
+        else
         begin
-          awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
-          awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
-          picrequest_send:=true;
-          AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-          Application.ProcessMessages;
-          PicDownloadTimer.Enabled:=true;
+          if CactusConfig.CoverDownload
+          then
+          begin
+            awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
+            awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
+            picrequest_send:=true;
+            AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
+            Application.ProcessMessages;
+            PicDownloadTimer.Enabled:=true;
+          end;
         end;
       end;
     end;
   end
-  else                               //   if artist_only=false and album_only=false -> show title info
+  // title(-mode) specific actions
+  else
   begin
-    guessname1.Enabled:=true;
-    Button1.Enabled:=true;
+    self.guessname1.Enabled:=true;
+    self.Button1.Enabled:=true;
+
     editid3win.pathedit1.text:=pfobj^.path;
-    editid3win.artistedit1.text:=PFobj^.artist;
     editid3win.titleedit1.text:=PFobj^.title;
     editid3win.albumedit1.text:=PFobj^.album;
     editid3win.commentedit1.text:=PFobj^.comment;
     editid3win.yearedit1.text:=PFobj^.year;
     editid3win.trackedit1.text:=PFobj^.track;
+
     mtype.caption:='Mediatype:  '+PFobj^.filetype;
     if PFobj^.filetype='.mp3' then
       Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mp3_64.png');
@@ -375,15 +372,12 @@ begin
     delete(tmps, length(tmps)-1, 2);
     tmps:=tmps+','+s;
     fsize.caption:='Size:  '+tmps;
-    str(PFobj^.samplerate, tmps);
-    srate.Caption:='Samplerate:  '+tmps+' Hz';
-    str(PFobj^.bitrate, tmps);
-    bitrate.Caption:='Bitrate:  '+tmps+' kbps';
-    str(PFobj^.id, tmps);
-    idlabel.Caption:='File-Id: '+tmps;
-    str(PFobj^.index, tmps);
-    indexlabel.Caption:='File-Index: '+tmps;
-    writeln('########AlbumCover');
+    srate.Caption := 'Samplerate:  ' + IntToStr(PFobj^.samplerate) + ' Hz';
+    bitrate.Caption := 'Bitrate:  ' + IntToStr(PFobj^.bitrate) + ' kbps';
+    idlabel.Caption := 'File-Id: ' + IntToStr(PFobj^.id);
+    indexlabel.Caption := 'File-Index: ' + IntToStr(PFobj^.index);
+
+    writeln('########AlbumCover');     // DEBUG-INFO
     AlbumCoverImg.Canvas.Clear;
     AlbumCoverImg.Picture.Clear;
     Application.ProcessMessages;
@@ -410,9 +404,6 @@ begin
     end;
   end;
 
-  metacontrol.ActivePage:=metatab;
-  id3v1tab.TabVisible:=false;
-  id3v2tab.TabVisible:=false;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
