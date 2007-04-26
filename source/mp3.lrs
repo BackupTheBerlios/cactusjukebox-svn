@@ -1,3 +1,5 @@
+{ Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
+
 LazarusResources.Add('TMain','FORMDATA',[
   'TPF0'#5'TMain'#4'Main'#4'Left'#3#162#0#6'Height'#3#165#2#5'Width'#3'W'#3#18
   +'HorzScrollBar.Page'#3'V'#3#19'HorzScrollBar.Range'#3'q'#1#18'VertScrollBar.'

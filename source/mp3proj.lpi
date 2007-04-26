@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="2"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -40,13 +40,13 @@
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="110">
+    <Units Count="111">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="1" Y="101"/>
-        <TopLine Value="81"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="8"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -57,8 +57,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="3" Y="2717"/>
-        <TopLine Value="2715"/>
+        <CursorPos X="20" Y="2130"/>
+        <TopLine Value="2108"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="6">
@@ -101,8 +101,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="editid3.lrs"/>
         <UnitName Value="editid3"/>
-        <CursorPos X="14" Y="1"/>
-        <TopLine Value="1"/>
+        <CursorPos X="68" Y="380"/>
+        <TopLine Value="418"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -182,7 +182,7 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="15" Y="225"/>
+        <CursorPos X="65" Y="213"/>
         <TopLine Value="197"/>
         <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
@@ -867,8 +867,31 @@
         <TopLine Value="262"/>
         <UsageCount Value="10"/>
       </Unit109>
+      <Unit110>
+        <Filename Value="../../lazarus-svn/lcl/interfaces/gtk/gtkwinapi.inc"/>
+        <CursorPos X="2" Y="3351"/>
+        <TopLine Value="3335"/>
+        <UsageCount Value="10"/>
+      </Unit110>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="4" HistoryIndex="3">
+      <Position1>
+        <Filename Value="mp3proj.lpr"/>
+        <Caret Line="101" Column="1" TopLine="81"/>
+      </Position1>
+      <Position2>
+        <Filename Value="editid3.pas"/>
+        <Caret Line="1" Column="14" TopLine="1"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="2717" Column="3" TopLine="2715"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1983" Column="21" TopLine="1979"/>
+      </Position4>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

@@ -993,17 +993,12 @@ procedure TMain.EditID3itemClick(Sender: TObject);
 var tsitem:TListitem;
     PFobj: PMp3fileobj;
 begin
-  tsitem:=TitleTree.Selected;
+  Main.enabled:=false;
 
-  if tsitem<>nil then begin
-     Main.enabled:=false;
-     editid3win:=TEditID3.create(nil);
-     PFobj:=tsitem.data;
-     editid3win.artist_only:=false;
-     editid3win.album_only:=false;
-     editid3win.show_tags(PFobj,PFobj^.collection);
-     EditID3win.ShowModal;
-   end;
+  tsitem:=TitleTree.Selected;
+  PFobj:=tsitem.data;
+  editid3win.show_tags(PFobj,PFobj^.collection);
+  EditID3win.Show;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2097,14 +2092,12 @@ var Listitem:TListItem;
     PFobj: PMp3fileobj;
 begin
     Main.enabled:=false;
-    editid3win:=TEditID3.create(nil);
+
     Listitem:=playlist.Selected;
     if listitem<>nil then begin
      if Listitem.Data<>nil then begin
        PFobj:=Listitem.Data;
        z:=PFobj^.id;
-       editid3win.artist_only:=false;
-       editid3win.album_only:=false;
        editid3win.show_tags(PFobj, PFobj^.collection);
      end
      else begin
@@ -2134,7 +2127,7 @@ begin
         EditID3win.pfileobj:=@mp3fileobj;
      end;
     end;
-    EditID3win.ShowModal;
+    EditID3win.Show;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2522,19 +2515,19 @@ end;
 procedure TMain.MenuItem33Click(Sender: TObject);
 var PFobj: PMp3fileobj;
 begin
-     Main.enabled:=false;
-     editid3win:=TEditID3.create(nil);
-     tsnode:=ArtistTree.Selected;
-     PFobj:=tsnode.data;
-     if tsnode.level= 1 then begin
-        editid3win.artist_only:=true;
-        editid3win.show_tags(PFobj, PFobj^.collection);
-       end;
-     if tsnode.level= 2 then begin
-        editid3win.album_only:=true;
-        editid3win.show_tags(PFobj, PFobj^.collection);
-       end;
-   EditID3win.ShowModal;
+  Main.enabled:=false;
+
+  tsnode:=ArtistTree.Selected;
+  PFobj:=tsnode.data;
+  if tsnode.level= 1 then begin
+    editid3win.artist_only:=true;
+    editid3win.show_tags(PFobj, PFobj^.collection);
+  end;
+  if tsnode.level= 2 then begin
+    editid3win.album_only:=true;
+    editid3win.show_tags(PFobj, PFobj^.collection);
+  end;
+  EditID3win.Show;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

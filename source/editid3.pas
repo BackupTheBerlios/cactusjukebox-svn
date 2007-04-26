@@ -90,8 +90,8 @@ type
     yearEdit3: TEdit;
     procedure Button1Click(Sender: TObject);
     procedure EditID3Close(Sender: TObject; var CloseAction: TCloseAction);
-    procedure EditID3Destroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormHide(Sender: TObject);
     procedure PicDownloadTimerStartTimer(Sender: TObject);
     procedure PicDownloadTimerTimer(Sender: TObject);
     procedure cancelbutClick(Sender: TObject);
@@ -197,19 +197,50 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
    main.update_playlist;
    
   end else  ShowMessage('Error: File is Read-Only');
-Main.enabled:=true;
-close;
+
+  EditID3win.Hide;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.EditID3Destroy(Sender: TObject);
-begin
-   Main.enabled:=true;
-end;
-
 procedure TEditID3.FormCreate(Sender: TObject);
 begin
+end;
+
+procedure TEditID3.FormHide(Sender: TObject);
+begin
+  Main.enabled:=true;
+
+  // reset form components
+  self.artist_only:=false;
+  self.album_only:=false;
+  
+  self.guessname1.Enabled := true;
+  self.Button1.Enabled := true;
+  
+  self.pathedit1.Caption := '';
+  self.pathedit1.Enabled := true;
+  self.artistedit1.Caption := '';
+  self.artistedit1.Enabled := true;
+  self.titleedit1.Caption := '';
+  self.titleedit1.Enabled := true;
+  self.albumedit1.Caption := '';
+  self.albumedit1.Enabled := true;
+  self.trackedit1.Caption := '';
+  self.trackedit1.Enabled := true;
+  self.yearEdit1.Caption := '';
+  self.yearEdit1.Enabled := true;
+  self.Edit2.Caption := '';
+  self.Edit2.Enabled := true;
+  self.commentedit1.Caption := '';
+  self.commentedit1.Enabled := true;
+
+  self.AlbumCoverImg.Canvas.Clear;
+  self.AlbumCoverImg.Picture.Clear;
+  self.PicDownloadTimer.Enabled := false;
+  
+  self.cmbYear.Visible := false;
+  self.yearEdit1.Visible := true;
 end;
 
 procedure TEditID3.PicDownloadTimerStartTimer(Sender: TObject);
@@ -243,13 +274,10 @@ end;
 
 procedure TEditID3.EditID3Close(Sender: TObject; var CloseAction: TCloseAction);
 begin
-      Main.enabled:=true;
   //    Filelogo.free;
   //    AlbumCoverImg.free;
    //   PicDownloadTimer.Enabled:=false;
   //    PicDownloadTimer.Free;
-  self.cmbYear.Visible := false;
-  self.yearEdit1.Visible := true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -358,6 +386,7 @@ begin
     if PFobj^.filetype='.wav' then
       Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'wav_64.png');
     plength.caption:='Length:  '+PFobj^.playtime;
+
     i:=(PFobj^.size div 1024)*100;
     s:=' kB';
     if i>100000
@@ -367,10 +396,11 @@ begin
       i:=(i div 1000);
     end;
 
-    str(i, tmps);
+    tmps := IntToStr(i);
     s:=copy(tmps, length(tmps)-1, 2)+s;
     delete(tmps, length(tmps)-1, 2);
     tmps:=tmps+','+s;
+
     fsize.caption:='Size:  '+tmps;
     srate.Caption := 'Samplerate:  ' + IntToStr(PFobj^.samplerate) + ' Hz';
     bitrate.Caption := 'Bitrate:  ' + IntToStr(PFobj^.bitrate) + ' kbps';
@@ -419,8 +449,7 @@ end;
 
 procedure TEditID3.cancelbutClick(Sender: TObject);
 begin
-     close;
-     Main.enabled:=true;
+  EditID3win.Hide;
 end;
 
 procedure TEditID3.cmbYearChange(Sender: TObject);

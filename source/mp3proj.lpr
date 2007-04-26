@@ -67,7 +67,8 @@ begin
 
   Application.CreateForm(TMain, Main);
   Application.CreateForm(Tplaywin, playwin);
-
+  Application.CreateForm(TEditID3, editid3win);
+    
   invalid_param:=false;
   skip_config:=false;
   main.show;
@@ -89,8 +90,6 @@ begin
                                      else
                                        begin
                                          writeln('file not found: '+paramstr(i));
-                                         main.free;
-                                         Playwin.free;
                                          halt;
                                    end;
      end;
@@ -147,6 +146,7 @@ begin
   writeln('-> loading skin '+main.DataPrefix+'skins/'+CactusConfig.CurrentSkin);
   SkinData.load_skin(CactusConfig.CurrentSkin);
   if loadfile<>'' then main.fileopen(loadfile);
+
   Application.Run;
 end.
 
