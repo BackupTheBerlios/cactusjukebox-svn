@@ -191,6 +191,10 @@ cdrip.rssetid3tag='Write ID3-Tags'
 cdrip.rscrsubfolders='Create artist subfolders'
 
 
+# hash value = 153779989
+cdrip.rsoutfilenamin='Outfile naming scheme'
+
+
 # hash value = 248856224
 settings.rsautoloadlast='Autoload last library at startup'
 
@@ -266,4 +270,20 @@ settings.rspaths='Paths'
 
 # hash value = 84600569
 settings.rslameneededto='lame (needed to encode mp3 files)'
+
+
+# hash value = 248584517
+settings.rsenablekdeser='Enable KDE Service Menu'
+
+
+# hash value = 31918036
+settings.rsaudiooutput='Audio Output'
+
+
+# hash value = 226111204
+settings.rsdownloadalbu='Download album cover image from internet'
+
+
+# hash value = 67326565
+settings.rsclearcache='Clear Cache'
 

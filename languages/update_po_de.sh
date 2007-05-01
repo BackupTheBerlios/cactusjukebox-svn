@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cat ../mp3.rst ../cdrip.rst ../settings.rst > ./cactus.rst
+cat ../source/mp3.rst ../source/cdrip.rst ../source/settings.rst > ./cactus.rst
 
 rstconv -i cactus.rst -o cactus_tmp1.po
 

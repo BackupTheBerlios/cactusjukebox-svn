@@ -195,6 +195,10 @@ msgstr "ID3 Tags schreiben"
 msgid "Create artist subfolders"
 msgstr "Unterverzeichnisse erstellen"
 
+#: cdrip:rsoutfilenamin
+msgid "Outfile naming scheme"
+msgstr "Dateinamenvergabe"
+
 #: settings:rsautoloadlast
 msgid "Autoload last library at startup"
 msgstr "Bibliothek beim Start automatisch laden"
@@ -270,3 +274,20 @@ msgstr "Pfade"
 #: settings:rslameneededto
 msgid "lame (needed to encode mp3 files)"
 msgstr "lame (enkodiert mp3 Dateien)"
+
+#: settings:rsenablekdeser
+msgid "Enable KDE Service Menu"
+msgstr "KDE Service Menu aktivieren"
+
+#: settings:rsaudiooutput
+#, fuzzy
+msgid "Audio Output"
+msgstr "Audio Ausgabe"
+
+#: settings:rsdownloadalbu
+msgid "Download album cover image from internet"
+msgstr "Album Covers aus dem Internet laden"
+
+#: settings:rsclearcache
+msgid "Clear Cache"
+msgstr "Cache leeren"

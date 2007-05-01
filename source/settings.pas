@@ -45,6 +45,10 @@ resourcestring
   rsMobileDevice = 'Mobile Device';
   rsPaths = 'Paths';
   rsLameNeededTo = 'lame (needed to encode mp3 files)';
+  rsEnableKDESer = 'Enable KDE Service Menu';
+  rsAudioOutput = 'Audio Output';
+  rsDownloadAlbu = 'Download album cover image from internet';
+  rsClearCache = 'Clear Cache';
   
 
 type
@@ -77,7 +81,7 @@ type
     autoload1: TCheckBox;
     Button1: TButton;
     backscan: TCheckBox;
-    Button2: TButton;
+    ClearCover: TButton;
     AudioOut: TComboBox;
     CoverDownload: TCheckBox;
     guesstag1: TRadioButton;
@@ -109,7 +113,7 @@ type
     v2_prio: TRadioButton;
     v2_prio1: TRadioButton;
     procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure ClearCoverClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure cancelbutClick(Sender: TObject);
@@ -189,7 +193,7 @@ begin
             end;
 end;
 
-procedure TSettings.Button2Click(Sender: TObject);
+procedure TSettings.ClearCoverClick(Sender: TObject);
 begin
   if DirectoryExists(main.ConfigPrefix+DirectorySeparator+'covercache') then begin
      if EraseDirectory(main.ConfigPrefix+DirectorySeparator+'covercache') then
@@ -221,6 +225,11 @@ begin
    llame.Caption:=rsLameNeededTo;
    savebut.Caption:=rsSave;
    cancelbut.Caption:=rsCancel;
+   kdeservicebox.Caption:=rsEnableKDESer;
+   LAudioOut.Caption:=rsAudioOutput;
+   CoverDownload.Caption:=rsDownloadAlbu;
+   ClearCover.Caption:=rsClearCache;
+   LLanguage.Caption:=rsLanguage;
 
  {$ifdef linux}
    kdeservicebox.Checked:=CactusConfig.KDEServiceMenu;

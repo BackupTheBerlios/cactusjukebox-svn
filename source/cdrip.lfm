@@ -9,6 +9,8 @@ object cdrip: Tcdrip
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Rip CD...'
+  ClientHeight = 547
+  ClientWidth = 540
   OnClose = FormClose
   OnCreate = FormCreate
   Position = poScreenCenter
@@ -35,7 +37,7 @@ object cdrip: Tcdrip
     Color = clNone
     ParentColor = False
   end
-  object Label2: TLabel
+  object LNameScheme: TLabel
     Left = 40
     Height = 12
     Top = 392
@@ -69,6 +71,8 @@ object cdrip: Tcdrip
     Height = 112
     Top = 416
     Width = 472
+    ClientHeight = 112
+    ClientWidth = 472
     TabOrder = 2
     object Label1: TLabel
       Left = 208
@@ -209,10 +213,9 @@ object cdrip: Tcdrip
       end>
     DefaultColWidth = 20
     FixedColor = clBtnFace
-    GridLineWidth = 0
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goDrawFocusSelected, goColSizing, goEditing, goColSpanning, goSmoothScroll, goScrollKeepVisible]
     RowCount = 1
-    ScrollBars = ssAutoVertical
+    ScrollBars = ssVertical
     TabOrder = 7
     TabStop = True
     OnHeaderClick = TrackgridHeaderClick

@@ -8,6 +8,8 @@ object Main: TMain
   ActiveControl = ArtistTree
   BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'titel'
+  ClientHeight = 651
+  ClientWidth = 855
   Icon.Data = {
     610A00002F2A2058504D202A2F0A7374617469632063686172202A6772617068
     69635B5D203D207B0A223136203136203132372032222C0A222E2E2063204E6F
@@ -133,6 +135,8 @@ object Main: TMain
     Align = alRight
     AutoSize = True
     BevelOuter = bvNone
+    ClientHeight = 629
+    ClientWidth = 591
     ParentColor = False
     TabOrder = 0
     OnClick = Panel1Click
@@ -181,6 +185,8 @@ object Main: TMain
       BorderSpacing.Bottom = 20
       BorderSpacing.CellAlignHorizontal = ccaCenter
       BorderSpacing.CellAlignVertical = ccaCenter
+      ClientHeight = 81
+      ClientWidth = 424
       FullRepaint = False
       TabOrder = 1
       TabStop = True
@@ -279,6 +285,8 @@ object Main: TMain
       BorderSpacing.Bottom = 20
       BorderSpacing.CellAlignHorizontal = ccaCenter
       BorderSpacing.CellAlignVertical = ccaCenter
+      ClientHeight = 263
+      ClientWidth = 224
       FullRepaint = False
       ParentColor = False
       TabOrder = 0
@@ -693,6 +701,8 @@ object Main: TMain
     Align = alClient
     BevelOuter = bvNone
     Caption = 'Panel4'
+    ClientHeight = 629
+    ClientWidth = 256
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
@@ -734,6 +744,8 @@ object Main: TMain
       Height = 66
       Top = 552
       Width = 129
+      ClientHeight = 66
+      ClientWidth = 129
       TabOrder = 1
       Visible = False
       OnClick = ArtistSrchFieldClick

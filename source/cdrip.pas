@@ -18,6 +18,7 @@ resourcestring
   rsBack = 'Back';
   rsSetID3Tag = 'Write ID3-Tags';
   rsCrSubfolders = 'Create artist subfolders';
+  rsOutfileNamin = 'Outfile naming scheme';
 
 type
 
@@ -26,7 +27,7 @@ type
   Tcdrip = class(TForm)
     bitratebox: TComboBox;
     FileNameType: TComboBox;
-    Label2: TLabel;
+    LNameScheme: TLabel;
     paranoia: TCheckBox;
     startbtn: TButton;
     backbtn: TButton;
@@ -203,6 +204,7 @@ begin
      backbtn.Caption:= Utf8ToAnsi(rsBack);
      writetagscheck.Caption:= Utf8ToAnsi(rsSetID3Tag);
      subfoldercheck.Caption:= Utf8ToAnsi(rsCrSubfolders);
+     LNameScheme.Caption:=rsOutfileNamin;
      
 
 

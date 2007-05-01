@@ -11,6 +11,8 @@ object Settings: TSettings
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Settings...'
+  ClientHeight = 506
+  ClientWidth = 449
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDefault
@@ -45,6 +47,8 @@ object Settings: TSettings
     TabOrder = 2
     object TabSheet1: TTabSheet
       Caption = 'General'
+      ClientHeight = 389
+      ClientWidth = 428
       object LLanguage: TLabel
         Left = 46
         Height = 12
@@ -101,7 +105,7 @@ object Settings: TSettings
         OnChange = kdeserviceboxChange
         TabOrder = 3
       end
-      object Button2: TButton
+      object ClearCover: TButton
         Left = 310
         Height = 28
         Top = 244
@@ -109,7 +113,7 @@ object Settings: TSettings
         AutoSize = True
         BorderSpacing.InnerBorder = 4
         Caption = 'Clear cache'
-        OnClick = Button2Click
+        OnClick = ClearCoverClick
         TabOrder = 4
       end
       object CoverDownload: TCheckBox
@@ -138,6 +142,8 @@ object Settings: TSettings
     end
     object TabSheet2: TTabSheet
       Caption = 'Mobile Device'
+      ClientHeight = 389
+      ClientWidth = 428
       object LMountpoint: TLabel
         Left = 24
         Height = 12
@@ -176,6 +182,8 @@ object Settings: TSettings
     end
     object TabSheet3: TTabSheet
       Caption = 'Paths'
+      ClientHeight = 389
+      ClientWidth = 428
       object Label5: TLabel
         Left = 14
         Height = 18
@@ -190,6 +198,8 @@ object Settings: TSettings
         Top = 19
         Width = 392
         Caption = 'Paths to additional application needed for Cactus Jukebox'
+        ClientHeight = 208
+        ClientWidth = 392
         TabOrder = 0
         object Llame: TLabel
           Left = 22
@@ -229,12 +239,16 @@ object Settings: TSettings
     end
     object TabSheet4: TTabSheet
       Caption = 'ID3v2/v1'
+      ClientHeight = 389
+      ClientWidth = 428
       object ID3typebox: TGroupBox
         Left = 38
         Height = 88
         Top = 162
         Width = 336
         Caption = 'ID3 type'
+        ClientHeight = 88
+        ClientWidth = 336
         ParentCtl3D = False
         TabOrder = 0
         object v1_prio: TRadioButton
@@ -264,6 +278,8 @@ object Settings: TSettings
         Top = 42
         Width = 336
         Caption = 'What to do when there is no ID3'
+        ClientHeight = 80
+        ClientWidth = 336
         ParentCtl3D = False
         TabOrder = 1
         object unknown1: TRadioButton
