@@ -215,6 +215,7 @@ begin
          except
               writeln('lib seems corupted');
               write('exception at entry ');writeln(i);
+              fmax_index:=i;
               load_lib:=1;
       end;
 end;

@@ -152,11 +152,15 @@ msgid "Title"
 msgstr ""
 
 #: mp3:rsrandom
-msgid "Random order"
+msgid "Random"
 msgstr ""
 
 #: mp3:rsnotconnected
 msgid "Device not Connected"
+msgstr ""
+
+#: mp3:rsok
+msgid "OK"
 msgstr ""
 
 #: cdrip:rsencodetomp3
@@ -189,5 +193,101 @@ msgstr ""
 
 #: cdrip:rscrsubfolders
 msgid "Create artist subfolders"
+msgstr ""
+
+#: cdrip:rsoutfilenamin
+msgid "Outfile naming scheme"
+msgstr ""
+
+#: settings:rsautoloadlast
+msgid "Autoload last library at startup"
+msgstr ""
+
+#: settings:rsscanfornewfi
+msgid "Scan for new files in background  on startup"
+msgstr ""
+
+#: settings:rslanguage
+msgid "Language"
+msgstr ""
+
+#: settings:rswhattodowhen
+msgid "What to do when there is no ID3"
+msgstr ""
+
+#: settings:rsguesstagfrom
+msgid "Guess tag from filename"
+msgstr ""
+
+#: settings:rsmovetosectio
+msgid "Move to section %sUnknown%s"
+msgstr ""
+
+#: settings:rsid3type
+msgid "ID3 type"
+msgstr ""
+
+#: settings:rsid3v1priorit
+msgid "ID3v1 Priority"
+msgstr ""
+
+#: settings:rsid3v2priorit
+msgid "ID3v2 Priority"
+msgstr ""
+
+#: settings:rsgeneral
+msgid "General"
+msgstr ""
+
+#: settings:rspathtomp3pla
+msgid "Path to mp3player mountpoint"
+msgstr ""
+
+#: settings:rscreatesubfol
+msgid "Create subfolders on upload"
+msgstr ""
+
+#: settings:rspathstoaddit
+msgid "Paths to additional application needed for Cactus Jukebox"
+msgstr ""
+
+#: settings:rscdda2wavtool
+msgid "Cdda2wav (tool to rip CDs)"
+msgstr ""
+
+#: settings:rssave
+msgid "Save"
+msgstr ""
+
+#: settings:rscancel
+msgid "Cancel"
+msgstr ""
+
+#: settings:rsmobiledevice
+msgid "Mobile Device"
+msgstr ""
+
+#: settings:rspaths
+msgid "Paths"
+msgstr ""
+
+#: settings:rslameneededto
+msgid "lame (needed to encode mp3 files)"
+msgstr ""
+
+#: settings:rsenablekdeser
+msgid "Enable KDE Service Menu"
+msgstr ""
+
+#: settings:rsaudiooutput
+msgid "Audio Output"
+msgstr ""
+
+#: settings:rsdownloadalbu
+msgid "Download album cover image from internet"
+msgstr ""
+
+#: settings:rsclearcache
+msgid "Clear Cache"
 msgstr ""
 

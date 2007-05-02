@@ -108,14 +108,15 @@ begin
               {$endif}
               end;
 
-  CactusConfig:=TConfigObject.create(CONFIGNAME);
+
 
 {$ifdef CactusRPM}
   if DirectoryExists(main.ConfigPrefix)=false then mkdir(main.ConfigPrefix);
   if DirectoryExists(main.ConfigPrefix+'/lib')=false then  mkdir(main.ConfigPrefix+'/lib');
-  main.cfgfile.Filename:=main.ConfigPrefix+'/'+configname;
+  CactusConfig:=TConfigObject.create(main.ConfigPrefix+'/'+configname);
  {$else}
   if DirectoryExists('lib')=false then  mkdir('lib');
+  CactusConfig:=TConfigObject.create(CONFIGNAME);
 {$endif}
 
 
