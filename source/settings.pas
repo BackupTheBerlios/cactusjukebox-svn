@@ -52,9 +52,10 @@ resourcestring
   
 
 type
-
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     { TConfigObject }  //Object to read and list config data
-    
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
   TConfigObject = class
    public
     GuessTag, id3v2_prio: boolean;
@@ -74,9 +75,10 @@ type
     FConfigPath: string;
     FConfigFile: TXMLConfig;
  end;
- 
-  { TSettings }
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  { TSettings }
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   TSettings = class(TForm)
     autoload1: TCheckBox;
     Button1: TButton;
@@ -126,6 +128,9 @@ type
     { public declarations }
   end; 
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 var
   setupwin: TSettings;
   CactusConfig: TConfigObject;
@@ -133,18 +138,18 @@ var
 
 implementation
 uses mp3, mp3file, translations, functions;
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 { TSettings }
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TSettings.savebutClick(Sender: TObject);
 var tmps:string;
 begin
   //   Main.mpg123:=mpg123pathedit1.text;
   //   Main.lame:=lamepathedit1.text;
-     tmps:=playerpathedit1.text;
-     tmps:=TrimRight(tmps);
-     if (tmps<>'') and (tmps[length(tmps)]<>'/') and (tmps[length(tmps)]<>'\') then tmps:=tmps+'/';
-     DoDirSeparators(tmps);
-     Main.playerpath:=tmps;
+     CactusConfig.DAPPath:=IncludeTrailingPathDelimiter(playerpathedit1.Text);
 {$ifdef linux}
      if servicemenu_changed then
           if kdeservicebox.checked then begin
@@ -170,28 +175,36 @@ begin
      MediaCollection.guess_tag:=CactusConfig.GuessTag;
      main.player.oss:=not CactusConfig.OutputAlsa;
      CactusConfig.FlushConfig;
-     
+
      close;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TSettings.cancelbutClick(Sender: TObject);
 begin
      close;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TSettings.kdeserviceboxChange(Sender: TObject);
 begin
   servicemenu_changed:=true;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TSettings.Button1Click(Sender: TObject);
 begin
-     if FileExists(Main.Playerpath) then Main.Selectdirectorydialog1.initialdir:=Main.playerpath else Main.Selectdirectorydialog1.initialdir:='/';
+     if FileExists(CactusConfig.DAPPath) then Main.Selectdirectorydialog1.initialdir:=CactusConfig.DAPPath else Main.Selectdirectorydialog1.initialdir:='/';
      Main.Selectdirectorydialog1.title:='Choose mp3 player directory...';
      if Main.Selectdirectorydialog1.execute=true then begin
-                playerpathedit1.text:=Main.Selectdirectorydialog1.FileName;
+                playerpathedit1.text:=IncludeTrailingPathDelimiter(Main.Selectdirectorydialog1.FileName);
             end;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TSettings.ClearCoverClick(Sender: TObject);
 begin
@@ -201,6 +214,8 @@ begin
       else writeln('ERROR while clearing covercache...');
    end;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TSettings.FormCreate(Sender: TObject);
 begin
@@ -251,12 +266,16 @@ begin
    
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TSettings.FormDestroy(Sender: TObject);
 begin
 end;
 
-{ TConfigObject }
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+{ TConfigObject }
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 constructor TConfigObject.create(ConfigFile: string);
 begin
   FConfigPath:=ConfigFile;
@@ -264,13 +283,16 @@ begin
   FConfigFile:=TXMLConfig.Create(nil);
   FConfigFile.Filename:=FConfigPath;
   ReadConfig;
-  
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 destructor TConfigObject.destroy;
 begin
      FConfigFile.Free;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TConfigObject.ReadConfig: boolean;
 begin
@@ -280,7 +302,7 @@ begin
     Mobile_Subfolders:=FConfigFile.GetValue('Mobile_Player/Subfolders', true);
     id3v2_prio:=FConfigFile.GetValue('Library/id3v2_prio', true);
     background_scan:=FConfigFile.GetValue('Library/background_scan', false);
-    DAPPath:=FConfigFile.getValue('Mobile_Player/Mountpoint', '');
+    DAPPath:=IncludeTrailingPathDelimiter(FConfigFile.getValue('Mobile_Player/Mountpoint', ''));
     CoverDownload:=FConfigFile.GetValue('Networking/Album_Cover_Download/Enabled', false);
     CurrentSkin:=FConfigFile.getValue('Skin/File', 'default.xml');
     KDEServiceMenu:=FConfigFile.GetValue('KDE/servicemenu', false);
@@ -292,6 +314,8 @@ begin
  except result:=false;
  end;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TConfigObject.FlushConfig: boolean;
 begin
@@ -317,6 +341,8 @@ begin
   except result:=false;
   end;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 initialization
   {$I settings.lrs}

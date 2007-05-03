@@ -445,7 +445,8 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure Tcdrip.startButClick(Sender: TObject);
-var row: integer;
+var row, i: integer;
+    tmps : string;
 begin
   outfolder:=outputfolderbox.Items[outputfolderbox.ItemIndex];
   if subfoldercheck.Checked then outfolder:=outfolder+DirectorySeparator+artistedit.Text;

@@ -15,7 +15,7 @@ interface
 
 uses
 //  Classes, SysUtils, dos;
-    Classes, SysUtils, Objects, Process, Forms, crt, mmx, math;
+    Classes, SysUtils, Objects, Process, crt, mmx, math, settings;
 
 function crc32(path: string):longint;
 function crc32_mmx(path: string):int64;
@@ -26,7 +26,8 @@ function UTF8toLatin1(utfstring: ansistring): ansistring;
 function Latin1toUTF8(latin1string: ansistring): ansistring;
 function rmZeroChar(s: ansistring): ansistring;
 function FileCopy(const FromFile, ToFile: string):boolean;
-
+function FreeSpaceOnDAP:int64;
+function ByteToFmtString(bytes: int64; d1, d2: byte): string;
 
 implementation
 
@@ -269,6 +270,58 @@ begin
  except result:=false;
  end;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function FreeSpaceOnDAP: int64;
+var tmps: string;
+begin
+      tmps:=GetCurrentDir;                             // get free memory on player, format string
+      SetCurrentDir(CactusConfig.DAPPath);
+      result:=DiskFree(0);
+      SetCurrentDir(tmps);
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function ByteToFmtString(bytes: int64; d1, d2: byte): string;
+var r: real;
+    count: byte;
+    comma, prefix, s1, s2: string;
+begin
+     count:=0;
+     r:=bytes;
+     while (r>=power(10, d1)) do
+           begin
+               r:=r / 1024;
+               inc(count);
+           end;
+
+     case count of
+        0: prefix:='Byte';
+        1: prefix:='KB';
+        2: prefix:='MB';
+        3: prefix:='GB';
+        4: prefix:='TB';
+        5: prefix:='PB';
+      end;
+
+     str(round (r*power(10, d2)) , s2);
+
+     if r >= 1 then begin
+          s1:=copy(s2, 0, length(s2)-d2);
+          s2:=copy(s2, length(s2)-d2+1, d2);
+        end else s1:='0';
+
+     if d2<>0 then comma:=',' else
+        begin
+          comma:='';
+          s2:='';
+         end;
+     result:=s1+comma+s2+' '+prefix;
+end;
+
+
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

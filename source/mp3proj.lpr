@@ -28,6 +28,7 @@ var
   s, loadfile, DataPrefix: string;
   invalid_param, skip_config: boolean;
   ScanThread: TscanThread;
+  i:integer;
   const configname='cactus.cfg';
 
   {$i cactus_const.inc}

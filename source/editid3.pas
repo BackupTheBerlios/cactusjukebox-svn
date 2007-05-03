@@ -98,6 +98,7 @@ type
     procedure cmbYearChange(Sender: TObject);
     procedure guessnameClick(Sender: TObject);
     procedure savebutClick(Sender: TObject);
+    procedure yearEdit1Change(Sender: TObject);
   private
     { private declarations }
     timer_loop_count: integer;
@@ -157,7 +158,7 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
    z:=pfileobj^.index;
    while (z<PCol^.max_index) and (oldart=lowercase(PCol^.lib[z].artist)) do begin
          PCol^.lib[z].artist:=newart;
-         if Length(strNewYear) = 4 then            // FIXME: the user isn't informed if his choice is dropped
+         if Length(strNewYear) = 4 then
            PCol^.lib[z].year := strNewYear;
 //         PCol^.lib[z].artistv2:=newart;
          writeln(newart);
@@ -181,7 +182,7 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
       if oldalbum=lowercase(PCol^.lib[z].album) then begin
          PCol^.lib[z].album:=newalbum;
          PCol^.lib[z].artist:=newart;
-         if Length(strNewYear) = 4 then            // FIXME: the user isn't informed if his choice is dropped
+         if Length(strNewYear) = 4 then
            PCol^.lib[z].year := strNewYear;
          PCol^.lib[z].write_tag;
        end;
@@ -190,7 +191,7 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
     album_only:=false;
   end;
   
-   if main.player_connected then PlayerCol.save_lib(main.playerpath+'/cactuslib');
+   if main.player_connected then PlayerCol.save_lib(CactusConfig.DAPPath+'cactuslib');
 
    update_artist_view;
    update_title_view;
@@ -199,6 +200,26 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
   end else  ShowMessage('Error: File is Read-Only');
 
   EditID3win.Hide;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TEditID3.yearEdit1Change(Sender: TObject);
+begin
+  // ensure only YYYY (years of four digits) are entered (if anything is entered)
+  if self.yearEdit1.Visible = true
+  then
+    case Length(self.yearEdit1.Caption) of
+      0: self.savebut1.Enabled:= true;
+      4:
+      try
+        self.savebut1.Enabled:= true;
+        StrToInt(self.yearEdit1.Caption);
+      except
+        self.savebut1.Enabled:= false;
+      end;
+      otherwise self.savebut1.Enabled := false;
+    end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -454,12 +475,28 @@ end;
 
 procedure TEditID3.cmbYearChange(Sender: TObject);
 begin
-
+  // ensure only YYYY (years of four digits) are entered (if anything is entered)
+  if self.cmbYear.Visible = true
+  then
+    case Length(self.cmbYear.Caption) of
+      0: self.savebut1.Enabled:= true;
+      4:
+      try
+        self.savebut1.Enabled:= true;
+        StrToInt(self.cmbYear.Caption);
+      except
+        self.savebut1.Enabled:= false;
+      end;
+      otherwise self.savebut1.Enabled := false;
+    end;
 end;
+
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TEditID3.guessnameClick(Sender: TObject);
+var z:integer;
+    tmps: string;
 begin
   tmps:=extractfilename(pfileobj^.path);
   if ((tmps[1]<#60) and (tmps[2]<#60) and (tmps[4]=#45)) then begin

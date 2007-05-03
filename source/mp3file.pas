@@ -20,9 +20,6 @@ interface
 uses
  Classes, SysUtils, Objects, Process, Forms, crt;
 
-var i,z, delpos:integer;
-    tmps:string;
-
   type
       TPathFmt = ( FRelative, FDirect );
   
@@ -35,7 +32,6 @@ var i,z, delpos:integer;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       TMp3fileobj=class
       private
-       id3v1str: string[31];
        procedure read_tag_ogg;
        procedure read_tag_wave;
        procedure read_tag_mp3;
@@ -43,10 +39,10 @@ var i,z, delpos:integer;
        mp3filehandle:longint;
        id3v2, id3v1, read_only:boolean;
        tagpos:byte;
-       
+       id3v1str: string[31];
        FPath, FRelativePath: string;
+
       public
-       
        constructor index_file(filepath:string);
        constructor create;
        destructor destroy;
@@ -106,6 +102,9 @@ uses status, fmod, mp3, functions, settings;
 
 var s, s2: string[8];
     t, min, sec:integer;
+var delpos:integer;
+    tmps:string;
+
     
 const bitrates: array[0..15] of integer = (0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, 999);
       samplerates: array[0..3] of integer = (44100, 48000, 32100, 0);
@@ -114,6 +113,7 @@ const bitrates: array[0..15] of integer = (0, 32, 40, 48, 56, 64, 80, 96, 112, 1
 
 procedure TMediacollection.save_lib(path:string);
 var lfile: textfile;
+    i:integer;
 begin
        savepath:=path;
        writeln('saving');
@@ -125,7 +125,7 @@ begin
              writeln(lfile,'++++Config++++');
              writeln(lfile,fmax_index);
              writeln(lfile,guess_tag);
-             writeln(lfile,rootpath);
+             writeln(lfile,IncludeTrailingPathDelimiter(rootpath));
              writeln(lfile,dirlist);
              writeln(lfile,'++++Files++++');
              for i:= 1 to fmax_index-1 do begin
@@ -134,9 +134,6 @@ begin
                      else begin
                             tmps:=copy(lib[i].path, length(rootpath), length(lib[i].path) - length(rootpath)+1);
                             if tmps[1]='/' then Delete(tmps, 1, 1);
-{                            if tmps[1]='/' then Delete(tmps, 1, 1);
-                            if tmps[1]='/' then Delete(tmps, 1, 1);  }
-                          //  writeln(tmps);
                           end;
                  //writeln(tmps);
                  writeln(lfile,tmps);
@@ -176,12 +173,10 @@ begin
              readln(lfile);
              readln(lfile,fmax_index);
              SetLength(lib, fmax_index+16);
-             writeln(high(lib));
              readln(lfile, tmps);
              if tmps='FALSE' then guess_tag:=false else guess_tag:=true;
              readln(lfile, tmps);
-            // readln(lfile, rootpath);
-             if PathFmt = FRelative then RPath:=rootpath else RPath:='';
+             if PathFmt = FRelative then RPath:=IncludeTrailingPathDelimiter(rootpath) else RPath:='';
              readln(lfile, dirlist);
              writeln( dirlist);
              readln(lfile);
@@ -190,7 +185,6 @@ begin
                  lib[i].action:=ANOTHING;
                  readln(lfile, lib[i].fpath);
                  lib[i].FRelativePath:=RPath;
-                 //writeln(lib[i].path);
                  readln(lfile, lib[i].mp3filehandle);
                  readln(lfile, lib[i].id);
                  readln(lfile, lib[i].artist); readln(lfile, lib[i].album); readln(lfile, lib[i].title);readln(lfile, lib[i].year);readln(lfile, lib[i].comment);readln(lfile, lib[i].track);
@@ -318,6 +312,7 @@ var
        buf: array[1..1024] of byte;
        bufstr, tmptag:string;
        artistv2, albumv2, titlev2, commentv2, yearv2, trackv2: string;
+       i, z:integer;
 begin
 {id3v2}
   if id3v2 or (length(artist)>30) or (length(title)>30) or (length(album)>30) or (length(comment)>30) then
@@ -490,6 +485,7 @@ end;
 procedure TMp3fileobj.read_tag_wave;
 var li: cardinal;
     b: byte;
+    z: integer;
 begin
   Try
    mp3filehandle:=fileopen(path, fmOpenRead);
@@ -538,7 +534,7 @@ end;
 
 procedure TMp3fileobj.read_tag_mp3;
 var b, xx:byte;
-    i:integer;
+    i, z:integer;
     buf: array[1..1024] of byte;
     artistv2, albumv2, titlev2, commentv2, yearv2, trackv2: string;
     bufstr:string;
@@ -706,6 +702,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMp3fileobj.read_tag_ogg;
+var z:integer;
 begin
    tmps:=extractFileName(path);
    z:=pos(' - ', tmps)+3;
@@ -737,7 +734,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMediaCollection.create_title_order;
-var n:longint;
+var n, i, z:longint;
 begin
      i:=1;
      z:=2;
@@ -878,7 +875,7 @@ end;   }
 //Bubblesort!!!!!!!
 
 procedure TMediaCollection.create_artist_order;
-var n, l1, l2:integer;
+var z, i, n, l1, l2:integer;
     s1, s2: string;
     ext: boolean;
 begin
@@ -928,10 +925,12 @@ end;
 procedure TMediacollection.remove_entry(ind:integer);
 var z: integer;
 begin
+ if ind>0 then begin
      for z:=ind to fmax_index-2 do begin
          lib[z]:=lib[z+1]
        end;
      dec(fmax_index);
+ end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -942,7 +941,7 @@ begin
      i:=0;
      repeat inc(i)
        until (i>=max_index-1) or (lib[i].id=id);
-     if (i<max_index-1) then result:=@lib[i] else result:=nil;
+     if (i<fmax_index-1) then result:=@lib[i] else result:=nil;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -952,8 +951,8 @@ var i: integer;
 begin
      i:=0;
      repeat inc(i)
-       until (i>=max_index-1) or (lib[i].path=path);
-     if (i<max_index-1) then result:=i else result:=0;
+       until (i>=fmax_index-1) or (lib[i].path=path);
+     if (i<fmax_index-1) then result:=i else result:=0;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -962,8 +961,8 @@ procedure TMediacollection.add_file(path:string);
 begin
   if FileExists(path) then begin
      lib[fmax_index]:=TMp3fileobj.index_file(path);
-     lib[FMax_Index].collection:=@self;
-     inc(max_index);
+     lib[fMax_Index].collection:=@self;
+     inc(fmax_index);
      if high(lib)=fmax_index then
          begin {library erweitern um 512 eintraege}
            Setlength(lib, fmax_index+1+512);
@@ -989,7 +988,7 @@ begin
      reset(tmpfile);
      size:=filesize(tmpfile); {get filesize}
     // writeln(path);
-     id:= crc32(path) + size;
+     id:= crc32(path);
      filetype:=lowercase(ExtractFileExt(filepath));
      close(tmpfile);
     except writeln('ERROR reading file '+filepath);end;

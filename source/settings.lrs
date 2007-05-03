@@ -14,7 +14,7 @@ LazarusResources.Add('TSettings','FORMDATA',[
   +#3'Top'#3#200#1#5'Width'#2'K'#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6
   +#6'Cancel'#7'OnClick'#7#14'cancelbutClick'#8'TabOrder'#2#1#0#0#12'TPageContr'
   +'ol'#12'PageControl1'#4'Left'#2#8#6'Height'#3#165#1#3'Top'#2#16#5'Width'#3
-  +#176#1#10'ActivePage'#7#9'TabSheet1'#8'TabIndex'#2#0#8'TabOrder'#2#2#0#9'TTa'
+  +#176#1#10'ActivePage'#7#9'TabSheet2'#8'TabIndex'#2#1#8'TabOrder'#2#2#0#9'TTa'
   +'bSheet'#9'TabSheet1'#7'Caption'#6#7'General'#12'ClientHeight'#3#133#1#11'Cl'
   +'ientWidth'#3#172#1#0#6'TLabel'#9'LLanguage'#4'Left'#2'.'#6'Height'#2#12#3'T'
   +'op'#3#138#0#5'Width'#2'9'#7'Caption'#6#8'Language'#5'Color'#7#6'clNone'#11

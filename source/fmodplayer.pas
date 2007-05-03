@@ -39,6 +39,16 @@ type
 { TFModPlayerClass }
 
 TFModPlayerClass = class
+   Private
+     filehandle:text;
+     playindex:integer;
+     temps: string;
+     fTotalLength: int64;
+     FPlaying, FPaused: Boolean;
+     Soundhandle: PFSoundStream;
+     FVolume: Byte;
+   Public
+     function TotalLenght:int64;
      constructor create;
      destructor destroy;
      function startplay(index:integer):byte;
@@ -65,30 +75,19 @@ TFModPlayerClass = class
      procedure remove_from_playlist(index:integer);
      function load_playlist(path:string):byte;
      function save_playlist(path:string):byte;
-     Soundhandle: PFSoundStream;
-     volume:byte;
-     Playlist: array[0..256] of TPlaylistitemClass;
-     
-   Private
-     filehandle:text;
-     playindex:integer;
-     temps: string;
-     fTotalLength: int64;
-     FPlaying, FPaused: Boolean;
-   Public
      maxlistindex:integer;
      oss:boolean;
+     ItemCount: integer;
+     Playlist: array[0..256] of TPlaylistitemClass;
      property playing: boolean read FPlaying;
      property paused: boolean read FPaused;
-     ItemCount: integer;
-     function TotalLenght:int64;
+     property volume:byte read FVolume write Set_Volume;
   end;
 
 
 implementation
 
-var i:integer;
-    tmpp: PChar;
+var tmpp: PChar;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -103,6 +102,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 destructor TFModPlayerClass.destroy;
+var i:integer;
 begin
      fplaying:=false;
 
@@ -242,7 +242,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TFModPlayerClass.play_random_item: byte;
-var x:integer;
+var x, i:integer;
     s: boolean;
 begin
   s := false;
@@ -291,7 +291,7 @@ var n:integer;
 begin
      fTotalLength:=0;
      for n:=1 to maxlistindex do fTotalLength:=fTotalLength+Playlist[n].length;
-     TotalLenght:=fTotalLength;
+     result:=fTotalLength;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -370,11 +370,10 @@ end;
 
 procedure TFModPlayerClass.set_volume(vol: byte);
 {set volume from 0 to 100}
+var i:integer;
 begin
   i:=((vol*255) div 100);
-  writeln(i);
-  writeln(vol);
-  volume:=i;
+  FVolume:=i;
   FSOUND_SetVolume(0, volume);
 end;
 
@@ -382,6 +381,7 @@ end;
 
 procedure TFModPlayerClass.clear_playlist;
 {clears the playlist}
+var i:integer;
 begin
   for i:= 1 to maxlistindex do playlist[i].Destroy;
   maxlistindex:=0;
@@ -391,6 +391,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TFModPlayerClass.reset_random;
+var i:integer;
 begin
    for i:= 1 to maxlistindex do Playlist[i].played:=false;
 end;
@@ -399,6 +400,7 @@ end;
 
 procedure TFModPlayerClass.move_entry(dest, target: integer);
 var tempitem: TPlaylistitemClass;
+var i:integer;
 begin
      if dest=playindex then playindex:=target else if target=playindex then playindex:=dest;
 
@@ -422,6 +424,7 @@ end;
 
 procedure TFModPlayerClass.remove_from_playlist(index: integer);
 {remove item "index" and shorten array to new size}
+var i:integer;
 begin
   for i:=index to maxlistindex-1 do begin
                Playlist[i]:=playlist[i+1];
@@ -435,7 +438,7 @@ end;
 
 function TFModPlayerClass.load_playlist(path: string): byte;
 var s:string;
-var pos1,pos2:integer;
+var pos1,pos2, i:integer;
 begin
   maxlistindex:=0;
   playindex:=0;
@@ -474,6 +477,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TFModPlayerClass.save_playlist(path: string): byte;
+var i:integer;
 begin
   assign(Filehandle,path);
   Rewrite(filehandle);

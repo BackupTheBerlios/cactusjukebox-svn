@@ -63,6 +63,8 @@ end;
 
 procedure Tdirwin.addClick(Sender: TObject);
 var listitem:TListitem;
+    tmps: string;
+    i: integer;
 begin
   SelectDirectoryDialog1.InitialDir:=main.HomeDir;
 
@@ -98,6 +100,7 @@ end;
 procedure Tdirwin.removeClick(Sender: TObject);
 var removedir: string;
     tmpc: char;
+    i, z:integer;
 begin
      removedir:=dirlistview.Selected.Caption;
      dirlistview.Selected.Delete;
@@ -120,7 +123,8 @@ end;
 
 procedure Tdirwin.rescanClick(Sender: TObject);
 var rescandir: string;
-var listitem:TListitem;
+    listitem:TListitem;
+    i, z:integer;
 begin
 
   rescandir:=dirlistview.Selected.Caption;
