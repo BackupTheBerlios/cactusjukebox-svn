@@ -28,57 +28,79 @@ type
 
 TPlaylistitemClass = class
      constructor create;
-     artist, title, path: string;
-     length, id:longint;
-     collection: PMediaCollection;
-     played: boolean;
+     Artist, Title, Path, Album: string;
+     LengthMS, id:longint;
+     Collection: PMediaCollection;
+     Played: boolean;
+     procedure update(Pfileobj: PMp3fileobj);
    end;
+  PPlaylistItemClass = ^TPlaylistitemClass;
 
 type
+
+
+{ TPlaylistClass }
+
+TPlaylistClass = class(Tlist)
+   private
+     function GetItems(index: integer):TPlaylistitemClass;
+
+   public
+     constructor create;
+     function TotalPlayTime: int64;
+     function TotalPlayTimeStr: string;
+     procedure move(dest, target:integer);
+     procedure remove(index: integer);
+     procedure clear; override;
+     function add(filepath:string):integer;       //Read track info out of file at path
+     function add(PFileObj: PMp3fileobj):integer; //Get track info from FileObj
+     function update(index: integer; filepath:string):integer;       //update track info out of file at path
+     function update(index: integer; PFileObj: PMp3fileobj):integer; //update track info from FileObj
+     function RandomIndex:integer;
+     procedure reset_random;
+     function ItemCount:integer;
+     function LoadFromFile(path:string):byte;
+     function SaveToFile(path:string):byte;
+     property Items[index: integer]: TPlaylistitemClass read GetItems;
+   end;
 
 { TFModPlayerClass }
 
 TFModPlayerClass = class
    Private
-     filehandle:text;
-     playindex:integer;
+     FCurrentTrack:integer;
      temps: string;
      fTotalLength: int64;
      FPlaying, FPaused: Boolean;
      Soundhandle: PFSoundStream;
      FVolume: Byte;
    Public
-     function TotalLenght:int64;
      constructor create;
      destructor destroy;
-     function startplay(index:integer):byte;
+
+     function play(index:integer):byte;
      procedure pause;
      procedure stop;
      function next_track:byte;
-     function get_random_item:integer;
-     function play_random_item:byte;
      function prev_track:byte;
-     procedure mute;
-     function add_to_playlist(filepath:string):integer;
-     function get_time:longint;
-     function get_time_string:string;
-     function get_playlist_index:integer;
-     function get_file_position:longint;
-     function get_file_length:longint;
-     function get_mute:boolean;
-     procedure set_time(ms: longint);
-     procedure set_file_position(fpos:longint);
-     procedure set_volume(vol:byte);
-     procedure clear_playlist;
-     procedure reset_random;
-     procedure move_entry(dest, target:integer);
-     procedure remove_from_playlist(index:integer);
-     function load_playlist(path:string):byte;
-     function save_playlist(path:string):byte;
-     maxlistindex:integer;
+
+     function Get_Time:longint;
+     function Get_TimeStr:string;
+
+     function Get_FilePosition:longint;
+     function get_FileLength:longint;
+
+     procedure Set_Time(ms: longint);
+     procedure Set_FilePosition(fpos:longint);
+     procedure Set_Volume(vol:byte);
+     
+     procedure Mute;
+     function Muted:boolean;
+
+
      oss:boolean;
-     ItemCount: integer;
-     Playlist: array[0..256] of TPlaylistitemClass;
+     Playlist: TPlaylistClass;
+     property CurrentTrack: Integer read FCurrentTrack;
      property playing: boolean read FPlaying;
      property paused: boolean read FPaused;
      property volume:byte read FVolume write Set_Volume;
@@ -86,7 +108,7 @@ TFModPlayerClass = class
 
 
 implementation
-
+uses functions;
 var tmpp: PChar;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -94,9 +116,9 @@ var tmpp: PChar;
 constructor TFModPlayerClass.create;
 begin
      fplaying:=false;
-     playindex:=0;
-     Playlist[0]:=TPlaylistitemclass.create;
-     volume:=255;
+     FCurrentTrack:=-1;
+     Playlist:=TPlaylistclass.create;
+     FVolume:=255;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -106,30 +128,29 @@ var i:integer;
 begin
      fplaying:=false;
 
-     for i:= 1 to maxlistindex do begin
-            Playlist[i].Free;
-     end;
-     maxlistindex:=0;
+     Playlist.Free;
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TFModPlayerClass.startplay(index:integer):byte;
+function TFModPlayerClass.play(index:integer):byte;
 {startplay=0 -> succesful
  startplay=1 -> file not found
  startplay=2 -> soundcard init failed
  startplay=3 -> index out of bounds
  startplay=4 -> Last song in List}
 var z: integer;
+   pPlaylistItem: pPlaylistItemClass;
 begin
- if (index<=maxlistindex) and (index>0) then begin
+ if (index<Playlist.ItemCount) and (index>=0) then begin
    if (fplaying=true) then begin
          FSOUND_Stream_Stop(Soundhandle);
          FSOUND_Stream_Close(Soundhandle);
          fplaying:=false;
       end;
    if (fplaying=false) then begin
-   FSOUND_Close;
+    FSOUND_Close;
  {$ifdef linux}
     if oss then begin
            if FSOUND_SetOutput(FSOUND_OUTPUT_OSS) then writeln('Oss output openend') else writeln('failed opening oss output')
@@ -139,31 +160,32 @@ begin
          end;
   {$endif}
     if FSOUND_Init(44100, 32, 0)=true then begin
-      writeln('playing '+playlist[index].path);
-      if (FileExists(playlist[index].path)) then begin
-         tmpp:=StrAlloc(length(playlist[index].path)+1);
-         StrPCopy(tmpp,playlist[index].path);
-         if soundhandle<>nil then FSOUND_Stream_Close(Soundhandle);
+
+      writeln('playing  -> '+playlist.items[index].path);
+      if (FileExists(playlist.items[index].path)) then begin
+         tmpp:=StrAlloc(length(playlist.items[index].path)+1);
+         StrPCopy(tmpp,playlist.items[index].path);
+
+       // Open the stream
          Soundhandle:=FSOUND_Stream_Open(tmpp,{ FSOUND_MPEGACCURATE or FSOUND_NONBLOCKING }FSOUND_NORMAL, 0, 0);    //Fixes Bug when starting VBR files first, FSOUND_NORMAL is faster!!
          z:=0;
-         repeat begin
+         repeat begin   //Wait until it is loaded and ready
                 z:=FSOUND_Stream_GetOpenState(soundhandle);
               end;
           until (z=0) or (z=-3);
-         writeln(z);
-         if z = 0 then begin
-            FSOUND_Stream_Play (0,Soundhandle);
+
+         if z = 0 then begin //If loading was succesful
+            FSOUND_Stream_Play (0,Soundhandle);      //   Start playing
             FSOUND_SetVolume(0, volume);
             fplaying:=true;
-            Playlist[index].played:=true;
-            startplay:=0;
-            playindex:=index;
-            writeln(playindex);
+            playlist.items[index].played:=true;
+            result:=0;
+            FCurrentTrack:=index;
            end else begin
                write('error: can''t play file');writeln(z);
               end;
-       end else startplay:=1;
-     end else startplay:=2;
+       end else play:=1;
+     end else play:=2;
    end;
   end
   else begin
@@ -192,7 +214,7 @@ begin
          fplaying:=false;
          FSOUND_Close;
       //   reset_random;
-         playindex:=0;
+         FCurrentTrack:=-1;
        end;
 end;
 
@@ -203,12 +225,11 @@ var r:byte;
 begin
   r:=127;
   if fplaying then begin
-    if (playindex<=maxlistindex) and (playindex>1) then begin
-       dec(playindex);
-       r:=startplay(playindex);
+    if (CurrentTrack<=Playlist.ItemCount) and (CurrentTrack>1) then begin
+       r:=play(CurrentTrack-1);
      end else
-         if (playindex<=maxlistindex) and (playindex=1) then begin
-             r:=startplay(playindex);
+         if (CurrentTrack<=Playlist.ItemCount) and (CurrentTrack=0) then begin
+             r:=play(CurrentTrack);
            end;
    end;
   result:=r;
@@ -221,46 +242,11 @@ var r:byte;
 begin
   r:=127;
   if fplaying then begin
-    if playindex<maxlistindex then begin
-       inc(playindex);
-       r:=startplay(playindex);
-       writeln(playindex);
+    if CurrentTrack<Playlist.ItemCount then begin
+       r:=play(CurrentTrack+1);
      end;
    end;
   result:=r;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function TFModPlayerClass.get_random_item: integer;
-var rnd: integer;
-begin
-  {randomize;
-  Result:=;}
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function TFModPlayerClass.play_random_item: byte;
-var x, i:integer;
-    s: boolean;
-begin
-  s := false;
-  for i := 1 to maxlistindex do if Playlist[i].played=false then s:= true;
-  randomize;
-  if s then begin
-     repeat x:=random(maxlistindex) until Playlist[x+1].played=false;
-     x:=x+1;
-     playindex:=x;
-     stop;
-     startplay(x);
-     result:=0;
-     Playlist[x].played:=true;
-   end
-     else begin
-          stop;
-          result:=1;
-         end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -272,82 +258,39 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TFModPlayerClass.add_to_playlist(filepath: string): integer;
-{add an item to end of playlist}
-var n: integer;
-begin
-     inc(maxlistindex);
-     playlist[maxlistindex]:=TPlaylistitemClass.create;
-     playlist[maxlistindex].path:=filepath;
-     
-     ItemCount:=maxlistindex;
-     add_to_playlist:=maxlistindex;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function TFModPlayerClass.TotalLenght: int64;
-var n:integer;
-begin
-     fTotalLength:=0;
-     for n:=1 to maxlistindex do fTotalLength:=fTotalLength+Playlist[n].length;
-     result:=fTotalLength;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 function TFModPlayerClass.get_time: longint;
 begin
-     get_time:=FSOUND_Stream_GetTime(Soundhandle);
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function TFModPlayerClass.get_time_string:string;
-{current playing time in format mm:ss as a 5 byte string}
-var
-  t: LongInt;
-  min: Integer;
-  sec: Integer;
-  s, s2: string;
-begin
   if (Soundhandle<>nil) and (FSOUND_Stream_GetOpenState(soundhandle)=0) then begin
-     t:=FSOUND_Stream_GetTime(Soundhandle);
-     t:=t div 1000;
-     min:=t div 60;
-     sec:=t mod 60;
-     str(min, s);
-     str(sec, s2);
-     if min<10 then s:='0'+s;
-     if sec<10 then s2:='0'+s2;
-     get_time_string:=s+':'+s2;
+     get_time:=FSOUND_Stream_GetTime(Soundhandle);
    end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TFModPlayerClass.get_playlist_index: integer;
+function TFModPlayerClass.get_timestr:string;
 begin
-  get_playlist_index:=playindex;
+  if (Soundhandle<>nil) and (FSOUND_Stream_GetOpenState(soundhandle)=0) then begin
+     result:=MSecondsToFmtStr(FSOUND_Stream_GetTime(Soundhandle));
+   end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TFModPlayerClass.get_file_position: longint;
+function TFModPlayerClass.get_fileposition: longint;
 begin
-  get_file_position:=FSOUND_Stream_GetPosition(Soundhandle);
+  get_fileposition:=FSOUND_Stream_GetPosition(Soundhandle);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TFModPlayerClass.get_file_length: longint;
+function TFModPlayerClass.get_filelength: longint;
 begin
-  get_file_length:=FSOUND_Stream_GetLength(soundhandle);
+  get_filelength:=FSOUND_Stream_GetLength(soundhandle);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TFModPlayerClass.get_mute: boolean;
+function TFModPlayerClass.muted: boolean;
 begin
   if FSOUND_GetMute(0)=true then result:=true else result:=false;
 end;
@@ -361,7 +304,7 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TFModPlayerClass.set_file_position(fpos: longint);
+procedure TFModPlayerClass.set_fileposition(fpos: longint);
 begin
   if fplaying then FSOUND_Stream_SetPosition(Soundhandle,fpos);
 end;
@@ -377,106 +320,12 @@ begin
   FSOUND_SetVolume(0, volume);
 end;
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure TFModPlayerClass.clear_playlist;
-{clears the playlist}
-var i:integer;
-begin
-  for i:= 1 to maxlistindex do playlist[i].Destroy;
-  maxlistindex:=0;
-  playindex:=0;
-end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TFModPlayerClass.reset_random;
-var i:integer;
-begin
-   for i:= 1 to maxlistindex do Playlist[i].played:=false;
-end;
-
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TFModPlayerClass.move_entry(dest, target: integer);
-var tempitem: TPlaylistitemClass;
-var i:integer;
-begin
-     if dest=playindex then playindex:=target else if target=playindex then playindex:=dest;
-
-     tempitem:=TPlaylistitemClass.create;
-     if dest<target then begin
-     for i:= dest to target-1 do begin
-          tempitem:=playlist[i];
-          playlist[i]:=playlist[i+1];
-          playlist[i+1]:=tempitem;
-        end;
-      end else begin
-     for i:= dest downto target+2 do begin
-          tempitem:=playlist[i];
-          playlist[i]:=playlist[i-1];
-          playlist[i-1]:=tempitem;
-        end;
-      end;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure TFModPlayerClass.remove_from_playlist(index: integer);
-{remove item "index" and shorten array to new size}
-var i:integer;
-begin
-  for i:=index to maxlistindex-1 do begin
-               Playlist[i]:=playlist[i+1];
-      end;
-  dec(maxlistindex);
-  ItemCount:=maxlistindex;
-  if (playindex>index) then dec(playindex);
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function TFModPlayerClass.load_playlist(path: string): byte;
-var s:string;
-var pos1,pos2, i:integer;
-begin
-  maxlistindex:=0;
-  playindex:=0;
-  assign(Filehandle,path);
-  Reset(filehandle);
-  readln(filehandle, temps);
-  if pos('#EXTM3U',temps)<>0 then begin
-      repeat begin
-        repeat readln(filehandle, temps) until ((pos('#EXTINF', temps)<>0) or eof(filehandle));
-        pos1:=pos(':', temps)+1;
-        pos2:=pos(',', temps);
-        s:=copy(temps,pos1,pos2-pos1);
-        writeln(s);
-        val(s,i);
-        inc(maxlistindex);
-        playlist[maxlistindex]:=TPlaylistitemClass.create;
-        Playlist[maxlistindex].length:=i*1000;
-        writeln('ll');
-        pos1:=pos2+1;
-        pos2:=pos(' - ',temps);
-
-        Playlist[maxlistindex].artist:=copy(temps,pos1,pos2-pos1);
-        pos2:=pos2+3;
-        Playlist[maxlistindex].title:=copy(temps,pos2,length(temps)-pos2+1);
-        writeln(Playlist[maxlistindex].artist);
-        writeln(Playlist[maxlistindex].title);
-        readln(filehandle, temps);
-        Playlist[maxlistindex].path:=temps;
-        writeln(Playlist[maxlistindex].path);
-      end;
-     until eof(filehandle);
-    end else writeln(path+' is not a valid m3u playlist');
-    close(filehandle);
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function TFModPlayerClass.save_playlist(path: string): byte;
+{function TFModPlayerClass.save_playlist(path: string): byte;
 var i:integer;
 begin
   assign(Filehandle,path);
@@ -489,7 +338,7 @@ begin
       end;
   close(filehandle);
 end;
-
+ }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 { TPlaylistitemClass }
@@ -501,7 +350,181 @@ begin
     played:=false;
 end;
 
+procedure TPlaylistitemClass.update(Pfileobj: PMp3fileobj);
+begin
+     Artist:=PFileObj^.Artist;
+     Title:=PFileObj^.Title;
+     Album:=PFileObj^.Album;
+     Collection:=PFileObj^.Collection;
+     ID:=PFileObj^.ID;
+     LengthMS:=PFileObj^.Playlength;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+{ TPlaylistClass }
+
+function TPlaylistClass.GetItems(index: integer): TPlaylistitemClass;
+begin
+  if index < Count then Result := (TPlaylistitemClass(Inherited Items [Index]))
+     else raise Exception.CreateFmt ('Index (%d) outside range 1..%d', [Index, Count -1 ]) ;
+end;
+
+constructor TPlaylistClass.create;
+begin
+  Inherited create;
+end;
+
+function TPlaylistClass.TotalPlayTime: int64; // returns total playtime of playlist in milliseconds
+var i: integer;
+    PPlaylistItem: PPlaylistItemClass;
+begin
+  result:=0;
+  for i:= 0 to Count-1 do begin
+          result:=result + Items[i].LengthMS;
+      end;
+end;
+
+
+function TPlaylistClass.TotalPlayTimeStr: string;  // returns total playtime of playlist in string
+                                                   // format. i.e. '2h 20min'
+var s1,s2: string;
+    i: int64;
+begin
+  i:=TotalPlayTime;
+  s1:=IntToStr((i div 60) mod 60 );
+  s2:=IntToStr((i div 60) div 60 );
+  result:=s1+'h '+s2+'min';
+end;
+
+procedure TPlaylistClass.move(dest, target: integer);
+begin
+  inherited Move(dest, target);
+end;
+
+procedure TPlaylistClass.remove(index: integer);
+begin
+  Items[index].free;
+  inherited Delete(index);
+end;
+
+procedure TPlaylistClass.clear;
+var i:integer;
+begin
+   repeat remove(0) until ItemCount=0;
+end;
+
+function TPlaylistClass.add(filepath: string): integer;
+begin
+
+end;
+
+function TPlaylistClass.add(PFileObj: PMp3fileobj): integer;
+var Playlistitem: TPlaylistitemClass;
+    index: integer;
+begin
+
+     index:=(inherited Add(TPlaylistitemClass.create));
+
+
+     Items[index].Path:=PFileObj^.path;
+     Items[index].Artist:=PFileObj^.Artist;
+     Items[index].Title:=PFileObj^.Title;
+     Items[index].Album:=PFileObj^.Album;
+     Items[index].Collection:=PFileObj^.Collection;
+     Items[index].ID:=PFileObj^.ID;
+     Items[index].LengthMS:=PFileObj^.Playlength;
+
+end;
+
+function TPlaylistClass.update(index: integer; filepath: string): integer;
+begin
+
+end;
+
+function TPlaylistClass.update(index: integer; PFileObj: PMp3fileobj): integer;
+begin
+  if (index>=0) and (index<Count) then begin
+
+     Items[index].update(PFileObj);
+  end;
+end;
+
+function TPlaylistClass.RandomIndex: integer;
+// Returns a random index of playlist entry that has not been played yet. -1 if all has been played.
+// reset_random resets it
+var x, i:integer;
+    s: boolean;
+begin
+  s := false;
+  for i := 0 to Count-1 do if Items[i].played=false then s:= true;
+  randomize;
+  if s then begin
+     repeat x:=random(Count) until Items[i].played=false;
+     result:=x;
+   end
+     else begin
+          result:=-1;
+         end;
+end;
+
+procedure TPlaylistClass.reset_random;
+var i: integer;
+begin
+   for i:= 0 to Count-1 do Items[i].played:=false;
+end;
+
+
+function TPlaylistClass.ItemCount: integer;
+begin
+  result:=inherited Count;
+end;
+
+function TPlaylistClass.LoadFromFile(path: string): byte;       //Load .m3u Playlist
+var s, tmps:string;
+    pos1,pos2, i:integer;
+    PlaylistItem: TPlaylistItemClass;
+    filehandle:text;
+begin
+
+  system.assign(Filehandle,path);
+  Reset(filehandle);
+  readln(filehandle, tmps);
+  if pos('#EXTM3U',tmps)<>0 then begin
+      repeat begin
+        repeat readln(filehandle, tmps) until ((pos('#EXTINF', tmps)<>0) or eof(filehandle));
+        pos1:=pos(':', tmps)+1;
+        pos2:=pos(',', tmps);
+        s:=copy(tmps,pos1,pos2-pos1);
+        writeln(s);
+        val(s,i);
+
+        PlaylistItem:=TPlaylistitemClass.create;
+        PlaylistItem.LengthMS:=i*1000;
+        
+        pos1:=pos2+1;
+        pos2:=pos(' - ',tmps);
+
+        PlaylistItem.artist:=copy(tmps,pos1,pos2-pos1);
+        pos2:=pos2+3;
+        PlaylistItem.title:=copy(tmps,pos2,length(tmps)-pos2+1);
+        readln(filehandle, tmps);
+        PlaylistItem.path:=tmps;
+        inherited Add(PlaylistItem);
+{        writeln('###'                DEBUG
+        writeln(PFileObj^.artist);
+        writeln(PFileObj^.title);
+        writeln(PFileObj^.path);}
+      end;
+     until eof(filehandle);
+    end else writeln(path+' is not a valid m3u playlist');
+    close(filehandle);
+end;
+
+function TPlaylistClass.SaveToFile(path: string): byte;
+begin
+
+end;
 
 end.
 

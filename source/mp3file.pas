@@ -48,14 +48,14 @@ uses
        destructor destroy;
        procedure write_tag;
        procedure read_tag;
-       artist, album, title, comment: ansistring;
-       year, track, filetype:string[4];
-       size: int64;
-       id, bitrate, samplerate, playlength: longint;
-       index, action: integer;
+       Artist, Album, Title, Comment: ansistring;
+       Year, Track, Filetype:string[4];
+       Size: int64;
+       ID, Bitrate, Samplerate, Playlength: longint;
+       index, Action: integer;
        CoverPath: ansistring;
-       collection: PMediaCollection;
-       playtime: string;
+       Collection: PMediaCollection;
+       Playtime: string;
        Property path: String read getPath write FPath;
       end;
       

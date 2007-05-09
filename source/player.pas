@@ -396,8 +396,8 @@ end;
 
 procedure Tplaywin.file_infoClick(Sender: TObject);
 begin
-     if (main.player.get_playlist_index)>0 then begin
-         main.playlist.selected:=main.playlist.Items[main.player.get_playlist_index-1];
+     if (main.player.CurrentTrack)>=0 then begin
+         main.playlist.selected:=main.playlist.Items[main.player.CurrentTrack-1];
          Main.MenuItem10Click(nil);
        end;
 end;
@@ -564,9 +564,9 @@ procedure Tplaywin.trackbarMouseDown(Sender: TOBject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var spos,slength:integer;
 begin
-  slength:=Main.player.get_file_length;
+  slength:=Main.player.get_filelength;
   spos:=(x*slength) div (200);
-  Main.player.set_file_position(spos);
+  Main.player.set_fileposition(spos);
 
 end;
 

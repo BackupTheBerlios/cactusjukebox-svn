@@ -27,7 +27,10 @@ function Latin1toUTF8(latin1string: ansistring): ansistring;
 function rmZeroChar(s: ansistring): ansistring;
 function FileCopy(const FromFile, ToFile: string):boolean;
 function FreeSpaceOnDAP:int64;
-function ByteToFmtString(bytes: int64; d1, d2: byte): string;
+function ByteToFmtString(bytes: int64; d1, d2: byte): string; // converts i.e. 1024 to 1,0 KB
+                                                              // d1, d2 sets amount of digits before and after ','
+function SecondsToFmtStr(seconds: longint): string;       //converts integer to mm:ss time format
+function MSecondsToFmtStr(MSeconds: longint): string;
 
 implementation
 
@@ -321,7 +324,27 @@ begin
      result:=s1+comma+s2+' '+prefix;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+function SecondsToFmtStr(seconds: longint): string;
+var min, sec: longint;
+    s, s2: string;
+begin
+     min:=seconds div 60;
+     sec:=seconds mod 60;
+     str(min, s);
+     str(sec, s2);
+     if min<10 then s:='0'+s;
+     if sec<10 then s2:='0'+s2;
+     result:= s+':'+s2;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function MSecondsToFmtStr(MSeconds: longint): string;
+begin
+  result:=SecondsToFmtStr(MSeconds div 1000);
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

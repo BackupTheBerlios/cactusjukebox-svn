@@ -147,7 +147,7 @@ begin
   Register_skins;
   writeln('-> loading skin '+main.DataPrefix+'skins/'+CactusConfig.CurrentSkin);
   SkinData.load_skin(CactusConfig.CurrentSkin);
-  if loadfile<>'' then main.fileopen(loadfile);
+//  if loadfile<>'' then main.fileopen(loadfile);  NEEDS TO BE ACTIVATED AGAIN
 
   Application.Run;
 end.

@@ -9,7 +9,6 @@ object EditID3: TEditID3
   BorderStyle = bsDialog
   Caption = 'Edit ID3 Tag'
   OnClose = EditID3Close
-  OnCreate = FormCreate
   OnHide = FormHide
   Position = poDefault
   ShowInTaskBar = stNever
@@ -199,6 +198,18 @@ object EditID3: TEditID3
         Sorted = True
         TabOrder = 10
         Text = 'cmbY'
+        Visible = False
+      end
+      object cmbComment: TComboBox
+        Left = 20
+        Height = 25
+        Top = 280
+        Width = 196
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        MaxLength = 0
+        Sorted = True
+        TabOrder = 11
+        Text = 'cmbComment'
         Visible = False
       end
     end

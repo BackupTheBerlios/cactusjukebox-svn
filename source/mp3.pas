@@ -323,7 +323,6 @@ type
       );
     procedure srch_buttonClick(Sender: TObject);
     procedure stopClick(Sender: TObject);
-    procedure startplay;
     procedure titlelistmenuPopup(Sender: TObject);
     procedure toggle_playpause(Sender: TObject);
     procedure trackbarMouseDown(Sender: TOBject; Button: TMouseButton;
@@ -333,7 +332,7 @@ type
     procedure undoSyncItemClick(Sender: TObject);
     procedure volumebarChange(Sender: TObject);
     
-    procedure fileopen(path:string);
+    //procedure fileopen(path:string);
     procedure loadskin(Sender: TObject);
     procedure update_player_hdd_relations;
   private
@@ -676,13 +675,13 @@ procedure TMain.nextClick(Sender: TObject);
 var oldindex, err, i: integer;
 begin
   playtimer.Enabled:=false;
-  oldindex:=player.get_playlist_index;
-  if randomcheck.Checked=false then err:=player.next_track else err:=player.play_random_item;
+  oldindex:=player.CurrentTrack;
+  if randomcheck.Checked=false then err:=player.next_track else err:=player.play(player.Playlist.RandomIndex);
   if err=0 then begin
-      i:=player.get_playlist_index;
+      i:=player.CurrentTrack;
       if i > 0 then begin
-          if oldindex>0 then playlist.Items[oldindex-1].ImageIndex:=-1;
-          playlist.Items[i-1].ImageIndex:=0;
+          if oldindex>=0 then playlist.Items[oldindex].ImageIndex:=-1;
+          playlist.Items[i].ImageIndex:=0;
           playtimer.Enabled:=true;
         end;
     end
@@ -699,9 +698,9 @@ begin
      playtimer.Enabled:=false;
      err:=player.prev_track;
      if (err=0) then begin
-          i:=player.get_playlist_index;
-          playlist.Items[i].ImageIndex:=-1;
-          playlist.Items[i-1].ImageIndex:=0;
+          i:=player.CurrentTrack;
+          playlist.Items[i+1].ImageIndex:=-1;
+          playlist.Items[i].ImageIndex:=0;
           playtimer.Enabled:=true;
         end
           else stopClick(nil);
@@ -720,10 +719,9 @@ begin
          playtimer.Enabled:=false;
          if (Playlist.items.count>0) and (Playlist.Selected=nil)then playitem:=Playlist.Items[0]
            else playitem:=playlist.selected;
-         if (player.playing) and (player.get_playlist_index>0) then playlist.Items[player.get_playlist_index-1].ImageIndex:=-1;;
+         if (player.playing) and (player.CurrentTrack>=0) then playlist.Items[player.CurrentTrack].ImageIndex:=-1;;
          if playitem<>nil then begin
-            i:=playitem.Index+1;
-            err:=player.startplay(i);
+            err:=player.play(playitem.Index);
             if (err=0) then begin
                   playtimer.enabled:=true;
                   playitem.ImageIndex:=0;
@@ -744,9 +742,9 @@ end;
 
 procedure TMain.stopClick(Sender: TObject);
 begin
-    if (player.get_playlist_index>0) then playlist.Items[player.get_playlist_index-1].ImageIndex:=-1;
+    if (player.CurrentTrack>0) then playlist.Items[player.CurrentTrack].ImageIndex:=-1;
     player.stop;
-    player.reset_random;
+    player.playlist.reset_random;
     update_player_display;
 end;
 
@@ -755,28 +753,32 @@ end;
 procedure TMain.playtimerTimer(Sender: TObject);
 var spos, slength: real;
     r: real;
-    var x2:integer;
-    var pfileobj: PMp3fileobj;
+    x2:integer;
+    pfileobj: PMp3fileobj;
+    PlaylistItem: TPlaylistItemClass;
+    
 begin
    spos:=0;
    slength:=0;
    try
    if player.playing then begin
-     playtime.text:=player.get_time_string;
+     playtime.text:=player.get_timestr;
      playwin.TimeImg.Picture.LoadFromFile(SkinData.Time.Img);
      playwin.TimeImg.Canvas.Font.Color:=ClNavy;
      playwin.TimeImg.Canvas.TextOut(5,3, playtime.text);
-     spos:=player.get_file_position;
-     slength:=player.get_file_length;
+
+     spos:=player.get_fileposition;
+     slength:=player.get_filelength;
      r := ((spos*100) / slength);
      trackbar.position:= round(r);
      x2:=(trackbar.position*2)-3;
      if x2<3 then x2:=3;
-     if (spos=slength) and (player.get_playlist_index<player.maxlistindex) then nextclick(nil);
+
+     if (spos=slength) and (player.CurrentTrack<player.Playlist.ItemCount) then nextclick(nil);
      if (CoverFound=false) and (LoopCount<20) then begin
                   inc(LoopCount);
                   if (assigned(awsclass)) and (awsclass.data_ready){  }then begin
-                       pfileobj:=player.Playlist[player.get_playlist_index].collection^.get_entry_by_id(player.Playlist[player.get_playlist_index].id);
+                       pfileobj:=player.Playlist.items[player.CurrentTrack].collection^.get_entry_by_id(PlaylistItem.id);
                        if FileExists(pfileobj^.CoverPath) then begin
                           CoverImage.Picture.LoadFromFile(pfileobj^.CoverPath);
                           playwin.AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath);
@@ -858,7 +860,7 @@ begin
   saveDialog1.DefaultExt := 'm3u';
   saveDialog1.FilterIndex := 1;
   SaveDialog1.InitialDir:=HomeDir;
-  if Savedialog1.execute=true then player.save_playlist(Savedialog1.Filename);
+  if Savedialog1.execute=true then player.playlist.SaveToFile(Savedialog1.Filename);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1344,9 +1346,8 @@ if SimpleIPCServer1.PeekMessage(1,True) then begin
   writeln(fpath);
   if (pos(inttostr(OPEN_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
         mp3obj:=TMp3FileObj.index_file(fpath);
-        i:=player.add_to_playlist(mp3obj.path);
-        player.playlist[i].artist:=Mp3obj.artist;
-        player.playlist[i].title:=Mp3obj.title;
+        player.playlist.add(@mp3obj);
+
         tempListItem := Playlist.Items.Add;
         templistitem.data:=pointer(0);
         if Mp3obj.artist<>'' then tempListitem.caption:=Mp3obj.artist+' - '+Mp3obj.title else tempListitem.caption:=ExtractFileName(mp3obj.path);
@@ -1358,9 +1359,8 @@ if SimpleIPCServer1.PeekMessage(1,True) then begin
     else writeln(' --> Invalid message/filename received via IPC');
   if (pos(inttostr(ENQUEU_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
         mp3obj:=TMp3FileObj.index_file(fpath);
-        i:=player.add_to_playlist(mp3obj.path);
-        player.playlist[i].artist:=Mp3obj.artist;
-        player.playlist[i].title:=Mp3obj.title;
+        player.playlist.add(@mp3obj);
+
         tempListItem := Playlist.Items.Add;
         templistitem.data:=pointer(0);
         if Mp3obj.artist<>'' then tempListitem.caption:=Mp3obj.artist+' - '+Mp3obj.title else tempListitem.caption:=ExtractFileName(mp3obj.path);
@@ -1385,20 +1385,21 @@ end;
 
 procedure TMain.update_player_display;
 var pfileobj: PMp3fileobj;
+    PPlaylistItem: PPlaylistItemClass;
     i: integer;
 begin
    if player.playing then begin
-      i:=player.get_playlist_index;
-      pfileobj:=player.Playlist[i].collection^.get_entry_by_id(player.Playlist[i].id);
+      i:=player.CurrentTrack;
+      pfileobj:=player.Playlist.items[i].collection^.get_entry_by_id(player.Playlist.items[i].id);
       
-      if player.playlist[i].artist<>'' then current_title_edit.text:=player.playlist[i].artist else current_title_edit.text:=ExtractFileName(player.playlist[i].path);
-      current_title_edit1.text:=player.playlist[i].title;
+      if player.Playlist.items[i].artist<>'' then current_title_edit.text:=player.Playlist.items[i].artist else current_title_edit.text:=ExtractFileName(player.Playlist.items[i].path);
+      current_title_edit1.text:=player.Playlist.items[i].title;
 
       playwin.TitleImg.Picture.LoadFromFile(SkinData.Title.Img);
       playwin.TitleImg.canvas.Font.Color:=Clnavy;
 
-      if player.playlist[i].artist<>'' then playwin.TitleImg.canvas.textout(5,5,player.playlist[i].artist) else playwin.TitleImg.canvas.textout(5,5,ExtractFileName(player.playlist[i].path));
-      playwin.TitleImg.canvas.textout(5,25,player.playlist[i].title);
+      if player.Playlist.items[i].artist<>'' then playwin.TitleImg.canvas.textout(5,5,player.Playlist.items[i].artist) else playwin.TitleImg.canvas.textout(5,5,ExtractFileName(player.Playlist.items[i].path));
+      playwin.TitleImg.canvas.textout(5,25,player.Playlist.items[i].title);
     end else begin  //clear everything
       playwin.TitleImg.canvas.Clear;
       CoverImage.Picture.Clear;
@@ -1552,13 +1553,12 @@ begin
   //OpenDialog1.DefaultExt := 'mlb';
   OpenDialog1.FilterIndex := 1;
   if Opendialog1.execute=true then begin
-     player.load_playlist(Opendialog1.Filename);
+     player.Playlist.LoadFromFile(Opendialog1.Filename);
      Playlist.Items.Clear;
-     i:=player.maxlistindex;
-     for id:= 1 to i do begin
+     for id:= 1 to player.Playlist.ItemCount do begin
             ListItem := Playlist.Items.Add;
             listitem.data:=pointer(0);
-            ListItem.Caption:=player.Playlist[id].artist+' - '+player.Playlist[id].title;
+//            ListItem.Caption:=player.Playlist.items[id].artist+' - '+player.Playlist[id].title;
          end;
 
    end;
@@ -1592,17 +1592,12 @@ begin
                           }
      for n:= 0 to TitleTree.Items.Count-1 do begin
        PFobj:=titletree.Items[n].Data;
-       z:=PFobj^.index;
 
-       i:=Main.player.add_to_playlist(PCol^.lib[z].path);
-       main.player.playlist[i].artist:=PCol^.lib[z].artist;
-       main.player.playlist[i].title:=PCol^.lib[z].title;
-       main.player.playlist[i].collection:=PCol;
-       main.player.playlist[i].id:=PCol^.lib[z].id;
-       main.player.Playlist[i].length:=PCol^.lib[z].playlength;
+       Main.player.playlist.add(pfobj);
+       
        ListItem := Main.Playlist.Items.Add;
-       listitem.data:=@PCol^.lib[z];
-       if PCol^.lib[z].title<>'' then ListItem.Caption:=PCol^.lib[z].artist+' - '+PCol^.lib[z].title else ListItem.Caption:=extractfilename(PCol^.lib[z].path);
+       listitem.data:=@pfobj;
+       if pfobj^.title<>'' then ListItem.Caption:=pfobj^.artist+' - '+pfobj^.title else ListItem.Caption:=extractfilename(pfobj^.path);
 
 
      end;
@@ -1625,9 +1620,9 @@ begin
 
 
      end;     }
-   s1:=IntToStr((main.player.TotalLenght div 60) mod 60 );
-   s2:=IntToStr((main.player.TotalLenght div 60) div 60 );
-   main.playlist.Column[0].Caption:='Playlist            ('+IntToStr(main.player.ItemCount)+' Files/ '+s2+'h '+s1+'min )';
+   s1:=IntToStr((main.player.playlist.TotalPlayTime div 60) mod 60 );
+   s2:=IntToStr((main.player.playlist.TotalPlayTime div 60) div 60 );
+   main.playlist.Column[0].Caption:='Playlist            ('+IntToStr(main.player.playlist.ItemCount)+' Files/ '+s2+'h '+s1+'min )';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1920,8 +1915,8 @@ end;
 
 procedure TMain.TrackInfoClick(Sender: TObject);
 begin
-       if (player.get_playlist_index)>0 then begin
-         playlist.selected:=main.playlist.Items[main.player.get_playlist_index-1];
+       if (player.CurrentTrack)>0 then begin
+         playlist.selected:=main.playlist.Items[main.player.CurrentTrack-1];
          MenuItem10Click(nil);
        end;
 end;
@@ -2025,6 +2020,7 @@ procedure TMain.MenuItem10Click(Sender: TObject);
 var Listitem:TListItem;
     mp3fileobj: TMp3fileobj;
     PFobj: PMp3fileobj;
+    PPlaylistItem: PPlaylistItemClass;
     z:integer;
     tmps: string;
 begin
@@ -2039,8 +2035,8 @@ begin
      end
      else begin
         writeln('File not in Library');
-        tmps:=player.Playlist[listitem.index+1].path;
-        mp3fileobj:=TMp3fileobj.index_file(tmps);
+        PPlaylistItem:=PPlaylistItemClass(player.Playlist.items[listitem.index]);
+        mp3fileobj:=TMp3fileobj.index_file(PPlaylistItem^.Path);
         editid3win.artist_only:=false;
         editid3win.album_only:=false;
         editid3win.pathedit1.text:=mp3fileobj.path;
@@ -2074,7 +2070,7 @@ begin
       Playlist.BeginUpdate;
       Playlist.Items.Clear;
       playlist.Column[0].Caption:= 'Playlist';
-      player.clear_playlist;
+      player.playlist.clear;
       Playlist.EndUpdate;
 end;
 
@@ -2104,7 +2100,7 @@ end;
 procedure TMain.muteClick(Sender: TObject);
 begin
   player.mute;
-  if player.get_mute then mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mute1.xpm') else mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mute2.xpm');
+  if player.muted then mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mute1.xpm') else mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mute2.xpm');
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2119,9 +2115,8 @@ begin
      OpenDialog1.FilterIndex := 1;
      if Opendialog1.execute=true then begin
         mp3obj:=TMp3FileObj.index_file(Opendialog1.Filename);
-        i:=player.add_to_playlist(mp3obj.path);
-        player.playlist[i].artist:=Mp3obj.artist;
-        player.playlist[i].title:=Mp3obj.title;
+        player.playlist.add(@mp3obj);
+
         tempListItem := Playlist.Items.Add;
         templistitem.data:=pointer(0);
 
@@ -2221,7 +2216,7 @@ begin
               if ctrl_pressed then begin
                    i:=playlist.Selected.Index;
                    tempitem:=playlist.selected;
-                   player.move_entry(i+1, i);
+                   player.playlist.move(i, i-1);
                    playlist.items[i]:=playlist.items[i-1];
                    playlist.items[i-1]:=tempitem;
                    playlist.BeginUpdate;
@@ -2239,7 +2234,7 @@ begin
               if ctrl_pressed then begin
                    i:=playlist.Selected.Index;
                    tempitem:=playlist.selected;
-                   player.move_entry(i+1,i+2);
+                   player.playlist.move(i,i+1);
                    playlist.items[i]:=playlist.items[i+1];
                    playlist.items[i+1]:=tempitem;
                    playlist.BeginUpdate;
@@ -2298,12 +2293,13 @@ end;
 
 procedure TMain.playtimerStartTimer(Sender: TObject);
 var pfileobj: PMp3fileobj;
+    PPlaylistItem: PPlaylistItemClass;
     i: integer;
 begin
   CoverFound:=false;
   LoopCount:=0;
-  i:=player.get_playlist_index;
-  pfileobj:=player.Playlist[i].collection^.get_entry_by_id(player.Playlist[i].id);
+  i:=player.CurrentTrack;
+  pfileobj:=player.Playlist.items[i].collection^.get_entry_by_id(player.Playlist.items[i].id);
   if (pfileobj<>nil) and (pfileobj^.album<>'') then begin
      pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
      if (FileExists(pfileobj^.CoverPath)=false) then begin
@@ -2601,11 +2597,11 @@ var s1, s2: string;
 begin
     if playlist.selected<>nil then begin
       i:=playlist.selected.index;
-      player.remove_from_playlist(i+1);
+      player.playlist.remove(i);
       Playlist.Selected.delete;
-      s1:=IntToStr((main.player.TotalLenght div 60) mod 60 );
-      s2:=IntToStr((main.player.TotalLenght div 60) div 60 );
-      playlist.Column[0].Caption:='Playlist            ('+IntToStr(main.player.ItemCount)+' Files/ '+s2+'h '+s1+'min )';
+      s1:=IntToStr((player.Playlist.TotalPlayTime div 60) mod 60 );
+      s2:=IntToStr((player.Playlist.TotalPlayTime div 60) div 60 );
+      playlist.Column[0].Caption:='Playlist            ('+IntToStr(player.Playlist.ItemCount)+' Files/ '+s2+'h '+s1+'min )';
       if (i>=1) and (i=playlist.items.count) then dec(i);
       playlist.selected:=playlist.items[i];
     end;
@@ -2664,28 +2660,6 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TMain.startplay;
-var
-  i:integer;
-  tmpp: PChar;
-begin
-   if (playing=false) then begin
-     i:=integer(playitem.data);
-     if FileExists(MediaCollection.lib[i].path) then begin
-        current_title_edit.text:=MediaCollection.lib[i].artist;
-        current_title_edit1.text:=MediaCollection.lib[i].title;
-        tmpp:=StrAlloc(length(MediaCollection.lib[i].path)+1);
-        StrPCopy(tmpp,MediaCollection.lib[i].path);
-      //  Soundhandle:=FSOUND_Stream_Open(tmpp,0, 0, 0);
-      //  FSOUND_Stream_Play (0,Soundhandle);
-        playing:=true;
-        playtimer.enabled:=true;
-      end else Showmessage('File not Found! Goto Library/Rescan Directories for updating file links');
-   end;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 procedure TMain.titlelistmenuPopup(Sender: TObject);
 var     pfobj: PMp3fileobj;
 begin
@@ -2737,10 +2711,10 @@ var k, spos, slength: real;
     i:integer;
 begin
   k:=trackbar.position;
-  slength:=player.get_file_length;
+  slength:=player.get_filelength;
   spos:=round((k*slength) / (100));
   i:=round(spos);
-  player.set_file_position(i);
+  player.set_fileposition(i);
   if player.playing then playtimer.enabled:=true;
 end;
 
@@ -2777,6 +2751,8 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+{ currently unused, can be removed next time
+
 procedure TMain.fileopen(path: string);
 var mp3obj: TMp3fileobj;
     templistitem: TListItem;
@@ -2784,7 +2760,7 @@ var mp3obj: TMp3fileobj;
 begin
         mp3obj:=TMp3FileObj.index_file(path);
         writeln('file '+path+' indexed');
-        i:=player.add_to_playlist(mp3obj.path);
+        i:=player.playlist.add(qmp3obj);
         player.playlist[i].artist:=Mp3obj.artist;
         player.playlist[i].title:=Mp3obj.title;
         tempListItem := Playlist.Items.Add;
@@ -2794,7 +2770,7 @@ begin
         playClick(nil);
         mp3obj.destroy;
 end;
-
+}
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -2822,7 +2798,6 @@ procedure title_to_playlist;
 var tsnode:TListitem;
     PCol: PMediaCollection;
     listitem:TListitem;
-    s1,s2:string;
     pfobj: PMp3fileobj;
     z, i:integer;
 begin
@@ -2832,12 +2807,8 @@ begin
      PFobj:=tsnode.data;
      PCol:=PFobj^.collection;
      z:= PFobj^.index;
-     i:=Main.player.add_to_playlist(PCol^.lib[z].path);
-     main.player.playlist[i].artist:=PCol^.lib[z].artist;
-     main.player.playlist[i].title:=PCol^.lib[z].title;
-     main.player.playlist[i].collection:=PCol;
-     main.player.playlist[i].id:=PCol^.lib[z].id;
-     main.player.playlist[i].length:=PCol^.lib[z].playlength;
+     Main.player.playlist.add(pfobj);
+
      ListItem := Main.Playlist.Items.Add;
      listitem.data:=@PCol^.lib[z];
 
@@ -2854,16 +2825,15 @@ begin
      ListItem.Caption:='CD Audio Track '+tmps;
                    }
                    
-   s1:=IntToStr((main.player.TotalLenght div 60) mod 60 );
-   s2:=IntToStr((main.player.TotalLenght div 60) div 60 );
-   main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(main.player.ItemCount)+' Files/ '+s2+'h '+s1+'min )';
+
+   main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(main.player.playlist.ItemCount)+' Files/ '+main.player.Playlist.TotalPlayTimeStr +')';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure artist_to_playlist;
 var tempnode, tsnode:TTreeNode;
-    s1,s2,curartist, curalbum: string;
+    curartist, curalbum: string;
     Listitem:TListitem;
     album_mode:boolean;
     PCol: PMediaCollection;
@@ -2889,12 +2859,9 @@ begin
 
      repeat begin
       if (album_mode=false) or ((album_mode=true) and (lowercase(PCol^.lib[z].album)=curalbum)) then begin
-       i:=Main.player.add_to_playlist(PCol^.lib[z].path);
-       main.player.playlist[i].artist:=PCol^.lib[z].artist;
-       main.player.playlist[i].title:=PCol^.lib[z].title;
-       main.player.playlist[i].collection:=PCol;
-       main.player.playlist[i].id:=PCol^.lib[z].id;
-       main.player.Playlist[i].length:=PCol^.lib[z].playlength;
+
+       Main.player.playlist.add(@PCol^.lib[z]);
+
        ListItem := Main.Playlist.Items.Add;
        listitem.data:=@PCol^.lib[z];
        if PCol^.lib[z].title<>'' then ListItem.Caption:=PCol^.lib[z].artist+' - '+PCol^.lib[z].title else ListItem.Caption:=extractfilename(PCol^.lib[z].path);
@@ -2904,9 +2871,8 @@ begin
       end;
       until (z>PCol^.max_index-1) or (ext=true);
      end;
-   s1:=IntToStr((main.player.TotalLenght div 60) mod 60 );
-   s2:=IntToStr((main.player.TotalLenght div 60) div 60 );
-   main.playlist.Column[0].Caption:='Playlist            ('+IntToStr(main.player.ItemCount)+' Files/ '+s2+'h '+s1+'min )';
+
+   main.playlist.Column[0].Caption:='Playlist            ('+IntToStr(main.player.playlist.ItemCount)+' Files/ '+main.player.Playlist.TotalPlayTimeStr+' )';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3155,20 +3121,30 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.update_playlist;
-var    PCol : PMediaCollection;
+var    PPlaylistItem: PPlaylistItemClass;
        Pfobj: PMp3fileobj;
        i:integer;
 begin
-     PCol:=@Mediacollection;
-     if PCol^.max_index>1 then begin
-        for i:= 1 to main.player.maxlistindex do begin
+
+     for i:= 0 to player.Playlist.ItemCount do begin
+          Pfobj:= player.Playlist.Items[i].Collection^.get_entry_by_id(player.Playlist.Items[i].id);
+          player.Playlist.Items[i].update(Pfobj);
+
+          playlist.Items[i].data:=Pfobj;
+          if Pfobj^.title<>'' then
+              playlist.Items[i].caption:=Pfobj^.artist+' - '+Pfobj^.title
+            else
+              playlist.Items[i].caption:=extractfilename(Pfobj^.path);
+     end;
+
+   {  if PCol^.max_index>1 then begin
+        for i:= 1 to main.player.Playlist.ItemCount begin
             Pfobj:= PCol^.get_entry_by_id(player.Playlist[i].id);
             if pfobj<>nil then begin
                player.Playlist[i].artist:=Pfobj^.artist;
                player.Playlist[i].title:=Pfobj^.title;
                player.Playlist[i].path:=Pfobj^.path;
-               playlist.Items[i-1].data:=Pfobj;
-               if Pfobj^.title<>'' then playlist.Items[i-1].caption:=Pfobj^.artist+' - '+Pfobj^.title else playlist.Items[i-1].caption:=extractfilename(Pfobj^.path);
+
              end;
          end;
        end;
@@ -3186,7 +3162,7 @@ begin
              end;
          end;
        end;
-   end;
+   end;                     }
      update_player_display;
 end;
 
@@ -3194,16 +3170,16 @@ end;
 
 procedure TMain.disconnectDAP;
 var i : integer;
+    PPlaylistItem: PPlaylistItemClass;
 begin
     writeln('### Disconnect DAP ###');
     Enabled:=false;
     i:=1;
-    while i <= player.maxlistindex do begin
-         if player.playlist[i].collection=@PlayerCol then begin
-            Player.remove_from_playlist(i);
-            if player.maxlistindex<>0 then Playlist.Items[i-1].Delete;
-            if player.maxlistindex=0 then playlist.Clear;
-
+    while i <= player.playlist.ItemCount do begin
+         PPlaylistItem:=PPlaylistItemClass(player.playlist.items[i]);
+         if PPlaylistItem^.collection=@PlayerCol then begin
+            Player.playlist.remove(i);
+            if player.Playlist.ItemCount<>0 then Playlist.Items[i].Delete;
             dec(i);
           end;
       inc(i);
