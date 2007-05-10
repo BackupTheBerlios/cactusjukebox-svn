@@ -11,6 +11,7 @@ object EditID3: TEditID3
   ClientHeight = 421
   ClientWidth = 395
   OnClose = EditID3Close
+  OnCreate = FormCreate
   OnHide = FormHide
   Position = poDefault
   ShowInTaskBar = stNever

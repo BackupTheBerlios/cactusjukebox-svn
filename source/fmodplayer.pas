@@ -1,4 +1,6 @@
-{ classes that implement the player functions for FMOD library
+{
+
+  classes that implement the player functions for FMOD library
   written by Sebastian Kraft
   sebastian_kraft@gmx.de
 
@@ -22,7 +24,7 @@ uses
 
 
 type
-
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 { TPlaylistitemClass }
 
 TPlaylistitemClass = class
@@ -37,10 +39,10 @@ TPlaylistitemClass = class
 
 type
 
-
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 { TPlaylistClass }
 
-TPlaylistClass = class(Tlist)
+  TPlaylistClass = class(Tlist)
    private
      function GetItems(index: integer):TPlaylistitemClass;
 
@@ -64,6 +66,7 @@ TPlaylistClass = class(Tlist)
      property Items[index: integer]: TPlaylistitemClass read GetItems;
    end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 { TFModPlayerClass }
 
 TFModPlayerClass = class
@@ -106,6 +109,7 @@ TFModPlayerClass = class
      property volume:byte read FVolume write Set_Volume;
   end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 implementation
 uses functions;
@@ -225,10 +229,10 @@ var r:byte;
 begin
   r:=127;
   if fplaying then begin
-    if (CurrentTrack<=Playlist.ItemCount) and (CurrentTrack>1) then begin
+    if (CurrentTrack<Playlist.ItemCount) and (CurrentTrack>0) then begin
        r:=play(CurrentTrack-1);
      end else
-         if (CurrentTrack<=Playlist.ItemCount) and (CurrentTrack=0) then begin
+         if (CurrentTrack<Playlist.ItemCount) and (CurrentTrack=0) then begin
              r:=play(CurrentTrack);
            end;
    end;
@@ -322,33 +326,15 @@ end;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-{function TFModPlayerClass.save_playlist(path: string): byte;
-var i:integer;
-begin
-  assign(Filehandle,path);
-  Rewrite(filehandle);
-  writeln(Filehandle,'#EXTM3U');
-  for i:= 1 to maxlistindex do begin
-          str(Playlist[i].length div 1000, temps);
-          writeln(filehandle,'#EXTINF:'+temps+','+Playlist[i].artist+' - '+Playlist[i].title);
-          writeln(filehandle, Playlist[i].path);
-      end;
-  close(filehandle);
-end;
- }
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 { TPlaylistitemClass }
-
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 constructor TPlaylistitemClass.create;
 begin
     played:=false;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TPlaylistitemClass.update(Pfileobj: PMp3fileobj);
 begin
@@ -361,19 +347,24 @@ begin
      LengthMS:=PFileObj^.Playlength;
 end;
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 { TPlaylistClass }
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TPlaylistClass.GetItems(index: integer): TPlaylistitemClass;
 begin
   if (index>=0) and (index < Count) then Result := (TPlaylistitemClass(Inherited Items [Index]))
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 constructor TPlaylistClass.create;
 begin
   Inherited create;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TPlaylistClass.TotalPlayTime: int64; // returns total playtime of playlist in milliseconds
 var i: integer;
@@ -385,6 +376,7 @@ begin
       end;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TPlaylistClass.TotalPlayTimeStr: string;  // returns total playtime of playlist in string
                                                    // format. i.e. '2h 20min'
@@ -397,10 +389,14 @@ begin
   result:=s1+'h '+s2+'min';
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TPlaylistClass.move(dest, target: integer);
 begin
   inherited Move(dest, target);
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TPlaylistClass.remove(index: integer);
 begin
@@ -410,14 +406,20 @@ begin
  end;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TPlaylistClass.clear;
 begin
    while count>0 do remove(0);
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 function TPlaylistClass.add(filepath: string): integer;
 begin
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TPlaylistClass.add(PFileObj: PMp3fileobj): integer;
 var Playlistitem: TPlaylistitemClass;
@@ -438,11 +440,14 @@ begin
      result:=index;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TPlaylistClass.update(index: integer; filepath: string): integer;
 begin
 
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TPlaylistClass.update(index: integer; PFileObj: PMp3fileobj): integer;
 begin
@@ -451,6 +456,8 @@ begin
      Items[index].update(PFileObj);
   end;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TPlaylistClass.RandomIndex: integer;
 // Returns a random index of playlist entry that has not been played yet. -1 if all has been played.
@@ -462,7 +469,7 @@ begin
   for i := 0 to Count-1 do if Items[i].played=false then s:= true;
   randomize;
   if s then begin
-     repeat x:=random(Count) until Items[i].played=false;
+     repeat x:=random(Count-1) until Items[i].played=false;
      result:=x;
    end
      else begin
@@ -470,17 +477,22 @@ begin
          end;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TPlaylistClass.reset_random;
 var i: integer;
 begin
    for i:= 0 to Count-1 do Items[i].played:=false;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TPlaylistClass.ItemCount: integer;
 begin
   result:=inherited Count;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TPlaylistClass.LoadFromFile(path: string): byte;       //Load .m3u Playlist
 var s, tmps, fpath, fartist, ftitle:string;
@@ -529,6 +541,8 @@ begin
     close(filehandle);
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 function TPlaylistClass.SaveToFile(path: string): byte;
 var i:integer;
     temps: string;
@@ -544,6 +558,8 @@ begin
       end;
   close(filehandle);
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 end.
 

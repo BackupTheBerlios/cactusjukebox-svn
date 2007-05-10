@@ -25,7 +25,7 @@ uses
   cdrip, functions, aws, JPEGForLazarus;
 
 var
-  s, loadfile, DataPrefix: string;
+  s, loadfile: string;
   invalid_param, skip_config: boolean;
   ScanThread: TscanThread;
   i:integer;
@@ -55,16 +55,27 @@ begin
       
   Application.Initialize;
 
+//   Init config object
 {$ifdef CactusRPM}
-   DataPrefix:='/usr/share/cactusjukebox/';
-   writeln('RPM version');
-  {$else}
-   DataPrefix:=ExtractFilePath(ParamStr(0))+DirectorySeparator;
-   writeln('ZIP version');
+   CactusConfig:=TConfigObject.create(IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'))+'cactusjukebox'+DirectorySeparator+configname);
+   CactusConfig.homeDir:=IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'));
+   CactusConfig.DataPrefix:='/usr/share/cactusjukebox/';
+   CactusConfig.ConfigPrefix:=CactusConfig.HomeDir+'/.cactusjukebox/';
+   writeln('This is Cactus RPM.');
+ {$else}
+   SetCurrentDir(ExtractFilePath(ParamStr(0)));
+   CactusConfig:=TConfigObject.create(CONFIGNAME);
+   CactusConfig.HomeDir:=IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'));
+   CactusConfig.DataPrefix:=ExtractFilePath(ParamStr(0));
+   CactusConfig.ConfigPrefix:=ExtractFilePath(ParamStr(0));
+   if DirectoryExists('lib')=false then  mkdir('lib');
 {$endif}
+   if DirectoryExists(CactusConfig.ConfigPrefix)=false then mkdir(CactusConfig.ConfigPrefix);
+   if DirectoryExists(CactusConfig.ConfigPrefix+'lib')=false then  mkdir(CactusConfig.ConfigPrefix+'lib');
+// end config
 
   MediaCollection:=TMediaCollection.create;
-  SkinData:=TSkin.Create('default.xml', DataPrefix);
+  SkinData:=TSkin.Create('default.xml', CactusConfig.DataPrefix);
 
   Application.CreateForm(TMain, Main);
   Application.CreateForm(Tplaywin, playwin);
@@ -94,42 +105,13 @@ begin
                                          halt;
                                    end;
      end;
-  main.tempbitmap:=TBitmap.Create;
-  main.timetmpbmp:=TBitmap.Create;
-  main.tempbitmap.width:=300;
-  main.tempbitmap.Height:=150;
-
-
   if skip_config then begin
                  writeln('*removing old config file');
-              {$ifdef CactusRPM}
-                 DeleteFile(main.ConfigPrefix+configname);
-              {$else}
-                 DeleteFile(configname);
-              {$endif}
+                 DeleteFile(CactusConfig.ConfigPrefix+configname);
               end;
 
 
 
-{$ifdef CactusRPM}
-  if DirectoryExists(main.ConfigPrefix)=false then mkdir(main.ConfigPrefix);
-  if DirectoryExists(main.ConfigPrefix+'/lib')=false then  mkdir(main.ConfigPrefix+'/lib');
-  CactusConfig:=TConfigObject.create(main.ConfigPrefix+'/'+configname);
- {$else}
-  if DirectoryExists('lib')=false then  mkdir('lib');
-  CactusConfig:=TConfigObject.create(CONFIGNAME);
-{$endif}
-
-
-
-
-  writeln('last library '+CactusConfig.LastLib);
-  if FileExists(CactusConfig.LastLib) then begin
-     Main.StatusBar1.Panels[0].Text:='Loading last library...';
-     Mediacollection.load_lib(CactusConfig.LastLib);
-     update_artist_view;
-     update_title_view;
-   end;
    
 {  if Main.background_scan then begin
     ScanThread:=TScanThread.Create(true);
@@ -145,10 +127,18 @@ begin
                                                 }
   Main.checkmobile.Enabled:=true;
   Register_skins;
-  writeln('-> loading skin '+main.DataPrefix+'skins/'+CactusConfig.CurrentSkin);
+  writeln('-> loading skin '+CactusConfig.DataPrefix+'skins/'+CactusConfig.CurrentSkin);
   SkinData.load_skin(CactusConfig.CurrentSkin);
 //  if loadfile<>'' then main.fileopen(loadfile);  NEEDS TO BE ACTIVATED AGAIN
 
+//Load library
+  writeln('last library '+CactusConfig.LastLib);
+  if FileExists(CactusConfig.LastLib) then begin
+     main.StatusBar1.Panels[0].Text:='Loading last library...';
+     Mediacollection.load_lib(CactusConfig.LastLib);
+     update_artist_view;
+     update_title_view;
+   end;
   Application.Run;
 end.
 

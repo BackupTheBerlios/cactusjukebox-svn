@@ -65,6 +65,8 @@ type
     DAPPath: string;
     CurrentSkin, LastLib: string;
     Lame, CDDA2wav: string;
+    
+    DataPrefix, ConfigPrefix, LibraryPrefix, HomeDir: string;
 
     constructor create(ConfigFile:string);
     destructor destroy;
@@ -153,8 +155,8 @@ begin
 {$ifdef linux}
      if servicemenu_changed then
           if kdeservicebox.checked then begin
-                   if FileExists(main.HomeDir+'/.kde/share/apps/konqueror/servicemenus/') then begin
-                         if FileCopy(main.DataPrefix+'/tools/cactus_servicemenu.desktop', main.HomeDir+'/.kde/share/apps/konqueror/servicemenus/cactus_servicemenu.desktop')
+                   if FileExists(CactusConfig.HomeDir+'/.kde/share/apps/konqueror/servicemenus/') then begin
+                         if FileCopy(CactusConfig.DataPrefix+'/tools/cactus_servicemenu.desktop', CactusConfig.HomeDir+'/.kde/share/apps/konqueror/servicemenus/cactus_servicemenu.desktop')
                                   then CactusConfig.KDEServiceMenu:=true
                                   else begin
                                          CactusConfig.KDEServiceMenu:=false;
@@ -162,7 +164,7 @@ begin
                                        end;
                     end;
                 end else begin
-                   DeleteFile(main.HomeDir+'/.kde/share/apps/konqueror/servicemenus/cactus_servicemenu.desktop');
+                   DeleteFile(CactusConfig.HomeDir+'/.kde/share/apps/konqueror/servicemenus/cactus_servicemenu.desktop');
                    CactusConfig.KDEServiceMenu:=true;
               end;
      If AudioOut.ItemIndex=0 then CactusConfig.OutputAlsa:=true else CactusConfig.OutputAlsa:=false;
@@ -208,8 +210,8 @@ end;
 
 procedure TSettings.ClearCoverClick(Sender: TObject);
 begin
-  if DirectoryExists(main.ConfigPrefix+DirectorySeparator+'covercache') then begin
-     if EraseDirectory(main.ConfigPrefix+DirectorySeparator+'covercache') then
+  if DirectoryExists(CactusConfig.ConfigPrefix+DirectorySeparator+'covercache') then begin
+     if EraseDirectory(CactusConfig.ConfigPrefix+DirectorySeparator+'covercache') then
         writeln('Covercache has been cleared...')
       else writeln('ERROR while clearing covercache...');
    end;
@@ -220,7 +222,7 @@ end;
 procedure TSettings.FormCreate(Sender: TObject);
 begin
 
-   TranslateUnitResourceStrings('settings', Main.DataPrefix+'languages/cactus.%s.po', 'de', '');
+   TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po', 'de', '');
    autoload1.Caption:=rsAutoloadLast;
    backscan.Caption:=rsScanForNewFi;
    LLanguage.Caption:=rsLanguage;
@@ -307,9 +309,9 @@ begin
     CurrentSkin:=FConfigFile.getValue('Skin/File', 'default.xml');
     KDEServiceMenu:=FConfigFile.GetValue('KDE/servicemenu', false);
     if FConfigFile.GetValue('Audio/Output', 'Alsa')='Alsa' then OutputAlsa:=true else OutputAlsa:=false;
-    main.player.oss:=not OutputAlsa;
-    
+
     LastLib:=FConfigFile.GetValue('Library/autoload','');
+
     Lame:=FConfigFile.GetValue('Lame/Path', '/usr/bin/lame');
  except result:=false;
  end;

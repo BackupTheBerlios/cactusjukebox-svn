@@ -90,6 +90,7 @@ type
     yearEdit3: TEdit;
     procedure Button1Click(Sender: TObject);
     procedure EditID3Close(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure PicDownloadTimerStartTimer(Sender: TObject);
     procedure PicDownloadTimerTimer(Sender: TObject);
@@ -134,13 +135,6 @@ if (FileGetAttr(PFileObj^.path) and faReadOnly)=0 then begin
    PFileObj^.year:=yearedit1.text;
    PFileObj^.comment:=commentedit1.text;
    pfileobj^.track:=trackedit1.text;
-
-{   PFileObj^.artistv2:=artistedit1.text;
-   PFileObj^.titlev2:=titleedit1.text;
-   PFileObj^.albumv2:=albumedit1.text;
-   PFileObj^.yearv2:=yearedit1.text;
-   PFileObj^.commentv2:=commentedit1.text;
-   pfileobj^.trackv2:=trackedit1.text; }
 
    PFileObj^.write_tag;
    
@@ -263,6 +257,8 @@ begin
   self.yearEdit1.Visible := true;
   self.cmbComment.Visible:= false;
   self.commentedit1.Visible:= true;
+  
+  self.ShowInTaskBar:=stNever;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -306,6 +302,13 @@ begin
   //    PicDownloadTimer.Free;
 end;
 
+procedure TEditID3.FormCreate(Sender: TObject);
+begin
+  // ressourcestring translations need to be added here
+
+  Icon.LoadFromFile(CactusConfig.DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TEditID3.show_tags(pfobj:PMp3fileobj; col: PMediaCollection);
@@ -323,6 +326,9 @@ begin
   metacontrol.ActivePage:=metatab;
   id3v1tab.TabVisible:=false;
   id3v2tab.TabVisible:=false;
+
+  //show in taskbar so you don't loose the windows. showmodal doesn't work here
+  self.ShowInTaskBar:=stAlways;
 
   self.artistedit1.Text := PFobj^.artist;
 
@@ -424,7 +430,7 @@ begin
       if pfileobj^.album<>''
       then
       begin
-        pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
+        pfileobj^.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
         if FileExists(pfileobj^.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
         else
         begin
@@ -491,7 +497,7 @@ begin
     if pfileobj^.album<>''
     then
     begin
-      pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
+      pfileobj^.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
       if FileExists(pfileobj^.CoverPath)
       then
         AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)

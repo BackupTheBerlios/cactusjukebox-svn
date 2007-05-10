@@ -53,7 +53,7 @@ var
   dirwin: Tdirwin;
 
 implementation
-uses mp3file,mp3,status;
+uses mp3file,mp3,status, settings;
 { Tdirwin }
 
 procedure Tdirwin.Form2Create(Sender: TObject);
@@ -66,7 +66,7 @@ var listitem:TListitem;
     tmps: string;
     i: integer;
 begin
-  SelectDirectoryDialog1.InitialDir:=main.HomeDir;
+  SelectDirectoryDialog1.InitialDir:=CactusConfig.HomeDir;
 
 
   If SelectDirectoryDialog1.Execute=true then begin

@@ -83,6 +83,7 @@ type
     artistsearch: TEdit;
     filetypebox: TComboBox;
     CoverImage: TImage;
+    Playlist: TListView;
     MenuItem6: TMenuItem;
     PlayButtonImg: TImage;
     PauseButtonImg: TImage;
@@ -104,7 +105,6 @@ type
     Panel1: TPanel;
     SearchPanel: TPanel;
     PlayerControlsPanel: TPanel;
-    playlist: TListView;
     playtime: TEdit;
     searchstr: TEdit;
     SettingsItem: TMenuItem;
@@ -361,8 +361,6 @@ type
     player_freespace, player_totalspace:longint;
 
     skinmenuitems:array[1..16] of TMenuItem;
-    HomeDir: string;
-    DataPrefix, ConfigPrefix, LibraryPrefix: string;
     { public declarations }
   end; 
   
@@ -639,7 +637,7 @@ end;
 procedure TMain.loadlibClick(Sender: TObject);
 begin
   OpenDialog1.Filter := 'Mp3lib Library|*.mlb';
-  OpenDialog1.InitialDir:=HomeDir;
+  OpenDialog1.InitialDir:=CactusConfig.HomeDir;
   OpenDialog1.FilterIndex := 1;
   if Opendialog1.execute=true then MediaCollection.load_lib(Main.Opendialog1.Filename);
 end;
@@ -648,7 +646,7 @@ end;
 
 procedure TMain.newlibClick(Sender: TObject);
 begin
-     Selectdirectorydialog1.initialdir:=HomeDir;
+     Selectdirectorydialog1.initialdir:=CactusConfig.HomeDir;
      Selectdirectorydialog1.title:='Add Directory...';
      if Selectdirectorydialog1.execute=true then begin
               MediaCollection.clear;
@@ -699,8 +697,10 @@ begin
      err:=player.prev_track;
      if (err=0) then begin
           i:=player.CurrentTrack;
-          playlist.Items[i+1].ImageIndex:=-1;
-          playlist.Items[i].ImageIndex:=0;
+          if playlist.Items.Count>1 then begin
+                     playlist.Items[i+1].ImageIndex:=-1;
+                     playlist.Items[i].ImageIndex:=0;
+                 end;
           playtimer.Enabled:=true;
         end
           else stopClick(nil);
@@ -719,7 +719,8 @@ begin
          playtimer.Enabled:=false;
          if (Playlist.items.count>0) and (Playlist.Selected=nil)then playitem:=Playlist.Items[0]
            else playitem:=playlist.selected;
-         if (player.playing) and (player.Playlist.Count>0) then playlist.Items[player.CurrentTrack].ImageIndex:=-1;;
+         if (player.playing) and (player.Playlist.Count>0) and (player.CurrentTrack<player.Playlist.Count)
+                 then playlist.Items[player.CurrentTrack].ImageIndex:=-1;;
          if playitem<>nil then begin
             err:=player.play(playitem.Index);
             if (err=0) then begin
@@ -754,7 +755,7 @@ procedure TMain.playtimerTimer(Sender: TObject);
 var spos, slength: real;
     r: real;
     x2:integer;
-    pfileobj: PMp3fileobj;
+    fileobj: TMp3fileobj;
     PlaylistItem: TPlaylistItemClass;
     
 begin
@@ -778,10 +779,10 @@ begin
      if (CoverFound=false) and (LoopCount<20) then begin
                   inc(LoopCount);
                   if (assigned(awsclass)) and (awsclass.data_ready){  }then begin
-                       pfileobj:=playlist.Items[player.CurrentTrack].Data;
-                       if FileExists(pfileobj^.CoverPath) then begin
-                          CoverImage.Picture.LoadFromFile(pfileobj^.CoverPath);
-                          playwin.AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath);
+                       fileobj:=TMp3fileobj(playlist.Items[player.CurrentTrack].Data);
+                       if FileExists(fileobj.CoverPath) then begin
+                          CoverImage.Picture.LoadFromFile(fileobj.CoverPath);
+                          playwin.AlbumCoverImg.Picture.LoadFromFile(fileobj.CoverPath);
                          end;
                         CoverFound:=true;
                         FreeAndNil(awsclass);
@@ -860,7 +861,7 @@ begin
   saveDialog1.Filter := 'M3U Playlist|*.m3u';
   saveDialog1.DefaultExt := 'm3u';
   saveDialog1.FilterIndex := 1;
-  SaveDialog1.InitialDir:=HomeDir;
+  SaveDialog1.InitialDir:=CactusConfig.HomeDir;
   if Savedialog1.execute=true then begin
          if FileExists(SaveDialog1.FileName) then
               if MessageDlg('File '+SaveDialog1.FileName+' alreday exists'+sLineBreak+sLineBreak+'Overwrite?', mtWarning, mbOKCancel, 0)=mrCancel then exit;
@@ -876,7 +877,7 @@ begin
   saveDialog1.Filter := 'Mp3lib Library|*.mlb';
   saveDialog1.DefaultExt := 'mlb';
   saveDialog1.FilterIndex := 1;
-  SaveDialog1.InitialDir:=HomeDir;
+  SaveDialog1.InitialDir:=CactusConfig.HomeDir;
    if Savedialog1.execute=true then MediaCollection.save_lib(Savedialog1.Filename);
 end;
 
@@ -1172,11 +1173,8 @@ begin
      if (MediaCollection.saved=false) and (MediaCollection.max_index<>1) then
           begin
              writeln('save lib');
-             MediaCollection.save_lib(ConfigPrefix+'lib'+DirectorySeparator+'last.mlb');
+             MediaCollection.save_lib(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'last.mlb');
           end;
-
-     if CactusConfig.FlushConfig then writeln('Config succesfully written to disk');
-     CactusConfig.Free;
      MediaCollection.Free;
      PlayerCol.free;
      checkmobile.Enabled:=false;
@@ -1209,6 +1207,8 @@ begin
     except writeln('ERROR: Exception while shutting down IPC server');
     end;
   writeln('end.');
+     if CactusConfig.FlushConfig then writeln('Config succesfully written to disk');
+     CactusConfig.Free;
      Application.Terminate;
 end;
 
@@ -1219,21 +1219,9 @@ begin
 
   Caption:='Cactus Jukebox '+CACTUS_VERSION;
 
-{$ifdef unix}
-   HomeDir:=GetEnvironmentVariable('HOME');
-{$endif}
-{$ifdef CactusRPM}
-   DataPrefix:='/usr/share/cactusjukebox/';
-   ConfigPrefix:=main.HomeDir+'/.cactusjukebox/';
-   writeln('This is Cactus RPM.');
-  {$else}
-   DataPrefix:=ExtractFilePath(ParamStr(0));
-   ConfigPrefix:=ExtractFilePath(ParamStr(0));
-   SetCurrentDir(ExtractFilePath(ParamStr(0)));
-{$endif}
 
   
-  TranslateUnitResourceStrings('mp3', DataPrefix+'languages/cactus.%s.po', 'de', '');
+  TranslateUnitResourceStrings('mp3', CactusConfig.DataPrefix+'languages'+DirectorySeparator+'cactus.%s.po', 'de', '');
   if SystemCharSetIsUTF8 then writeln('##System charset is UTF8');
   // Load resourcestrings to Captions
 
@@ -1290,10 +1278,12 @@ begin
   playing:=false;
 
   player:=TFModPlayerClass.create;
+  player.oss:=not CactusConfig.OutputAlsa;
+
   player_connected:=false;
   try
   write('loading program icon...  ');
-  Icon.LoadFromFile(DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
+  Icon.LoadFromFile(CactusConfig.DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
 //  CoverImage.Picture.LoadFromFile(DataPrefix+'tools'+DirectorySeparator+'cactus-logo-small.png');
   writeln('... loaded');
   except
@@ -1334,6 +1324,15 @@ begin
   SimpleIPCServer1.Global:=true;
 
   SimpleIPCServer1.StartServer;
+
+
+
+  // unused ??
+  main.tempbitmap:=TBitmap.Create;
+  main.timetmpbmp:=TBitmap.Create;
+  main.tempbitmap.width:=300;
+  main.tempbitmap.Height:=150;
+  // ------
 
 
 end;
@@ -1555,7 +1554,7 @@ var id, i:longint;
     listitem:TListitem;
 begin
   OpenDialog1.Filter := 'M3U Playlist|*.m3u|All Files|*.*';
-  OpenDialog1.InitialDir:=HomeDir;
+  OpenDialog1.InitialDir:=CactusConfig.HomeDir;
  // DoDirSeparators(OpenDialog1.InitialDir);
   //OpenDialog1.DefaultExt := 'mlb';
   OpenDialog1.FilterIndex := 1;
@@ -2117,19 +2116,18 @@ var mp3obj: TMp3fileobj;
     i:integer;
 begin
      OpenDialog1.Filter := 'All supported audio|*.wav;*.mp3;*.ogg|MP3|*.mp3|OGG|*.ogg|WAV|*.wav';
-     OpenDialog1.InitialDir:=HomeDir;
+     OpenDialog1.InitialDir:=CactusConfig.HomeDir;
      OpenDialog1.FilterIndex := 1;
      if Opendialog1.execute=true then begin
         mp3obj:=TMp3FileObj.index_file(Opendialog1.Filename);
         player.playlist.add(@mp3obj);
 
         tempListItem := Playlist.Items.Add;
-        templistitem.data:=pointer(0);
+        templistitem.data:=mp3obj;
 
         if Mp3obj.artist<>'' then tempListitem.caption:=Mp3obj.artist+' - '+Mp3obj.title else tempListitem.caption:=ExtractFileName(mp3obj.path);
         playlist.Selected:=templistitem;
         playClick(nil);
-        mp3obj.destroy;
       end;
 end;
 
@@ -2307,7 +2305,7 @@ begin
   i:=player.CurrentTrack;
   fileobj:=TMp3fileobj(playlist.Items[player.CurrentTrack].Data);
   if (fileobj.album<>'') then begin
-     fileobj.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+fileobj.artist+'_'+fileobj.album+'.jpeg';
+     fileobj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+fileobj.artist+'_'+fileobj.album+'.jpeg';
      if (FileExists(fileobj.CoverPath)=false) then begin
              if  (CactusConfig.CoverDownload) then begin
                   awsclass:=TAWSAccess.CreateRequest(fileobj.artist, fileobj.album);
@@ -2895,13 +2893,14 @@ var tsnode, tempnode:TTreeNode;
 begin
      tsnode:=Main.ArtistTree.Selected;
      main.StatusBar1.Panels[0].Text:='Please wait... updating...';
-   // Application.ProcessMessages;
+     
     writeln;
     write('## update title view...');
 
+
     Main.TitleTree.Items.Clear;
     Main.TitleTree.BeginUpdate;
-    write(' cleared items...');
+    write(' cleared items... ');
 
      if (tsnode<>nil) and (tsnode.level>0) then begin
 
@@ -2919,7 +2918,6 @@ begin
             while (z>0) and (lowercase(PCol^.lib[z].artist)=curartist) do dec(z);
             inc(z);
           end;
-
          i:=z;
          ext:=false;
 
@@ -2945,32 +2943,11 @@ begin
           end;
          until (i>PCol^.max_index-1) or (ext=true);
      end;
- {  if (tsnode.Level=0) and (tsnode.ImageIndex=4) then begin
-         z:=integer(tsnode.Data);
-         for i:= 1 to z do begin
-              ListItem := Main.Titletree.Items.Add;
-             // listitem.data:=@PCol^.lib[i];
-              Listitem.ImageIndex:=4;
-              Listitem.caption:='';
-              str(i, tmps);
-              ListItem.SubItems.Add('CD Audio Track '+tmps);
-              ListItem.SubItems.Add ('');
-              ListItem.SubItems.Add ('');
-              t:=FSOUND_CD_GetTrackLength(0, i);
-              t:=t div 1000;
-              min:=t div 60;
-              sec:=t mod 60;
-              str(min, s);
-              str(sec, s2);
-              if min<10 then s:='0'+s;
-              if sec<10 then s2:='0'+s2;
-              ListItem.SubItems.Add(s+':'+s2);
 
-             end;
-      end;}
-     writeln('finished title view ##');
-     main.StatusBar1.Panels[0].Text:='Ready.';
+     writeln(' finished title view ##');
      Main.TitleTree.EndUpdate;
+     main.StatusBar1.Panels[0].Text:='Ready.';
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3128,19 +3105,18 @@ end;
 
 procedure TMain.update_playlist;
 var    PPlaylistItem: PPlaylistItemClass;
-       Pfobj: PMp3fileobj;
+       fobj: TMp3fileobj;
        i:integer;
 begin
 
-     for i:= 0 to player.Playlist.ItemCount do begin
-          Pfobj:=playlist.Items[player.CurrentTrack].Data;
-          player.Playlist.Items[i].update(Pfobj);
+     for i:= 0 to player.Playlist.ItemCount-1 do begin
+          fobj:=TMp3fileobj(playlist.Items[i].Data);
+          player.Playlist.Items[i].update(@fobj);
 
-          playlist.Items[i].data:=Pfobj;
-          if Pfobj^.title<>'' then
-              playlist.Items[i].caption:=Pfobj^.artist+' - '+Pfobj^.title
+          if fobj.title<>'' then
+              playlist.Items[i].caption:=fobj.artist+' - '+fobj.title
             else
-              playlist.Items[i].caption:=extractfilename(Pfobj^.path);
+              playlist.Items[i].caption:=extractfilename(fobj.path);
      end;
 
    {  if PCol^.max_index>1 then begin

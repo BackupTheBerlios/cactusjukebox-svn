@@ -85,7 +85,7 @@ var
 
 
 implementation
-uses mp3file, mp3, translations, functions;
+uses mp3file, mp3, translations, functions, settings;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -192,7 +192,7 @@ var b, z:byte;
     tmps, s, t1, t2: string;
     ti1, ti2: integer;
 begin
-     TranslateUnitResourceStrings('cdrip', main.DataPrefix+'languages/cactus.%s.po', 'de', '');
+     TranslateUnitResourceStrings('cdrip', cactusconfig.DataPrefix+'languages/cactus.%s.po', 'de', '');
 
      encodecheck.Caption:= Utf8ToAnsi(rsEncodeToMp3);
      LArtist.Caption:= Utf8ToAnsi(rsArtist);

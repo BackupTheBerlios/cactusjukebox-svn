@@ -64,7 +64,7 @@ var SkinData: TSkin;
 
 implementation
 
-uses mp3;
+uses mp3, settings;
 
 var skinxml: TXMLConfig;
 
@@ -74,7 +74,7 @@ var skinsrch: TSearchrec;
     i:byte;
 begin
    i:=1;
-   if FindFirst(main.DataPrefix+'skins'+DirectorySeparator+'*.xml',faAnyFile,skinsrch)=0 then begin
+   if FindFirst(CactusConfig.DataPrefix+'skins'+DirectorySeparator+'*.xml',faAnyFile,skinsrch)=0 then begin
           repeat
               begin
                   Main.skinmenuitems[i]:=TMenuItem.Create(nil);

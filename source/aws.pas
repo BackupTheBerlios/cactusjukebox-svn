@@ -108,7 +108,7 @@ try
      ReadXMLFile(XMLResult, HTTPRecData);
      node:=XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('ItemAttributes').FindNode('Artist');
      if assigned(node) then begin
-        if node.FirstChild.NodeValue=FArtist then artistok:=true else writeln('wrong artist');
+        if pos(FArtist,node.FirstChild.NodeValue)=1 then artistok:=true else writeln('wrong artist');
         //artistok:=true;  //artist always ok, only check for album name
         writeln(FArtist);
        end else writeln('ERROR parsing xml file');
@@ -184,7 +184,7 @@ var URL: string;
 begin
   fdata_ready:=false;
   FAccessKey:='0ZVTC2NNPR453JRCG8R2';
-  url:=Format('http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId=%s&Operation=ItemSearch&Keywords=%s&SearchIndex=Music&ResponseGroup=Medium', [FAccessKey, FArtist+' '+FAlbum]);
+  url:=Format('http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId=%s&Operation=ItemSearch&Artist=%s&Keywords=%s&SearchIndex=Music&ResponseGroup=Medium', [FAccessKey, FArtist, FAlbum]);
   url:=AnsiReplaceStr(url, ' ', '%20');
  // writeln(url);
   HTTPThread:=TNetworkThread.Create(true);
@@ -207,7 +207,7 @@ var url: string;
 begin
   fdata_ready:=false;
   FAccessKey:='0ZVTC2NNPR453JRCG8R2';
-  url:=Format('http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId=%s&Operation=ItemSearch&Keywords=%s&SearchIndex=Music&ResponseGroup=Medium', [FAccessKey, FArtist+' '+FAlbum]);
+  url:=Format('http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId=%s&Operation=ItemSearch&Artist=%s&Keywords=%s&SearchIndex=Music&ResponseGroup=Medium', [FAccessKey, FArtist, FAlbum]);
   url:=AnsiReplaceStr(url, ' ', '%20');
   writeln(url);
   FSavePath:=savepath;
