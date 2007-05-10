@@ -8,6 +8,8 @@ object EditID3: TEditID3
   ActiveControl = cancelbut1
   BorderStyle = bsDialog
   Caption = 'Edit ID3 Tag'
+  ClientHeight = 421
+  ClientWidth = 395
   OnClose = EditID3Close
   OnHide = FormHide
   Position = poDefault
@@ -22,6 +24,8 @@ object EditID3: TEditID3
     TabOrder = 0
     object metatab: TTabSheet
       Caption = 'Meta-Info'
+      ClientHeight = 320
+      ClientWidth = 372
       object Label1: TLabel
         Left = 20
         Height = 12
@@ -215,6 +219,8 @@ object EditID3: TEditID3
     end
     object fileinfo: TTabSheet
       Caption = 'File-Info'
+      ClientHeight = 320
+      ClientWidth = 372
       object mtype: TLabel
         Left = 40
         Height = 12
@@ -287,6 +293,8 @@ object EditID3: TEditID3
     end
     object id3v2tab: TTabSheet
       Caption = 'ID3v2'
+      ClientHeight = 320
+      ClientWidth = 372
       object Label9: TLabel
         Left = 16
         Height = 12
@@ -404,6 +412,8 @@ object EditID3: TEditID3
     end
     object id3v1tab: TTabSheet
       Caption = 'ID3v1'
+      ClientHeight = 320
+      ClientWidth = 372
       object Label7: TLabel
         Left = 177
         Height = 12
@@ -521,16 +531,6 @@ object EditID3: TEditID3
     Default = True
     OnClick = savebutClick
     TabOrder = 2
-  end
-  object Button2: TButton
-    Left = 160
-    Height = 25
-    Top = 384
-    Width = 88
-    BorderSpacing.InnerBorder = 4
-    Caption = 'Create ID3v2'
-    TabOrder = 3
-    Visible = False
   end
   object PicDownloadTimer: TTimer
     Enabled = False

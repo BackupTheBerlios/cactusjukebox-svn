@@ -34,7 +34,6 @@ type
     artistedit2: TEdit;
     artistedit3: TEdit;
     Button1: TButton;
-    Button2: TButton;
     cancelbut1: TButton;
     cmbYear: TComboBox;
     cmbComment: TComboBox;

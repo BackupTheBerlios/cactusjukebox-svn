@@ -44,7 +44,7 @@ uses
 
       public
        constructor index_file(filepath:string);
-       constructor create;
+       //constructor create;
        destructor destroy;
        procedure write_tag;
        procedure read_tag;
@@ -912,12 +912,6 @@ begin
        end;
       until (z>fmax_index-1) or (ext=true);
     end;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-constructor TMp3fileobj.create;  //Dummy to create an empty object
-begin
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

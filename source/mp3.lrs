@@ -61,7 +61,7 @@ LazarusResources.Add('TMain','FORMDATA',[
   +'O'#2#5'Align'#7#7'alRight'#8'AutoSize'#9#10'BevelOuter'#7#6'bvNone'#12'Clie'
   +'ntHeight'#3'u'#2#11'ClientWidth'#3'O'#2#11'ParentColor'#8#8'TabOrder'#2#0#7
   +'OnClick'#7#11'Panel1Click'#0#9'TListView'#8'playlist'#4'Left'#3#248#0#6'Hei'
-  +'ght'#3#14#1#4'Hint'#6' Press CTRL+Up/Down to move Items'#3'Top'#3'a'#1#5'Wi'
+  +'ght'#3#14#1#4'Hint'#6' Press CTRL+Up/Down to move Items'#3'Top'#3'Z'#1#5'Wi'
   +'dth'#3'L'#1#7'Anchors'#11#6'akLeft'#7'akRight'#8'akBottom'#0#20'BorderSpaci'
   +'ng.Bottom'#2#5#11'BorderWidth'#2#1#7'Columns'#14#1#8'AutoSize'#9#7'Caption'
   +#6#8'Playlist'#5'Width'#3'T'#1#0#0#13'HideSelection'#8#11'LargeImages'#7#10

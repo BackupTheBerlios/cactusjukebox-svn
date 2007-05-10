@@ -144,7 +144,7 @@ object Main: TMain
       Left = 248
       Height = 270
       Hint = 'Press CTRL+Up/Down to move Items'
-      Top = 353
+      Top = 346
       Width = 332
       Anchors = [akLeft, akRight, akBottom]
       BorderSpacing.Bottom = 5

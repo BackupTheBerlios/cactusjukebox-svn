@@ -16,8 +16,7 @@ interface
 
 uses
   Classes, SysUtils,
-  fmod, fmodtypes,
-  mp3file;
+  fmod, fmodtypes, mp3file;
 
 
 
@@ -30,7 +29,7 @@ TPlaylistitemClass = class
      constructor create;
      Artist, Title, Path, Album: string;
      LengthMS, id:longint;
-     Collection: PMediaCollection;
+     //Collection: PMediaCollection;
      Played: boolean;
      procedure update(Pfileobj: PMp3fileobj);
    end;
@@ -54,6 +53,7 @@ TPlaylistClass = class(Tlist)
      procedure clear; override;
      function add(filepath:string):integer;       //Read track info out of file at path
      function add(PFileObj: PMp3fileobj):integer; //Get track info from FileObj
+
      function update(index: integer; filepath:string):integer;       //update track info out of file at path
      function update(index: integer; PFileObj: PMp3fileobj):integer; //update track info from FileObj
      function RandomIndex:integer;
@@ -352,10 +352,11 @@ end;
 
 procedure TPlaylistitemClass.update(Pfileobj: PMp3fileobj);
 begin
+
      Artist:=PFileObj^.Artist;
      Title:=PFileObj^.Title;
      Album:=PFileObj^.Album;
-     Collection:=PFileObj^.Collection;
+
      ID:=PFileObj^.ID;
      LengthMS:=PFileObj^.Playlength;
 end;
@@ -366,8 +367,7 @@ end;
 
 function TPlaylistClass.GetItems(index: integer): TPlaylistitemClass;
 begin
-  if index < Count then Result := (TPlaylistitemClass(Inherited Items [Index]))
-     else raise Exception.CreateFmt ('Index (%d) outside range 1..%d', [Index, Count -1 ]) ;
+  if (index>=0) and (index < Count) then Result := (TPlaylistitemClass(Inherited Items [Index]))
 end;
 
 constructor TPlaylistClass.create;
@@ -404,19 +404,19 @@ end;
 
 procedure TPlaylistClass.remove(index: integer);
 begin
+ if (index>=0) and (index < Count) then begin
   Items[index].free;
   inherited Delete(index);
+ end;
 end;
 
 procedure TPlaylistClass.clear;
-var i:integer;
 begin
-   repeat remove(0) until ItemCount=0;
+   while count>0 do remove(0);
 end;
 
 function TPlaylistClass.add(filepath: string): integer;
 begin
-
 end;
 
 function TPlaylistClass.add(PFileObj: PMp3fileobj): integer;
@@ -431,11 +431,13 @@ begin
      Items[index].Artist:=PFileObj^.Artist;
      Items[index].Title:=PFileObj^.Title;
      Items[index].Album:=PFileObj^.Album;
-     Items[index].Collection:=PFileObj^.Collection;
+
      Items[index].ID:=PFileObj^.ID;
      Items[index].LengthMS:=PFileObj^.Playlength;
 
+     result:=index;
 end;
+
 
 function TPlaylistClass.update(index: integer; filepath: string): integer;
 begin
@@ -481,9 +483,10 @@ begin
 end;
 
 function TPlaylistClass.LoadFromFile(path: string): byte;       //Load .m3u Playlist
-var s, tmps:string;
-    pos1,pos2, i:integer;
+var s, tmps, fpath, fartist, ftitle:string;
+    pos1,pos2, i, lengthS:integer;
     PlaylistItem: TPlaylistItemClass;
+    fileobj: TMp3fileobj;
     filehandle:text;
 begin
 
@@ -496,21 +499,26 @@ begin
         pos1:=pos(':', tmps)+1;
         pos2:=pos(',', tmps);
         s:=copy(tmps,pos1,pos2-pos1);
-        writeln(s);
-        val(s,i);
 
-        PlaylistItem:=TPlaylistitemClass.create;
-        PlaylistItem.LengthMS:=i*1000;
+        val(s,LengthS);
+
+
+
         
         pos1:=pos2+1;
         pos2:=pos(' - ',tmps);
 
-        PlaylistItem.artist:=copy(tmps,pos1,pos2-pos1);
+        fartist:=copy(tmps,pos1,pos2-pos1);
         pos2:=pos2+3;
-        PlaylistItem.title:=copy(tmps,pos2,length(tmps)-pos2+1);
-        readln(filehandle, tmps);
-        PlaylistItem.path:=tmps;
-        inherited Add(PlaylistItem);
+        ftitle:=copy(tmps,pos2,(length(tmps))-pos2+1);
+        readln(filehandle, fpath);
+
+        i:=(inherited Add(TPlaylistitemClass.create));
+        Items[i].Title:=ftitle;
+        Items[i].Artist:=fartist;
+        Items[i].Path:=fpath;
+        Items[i].LengthMS:=lengthS*1000;
+
 {        writeln('###'                DEBUG
         writeln(PFileObj^.artist);
         writeln(PFileObj^.title);
@@ -522,8 +530,19 @@ begin
 end;
 
 function TPlaylistClass.SaveToFile(path: string): byte;
+var i:integer;
+    temps: string;
+    filehandle:text;
 begin
-
+  system.assign(Filehandle,path);
+  Rewrite(filehandle);
+  writeln(Filehandle,'#EXTM3U');
+  for i:= 0 to Count-1 do begin
+          str(Items[i].LengthMS div 1000, temps);
+          writeln(filehandle,'#EXTINF:'+temps+','+Items[i].artist+' - '+Items[i].title);
+          writeln(filehandle, Items[i].path);
+      end;
+  close(filehandle);
 end;
 
 end.

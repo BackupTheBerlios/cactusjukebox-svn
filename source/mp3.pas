@@ -719,7 +719,7 @@ begin
          playtimer.Enabled:=false;
          if (Playlist.items.count>0) and (Playlist.Selected=nil)then playitem:=Playlist.Items[0]
            else playitem:=playlist.selected;
-         if (player.playing) and (player.CurrentTrack>=0) then playlist.Items[player.CurrentTrack].ImageIndex:=-1;;
+         if (player.playing) and (player.Playlist.Count>0) then playlist.Items[player.CurrentTrack].ImageIndex:=-1;;
          if playitem<>nil then begin
             err:=player.play(playitem.Index);
             if (err=0) then begin
@@ -778,7 +778,7 @@ begin
      if (CoverFound=false) and (LoopCount<20) then begin
                   inc(LoopCount);
                   if (assigned(awsclass)) and (awsclass.data_ready){  }then begin
-                       pfileobj:=player.Playlist.items[player.CurrentTrack].collection^.get_entry_by_id(PlaylistItem.id);
+                       pfileobj:=playlist.Items[player.CurrentTrack].Data;
                        if FileExists(pfileobj^.CoverPath) then begin
                           CoverImage.Picture.LoadFromFile(pfileobj^.CoverPath);
                           playwin.AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath);
@@ -856,17 +856,23 @@ end;
 
 procedure TMain.save_listClick(Sender: TObject);
 begin
+  SaveDialog1.Title:='Save Playlist...';
   saveDialog1.Filter := 'M3U Playlist|*.m3u';
   saveDialog1.DefaultExt := 'm3u';
   saveDialog1.FilterIndex := 1;
   SaveDialog1.InitialDir:=HomeDir;
-  if Savedialog1.execute=true then player.playlist.SaveToFile(Savedialog1.Filename);
+  if Savedialog1.execute=true then begin
+         if FileExists(SaveDialog1.FileName) then
+              if MessageDlg('File '+SaveDialog1.FileName+' alreday exists'+sLineBreak+sLineBreak+'Overwrite?', mtWarning, mbOKCancel, 0)=mrCancel then exit;
+         player.playlist.SaveToFile(Savedialog1.Filename);
+      end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.savelibClick(Sender: TObject);
 begin
+  SaveDialog1.Title:='Save Library...';
   saveDialog1.Filter := 'Mp3lib Library|*.mlb';
   saveDialog1.DefaultExt := 'mlb';
   saveDialog1.FilterIndex := 1;
@@ -1335,7 +1341,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.ApplicationIdle(Sender: TObject; var Done: Boolean);
-var mp3obj: TMp3fileobj;
+var pmp3obj: pMp3fileobj;
     templistitem: TListitem;
     fpath: string;
     i:integer;
@@ -1345,27 +1351,28 @@ if SimpleIPCServer1.PeekMessage(1,True) then begin
   fpath:=copy(SimpleIPCServer1.StringMessage, 4, length(SimpleIPCServer1.StringMessage));
   writeln(fpath);
   if (pos(inttostr(OPEN_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
-        mp3obj:=TMp3FileObj.index_file(fpath);
-        player.playlist.add(@mp3obj);
 
         tempListItem := Playlist.Items.Add;
-        templistitem.data:=pointer(0);
-        if Mp3obj.artist<>'' then tempListitem.caption:=Mp3obj.artist+' - '+Mp3obj.title else tempListitem.caption:=ExtractFileName(mp3obj.path);
+        templistitem.data:=TMp3FileObj.index_file(fpath);
+        pmp3obj:=templistitem.Data;
+
+        player.playlist.add(PMp3fileobj(pmp3obj));
+
+        if pMp3obj^.artist<>'' then tempListitem.caption:=pMp3obj^.artist+' - '+pMp3obj^.title else tempListitem.caption:=ExtractFileName(pmp3obj^.path);
         playlist.Selected:=templistitem;
         playClick(nil);
-        mp3obj.destroy;
-
    end
     else writeln(' --> Invalid message/filename received via IPC');
   if (pos(inttostr(ENQUEU_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
-        mp3obj:=TMp3FileObj.index_file(fpath);
-        player.playlist.add(@mp3obj);
-
         tempListItem := Playlist.Items.Add;
-        templistitem.data:=pointer(0);
-        if Mp3obj.artist<>'' then tempListitem.caption:=Mp3obj.artist+' - '+Mp3obj.title else tempListitem.caption:=ExtractFileName(mp3obj.path);
+        templistitem.data:=TMp3FileObj.index_file(fpath);
+        pmp3obj:=templistitem.Data;
+
+        player.playlist.add(PMp3fileobj(pmp3obj));
+
+        if pMp3obj^.artist<>'' then tempListitem.caption:=pMp3obj^.artist+' - '+pMp3obj^.title else tempListitem.caption:=ExtractFileName(pmp3obj^.path);
         playlist.Selected:=templistitem;
-        mp3obj.destroy;
+
    end
     else writeln(' --> Invalid message/filename received via IPC');
   case byte(StrToInt(SimpleIPCServer1.StringMessage)) of
@@ -1390,7 +1397,7 @@ var pfileobj: PMp3fileobj;
 begin
    if player.playing then begin
       i:=player.CurrentTrack;
-      pfileobj:=player.Playlist.items[i].collection^.get_entry_by_id(player.Playlist.items[i].id);
+      pfileobj:=playlist.Items[player.CurrentTrack].Data;
       
       if player.Playlist.items[i].artist<>'' then current_title_edit.text:=player.Playlist.items[i].artist else current_title_edit.text:=ExtractFileName(player.Playlist.items[i].path);
       current_title_edit1.text:=player.Playlist.items[i].title;
@@ -1553,12 +1560,13 @@ begin
   //OpenDialog1.DefaultExt := 'mlb';
   OpenDialog1.FilterIndex := 1;
   if Opendialog1.execute=true then begin
+     playlist.Clear;
+     player.Playlist.clear;
      player.Playlist.LoadFromFile(Opendialog1.Filename);
-     Playlist.Items.Clear;
-     for id:= 1 to player.Playlist.ItemCount do begin
+     for id:= 0 to player.Playlist.Count-1 do begin
             ListItem := Playlist.Items.Add;
-            listitem.data:=pointer(0);
-//            ListItem.Caption:=player.Playlist.items[id].artist+' - '+player.Playlist[id].title;
+            listitem.Data:=TMp3fileobj.index_file(player.Playlist.Items[id].path);
+            ListItem.Caption:=player.Playlist.items[id].Artist+' - '+player.Playlist.Items[id].Title;
          end;
 
    end;
@@ -1596,7 +1604,7 @@ begin
        Main.player.playlist.add(pfobj);
        
        ListItem := Main.Playlist.Items.Add;
-       listitem.data:=@pfobj;
+       listitem.data:=pfobj;
        if pfobj^.title<>'' then ListItem.Caption:=pfobj^.artist+' - '+pfobj^.title else ListItem.Caption:=extractfilename(pfobj^.path);
 
 
@@ -1915,8 +1923,8 @@ end;
 
 procedure TMain.TrackInfoClick(Sender: TObject);
 begin
-       if (player.CurrentTrack)>0 then begin
-         playlist.selected:=main.playlist.Items[main.player.CurrentTrack-1];
+       if (player.CurrentTrack)>=0 then begin
+         playlist.selected:=main.playlist.Items[main.player.CurrentTrack];
          MenuItem10Click(nil);
        end;
 end;
@@ -2028,13 +2036,11 @@ begin
 
     Listitem:=playlist.Selected;
     if listitem<>nil then begin
-     if Listitem.Data<>nil then begin
-       PFobj:=Listitem.Data;
-       z:=PFobj^.id;
-       editid3win.show_tags(PFobj, PFobj^.collection);
-     end
-     else begin
-        writeln('File not in Library');
+       PFobj:=@TMp3fileobj(Listitem.Data);
+       editid3win.show_tags(PFobj, nil);
+     end;
+//     else begin
+ {       writeln('File not in Library');
         PPlaylistItem:=PPlaylistItemClass(player.Playlist.items[listitem.index]);
         mp3fileobj:=TMp3fileobj.index_file(PPlaylistItem^.Path);
         editid3win.artist_only:=false;
@@ -2045,13 +2051,13 @@ begin
         editid3win.albumedit1.text:=mp3fileobj.album;
         editid3win.commentedit1.text:=mp3fileobj.comment;
         editid3win.yearedit1.text:=mp3fileobj.year;
-
+  }
 {        editid3win.artistedit2.text:=mp3fileobj.artistv2;
         editid3win.titleedit2.text:=mp3fileobj.titlev2;
         editid3win.albumedit2.text:=mp3fileobj.albumv2;
         editid3win.yearedit2.text:=mp3fileobj.yearv2;
         editid3win.trackedit2.text:=mp3fileobj.trackv2;}
-        if mp3fileobj.filetype='.mp3' then editid3win.Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mp3_64.png');
+{        if mp3fileobj.filetype='.mp3' then editid3win.Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mp3_64.png');
         if mp3fileobj.filetype='.ogg' then editid3win.Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'ogg_64.png');
         if mp3fileobj.filetype='.wav' then editid3win.Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'wav_64.png');
         editid3win.metacontrol.ActivePage:=editid3win.metatab;
@@ -2059,7 +2065,7 @@ begin
         editid3win.id3v2tab.TabVisible:=false;
         EditID3win.pfileobj:=@mp3fileobj;
      end;
-    end;
+    end; }
     EditID3win.Show;
 end;
 
@@ -2292,24 +2298,24 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.playtimerStartTimer(Sender: TObject);
-var pfileobj: PMp3fileobj;
+var fileobj: TMp3fileobj;
     PPlaylistItem: PPlaylistItemClass;
     i: integer;
 begin
   CoverFound:=false;
   LoopCount:=0;
   i:=player.CurrentTrack;
-  pfileobj:=player.Playlist.items[i].collection^.get_entry_by_id(player.Playlist.items[i].id);
-  if (pfileobj<>nil) and (pfileobj^.album<>'') then begin
-     pfileobj^.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
-     if (FileExists(pfileobj^.CoverPath)=false) then begin
+  fileobj:=TMp3fileobj(playlist.Items[player.CurrentTrack].Data);
+  if (fileobj.album<>'') then begin
+     fileobj.CoverPath:=main.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+fileobj.artist+'_'+fileobj.album+'.jpeg';
+     if (FileExists(fileobj.CoverPath)=false) then begin
              if  (CactusConfig.CoverDownload) then begin
-                  awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
-                  awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
+                  awsclass:=TAWSAccess.CreateRequest(fileobj.artist, fileobj.album);
+                  awsclass.AlbumCoverToFile(fileobj.CoverPath);
                end;
         end else begin
-             CoverImage.Picture.LoadFromFile(pfileobj^.CoverPath);
-             playwin.AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath);
+             CoverImage.Picture.LoadFromFile(fileobj.CoverPath);
+             playwin.AlbumCoverImg.Picture.LoadFromFile(fileobj.CoverPath);
         end;
     end else writeln;//CoverImage.Picture.LoadFromFile(DataPrefix+'tools'+DirectorySeparator+'cactus-logo-small.png');
 end;
@@ -2810,7 +2816,7 @@ begin
      Main.player.playlist.add(pfobj);
 
      ListItem := Main.Playlist.Items.Add;
-     listitem.data:=@PCol^.lib[z];
+     listitem.data:=PCol^.lib[z];
 
      if PCol^.lib[z].title<>'' then ListItem.Caption:=PCol^.lib[z].artist+' - '+PCol^.lib[z].title else ListItem.Caption:=extractfilename(PCol^.lib[z].path);
    end;
@@ -2863,7 +2869,7 @@ begin
        Main.player.playlist.add(@PCol^.lib[z]);
 
        ListItem := Main.Playlist.Items.Add;
-       listitem.data:=@PCol^.lib[z];
+       listitem.data:=PCol^.lib[z];
        if PCol^.lib[z].title<>'' then ListItem.Caption:=PCol^.lib[z].artist+' - '+PCol^.lib[z].title else ListItem.Caption:=extractfilename(PCol^.lib[z].path);
        end;
       inc(z);
@@ -3127,7 +3133,7 @@ var    PPlaylistItem: PPlaylistItemClass;
 begin
 
      for i:= 0 to player.Playlist.ItemCount do begin
-          Pfobj:= player.Playlist.Items[i].Collection^.get_entry_by_id(player.Playlist.Items[i].id);
+          Pfobj:=playlist.Items[player.CurrentTrack].Data;
           player.Playlist.Items[i].update(Pfobj);
 
           playlist.Items[i].data:=Pfobj;
@@ -3174,10 +3180,9 @@ var i : integer;
 begin
     writeln('### Disconnect DAP ###');
     Enabled:=false;
-    i:=1;
-    while i <= player.playlist.ItemCount do begin
-         PPlaylistItem:=PPlaylistItemClass(player.playlist.items[i]);
-         if PPlaylistItem^.collection=@PlayerCol then begin
+    i:=0;
+    while i < playlist.Items.Count do begin
+         if PMp3fileobj(playlist.Items[i].Data)^.collection=@PlayerCol then begin
             Player.playlist.remove(i);
             if player.Playlist.ItemCount<>0 then Playlist.Items[i].Delete;
             dec(i);
