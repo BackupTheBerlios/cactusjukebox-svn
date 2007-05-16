@@ -563,7 +563,7 @@ var z:integer;
 begin
   tmps:=extractfilename(pfileobj^.path);
   if ((tmps[1]<#60) and (tmps[2]<#60) and (tmps[4]=#45)) then begin
-                    trackedit2.text:=copy(tmps,1,2);
+                    trackedit1.text:=copy(tmps,1,2);
                     delete(tmps, 1, 5);
               end;
   

@@ -1334,7 +1334,14 @@ begin
   main.tempbitmap.Height:=150;
   // ------
 
-
+  if FileExists(CactusConfig.LastLib) then begin
+     StatusBar1.Panels[0].Text:='Loading last library...';
+     if Mediacollection.load_lib(CactusConfig.LastLib)<>0 then begin
+           MediaCollection.clear;
+           ShowMessage('ERROR while reading last library. You need to create a new one.'+LineEnding+'Please choose a directory to scan for mediafiles...');
+           newlibClick(nil);
+        end;
+   end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2213,44 +2220,48 @@ procedure TMain.playlistKeyDown(Sender: TObject; var Key: Word;
 var tempitem:TListItem;
     i:integer;
 begin
-  writeln(key);
+  write('Playlist keypress event: Keycode ');writeln(key);
   case key of
+
+    // Key Ctrl
        17: ctrl_pressed:=true;
+
+    // Key UP
        38: if playlist.Selected.Index>0 then begin
+              i:=playlist.Selected.Index;
+              writeln(i);
               if ctrl_pressed then begin
-                   i:=playlist.Selected.Index;
                    tempitem:=playlist.selected;
                    player.playlist.move(i, i-1);
                    playlist.items[i]:=playlist.items[i-1];
                    playlist.items[i-1]:=tempitem;
-                   playlist.BeginUpdate;
-                   playlist.Selected:=playlist.items[i];
-                   playlist.Selected:=playlist.items[i-1];
-                   playlist.EndUpdate;
-                 end
-               else begin
-                    playlist.selected:=playlist.items[playlist.Selected.Index];
-                    playlist.selected:=playlist.items[playlist.Selected.Index-1];
+                   Playlist.SetFocus;
+                   playlist.items[i].Selected:=false;
+                   playlist.items[i-1].Selected:=true;
+                   writeln(player.CurrentTrack);
+                   //tempitem.MakeVisible(true);
                  end;
-             end;
-                
+              writeln(playlist.Selected.Index);
+            end;
+
+    // Key DOWN
        40:  if playlist.Selected.Index<playlist.items.Count-1 then begin
+              i:=playlist.Selected.Index;
+              writeln(i);
               if ctrl_pressed then begin
-                   i:=playlist.Selected.Index;
                    tempitem:=playlist.selected;
                    player.playlist.move(i,i+1);
                    playlist.items[i]:=playlist.items[i+1];
                    playlist.items[i+1]:=tempitem;
-                   playlist.BeginUpdate;
-                   playlist.Selected:=playlist.items[i];
-                   playlist.Selected:=playlist.items[i+1];
-                   playlist.EndUpdate;
-                 end
-               else begin
-                    playlist.selected:=playlist.items[playlist.Selected.Index];
-                    playlist.selected:=playlist.items[playlist.Selected.Index+1];
-                 end;
-             end;
+                   Playlist.SetFocus;
+                   playlist.items[i].Selected:=false;
+                   playlist.items[i+1].Selected:=true;
+                   writeln(player.CurrentTrack);
+                   //tempitem.MakeVisible(true);
+               end;
+              writeln(playlist.Selected.Index);
+            end;
+     // Key Del
        46: MenuItem3Click(nil);
      end;
 end;
@@ -2266,14 +2277,8 @@ end;
 
 procedure TMain.playlistMouseDown(Sender: TOBject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+var tempitem: TListItem;
 begin
- {if playlist.Selected<>nil then begin
-  sourceitem:=playlist.Selected;
-  writeln(sourceitem.Caption);
-  BeginDrag(false);
- end;
-  }
-
   // ensure that the popup menu is only opened when an item is selected
   // the menu is reanabled in TMain.playlistSelectItem
   if (Button = mbRight) and (playlist.Selected = nil) then

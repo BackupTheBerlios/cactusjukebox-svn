@@ -119,12 +119,7 @@ begin
     ScanThread.Resume;
     writeln('starting scan thread...');
   end;     }
-{  Main.Titletree.Columns[0].autosize:=false;
-  Main.Titletree.Columns[1].autosize:=true;
-  Main.Titletree.Columns[2].autosize:=true;
-  Main.Titletree.Columns[3].autosize:=true;
-  Main.Titletree.Columns[4].autosize:=false;
-                                                }
+
   Main.checkmobile.Enabled:=true;
   Register_skins;
   writeln('-> loading skin '+CactusConfig.DataPrefix+'skins/'+CactusConfig.CurrentSkin);
@@ -133,12 +128,9 @@ begin
 
 //Load library
   writeln('last library '+CactusConfig.LastLib);
-  if FileExists(CactusConfig.LastLib) then begin
-     main.StatusBar1.Panels[0].Text:='Loading last library...';
-     Mediacollection.load_lib(CactusConfig.LastLib);
-     update_artist_view;
-     update_title_view;
-   end;
+
+  update_artist_view;
+  update_title_view;
   Application.Run;
 end.
 

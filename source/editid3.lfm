@@ -220,8 +220,8 @@ object EditID3: TEditID3
     end
     object fileinfo: TTabSheet
       Caption = 'File-Info'
-      ClientHeight = 320
-      ClientWidth = 372
+      ClientHeight = 352
+      ClientWidth = 376
       object mtype: TLabel
         Left = 40
         Height = 12
@@ -294,8 +294,8 @@ object EditID3: TEditID3
     end
     object id3v2tab: TTabSheet
       Caption = 'ID3v2'
-      ClientHeight = 320
-      ClientWidth = 372
+      ClientHeight = 352
+      ClientWidth = 376
       object Label9: TLabel
         Left = 16
         Height = 12
@@ -413,8 +413,8 @@ object EditID3: TEditID3
     end
     object id3v1tab: TTabSheet
       Caption = 'ID3v1'
-      ClientHeight = 320
-      ClientWidth = 372
+      ClientHeight = 352
+      ClientWidth = 376
       object Label7: TLabel
         Left = 177
         Height = 12

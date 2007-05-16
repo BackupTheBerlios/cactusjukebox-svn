@@ -36,10 +36,7 @@ uses
        procedure read_tag_wave;
        procedure read_tag_mp3;
        function getPath: String;
-       mp3filehandle:longint;
        id3v2, id3v1, read_only:boolean;
-       tagpos:byte;
-       id3v1str: string[31];
        FPath, FRelativePath: string;
 
       public
@@ -57,6 +54,7 @@ uses
        Collection: PMediaCollection;
        Playtime: string;
        Property path: String read getPath write FPath;
+       procedure assign(SourceObject: TMp3fileobj);
       end;
       
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -87,7 +85,7 @@ uses
          procedure remove_entry(ind:integer);
          function get_entry_by_id(id: integer):PMp3fileobj;
          function get_index_by_path(path: string):integer;
-         function  ScanForNew:byte;   //search all folders for new or changed files
+         function ScanForNew:byte;   //search all folders for new or changed files
          procedure Assign(SourceCol:TMediacollection);
   end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -137,7 +135,6 @@ begin
                           end;
                  //writeln(tmps);
                  writeln(lfile,tmps);
-                 writeln(lfile,lib[i].mp3filehandle);
                  writeln(lfile,lib[i].id);
                  writeln(lfile,lib[i].artist); writeln(lfile, lib[i].album); writeln(lfile, lib[i].title);writeln(lfile, lib[i].year);writeln(lfile, lib[i].comment);writeln(lfile, lib[i].track);
                  writeln(lfile,lib[i].id3v2); writeln(lfile, lib[i].id3v1); writeln(lfile, lib[i].read_only);
@@ -185,7 +182,6 @@ begin
                  lib[i].action:=ANOTHING;
                  readln(lfile, lib[i].fpath);
                  lib[i].FRelativePath:=RPath;
-                 readln(lfile, lib[i].mp3filehandle);
                  readln(lfile, lib[i].id);
                  readln(lfile, lib[i].artist); readln(lfile, lib[i].album); readln(lfile, lib[i].title);readln(lfile, lib[i].year);readln(lfile, lib[i].comment);readln(lfile, lib[i].track);
                  readln(lfile,tmps);
@@ -313,6 +309,8 @@ var
        bufstr, tmptag:string;
        artistv2, albumv2, titlev2, commentv2, yearv2, trackv2: string;
        i, z:integer;
+       id3v1str: string[31];
+       mp3filehandle:longint;
 begin
 {id3v2}
   if id3v2 or (length(artist)>30) or (length(title)>30) or (length(album)>30) or (length(comment)>30) then
@@ -486,6 +484,7 @@ procedure TMp3fileobj.read_tag_wave;
 var li: cardinal;
     b: byte;
     z: integer;
+    mp3filehandle:longint;
 begin
   Try
    mp3filehandle:=fileopen(path, fmOpenRead);
@@ -534,10 +533,11 @@ end;
 
 procedure TMp3fileobj.read_tag_mp3;
 var b, xx:byte;
-    i, z:integer;
+    i, z, tagpos:integer;
     buf: array[1..1024] of byte;
     artistv2, albumv2, titlev2, commentv2, yearv2, trackv2: string;
     bufstr:string;
+    mp3filehandle:longint;
 begin
     Try
      mp3filehandle:=fileopen(path, fmOpenRead);
@@ -729,6 +729,37 @@ begin
 
  if filetype='.mp3' then read_tag_mp3;
 
+end;
+{       mp3filehandle:longint;
+       id3v2, id3v1, read_only:boolean;
+       tagpos:byte;
+       id3v1str: string[31];
+       FPath, FRelativePath: string;
+}
+procedure TMp3fileobj.assign(SourceObject: TMp3fileobj);
+begin
+  Artist:=SourceObject.Artist;
+  Title:=SourceObject.Title;
+  Album:=SourceObject.Album;
+  Year:=SourceObject.Year;
+  Track:=SourceObject.Track;
+  Comment:=SourceObject.Comment;
+  
+  Filetype:=SourceObject.Filetype;
+  path:=SourceObject.path;
+  Size:=SourceObject.Size;
+  id:=SourceObject.id;
+  Bitrate:=SourceObject.Bitrate;
+  Samplerate:=SourceObject.Samplerate;
+  Playlength:=SourceObject.Playlength;
+  index:=SourceObject.index;
+  Action:=SourceObject.Action;
+
+  CoverPath:=SourceObject.CoverPath;
+  Collection:=SourceObject.Collection;
+  Playtime:=SourceObject.Playtime;
+
+  path:=SourceObject.path;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -978,7 +1009,7 @@ begin
      path:=filepath;
      Filemode:=0;
     try
-     assign(tmpfile, path);
+     system.assign(tmpfile, path);
      reset(tmpfile);
      size:=filesize(tmpfile); {get filesize}
     // writeln(path);

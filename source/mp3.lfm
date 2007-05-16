@@ -1,6 +1,7 @@
 object Main: TMain
-  Left = 162
+  Left = 108
   Height = 677
+  Top = 25
   Width = 855
   HorzScrollBar.Page = 854
   HorzScrollBar.Range = 369
@@ -8,6 +9,8 @@ object Main: TMain
   ActiveControl = ArtistTree
   BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'titel'
+  ClientHeight = 651
+  ClientWidth = 855
   Icon.Data = {
     610A00002F2A2058504D202A2F0A7374617469632063686172202A6772617068
     69635B5D203D207B0A223136203136203132372032222C0A222E2E2063204E6F
@@ -133,13 +136,15 @@ object Main: TMain
     Align = alRight
     AutoSize = True
     BevelOuter = bvNone
+    ClientHeight = 629
+    ClientWidth = 591
     ParentColor = False
     TabOrder = 0
     OnClick = Panel1Click
     object SearchPanel: TPanel
       Left = 12
       Height = 81
-      Top = 257
+      Top = 264
       Width = 424
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -148,6 +153,8 @@ object Main: TMain
       BorderSpacing.Bottom = 20
       BorderSpacing.CellAlignHorizontal = ccaCenter
       BorderSpacing.CellAlignVertical = ccaCenter
+      ClientHeight = 81
+      ClientWidth = 424
       FullRepaint = False
       TabOrder = 1
       TabStop = True
@@ -246,6 +253,8 @@ object Main: TMain
       BorderSpacing.Bottom = 20
       BorderSpacing.CellAlignHorizontal = ccaCenter
       BorderSpacing.CellAlignVertical = ccaCenter
+      ClientHeight = 263
+      ClientWidth = 224
       FullRepaint = False
       ParentColor = False
       TabOrder = 0
@@ -593,8 +602,8 @@ object Main: TMain
     end
     object TitleTree: TListView
       Left = 8
-      Height = 241
-      Top = 8
+      Height = 246
+      Top = 10
       Width = 572
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Around = 20
@@ -606,27 +615,28 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Artist'
-          Width = 40
+          Width = 26
         end      
         item
           AutoSize = True
           Caption = 'Title'
-          Width = 34
+          Width = 22
         end      
         item
           AutoSize = True
           Caption = 'Album'
-          Width = 45
+          Width = 34
         end      
         item
           AutoSize = True
           Caption = 'Track'
-          Width = 40
+          Width = 29
         end      
         item
           Alignment = taRightJustify
           AutoSize = True
           Caption = 'Length'
+          Width = 37
         end>
       HideSelection = False
       LargeImages = ImageList1
@@ -654,17 +664,21 @@ object Main: TMain
       TabOrder = 4
     end
     object Playlist: TListView
-      Left = 256
+      Left = 248
       Height = 265
       Top = 359
-      Width = 324
-      Anchors = [akRight, akBottom]
+      Width = 332
+      Anchors = [akLeft, akRight, akBottom]
       Columns = <      
         item
           AutoSize = True
           Caption = 'Playlist'
+          Width = 38
         end>
+      HideSelection = False
       LargeImages = ImageList1
+      MultiSelect = True
+      ReadOnly = True
       SmallImages = ImageList1
       StateImages = ImageList1
       TabOrder = 5
@@ -673,6 +687,7 @@ object Main: TMain
       OnDblClick = PlaylistDblClick
       OnKeyDown = playlistKeyDown
       OnKeyUp = playlistKeyUp
+      OnMouseDown = PlaylistMouseDown
     end
   end
   object Panel4: TPanel
@@ -681,6 +696,8 @@ object Main: TMain
     Align = alClient
     BevelOuter = bvNone
     Caption = 'Panel4'
+    ClientHeight = 629
+    ClientWidth = 256
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
@@ -718,10 +735,12 @@ object Main: TMain
       ExpandSignColor = clSkyBlue
     end
     object ArtistSrchField: TPanel
-      Left = 112
-      Height = 66
-      Top = 552
-      Width = 129
+      Left = 128
+      Height = 58
+      Top = 560
+      Width = 120
+      ClientHeight = 58
+      ClientWidth = 120
       TabOrder = 1
       Visible = False
       OnClick = ArtistSrchFieldClick
@@ -735,9 +754,9 @@ object Main: TMain
         ParentColor = False
       end
       object SpeedButton1: TSpeedButton
-        Left = 9
+        Left = 8
         Height = 22
-        Top = 8
+        Top = 6
         Width = 23
         Color = clBtnFace
         Flat = True

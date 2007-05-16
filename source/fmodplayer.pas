@@ -31,7 +31,6 @@ TPlaylistitemClass = class
      constructor create;
      Artist, Title, Path, Album: string;
      LengthMS, id:longint;
-     //Collection: PMediaCollection;
      Played: boolean;
      procedure update(Pfileobj: PMp3fileobj);
    end;
@@ -45,7 +44,6 @@ type
   TPlaylistClass = class(Tlist)
    private
      function GetItems(index: integer):TPlaylistitemClass;
-
    public
      constructor create;
      function TotalPlayTime: int64;
@@ -63,6 +61,7 @@ type
      function ItemCount:integer;
      function LoadFromFile(path:string):byte;
      function SaveToFile(path:string):byte;
+     CurrentTrack: integer;
      property Items[index: integer]: TPlaylistitemClass read GetItems;
    end;
 
@@ -71,12 +70,14 @@ type
 
 TFModPlayerClass = class
    Private
-     FCurrentTrack:integer;
      temps: string;
      fTotalLength: int64;
      FPlaying, FPaused: Boolean;
      Soundhandle: PFSoundStream;
      FVolume: Byte;
+     function GetCurrentTrack: integer;
+     procedure SetCurrentTrack(index: integer);
+     property FCurrentTrack: Integer read GetCurrentTrack write SetCurrentTrack;
    Public
      constructor create;
      destructor destroy;
@@ -103,7 +104,7 @@ TFModPlayerClass = class
 
      oss:boolean;
      Playlist: TPlaylistClass;
-     property CurrentTrack: Integer read FCurrentTrack;
+     property CurrentTrack: Integer read GetCurrentTrack;
      property playing: boolean read FPlaying;
      property paused: boolean read FPaused;
      property volume:byte read FVolume write Set_Volume;
@@ -117,11 +118,21 @@ var tmpp: PChar;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+function TFModPlayerClass.GetCurrentTrack: integer;
+begin
+  result:=Playlist.CurrentTrack;
+end;
+
+procedure TFModPlayerClass.SetCurrentTrack(index: integer);
+begin
+  Playlist.CurrentTrack:=index;
+end;
+
 constructor TFModPlayerClass.create;
 begin
+     Playlist:=TPlaylistclass.create;
      fplaying:=false;
      FCurrentTrack:=-1;
-     Playlist:=TPlaylistclass.create;
      FVolume:=255;
 end;
 
@@ -229,11 +240,11 @@ var r:byte;
 begin
   r:=127;
   if fplaying then begin
-    if (CurrentTrack<Playlist.ItemCount) and (CurrentTrack>0) then begin
-       r:=play(CurrentTrack-1);
+    if (FCurrentTrack<Playlist.ItemCount) and (FCurrentTrack>0) then begin
+       r:=play(FCurrentTrack-1);
      end else
-         if (CurrentTrack<Playlist.ItemCount) and (CurrentTrack=0) then begin
-             r:=play(CurrentTrack);
+         if (FCurrentTrack<Playlist.ItemCount) and (FCurrentTrack=0) then begin
+             r:=play(FCurrentTrack);
            end;
    end;
   result:=r;
@@ -246,7 +257,7 @@ var r:byte;
 begin
   r:=127;
   if fplaying then begin
-    if CurrentTrack<Playlist.ItemCount then begin
+    if FCurrentTrack<Playlist.ItemCount-1 then begin
        r:=play(CurrentTrack+1);
      end;
    end;
@@ -393,7 +404,21 @@ end;
 
 procedure TPlaylistClass.move(dest, target: integer);
 begin
-  inherited Move(dest, target);
+  if (dest < ItemCount) and (target < ItemCount) and (dest >= 0) and (target >= 0 ) then
+    begin
+       inherited Move(dest, target);
+
+       if CurrentTrack=dest then begin
+           CurrentTrack:=target;
+           write('curtrack');           writeln(CurrentTrack);
+           writeln(target);
+         end
+        else if CurrentTrack=target then begin
+           CurrentTrack:=dest;
+           write('curtrack2');writeln(CurrentTrack);
+           writeln(target);
+         end;
+    end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -403,6 +428,7 @@ begin
  if (index>=0) and (index < Count) then begin
   Items[index].free;
   inherited Delete(index);
+  if CurrentTrack>index then dec(CurrentTrack);
  end;
 end;
 
