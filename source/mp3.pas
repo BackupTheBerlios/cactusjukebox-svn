@@ -1335,7 +1335,7 @@ begin
   // ------
 
   if FileExists(CactusConfig.LastLib) then begin
-     StatusBar1.Panels[0].Text:='Loading last library...';
+     main.StatusBar1.Panels[0].Text:='Loading last library...';
      if Mediacollection.load_lib(CactusConfig.LastLib)<>0 then begin
            MediaCollection.clear;
            ShowMessage('ERROR while reading last library. You need to create a new one.'+LineEnding+'Please choose a directory to scan for mediafiles...');
@@ -1550,7 +1550,7 @@ begin
   ShowMessage('Cactus Jukebox'+LineEnding+'version 0.3 unstable'+LineEnding+'This windows version is in alpha state and not fully functional   '+LineEnding+'written by Sebastian Kraft '+LineEnding+LineEnding+'(c) 2006'+LineEnding+'http://cactus.hey-you-freaks.de     ');
 {$endif win32}
 {$ifdef linux}
-  ShowMessage('Cactus Jukebox'+LineEnding+'version'+CACTUS_VERSION+LineEnding+'written by Sebastian Kraft '+LineEnding+LineEnding+'(c) 2006'+LineEnding+'http://cactus.hey-you-freaks.de     ');
+  ShowMessage('Cactus Jukebox'+LineEnding+'version'+CACTUS_VERSION+LineEnding+'written by Sebastian Kraft '+LineEnding+LineEnding+'(c) 2005-2007'+LineEnding+'http://cactus.hey-you-freaks.de     ');
 {$endif linux}
 end;
 
