@@ -25,8 +25,6 @@ TCddbObject = class
      year, genre, artist, album: string;
      title: array[1..99] of string;
      ErrorMsg, Status, QueryString: string;
-     FServer, FUser, FSoftware, FVersion, FHostname: string;
-     FPort: word;
      CDromDrives : Array[1..10] of String;
      DriveCount, NrTracks: byte;
      Device: string;
@@ -35,10 +33,6 @@ TCddbObject = class
      DiscID: integer;
      query_send, data_ready:boolean;
     function connect(server:string; port: word):boolean;
-    procedure OnReceiveProc(asocket: TLSocket);
-    procedure OnErrorProc(const msg: string; asocket: TLSocket);
-    procedure OnDisconnectProc(asocket: TLSocket);
-    procedure OnConnectProc(asocket: TLSocket);
     procedure callevents;
     procedure query(drive, server:string; port: word);
     function ReadTOC(drive:string):boolean;
@@ -46,7 +40,13 @@ TCddbObject = class
     destructor destroy;
   private
     { private declarations }
+    procedure OnReceiveProc(asocket: TLSocket);
+    procedure OnErrorProc(const msg: string; asocket: TLSocket);
+    procedure OnDisconnectProc(asocket: TLSocket);
+    procedure OnConnectProc(asocket: TLSocket);
     Connection: TLTcp;
+    FServer, FUser, FSoftware, FVersion, FHostname: string;
+    FPort: word;
   public
     { public declarations }
 

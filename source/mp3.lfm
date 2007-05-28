@@ -1,16 +1,16 @@
 object Main: TMain
   Left = 108
-  Height = 677
+  Height = 680
   Top = 25
-  Width = 855
-  HorzScrollBar.Page = 854
+  Width = 854
+  HorzScrollBar.Page = 853
   HorzScrollBar.Range = 369
-  VertScrollBar.Page = 649
+  VertScrollBar.Page = 652
   ActiveControl = ArtistTree
   BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'titel'
-  ClientHeight = 650
-  ClientWidth = 855
+  ClientHeight = 653
+  ClientWidth = 854
   Icon.Data = {
     610A00002F2A2058504D202A2F0A7374617469632063686172202A6772617068
     69635B5D203D207B0A223136203136203132372032222C0A222E2E2063204E6F
@@ -106,8 +106,9 @@ object Main: TMain
   ShowInTaskBar = stAlways
   object StatusBar1: TStatusBar
     Height = 23
-    Top = 627
-    Width = 855
+    Top = 630
+    Width = 854
+    AutoSize = False
     Panels = <    
       item
         Text = 'Cactus Jukebox'
@@ -119,8 +120,8 @@ object Main: TMain
     SimplePanel = False
   end
   object Splitter1: TSplitter
-    Left = 256
-    Height = 627
+    Left = 255
+    Height = 630
     Width = 8
     Align = alRight
     Color = clBtnFace
@@ -130,13 +131,13 @@ object Main: TMain
     ResizeAnchor = akRight
   end
   object Panel1: TPanel
-    Left = 264
-    Height = 627
+    Left = 263
+    Height = 630
     Width = 591
     Align = alRight
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 627
+    ClientHeight = 630
     ClientWidth = 591
     ParentColor = False
     TabOrder = 0
@@ -144,7 +145,7 @@ object Main: TMain
     object SearchPanel: TPanel
       Left = 12
       Height = 81
-      Top = 262
+      Top = 265
       Width = 424
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -244,7 +245,7 @@ object Main: TMain
     object PlayerControlsPanel: TPanel
       Left = 12
       Height = 263
-      Top = 351
+      Top = 354
       Width = 224
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -509,6 +510,7 @@ object Main: TMain
         Top = 53
         Width = 40
         MaxLength = 5
+        PopupMenu = playlistmenu
         ReadOnly = True
         TabOrder = 2
         Text = '00:00'
@@ -551,7 +553,7 @@ object Main: TMain
       Left = 504
       Height = 30
       Hint = 'Clear Playlist'
-      Top = 314
+      Top = 317
       Width = 67
       Anchors = [akRight, akBottom]
       AutoSize = True
@@ -602,7 +604,7 @@ object Main: TMain
     end
     object TitleTree: TListView
       Left = 8
-      Height = 244
+      Height = 247
       Top = 10
       Width = 572
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -666,7 +668,7 @@ object Main: TMain
     object Playlist: TListView
       Left = 248
       Height = 265
-      Top = 357
+      Top = 359
       Width = 332
       Anchors = [akLeft, akRight, akBottom]
       Columns = <      
@@ -689,23 +691,24 @@ object Main: TMain
       OnKeyDown = playlistKeyDown
       OnKeyUp = playlistKeyUp
       OnMouseDown = PlaylistMouseDown
+      OnSelectItem = PlaylistSelectItem
     end
   end
   object Panel4: TPanel
-    Height = 627
-    Width = 256
+    Height = 630
+    Width = 255
     Align = alClient
     BevelOuter = bvNone
     Caption = 'Panel4'
-    ClientHeight = 627
-    ClientWidth = 256
+    ClientHeight = 630
+    ClientWidth = 255
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 10
-      Height = 612
+      Height = 615
       Top = 10
-      Width = 246
+      Width = 245
       Align = alClient
       BorderSpacing.Left = 10
       BorderSpacing.Top = 10
@@ -719,7 +722,6 @@ object Main: TMain
       Ctl3D = True
       DefaultItemHeight = 16
       ExpandSignType = tvestArrow
-      HideSelection = False
       Images = ImageList1
       PopupMenu = artisttreemenu
       ReadOnly = True
@@ -732,7 +734,7 @@ object Main: TMain
       OnKeyUp = ArtistTreeKeyUp
       OnMouseDown = ArtistTreeMouseDown
       OnSelectionChanged = ArtistTreeSelectionChanged
-      Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips]
+      Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips]
       ExpandSignColor = clSkyBlue
     end
     object ArtistSrchField: TPanel

@@ -57,16 +57,16 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="27" Y="1348"/>
-        <TopLine Value="1340"/>
+        <CursorPos X="25" Y="2285"/>
+        <TopLine Value="2268"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="6">
           <Item0 X="10" Y="458" ID="2"/>
-          <Item1 X="57" Y="2071" ID="3"/>
-          <Item2 X="11" Y="2528" ID="4"/>
+          <Item1 X="57" Y="2070" ID="3"/>
+          <Item2 X="11" Y="2531" ID="4"/>
           <Item3 X="23" Y="450" ID="5"/>
-          <Item4 X="10" Y="2548" ID="6"/>
+          <Item4 X="10" Y="2551" ID="6"/>
           <Item5 X="10" Y="898" ID="7"/>
         </Bookmarks>
         <Loaded Value="True"/>
@@ -75,8 +75,8 @@
         <Filename Value="mp3file.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3file"/>
-        <CursorPos X="13" Y="1012"/>
-        <TopLine Value="995"/>
+        <CursorPos X="39" Y="21"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="2">
@@ -106,7 +106,7 @@
         <ResourceFilename Value="editid3.lrs"/>
         <UnitName Value="editid3"/>
         <CursorPos X="116" Y="575"/>
-        <TopLine Value="551"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -333,8 +333,8 @@
         <Filename Value="fmodplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="fmodplayer"/>
-        <CursorPos X="86" Y="271"/>
-        <TopLine Value="255"/>
+        <CursorPos X="45" Y="515"/>
+        <TopLine Value="492"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -603,8 +603,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="cdrip.lrs"/>
         <UnitName Value="cdrip"/>
-        <CursorPos X="100" Y="76"/>
-        <TopLine Value="61"/>
+        <CursorPos X="27" Y="153"/>
+        <TopLine Value="137"/>
         <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -612,8 +612,8 @@
       <Unit72>
         <Filename Value="cddb.pas"/>
         <UnitName Value="cddb"/>
-        <CursorPos X="29" Y="49"/>
-        <TopLine Value="46"/>
+        <CursorPos X="44" Y="32"/>
+        <TopLine Value="39"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
@@ -768,7 +768,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="functions"/>
         <CursorPos X="1" Y="345"/>
-        <TopLine Value="329"/>
+        <TopLine Value="16"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -887,7 +887,20 @@
         <UsageCount Value="10"/>
       </Unit111>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="3" HistoryIndex="2">
+      <Position1>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="675" Column="3" TopLine="672"/>
+      </Position1>
+      <Position2>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="2166" Column="3" TopLine="2164"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1914" Column="3" TopLine="1908"/>
+      </Position3>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

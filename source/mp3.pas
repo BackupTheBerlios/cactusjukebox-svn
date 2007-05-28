@@ -1004,8 +1004,7 @@ end;
 procedure TMain.FormResize(Sender: TObject);
 begin
      Panel4.Width:=oldSplitterWidth;
-     Panel1.Width:=main.Width-oldSplitterWidth-8;
-     writeln(oldSplitterWidth);
+     Panel1.Width:=Width-oldSplitterWidth-8;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

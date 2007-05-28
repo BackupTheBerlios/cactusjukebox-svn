@@ -182,15 +182,19 @@ begin
          StrPCopy(tmpp,playlist.items[index].path);
 
        // Open the stream
-         Soundhandle:=FSOUND_Stream_Open(tmpp,{ FSOUND_MPEGACCURATE or FSOUND_NONBLOCKING }FSOUND_NORMAL, 0, 0);    //Fixes Bug when starting VBR files first, FSOUND_NORMAL is faster!!
+         write(' openingstream... ');
+         Soundhandle:=FSOUND_Stream_Open(tmpp, FSOUND_MPEGACCURATE or {FSOUND_NONBLOCKING }FSOUND_NORMAL, 0, 0);    //Fixes Bug when starting VBR files first, FSOUND_NORMAL is faster!!
+
          z:=0;
          repeat begin   //Wait until it is loaded and ready
                 z:=FSOUND_Stream_GetOpenState(soundhandle);
               end;
           until (z=0) or (z=-3);
-
+         write(' ready... ');
          if z = 0 then begin //If loading was succesful
+            write(' start playing... ');
             FSOUND_Stream_Play (0,Soundhandle);      //   Start playing
+            writeln(' ready... ');
             FSOUND_SetVolume(0, volume);
             fplaying:=true;
             playlist.items[index].played:=true;
@@ -495,7 +499,7 @@ begin
   for i := 0 to Count-1 do if Items[i].played=false then s:= true;
   randomize;
   if s then begin
-     repeat x:=random(Count-1) until Items[i].played=false;
+     repeat x:=random(Count-1) until Items[x].played=false;
      result:=x;
    end
      else begin

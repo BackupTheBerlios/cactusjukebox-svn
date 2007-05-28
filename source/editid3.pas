@@ -125,13 +125,76 @@ uses mp3, lazjpeg, settings;
 
 procedure TEditID3.savebutClick(Sender: TObject);
 var curartist, newart, oldart, oldalbum, newalbum, strNewYear, strNewComment: string;
-    i, z:integer;
+    z:integer;
+    bYearLongEnough: Boolean;
 begin
+  // check if the file exists and is writable
   if (FileGetAttr(PFileObj^.path) and faReadOnly)=0
   then
   begin
-    if (artist_only=false) and (album_only=false)
+    // write changes (artist-mode)
+    if artist_only=true
     then
+    begin
+      oldart:=lowercase(PFileObj^.artist);
+      newart:=artistedit1.text;
+      strNewComment := self.cmbComment.Caption;
+
+      strNewYear := self.cmbYear.Caption;
+      if Length(strNewYear) = 4 then
+        bYearLongEnough := true;
+
+      for z := pfileobj^.index to PCol^.max_index -1 do
+        if oldart = lowercase(PCol^.lib[z].artist)
+        then
+        begin
+          writeln('artist_mode: '+ artistedit1.Text +' #'+ IntToStr(z));    // DEBUG-INFO
+
+          PCol^.lib[z].artist:=newart;
+          if bYearLongEnough then PCol^.lib[z].year := self.cmbYear.Caption;
+          PCol^.lib[z].comment:= strNewComment;
+//        PCol^.lib[z].artistv2:=newart;
+          writeln(newart);
+          PCol^.lib[z].write_tag;
+        end
+        else
+          break;
+    end
+    // write changes (album-mode)
+    else if album_only=true
+    then
+    begin
+      curartist:=lowercase(PFileObj^.artist);
+      oldalbum:=lowercase(PFileObj^.album);
+      newalbum:=albumedit1.text;
+      newart:=artistedit1.text;
+      strNewComment := self.cmbComment.Caption;
+
+      strNewYear := self.cmbYear.Caption;
+      if Length(strNewYear) = 4 then
+        bYearLongEnough := true;
+
+      Z:=pfileobj^.index;
+      while (z>0) and (lowercase(PCol^.lib[z].artist)=curartist) do dec(z);
+      inc(z);
+
+      for z := z to PCol^.max_index -1 do
+        if curartist = lowercase(PCol^.lib[z].artist)
+        then
+          if oldalbum = lowercase(PCol^.lib[z].album)
+          then
+          begin
+            PCol^.lib[z].album:=newalbum;
+            PCol^.lib[z].artist:=newart;
+            if bYearLongEnough then PCol^.lib[z].year := self.cmbYear.Caption;
+            PCol^.lib[z].comment:= strNewComment;
+            PCol^.lib[z].write_tag;
+          end
+        else
+          break;
+    end
+    // write cahnges (title-mode)
+    else
     begin
       PFileObj^.artist:=artistedit1.text;
       PFileObj^.title:=titleedit1.text;
@@ -141,64 +204,12 @@ begin
       pfileobj^.track:=trackedit1.text;
 
       PFileObj^.write_tag;
-   
+
       RenameFile(PFileObj^.path, editid3win.pathedit1.text);
       PFileObj^.path:=editid3win.pathedit1.text;
     end;
 
-    if artist_only=true
-    then
-    begin
-      oldart:=lowercase(PFileObj^.artist);
-      newart:=artistedit1.text;
-      strNewYear := self.cmbYear.Caption;
-      strNewComment := self.cmbComment.Caption;
 
-      writeln('artist_mode');
-      z:=pfileobj^.index;
-      while (z<PCol^.max_index) and (oldart=lowercase(PCol^.lib[z].artist)) do
-      begin
-        PCol^.lib[z].artist:=newart;
-        if Length(strNewYear) = 4 then
-          PCol^.lib[z].year := strNewYear;
-        PCol^.lib[z].comment:= strNewComment;
-//         PCol^.lib[z].artistv2:=newart;
-        writeln(newart);
-        PCol^.lib[z].write_tag;
-        writeln(z);
-        inc(z);
-      end;
-      artist_only:=false;
-    end;
-    if album_only=true
-    then
-    begin
-      curartist:=lowercase(PFileObj^.artist);
-      oldalbum:=lowercase(PFileObj^.album);
-      newalbum:=albumedit1.text;
-      newart:=artistedit1.text;
-      strNewYear := self.cmbYear.Caption;
-      strNewComment := self.cmbComment.Caption;
-
-      Z:=pfileobj^.index;
-      while (z>0) and (lowercase(PCol^.lib[z].artist)=curartist) do dec(z);
-      inc(z);
-      while (z<PCol^.max_index) and (curartist=lowercase(PCol^.lib[z].artist)) do
-      begin
-        if oldalbum=lowercase(PCol^.lib[z].album)
-        then
-        begin
-          PCol^.lib[z].album:=newalbum;
-          PCol^.lib[z].artist:=newart;
-          if Length(strNewYear) = 4 then
-            PCol^.lib[z].year := strNewYear;
-          PCol^.lib[z].comment:= strNewComment;
-          PCol^.lib[z].write_tag;
-        end;
-        inc(z);
-      end;
-      album_only:=false;
-    end;
     if main.player_connected then PlayerCol.save_lib(CactusConfig.DAPPath+'cactuslib');
 
     update_artist_view;
@@ -206,7 +217,7 @@ begin
     main.update_playlist;
   end
   else
-    ShowMessage('Error: File is Read-Only');
+    ShowMessage('Error: File(s) is/are read-only');
 
   EditID3win.Hide;
 end;
