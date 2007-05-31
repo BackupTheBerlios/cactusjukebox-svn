@@ -507,6 +507,7 @@ function FMUSIC_GetRealChannel(Module: PFMusicModule; modchannel: Integer): Inte
 function FMUSIC_GetUserData(Module: PFMusicModule): Integer; {$IFDEF LINUX} cdecl {$ELSE} stdcall {$ENDIF};
 
 implementation
+
 const
 {$IFDEF LINUX}
   FMOD_DLL = 'libfmod.so';
@@ -760,13 +761,15 @@ var
   Saved8087CW: Word;
 
 {$ifdef FPC} //FPC do not have this function in its RTL
-const
+
+//commented out. since fpc 2.02 it is part of RTL
+{const
   Default8087CW = $1332; //according to the FPC site it's the value used in the
                          //startup code.
-procedure Set8087CW( value :word );oldfpccall; Assembler;
+procedure Set8087CW( value :word ); Assembler;
 asm
    FLDCW  value
-end;
+end;}
 {$endif}
 
 

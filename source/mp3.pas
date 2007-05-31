@@ -25,7 +25,7 @@ interface
 uses
 
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
-  ExtCtrls, ComCtrls, StdCtrls, Menus, fmod, fmodtypes, fmodplayer,
+  ExtCtrls, ComCtrls, StdCtrls, Menus, fmodplayer,
   ActnList, mp3file, dos, SimpleIPC, functions, EditBtn, CheckLst, aws;
   
 resourcestring
@@ -209,6 +209,8 @@ type
     procedure NextButtonImgMouseLeave(Sender: TObject);
     procedure NextButtonImgMouseUp(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure PlaylistCustomDrawItem(Sender: TCustomListView; Item: TListItem;
+      State: TCustomDrawState; var DefaultDraw: Boolean);
     procedure SearchPanelClick(Sender: TObject);
     procedure PlayerControlsPanelClick(Sender: TObject);
     procedure PauseButtonImgClick(Sender: TObject);
@@ -677,7 +679,7 @@ begin
   if randomcheck.Checked=false then err:=player.next_track else err:=player.play(player.Playlist.RandomIndex);
   if err=0 then begin
       i:=player.CurrentTrack;
-      if i > 0 then begin
+      if i >= 0 then begin
           if oldindex>=0 then playlist.Items[oldindex].ImageIndex:=-1;
           playlist.Items[i].ImageIndex:=0;
           playtimer.Enabled:=true;
@@ -691,22 +693,21 @@ end;
 
 procedure TMain.prevClick(Sender: TObject);
 var err:byte;
-    i:integer;
+    i, OldTrack:integer;
 begin
      playtimer.Enabled:=false;
+     OldTrack:=player.CurrentTrack;
      err:=player.prev_track;
      if (err=0) then begin
           i:=player.CurrentTrack;
           if playlist.Items.Count>1 then begin
-                     playlist.Items[i+1].ImageIndex:=-1;
+                     if OldTrack>=0 then playlist.Items[OldTrack].ImageIndex:=-1;
                      playlist.Items[i].ImageIndex:=0;
                  end;
           playtimer.Enabled:=true;
         end
           else stopClick(nil);
      update_player_display;
-
-     write('err  ');writeln(err);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -719,7 +720,7 @@ begin
          playtimer.Enabled:=false;
          if (Playlist.items.count>0) and (Playlist.Selected=nil)then playitem:=Playlist.Items[0]
            else playitem:=playlist.selected;
-         if (player.playing) and (player.Playlist.Count>0) and (player.CurrentTrack<player.Playlist.Count)
+         if (player.playing) and (player.Playlist.Count>0) and (player.CurrentTrack<player.Playlist.Count) and (player.CurrentTrack>=0)
                  then playlist.Items[player.CurrentTrack].ImageIndex:=-1;;
          if playitem<>nil then begin
             err:=player.play(playitem.Index);
@@ -743,7 +744,7 @@ end;
 
 procedure TMain.stopClick(Sender: TObject);
 begin
-    if (player.CurrentTrack>0) then playlist.Items[player.CurrentTrack].ImageIndex:=-1;
+    if (player.CurrentTrack>=0) and (player.CurrentTrack<player.Playlist.ItemCount) then playlist.Items[player.CurrentTrack].ImageIndex:=-1;
     player.stop;
     player.playlist.reset_random;
     update_player_display;
@@ -774,8 +775,7 @@ begin
      trackbar.position:= round(r);
      x2:=(trackbar.position*2)-3;
      if x2<3 then x2:=3;
-
-     if (spos=slength) and (player.CurrentTrack<player.Playlist.ItemCount) then nextclick(nil);
+     if (spos>=slength) {and (player.CurrentTrack<player.Playlist.ItemCount)} then nextclick(nil);
      if (CoverFound=false) and (LoopCount<20) then begin
                   inc(LoopCount);
                   if (assigned(awsclass)) and (awsclass.data_ready){  }then begin
@@ -787,7 +787,7 @@ begin
                         CoverFound:=true;
                         FreeAndNil(awsclass);
                     end;
-              end;
+              end else if (LoopCount>=20) and (CoverFound=false) then CoverImage.Picture.Clear;
     end else playtimer.Enabled:=false;
    except
      writeln('CAUGHT EXCEPTION IN PLAYTIMER!!!!');
@@ -1071,6 +1071,18 @@ procedure TMain.NextButtonImgMouseUp(Sender: TOBject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   NextButtonImg.Picture.LoadFromFile(SkinData.next.MouseOver);
+end;
+
+procedure TMain.PlaylistCustomDrawItem(Sender: TCustomListView;
+  Item: TListItem; State: TCustomDrawState; var DefaultDraw: Boolean);
+begin
+// not working because font colors not implemented in Lazarus 0.9.23
+
+  if (player.Playlist.Items[Item.Index].Played) and (player.CurrentTrack<>Item.Index) then
+         Sender.Canvas.Font.Color:=clGrayText
+       else
+          Sender.Canvas.Font.Color:=clWindowText;
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1387,6 +1399,7 @@ if SimpleIPCServer1.PeekMessage(1,True) then begin
      STOP_PLAYING: stopClick(nil);
      START_PLAYING: playClick(nil);
      PREV_TRACK: prevClick(nil);
+     PAUSE_PLAYING: pauseClick(nil);
    else writeln(' --> Invalid message/filename received via IPC');
   end;
 end;
@@ -2311,6 +2324,7 @@ begin
   if (fileobj.album<>'') then begin
      fileobj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+fileobj.artist+'_'+fileobj.album+'.jpeg';
      if (FileExists(fileobj.CoverPath)=false) then begin
+             CoverImage.Picture.Clear;
              if  (CactusConfig.CoverDownload) then begin
                   awsclass:=TAWSAccess.CreateRequest(fileobj.artist, fileobj.album);
                   awsclass.AlbumCoverToFile(fileobj.CoverPath);
@@ -2318,8 +2332,9 @@ begin
         end else begin
              CoverImage.Picture.LoadFromFile(fileobj.CoverPath);
              playwin.AlbumCoverImg.Picture.LoadFromFile(fileobj.CoverPath);
+             CoverFound:=true;
         end;
-    end else writeln;//CoverImage.Picture.LoadFromFile(DataPrefix+'tools'+DirectorySeparator+'cactus-logo-small.png');
+    end else CoverImage.Picture.Clear;//CoverImage.Picture.LoadFromFile(DataPrefix+'tools'+DirectorySeparator+'cactus-logo-small.png');
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3116,7 +3131,6 @@ begin
      for i:= 0 to player.Playlist.ItemCount-1 do begin
           fobj:=TMp3fileobj(playlist.Items[i].Data);
           player.Playlist.Items[i].update(@fobj);
-
           if fobj.title<>'' then
               playlist.Items[i].caption:=fobj.artist+' - '+fobj.title
             else

@@ -51,6 +51,7 @@ begin
 		     's' : ActionID:=START_PLAYING;
 		     'x' : ActionID:=STOP_PLAYING;
 		     'p' : ActionID:=PREV_TRACK; 
+		     'b' : ActionID:=PAUSE_PLAYING;
 		   end;
 		end;
          else invalid_param:=true;
@@ -75,6 +76,8 @@ begin
         writeln('          p     Previous track');	
         writeln('          s     Start playing');	
         writeln('          x     Stop playing');	
+	writeln('          b     Pause playing');
+
         writeln();
         writeln('    -h/--help  show this help');
         writeln();

@@ -104,7 +104,6 @@ try
 
      artistok:=false;
      albumok:=false;
-
      ReadXMLFile(XMLResult, HTTPRecData);
      node:=XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('ItemAttributes').FindNode('Artist');
      if assigned(node) then begin

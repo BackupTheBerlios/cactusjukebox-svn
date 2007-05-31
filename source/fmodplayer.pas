@@ -160,19 +160,19 @@ var z: integer;
 begin
  if (index<Playlist.ItemCount) and (index>=0) then begin
    if (fplaying=true) then begin
-         FSOUND_Stream_Stop(Soundhandle);
-         FSOUND_Stream_Close(Soundhandle);
+         if FSOUND_Stream_Stop(Soundhandle)=false then writeln('ERROR stop stream');
+         if FSOUND_Stream_Close(Soundhandle)=false then writeln('ERROR on closing stream');
          fplaying:=false;
       end;
    if (fplaying=false) then begin
-    FSOUND_Close;
+   //FSOUND_Close;
  {$ifdef linux}
-    if oss then begin
+  {  if oss then begin
            if FSOUND_SetOutput(FSOUND_OUTPUT_OSS) then writeln('Oss output openend') else writeln('failed opening oss output')
          end
          else begin
            if FSOUND_SetOutput(FSOUND_OUTPUT_ALSA) then writeln('alsa output openend') else writeln('failed opening alsa output')
-         end;
+         end;}
   {$endif}
     if FSOUND_Init(44100, 32, 0)=true then begin
 
@@ -183,8 +183,7 @@ begin
 
        // Open the stream
          write(' openingstream... ');
-         Soundhandle:=FSOUND_Stream_Open(tmpp, FSOUND_MPEGACCURATE or {FSOUND_NONBLOCKING }FSOUND_NORMAL, 0, 0);    //Fixes Bug when starting VBR files first, FSOUND_NORMAL is faster!!
-
+         Soundhandle:=FSOUND_Stream_Open(tmpp, FSOUND_MPEGACCURATE or FSOUND_NONBLOCKING {FSOUND_NORMAL}, 0, 0);    //Fixes Bug when starting VBR files first, FSOUND_NORMAL is faster!!
          z:=0;
          repeat begin   //Wait until it is loaded and ready
                 z:=FSOUND_Stream_GetOpenState(soundhandle);
@@ -193,11 +192,11 @@ begin
          write(' ready... ');
          if z = 0 then begin //If loading was succesful
             write(' start playing... ');
-            FSOUND_Stream_Play (0,Soundhandle);      //   Start playing
+            FSOUND_Stream_Play (FSOUND_FREE,Soundhandle);      //   Start playing
             writeln(' ready... ');
             FSOUND_SetVolume(0, volume);
-            fplaying:=true;
             playlist.items[index].played:=true;
+            fplaying:=true;
             result:=0;
             FCurrentTrack:=index;
            end else begin
@@ -441,6 +440,9 @@ end;
 procedure TPlaylistClass.clear;
 begin
    while count>0 do remove(0);
+   write('playlist cleared');
+   writeln(Count);
+   CurrentTrack:=-1;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -499,10 +501,21 @@ begin
   for i := 0 to Count-1 do if Items[i].played=false then s:= true;
   randomize;
   if s then begin
-     repeat x:=random(Count-1) until Items[x].played=false;
+     i:=0;
+     repeat begin
+         x:=random(Count-1);
+         inc(i);
+       end;
+     until (Items[x].played=false) or (i > 4096);  // i is for timeout to prevent an endless loop
+
+     if i>4096 then begin
+           x:=-1;
+           repeat inc(x) until Items[x].played=false;
+         end;
+
      result:=x;
-   end
-     else begin
+  end
+  else begin
           result:=-1;
          end;
 end;

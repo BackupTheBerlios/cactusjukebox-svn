@@ -108,7 +108,6 @@ object Main: TMain
     Height = 23
     Top = 630
     Width = 854
-    AutoSize = False
     Panels = <    
       item
         Text = 'Cactus Jukebox'
@@ -373,7 +372,7 @@ object Main: TMain
         OnMouseUp = StopButtonImgMouseUp
       end
       object NextButtonImg: TImage
-        Left = 161
+        Left = 160
         Height = 24
         Top = 45
         Width = 32
@@ -677,6 +676,8 @@ object Main: TMain
           Caption = 'Playlist'
           Width = 42
         end>
+      Font.Color = clGreen
+      Font.Height = -14
       HideSelection = False
       LargeImages = ImageList1
       MultiSelect = True
@@ -687,6 +688,7 @@ object Main: TMain
       TabOrder = 5
       ViewStyle = vsReport
       OnClick = playlistClick
+      OnCustomDrawItem = PlaylistCustomDrawItem
       OnDblClick = PlaylistDblClick
       OnKeyDown = playlistKeyDown
       OnKeyUp = playlistKeyUp
@@ -698,6 +700,7 @@ object Main: TMain
     Height = 630
     Width = 255
     Align = alClient
+    AutoSize = True
     BevelOuter = bvNone
     Caption = 'Panel4'
     ClientHeight = 630

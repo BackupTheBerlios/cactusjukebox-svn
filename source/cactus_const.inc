@@ -8,3 +8,4 @@ const CACTUS_VERSION = '0.3.1.4 unstable';
       PREV_TRACK = 7;
       STOP_PLAYING = 8;
       START_PLAYING = 9;	
+      PAUSE_PLAYING = 10;	

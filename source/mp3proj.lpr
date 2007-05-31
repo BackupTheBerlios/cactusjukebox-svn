@@ -20,8 +20,7 @@ uses
    cthreads,
  {$endif}
   Interfaces,SysUtils,
-  Forms, mp3, mp3file, status, settings, fmod,
-  player, fmodplayer, graphics, editid3, directories, skin,
+  Forms, mp3, mp3file, status, settings, player, fmodplayer, graphics, editid3, directories, skin,
   cdrip, functions, aws, JPEGForLazarus;
 
 var

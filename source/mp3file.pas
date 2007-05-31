@@ -95,7 +95,7 @@ var mp3buf, mp3buf2: TMp3fileObj;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 implementation
-uses status, fmod, mp3, functions, settings;
+uses status, mp3, functions, settings;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 var s, s2: string[8];
