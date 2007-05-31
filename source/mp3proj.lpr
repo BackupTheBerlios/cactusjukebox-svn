@@ -96,7 +96,7 @@ begin
 
   for i:= 1 to paramcount do if (paramstr(i)<>'-c') and (paramstr(i)<>'-p') and (paramstr(i)<>'-h') and (paramstr(i)<>'--help') then begin
         if FileExists(paramstr(i)) then begin
-                                         loadfile:=paramstr(i);
+                                         CactusConfig.LoadOnStart:=paramstr(i);
                                       end
                                      else
                                        begin
@@ -119,14 +119,10 @@ begin
     writeln('starting scan thread...');
   end;     }
 
-  Main.checkmobile.Enabled:=true;
+
   Register_skins;
   writeln('-> loading skin '+CactusConfig.DataPrefix+'skins/'+CactusConfig.CurrentSkin);
   SkinData.load_skin(CactusConfig.CurrentSkin);
-//  if loadfile<>'' then main.fileopen(loadfile);  NEEDS TO BE ACTIVATED AGAIN
-
-//Load library
-  writeln('last library '+CactusConfig.LastLib);
 
   update_artist_view;
   update_title_view;

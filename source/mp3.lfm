@@ -540,7 +540,7 @@ object Main: TMain
         Max = 50
         OnChange = volumebarChange
         Orientation = trVertical
-        ScalePos = trTop
+        ScalePos = trBottom
         TickMarks = tmBoth
         TickStyle = tsNone
         ParentCtl3D = False

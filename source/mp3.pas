@@ -342,12 +342,15 @@ type
     Procedure MoveNode(TargetNode, SourceNode : TTreeNode);
     procedure ApplicationIdle(Sender: TObject; var Done: Boolean);
     procedure update_player_display;
+    function LoadFile(path: string):boolean;
+
     changetree, ctrl_pressed, SplitterResize:boolean;
     tsnode:TTreeNode;
     oldSplitterWidth, LoopCount: integer;
     sourceitem: TListItem;
     CoverFound: Boolean;
     awsclass: TAWSAccess;
+
   public
     procedure update_playlist;
     procedure disconnectDAP;
@@ -1336,7 +1339,7 @@ begin
 
   SimpleIPCServer1.StartServer;
 
-
+  checkmobile.Enabled:=true;
 
   // unused ??
   main.tempbitmap:=TBitmap.Create;
@@ -1353,6 +1356,11 @@ begin
            newlibClick(nil);
         end;
    end;
+
+  // Load file specified on commandline
+  if CactusConfig.LoadOnStart<>'' then begin
+       LoadFile(CactusConfig.LoadOnStart);
+    end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1368,28 +1376,14 @@ if SimpleIPCServer1.PeekMessage(1,True) then begin
   fpath:=copy(SimpleIPCServer1.StringMessage, 4, length(SimpleIPCServer1.StringMessage));
   writeln(fpath);
   if (pos(inttostr(OPEN_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
-
-        tempListItem := Playlist.Items.Add;
-        templistitem.data:=TMp3FileObj.index_file(fpath);
-        pmp3obj:=templistitem.Data;
-
-        player.playlist.add(PMp3fileobj(pmp3obj));
-
-        if pMp3obj^.artist<>'' then tempListitem.caption:=pMp3obj^.artist+' - '+pMp3obj^.title else tempListitem.caption:=ExtractFileName(pmp3obj^.path);
-        playlist.Selected:=templistitem;
+        LoadFile(fpath);
         playClick(nil);
+        exit;
    end
     else writeln(' --> Invalid message/filename received via IPC');
   if (pos(inttostr(ENQUEU_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
-        tempListItem := Playlist.Items.Add;
-        templistitem.data:=TMp3FileObj.index_file(fpath);
-        pmp3obj:=templistitem.Data;
-
-        player.playlist.add(PMp3fileobj(pmp3obj));
-
-        if pMp3obj^.artist<>'' then tempListitem.caption:=pMp3obj^.artist+' - '+pMp3obj^.title else tempListitem.caption:=ExtractFileName(pmp3obj^.path);
-        playlist.Selected:=templistitem;
-
+        LoadFile(fpath);
+        exit;
    end
     else writeln(' --> Invalid message/filename received via IPC');
   case byte(StrToInt(SimpleIPCServer1.StringMessage)) of
@@ -1434,6 +1428,31 @@ begin
       playtime.Text:='00:00';
       trackbar.Position:=0;
     end;
+end;
+
+function TMain.LoadFile(path: string): boolean;
+var z: integer;
+    listitem: TListItem;
+begin
+ if FileExists(path) then begin
+   z:=MediaCollection.get_index_by_path(path);
+   if z=0 then begin
+      MediaCollection.add_file(path);
+      MediaCollection.sort;
+      z:=MediaCollection.get_index_by_path(path);
+   end;
+   
+   player.playlist.add(@MediaCollection.lib[z]);
+
+   ListItem := Playlist.Items.Add;
+   listitem.data:=MediaCollection.lib[z];
+
+   if MediaCollection.lib[z].title<>'' then ListItem.Caption:=MediaCollection.lib[z].artist+' - '+MediaCollection.lib[z].title else ListItem.Caption:=extractfilename(MediaCollection.lib[z].path);
+   playlist.Column[0].Caption:='Playlist                       ('+IntToStr(player.playlist.ItemCount)+' Files/ '+player.Playlist.TotalPlayTimeStr +')';
+   result:=true;
+   update_artist_view;
+   update_title_view;
+  end else result:=false
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2138,7 +2157,9 @@ begin
      OpenDialog1.InitialDir:=CactusConfig.HomeDir;
      OpenDialog1.FilterIndex := 1;
      if Opendialog1.execute=true then begin
-        mp3obj:=TMp3FileObj.index_file(Opendialog1.Filename);
+        LoadFile(Opendialog1.Filename);
+
+{        mp3obj:=TMp3FileObj.index_file();
         player.playlist.add(@mp3obj);
 
         tempListItem := Playlist.Items.Add;
@@ -2146,7 +2167,7 @@ begin
 
         if Mp3obj.artist<>'' then tempListitem.caption:=Mp3obj.artist+' - '+Mp3obj.title else tempListitem.caption:=ExtractFileName(mp3obj.path);
         playlist.Selected:=templistitem;
-        playClick(nil);
+        playClick(nil);}
       end;
 end;
 

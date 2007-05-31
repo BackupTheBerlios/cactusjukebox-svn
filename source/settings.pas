@@ -63,7 +63,7 @@ type
     OutputAlsa, KDEServiceMenu: boolean;
     
     DAPPath: string;
-    CurrentSkin, LastLib: string;
+    CurrentSkin, LastLib, LoadOnStart: string;
     Lame, CDDA2wav: string;
     
     DataPrefix, ConfigPrefix, LibraryPrefix, HomeDir: string;
