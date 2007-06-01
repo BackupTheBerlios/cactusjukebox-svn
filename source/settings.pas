@@ -23,7 +23,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, ComCtrls, xmlcfg;
+  ExtCtrls, Buttons, ComCtrls, xmlcfg, gettext;
   
 resourcestring
   rsAutoloadLast = 'Autoload last library at startup';
@@ -62,6 +62,8 @@ type
     Mobile_Subfolders, background_scan, CoverDownload: boolean;
     OutputAlsa, KDEServiceMenu: boolean;
     
+    language: string; // country code, e.g. de -> germany
+    
     DAPPath: string;
     CurrentSkin, LastLib, LoadOnStart: string;
     Lame, CDDA2wav: string;
@@ -92,7 +94,7 @@ type
     GuessTagBox: TGroupBox;
     ID3typebox: TGroupBox;
     kdeservicebox: TCheckBox;
-    ComboBox1: TComboBox;
+    LanguageBox: TComboBox;
     Edit1: TEdit;
     Edit2: TEdit;
     LAudioOut: TLabel;
@@ -176,6 +178,8 @@ begin
      if CoverDownload.Checked then CactusConfig.CoverDownload:=true else CactusConfig.CoverDownload:=false;
      MediaCollection.guess_tag:=CactusConfig.GuessTag;
      main.player.oss:=not CactusConfig.OutputAlsa;
+
+     CactusConfig.language:=LanguageBox.Items[LanguageBox.ItemIndex];
      CactusConfig.FlushConfig;
 
      close;
@@ -220,9 +224,20 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TSettings.FormCreate(Sender: TObject);
+var srec: TSearchRec;
+    i: integer;
 begin
+   //Look for available translations and add them into the combobox
+   if FindFirst(IncludeTrailingPathDelimiter(CactusConfig.DataPrefix)+'languages'+DirectorySeparator+'*.mo', faAnyFile,srec)=0 then
+       begin
+          repeat begin
+               i:=LanguageBox.Items.Add(Copy(srec.Name, 8, 2));
+               if CactusConfig.language=LanguageBox.Items[i] then LanguageBox.ItemIndex:=i;
+           end;
+          until FindNext(srec)<>0;
+     end;
 
-   TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po', 'de', '');
+   TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, '');
    autoload1.Caption:=rsAutoloadLast;
    backscan.Caption:=rsScanForNewFi;
    LLanguage.Caption:=rsLanguage;
@@ -265,7 +280,7 @@ begin
    if CactusConfig.background_scan then backscan.checked:=true else backscan.checked:=false;
    if CactusConfig.mobile_subfolders then subfolders.checked:=true else subfolders.checked:=false;
    if CactusConfig.id3v2_prio then v2_prio.Checked:=true else v1_prio.checked:=true;
-   
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -297,6 +312,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TConfigObject.ReadConfig: boolean;
+var tmps1, tmps2: string;
 begin
  result:=true;
  try
@@ -313,6 +329,9 @@ begin
     LastLib:=FConfigFile.GetValue('Library/autoload','');
 
     Lame:=FConfigFile.GetValue('Lame/Path', '/usr/bin/lame');
+    GetLanguageIDs(tmps1, tmps2);
+
+    language:=FConfigFile.GetValue('Interface/language', copy(tmps1, 0, 2));
  except result:=false;
  end;
 end;
@@ -339,6 +358,7 @@ begin
     FConfigFile.SetValue('Library/background_scan', background_scan);
     FConfigFile.SetValue('autoload', MediaCollection.savepath);
     FConfigFile.SetValue('Skin/File', CurrentSkin);
+    FConfigFile.SetValue('Interface/language', language);
     FConfigFile.Flush;
   except result:=false;
   end;

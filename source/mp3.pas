@@ -1229,13 +1229,14 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.MainCreate(Sender: TObject);
+var tmps1, tmps2: string;
 begin
 
   Caption:='Cactus Jukebox '+CACTUS_VERSION;
 
 
-  
-  TranslateUnitResourceStrings('mp3', CactusConfig.DataPrefix+'languages'+DirectorySeparator+'cactus.%s.po', 'de', '');
+
+  TranslateUnitResourceStrings('mp3', CactusConfig.DataPrefix+'languages'+DirectorySeparator+'cactus.%s.po', CactusConfig.language, '');
   if SystemCharSetIsUTF8 then writeln('##System charset is UTF8');
   // Load resourcestrings to Captions
 

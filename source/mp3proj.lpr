@@ -35,6 +35,7 @@ var
 begin
   Application.Title:='cactus';
   writeln();
+
   writeln('Cactus Jukebox v'+CACTUS_VERSION);
   writeln('written by Sebastian Kraft, (c) 2006');
   writeln();
