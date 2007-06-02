@@ -1459,20 +1459,10 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.MenuItem11Click(Sender: TObject);
-var Listitem:TListItem;
-    tmps: string;
-    i:integer;
+
 begin
    dirwin:=Tdirwin.Create(nil);
-   tmps:='';
-   for i:= 1 to length(MediaCollection.dirlist) do begin
-       if MediaCollection.dirlist[i]<>';' then tmps:=tmps+MediaCollection.dirlist[i]
-          else begin
-               Listitem:=dirwin.dirlistview.items.add;
-               Listitem.Caption:=tmps;
-               tmps:='';
-             end;
-      end;
+
    dirwin.ShowModal;
 end;
 
