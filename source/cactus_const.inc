@@ -1,4 +1,4 @@
-const CACTUS_VERSION = '0.3.1.4 unstable';
+const CACTUS_VERSION = '0.3.1.5 unstable';
       OPEN_FILE  = 1;
       ENQUEU_FILE  = 2;
       OPEN_AS_NEXT = 3;
