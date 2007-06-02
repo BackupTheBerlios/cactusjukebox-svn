@@ -12,7 +12,7 @@ LazarusResources.Add('Tcdrip','FORMDATA',[
   +'ne'#11'ParentColor'#8#0#0#6'TLabel'#6'LAlbum'#4'Left'#2#24#6'Height'#2#12#3
   +'Top'#2'0'#5'Width'#2'<'#9'Alignment'#7#14'taRightJustify'#8'AutoSize'#8#7'C'
   +'aption'#6#5'Album'#5'Color'#7#6'clNone'#11'ParentColor'#8#0#0#6'TLabel'#11
-  +'LNameScheme'#4'Left'#2'('#6'Height'#2#12#3'Top'#3#136#1#5'Width'#3#129#0#7
+  +'LNameScheme'#4'Left'#2'('#6'Height'#2#14#3'Top'#3#136#1#5'Width'#3#134#0#7
   +'Caption'#6#21'Outfile naming scheme'#5'Color'#7#6'clNone'#11'ParentColor'#8
   +#0#0#7'TButton'#8'startbtn'#4'Left'#3#168#1#6'Height'#2#25#3'Top'#3'`'#1#5'W'
   +'idth'#2'P'#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#5'Start'#7'OnClic'
@@ -21,27 +21,27 @@ LazarusResources.Add('Tcdrip','FORMDATA',[
   +'er'#2#4#7'Caption'#6#4'Back'#7'OnClick'#7#12'Button2Click'#8'TabOrder'#2#1#0
   +#0#6'TPanel'#6'Panel1'#4'Left'#2#24#6'Height'#2'p'#3'Top'#3#160#1#5'Width'#3
   +#216#1#12'ClientHeight'#2'p'#11'ClientWidth'#3#216#1#8'TabOrder'#2#2#0#6'TLa'
-  +'bel'#6'Label1'#4'Left'#3#208#0#6'Height'#2#12#3'Top'#2#24#5'Width'#2'D'#7'C'
+  +'bel'#6'Label1'#4'Left'#3#208#0#6'Height'#2#14#3'Top'#2#24#5'Width'#2'K'#7'C'
   +'aption'#6#14'Bitrate kbit/s'#5'Color'#7#6'clNone'#11'ParentColor'#8#0#0#9'T'
-  +'CheckBox'#14'writetagscheck'#4'Left'#2'8'#6'Height'#2#22#3'Top'#2'('#5'Widt'
-  +'h'#2'm'#7'Caption'#6#14'Write ID3-Tags'#7'Checked'#9#5'State'#7#9'cbChecked'
-  +#8'TabOrder'#2#0#0#0#9'TCheckBox'#11'encodecheck'#4'Left'#2#16#6'Height'#2#22
-  +#3'Top'#2#16#5'Width'#2'n'#7'Caption'#6#13'Encode to mp3'#7'Checked'#9#8'OnC'
+  +'CheckBox'#14'writetagscheck'#4'Left'#2'8'#6'Height'#2#23#3'Top'#2'('#5'Widt'
+  +'h'#2'n'#7'Caption'#6#14'Write ID3-Tags'#7'Checked'#9#5'State'#7#9'cbChecked'
+  +#8'TabOrder'#2#0#0#0#9'TCheckBox'#11'encodecheck'#4'Left'#2#16#6'Height'#2#23
+  +#3'Top'#2#16#5'Width'#2'p'#7'Caption'#6#13'Encode to mp3'#7'Checked'#9#8'OnC'
   +'hange'#7#17'encodecheckChange'#5'State'#7#9'cbChecked'#8'TabOrder'#2#1#0#0#9
   +'TComboBox'#10'bitratebox'#4'Left'#3'0'#1#6'Height'#2#25#3'Top'#2#16#5'Width'
   +#2'8'#16'AutoCompleteText'#11#22'cbactEndOfLineComplete'#20'cbactSearchAscen'
   +'ding'#0#9'ItemIndex'#2#2#13'Items.Strings'#1#6#2'64'#6#2'96'#6#3'128'#6#3'1'
   +'60'#6#3'192'#6#3'256'#6#3'320'#0#9'MaxLength'#2#0#8'TabOrder'#2#2#4'Text'#6
-  +#3'128'#0#0#9'TCheckBox'#14'subfoldercheck'#4'Left'#3#216#0#6'Height'#2#22#3
-  +'Top'#2'('#5'Width'#3#149#0#7'Caption'#6#23'Create artist subfolder'#7'Check'
+  +#3'128'#0#0#9'TCheckBox'#14'subfoldercheck'#4'Left'#3#216#0#6'Height'#2#23#3
+  +'Top'#2'('#5'Width'#3#151#0#7'Caption'#6#23'Create artist subfolder'#7'Check'
   +'ed'#9#5'State'#7#9'cbChecked'#8'TabOrder'#2#3#0#0#9'TCheckBox'#8'paranoia'#4
-  +'Left'#2#16#6'Height'#2#22#3'Top'#2'P'#5'Width'#3#251#0#7'Caption'#6')Deep e'
+  +'Left'#2#16#6'Height'#2#23#3'Top'#2'P'#5'Width'#3#254#0#7'Caption'#6')Deep e'
   +'rror eorrection (using libparanoia)'#8'TabOrder'#2#4#7'Visible'#8#0#0#0#5'T'
   +'Edit'#10'artistedit'#4'Left'#2'`'#6'Height'#2#23#3'Top'#2#8#5'Width'#3#8#1#8
   +'TabOrder'#2#3#4'Text'#6#10'artistedit'#0#0#5'TEdit'#9'albumedit'#4'Left'#2
   +'`'#6'Height'#2#23#3'Top'#2'('#5'Width'#3#8#1#8'TabOrder'#2#4#4'Text'#6#9'al'
-  +'bumedit'#0#0#7'TButton'#9'querrybtn'#4'Left'#3#128#1#6'Height'#2#28#3'Top'#2
-  +#24#5'Width'#2'T'#8'AutoSize'#9#25'BorderSpacing.InnerBorder'#2#4#7'Caption'
+  +'bumedit'#0#0#7'TButton'#9'querrybtn'#4'Left'#3#128#1#6'Height'#2#29#3'Top'#2
+  +#24#5'Width'#2'Y'#8'AutoSize'#9#25'BorderSpacing.InnerBorder'#2#4#7'Caption'
   +#6#10'Query CDDB'#7'OnClick'#7#12'Button1Click'#8'TabOrder'#2#5#0#0#7'TButto'
   +'n'#8'ejectbtn'#4'Left'#3#168#1#6'Height'#2#25#3'Top'#3#168#0#5'Width'#2'P'
   +#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#5'Eject'#7'OnClick'#7#12'But'

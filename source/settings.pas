@@ -122,6 +122,7 @@ type
     procedure ClearCoverClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure LanguageBoxChange(Sender: TObject);
     procedure cancelbutClick(Sender: TObject);
     procedure kdeserviceboxChange(Sender: TObject);
     procedure savebutClick(Sender: TObject);
@@ -182,6 +183,8 @@ begin
      CactusConfig.language:=LanguageBox.Items[LanguageBox.ItemIndex];
      CactusConfig.FlushConfig;
 
+     TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, '');
+     TranslateUnitResourceStrings('mp3', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, '');
      close;
 end;
 
@@ -287,6 +290,11 @@ end;
 
 procedure TSettings.FormDestroy(Sender: TObject);
 begin
+end;
+
+procedure TSettings.LanguageBoxChange(Sender: TObject);
+begin
+  ShowMessage('To show user interface with new selected language'+LineEnding+' you need to restart cactus Jukebox');
 end;
 
 

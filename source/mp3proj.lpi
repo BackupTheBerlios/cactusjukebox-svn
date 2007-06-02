@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="10"/>
+      <ActiveEditorIndexAtStart Value="5"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -184,8 +184,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="71" Y="230"/>
-        <TopLine Value="221"/>
+        <CursorPos X="16" Y="297"/>
+        <TopLine Value="295"/>
         <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -601,7 +601,7 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="cdrip.lrs"/>
         <UnitName Value="cdrip"/>
-        <CursorPos X="27" Y="153"/>
+        <CursorPos X="84" Y="155"/>
         <TopLine Value="137"/>
         <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
@@ -819,7 +819,7 @@
         <CursorPos X="21" Y="106"/>
         <TopLine Value="94"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="162"/>
+        <UsageCount Value="163"/>
         <Loaded Value="True"/>
       </Unit102>
       <Unit103>
@@ -892,7 +892,7 @@
         <UsageCount Value="10"/>
       </Unit112>
     </Units>
-    <JumpHistory Count="7" HistoryIndex="6">
+    <JumpHistory Count="8" HistoryIndex="7">
       <Position1>
         <Filename Value="settings.pas"/>
         <Caret Line="66" Column="32" TopLine="50"/>
@@ -921,6 +921,10 @@
         <Filename Value="settings.pas"/>
         <Caret Line="334" Column="74" TopLine="312"/>
       </Position7>
+      <Position8>
+        <Filename Value="settings.pas"/>
+        <Caret Line="125" Column="50" TopLine="124"/>
+      </Position8>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

@@ -97,6 +97,7 @@ object Settings: TSettings
           'en_buildin'
         )
         MaxLength = 0
+        OnChange = LanguageBoxChange
         TabOrder = 2
         Text = 'en_buildin'
       end
