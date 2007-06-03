@@ -121,7 +121,7 @@ begin
   if CactusConfig.background_scan then begin
     ScanThread:=TScanThread.Create(true);
     ScanThread.tmpcollection.Assign(MediaCollection);
-    ScanThread.TargetCollection:=MediaCollection;
+    ScanThread.PTargetCollection:=@MediaCollection;
     ScanThread.Resume;
     writeln('starting scan thread...');
   end;

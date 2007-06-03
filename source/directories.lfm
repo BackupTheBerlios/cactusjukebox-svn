@@ -50,6 +50,7 @@ object dirwin: Tdirwin
     Width = 75
     BorderSpacing.InnerBorder = 4
     Caption = 'Rescan all'
+    OnClick = rescanallClick
     TabOrder = 3
   end
   object Button1: TButton

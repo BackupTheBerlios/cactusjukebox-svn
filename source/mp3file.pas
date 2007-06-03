@@ -41,7 +41,7 @@ uses
 
       public
        constructor index_file(filepath:string);
-       //constructor create;
+       constructor create;
        destructor destroy;
        procedure write_tag;
        procedure read_tag;
@@ -261,13 +261,15 @@ end;
 procedure TMediacollection.Assign(SourceCol: TMediacollection);
 var i: integer;
 begin
+  clear;
   PathFmt:=SourceCol.PathFmt;
   FMax_Index:=SourceCol.max_index;
   Setlength(lib, fmax_index+1);
-
+  writeln('assign');
   for i:= 1 to FMax_Index-1 do begin
      lib[i]:=TMp3fileobj.create;
      lib[i].assign(SourceCol.lib[i]);
+     writeln(i);
   end;
   dirlist:=SourceCol.dirlist;
   guess_tag:=SourceCol.guess_tag;
@@ -1027,6 +1029,11 @@ begin
      read_tag;
 end;
 
+constructor TMp3fileobj.create;
+begin
+
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMediacollection.add_directory(dir:string);
@@ -1095,7 +1102,7 @@ begin
                        writeln(lib[fmax_index].path+'added');
                        inc(fmax_index);
 
-                       if high(lib)=fmax_index then
+                       if high(lib)>=fmax_index then
                             begin {library erweitern um 512 eintraege}
                                 Setlength(lib, fmax_index+1+512);
                              end;
@@ -1129,8 +1136,10 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMediacollection.clear;
+var i:integer;
 begin
   FMax_Index:=1;
+  for i:=1 to FMax_Index-1 do lib[i].destroy;
   Setlength(lib,0);
   Setlength(lib,512);
 end;

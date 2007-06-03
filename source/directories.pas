@@ -43,6 +43,7 @@ type
     procedure addClick(Sender: TObject);
     procedure removeClick(Sender: TObject);
     procedure rescanClick(Sender: TObject);
+    procedure rescanallClick(Sender: TObject);
   private
     { private declarations }
   public
@@ -178,6 +179,13 @@ begin
   Caption:='Directories';
   Enabled:=true;
   end;
+end;
+
+procedure Tdirwin.rescanallClick(Sender: TObject);
+var i: integer;
+begin
+  for i:= 0 to dirlistview.Items.Count-1 do dirlistview.Selected[i]:=true;
+  rescanClick(nil);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

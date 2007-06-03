@@ -15,11 +15,11 @@ LazarusResources.Add('Tdirwin','FORMDATA',[
   +'Spacing.InnerBorder'#2#4#7'Caption'#6#6'Rescan'#7'OnClick'#7#11'rescanClick'
   +#8'TabOrder'#2#2#0#0#7'TButton'#9'rescanall'#4'Left'#3'L'#1#6'Height'#2#25#3
   +'Top'#3#152#0#5'Width'#2'K'#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#10
-  +'Rescan all'#8'TabOrder'#2#3#0#0#7'TButton'#7'Button1'#4'Left'#3'L'#1#6'Heig'
-  +'ht'#2#25#3'Top'#3#232#0#5'Width'#2'K'#25'BorderSpacing.InnerBorder'#2#4#7'C'
-  +'aption'#6#4'Back'#7'OnClick'#7#12'Button1Click'#8'TabOrder'#2#4#0#0#8'TList'
-  +'Box'#11'dirlistview'#4'Left'#2#16#6'Height'#3#252#0#3'Top'#2#16#5'Width'#3
-  +'('#1#8'TabOrder'#2#5#8'TopIndex'#2#255#0#0#22'TSelectDirectoryDialog'#22'Se'
-  +'lectDirectoryDialog1'#5'Title'#6#16'Select Directory'#11'FilterIndex'#2#0#0
-  +#0#0
+  +'Rescan all'#7'OnClick'#7#14'rescanallClick'#8'TabOrder'#2#3#0#0#7'TButton'#7
+  +'Button1'#4'Left'#3'L'#1#6'Height'#2#25#3'Top'#3#232#0#5'Width'#2'K'#25'Bord'
+  +'erSpacing.InnerBorder'#2#4#7'Caption'#6#4'Back'#7'OnClick'#7#12'Button1Clic'
+  +'k'#8'TabOrder'#2#4#0#0#8'TListBox'#11'dirlistview'#4'Left'#2#16#6'Height'#3
+  +#252#0#3'Top'#2#16#5'Width'#3'('#1#8'TabOrder'#2#5#8'TopIndex'#2#255#0#0#22
+  +'TSelectDirectoryDialog'#22'SelectDirectoryDialog1'#5'Title'#6#16'Select Dir'
+  +'ectory'#11'FilterIndex'#2#0#0#0#0
 ]);

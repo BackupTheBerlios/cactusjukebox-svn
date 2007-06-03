@@ -383,7 +383,7 @@ type
      Constructor Create(Suspd : boolean);
      fStatus : byte;
      tmpcollection: TMediacollection;
-     TargetCollection: TMediacollection;
+     PTargetCollection: PMediacollection;
    end;
 
  { TScanThread }
@@ -544,15 +544,17 @@ begin
     if fStatus=0 then begin
        main.Enabled:=false;
        if  MessageDlg('Some files on your harddisk seem to have changed.'+LineEnding+'Adopt changes in Cactus library?', mtWarning, mbOKCancel, 0)= mrOK then begin
-
+       writeln(1);
              fstatus:=255;
-             TargetCollection.Assign(tmpcollection);
+             writeln('assigning');
+
+             PTargetCollection^.Assign(tmpcollection);
              writeln('saving');
-             TargetCollection.save_lib(TargetCollection.savepath);
+             PTargetCollection^.save_lib(PTargetCollection^.savepath);
              Main.clear_listClick(nil);
 
              writeln('WARNING: if excption occurs, playlist has to be cleared here!');
-             Main.update_player_hdd_relations;
+          //   Main.update_player_hdd_relations;
              update_artist_view;
              update_title_view;
              
@@ -849,6 +851,7 @@ begin
     ScanThread:=TScanThread.Create(true);
 
     ScanThread.tmpcollection.Assign(MediaCollection);
+    ScanThread.PTargetCollection:=@MediaCollection;
     writeln('scanning for new files...');
     ScanThread.Resume;
    end;
@@ -2011,7 +2014,7 @@ begin
             if CactusConfig.background_scan then begin
                PlayerScanThread:=TScanThread.Create(true);
                PlayerScanThread.tmpcollection.Assign(PlayerCol);
-               PlayerScanThread.TargetCollection:=PlayerCol;
+               PlayerScanThread.PTargetCollection:=@PlayerCol;
                PlayerScanThread.Resume;
             end;
          end else begin
