@@ -383,7 +383,7 @@ type
      Constructor Create(Suspd : boolean);
      fStatus : byte;
      tmpcollection: TMediacollection;
-     PCollection: PMediaCollection;
+     TargetCollection: TMediacollection;
    end;
 
  { TScanThread }
@@ -417,6 +417,8 @@ type
 
 var
   Main: TMain;
+  SyncThread: TSyncThread;
+  ScanThread: TscanThread;
     const AUPLOAD = 3;
     const ANOTHING = -1;
     const AREMOVE = 2;
@@ -438,8 +440,6 @@ uses editid3, status, settings, player, directories, skin, cdrip, translations;
 {$i cactus_const.inc}
 
 var     sizediff: int64;
-        SyncThread: TSyncThread;
-        
 
 
 { TSyncThread }
@@ -542,29 +542,30 @@ procedure TScanThread.ShowStatus;
 begin
     if fStatus=1 then Main.StatusBar1.Panels[0].Text:='Scanning folders in background...'+tmpcollection.rootpath;
     if fStatus=0 then begin
-       if MessageDlg('Some files on your harddisk seem to have changed.'+#10+#13+'Adopt changes in Cactus library?', mtWarning, mbOKCancel, 0)= mrOK then begin
-             fstatus:=255;
-             PCollection^:=tmpcollection;
+       main.Enabled:=false;
+       if  MessageDlg('Some files on your harddisk seem to have changed.'+LineEnding+'Adopt changes in Cactus library?', mtWarning, mbOKCancel, 0)= mrOK then begin
 
-             //Main.clear_listClick(nil);
+             fstatus:=255;
+             TargetCollection.Assign(tmpcollection);
+             writeln('saving');
+             TargetCollection.save_lib(TargetCollection.savepath);
+             Main.clear_listClick(nil);
+
              writeln('WARNING: if excption occurs, playlist has to be cleared here!');
              Main.update_player_hdd_relations;
              update_artist_view;
-
              update_title_view;
-
-             Main.StatusBar1.Panels[0].Text:=('Succesfully updated library...'+PCollection^.rootpath);
-             //tmpcollection.free;
-             // tmpcollection has to be made free... this keeps all tmpcollection instanxces in memory
-             //
-
+             
+             Main.StatusBar1.Panels[0].Text:=('Succesfully updated library...'+tmpcollection.rootpath);
+             tmpcollection.Free;
           end;
-
+      main.Enabled:=true;
     end;
     if (fstatus=0) or (fstatus=128) then begin
         Main.StatusBar1.Panels[0].Text:='Ready';
         writeln('fstatus 0, 126');
         Main.StatusBar1.Panels[1].Alignment:=taRightJustify;
+        tmpcollection.Free;
      end;
     writeln('showStatus');
 end;
@@ -577,7 +578,6 @@ begin
    Synchronize(@ShowStatus);
 
    fstatus:=tmpcollection.ScanForNew;
-  // Synchronize(@ShowStatus);
    tmpcollection.sort;
    Synchronize(@ShowStatus);
 end;
@@ -840,16 +840,15 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.rescanlibClick(Sender: TObject);
-var ScanThread: TscanThread;
 begin
 
  if MessageDlg('Cactus will now look for new files...'+LineEnding+'If new files or changes to files are not detected'+LineEnding+'try Library/Manage Libray and click Rescan. ', mtWarning, mbOKCancel, 0)=mrOK then
    begin
-    stopClick(nil);
-    clear_listClick(nil);
+   // stopClick(nil);
+   // clear_listClick(nil);
     ScanThread:=TScanThread.Create(true);
-    ScanThread.tmpcollection:=MediaCollection;
-    ScanThread.PCollection:=@MediaCollection;
+
+    ScanThread.tmpcollection.Assign(MediaCollection);
     writeln('scanning for new files...');
     ScanThread.Resume;
    end;
@@ -2011,7 +2010,8 @@ begin
             StatusBar1.Panels[1].Text:='Device connected     '+tmps+' Free';
             if CactusConfig.background_scan then begin
                PlayerScanThread:=TScanThread.Create(true);
-               PlayerScanThread.tmpcollection:=PlayerCol;
+               PlayerScanThread.tmpcollection.Assign(PlayerCol);
+               PlayerScanThread.TargetCollection:=PlayerCol;
                PlayerScanThread.Resume;
             end;
          end else begin

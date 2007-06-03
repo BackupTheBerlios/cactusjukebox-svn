@@ -56,14 +56,15 @@ implementation
 uses mp3file,mp3,status, settings;
 { Tdirwin }
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure Tdirwin.FormCreate(Sender: TObject);
 var Listitem:TListItem;
     tmps: string;
     i:integer;
-
 begin
    tmps:='';
-   dirlistview.Clear;
+  // dirlistview.Clear;
    writeln(MediaCollection.dirlist);
    for i:= 1 to length(MediaCollection.dirlist) do begin
        if MediaCollection.dirlist[i]<>';' then tmps:=tmps+MediaCollection.dirlist[i]
@@ -76,6 +77,8 @@ begin
              end;
       end;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure Tdirwin.addClick(Sender: TObject);
 var listitem:TListitem;
@@ -112,6 +115,8 @@ begin
    end;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure Tdirwin.removeClick(Sender: TObject);
 var removedir: string;
     tmpc: char;
@@ -130,12 +135,14 @@ begin
             inc(i);
          end;
       until i>=MediaCollection.max_index;
-     Delete(MediaCollection.dirlist, pos(removedir, MediaCollection.dirlist), length(removedir)+2);
+     Delete(MediaCollection.dirlist, pos(removedir, MediaCollection.dirlist), length(removedir)+1);
 
   Main.ArtistTree.Selected:=nil;
   update_artist_view;
   update_title_view;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure Tdirwin.rescanClick(Sender: TObject);
 var rescandir: string;
@@ -173,15 +180,21 @@ begin
   end;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure Tdirwin.Button1Click(Sender: TObject);
 begin
   Close;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure Tdirwin.Button3Click(Sender: TObject);
 begin
 
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 initialization
   {$I directories.lrs}

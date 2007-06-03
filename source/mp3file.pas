@@ -212,7 +212,6 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
 function TMediacollection.ScanForNew:byte;
 var tmps, tmppath: string;
      k: integer;
@@ -220,14 +219,14 @@ var tmps, tmppath: string;
 begin
      CollectionChanged:=false;
      k:=0;
-     repeat
+     repeat   // Look for files that have been deleted
        begin
          inc(k);
          if FileExists(lib[k].path) then begin
             try
               system.assign(tmpfile, lib[k].path);
               reset(tmpfile);
-              if filesize(tmpfile)<>lib[k].size then begin
+              if filesize(tmpfile)<>lib[k].size then begin  // If File has been changed, remove. scan it later
                                                        writeln(lib[k].path+'changed');
                                                        remove_entry(k);
                                                        dec(k);
@@ -236,7 +235,7 @@ begin
               close(tmpfile);
             except writeln(' error reading file '+lib[k].path);
             end;
-           end else begin
+           end else begin  //File not found, so delete from library
             writeln(lib[k].path+'changed');
             remove_entry(k);
             dec(k);
@@ -246,8 +245,8 @@ begin
      until K>=fmax_index-1;
      tmps:=dirlist;
 
-     repeat begin
-            tmppath:=copy(tmps, 1, pos(';', tmps)-1);
+     repeat begin  // look for new files in directories listed in dirlist
+            tmppath:=copy(tmps, 0, pos(';', tmps)-1);
             delete(tmps, 1, pos(';', tmps));
             scan_directory(tmppath);
 
@@ -257,14 +256,18 @@ begin
    if CollectionChanged then result:=0 else result:=128;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMediacollection.Assign(SourceCol: TMediacollection);
 var i: integer;
 begin
   PathFmt:=SourceCol.PathFmt;
   FMax_Index:=SourceCol.max_index;
+  Setlength(lib, fmax_index+1);
+
   for i:= 1 to FMax_Index-1 do begin
      lib[i]:=TMp3fileobj.create;
-//     lib[i].assign(SourceCol.lib[i]);
+     lib[i].assign(SourceCol.lib[i]);
   end;
   dirlist:=SourceCol.dirlist;
   guess_tag:=SourceCol.guess_tag;
@@ -274,6 +277,7 @@ begin
   rootpath:=SourceCol.rootpath;
   savepath:=SourceCol.savepath;
 end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 destructor TMediaCollection.destroy;
@@ -1074,8 +1078,8 @@ var mp3search,dirsearch:TSearchrec;
     tmps:string;
     i: integer;
 begin
-  if (dir[length(dir)]='\') or (dir[length(dir)]='/') then else dir:=dir+DirectorySeparator;
   doDirSeparators(dir);
+  dir:=IncludeTrailingPathDelimiter(dir);
   writeln(dir);
    if FindFirst(dir+'*.*',faAnyFile,mp3search)=0 then
         begin

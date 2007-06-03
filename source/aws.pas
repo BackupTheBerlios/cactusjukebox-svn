@@ -99,18 +99,20 @@ var    node: TDOMNode;
        artistok, albumok: boolean;
 begin
 try
-    // writeln('receivedata');
      XMLResult:=TXMLDocument.Create;
 
      artistok:=false;
      albumok:=false;
+     write('reading XML file... ');
      ReadXMLFile(XMLResult, HTTPRecData);
+     writeln(' done');
      node:=XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('ItemAttributes').FindNode('Artist');
      if assigned(node) then begin
-        if pos(FArtist,node.FirstChild.NodeValue)=1 then artistok:=true else writeln('wrong artist');
-        //artistok:=true;  //artist always ok, only check for album name
+       // if pos(FArtist, node.FirstChild.NodeValue)=1 then artistok:=true else writeln('wrong artist');
+        artistok:=true;  //artist always ok, only check for album name
         writeln(FArtist);
        end else writeln('ERROR parsing xml file');
+     writeln(2);
      node:=XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('ItemAttributes').FindNode('Title');
      if assigned(node) then begin
         //if node.FirstChild.NodeValue=FAlbum then albumok:=true else writeln('wrong album');
@@ -119,6 +121,7 @@ try
       end else writeln('ERROR parsing xml file');
 
      if albumok and artistok then begin
+     writeln('reading image information');
         node:=XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('MediumImage').FindNode('URL');
         if assigned(node) then begin
            FAlbumCoverURL:=node.FirstChild.NodeValue;
@@ -134,7 +137,7 @@ try
            FImgW:=StrToInt(node.FirstChild.NodeValue);
            WriteLn(FImgW);
           end else writeln('ERROR parsing xml file');
-        fdata_ready:=true;
+//        fdata_ready:=true; // mhm... this seems to be wrong here...
       end;
       
      XMLResult.Free;

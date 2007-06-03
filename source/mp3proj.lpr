@@ -26,7 +26,6 @@ uses
 var
   s, loadfile: string;
   invalid_param, skip_config: boolean;
-  ScanThread: TscanThread;
   i:integer;
   const configname='cactus.cfg';
 
@@ -52,7 +51,7 @@ begin
         halt;
 
       end;
-      
+  writeln('##### Application init  #####');
   Application.Initialize;
 
 //   Init config object
@@ -112,21 +111,21 @@ begin
 
 
 
-   
-{  if Main.background_scan then begin
-    ScanThread:=TScanThread.Create(true);
-    ScanThread.tmpcollection:=MediaCollection;
-    ScanThread.Resume;
-    writeln('starting scan thread...');
-  end;     }
-
-
   Register_skins;
   writeln('-> loading skin '+CactusConfig.DataPrefix+'skins/'+CactusConfig.CurrentSkin);
   SkinData.load_skin(CactusConfig.CurrentSkin);
 
   update_artist_view;
   update_title_view;
+
+  if CactusConfig.background_scan then begin
+    ScanThread:=TScanThread.Create(true);
+    ScanThread.tmpcollection.Assign(MediaCollection);
+    ScanThread.TargetCollection:=MediaCollection;
+    ScanThread.Resume;
+    writeln('starting scan thread...');
+  end;
+  writeln('##### Application running  #####');
   Application.Run;
 end.
 

@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="8"/>
+      <ActiveEditorIndexAtStart Value="2"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -45,8 +45,8 @@
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="1" Y="38"/>
-        <TopLine Value="10"/>
+        <CursorPos X="49" Y="124"/>
+        <TopLine Value="98"/>
         <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -57,19 +57,17 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="97" Y="2960"/>
-        <TopLine Value="2915"/>
+        <CursorPos X="3" Y="2004"/>
+        <TopLine Value="1998"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
-        <Bookmarks Count="8">
-          <Item0 X="11" Y="1443" ID="0"/>
-          <Item1 X="8" Y="681" ID="1"/>
-          <Item2 X="16" Y="703" ID="2"/>
-          <Item3 X="57" Y="2093" ID="3"/>
-          <Item4 X="11" Y="2558" ID="4"/>
-          <Item5 X="23" Y="455" ID="5"/>
-          <Item6 X="10" Y="2578" ID="6"/>
-          <Item7 X="10" Y="901" ID="7"/>
+        <Bookmarks Count="6">
+          <Item0 X="23" Y="850" ID="0"/>
+          <Item1 X="23" Y="551" ID="1"/>
+          <Item2 X="11" Y="2556" ID="4"/>
+          <Item3 X="23" Y="454" ID="5"/>
+          <Item4 X="10" Y="2576" ID="6"/>
+          <Item5 X="10" Y="899" ID="7"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit1>
@@ -77,10 +75,14 @@
         <Filename Value="mp3file.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3file"/>
-        <CursorPos X="3" Y="977"/>
-        <TopLine Value="1023"/>
+        <CursorPos X="60" Y="280"/>
+        <TopLine Value="261"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="200"/>
+        <Bookmarks Count="2">
+          <Item0 X="14" Y="1082" ID="2"/>
+          <Item1 X="28" Y="224" ID="3"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
@@ -103,8 +105,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="editid3.lrs"/>
         <UnitName Value="editid3"/>
-        <CursorPos X="116" Y="575"/>
-        <TopLine Value="100"/>
+        <CursorPos X="39" Y="587"/>
+        <TopLine Value="574"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -184,7 +186,7 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="16" Y="297"/>
+        <CursorPos X="28" Y="314"/>
         <TopLine Value="295"/>
         <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
@@ -449,8 +451,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="directories.lrs"/>
         <UnitName Value="directories"/>
-        <CursorPos X="44" Y="135"/>
-        <TopLine Value="107"/>
+        <CursorPos X="41" Y="81"/>
+        <TopLine Value="49"/>
         <EditorIndex Value="8"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -816,10 +818,10 @@
         <Filename Value="aws.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="aws"/>
-        <CursorPos X="21" Y="106"/>
-        <TopLine Value="94"/>
+        <CursorPos X="59" Y="110"/>
+        <TopLine Value="97"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="164"/>
+        <UsageCount Value="171"/>
         <Loaded Value="True"/>
       </Unit102>
       <Unit103>
@@ -892,51 +894,15 @@
         <UsageCount Value="10"/>
       </Unit112>
     </Units>
-    <JumpHistory Count="11" HistoryIndex="10">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
         <Filename Value="mp3.pas"/>
-        <Caret Line="29" Column="71" TopLine="1"/>
+        <Caret Line="554" Column="14" TopLine="374"/>
       </Position1>
       <Position2>
-        <Filename Value="directories.pas"/>
-        <Caret Line="43" Column="43" TopLine="30"/>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="572" Column="56" TopLine="540"/>
       </Position2>
-      <Position3>
-        <Filename Value="directories.pas"/>
-        <Caret Line="72" Column="47" TopLine="48"/>
-      </Position3>
-      <Position4>
-        <Filename Value="directories.pas"/>
-        <Caret Line="84" Column="50" TopLine="56"/>
-      </Position4>
-      <Position5>
-        <Filename Value="directories.pas"/>
-        <Caret Line="37" Column="24" TopLine="37"/>
-      </Position5>
-      <Position6>
-        <Filename Value="directories.pas"/>
-        <Caret Line="35" Column="34" TopLine="26"/>
-      </Position6>
-      <Position7>
-        <Filename Value="directories.pas"/>
-        <Caret Line="34" Column="22" TopLine="26"/>
-      </Position7>
-      <Position8>
-        <Filename Value="directories.pas"/>
-        <Caret Line="122" Column="36" TopLine="108"/>
-      </Position8>
-      <Position9>
-        <Filename Value="directories.pas"/>
-        <Caret Line="176" Column="1" TopLine="147"/>
-      </Position9>
-      <Position10>
-        <Filename Value="directories.pas"/>
-        <Caret Line="145" Column="12" TopLine="131"/>
-      </Position10>
-      <Position11>
-        <Filename Value="directories.pas"/>
-        <Caret Line="136" Column="1" TopLine="108"/>
-      </Position11>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

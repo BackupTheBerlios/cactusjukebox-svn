@@ -205,7 +205,7 @@ msgstr "Bibliothek beim Start automatisch laden"
 
 #: settings:rsscanfornewfi
 msgid "Scan for new files in background  on startup"
-msgstr "Beim Start Bibliothek im Hintergrund aktualisieren"
+msgstr "Beim Start Bibliothek im Hintergrund aktualisieren(experimentell)"
 
 #: settings:rslanguage
 msgid "Language"

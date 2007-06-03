@@ -477,12 +477,12 @@ begin
     self.guessname1.Enabled:=true;
     self.Button1.Enabled:=true;
 
-    editid3win.pathedit1.text:=pfobj^.path;
-    editid3win.titleedit1.text:=PFobj^.title;
-    editid3win.albumedit1.text:=PFobj^.album;
-    editid3win.commentedit1.text:=PFobj^.comment;
-    editid3win.yearedit1.text:=PFobj^.year;
-    editid3win.trackedit1.text:=PFobj^.track;
+    self.pathedit1.text:=pfobj^.path;
+    self.titleedit1.text:=PFobj^.title;
+    self.albumedit1.text:=PFobj^.album;
+    self.commentedit1.text:=PFobj^.comment;
+    self.yearedit1.text:=PFobj^.year;
+    self.trackedit1.text:=PFobj^.track;
 
     mtype.caption:='Mediatype:  '+PFobj^.filetype;
     if PFobj^.filetype='.mp3' then
@@ -584,7 +584,7 @@ procedure TEditID3.guessnameClick(Sender: TObject);
 var z:integer;
     tmps: string;
 begin
-  tmps:=extractfilename(pfileobj^.path);
+  tmps:=extractfilename(pathedit1.Text);
   if ((tmps[1]<#60) and (tmps[2]<#60) and (tmps[4]=#45)) then begin
                     trackedit1.text:=copy(tmps,1,2);
                     delete(tmps, 1, 5);

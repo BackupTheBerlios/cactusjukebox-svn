@@ -5,6 +5,7 @@ object dirwin: Tdirwin
   Width = 419
   HorzScrollBar.Page = 418
   VertScrollBar.Page = 277
+  ActiveControl = add
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Directories'

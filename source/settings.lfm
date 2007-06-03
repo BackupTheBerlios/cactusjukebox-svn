@@ -82,8 +82,8 @@ object Settings: TSettings
         Left = 38
         Height = 23
         Top = 43
-        Width = 277
-        Caption = 'Scan for new files in background  on startup'
+        Width = 359
+        Caption = 'Scan for new files in background  on startup(experimental)'
         TabOrder = 1
       end
       object LanguageBox: TComboBox
