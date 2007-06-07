@@ -291,3 +291,7 @@ msgstr "Album Covers aus dem Internet laden"
 #: settings:rsclearcache
 msgid "Clear Cache"
 msgstr "Cache leeren"
+
+#: settings:rsautomaticlys
+msgid "Automaticly start playing first song in playlist"
+msgstr "Ersten Titel in Playlist automatisch anspielen"

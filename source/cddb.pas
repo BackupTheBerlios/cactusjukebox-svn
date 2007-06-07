@@ -264,10 +264,17 @@ end;
 
 procedure TCddbObject.query(drive, server: string; port: word);
 begin
-     FServer:=server;
-     FPort:=port;
-     query_send:=false;
-     Connection.Connect(FServer, FPort);
+   if NrTracks>0 then begin
+    discid:=(CDDBDiscID(TOCEntries, NrTracks));
+    querystring:=GetCDDBQueryString(TOCEntries, NrTracks);
+    writeln(QueryString);
+    writeln(hexStr(discid, 8));
+
+    FServer:=server;
+    FPort:=port;
+    query_send:=false;
+    Connection.Connect(FServer, FPort);
+  end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -278,16 +285,12 @@ begin
     Device:=drive;
     Try
       NrTracks:= ReadCDTOC(drive, TOCEntries);
-    except result:=false
+    except begin
+             result:=false;
+             NrTracks:=0;
+           end;
     end;
-
-    if NrTracks>0 then begin
-          discid:=(CDDBDiscID(TOCEntries, NrTracks));
-          querystring:=GetCDDBQueryString(TOCEntries, NrTracks);
-          writeln(QueryString);
-          writeln(hexStr(discid, 8));
-          result:=true;
-      end else result:=false;
+    if NrTracks>100 then NrTracks:=0;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

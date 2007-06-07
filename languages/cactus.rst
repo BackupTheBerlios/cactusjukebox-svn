@@ -287,3 +287,7 @@ settings.rsdownloadalbu='Download album cover image from internet'
 # hash value = 67326565
 settings.rsclearcache='Clear Cache'
 
+
+# hash value = 166301700
+settings.rsautomaticlys='Automaticly start playing first song in playlist'+
+

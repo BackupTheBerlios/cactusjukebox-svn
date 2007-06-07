@@ -1186,6 +1186,8 @@ begin
      writeln('stop playing');
      player.stop;
 
+     CactusConfig.WHeight:=Height;
+     CactusConfig.WWidth:=Width;
      if (MediaCollection.saved=false) and (MediaCollection.max_index<>1) then
           begin
              writeln('save lib');
@@ -1236,7 +1238,8 @@ begin
 
   Caption:='Cactus Jukebox '+CACTUS_VERSION;
 
-
+  Width:=CactusConfig.WWidth;
+  Height:=CactusConfig.WHeight;
 
   TranslateUnitResourceStrings('mp3', CactusConfig.DataPrefix+'languages'+DirectorySeparator+'cactus.%s.po', CactusConfig.language, '');
   if SystemCharSetIsUTF8 then writeln('##System charset is UTF8');
@@ -2355,8 +2358,12 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.ArtistTreeDblClick(Sender: TObject);
+var first: boolean;
 begin
+   first:=false;
+   if Playlist.Items.Count=0 then first:=true;
    if ArtistTree.Selected.Level>0 then artist_to_playlist;
+   if first and CactusConfig.AutostartPlay then playClick(nil);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2813,8 +2820,12 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.TitleTreeDblClick(Sender: TObject);
+var first: boolean;
 begin
+    first:=false;
+    if Playlist.Items.Count=0 then first:=true;
     title_to_playlist;
+    if first and CactusConfig.AutostartPlay then playClick(nil);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

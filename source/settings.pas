@@ -49,6 +49,7 @@ resourcestring
   rsAudioOutput = 'Audio Output';
   rsDownloadAlbu = 'Download album cover image from internet';
   rsClearCache = 'Clear Cache';
+  rsAutomaticlyS = 'Automaticly start playing first song in playlist';
   
 
 type
@@ -62,6 +63,7 @@ type
     Mobile_Subfolders, background_scan, CoverDownload: boolean;
     OutputAlsa, KDEServiceMenu: boolean;
     
+    AutostartPlay: Boolean;
     language: string; // country code, e.g. de -> germany
     
     DAPPath: string;
@@ -69,6 +71,7 @@ type
     Lame, CDDA2wav: string;
     
     DataPrefix, ConfigPrefix, LibraryPrefix, HomeDir: string;
+    WWidth, WHeight: Integer;
 
     constructor create(ConfigFile:string);
     destructor destroy;
@@ -87,6 +90,7 @@ type
     autoload1: TCheckBox;
     Button1: TButton;
     backscan: TCheckBox;
+    AutostartBox: TCheckBox;
     ClearCover: TButton;
     AudioOut: TComboBox;
     CoverDownload: TCheckBox;
@@ -177,6 +181,7 @@ begin
      if v2_prio.Checked then CactusConfig.id3v2_prio:=true else CactusConfig.id3v2_prio:=false;
      if subfolders.checked then CactusConfig.mobile_subfolders:=true else CactusConfig.mobile_subfolders:=false;
      if CoverDownload.Checked then CactusConfig.CoverDownload:=true else CactusConfig.CoverDownload:=false;
+     if AutostartBox.Checked then CactusConfig.AutostartPlay:=true else CactusConfig.AutostartPlay:=false;
      MediaCollection.guess_tag:=CactusConfig.GuessTag;
      main.player.oss:=not CactusConfig.OutputAlsa;
 
@@ -265,6 +270,7 @@ begin
    CoverDownload.Caption:=rsDownloadAlbu;
    ClearCover.Caption:=rsClearCache;
    LLanguage.Caption:=rsLanguage;
+   AutostartBox.Caption:=rsAutomaticlyS;
 
  {$ifdef linux}
    kdeservicebox.Checked:=CactusConfig.KDEServiceMenu;
@@ -283,7 +289,7 @@ begin
    if CactusConfig.background_scan then backscan.checked:=true else backscan.checked:=false;
    if CactusConfig.mobile_subfolders then subfolders.checked:=true else subfolders.checked:=false;
    if CactusConfig.id3v2_prio then v2_prio.Checked:=true else v1_prio.checked:=true;
-
+   AutostartBox.Checked:=CactusConfig.AutostartPlay;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -314,6 +320,7 @@ end;
 
 destructor TConfigObject.destroy;
 begin
+     FlushConfig;
      FConfigFile.Free;
 end;
 
@@ -335,11 +342,14 @@ begin
     if FConfigFile.GetValue('Audio/Output', 'Alsa')='Alsa' then OutputAlsa:=true else OutputAlsa:=false;
 
     LastLib:=FConfigFile.GetValue('Library/autoload','');
+    AutostartPlay:=FConfigFile.GetValue('Playlist/Autoplay', false);
 
     Lame:=FConfigFile.GetValue('Lame/Path', '/usr/bin/lame');
     GetLanguageIDs(tmps1, tmps2);
 
-    language:=FConfigFile.GetValue('Interface/language', copy(tmps1, 0, 2));
+    WWidth:=FConfigFile.GetValue('Userinterface/Windows/Width', 854);
+    WHeight:=FConfigFile.GetValue('Userinterface/Windows/Height', 680);
+    language:=FConfigFile.GetValue('Usernterface/Language/Code', copy(tmps1, 0, 2));
  except result:=false;
  end;
 end;
@@ -366,7 +376,10 @@ begin
     FConfigFile.SetValue('Library/background_scan', background_scan);
     FConfigFile.SetValue('autoload', MediaCollection.savepath);
     FConfigFile.SetValue('Skin/File', CurrentSkin);
-    FConfigFile.SetValue('Interface/language', language);
+    FConfigFile.SetValue('Userinterface/Language', language);
+    FConfigFile.SetValue('Playlist/Autoplay', AutostartPlay);
+    FConfigFile.SetValue('Userinterface/Windows/Width', WWidth);
+    FConfigFile.SetValue('Userinterface/Windows/Height', WHeight);
     FConfigFile.Flush;
   except result:=false;
   end;

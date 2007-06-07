@@ -96,6 +96,10 @@ uses mp3file, mp3, translations, functions, settings;
 
 procedure Tcdrip.Button1Click(Sender: TObject);
 begin
+
+
+
+
      Button5Click(nil);
      if CDDBcon=nil then
         CDDBcon:=TCddbObject.create
@@ -227,6 +231,7 @@ begin
         for b:=1 to CDDBcon.DriveCount do drivebox.AddItem(CDDBcon.CDromDrives[b], nil);
         drivebox.ItemIndex:=0;
       end;
+
 
      if CDDBcon.ReadTOC(CDDBcon.CDromDrives[drivebox.ItemIndex+1]) then begin
         artistedit.Text:='Unknown';

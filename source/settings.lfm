@@ -50,18 +50,18 @@ object Settings: TSettings
       ClientHeight = 388
       ClientWidth = 428
       object LLanguage: TLabel
-        Left = 46
+        Left = 54
         Height = 14
-        Top = 138
+        Top = 265
         Width = 57
         Caption = 'Language'
         Color = clNone
         ParentColor = False
       end
       object LAudioOut: TLabel
-        Left = 46
+        Left = 54
         Height = 14
-        Top = 178
+        Top = 305
         Width = 77
         Caption = 'Audio Output'
         Color = clNone
@@ -87,9 +87,9 @@ object Settings: TSettings
         TabOrder = 1
       end
       object LanguageBox: TComboBox
-        Left = 134
+        Left = 142
         Height = 25
-        Top = 130
+        Top = 257
         Width = 100
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemIndex = 0
@@ -104,16 +104,16 @@ object Settings: TSettings
       object kdeservicebox: TCheckBox
         Left = 38
         Height = 23
-        Top = 90
+        Top = 169
         Width = 173
         Caption = 'enable KDE service menu'
         OnChange = kdeserviceboxChange
         TabOrder = 3
       end
       object ClearCover: TButton
-        Left = 310
+        Left = 302
         Height = 29
-        Top = 244
+        Top = 209
         Width = 83
         AutoSize = True
         BorderSpacing.InnerBorder = 4
@@ -124,15 +124,15 @@ object Settings: TSettings
       object CoverDownload: TCheckBox
         Left = 38
         Height = 23
-        Top = 250
+        Top = 209
         Width = 248
         Caption = 'Download album cover art form internet'
         TabOrder = 5
       end
       object AudioOut: TComboBox
-        Left = 134
+        Left = 142
         Height = 25
-        Top = 165
+        Top = 292
         Width = 100
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemIndex = 0
@@ -143,6 +143,14 @@ object Settings: TSettings
         MaxLength = 0
         TabOrder = 6
         Text = 'Alsa'
+      end
+      object AutostartBox: TCheckBox
+        Left = 38
+        Height = 23
+        Top = 73
+        Width = 288
+        Caption = 'Automaticly start playing first song in playlist '
+        TabOrder = 7
       end
     end
     object TabSheet2: TTabSheet
