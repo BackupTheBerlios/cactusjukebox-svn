@@ -985,7 +985,7 @@ begin
 
   tsitem:=TitleTree.Selected;
   PFobj:=tsitem.data;
-  editid3win.show_tags(PFobj,PFobj^.collection);
+  editid3win.display_window(PFobj,PFobj^.collection);
   EditID3win.Show;
 end;
 
@@ -2071,7 +2071,7 @@ begin
     Listitem:=playlist.Selected;
     if listitem<>nil then begin
        PFobj:=@TMp3fileobj(Listitem.Data);
-       editid3win.show_tags(PFobj, nil);
+       editid3win.display_window(PFobj, nil);
      end;
 //     else begin
  {       writeln('File not in Library');
@@ -2491,11 +2491,11 @@ begin
   PFobj:=tsnode.data;
   if tsnode.level= 1 then begin
     editid3win.artist_only:=true;
-    editid3win.show_tags(PFobj, PFobj^.collection);
+    editid3win.display_window(PFobj, PFobj^.collection);
   end;
   if tsnode.level= 2 then begin
     editid3win.album_only:=true;
-    editid3win.show_tags(PFobj, PFobj^.collection);
+    editid3win.display_window(PFobj, PFobj^.collection);
   end;
   EditID3win.Show;
 end;

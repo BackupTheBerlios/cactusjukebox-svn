@@ -53,7 +53,7 @@ type
     Label17: TLabel;
     Label18: TLabel;
     Label19: TLabel;
-    Label20: TLabel;
+    lblTrack: TLabel;
     Label21: TLabel;
     idlabel: TLabel;
     indexlabel: TLabel;
@@ -74,13 +74,13 @@ type
     trackedit2: TEdit;
     yearEdit1: TEdit;
     Edit2: TEdit;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
+    lblArtist: TLabel;
+    lblTitle: TLabel;
+    lblAlbum: TLabel;
     Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    Label8: TLabel;
+    lblGenre: TLabel;
+    lblComment: TLabel;
+    lblPath: TLabel;
     metacontrol: TPageControl;
     pathedit1: TEdit;
     metatab: TTabSheet;
@@ -105,13 +105,15 @@ type
     request_send: boolean;
     picrequest_send: boolean;
     awsclass: TAWSAccess;
+    bEModeActive: boolean;
+    procedure show_tags();
   public
     { public declarations }
     fileid: integer;
     artist_only, album_only:boolean;
     Pcol: PMediaCollection;
     pfileobj:PMp3fileobj;
-    procedure show_tags(pfobj:PMp3fileobj; col: PMediaCollection);
+    procedure display_window(pfobj:PMp3fileobj; col: PMediaCollection);
   end; 
 
 var
@@ -128,6 +130,13 @@ var curartist, newart, oldart, oldalbum, newalbum, strNewYear, strNewComment: st
     z:integer;
     bYearLongEnough: Boolean;
 begin
+  if bEModeActive = false
+  then
+  begin
+    EditID3win.Hide;
+    exit;
+  end;
+
   // check if the file exists and is writable
   if (FileGetAttr(PFileObj^.path) and faReadOnly)=0
   then
@@ -334,12 +343,133 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.show_tags(pfobj:PMp3fileobj; col: PMediaCollection);
-var s, tmps:string;
+procedure TEditID3.show_tags();
+var
   strYears: Array of String[4];
   strComments: Array of String;
   bExists: Boolean;
   i, j: Integer;
+begin
+  // reset all labels indicating edit-mode and changes
+  self.lblPath.Enabled := true;
+  self.lblPath.Font.Style := [];
+  self.lblArtist.Enabled := true;
+  self.lblArtist.Font.Style := [];
+  self.lblTitle.Enabled := true;
+  self.lblTitle.Font.Style := [];
+  self.lblAlbum.Enabled := true;
+  self.lblAlbum.Font.Style := [];
+  self.lblTrack.Enabled := true;
+  self.lblTrack.Font.Style := [];
+  self.lblGenre.Enabled := true;
+  self.lblGenre.Font.Style := [];
+  self.lblComment.Enabled := true;
+  self.lblComment.Font.Style := [];
+
+  // display tags...
+  self.artistedit1.Text := self.pfileobj^.artist;
+
+  // artist and album(-mode) specific actions
+  if (artist_only = true) or (album_only = true)
+  then
+  begin
+    // collect all "years" set for files of the chosen artist/album
+    // and display them
+    SetLength(strYears, 0);
+    for i := 1 to self.Pcol^.max_index -1 do
+      if self.Pcol^.lib[i].artist = self.pfileobj^.artist
+      then
+      begin
+        if album_only = true then
+          if self.Pcol^.lib[i].album <> self.pfileobj^.album then continue;
+        // ensure "year" is added only once
+        bExists := false;
+        for j := 0 to Length(strYears) -1 do
+          if strYears[j] = self.Pcol^.lib[i].year
+          then
+          begin
+            bExists := true;
+            break;
+          end;
+        if bExists = true then continue;
+        // add "year"
+        SetLength(strYears, Length(strYears) +1);
+        strYears[Length(strYears) -1] := self.Pcol^.lib[i].year;
+      end;
+    // and display...
+    self.yearEdit1.Visible := false;
+    self.cmbYear.Visible := true;
+    self.cmbYear.Clear;
+    for i := 0 to Length(strYears) -1 do
+      self.cmbYear.Items.Add(strYears[i]);
+
+    // collect all "comments" set for files of the chosen artist/album
+    // and display them
+    SetLength(strComments, 0);
+    for i := 1 to self.Pcol^.max_index -1 do
+      if self.Pcol^.lib[i].artist = self.pfileobj^.artist
+      then
+      begin
+        if album_only = true then
+          if self.Pcol^.lib[i].album <> self.pfileobj^.album then continue;
+        // ensure "comment" is added only once
+        bExists := false;
+        for j := 0 to Length(strComments) -1 do
+          if strComments[j] = self.Pcol^.lib[i].comment
+          then
+          begin
+            bExists := true;
+            break;
+          end;
+        if bExists = true then continue;
+        // add "comment"
+        SetLength(strComments, Length(strComments) +1);
+        strComments[Length(strComments) -1] := self.Pcol^.lib[i].comment;
+      end;
+    // and display...
+    self.commentedit1.Visible := false;
+    self.cmbComment.Visible := true;
+    self.cmbComment.Clear;
+    for i := 0 to Length(strComments) -1 do
+      self.cmbComment.Items.Add(strComments[i]);
+
+    // artist(-mode) specific actions
+    if artist_only = true
+    then
+      // there will probably be more than one album published at different times
+      // so ensure that not one "year" is set for all of them
+      self.cmbYear.Caption := '';
+      self.cmbComment.Caption := '';    begin
+    end;
+
+    // album(-mode) specific actions
+    if album_only = true
+    then
+    begin
+      self.albumedit1.text := self.pfileobj^.album;
+      // select first entry from combobox as default for the album
+      if self.cmbYear.Items.Count > 0 then self.cmbYear.ItemIndex := 0;
+      if self.cmbComment.Items.Count > 0 then self.cmbComment.ItemIndex := 0;
+    end;
+  end
+  // title(-mode) specific actions
+  else
+  begin
+    self.pathedit1.text:=self.pfileobj^.path;
+    self.titleedit1.text:=self.pfileobj^.title;
+    self.albumedit1.text:=self.pfileobj^.album;
+    self.commentedit1.text:=self.pfileobj^.comment;
+    self.yearedit1.text:=self.pfileobj^.year;
+    self.trackedit1.text:=self.pfileobj^.track;
+  end;
+  
+  self.bEModeActive := false;
+end;
+
+
+procedure TEditID3.display_window(pfobj:PMp3fileobj; col: PMediaCollection);
+var s, tmps:string;
+  i: Integer;
 begin
   self.Pcol:=col;
   self.pfileobj:=pfobj;
@@ -353,8 +483,6 @@ begin
   //show in taskbar so you don't loose the windows. showmodal doesn't work here
   self.ShowInTaskBar:=stAlways;
 
-  self.artistedit1.Text := PFobj^.artist;
-
   // artist and album(-mode) specific actions
   if (artist_only = true) or (album_only = true)
   then
@@ -366,86 +494,15 @@ begin
 
     self.indexlabel.Caption := 'File-Index: ' + IntToStr(PFobj^.index);
 
-    // collect all "years" set for files of the chosen artist/album
-    // and display them
-    SetLength(strYears, 0);
-    for i := 1 to col^.max_index -1 do
-      if col^.lib[i].artist = pfobj^.artist
-      then
-      begin
-        if album_only = true then
-          if col^.lib[i].album <> pfobj^.album then continue;
-        // ensure "year" is added only once
-        bExists := false;
-        for j := 0 to Length(strYears) -1 do
-          if strYears[j] = col^.lib[i].year
-          then
-          begin
-            bExists := true;
-            break;
-          end;
-        if bExists = true then continue;
-        // add "year"
-        SetLength(strYears, Length(strYears) +1);
-        strYears[Length(strYears) -1] := col^.lib[i].year;
-      end;
-    // and display...
-    self.yearEdit1.Visible := false;
-    self.cmbYear.Visible := true;
-    self.cmbYear.Clear;
-    for i := 0 to Length(strYears) -1 do
-      self.cmbYear.Items.Add(strYears[i]);
-
-    // collect all "comments" set for files of the chosen artist/album
-    // and display them
-    SetLength(strComments, 0);
-    for i := 1 to col^.max_index -1 do
-      if col^.lib[i].artist = pfobj^.artist
-      then
-      begin
-        if album_only = true then
-          if col^.lib[i].album <> pfobj^.album then continue;
-        // ensure "comment" is added only once
-        bExists := false;
-        for j := 0 to Length(strComments) -1 do
-          if strComments[j] = col^.lib[i].comment
-          then
-          begin
-            bExists := true;
-            break;
-          end;
-        if bExists = true then continue;
-        // add "comment"
-        SetLength(strComments, Length(strComments) +1);
-        strComments[Length(strComments) -1] := col^.lib[i].comment;
-      end;
-    // and display...
-    self.commentedit1.Visible := false;
-    self.cmbComment.Visible := true;
-    self.cmbComment.Clear;
-    for i := 0 to Length(strComments) -1 do
-      self.cmbComment.Items.Add(strComments[i]);
-
     // artist(-mode) specific actions
     if artist_only = true
     then
-    begin
       self.albumedit1.Enabled := false;
-      // there will probably be more than one album published at different times
-      // so ensure that not one "year" is set for all of them
-      self.cmbYear.Caption := '';
-      self.cmbComment.Caption := '';
-    end;
 
     // album(-mode) specific actions
     if album_only = true
     then
     begin
-      self.albumedit1.text := PFobj^.album;
-      // select first entry from combobox as default for the album
-      if self.cmbYear.Items.Count > 0 then self.cmbYear.ItemIndex := 0;
-      if self.cmbComment.Items.Count > 0 then self.cmbComment.ItemIndex := 0;
-
       writeln('########AlbumCover');     // DEBUG-INFO
       AlbumCoverImg.Canvas.Clear;
       AlbumCoverImg.Picture.Clear;
@@ -476,13 +533,6 @@ begin
   begin
     self.guessname1.Enabled:=true;
     self.Button1.Enabled:=true;
-
-    self.pathedit1.text:=pfobj^.path;
-    self.titleedit1.text:=PFobj^.title;
-    self.albumedit1.text:=PFobj^.album;
-    self.commentedit1.text:=PFobj^.comment;
-    self.yearedit1.text:=PFobj^.year;
-    self.trackedit1.text:=PFobj^.track;
 
     mtype.caption:='Mediatype:  '+PFobj^.filetype;
     if PFobj^.filetype='.mp3' then
@@ -539,7 +589,8 @@ begin
       end;
     end;
   end;
-
+  
+  show_tags();
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
