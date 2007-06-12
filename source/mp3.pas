@@ -1637,7 +1637,7 @@ begin
        Main.player.playlist.add(pfobj);
        
        ListItem := Main.Playlist.Items.Add;
-       listitem.data:=pfobj;
+       listitem.data:=pfobj^;
        if pfobj^.title<>'' then ListItem.Caption:=pfobj^.artist+' - '+pfobj^.title else ListItem.Caption:=extractfilename(pfobj^.path);
 
 
@@ -2339,6 +2339,7 @@ begin
   LoopCount:=0;
   i:=player.CurrentTrack;
   fileobj:=TMp3fileobj(playlist.Items[player.CurrentTrack].Data);
+  writeln(fileobj.album);
   if (fileobj.album<>'') then begin
      fileobj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+fileobj.artist+'_'+fileobj.album+'.jpeg';
      if (FileExists(fileobj.CoverPath)=false) then begin
