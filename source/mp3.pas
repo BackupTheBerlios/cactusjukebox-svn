@@ -1188,9 +1188,8 @@ begin
 
      CactusConfig.WHeight:=Height;
      CactusConfig.WWidth:=Width;
-     if (MediaCollection.saved=false) and (MediaCollection.max_index<>1) then
+     if (MediaCollection.max_index>1) then
           begin
-             writeln('save lib');
              MediaCollection.save_lib(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'last.mlb');
           end;
      MediaCollection.Free;

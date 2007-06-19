@@ -114,7 +114,7 @@ var lfile: textfile;
     i:integer;
 begin
        savepath:=path;
-       writeln('saving');
+       writeln('saving library to -> '+path);
        try
            system.assign(lfile,path);
            saved:=true;
