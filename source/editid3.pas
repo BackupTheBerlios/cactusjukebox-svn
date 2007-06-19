@@ -24,6 +24,9 @@ uses
 
 type
 
+  PLabel = ^TLabel;
+  PEdit = ^TEdit;
+
   { TEditID3 }
 
   TEditID3 = class(TForm)
@@ -60,6 +63,7 @@ type
     mtype: TLabel;
     bitrate: TLabel;
     fsize: TLabel;
+    btnReset: TButton;
     srate: TLabel;
     plength: TLabel;
     Label7: TLabel;
@@ -77,7 +81,7 @@ type
     lblArtist: TLabel;
     lblTitle: TLabel;
     lblAlbum: TLabel;
-    Label4: TLabel;
+    lblYear: TLabel;
     lblGenre: TLabel;
     lblComment: TLabel;
     lblPath: TLabel;
@@ -89,23 +93,28 @@ type
     yearEdit2: TEdit;
     yearEdit3: TEdit;
     procedure Button1Click(Sender: TObject);
+    procedure btnResetClick(Sender: TObject);
     procedure EditID3Close(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure PicDownloadTimerStartTimer(Sender: TObject);
     procedure PicDownloadTimerTimer(Sender: TObject);
+
     procedure cancelbutClick(Sender: TObject);
-    procedure cmbYearChange(Sender: TObject);
     procedure guessnameClick(Sender: TObject);
+    procedure pathedit1Change(Sender: TObject);
     procedure savebutClick(Sender: TObject);
     procedure yearEdit1Change(Sender: TObject);
+    procedure cmbYearChange(Sender: TObject);
+    procedure activateEMode(Sender: TObject);
   private
     { private declarations }
     timer_loop_count: integer;
     request_send: boolean;
     picrequest_send: boolean;
     awsclass: TAWSAccess;
-    bEModeActive: boolean;
+    bEModeActive: boolean;                        // Edit-mode specific variable
+    ptrControls: array of array of ^TControl;     // ..
     procedure show_tags();
   public
     { public declarations }
@@ -127,9 +136,13 @@ uses mp3, lazjpeg, settings;
 
 procedure TEditID3.savebutClick(Sender: TObject);
 var curartist, newart, oldart, oldalbum, newalbum, strNewYear, strNewComment: string;
-    z:integer;
+    z,n:integer;
     bYearLongEnough: Boolean;
+    ptr: ^TLabel;
+    ptrLabels: Array of ^TLabel;
+    strChangedTo: Array of String;
 begin
+  // only save if s.th. has been changed
   if bEModeActive = false
   then
   begin
@@ -233,11 +246,19 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+procedure TEditID3.cancelbutClick(Sender: TObject);
+begin
+  EditID3win.Hide;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TEditID3.yearEdit1Change(Sender: TObject);
 begin
   // ensure only YYYY (years of four digits) are entered (if anything is entered)
   if self.yearEdit1.Visible = true
   then
+  begin
     case Length(self.yearEdit1.Caption) of
       0: self.savebut1.Enabled:= true;
       4:
@@ -249,6 +270,62 @@ begin
       end;
       otherwise self.savebut1.Enabled := false;
     end;
+    activateEMode(Sender);
+  end;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TEditID3.cmbYearChange(Sender: TObject);
+begin
+  // ensure only YYYY (years of four digits) are entered (if anything is entered)
+  if self.cmbYear.Visible = true
+  then
+  begin
+    case Length(self.cmbYear.Caption) of
+      0: self.savebut1.Enabled:= true;
+      4:
+      try
+        self.savebut1.Enabled:= true;
+        StrToInt(self.cmbYear.Caption);
+      except
+        self.savebut1.Enabled:= false;
+      end;
+      otherwise self.savebut1.Enabled := false;
+    end;
+    activateEMode(Sender);
+  end;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TEditID3.activateEMode(Sender: TObject);
+var
+  i, j: Integer;
+  ptrLabel: ^TLabel;
+  ptrEdit: ^TEdit;
+begin
+  // disable all labels
+  if self.bEModeActive = false
+  then
+  begin
+    for i := 0 to Length(ptrControls) -1 do
+    begin
+      ptrLabel := PLabel(ptrControls[i,0]);
+      ptrLabel^.Enabled := false;
+    end;
+    self.bEModeActive := true;
+    self.btnReset.Enabled := true;
+  end;
+
+  // enable label if sender (a text-box) belongs to it
+  for i := 0 to Length(ptrControls) -1 do
+  begin
+    ptrLabel := PLabel(ptrControls[i,0]);
+    for j := 1 to Length(ptrControls[i]) -1 do
+      ptrEdit := PEdit(ptrControls[i,j]);
+      if ptrEdit^ = Sender then ptrLabel^.Enabled := true;
+  end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -334,9 +411,46 @@ begin
   //    PicDownloadTimer.Free;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TEditID3.FormCreate(Sender: TObject);
+var
+  i: integer;
 begin
-  // ressourcestring translations need to be added here
+  // initialize index of labels and text boxes on form - used for edit-mode
+  SetLength(ptrControls, 8);
+  for i := 0 to Length(ptrControls) -1 do
+    SetLength(ptrControls[i], 2);
+
+  ptrControls[0,0] := @self.lblPath;
+  ptrControls[0,1] := @self.pathedit1;
+  
+  ptrControls[1,0] := @self.lblArtist;
+  ptrControls[1,1] := @self.artistedit1;
+  
+  ptrControls[2,0] := @self.lblTitle;
+  ptrControls[2,1] := @self.titleedit1;
+  
+  ptrControls[3,0] := @self.lblAlbum;
+  ptrControls[3,1] := @self.albumedit1;
+  
+  ptrControls[4,0] := @self.lblTrack;
+  ptrControls[4,1] := @self.trackedit1;
+  
+  ptrControls[5,0] := @self.lblGenre;
+  ptrControls[5,1] := @self.Edit2;
+  
+  SetLength(ptrControls[6], 3);
+  ptrControls[6,0] := @self.lblComment;
+  ptrControls[6,1] := @self.commentedit1;
+  ptrControls[6,2] := @self.cmbComment;
+  
+  SetLength(ptrControls[7], 3);
+  ptrControls[7,0] := @self.lblYear;
+  ptrControls[7,1] := @self.yearEdit1;
+  ptrControls[7,2] := @self.cmbYear;
+
+  // (FIXME) ressourcestring translations need to be added here
 
   Icon.LoadFromFile(CactusConfig.DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
 end;
@@ -349,22 +463,14 @@ var
   strComments: Array of String;
   bExists: Boolean;
   i, j: Integer;
+  ptrLabel: ^TLabel;
 begin
   // reset all labels indicating edit-mode and changes
-  self.lblPath.Enabled := true;
-  self.lblPath.Font.Style := [];
-  self.lblArtist.Enabled := true;
-  self.lblArtist.Font.Style := [];
-  self.lblTitle.Enabled := true;
-  self.lblTitle.Font.Style := [];
-  self.lblAlbum.Enabled := true;
-  self.lblAlbum.Font.Style := [];
-  self.lblTrack.Enabled := true;
-  self.lblTrack.Font.Style := [];
-  self.lblGenre.Enabled := true;
-  self.lblGenre.Font.Style := [];
-  self.lblComment.Enabled := true;
-  self.lblComment.Font.Style := [];
+  for i := 0 to Length(ptrControls) -1 do
+  begin
+    ptrLabel := PLabel(ptrControls[i,0]);
+    ptrLabel^.Enabled := true;
+  end;
 
   // display tags...
   self.artistedit1.Text := self.pfileobj^.artist;
@@ -433,15 +539,6 @@ begin
     for i := 0 to Length(strComments) -1 do
       self.cmbComment.Items.Add(strComments[i]);
 
-    // artist(-mode) specific actions
-    if artist_only = true
-    then
-      // there will probably be more than one album published at different times
-      // so ensure that not one "year" is set for all of them
-      self.cmbYear.Caption := '';
-      self.cmbComment.Caption := '';    begin
-    end;
-
     // album(-mode) specific actions
     if album_only = true
     then
@@ -463,9 +560,11 @@ begin
     self.trackedit1.text:=self.pfileobj^.track;
   end;
   
+  self.btnReset.Enabled := false;;
   self.bEModeActive := false;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TEditID3.display_window(pfobj:PMp3fileobj; col: PMediaCollection);
 var s, tmps:string;
@@ -604,29 +703,9 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.cancelbutClick(Sender: TObject);
+procedure TEditID3.btnResetClick(Sender: TObject);
 begin
-  EditID3win.Hide;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure TEditID3.cmbYearChange(Sender: TObject);
-begin
-  // ensure only YYYY (years of four digits) are entered (if anything is entered)
-  if self.cmbYear.Visible = true
-  then
-    case Length(self.cmbYear.Caption) of
-      0: self.savebut1.Enabled:= true;
-      4:
-      try
-        self.savebut1.Enabled:= true;
-        StrToInt(self.cmbYear.Caption);
-      except
-        self.savebut1.Enabled:= false;
-      end;
-      otherwise self.savebut1.Enabled := false;
-    end;
+  show_tags();
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -650,6 +729,11 @@ begin
         titleedit1.text:='';
       end;
     
+end;
+
+procedure TEditID3.pathedit1Change(Sender: TObject);
+begin
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -8,6 +8,8 @@ object EditID3: TEditID3
   ActiveControl = cancelbut1
   BorderStyle = bsDialog
   Caption = 'Edit ID3 Tag'
+  ClientHeight = 421
+  ClientWidth = 395
   OnClose = EditID3Close
   OnCreate = FormCreate
   OnHide = FormHide
@@ -23,74 +25,76 @@ object EditID3: TEditID3
     TabOrder = 0
     object metatab: TTabSheet
       Caption = 'Meta-Info'
+      ClientHeight = 319
+      ClientWidth = 372
       object lblArtist: TLabel
         Left = 20
-        Height = 17
+        Height = 14
         Top = 102
-        Width = 38
+        Width = 32
         Caption = 'Artist'
         Color = clNone
         ParentColor = False
       end
       object lblTitle: TLabel
         Left = 20
-        Height = 17
+        Height = 14
         Top = 130
-        Width = 31
+        Width = 25
         Caption = 'Title'
         Color = clNone
         ParentColor = False
       end
       object lblAlbum: TLabel
         Left = 20
-        Height = 17
+        Height = 14
         Top = 162
-        Width = 47
+        Width = 38
         Caption = 'Album'
         Color = clNone
         ParentColor = False
       end
-      object Label4: TLabel
+      object lblYear: TLabel
         Left = 118
-        Height = 17
+        Height = 14
         Top = 190
-        Width = 35
+        Width = 28
         Caption = 'Year'
         Color = clNone
         ParentColor = False
       end
       object lblGenre: TLabel
         Left = 20
-        Height = 17
+        Height = 14
         Top = 222
-        Width = 46
+        Width = 36
         Caption = 'Genre'
         Color = clNone
         ParentColor = False
       end
       object lblComment: TLabel
         Left = 20
-        Height = 17
+        Height = 14
         Top = 266
-        Width = 73
+        Width = 57
         Caption = 'Comment'
         Color = clNone
         ParentColor = False
       end
       object lblPath: TLabel
         Left = 14
-        Height = 17
+        Height = 14
         Top = 30
-        Width = 79
+        Width = 63
         Caption = 'Path to file'
         Color = clNone
         ParentColor = False
       end
       object lblTrack: TLabel
         Left = 20
-        Height = 17
+        Height = 14
         Top = 190
-        Width = 41
+        Width = 33
         Caption = 'Track'
         Color = clNone
         ParentColor = False
@@ -108,6 +112,7 @@ object EditID3: TEditID3
         Top = 94
         Width = 296
         MaxLength = 0
+        OnChange = activateEMode
         TabOrder = 1
       end
       object titleedit1: TEdit
@@ -116,6 +121,7 @@ object EditID3: TEditID3
         Top = 123
         Width = 296
         MaxLength = 0
+        OnChange = activateEMode
         TabOrder = 2
       end
       object albumedit1: TEdit
@@ -124,6 +130,7 @@ object EditID3: TEditID3
         Top = 154
         Width = 296
         MaxLength = 0
+        OnChange = activateEMode
         TabOrder = 3
       end
       object yearEdit1: TEdit
@@ -140,6 +147,7 @@ object EditID3: TEditID3
         Top = 211
         Width = 149
         MaxLength = 8
+        OnChange = activateEMode
         TabOrder = 6
       end
       object commentedit1: TEdit
@@ -148,13 +156,14 @@ object EditID3: TEditID3
         Top = 282
         Width = 194
         MaxLength = 0
+        OnChange = activateEMode
         TabOrder = 8
       end
       object Button1: TButton
-        Left = 254
-        Height = 30
+        Left = 275
+        Height = 29
         Top = 18
-        Width = 107
+        Width = 86
         Anchors = [akTop, akRight]
         AutoSize = True
         BorderSpacing.InnerBorder = 4
@@ -167,6 +176,7 @@ object EditID3: TEditID3
         Height = 23
         Top = 50
         Width = 349
+        OnChange = activateEMode
         TabOrder = 0
       end
       object trackedit1: TEdit
@@ -175,13 +185,14 @@ object EditID3: TEditID3
         Top = 183
         Width = 35
         MaxLength = 4
+        OnChange = activateEMode
         TabOrder = 4
       end
       object guessname1: TButton
         Left = 166
-        Height = 30
+        Height = 29
         Top = 18
-        Width = 126
+        Width = 100
         AutoSize = True
         BorderSpacing.InnerBorder = 4
         Caption = 'Tag from name'
@@ -208,6 +219,7 @@ object EditID3: TEditID3
         Width = 196
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         MaxLength = 0
+        OnChange = activateEMode
         Sorted = True
         TabOrder = 11
         Text = 'cmbComment'
@@ -216,6 +228,8 @@ object EditID3: TEditID3
     end
     object fileinfo: TTabSheet
       Caption = 'File-Info'
+      ClientHeight = 352
+      ClientWidth = 376
       object mtype: TLabel
         Left = 40
         Height = 12
@@ -288,6 +302,8 @@ object EditID3: TEditID3
     end
     object id3v2tab: TTabSheet
       Caption = 'ID3v2'
+      ClientHeight = 352
+      ClientWidth = 376
       object Label9: TLabel
         Left = 16
         Height = 12
@@ -405,6 +421,8 @@ object EditID3: TEditID3
     end
     object id3v1tab: TTabSheet
       Caption = 'ID3v1'
+      ClientHeight = 352
+      ClientWidth = 376
       object Label7: TLabel
         Left = 177
         Height = 12
@@ -502,26 +520,36 @@ object EditID3: TEditID3
     end
   end
   object cancelbut1: TButton
-    Left = 256
+    Left = 280
     Height = 25
     Top = 384
     Width = 75
     BorderSpacing.InnerBorder = 4
     Cancel = True
-    Caption = 'Cancel'
+    Caption = '&Cancel'
     OnClick = cancelbutClick
     TabOrder = 1
   end
   object savebut1: TButton
-    Left = 72
+    Left = 200
     Height = 25
     Top = 384
     Width = 75
     BorderSpacing.InnerBorder = 4
-    Caption = 'Save'
+    Caption = '&Save'
     Default = True
     OnClick = savebutClick
     TabOrder = 2
+  end
+  object btnReset: TButton
+    Left = 40
+    Height = 25
+    Top = 384
+    Width = 75
+    BorderSpacing.InnerBorder = 4
+    Caption = '&Reset'
+    OnClick = btnResetClick
+    TabOrder = 3
   end
   object PicDownloadTimer: TTimer
     Enabled = False

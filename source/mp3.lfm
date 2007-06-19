@@ -702,7 +702,6 @@ object Main: TMain
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
-    Caption = 'Panel4'
     ClientHeight = 617
     ClientWidth = 271
     TabOrder = 1

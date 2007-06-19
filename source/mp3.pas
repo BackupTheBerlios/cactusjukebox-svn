@@ -1631,6 +1631,7 @@ begin
      inc(z);
      ext:=false;
                           }
+
      for n:= 0 to TitleTree.Items.Count-1 do begin
        PFobj:=titletree.Items[n].Data;
 
@@ -2823,6 +2824,7 @@ end;
 procedure TMain.TitleTreeDblClick(Sender: TObject);
 var first: boolean;
 begin
+    writeln(11);
     first:=false;
     if Playlist.Items.Count=0 then first:=true;
     title_to_playlist;
@@ -2852,7 +2854,6 @@ var tsnode:TListitem;
     z, i:integer;
 begin
    tsnode:=main.TitleTree.Selected;
-
    if (tsnode<>nil) and (tsnode.ImageIndex<>4) then begin
      PFobj:=tsnode.data;
      PCol:=PFobj^.collection;
@@ -2864,18 +2865,6 @@ begin
 
      if PCol^.lib[z].title<>'' then ListItem.Caption:=PCol^.lib[z].artist+' - '+PCol^.lib[z].title else ListItem.Caption:=extractfilename(PCol^.lib[z].path);
    end;
-{   if (tsnode<>nil) and (tsnode.ImageIndex=4) then begin
-     z:=integer(tsnode.Data);
-     str(z, tmps);
-     i:=Main.player.add_to_playlist('CD AUDIO '+tmps);
-     main.player.playlist[i].artist:='CD Audio';
-     main.player.playlist[i].title:='Track '+tmps
-     ListItem := Main.Playlist.Items.Add;
-//     listitem.data:=@PCol^.lib[z];
-     ListItem.Caption:='CD Audio Track '+tmps;
-                   }
-                   
-
    main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(main.player.playlist.ItemCount)+' Files/ '+main.player.Playlist.TotalPlayTimeStr +')';
 end;
 
