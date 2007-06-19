@@ -2492,12 +2492,10 @@ begin
   tsnode:=ArtistTree.Selected;
   PFobj:=tsnode.data;
   if tsnode.level= 1 then begin
-    editid3win.artist_only:=true;
-    editid3win.display_window(PFobj, PFobj^.collection);
+    editid3win.display_window(PFobj, PFobj^.collection, ARTIST_MODE);
   end;
   if tsnode.level= 2 then begin
-    editid3win.album_only:=true;
-    editid3win.display_window(PFobj, PFobj^.collection);
+    editid3win.display_window(PFobj, PFobj^.collection, ALBUM_MODE);
   end;
   EditID3win.Show;
 end;

@@ -22,8 +22,11 @@ uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
   {ExtCtrls,} Buttons, ComCtrls, lcltype, mp3file, ExtCtrls, skin, aws;
 
-type
 
+  const ALBUM_MODE = 1;
+  const ARTIST_MODE = 2;
+
+type
   PLabel = ^TLabel;
   PEdit = ^TEdit;
 
@@ -99,7 +102,6 @@ type
     procedure FormHide(Sender: TObject);
     procedure PicDownloadTimerStartTimer(Sender: TObject);
     procedure PicDownloadTimerTimer(Sender: TObject);
-
     procedure cancelbutClick(Sender: TObject);
     procedure guessnameClick(Sender: TObject);
     procedure pathedit1Change(Sender: TObject);
@@ -109,6 +111,7 @@ type
     procedure activateEMode(Sender: TObject);
   private
     { private declarations }
+    artist_only, album_only: Boolean;
     timer_loop_count: integer;
     request_send: boolean;
     picrequest_send: boolean;
@@ -116,13 +119,13 @@ type
     bEModeActive: boolean;                        // Edit-mode specific variable
     ptrControls: array of array of ^TControl;     // ..
     procedure show_tags();
+    Pcol: PMediaCollection;
+    pfileobj:PMp3fileobj;
   public
     { public declarations }
     fileid: integer;
-    artist_only, album_only:boolean;
-    Pcol: PMediaCollection;
-    pfileobj:PMp3fileobj;
-    procedure display_window(pfobj:PMp3fileobj; col: PMediaCollection);
+    procedure display_window(pfobj:PMp3fileobj; col: PMediaCollection;
+              intMode: Integer = 0);
   end; 
 
 var
@@ -323,8 +326,10 @@ begin
   begin
     ptrLabel := PLabel(ptrControls[i,0]);
     for j := 1 to Length(ptrControls[i]) -1 do
+    begin
       ptrEdit := PEdit(ptrControls[i,j]);
       if ptrEdit^ = Sender then ptrLabel^.Enabled := true;
+    end
   end;
 end;
 
@@ -335,9 +340,6 @@ begin
   Main.enabled:=true;
 
   // reset form components
-  self.artist_only:=false;
-  self.album_only:=false;
-  
   self.guessname1.Enabled := true;
   self.Button1.Enabled := true;
   
@@ -566,13 +568,21 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.display_window(pfobj:PMp3fileobj; col: PMediaCollection);
+procedure TEditID3.display_window(pfobj:PMp3fileobj; col: PMediaCollection;
+          intMode: Integer = 0);
 var s, tmps:string;
   i: Integer;
 begin
   self.Pcol:=col;
   self.pfileobj:=pfobj;
   self.fileid:=0;
+
+  self.artist_only := false;
+  self.album_only := false;
+  case intMode of
+    ALBUM_MODE: self.album_only := true;
+    ARTIST_MODE: self.artist_only := true;
+  end;
 
   // set up gui elements
   metacontrol.ActivePage:=metatab;
