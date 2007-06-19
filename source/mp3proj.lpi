@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveEditorIndexAtStart Value="7"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -57,8 +57,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="35" Y="1191"/>
-        <TopLine Value="1184"/>
+        <CursorPos X="60" Y="1210"/>
+        <TopLine Value="1181"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="7">
@@ -76,12 +76,12 @@
         <Filename Value="mp3file.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3file"/>
-        <CursorPos X="68" Y="118"/>
-        <TopLine Value="112"/>
+        <CursorPos X="1" Y="120"/>
+        <TopLine Value="109"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
-          <Item0 X="47" Y="273" ID="4"/>
+          <Item0 X="47" Y="272" ID="4"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit2>
@@ -901,11 +901,23 @@
         <UsageCount Value="10"/>
       </Unit113>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
         <Filename Value="mp3.pas"/>
         <Caret Line="724" Column="3" TopLine="714"/>
       </Position1>
+      <Position2>
+        <Filename Value="mp3file.pas"/>
+        <Caret Line="76" Column="29" TopLine="60"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mp3file.pas"/>
+        <Caret Line="120" Column="3" TopLine="104"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mp3file.pas"/>
+        <Caret Line="276" Column="3" TopLine="260"/>
+      </Position4>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

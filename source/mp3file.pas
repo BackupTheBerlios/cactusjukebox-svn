@@ -73,7 +73,7 @@ uses
          lib:Array of TMp3FileObj;
          property max_index: Integer Read FMax_Index;
          dirlist: ansistring;
-         guess_tag, saved, CollectionChanged:boolean;
+         guess_tag, CollectionChanged:boolean;
          rootpath, savepath:string;
          PathFmt: TPathFmt;
          function  load_lib(path:string):byte;
@@ -116,8 +116,7 @@ begin
        savepath:=path;
        writeln('saving library to -> '+path);
        try
-           system.assign(lfile,path);
-           saved:=true;
+             system.assign(lfile,path);
              rewrite(lfile);
              writeln(lfile,'#####This config file is created by Cactus Jukebox. NEVER(!!) edit by hand!!!####');
              writeln(lfile,'++++Config++++');
@@ -273,7 +272,7 @@ begin
   end;
   dirlist:=SourceCol.dirlist;
   guess_tag:=SourceCol.guess_tag;
-  saved:=SourceCol.saved;
+//  saved:=SourceCol.saved;
   CollectionChanged:=SourceCol.CollectionChanged;
 
   rootpath:=SourceCol.rootpath;
@@ -301,7 +300,7 @@ end;
 constructor TMediaCollection.create;
 begin
      fmax_index:=1;
-     saved:=false;
+//     saved:=false;
      savepath:='';
      Setlength(lib,512);
      PathFmt:= FDirect;
