@@ -348,9 +348,9 @@ begin
     Lame:=FConfigFile.GetValue('Lame/Path', '/usr/bin/lame');
     GetLanguageIDs(tmps1, tmps2);
 
-    WWidth:=FConfigFile.GetValue('Userinterface/Windows/Width', 854);
-    WHeight:=FConfigFile.GetValue('Userinterface/Windows/Height', 680);
-    language:=FConfigFile.GetValue('Usernterface/Language/Code', copy(tmps1, 0, 2));
+    WWidth:=FConfigFile.GetValue('Userinterface/Window/Width', 854);
+    WHeight:=FConfigFile.GetValue('Userinterface/Window/Height', 680);
+    language:=FConfigFile.GetValue('Userinterface/Language/Code', copy(tmps1, 0, 2));
  except result:=false;
  end;
 end;
@@ -377,10 +377,10 @@ begin
     FConfigFile.SetValue('Library/background_scan', background_scan);
     FConfigFile.SetValue('Library/autoload', LastLib);
     FConfigFile.SetValue('Skin/File', CurrentSkin);
-    FConfigFile.SetValue('Userinterface/Language', language);
+    FConfigFile.SetValue('Userinterface/Language/Code', language);
     FConfigFile.SetValue('Playlist/Autoplay', AutostartPlay);
-    FConfigFile.SetValue('Userinterface/Windows/Width', WWidth);
-    FConfigFile.SetValue('Userinterface/Windows/Height', WHeight);
+    FConfigFile.SetValue('Userinterface/Window/Width', WWidth);
+    FConfigFile.SetValue('Userinterface/Window/Height', WHeight);
     FConfigFile.Flush;
   except result:=false;
   end;
@@ -389,6 +389,9 @@ end;
 procedure TConfigObject.Clear;
 begin
   DeleteFile(IncludeTrailingPathDelimiter(ConfigPrefix)+CONFIGNAME);
+  FConfigFile.Free;
+  FConfigFile:=TXMLConfig.Create(nil);
+  FConfigFile.Filename:=FConfigPath;
   ReadConfig;
 end;
 

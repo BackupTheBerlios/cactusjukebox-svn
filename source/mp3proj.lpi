@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="7"/>
+      <ActiveEditorIndexAtStart Value="10"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -46,7 +46,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
         <CursorPos X="1" Y="30"/>
-        <TopLine Value="101"/>
+        <TopLine Value="62"/>
         <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -57,8 +57,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="60" Y="1194"/>
-        <TopLine Value="1181"/>
+        <CursorPos X="3" Y="1238"/>
+        <TopLine Value="1343"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="7">
@@ -76,7 +76,7 @@
         <Filename Value="mp3file.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3file"/>
-        <CursorPos X="1" Y="120"/>
+        <CursorPos X="99" Y="95"/>
         <TopLine Value="71"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="200"/>
@@ -186,8 +186,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="53" Y="378"/>
-        <TopLine Value="369"/>
+        <CursorPos X="42" Y="353"/>
+        <TopLine Value="354"/>
         <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -821,7 +821,7 @@
         <CursorPos X="59" Y="110"/>
         <TopLine Value="219"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="174"/>
+        <UsageCount Value="175"/>
         <Loaded Value="True"/>
       </Unit102>
       <Unit103>
@@ -901,7 +901,7 @@
         <UsageCount Value="10"/>
       </Unit113>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
         <Filename Value="settings.pas"/>
         <Caret Line="392" Column="5" TopLine="355"/>
@@ -910,6 +910,14 @@
         <Filename Value="settings.pas"/>
         <Caret Line="81" Column="14" TopLine="68"/>
       </Position2>
+      <Position3>
+        <Filename Value="settings.pas"/>
+        <Caret Line="378" Column="53" TopLine="369"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1194" Column="60" TopLine="1181"/>
+      </Position4>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
