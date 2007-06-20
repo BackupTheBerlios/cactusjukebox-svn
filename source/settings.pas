@@ -78,6 +78,7 @@ type
     
     function ReadConfig:boolean;
     function FlushConfig:boolean;
+    procedure Clear;
    private
     FConfigPath: string;
     FConfigFile: TXMLConfig;
@@ -143,7 +144,7 @@ type
 var
   setupwin: TSettings;
   CactusConfig: TConfigObject;
-
+const configname='cactus.cfg';
 
 implementation
 uses mp3, mp3file, translations, functions;
@@ -374,7 +375,7 @@ begin
     FConfigFile.SetValue('Lame/Path', lame);
     FConfigFile.SetValue('Library/GuessTags', guesstag);
     FConfigFile.SetValue('Library/background_scan', background_scan);
-    FConfigFile.SetValue('autoload', MediaCollection.savepath);
+    FConfigFile.SetValue('Library/autoload', LastLib);
     FConfigFile.SetValue('Skin/File', CurrentSkin);
     FConfigFile.SetValue('Userinterface/Language', language);
     FConfigFile.SetValue('Playlist/Autoplay', AutostartPlay);
@@ -383,6 +384,12 @@ begin
     FConfigFile.Flush;
   except result:=false;
   end;
+end;
+
+procedure TConfigObject.Clear;
+begin
+  DeleteFile(IncludeTrailingPathDelimiter(ConfigPrefix)+CONFIGNAME);
+  ReadConfig;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

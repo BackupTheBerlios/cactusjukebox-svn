@@ -1191,6 +1191,7 @@ begin
      if (MediaCollection.max_index>1) then
           begin
              MediaCollection.save_lib(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'last.mlb');
+             CactusConfig.LastLib:=MediaCollection.savepath;
           end;
      MediaCollection.Free;
      PlayerCol.free;

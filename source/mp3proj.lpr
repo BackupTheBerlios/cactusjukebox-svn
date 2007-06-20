@@ -27,7 +27,7 @@ var
   s, loadfile: string;
   invalid_param, skip_config: boolean;
   i:integer;
-  const configname='cactus.cfg';
+
 
   {$i cactus_const.inc}
 
@@ -69,6 +69,15 @@ begin
    CactusConfig.ConfigPrefix:=ExtractFilePath(ParamStr(0));
    if DirectoryExists('lib')=false then  mkdir('lib');
 {$endif}
+  skip_config:=false;
+  for i:= 1 to paramcount do if paramstr(i)='-c' then begin
+        skip_config:=true
+     end;
+  if skip_config then begin
+                 writeln('*removing old config file');
+                 CactusConfig.Clear;
+              end;
+
    if DirectoryExists(CactusConfig.ConfigPrefix)=false then mkdir(CactusConfig.ConfigPrefix);
    if DirectoryExists(CactusConfig.ConfigPrefix+'lib')=false then  mkdir(CactusConfig.ConfigPrefix+'lib');
 // end config
@@ -81,7 +90,7 @@ begin
   Application.CreateForm(TEditID3, editid3win);
     
   invalid_param:=false;
-  skip_config:=false;
+
   main.show;
   main.playermode:=false;
   for i:= 1 to paramcount do if paramstr(i)='-p' then begin
@@ -90,9 +99,7 @@ begin
       main.hide;
      end;
 
-  for i:= 1 to paramcount do if paramstr(i)='-c' then begin
-        skip_config:=true
-     end;
+
 
   for i:= 1 to paramcount do if (paramstr(i)<>'-c') and (paramstr(i)<>'-p') and (paramstr(i)<>'-h') and (paramstr(i)<>'--help') then begin
         if FileExists(paramstr(i)) then begin
@@ -104,11 +111,6 @@ begin
                                          halt;
                                    end;
      end;
-  if skip_config then begin
-                 writeln('*removing old config file');
-                 DeleteFile(CactusConfig.ConfigPrefix+configname);
-              end;
-
 
 
   Register_skins;
