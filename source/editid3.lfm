@@ -146,6 +146,7 @@ object EditID3: TEditID3
         Height = 23
         Top = 211
         Width = 149
+        Enabled = False
         MaxLength = 8
         OnChange = activateEMode
         TabOrder = 6

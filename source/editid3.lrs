@@ -1,5 +1,3 @@
-{ Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
-
 LazarusResources.Add('TEditID3','FORMDATA',[
   'TPF0'#8'TEditID3'#7'EditID3'#4'Left'#3't'#1#6'Height'#3#165#1#3'Top'#3#133#0
   +#5'Width'#3#139#1#18'HorzScrollBar.Page'#3#138#1#18'VertScrollBar.Page'#3#164

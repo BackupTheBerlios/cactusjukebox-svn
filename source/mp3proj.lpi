@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="10"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -105,7 +105,7 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="editid3.lrs"/>
         <UnitName Value="editid3"/>
-        <CursorPos X="50" Y="101"/>
+        <CursorPos X="34" Y="107"/>
         <TopLine Value="88"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
@@ -901,24 +901,7 @@
         <UsageCount Value="10"/>
       </Unit113>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
-      <Position1>
-        <Filename Value="settings.pas"/>
-        <Caret Line="392" Column="5" TopLine="355"/>
-      </Position1>
-      <Position2>
-        <Filename Value="settings.pas"/>
-        <Caret Line="81" Column="14" TopLine="68"/>
-      </Position2>
-      <Position3>
-        <Filename Value="settings.pas"/>
-        <Caret Line="378" Column="53" TopLine="369"/>
-      </Position3>
-      <Position4>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1194" Column="60" TopLine="1181"/>
-      </Position4>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
