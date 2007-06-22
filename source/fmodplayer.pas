@@ -398,8 +398,8 @@ var s1,s2: string;
     i: int64;
 begin
   i:=TotalPlayTime;
-  s1:=IntToStr((i div 60) mod 60 );
-  s2:=IntToStr((i div 60) div 60 );
+  s2:=IntToStr((i div 60) mod 60 );
+  s1:=IntToStr((i div 60) div 60 );
   result:=s1+'h '+s2+'min';
 end;
 

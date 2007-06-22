@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="9"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -57,8 +57,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="3" Y="1238"/>
-        <TopLine Value="1331"/>
+        <CursorPos X="60" Y="2912"/>
+        <TopLine Value="2885"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="7">
@@ -333,8 +333,8 @@
         <Filename Value="fmodplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="fmodplayer"/>
-        <CursorPos X="91" Y="186"/>
-        <TopLine Value="21"/>
+        <CursorPos X="19" Y="400"/>
+        <TopLine Value="395"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -767,8 +767,8 @@
         <Filename Value="functions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="functions"/>
-        <CursorPos X="1" Y="345"/>
-        <TopLine Value="16"/>
+        <CursorPos X="20" Y="32"/>
+        <TopLine Value="10"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
