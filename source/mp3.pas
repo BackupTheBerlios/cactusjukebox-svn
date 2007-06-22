@@ -1225,7 +1225,7 @@ begin
     except writeln('ERROR: Exception while shutting down IPC server');
     end;
   writeln('end.');
-     if CactusConfig.FlushConfig then writeln('Config succesfully written to disk');
+     if CactusConfig.FlushConfig then writeln('Config succesfully written to disk') else writeln('ERROR: writing config to disk');
      CactusConfig.Free;
      Application.Terminate;
 end;

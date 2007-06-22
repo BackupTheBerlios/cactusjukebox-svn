@@ -22,10 +22,10 @@
 		<Stop Normal = "buttons/stop.png" MouseOver="buttons/stop-h.png" Clicked="buttons/stop-c.png" x="150" y="105"/>
 		<Next Normal = "buttons/next.png" MouseOver="buttons/next-h.png" Clicked="buttons/next-c.png" x="235" y="105"/>
 		<Previous Normal = "buttons/back.png" MouseOver="buttons/back-h.png" Clicked="buttons/back-c.png" x="195" y="105"/>
-	   	<Mute Normal = "player/mute.png" MouseOver = "player/mute-h.png" Activated = "player/mute-on.png" x="20" y="110"/>
-	   	<Info Normal = "player/info.png" MouseOver = "player/info-h.png" x="20" y="70"/>
-	   	<Open Normal = "player/open.png" MouseOver = "player/open-h.png" x="20" y="40"/>
-		<View Normal = "player/view.png" MouseOver = "player/view-h.png" x="20" y="20"/>
+	   	<Mute Normal = "player/mute.png" MouseOver = "player/mute-h.png" Activated = "player/mute-on.png" x="16" y="108"/>
+	   	<Info Normal = "player/info.png" MouseOver = "player/info-h.png" x="22" y="53"/>
+	   	<Open Normal = "player/open.png" MouseOver = "player/open-h.png" x="18" y="25"/>
+		<View Normal = "player/view.png" MouseOver = "player/view-h.png" x="18" y="77"/>
 	</Buttons>
 	<Images>
 	   <Background Path= "player/background.png" x="0" y="0"/>

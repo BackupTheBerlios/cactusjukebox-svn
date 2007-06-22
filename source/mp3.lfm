@@ -755,7 +755,6 @@ object Main: TMain
         Top = 18
         Width = 42
         Caption = 'Search'
-        Color = clNone
         ParentColor = False
       end
       object SpeedButton1: TSpeedButton

@@ -56,10 +56,10 @@ begin
 
 //   Init config object
 {$ifdef CactusRPM}
-   CactusConfig:=TConfigObject.create(IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'))+'cactusjukebox'+DirectorySeparator+configname);
+   CactusConfig:=TConfigObject.create(IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'))+'.cactusjukebox'+DirectorySeparator+configname);
    CactusConfig.homeDir:=IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'));
    CactusConfig.DataPrefix:='/usr/share/cactusjukebox/';
-   CactusConfig.ConfigPrefix:=CactusConfig.HomeDir+'/.cactusjukebox/';
+   CactusConfig.ConfigPrefix:=CactusConfig.HomeDir+'.cactusjukebox/';
    writeln('This is Cactus RPM.');
  {$else}
    SetCurrentDir(ExtractFilePath(ParamStr(0)));

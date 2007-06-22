@@ -1,10 +1,11 @@
-Changes from 0.3 to 0.3.5
-	- Audio CD Ripper added
+Changes from 0.3 to 0.3.8
+	- Audio CD ripping facility
 	- GTK2 version is available
+	- Many improvements on tag editor send to me by Jan Murawski
 	- Language support. Currently english and german. Please contribute 
 	  to this. Mail sebastian_kraft@gmx.de for instructions.
 	- remove empty directories after removing files
-	- remote control Cactus Jukebox. See docs for more info
+	- remote control tool for Cactus Jukebox. See docs for more info
 	- Added threading for some operations(copy, scan)
 	- Jump to artist when first key of name is pressed in the artisttree
 	- automatic album coverdownload from internet

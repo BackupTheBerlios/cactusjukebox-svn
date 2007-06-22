@@ -2,7 +2,7 @@ see INSTALL for install information.
 
 
 Requirements:
-	GTK1.x
+	GTK1.x or GTK2
 	libfmod-3.75 (comes with cactus)
 	
 	cdda2wav (for CD ripping)
@@ -12,7 +12,7 @@ Requirements:
 not more to say... just run cactus_jukebox and have fun.
 run cactus to start in minimized mode.
 
-cactus_remote is a tool to remote control Cactus behaviour from other 
+cactus_remote is a tool to remote control Cactus from other 
 applications or scripts. Watch the output of 'cactus_remote -h' for 
 available commands.
 
