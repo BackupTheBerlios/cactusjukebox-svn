@@ -821,7 +821,7 @@
         <CursorPos X="59" Y="110"/>
         <TopLine Value="219"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="176"/>
+        <UsageCount Value="177"/>
         <Loaded Value="True"/>
       </Unit102>
       <Unit103>
@@ -901,16 +901,7 @@
         <UsageCount Value="10"/>
       </Unit113>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
-      <Position1>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1238" Column="3" TopLine="1343"/>
-      </Position1>
-      <Position2>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1225" Column="49" TopLine="1199"/>
-      </Position2>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
@@ -947,8 +938,7 @@
         <ShowHintsForUnusedUnitsInMainSrc Value="True"/>
       </Verbosity>
       <WriteFPCLogo Value="False"/>
-      <CustomOptions Value="
-"/>
+      <CustomOptions Value="-dCactusRPM"/>
       <CompilerPath Value="$(CompPath)"/>
       <CreateMakefileOnBuild Value="True"/>
     </Other>
