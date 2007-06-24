@@ -335,7 +335,8 @@ begin
     GuessTag:=FConfigFile.GetValue('Library/GuessTags', false);
     Mobile_Subfolders:=FConfigFile.GetValue('Mobile_Player/Subfolders', true);
     id3v2_prio:=FConfigFile.GetValue('Library/id3v2_prio', true);
-    background_scan:=FConfigFile.GetValue('Library/background_scan', false);
+//    background_scan:=FConfigFile.GetValue('Library/background_scan', false);
+    background_scan:=false;
     DAPPath:=IncludeTrailingPathDelimiter(FConfigFile.getValue('Mobile_Player/Mountpoint', ''));
     CoverDownload:=FConfigFile.GetValue('Networking/Album_Cover_Download/Enabled', false);
     CurrentSkin:=FConfigFile.getValue('Skin/File', 'default.xml');

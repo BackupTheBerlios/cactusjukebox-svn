@@ -468,7 +468,7 @@ begin
 
      Items[index].ID:=PFileObj^.ID;
      Items[index].LengthMS:=PFileObj^.Playlength;
-
+      writeln(111111);
      result:=index;
 end;
 

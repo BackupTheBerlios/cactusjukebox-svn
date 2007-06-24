@@ -1,0 +1,302 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural>1;\n"
+"Project-Id-Version: Cactus Music Jukebox\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-06-24 08:14+0100\n"
+"Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
+"Language-Team: Hungarian\n"
+"MIME-Version: 1.0\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+
+#: mp3:rsquit
+msgid "Quit"
+msgstr "Kilép"
+
+#: mp3:rsfile
+msgid "File"
+msgstr "Fájl"
+
+#: mp3:rsopenfile
+msgid "Open File..."
+msgstr "Fájl megnyitása"
+
+#: mp3:rsplayeronly
+msgid "Player only"
+msgstr "Csak lejátszó"
+
+#: mp3:rschooseskin
+msgid "Choose Skin..."
+msgstr "Válassz bőrt..."
+
+#: mp3:rssettings
+msgid "Settings..."
+msgstr "Beállítások..."
+
+#: mp3:rslibrary
+msgid "Library"
+msgstr "Könyvtár"
+
+#: mp3:rsnewlibrary
+msgid "New library"
+msgstr "Új könyvtár"
+
+#: mp3:rsloadlibrary
+msgid "Load library"
+msgstr "Könyvtár betöltése"
+
+#: mp3:rssavelibrary
+msgid "Save library"
+msgstr "Könyvtár mentése"
+
+#: mp3:rslibraryinfo
+msgid "Library info"
+msgstr "Könyvtár adatok"
+
+#: mp3:rsmanagelibrar
+msgid "Manage library..."
+msgstr "Könyvtár kezelése..."
+
+#: mp3:rsrescandirect
+msgid "Rescan directories"
+msgstr "Mappák újraolvasása"
+
+#: mp3:rsplaylist
+msgid "Playlist"
+msgstr "Lejátszólista"
+
+#: mp3:rsplay
+msgid "Play"
+msgstr "Lejátszás"
+
+#: mp3:rsnext
+msgid "Next"
+msgstr "Következő"
+
+#: mp3:rsprevious
+msgid "Previous"
+msgstr "Előző"
+
+#: mp3:rsmute
+msgid "Mute"
+msgstr "Néma"
+
+#: mp3:rsloadplaylist
+msgid "Load playlist"
+msgstr "Lista betöltése"
+
+#: mp3:rssaveplaylist
+msgid "Save playlist"
+msgstr "Lista mentése"
+
+#: mp3:rsmobileplayer
+msgid "Mobile player"
+msgstr "Mobil lejátszó"
+
+#: mp3:rsdeviceinfo
+msgid "Device info"
+msgstr "Eszköz adatai"
+
+#: mp3:rsscanplayer
+msgid "Scan player"
+msgstr "Lejátszó felderítése"
+
+#: mp3:rssync
+msgid "Sync"
+msgstr "Szinkron"
+
+#: mp3:rsclearplayer
+msgid "Clear player"
+msgstr "Lejátszó törlése"
+
+#: mp3:rsundoselectio
+msgid "Undo selection"
+msgstr "Kijelölés elvetése"
+
+#: mp3:rsaudiocd
+msgid "Audio CD"
+msgstr "Hang CD"
+
+#: mp3:rsripencode
+msgid "Rip / Encode..."
+msgstr "Leszed/Kódol..."
+
+#: mp3:rshelp
+msgid "Help"
+msgstr "Súgó"
+
+#: mp3:rsabout
+msgid "About..."
+msgstr "Névjegy"
+
+#: mp3:rsmanual
+msgid "Manual..."
+msgstr "Kézikönyv..."
+
+#: mp3:rsclear
+msgid "Clear"
+msgstr "Töröl"
+
+#: mp3:rssearch
+msgid "Search"
+msgstr "Keres"
+
+#: mp3:rsalbum
+msgid "Album"
+msgstr "Album"
+
+#: mp3:rsfilename
+msgid "Filename"
+msgstr "Fájlnév"
+
+#: mp3:rsartist
+msgid "Artist"
+msgstr "Művész"
+
+#: mp3:rstitle
+msgid "Title"
+msgstr "Cím"
+
+#: mp3:rsrandom
+msgid "Random"
+msgstr "Véletlen"
+
+#: mp3:rsnotconnected
+msgid "Device not Connected"
+msgstr "Eszköz leválasztva"
+
+#: mp3:rsok
+msgid "OK"
+msgstr "OK"
+
+#: cdrip:rsencodetomp3
+msgid "Encode to mp3"
+msgstr "mp3-kódolás"
+
+#: cdrip:rsquerrycddb
+msgid "Querry CDDB"
+msgstr "CDDB lekérése"
+
+#: cdrip:rsload
+msgid "Load"
+msgstr "Betölt"
+
+#: cdrip:rseject
+msgid "Eject"
+msgstr "Kiad"
+
+#: cdrip:rsstart
+msgid "Start"
+msgstr "Kezd"
+
+#: cdrip:rsback
+msgid "Back"
+msgstr "Vissza"
+
+#: cdrip:rssetid3tag
+msgid "Write ID3-Tags"
+msgstr "ID3-tagok írása"
+
+#: cdrip:rscrsubfolders
+msgid "Create artist subfolders"
+msgstr "Művész almappákat létrehoz"
+
+#: cdrip:rsoutfilenamin
+msgid "Outfile naming scheme"
+msgstr "Fájl elnevezési séma"
+
+#: settings:rsautoloadlast
+msgid "Autoload last library at startup"
+msgstr "Utolsó könyvtár betöltése induláskor"
+
+#: settings:rsscanfornewfi
+msgid "Scan for new files in background  on startup"
+msgstr "Új fájlok keresése a háttérben induláskor"
+
+#: settings:rslanguage
+msgid "Language"
+msgstr "Nyelv"
+
+#: settings:rswhattodowhen
+msgid "What to do when there is no ID3"
+msgstr "Mit tegyünk, ha nincs ID3"
+
+#: settings:rsguesstagfrom
+msgid "Guess tag from filename"
+msgstr "Tag a fájlnévből"
+
+#: settings:rsmovetosectio
+msgid "Move to section %sUnknown%s"
+msgstr "Mozgatás az %sUnknown%s szakaszba"
+
+#: settings:rsid3type
+msgid "ID3 type"
+msgstr "ID3 típus"
+
+#: settings:rsid3v1priorit
+msgid "ID3v1 Priority"
+msgstr "ID3v1 elsőbbség"
+
+#: settings:rsid3v2priorit
+msgid "ID3v2 Priority"
+msgstr "ID3v2 elsőbbség"
+
+#: settings:rsgeneral
+msgid "General"
+msgstr "Általános"
+
+#: settings:rspathtomp3pla
+msgid "Path to mp3player mountpoint"
+msgstr "Hordozható lejátszó csatolási pontja"
+
+#: settings:rscreatesubfol
+msgid "Create subfolders on upload"
+msgstr "Almappák létrehozása feltöltéskor"
+
+#: settings:rspathstoaddit
+msgid "Paths to additional application needed for Cactus Jukebox"
+msgstr "A Cactus Jukebox bővítő alkalmazások útvonalai"
+
+#: settings:rscdda2wavtool
+msgid "Cdda2wav (tool to rip CDs)"
+msgstr "Cdda2wav (CD-leszedő eszköz)"
+
+#: settings:rssave
+msgid "Save"
+msgstr "Ment"
+
+#: settings:rscancel
+msgid "Cancel"
+msgstr "Mégsem"
+
+#: settings:rsmobiledevice
+msgid "Mobile Device"
+msgstr "Mobil eszköz"
+
+#: settings:rspaths
+msgid "Paths"
+msgstr "Útvonalak"
+
+#: settings:rslameneededto
+msgid "lame (needed to encode mp3 files)"
+msgstr "lame (mp3-fájlok kódolhatók vele)"
+
+#: settings:rsenablekdeser
+msgid "Enable KDE Service Menu"
+msgstr "KDE szolgáltató menü engedélyezése"
+
+#: settings:rsaudiooutput
+msgid "Audio Output"
+msgstr "Hang kimenet"
+
+#: settings:rsdownloadalbu
+msgid "Download album cover image from internet"
+msgstr "Album borító kép letöltése az internetről"
+
+#: settings:rsclearcache
+msgid "Clear Cache"
+msgstr "Gyorstár törlése"
+

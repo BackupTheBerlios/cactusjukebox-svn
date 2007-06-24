@@ -982,7 +982,7 @@ begin
      i:=0;
      repeat inc(i)
        until (i>=fmax_index-1) or (lib[i].path=path);
-     if (i<fmax_index-1) then result:=i else result:=0;
+     if (i<=fmax_index-1) then result:=i else result:=0;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -999,8 +999,6 @@ begin
          end;
      end
   else writeln('ERROR: File not found -> '+path);
-     // create_artist_order;
-
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

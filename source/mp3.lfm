@@ -1010,6 +1010,7 @@ object Main: TMain
       end
       object MIrescanlib: TMenuItem
         Caption = 'Rescan Directories'
+        Visible = False
         OnClick = rescanlibClick
       end
       object Menuitem24: TMenuItem

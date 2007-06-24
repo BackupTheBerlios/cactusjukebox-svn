@@ -55,7 +55,6 @@ object Settings: TSettings
         Top = 265
         Width = 57
         Caption = 'Language'
-        Color = clNone
         ParentColor = False
       end
       object LAudioOut: TLabel
@@ -64,7 +63,6 @@ object Settings: TSettings
         Top = 305
         Width = 77
         Caption = 'Audio Output'
-        Color = clNone
         ParentColor = False
       end
       object autoload1: TCheckBox
@@ -85,6 +83,7 @@ object Settings: TSettings
         Width = 359
         Caption = 'Scan for new files in background  on startup(experimental)'
         TabOrder = 1
+        Visible = False
       end
       object LanguageBox: TComboBox
         Left = 142
@@ -163,7 +162,6 @@ object Settings: TSettings
         Top = 26
         Width = 165
         Caption = 'Path to mp3player mountpoint'
-        Color = clNone
         ParentColor = False
       end
       object playerpathedit1: TEdit
@@ -202,7 +200,6 @@ object Settings: TSettings
         Height = 18
         Top = 51
         Width = 285
-        Color = clNone
         ParentColor = False
       end
       object PathBox: TGroupBox
@@ -220,7 +217,6 @@ object Settings: TSettings
           Top = 104
           Width = 193
           Caption = 'lame (needed to encode mp3 files)'
-          Color = clNone
           ParentColor = False
         end
         object Lcdda2wav: TLabel
@@ -229,7 +225,6 @@ object Settings: TSettings
           Top = 32
           Width = 148
           Caption = 'Cdda2wav (tool to rip CDs)'
-          Color = clNone
           ParentColor = False
         end
         object Edit2: TEdit

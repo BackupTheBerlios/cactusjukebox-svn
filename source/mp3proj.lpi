@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="1"/>
+      <ActiveEditorIndexAtStart Value="10"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -45,8 +45,8 @@
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="53" Y="62"/>
-        <TopLine Value="47"/>
+        <CursorPos X="55" Y="31"/>
+        <TopLine Value="62"/>
         <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -57,17 +57,17 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="60" Y="2912"/>
-        <TopLine Value="2885"/>
+        <CursorPos X="23" Y="1441"/>
+        <TopLine Value="1436"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="7">
-          <Item0 X="24" Y="1633" ID="0"/>
-          <Item1 X="24" Y="2910" ID="1"/>
-          <Item2 X="25" Y="2971" ID="2"/>
-          <Item3 X="12" Y="2342" ID="3"/>
+          <Item0 X="26" Y="1450" ID="0"/>
+          <Item1 X="24" Y="2908" ID="1"/>
+          <Item2 X="25" Y="2969" ID="2"/>
+          <Item3 X="12" Y="2340" ID="3"/>
           <Item4 X="23" Y="454" ID="5"/>
-          <Item5 X="10" Y="2588" ID="6"/>
+          <Item5 X="10" Y="2586" ID="6"/>
           <Item6 X="10" Y="902" ID="7"/>
         </Bookmarks>
         <Loaded Value="True"/>
@@ -76,8 +76,8 @@
         <Filename Value="mp3file.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3file"/>
-        <CursorPos X="99" Y="95"/>
-        <TopLine Value="71"/>
+        <CursorPos X="13" Y="985"/>
+        <TopLine Value="979"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
@@ -186,8 +186,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="42" Y="353"/>
-        <TopLine Value="357"/>
+        <CursorPos X="27" Y="339"/>
+        <TopLine Value="330"/>
         <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -333,8 +333,8 @@
         <Filename Value="fmodplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="fmodplayer"/>
-        <CursorPos X="19" Y="400"/>
-        <TopLine Value="395"/>
+        <CursorPos X="27" Y="464"/>
+        <TopLine Value="456"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -821,7 +821,7 @@
         <CursorPos X="59" Y="110"/>
         <TopLine Value="219"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="177"/>
+        <UsageCount Value="178"/>
         <Loaded Value="True"/>
       </Unit102>
       <Unit103>

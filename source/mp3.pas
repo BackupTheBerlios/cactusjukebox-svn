@@ -1447,9 +1447,7 @@ begin
       MediaCollection.sort;
       z:=MediaCollection.get_index_by_path(path);
    end;
-   
    player.playlist.add(@MediaCollection.lib[z]);
-
    ListItem := Playlist.Items.Add;
    listitem.data:=MediaCollection.lib[z];
 

@@ -15,3 +15,10 @@ Changes from 0.3 to 0.3.8
 	- minor bugfixes
 	- internal code cleanups. SVN repository is available for developers now
 
+
+Changes from 0.2.4 to 0.3
+	- synchronize music with mobile devices/players
+	- nicer interface, new icons
+	- ID3v2 write support
+	- better handling of corrupted files/tags
+	- many other improvements
