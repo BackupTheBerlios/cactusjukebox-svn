@@ -1,3 +1,8 @@
+Changes from 0.3.8 to 0.3.8.1
+	- Bugfix: Loading files directly form disk now working again
+	- Hungarian translation added
+
+
 Changes from 0.3 to 0.3.8
 	- Audio CD ripping facility
 	- GTK2 version is available

@@ -901,36 +901,7 @@
         <UsageCount Value="10"/>
       </Unit113>
     </Units>
-    <JumpHistory Count="7" HistoryIndex="6">
-      <Position1>
-        <Filename Value="fmodplayer.pas"/>
-        <Caret Line="22" Column="61" TopLine="15"/>
-      </Position1>
-      <Position2>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1450" Column="44" TopLine="1436"/>
-      </Position2>
-      <Position3>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1441" Column="90" TopLine="1434"/>
-      </Position3>
-      <Position4>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="402" Column="77" TopLine="390"/>
-      </Position4>
-      <Position5>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1368" Column="16" TopLine="1352"/>
-      </Position5>
-      <Position6>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1385" Column="17" TopLine="1369"/>
-      </Position6>
-      <Position7>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1391" Column="17" TopLine="1375"/>
-      </Position7>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
