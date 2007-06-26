@@ -112,7 +112,7 @@ object Settings: TSettings
       object ClearCover: TButton
         Left = 302
         Height = 29
-        Top = 209
+        Top = 203
         Width = 83
         AutoSize = True
         BorderSpacing.InnerBorder = 4
@@ -131,7 +131,7 @@ object Settings: TSettings
       object AudioOut: TComboBox
         Left = 142
         Height = 25
-        Top = 292
+        Top = 294
         Width = 100
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemIndex = 0

@@ -32,12 +32,12 @@ LazarusResources.Add('TSettings','FORMDATA',[
   +#0#9'TCheckBox'#13'kdeservicebox'#4'Left'#2'&'#6'Height'#2#23#3'Top'#3#169#0
   +#5'Width'#3#173#0#7'Caption'#6#23'enable KDE service menu'#8'OnChange'#7#19
   +'kdeserviceboxChange'#8'TabOrder'#2#3#0#0#7'TButton'#10'ClearCover'#4'Left'#3
-  +'.'#1#6'Height'#2#29#3'Top'#3#209#0#5'Width'#2'S'#8'AutoSize'#9#25'BorderSpa'
+  +'.'#1#6'Height'#2#29#3'Top'#3#203#0#5'Width'#2'S'#8'AutoSize'#9#25'BorderSpa'
   +'cing.InnerBorder'#2#4#7'Caption'#6#11'Clear cache'#7'OnClick'#7#15'ClearCov'
   +'erClick'#8'TabOrder'#2#4#0#0#9'TCheckBox'#13'CoverDownload'#4'Left'#2'&'#6
   +'Height'#2#23#3'Top'#3#209#0#5'Width'#3#248#0#7'Caption'#6'&Download album c'
   +'over art form internet'#8'TabOrder'#2#5#0#0#9'TComboBox'#8'AudioOut'#4'Left'
-  +#3#142#0#6'Height'#2#25#3'Top'#3'$'#1#5'Width'#2'd'#16'AutoCompleteText'#11
+  +#3#142#0#6'Height'#2#25#3'Top'#3'&'#1#5'Width'#2'd'#16'AutoCompleteText'#11
   +#22'cbactEndOfLineComplete'#20'cbactSearchAscending'#0#9'ItemIndex'#2#0#13'I'
   +'tems.Strings'#1#6#4'Alsa'#6#3'OSS'#0#9'MaxLength'#2#0#8'TabOrder'#2#6#4'Tex'
   +'t'#6#4'Alsa'#0#0#9'TCheckBox'#12'AutostartBox'#4'Left'#2'&'#6'Height'#2#23#3

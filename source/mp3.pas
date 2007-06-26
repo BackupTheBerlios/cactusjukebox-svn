@@ -1442,10 +1442,15 @@ var z: integer;
 begin
  if FileExists(path) then begin
    z:=MediaCollection.get_index_by_path(path);
+   writeln(z);
    if z=0 then begin
       MediaCollection.add_file(path);
       MediaCollection.sort;
+      writeln('sorted');
       z:=MediaCollection.get_index_by_path(path);
+      writeln('mmmm '+path);
+      writeln(MediaCollection.lib[z].path);
+      writeln(z);
    end;
    player.playlist.add(@MediaCollection.lib[z]);
    ListItem := Playlist.Items.Add;

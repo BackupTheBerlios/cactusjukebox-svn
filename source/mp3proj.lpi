@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="10"/>
+      <ActiveEditorIndexAtStart Value="7"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -57,17 +57,17 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="23" Y="1441"/>
-        <TopLine Value="1436"/>
+        <CursorPos X="15" Y="1445"/>
+        <TopLine Value="1441"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="7">
-          <Item0 X="26" Y="1450" ID="0"/>
-          <Item1 X="24" Y="2908" ID="1"/>
-          <Item2 X="25" Y="2969" ID="2"/>
-          <Item3 X="12" Y="2340" ID="3"/>
+          <Item0 X="26" Y="1455" ID="0"/>
+          <Item1 X="24" Y="2913" ID="1"/>
+          <Item2 X="25" Y="2974" ID="2"/>
+          <Item3 X="12" Y="2345" ID="3"/>
           <Item4 X="23" Y="454" ID="5"/>
-          <Item5 X="10" Y="2586" ID="6"/>
+          <Item5 X="10" Y="2591" ID="6"/>
           <Item6 X="10" Y="902" ID="7"/>
         </Bookmarks>
         <Loaded Value="True"/>
@@ -76,8 +76,8 @@
         <Filename Value="mp3file.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3file"/>
-        <CursorPos X="13" Y="985"/>
-        <TopLine Value="979"/>
+        <CursorPos X="49" Y="985"/>
+        <TopLine Value="976"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
@@ -333,8 +333,8 @@
         <Filename Value="fmodplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="fmodplayer"/>
-        <CursorPos X="27" Y="464"/>
-        <TopLine Value="456"/>
+        <CursorPos X="50" Y="470"/>
+        <TopLine Value="455"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -901,7 +901,36 @@
         <UsageCount Value="10"/>
       </Unit113>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="7" HistoryIndex="6">
+      <Position1>
+        <Filename Value="fmodplayer.pas"/>
+        <Caret Line="22" Column="61" TopLine="15"/>
+      </Position1>
+      <Position2>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1450" Column="44" TopLine="1436"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1441" Column="90" TopLine="1434"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="402" Column="77" TopLine="390"/>
+      </Position4>
+      <Position5>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1368" Column="16" TopLine="1352"/>
+      </Position5>
+      <Position6>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1385" Column="17" TopLine="1369"/>
+      </Position6>
+      <Position7>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1391" Column="17" TopLine="1375"/>
+      </Position7>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
