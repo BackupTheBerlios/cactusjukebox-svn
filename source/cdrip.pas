@@ -85,7 +85,7 @@ var
 
 
 implementation
-uses mp3file, mp3, translations, functions, settings;
+uses mp3, mediacol, translations, functions, settings;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -194,7 +194,7 @@ end;
 procedure Tcdrip.FormCreate(Sender: TObject);
 var b, z:byte;
     tmps, s, t1, t2: string;
-    ti1, ti2: integer;
+    ti1, ti2, i: integer;
 begin
      TranslateUnitResourceStrings('cdrip', cactusconfig.DataPrefix+'languages/cactus.%s.po', 'de', '');
 
@@ -212,19 +212,17 @@ begin
      
 
 
-     tmps:=MediaCollection.dirlist;
      ripping:=false;
      RipProcess:=TProcess.Create(nil);
      EncodeProcess:=TProcess.Create(nil);
      Outputstring:=TStringList.Create;
      Outputstream:=TMemoryStream.Create;
         
-     repeat begin
-            s:=copy(tmps, 1, pos(';', tmps)-1);
-            outputfolderbox.AddItem(s, nil);
-            delete(tmps, 1, pos(';', tmps));
-        end;
-      until length(tmps)<2;
+     for i:= 0 to MediaCollection.DirList.Count do   //
+        begin
+            outputfolderbox.AddItem(MediaCollection.DirList[i], nil);
+          end;
+          
      outputfolderbox.ItemIndex:=0;
      CDDBcon:=TCddbObject.create;
      if CDDBcon.DriveCount>0 then begin
@@ -263,7 +261,7 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-{This timerevent is too confusing big and buggy. split in 2 timer objects -> one for IP communication and one for rip/encode status }
+{This timerevent is too confusing, big and buggy. split in 2 timer objects -> one for IP communication and one for rip/encode status }
 
 procedure Tcdrip.Timer1Timer(Sender: TObject);
 var ListItem: TListItem;
@@ -403,7 +401,7 @@ begin
         encoding:=false;
         ToEncode[RipTrack]:=false;
         writeln('adding file');
-        MediaCollection.add_file(OutFileNames[EncodeTrack]);
+        MediaCollection.add(OutFileNames[EncodeTrack]);
      end;
 end;
 

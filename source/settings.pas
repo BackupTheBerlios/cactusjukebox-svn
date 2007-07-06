@@ -147,7 +147,7 @@ var
 const configname='cactus.cfg';
 
 implementation
-uses mp3, mp3file, translations, functions;
+uses mp3, translations, functions;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -183,7 +183,7 @@ begin
      if subfolders.checked then CactusConfig.mobile_subfolders:=true else CactusConfig.mobile_subfolders:=false;
      if CoverDownload.Checked then CactusConfig.CoverDownload:=true else CactusConfig.CoverDownload:=false;
      if AutostartBox.Checked then CactusConfig.AutostartPlay:=true else CactusConfig.AutostartPlay:=false;
-     MediaCollection.guess_tag:=CactusConfig.GuessTag;
+//     MediaCollection.guess_tag:=CactusConfig.GuessTag;
      main.player.oss:=not CactusConfig.OutputAlsa;
 
      CactusConfig.language:=LanguageBox.Items[LanguageBox.ItemIndex];

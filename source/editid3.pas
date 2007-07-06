@@ -20,7 +20,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  {ExtCtrls,} Buttons, ComCtrls, lcltype, mp3file, ExtCtrls, skin, aws;
+  {ExtCtrls,} Buttons, ComCtrls, lcltype, mediacol, ExtCtrls, skin, aws;
 
 
   const ALBUM_MODE = 1;
@@ -119,20 +119,19 @@ type
     bEModeActive: boolean;                        // Edit-mode specific variable
     ptrControls: array of array of ^TControl;     // ..
     procedure show_tags();
-    Pcol: PMediaCollection;
-    pfileobj:PMp3fileobj;
+    MedFileObj:TMediaFileClass;
+    MedColObj: TMediaCollectionClass;
   public
     { public declarations }
     fileid: integer;
-    procedure display_window(pfobj:PMp3fileobj; col: PMediaCollection;
-              intMode: Integer = 0);
+    procedure display_window(MedFile:TMediaFileClass; intMode: Integer = 0);
   end; 
 
 var
   EditID3win: TEditID3;
 
 implementation
-uses mp3, lazjpeg, settings;
+uses mp3, lazjpeg, settings, functions;
 { TEditID3 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -154,14 +153,14 @@ begin
   end;
 
   // check if the file exists and is writable
-  if (FileGetAttr(PFileObj^.path) and faReadOnly)=0
+  if (FileGetAttr(MedFileObj.path)<>faReadOnly)
   then
   begin
     // write changes (artist-mode)
     if artist_only=true
     then
     begin
-      oldart:=lowercase(PFileObj^.artist);
+      oldart:=lowercase(MedFileObj.artist);
       newart:=artistedit1.text;
       strNewComment := self.cmbComment.Caption;
 
@@ -169,28 +168,24 @@ begin
       if Length(strNewYear) = 4 then
         bYearLongEnough := true;
 
-      for z := pfileobj^.index to PCol^.max_index -1 do
-        if oldart = lowercase(PCol^.lib[z].artist)
-        then
-        begin
+      z:=MedColObj.getTracks(oldart, MedFileObj.index);
+      repeat begin
           writeln('artist_mode: '+ artistedit1.Text +' #'+ IntToStr(z));    // DEBUG-INFO
+          MedColObj.items[z].artist:=newart;
+          if bYearLongEnough then MedColObj.items[z].year := self.cmbYear.Caption;
+          MedColObj.items[z].comment:= strNewComment;
+          MedColObj.items[z].write_tag;
+          z:=MedColObj.getNext;
+      end;
+      until z<0;
 
-          PCol^.lib[z].artist:=newart;
-          if bYearLongEnough then PCol^.lib[z].year := self.cmbYear.Caption;
-          PCol^.lib[z].comment:= strNewComment;
-//        PCol^.lib[z].artistv2:=newart;
-          writeln(newart);
-          PCol^.lib[z].write_tag;
-        end
-        else
-          break;
     end
     // write changes (album-mode)
     else if album_only=true
     then
     begin
-      curartist:=lowercase(PFileObj^.artist);
-      oldalbum:=lowercase(PFileObj^.album);
+      curartist:=lowercase(MedFileObj.artist);
+      oldalbum:=lowercase(MedFileObj.album);
       newalbum:=albumedit1.text;
       newart:=artistedit1.text;
       strNewComment := self.cmbComment.Caption;
@@ -199,43 +194,37 @@ begin
       if Length(strNewYear) = 4 then
         bYearLongEnough := true;
 
-      Z:=pfileobj^.index;
-      while (z>0) and (lowercase(PCol^.lib[z].artist)=curartist) do dec(z);
-      inc(z);
+      z:=MedColObj.getTracks(curartist, oldalbum, MedFileObj.index);
+       
+      repeat begin
+            MedColObj.items[z].album:=newalbum;
+            MedColObj.items[z].artist:=newart;
+            if bYearLongEnough then MedColObj.items[z].year := self.cmbYear.Caption;
+            MedColObj.items[z].comment:= strNewComment;
+            MedColObj.items[z].write_tag;
+            z:=MedColObj.getNext;
+      end;
+      until z<0;
 
-      for z := z to PCol^.max_index -1 do
-        if curartist = lowercase(PCol^.lib[z].artist)
-        then
-          if oldalbum = lowercase(PCol^.lib[z].album)
-          then
-          begin
-            PCol^.lib[z].album:=newalbum;
-            PCol^.lib[z].artist:=newart;
-            if bYearLongEnough then PCol^.lib[z].year := self.cmbYear.Caption;
-            PCol^.lib[z].comment:= strNewComment;
-            PCol^.lib[z].write_tag;
-          end
-        else
-          break;
     end
-    // write cahnges (title-mode)
+    // write changes (title-mode)
     else
     begin
-      PFileObj^.artist:=artistedit1.text;
-      PFileObj^.title:=titleedit1.text;
-      PFileObj^.album:=albumedit1.text;
-      PFileObj^.year:=yearedit1.text;
-      PFileObj^.comment:=commentedit1.text;
-      pfileobj^.track:=trackedit1.text;
+      MedFileObj.artist:=artistedit1.text;
+      MedFileObj.title:=titleedit1.text;
+      MedFileObj.album:=albumedit1.text;
+      MedFileObj.year:=yearedit1.text;
+      MedFileObj.comment:=commentedit1.text;
+      MedFileObj.track:=trackedit1.text;
 
-      PFileObj^.write_tag;
+      MedFileObj.write_tag;
 
-      RenameFile(PFileObj^.path, editid3win.pathedit1.text);
-      PFileObj^.path:=editid3win.pathedit1.text;
+      RenameFile(MedFileObj.path, editid3win.pathedit1.text);
+      MedFileObj.path:=editid3win.pathedit1.text;
     end;
 
 
-    if main.player_connected then PlayerCol.save_lib(CactusConfig.DAPPath+'cactuslib');
+    if main.player_connected then PlayerCol.SaveToFile(CactusConfig.DAPPath+'cactuslib');
 
     update_artist_view;
     update_title_view;
@@ -394,9 +383,9 @@ begin
     end;
     
    if (picrequest_send) and awsclass.data_ready then begin
-             writeln(pfileobj^.CoverPath);
+             writeln(MedFileObj.CoverPath);
              AlbumCoverImg.Canvas.Clear;
-             AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath);
+             AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
              awsclass.free;
              picrequest_send:=false;
              PicDownloadTimer.Enabled:=false;
@@ -475,7 +464,7 @@ begin
   end;
 
   // display tags...
-  self.artistedit1.Text := self.pfileobj^.artist;
+  self.artistedit1.Text := self.MedFileObj.artist;
 
   // artist and album(-mode) specific actions
   if (artist_only = true) or (album_only = true)
@@ -484,16 +473,16 @@ begin
     // collect all "years" set for files of the chosen artist/album
     // and display them
     SetLength(strYears, 0);
-    for i := 1 to self.Pcol^.max_index -1 do
-      if self.Pcol^.lib[i].artist = self.pfileobj^.artist
+    for i := 0 to self.MedColObj.ItemCount -1 do
+      if self.MedColObj.items[i].artist = self.MedFileObj.artist
       then
       begin
         if album_only = true then
-          if self.Pcol^.lib[i].album <> self.pfileobj^.album then continue;
+          if self.MedColObj.items[i].album <> self.MedFileObj.album then continue;
         // ensure "year" is added only once
         bExists := false;
         for j := 0 to Length(strYears) -1 do
-          if strYears[j] = self.Pcol^.lib[i].year
+          if strYears[j] = self.MedColObj.items[i].year
           then
           begin
             bExists := true;
@@ -502,7 +491,7 @@ begin
         if bExists = true then continue;
         // add "year"
         SetLength(strYears, Length(strYears) +1);
-        strYears[Length(strYears) -1] := self.Pcol^.lib[i].year;
+        strYears[Length(strYears) -1] := self.MedColObj.items[i].year;
       end;
     // and display...
     self.yearEdit1.Visible := false;
@@ -514,16 +503,16 @@ begin
     // collect all "comments" set for files of the chosen artist/album
     // and display them
     SetLength(strComments, 0);
-    for i := 1 to self.Pcol^.max_index -1 do
-      if self.Pcol^.lib[i].artist = self.pfileobj^.artist
+    for i := 1 to self.MedColObj.ItemCount-1 do
+      if self.MedColObj.items[i].artist = self.MedFileObj.artist
       then
       begin
         if album_only = true then
-          if self.Pcol^.lib[i].album <> self.pfileobj^.album then continue;
+          if self.MedColObj.items[i].album <> self.MedFileObj.album then continue;
         // ensure "comment" is added only once
         bExists := false;
         for j := 0 to Length(strComments) -1 do
-          if strComments[j] = self.Pcol^.lib[i].comment
+          if strComments[j] = self.MedColObj.items[i].comment
           then
           begin
             bExists := true;
@@ -532,7 +521,7 @@ begin
         if bExists = true then continue;
         // add "comment"
         SetLength(strComments, Length(strComments) +1);
-        strComments[Length(strComments) -1] := self.Pcol^.lib[i].comment;
+        strComments[Length(strComments) -1] := self.MedColObj.items[i].comment;
       end;
     // and display...
     self.commentedit1.Visible := false;
@@ -545,7 +534,7 @@ begin
     if album_only = true
     then
     begin
-      self.albumedit1.text := self.pfileobj^.album;
+      self.albumedit1.text := self.MedFileObj.album;
       // select first entry from combobox as default for the album
       if self.cmbYear.Items.Count > 0 then self.cmbYear.ItemIndex := 0;
       if self.cmbComment.Items.Count > 0 then self.cmbComment.ItemIndex := 0;
@@ -554,27 +543,26 @@ begin
   // title(-mode) specific actions
   else
   begin
-    self.pathedit1.text:=self.pfileobj^.path;
-    self.titleedit1.text:=self.pfileobj^.title;
-    self.albumedit1.text:=self.pfileobj^.album;
-    self.commentedit1.text:=self.pfileobj^.comment;
-    self.yearedit1.text:=self.pfileobj^.year;
-    self.trackedit1.text:=self.pfileobj^.track;
+    self.pathedit1.text:=self.MedFileObj.path;
+    self.titleedit1.text:=self.MedFileObj.title;
+    self.albumedit1.text:=self.MedFileObj.album;
+    self.commentedit1.text:=self.MedFileObj.comment;
+    self.yearedit1.text:=self.MedFileObj.year;
+    self.trackedit1.text:=self.MedFileObj.track;
   end;
   
-  self.btnReset.Enabled := false;;
+  self.btnReset.Enabled := false;
   self.bEModeActive := false;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.display_window(pfobj:PMp3fileobj; col: PMediaCollection;
-          intMode: Integer = 0);
+procedure TEditID3.display_window(MedFile:TMediaFileClass; intMode: Integer = 0);
 var s, tmps:string;
   i: Integer;
 begin
-  self.Pcol:=col;
-  self.pfileobj:=pfobj;
+  self.MedFileObj:=MedFile;
+  self.MedColObj:=MedFileObj.Collection;
   self.fileid:=0;
 
   self.artist_only := false;
@@ -601,7 +589,7 @@ begin
     self.pathedit1.Enabled := false;
     self.titleedit1.Enabled := false;
 
-    self.indexlabel.Caption := 'File-Index: ' + IntToStr(PFobj^.index);
+    self.indexlabel.Caption := 'File-Index: ' + IntToStr(MedFileObj.index);
 
     // artist(-mode) specific actions
     if artist_only = true
@@ -616,18 +604,18 @@ begin
       AlbumCoverImg.Canvas.Clear;
       AlbumCoverImg.Picture.Clear;
       Application.ProcessMessages;
-      if pfileobj^.album<>''
+      if MedFileObj.album<>''
       then
       begin
-        pfileobj^.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
-        if FileExists(pfileobj^.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
+        MedFileObj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+MedFileObj.artist+'_'+MedFileObj.album+'.jpeg';
+        if FileExists(MedFileObj.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath)
         else
         begin
           if CactusConfig.CoverDownload
           then
           begin
-            awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
-            awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
+            awsclass:=TAWSAccess.CreateRequest(MedFileObj.artist, MedFileObj.album);
+            awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
             picrequest_send:=true;
             AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
             Application.ProcessMessages;
@@ -643,53 +631,41 @@ begin
     self.guessname1.Enabled:=true;
     self.Button1.Enabled:=true;
 
-    mtype.caption:='Mediatype:  '+PFobj^.filetype;
-    if PFobj^.filetype='.mp3' then
+    mtype.caption:='Mediatype:  '+MedFileObj.filetype;
+    if MedFileObj.filetype='.mp3' then
       Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mp3_64.png');
-    if PFobj^.filetype='.ogg' then
+    if MedFileObj.filetype='.ogg' then
       Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'ogg_64.png');
-    if PFobj^.filetype='.wav' then
+    if MedFileObj.filetype='.wav' then
       Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'wav_64.png');
-    plength.caption:='Length:  '+PFobj^.playtime;
+    plength.caption:='Length:  '+MedFileObj.playtime;
 
-    i:=(PFobj^.size div 1024)*100;
-    s:=' kB';
-    if i>100000
-    then
-    begin
-      s:=' MB';
-      i:=(i div 1000);
-    end;
 
-    tmps := IntToStr(i);
-    s:=copy(tmps, length(tmps)-1, 2)+s;
-    delete(tmps, length(tmps)-1, 2);
-    tmps:=tmps+','+s;
 
-    fsize.caption:='Size:  '+tmps;
-    srate.Caption := 'Samplerate:  ' + IntToStr(PFobj^.samplerate) + ' Hz';
-    bitrate.Caption := 'Bitrate:  ' + IntToStr(PFobj^.bitrate) + ' kbps';
-    idlabel.Caption := 'File-Id: ' + IntToStr(PFobj^.id);
-    indexlabel.Caption := 'File-Index: ' + IntToStr(PFobj^.index);
+    fsize.caption:='Size:  '+ByteToFmtString(MedFileObj.size, 2, 2);
+    srate.Caption := 'Samplerate:  ' + IntToStr(MedFileObj.samplerate) + ' Hz';
+    bitrate.Caption := 'Bitrate:  ' + IntToStr(MedFileObj.bitrate) + ' kbps';
+    idlabel.Caption := 'File-Id: ' + IntToStr(MedFileObj.id);
+    indexlabel.Caption := 'File-Index: ' + IntToStr(MedFileObj.index);
 
     writeln('########AlbumCover');     // DEBUG-INFO
     AlbumCoverImg.Canvas.Clear;
     AlbumCoverImg.Picture.Clear;
     Application.ProcessMessages;
-    if pfileobj^.album<>''
+    if MedFileObj.album<>''
     then
     begin
-      pfileobj^.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+pfileobj^.artist+'_'+pfileobj^.album+'.jpeg';
-      if FileExists(pfileobj^.CoverPath)
+      MedFileObj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+MedFileObj.artist+'_'+MedFileObj.album+'.jpeg';
+      if FileExists(MedFileObj.CoverPath)
       then
-        AlbumCoverImg.Picture.LoadFromFile(pfileobj^.CoverPath)
+        AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath)
       else
       begin
         if CactusConfig.CoverDownload
         then
         begin
-          awsclass:=TAWSAccess.CreateRequest(pfileobj^.artist, pfileobj^.album);
-          awsclass.AlbumCoverToFile(pfileobj^.CoverPath);
+          awsclass:=TAWSAccess.CreateRequest(MedFileObj.artist, MedFileObj.album);
+          awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
           picrequest_send:=true;
           AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
           PicDownloadTimer.Enabled:=true;
@@ -707,7 +683,7 @@ end;
 procedure TEditID3.Button1Click(Sender: TObject);
 var s:string;
 begin
-  s:=extractfilepath(pfileobj^.path)+editid3win.artistedit1.text+' - '+editid3win.titleedit1.text+'.mp3';
+  s:=extractfilepath(MedFileObj.path)+editid3win.artistedit1.text+' - '+editid3win.titleedit1.text+'.mp3';
   EditID3win.pathedit1.text:=s;
 end;
 

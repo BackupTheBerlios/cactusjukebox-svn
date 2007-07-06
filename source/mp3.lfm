@@ -868,6 +868,10 @@ object Main: TMain
         ShortCut = 16463
         OnClick = openfileClick
       end
+      object opendir: TMenuItem
+        Caption = 'Open directory...'
+        OnClick = opendirClick
+      end
       object MenuItem12: TMenuItem
         Caption = '-'
       end

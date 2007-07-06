@@ -33,7 +33,6 @@ object EditID3: TEditID3
         Top = 102
         Width = 32
         Caption = 'Artist'
-        Color = clNone
         ParentColor = False
       end
       object lblTitle: TLabel
@@ -42,7 +41,6 @@ object EditID3: TEditID3
         Top = 130
         Width = 25
         Caption = 'Title'
-        Color = clNone
         ParentColor = False
       end
       object lblAlbum: TLabel
@@ -51,7 +49,6 @@ object EditID3: TEditID3
         Top = 162
         Width = 38
         Caption = 'Album'
-        Color = clNone
         ParentColor = False
       end
       object lblYear: TLabel
@@ -60,7 +57,6 @@ object EditID3: TEditID3
         Top = 190
         Width = 28
         Caption = 'Year'
-        Color = clNone
         ParentColor = False
       end
       object lblGenre: TLabel
@@ -69,7 +65,6 @@ object EditID3: TEditID3
         Top = 222
         Width = 36
         Caption = 'Genre'
-        Color = clNone
         ParentColor = False
       end
       object lblComment: TLabel
@@ -78,7 +73,6 @@ object EditID3: TEditID3
         Top = 266
         Width = 57
         Caption = 'Comment'
-        Color = clNone
         ParentColor = False
       end
       object lblPath: TLabel
@@ -87,7 +81,6 @@ object EditID3: TEditID3
         Top = 30
         Width = 63
         Caption = 'Path to file'
-        Color = clNone
         ParentColor = False
       end
       object lblTrack: TLabel
@@ -96,7 +89,6 @@ object EditID3: TEditID3
         Top = 190
         Width = 33
         Caption = 'Track'
-        Color = clNone
         ParentColor = False
       end
       object AlbumCoverImg: TImage
@@ -237,7 +229,6 @@ object EditID3: TEditID3
         Top = 34
         Width = 59
         Caption = 'Mediatype:'
-        Color = clNone
         ParentColor = False
       end
       object bitrate: TLabel
@@ -246,7 +237,6 @@ object EditID3: TEditID3
         Top = 114
         Width = 76
         Caption = 'Bitrate: 0kbps'
-        Color = clNone
         ParentColor = False
       end
       object fsize: TLabel
@@ -255,7 +245,6 @@ object EditID3: TEditID3
         Top = 94
         Width = 76
         Caption = 'Filesize: 0 MB'
-        Color = clNone
         ParentColor = False
       end
       object srate: TLabel
@@ -264,7 +253,6 @@ object EditID3: TEditID3
         Top = 134
         Width = 68
         Caption = 'Samplerate:'
-        Color = clNone
         ParentColor = False
       end
       object plength: TLabel
@@ -273,7 +261,6 @@ object EditID3: TEditID3
         Top = 58
         Width = 42
         Caption = 'Length:'
-        Color = clNone
         ParentColor = False
       end
       object idlabel: TLabel
@@ -282,7 +269,6 @@ object EditID3: TEditID3
         Top = 178
         Width = 37
         Caption = 'Fileid: '
-        Color = clNone
         ParentColor = False
       end
       object indexlabel: TLabel
@@ -291,7 +277,6 @@ object EditID3: TEditID3
         Top = 194
         Width = 53
         Caption = 'FileIndex:'
-        Color = clNone
         ParentColor = False
       end
       object Filelogo: TImage
@@ -311,7 +296,6 @@ object EditID3: TEditID3
         Top = 184
         Width = 31
         Caption = 'Track'
-        Color = clNone
         ParentColor = False
       end
       object Label10: TLabel
@@ -320,7 +304,6 @@ object EditID3: TEditID3
         Top = 184
         Width = 35
         Caption = 'Genre'
-        Color = clNone
         ParentColor = False
       end
       object Label11: TLabel
@@ -329,7 +312,6 @@ object EditID3: TEditID3
         Top = 184
         Width = 26
         Caption = 'Year'
-        Color = clNone
         ParentColor = False
       end
       object Label12: TLabel
@@ -338,7 +320,6 @@ object EditID3: TEditID3
         Top = 136
         Width = 36
         Caption = 'Album'
-        Color = clNone
         ParentColor = False
       end
       object Label13: TLabel
@@ -347,7 +328,6 @@ object EditID3: TEditID3
         Top = 106
         Width = 24
         Caption = 'Title'
-        Color = clNone
         ParentColor = False
       end
       object Label14: TLabel
@@ -356,7 +336,6 @@ object EditID3: TEditID3
         Top = 72
         Width = 28
         Caption = 'Artist'
-        Color = clNone
         ParentColor = False
       end
       object Label15: TLabel
@@ -365,7 +344,6 @@ object EditID3: TEditID3
         Top = 20
         Width = 161
         Caption = 'Additional ID3v2 Informations'
-        Color = clNone
         ParentColor = False
       end
       object trackedit2: TEdit
@@ -430,7 +408,6 @@ object EditID3: TEditID3
         Top = 192
         Width = 35
         Caption = 'Genre'
-        Color = clNone
         ParentColor = False
       end
       object Label16: TLabel
@@ -439,7 +416,6 @@ object EditID3: TEditID3
         Top = 192
         Width = 26
         Caption = 'Year'
-        Color = clNone
         ParentColor = False
       end
       object Label17: TLabel
@@ -448,7 +424,6 @@ object EditID3: TEditID3
         Top = 162
         Width = 36
         Caption = 'Album'
-        Color = clNone
         ParentColor = False
       end
       object Label18: TLabel
@@ -457,7 +432,6 @@ object EditID3: TEditID3
         Top = 112
         Width = 24
         Caption = 'Title'
-        Color = clNone
         ParentColor = False
       end
       object Label19: TLabel
@@ -466,7 +440,6 @@ object EditID3: TEditID3
         Top = 80
         Width = 28
         Caption = 'Artist'
-        Color = clNone
         ParentColor = False
       end
       object Label21: TLabel
@@ -475,7 +448,6 @@ object EditID3: TEditID3
         Top = 26
         Width = 161
         Caption = 'Additional ID3v1 Informations'
-        Color = clNone
         ParentColor = False
       end
       object Edit3: TEdit

@@ -23,7 +23,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons, fmodplayer, mp3file, mp3, {messages,} ComCtrls, Menus;
+  Buttons, fmodplayer, mp3, mediacol, {messages,} ComCtrls, Menus;
 
 type
 
@@ -140,7 +140,7 @@ var
 implementation
 uses skin;
 
-var mp3obj: TMp3fileobj ;
+var mp3obj: TMediaFileClass ;
 var tmpbmp: TBitmap;
 
 { Tplaywin }

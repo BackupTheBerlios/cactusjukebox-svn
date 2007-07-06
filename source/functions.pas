@@ -4,7 +4,7 @@
 
   This software is free under the GNU Public License
 
-  (c)2005
+  (c)2005-2007
 }
 
 unit functions;
@@ -14,23 +14,33 @@ unit functions;
 interface
 
 uses
-//  Classes, SysUtils, dos;
     Classes, SysUtils, Objects, Process, crt, mmx, math, settings;
 
-function crc32(path: string):longint;
-function crc32_mmx(path: string):int64;
-function crc32_math(path: string):int64;
-function DirectoryIsEmpty(Directory: string): Boolean;
-function EraseDirectory(Directory: string):Boolean; //delete directory and all subdirectories/files in it
-function UTF8toLatin1(utfstring: ansistring): ansistring;
-function Latin1toUTF8(latin1string: ansistring): ansistring;
-function rmZeroChar(s: ansistring): ansistring;
-function FileCopy(const FromFile, ToFile: string):boolean;
-function FreeSpaceOnDAP:int64;
-function ByteToFmtString(bytes: int64; d1, d2: byte): string; // converts i.e. 1024 to 1,0 KB
-                                                              // d1, d2 sets amount of digits before and after ','
-function SecondsToFmtStr(seconds: longint): string;       //converts integer to mm:ss time format
-function MSecondsToFmtStr(MSeconds: longint): string;
+
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+   function crc32(path: string):longint;
+   function crc32_mmx(path: string):int64;
+   function crc32_math(path: string):int64;
+   function DirectoryIsEmpty(Directory: string): Boolean;
+   function EraseDirectory(Directory: string):Boolean; //delete directory and all subdirectories/files in it
+   function UTF8toLatin1(utfstring: ansistring): ansistring;
+   function Latin1toUTF8(latin1string: ansistring): ansistring;
+   function rmZeroChar(s: ansistring): ansistring;
+   function FileCopy(const FromFile, ToFile: string):boolean;
+   function FreeSpaceOnDAP:int64;
+   function ByteToFmtString(bytes: int64; d1, d2: byte): string; // converts i.e. 1024 to 1,0 KB
+                                                                 // d1, d2 sets amount of digits before and after ','
+   function SecondsToFmtStr(seconds: longint): string;       //converts integer to mm:ss time format
+   function MSecondsToFmtStr(MSeconds: longint): string;
+ //  function CompareString(const s1, s2: string):byte;   // compare s1, s2 for sorting.   s1>s2 result=1,  abc > axc -> 1
+                                                                                    //   s1<s2 result=-1, xyz < abc -> -1
+                                                                                    //   s1=s2 result=0,  bhj = bhj -> 0
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 implementation
 
@@ -346,6 +356,36 @@ begin
   result:=SecondsToFmtStr(MSeconds div 1000);
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+{function CompareString(s1, s2: string): byte;
+var i:integer;
+begin
+   s1:=LowerCase(s1);
+   s2:=LowerCase(s2);
+   if s1=s2 then begin  //if both strings are equal, exit here
+       result:=0;
+       exit;
+     end;
+   i:=0;
+   repeat begin
+       if byte(s1[i])>byte(s2[i]) then begin
+               result:=-1;
+               exit;
+             end else begin
+               result:=1;
+               exit;
+          end;
+       inc(i);
+    end;
+    until (i=length(s1)) or (i=length(s2));
+
+    if length(s1)<length(s2) then
+          result:=1
+        else
+          result:=-1;
+end;
+ }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function DirectoryIsEmpty(Directory: string): Boolean;

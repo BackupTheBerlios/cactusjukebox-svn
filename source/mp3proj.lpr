@@ -20,8 +20,8 @@ uses
    cthreads,
  {$endif}
   Interfaces,SysUtils,
-  Forms, mp3, mp3file, status, settings, player, fmodplayer, graphics, editid3, directories, skin,
-  cdrip, functions, aws, JPEGForLazarus;
+  Forms, mp3, status, settings, player, fmodplayer, graphics, editid3, directories, skin,
+  cdrip, functions, aws, JPEGForLazarus, mediacol;
 
 var
   s, loadfile: string;
@@ -82,7 +82,7 @@ begin
    if DirectoryExists(CactusConfig.ConfigPrefix+'lib')=false then  mkdir(CactusConfig.ConfigPrefix+'lib');
 // end config
 
-  MediaCollection:=TMediaCollection.create;
+  MediaCollection:=TMediaCollectionClass.create;
   SkinData:=TSkin.Create('default.xml', CactusConfig.DataPrefix);
 
   Application.CreateForm(TMain, Main);
@@ -123,7 +123,7 @@ begin
   if CactusConfig.background_scan then begin
     ScanThread:=TScanThread.Create(true);
     ScanThread.tmpcollection.Assign(MediaCollection);
-    ScanThread.PTargetCollection:=@MediaCollection;
+    ScanThread.PTargetCollection:=MediaCollection;
     ScanThread.Resume;
     writeln('starting scan thread...');
   end;

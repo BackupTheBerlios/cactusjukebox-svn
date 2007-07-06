@@ -18,7 +18,7 @@ interface
 
 uses
   Classes, SysUtils,
-  fmod, fmodtypes, mp3file;
+  fmod, fmodtypes, mediacol;
 
 
 
@@ -29,10 +29,11 @@ type
 
 TPlaylistitemClass = class
      constructor create;
+     destructor destroy;
      Artist, Title, Path, Album: string;
      LengthMS, id:longint;
      Played: boolean;
-     procedure update(Pfileobj: PMp3fileobj);
+     procedure update(MedFileObj: TMediaFileClass);
    end;
   PPlaylistItemClass = ^TPlaylistitemClass;
 
@@ -46,16 +47,17 @@ type
      function GetItems(index: integer):TPlaylistitemClass;
    public
      constructor create;
+     destructor destroy;
      function TotalPlayTime: int64;
      function TotalPlayTimeStr: string;
      procedure move(dest, target:integer);
      procedure remove(index: integer);
      procedure clear; override;
      function add(filepath:string):integer;       //Read track info out of file at path
-     function add(PFileObj: PMp3fileobj):integer; //Get track info from FileObj
+     function add(MedFileObj: TMediaFileClass):integer; //Get track info from FileObj
 
      function update(index: integer; filepath:string):integer;       //update track info out of file at path
-     function update(index: integer; PFileObj: PMp3fileobj):integer; //update track info from FileObj
+     function update(index: integer; MedFileObj: TMediaFileClass):integer; //update track info from FileObj
      function RandomIndex:integer;
      procedure reset_random;
      function ItemCount:integer;
@@ -350,15 +352,21 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TPlaylistitemClass.update(Pfileobj: PMp3fileobj);
+destructor TPlaylistitemClass.destroy;
+begin
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TPlaylistitemClass.update(MedFileObj: TMediaFileClass);
 begin
 
-     Artist:=PFileObj^.Artist;
-     Title:=PFileObj^.Title;
-     Album:=PFileObj^.Album;
+     Artist:=MedFileObj.Artist;
+     Title:=MedFileObj.Title;
+     Album:=MedFileObj.Album;
 
-     ID:=PFileObj^.ID;
-     LengthMS:=PFileObj^.Playlength;
+     ID:=MedFileObj.ID;
+     LengthMS:=MedFileObj.Playlength;
 end;
 
 
@@ -368,7 +376,7 @@ end;
 
 function TPlaylistClass.GetItems(index: integer): TPlaylistitemClass;
 begin
-  if (index>=0) and (index < Count) then Result := (TPlaylistitemClass(Inherited Items [Index]))
+  if (index>=0) and (index < Count) then Result := (TPlaylistitemClass(Inherited Items [Index]));
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -376,6 +384,11 @@ end;
 constructor TPlaylistClass.create;
 begin
   Inherited create;
+end;
+
+destructor TPlaylistClass.destroy;
+begin
+  clear;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -440,8 +453,6 @@ end;
 procedure TPlaylistClass.clear;
 begin
    while count>0 do remove(0);
-   write('playlist cleared');
-   writeln(Count);
    CurrentTrack:=-1;
 end;
 
@@ -453,7 +464,7 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TPlaylistClass.add(PFileObj: PMp3fileobj): integer;
+function TPlaylistClass.add(MedFileObj: TMediaFileClass): integer;
 var Playlistitem: TPlaylistitemClass;
     index: integer;
 begin
@@ -461,13 +472,13 @@ begin
      index:=(inherited Add(TPlaylistitemClass.create));
 
 
-     Items[index].Path:=PFileObj^.path;
-     Items[index].Artist:=PFileObj^.Artist;
-     Items[index].Title:=PFileObj^.Title;
-     Items[index].Album:=PFileObj^.Album;
+     Items[index].Path:=MedFileObj.path;
+     Items[index].Artist:=MedFileObj.Artist;
+     Items[index].Title:=MedFileObj.Title;
+     Items[index].Album:=MedFileObj.Album;
 
-     Items[index].ID:=PFileObj^.ID;
-     Items[index].LengthMS:=PFileObj^.Playlength;
+     Items[index].ID:=MedFileObj.ID;
+     Items[index].LengthMS:=MedFileObj.Playlength;
      result:=index;
 end;
 
@@ -480,11 +491,11 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TPlaylistClass.update(index: integer; PFileObj: PMp3fileobj): integer;
+function TPlaylistClass.update(index: integer; MedFileObj: TMediaFileClass): integer;
 begin
   if (index>=0) and (index<Count) then begin
 
-     Items[index].update(PFileObj);
+     Items[index].update(MedFileObj);
   end;
 end;
 
@@ -540,7 +551,7 @@ function TPlaylistClass.LoadFromFile(path: string): byte;       //Load .m3u Play
 var s, tmps, fpath, fartist, ftitle:string;
     pos1,pos2, i, lengthS:integer;
     PlaylistItem: TPlaylistItemClass;
-    fileobj: TMp3fileobj;
+    fileobj: TMediaFileClass;
     filehandle:text;
 begin
 
