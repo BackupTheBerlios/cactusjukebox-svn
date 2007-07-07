@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="7"/>
+      <ActiveEditorIndexAtStart Value="10"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -40,14 +40,14 @@
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="81">
+    <Units Count="82">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="114" Y="125"/>
-        <TopLine Value="101"/>
-        <EditorIndex Value="10"/>
+        <CursorPos X="94" Y="124"/>
+        <TopLine Value="97"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -57,14 +57,14 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="99" Y="2102"/>
-        <TopLine Value="2085"/>
+        <CursorPos X="58" Y="997"/>
+        <TopLine Value="982"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="3">
-          <Item0 X="23" Y="452" ID="5"/>
-          <Item1 X="10" Y="2543" ID="6"/>
-          <Item2 X="10" Y="890" ID="7"/>
+          <Item0 X="23" Y="455" ID="5"/>
+          <Item1 X="10" Y="2582" ID="6"/>
+          <Item2 X="10" Y="893" ID="7"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit1>
@@ -180,9 +180,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="player.lrs"/>
         <UnitName Value="player"/>
-        <CursorPos X="28" Y="143"/>
-        <TopLine Value="127"/>
-        <EditorIndex Value="12"/>
+        <CursorPos X="3" Y="423"/>
+        <TopLine Value="421"/>
+        <EditorIndex Value="13"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit14>
@@ -211,8 +211,8 @@
         <Filename Value="fmodplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="fmodplayer"/>
-        <CursorPos X="10" Y="6"/>
-        <TopLine Value="1"/>
+        <CursorPos X="3" Y="363"/>
+        <TopLine Value="361"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -322,8 +322,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="directories.lrs"/>
         <UnitName Value="directories"/>
-        <CursorPos X="98" Y="88"/>
-        <TopLine Value="62"/>
+        <CursorPos X="39" Y="153"/>
+        <TopLine Value="143"/>
         <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -388,7 +388,7 @@
         <UnitName Value="skin"/>
         <CursorPos X="19" Y="67"/>
         <TopLine Value="51"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit42>
@@ -454,8 +454,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="cdrip.lrs"/>
         <UnitName Value="cdrip"/>
-        <CursorPos X="28" Y="404"/>
-        <TopLine Value="388"/>
+        <CursorPos X="114" Y="222"/>
+        <TopLine Value="206"/>
         <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -661,10 +661,10 @@
         <Filename Value="mediacol.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mediacol"/>
-        <CursorPos X="77" Y="222"/>
-        <TopLine Value="206"/>
+        <CursorPos X="104" Y="149"/>
+        <TopLine Value="127"/>
         <EditorIndex Value="7"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="88"/>
         <Bookmarks Count="4">
           <Item0 X="11" Y="344" ID="0"/>
           <Item1 X="6" Y="817" ID="1"/>
@@ -680,128 +680,40 @@
         <TopLine Value="1"/>
         <UsageCount Value="9"/>
       </Unit80>
+      <Unit81>
+        <Filename Value="bigcoverimg.pas"/>
+        <ComponentName Value="BigCoverImg"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceFilename Value="bigcoverimg.lrs"/>
+        <UnitName Value="BigCoverImg"/>
+        <CursorPos X="3" Y="49"/>
+        <TopLine Value="24"/>
+        <EditorIndex Value="10"/>
+        <UsageCount Value="25"/>
+        <Loaded Value="True"/>
+      </Unit81>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="337" Column="30" TopLine="328"/>
+        <Filename Value="player.pas"/>
+        <Caret Line="143" Column="28" TopLine="127"/>
       </Position1>
       <Position2>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="346" Column="38" TopLine="330"/>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="994" Column="34" TopLine="984"/>
       </Position2>
       <Position3>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="57" Column="74" TopLine="44"/>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="1200" Column="3" TopLine="1204"/>
       </Position3>
       <Position4>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="775" Column="88" TopLine="749"/>
+        <Filename Value="mp3.pas"/>
+        <Caret Line="996" Column="3" TopLine="984"/>
       </Position4>
       <Position5>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="8" Column="28" TopLine="1"/>
+        <Filename Value="bigcoverimg.pas"/>
+        <Caret Line="45" Column="47" TopLine="23"/>
       </Position5>
-      <Position6>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="2899" Column="108" TopLine="2888"/>
-      </Position6>
-      <Position7>
-        <Filename Value="directories.pas"/>
-        <Caret Line="161" Column="42" TopLine="136"/>
-      </Position7>
-      <Position8>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1447" Column="3" TopLine="1445"/>
-      </Position8>
-      <Position9>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="52" Column="27" TopLine="51"/>
-      </Position9>
-      <Position10>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="420" Column="16" TopLine="417"/>
-      </Position10>
-      <Position11>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="97" Column="19" TopLine="74"/>
-      </Position11>
-      <Position12>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="55" Column="51" TopLine="54"/>
-      </Position12>
-      <Position13>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="433" Column="5" TopLine="396"/>
-      </Position13>
-      <Position14>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="70" Column="3" TopLine="68"/>
-      </Position14>
-      <Position15>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="52" Column="6" TopLine="41"/>
-      </Position15>
-      <Position16>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="163" Column="80" TopLine="153"/>
-      </Position16>
-      <Position17>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="2852" Column="105" TopLine="2835"/>
-      </Position17>
-      <Position18>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="249" Column="20" TopLine="226"/>
-      </Position18>
-      <Position19>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="2794" Column="96" TopLine="2775"/>
-      </Position19>
-      <Position20>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="924" Column="102" TopLine="919"/>
-      </Position20>
-      <Position21>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="2786" Column="44" TopLine="2755"/>
-      </Position21>
-      <Position22>
-        <Filename Value="editid3.pas"/>
-        <Caret Line="11" Column="106" TopLine="1"/>
-      </Position22>
-      <Position23>
-        <Filename Value="directories.pas"/>
-        <Caret Line="90" Column="34" TopLine="73"/>
-      </Position23>
-      <Position24>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="280" Column="45" TopLine="279"/>
-      </Position24>
-      <Position25>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="2106" Column="1" TopLine="2086"/>
-      </Position25>
-      <Position26>
-        <Filename Value="directories.pas"/>
-        <Caret Line="78" Column="1" TopLine="73"/>
-      </Position26>
-      <Position27>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="392" Column="17" TopLine="389"/>
-      </Position27>
-      <Position28>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="2090" Column="102" TopLine="2074"/>
-      </Position28>
-      <Position29>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="663" Column="71" TopLine="646"/>
-      </Position29>
-      <Position30>
-        <Filename Value="mediacol.pas"/>
-        <Caret Line="224" Column="79" TopLine="199"/>
-      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

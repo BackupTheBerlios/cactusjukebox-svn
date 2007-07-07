@@ -21,7 +21,7 @@ uses
  {$endif}
   Interfaces,SysUtils,
   Forms, mp3, status, settings, player, fmodplayer, graphics, editid3, directories, skin,
-  cdrip, functions, aws, JPEGForLazarus, mediacol;
+  cdrip, functions, aws, JPEGForLazarus, mediacol, BigCoverImg;
 
 var
   s, loadfile: string;

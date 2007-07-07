@@ -152,7 +152,7 @@ begin
              repeat
                 begin
                    if (dirsearch.attr and FaDirectory)=FaDirectory then begin
-                      if (dirsearch.name<>'..') and (dirsearch.name<>'.') then add_directory(IncludeTrailingPathDelimiter(dir+dirsearch.name));
+                      if (dirsearch.name<>'..') and (dirsearch.name<>'.') then Recursive_AddDir(IncludeTrailingPathDelimiter(dir+dirsearch.name));
                    end;
                  end;
              until FindNext(dirsearch)<>0;
@@ -368,7 +368,7 @@ begin
  i:=0;
  if sorted then begin
      if MedFileObj.Artist<>'' then begin
-       while (i<ItemCount-1) and (CompareText(items[i].Artist, MedFileObj.Artist)<0)
+       while (i<ItemCount) and (CompareText(items[i].Artist, MedFileObj.Artist)<0)
              do inc(i);
 
        while (i<=ItemCount-1) and (CompareText(items[i].Artist, MedFileObj.Artist)=0) and

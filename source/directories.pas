@@ -79,7 +79,7 @@ begin
 
 
   If SelectDirectoryDialog1.Execute=true then begin
-    for i:= 0 to MediaCollection.dirlist.Count do begin
+    for i:= 0 to MediaCollection.dirlist.Count-1 do begin
             if pos(MediaCollection.dirlist[i], SelectDirectoryDialog1.FileName)=1 then begin
                       ShowMessage('Directory '+SelectDirectoryDialog1.FileName+' is still part of directorylist');
                       exit;
@@ -110,10 +110,9 @@ var removedir: string;
 begin
 
      removedir:=dirlistview.Items[dirlistview.ItemIndex];
-     dirlistview.Items.Delete(dirlistview.ItemIndex);
      if removedir[length(removedir)]=DirectorySeparator then delete(removedir,length(removedir), 1);
-     i:=1;
-     MediaCollection.DirList.Delete(dirlistview.ItemIndex);
+     i:=0;
+
      repeat begin
             if pos(removedir, ExtractFileDir(MediaCollection.items[i].path))=1 then begin
                MediaCollection.remove(i);
@@ -122,6 +121,8 @@ begin
             inc(i);
          end;
       until i>=MediaCollection.ItemCount;
+      MediaCollection.DirList.Delete(dirlistview.ItemIndex);
+      dirlistview.Items.Delete(dirlistview.ItemIndex);
 
   Main.ArtistTree.Selected:=nil;
   update_artist_view;
@@ -149,6 +150,7 @@ begin
        inc(i);
     end;
     until i>=MediaCollection.ItemCount;
+    MediaCollection.DirList.Delete(n);
     Caption:='Please wait... Scanning...';
     Enabled:=false;
     Application.ProcessMessages;

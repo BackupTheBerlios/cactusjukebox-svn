@@ -1,15 +1,15 @@
 object Main: TMain
   Left = 108
-  Height = 667
+  Height = 666
   Top = 38
   Width = 870
   HorzScrollBar.Page = 869
   HorzScrollBar.Range = 369
-  VertScrollBar.Page = 639
+  VertScrollBar.Page = 638
   ActiveControl = ArtistTree
   BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'titel'
-  ClientHeight = 640
+  ClientHeight = 639
   ClientWidth = 870
   Icon.Data = {
     610A00002F2A2058504D202A2F0A7374617469632063686172202A6772617068
@@ -106,7 +106,7 @@ object Main: TMain
   ShowInTaskBar = stAlways
   object StatusBar1: TStatusBar
     Height = 23
-    Top = 617
+    Top = 616
     Width = 870
     Panels = <    
       item
@@ -120,7 +120,7 @@ object Main: TMain
   end
   object Splitter1: TSplitter
     Left = 271
-    Height = 617
+    Height = 616
     Width = 8
     Align = alRight
     Color = clBtnFace
@@ -131,12 +131,12 @@ object Main: TMain
   end
   object Panel1: TPanel
     Left = 279
-    Height = 617
+    Height = 616
     Width = 591
     Align = alRight
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 617
+    ClientHeight = 616
     ClientWidth = 591
     ParentColor = False
     TabOrder = 0
@@ -144,7 +144,7 @@ object Main: TMain
     object SearchPanel: TPanel
       Left = 12
       Height = 81
-      Top = 252
+      Top = 251
       Width = 424
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -244,7 +244,7 @@ object Main: TMain
     object PlayerControlsPanel: TPanel
       Left = 12
       Height = 263
-      Top = 346
+      Top = 345
       Width = 224
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -383,10 +383,13 @@ object Main: TMain
         OnMouseUp = NextButtonImgMouseUp
       end
       object CoverImage: TImage
+        Cursor = crDrag
         Left = 24
         Height = 85
         Top = 165
         Width = 90
+        OnClick = CoverImageClick
+        OnMouseUp = CoverImageMouseUp
         Stretch = True
       end
       object Trackinfo: TSpeedButton
@@ -517,7 +520,7 @@ object Main: TMain
       object current_title_edit: TEdit
         Left = 12
         Height = 23
-        Top = 132
+        Top = 102
         Width = 200
         Color = clBtnFace
         ReadOnly = True
@@ -526,7 +529,7 @@ object Main: TMain
       object current_title_edit1: TEdit
         Left = 12
         Height = 24
-        Top = 104
+        Top = 131
         Width = 200
         Color = clBtnFace
         ReadOnly = True
@@ -560,7 +563,7 @@ object Main: TMain
       Left = 504
       Height = 30
       Hint = 'Clear Playlist'
-      Top = 304
+      Top = 303
       Width = 67
       Anchors = [akRight, akBottom]
       AutoSize = True
@@ -611,7 +614,7 @@ object Main: TMain
     end
     object TitleTree: TListView
       Left = 8
-      Height = 234
+      Height = 233
       Top = 10
       Width = 572
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -667,7 +670,7 @@ object Main: TMain
     object Playlist: TListView
       Left = 248
       Height = 265
-      Top = 346
+      Top = 345
       Width = 332
       Anchors = [akLeft, akRight, akBottom]
       Columns = <      
@@ -697,18 +700,18 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
-    Height = 617
+    Height = 616
     Width = 271
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 617
+    ClientHeight = 616
     ClientWidth = 271
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 10
-      Height = 602
+      Height = 601
       Top = 10
       Width = 261
       Align = alClient
@@ -742,7 +745,7 @@ object Main: TMain
     object ArtistSrchField: TPanel
       Left = 120
       Height = 64
-      Top = 560
+      Top = 545
       Width = 128
       ClientHeight = 64
       ClientWidth = 128

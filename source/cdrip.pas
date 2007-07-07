@@ -218,7 +218,7 @@ begin
      Outputstring:=TStringList.Create;
      Outputstream:=TMemoryStream.Create;
         
-     for i:= 0 to MediaCollection.DirList.Count do   //
+     for i:= 0 to MediaCollection.DirList.Count-1 do   //
         begin
             outputfolderbox.AddItem(MediaCollection.DirList[i], nil);
           end;

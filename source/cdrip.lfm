@@ -23,7 +23,6 @@ object cdrip: Tcdrip
     Alignment = taRightJustify
     AutoSize = False
     Caption = 'Artist'
-    Color = clNone
     ParentColor = False
   end
   object LAlbum: TLabel
@@ -34,7 +33,6 @@ object cdrip: Tcdrip
     Alignment = taRightJustify
     AutoSize = False
     Caption = 'Album'
-    Color = clNone
     ParentColor = False
   end
   object LNameScheme: TLabel
@@ -43,14 +41,13 @@ object cdrip: Tcdrip
     Top = 392
     Width = 134
     Caption = 'Outfile naming scheme'
-    Color = clNone
     ParentColor = False
   end
   object startbtn: TButton
     Left = 424
     Height = 25
     Top = 352
-    Width = 80
+    Width = 96
     BorderSpacing.InnerBorder = 4
     Caption = 'Start'
     OnClick = startButClick
@@ -60,7 +57,7 @@ object cdrip: Tcdrip
     Left = 424
     Height = 25
     Top = 280
-    Width = 80
+    Width = 96
     BorderSpacing.InnerBorder = 4
     Caption = 'Back'
     OnClick = Button2Click
@@ -70,9 +67,9 @@ object cdrip: Tcdrip
     Left = 24
     Height = 112
     Top = 416
-    Width = 472
+    Width = 496
     ClientHeight = 112
-    ClientWidth = 472
+    ClientWidth = 496
     TabOrder = 2
     object Label1: TLabel
       Left = 208
@@ -80,7 +77,6 @@ object cdrip: Tcdrip
       Top = 24
       Width = 75
       Caption = 'Bitrate kbit/s'
-      Color = clNone
       ParentColor = False
     end
     object writetagscheck: TCheckBox
@@ -175,7 +171,7 @@ object cdrip: Tcdrip
     Left = 424
     Height = 25
     Top = 168
-    Width = 80
+    Width = 96
     BorderSpacing.InnerBorder = 4
     Caption = 'Eject'
     OnClick = Button4Click
@@ -225,7 +221,7 @@ object cdrip: Tcdrip
     Left = 424
     Height = 25
     Top = 88
-    Width = 80
+    Width = 96
     BorderSpacing.InnerBorder = 4
     Caption = 'Load'
     OnClick = Button5Click
@@ -254,7 +250,7 @@ object cdrip: Tcdrip
     Left = 424
     Height = 25
     Top = 128
-    Width = 80
+    Width = 96
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     MaxLength = 0
     TabOrder = 11

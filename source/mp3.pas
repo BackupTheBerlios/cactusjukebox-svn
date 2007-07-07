@@ -199,6 +199,9 @@ type
     procedure ArtistTreeMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure ArtistTreeSelectionChanged(Sender: TObject);
+    procedure CoverImageClick(Sender: TObject);
+    procedure CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure FormMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormResize(Sender: TObject);
@@ -433,7 +436,7 @@ procedure title_to_playlist;
 
 
 implementation
-uses editid3, status, settings, player, directories, skin, cdrip, translations;
+uses editid3, status, settings, player, directories, skin, cdrip, translations, bigcoverimg;
 
 {$i cactus_const.inc}
 
@@ -978,6 +981,42 @@ begin
   if main.changetree=false then update_title_view;
 end;
 
+procedure TMain.CoverImageClick(Sender: TObject);
+begin
+
+end;
+
+procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+//if player.playing and player.Playlist.Items[player.CurrentTrack].co;
+
+  BigCoverImgForm:=TBigCoverImg.Create(nil);
+
+//  BigCoverImgForm.Image1.Picture:=(CoverImage.Picture);
+  BigCoverImgForm.Image1.Picture.Bitmap.Assign(CoverImage.Picture.Bitmap);
+  BigCoverImgForm.Image1.AutoSize:=true;
+  BigCoverImgForm.Image1.Top:=16;
+  BigCoverImgForm.Image1.Left:=16;
+  BigCoverImgForm.Left:=x+Panel1.Left+self.Left+20;
+  BigCoverImgForm.Top:=y+Panel1.height+self.top- 180;
+  
+  //BigCoverImgForm.BackImg.Canvas.Color:=clWhite;
+  
+  BigCoverImgForm.BackImg.Width:=BigCoverImgForm.Image1.Width+32;
+  BigCoverImgForm.BackImg.Height:=BigCoverImgForm.Image1.Height+32;
+  BigCoverImgForm.BackImg.Canvas.FillRect(0,0, BigCoverImgForm.BackImg.Width, BigCoverImgForm.BackImg.Height);
+
+ // BigCoverImgForm.BackImg.Canvas.Color:=clBlack;
+  BigCoverImgForm.BackImg.Canvas.Rectangle(5,5, BigCoverImgForm.BackImg.Width-5, BigCoverImgForm.BackImg.Height-5);
+  
+
+  BigCoverImgForm.Image1.BringToFront;
+
+  BigCoverImgForm.AutoSize:=true;
+  Enabled:=false;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.FormMouseDown(Sender: TOBject; Button: TMouseButton;
@@ -1363,6 +1402,15 @@ begin
 if SimpleIPCServer1.PeekMessage(1,True) then begin
   fpath:=copy(SimpleIPCServer1.StringMessage, 4, length(SimpleIPCServer1.StringMessage));
   writeln(fpath);
+  case byte(StrToInt(SimpleIPCServer1.StringMessage)) of
+     VOLUME_UP: if volumebar.Position>4 then  volumebar.Position:=volumebar.Position-5;
+     VOLUME_DOWN: if volumebar.Position<46 then volumebar.Position:=volumebar.Position+5;
+     NEXT_TRACK: nextClick(nil);
+     STOP_PLAYING: stopClick(nil);
+     START_PLAYING: playClick(nil);
+     PREV_TRACK: prevClick(nil);
+     PAUSE_PLAYING: pauseClick(nil);
+   else writeln(' --> Invalid message/filename received via IPC');
   if (pos(inttostr(OPEN_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
         LoadFile(fpath);
         playClick(nil);
@@ -1374,15 +1422,6 @@ if SimpleIPCServer1.PeekMessage(1,True) then begin
         exit;
    end
     else writeln(' --> Invalid message/filename received via IPC');
-  case byte(StrToInt(SimpleIPCServer1.StringMessage)) of
-     VOLUME_UP: if volumebar.Position>4 then  volumebar.Position:=volumebar.Position-5;
-     VOLUME_DOWN: if volumebar.Position<46 then volumebar.Position:=volumebar.Position+5;
-     NEXT_TRACK: nextClick(nil);
-     STOP_PLAYING: stopClick(nil);
-     START_PLAYING: playClick(nil);
-     PREV_TRACK: prevClick(nil);
-     PAUSE_PLAYING: pauseClick(nil);
-   else writeln(' --> Invalid message/filename received via IPC');
   end;
 end;
 
