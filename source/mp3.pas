@@ -991,7 +991,7 @@ procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
 begin
 //if player.playing and player.Playlist.Items[player.CurrentTrack].co;
 
-  BigCoverImgForm:=TBigCoverImg.Create(nil);
+  BigCoverImgForm:=TBigCoverImg.Create(self);
 
 //  BigCoverImgForm.Image1.Picture:=(CoverImage.Picture);
   BigCoverImgForm.Image1.Picture.Bitmap.Assign(CoverImage.Picture.Bitmap);
@@ -999,7 +999,7 @@ begin
   BigCoverImgForm.Image1.Top:=16;
   BigCoverImgForm.Image1.Left:=16;
   BigCoverImgForm.Left:=x+Panel1.Left+self.Left+20;
-  BigCoverImgForm.Top:=y+Panel1.height+self.top- 180;
+  BigCoverImgForm.Top:=y+Panel1.height+self.top- 220;
   
   //BigCoverImgForm.BackImg.Canvas.Color:=clWhite;
   

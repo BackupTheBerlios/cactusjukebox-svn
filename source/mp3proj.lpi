@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="10"/>
+      <ActiveEditorIndexAtStart Value="2"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -57,7 +57,7 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="58" Y="997"/>
+        <CursorPos X="52" Y="1002"/>
         <TopLine Value="982"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
@@ -686,35 +686,14 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="bigcoverimg.lrs"/>
         <UnitName Value="BigCoverImg"/>
-        <CursorPos X="3" Y="49"/>
-        <TopLine Value="24"/>
+        <CursorPos X="2" Y="47"/>
+        <TopLine Value="18"/>
         <EditorIndex Value="10"/>
         <UsageCount Value="25"/>
         <Loaded Value="True"/>
       </Unit81>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
-      <Position1>
-        <Filename Value="player.pas"/>
-        <Caret Line="143" Column="28" TopLine="127"/>
-      </Position1>
-      <Position2>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="994" Column="34" TopLine="984"/>
-      </Position2>
-      <Position3>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="1200" Column="3" TopLine="1204"/>
-      </Position3>
-      <Position4>
-        <Filename Value="mp3.pas"/>
-        <Caret Line="996" Column="3" TopLine="984"/>
-      </Position4>
-      <Position5>
-        <Filename Value="bigcoverimg.pas"/>
-        <Caret Line="45" Column="47" TopLine="23"/>
-      </Position5>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
