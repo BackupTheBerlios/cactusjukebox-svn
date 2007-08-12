@@ -85,6 +85,18 @@ begin
   MediaCollection:=TMediaCollectionClass.create;
   SkinData:=TSkin.Create('default.xml', CactusConfig.DataPrefix);
 
+  for i:= 1 to paramcount do if (paramstr(i)<>'-c') and (paramstr(i)<>'-p') and (paramstr(i)<>'-h') and (paramstr(i)<>'--help') then begin
+        if FileExists(paramstr(i)) then begin
+                                         CactusConfig.LoadOnStart:=paramstr(i);
+                                      end
+                                     else
+                                       begin
+                                         writeln('file not found: '+paramstr(i));
+                                         halt;
+                                   end;
+     end;
+
+
   Application.CreateForm(TMain, Main);
   Application.CreateForm(Tplaywin, playwin);
   Application.CreateForm(TEditID3, editid3win);
@@ -97,19 +109,6 @@ begin
       playwin.show;
       main.playermode:=true;
       main.hide;
-     end;
-
-
-
-  for i:= 1 to paramcount do if (paramstr(i)<>'-c') and (paramstr(i)<>'-p') and (paramstr(i)<>'-h') and (paramstr(i)<>'--help') then begin
-        if FileExists(paramstr(i)) then begin
-                                         CactusConfig.LoadOnStart:=paramstr(i);
-                                      end
-                                     else
-                                       begin
-                                         writeln('file not found: '+paramstr(i));
-                                         halt;
-                                   end;
      end;
 
 

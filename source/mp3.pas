@@ -1045,12 +1045,16 @@ if MessageDlg('The selected file(s) will permanently be'+#10+#13+'removed from h
  begin
   MedFileObj:=TMediaFileClass(TitleTree.Selected.Data);
   MedColObj:=MedFileObj.collection;
+  i:=MedFileObj.index;
   
   if DeleteFile(MedFileObj.path) then
       begin
           writeln('deleted file from disk: '+MedFileObj.path);
           MedColObj.remove(i);
-      end else writeln('ERROR deleting file: '+MedFileObj.path);
+      end else begin
+          if FileGetAttr(MedFileObj.path)=faReadOnly then ShowMessage('File is read only!');
+          if FileExists(MedFileObj.path)=false then MedColObj.remove(i);
+        end;
    
   update_artist_view;
   update_title_view;
@@ -1253,7 +1257,7 @@ end;
 procedure TMain.MainCreate(Sender: TObject);
 var tmps1, tmps2: string;
 begin
-
+  writeln('## Main.onCreate ##');
   Caption:='Cactus Jukebox '+CACTUS_VERSION;
 
   Width:=CactusConfig.WWidth;
@@ -1464,6 +1468,7 @@ var z: integer;
     listitem: TListItem;
 begin
  if FileExists(path) then begin
+   writeln('** Loadfile **');
    z:=MediaCollection.GetIndexByPath(path);
    writeln(z);
    if z<0 then begin

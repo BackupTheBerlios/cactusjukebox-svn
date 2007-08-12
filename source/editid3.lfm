@@ -154,12 +154,13 @@ object EditID3: TEditID3
       end
       object Button1: TButton
         Left = 275
-        Height = 29
-        Top = 18
-        Width = 86
-        Anchors = [akTop, akRight]
+        Height = 21
+        Top = 23
+        Width = 78
+        Anchors = [akLeft, akBottom]
         AutoSize = True
-        BorderSpacing.InnerBorder = 4
+        BorderSpacing.Around = 4
+        BorderSpacing.InnerBorder = 0
         Caption = 'Tag to name'
         OnClick = Button1Click
         TabOrder = 7
@@ -182,12 +183,14 @@ object EditID3: TEditID3
         TabOrder = 4
       end
       object guessname1: TButton
-        Left = 166
-        Height = 29
-        Top = 18
-        Width = 100
+        Left = 174
+        Height = 21
+        Top = 23
+        Width = 92
+        Anchors = [akRight, akBottom]
         AutoSize = True
-        BorderSpacing.InnerBorder = 4
+        BorderSpacing.Around = 4
+        BorderSpacing.InnerBorder = 0
         Caption = 'Tag from name'
         OnClick = guessnameClick
         TabOrder = 9

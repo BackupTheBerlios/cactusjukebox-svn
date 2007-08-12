@@ -1,7 +1,6 @@
 object Settings: TSettings
-  Left = 450
+  Left = 234
   Height = 506
-  Top = 154
   Width = 449
   HorzScrollBar.Page = 448
   HorzScrollBar.Range = 440
@@ -52,7 +51,7 @@ object Settings: TSettings
       object LLanguage: TLabel
         Left = 54
         Height = 14
-        Top = 265
+        Top = 268
         Width = 57
         Caption = 'Language'
         ParentColor = False
@@ -86,7 +85,7 @@ object Settings: TSettings
         Visible = False
       end
       object LanguageBox: TComboBox
-        Left = 142
+        Left = 158
         Height = 25
         Top = 257
         Width = 100
@@ -110,7 +109,7 @@ object Settings: TSettings
         TabOrder = 3
       end
       object ClearCover: TButton
-        Left = 302
+        Left = 310
         Height = 29
         Top = 203
         Width = 83
@@ -129,9 +128,9 @@ object Settings: TSettings
         TabOrder = 5
       end
       object AudioOut: TComboBox
-        Left = 142
+        Left = 158
         Height = 25
-        Top = 294
+        Top = 297
         Width = 100
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemIndex = 0

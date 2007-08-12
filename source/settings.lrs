@@ -1,56 +1,56 @@
 { Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
 
 LazarusResources.Add('TSettings','FORMDATA',[
-  'TPF0'#9'TSettings'#8'Settings'#4'Left'#3#194#1#6'Height'#3#250#1#3'Top'#3#154
-  +#0#5'Width'#3#193#1#18'HorzScrollBar.Page'#3#192#1#19'HorzScrollBar.Range'#3
-  +#184#1#18'VertScrollBar.Page'#3#249#1#19'VertScrollBar.Range'#3#225#1#13'Act'
-  +'iveControl'#7#7'savebut'#11'BorderIcons'#11#12'biSystemMenu'#0#11'BorderSty'
-  +'le'#7#8'bsDialog'#7'Caption'#6#11'Settings...'#12'ClientHeight'#3#250#1#11
-  +'ClientWidth'#3#193#1#8'OnCreate'#7#10'FormCreate'#9'OnDestroy'#7#11'FormDes'
-  +'troy'#8'Position'#7#9'poDefault'#13'ShowInTaskBar'#7#7'stNever'#0#7'TButton'
-  +#7'savebut'#4'Left'#2'8'#6'Height'#2#25#3'Top'#3#200#1#5'Width'#2'K'#25'Bord'
-  +'erSpacing.InnerBorder'#2#4#7'Caption'#6#4'Save'#7'OnClick'#7#12'savebutClic'
-  +'k'#8'TabOrder'#2#0#0#0#7'TButton'#9'cancelbut'#4'Left'#3'H'#1#6'Height'#2#25
-  +#3'Top'#3#200#1#5'Width'#2'K'#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6
-  +#6'Cancel'#7'OnClick'#7#14'cancelbutClick'#8'TabOrder'#2#1#0#0#12'TPageContr'
-  +'ol'#12'PageControl1'#4'Left'#2#8#6'Height'#3#165#1#3'Top'#2#16#5'Width'#3
-  +#176#1#10'ActivePage'#7#9'TabSheet1'#8'TabIndex'#2#0#8'TabOrder'#2#2#0#9'TTa'
-  +'bSheet'#9'TabSheet1'#7'Caption'#6#7'General'#12'ClientHeight'#3#132#1#11'Cl'
-  +'ientWidth'#3#172#1#0#6'TLabel'#9'LLanguage'#4'Left'#2'6'#6'Height'#2#14#3'T'
-  +'op'#3#9#1#5'Width'#2'9'#7'Caption'#6#8'Language'#11'ParentColor'#8#0#0#6'TL'
-  +'abel'#9'LAudioOut'#4'Left'#2'6'#6'Height'#2#14#3'Top'#3'1'#1#5'Width'#2'M'#7
-  +'Caption'#6#12'Audio Output'#11'ParentColor'#8#0#0#9'TCheckBox'#9'autoload1'
-  +#4'Left'#2'&'#6'Height'#2#23#3'Top'#2#18#5'Width'#3#198#0#11'AllowGrayed'#9#7
-  +'Caption'#6' Autoload last library at startup'#7'Checked'#9#5'State'#7#9'cbC'
-  +'hecked'#8'TabOrder'#2#0#0#0#9'TCheckBox'#8'backscan'#4'Left'#2'&'#6'Height'
-  +#2#23#3'Top'#2'+'#5'Width'#3'g'#1#7'Caption'#6':Scan for new files in backgr'
-  +'ound  on startup(experimental)'#8'TabOrder'#2#1#7'Visible'#8#0#0#9'TComboBo'
-  +'x'#11'LanguageBox'#4'Left'#3#142#0#6'Height'#2#25#3'Top'#3#1#1#5'Width'#2'd'
-  +#16'AutoCompleteText'#11#22'cbactEndOfLineComplete'#20'cbactSearchAscending'
-  +#0#9'ItemIndex'#2#0#13'Items.Strings'#1#6#10'en_buildin'#0#9'MaxLength'#2#0#8
-  +'OnChange'#7#17'LanguageBoxChange'#8'TabOrder'#2#2#4'Text'#6#10'en_buildin'#0
-  +#0#9'TCheckBox'#13'kdeservicebox'#4'Left'#2'&'#6'Height'#2#23#3'Top'#3#169#0
-  +#5'Width'#3#173#0#7'Caption'#6#23'enable KDE service menu'#8'OnChange'#7#19
-  +'kdeserviceboxChange'#8'TabOrder'#2#3#0#0#7'TButton'#10'ClearCover'#4'Left'#3
-  +'.'#1#6'Height'#2#29#3'Top'#3#203#0#5'Width'#2'S'#8'AutoSize'#9#25'BorderSpa'
-  +'cing.InnerBorder'#2#4#7'Caption'#6#11'Clear cache'#7'OnClick'#7#15'ClearCov'
-  +'erClick'#8'TabOrder'#2#4#0#0#9'TCheckBox'#13'CoverDownload'#4'Left'#2'&'#6
-  +'Height'#2#23#3'Top'#3#209#0#5'Width'#3#248#0#7'Caption'#6'&Download album c'
-  +'over art form internet'#8'TabOrder'#2#5#0#0#9'TComboBox'#8'AudioOut'#4'Left'
-  +#3#142#0#6'Height'#2#25#3'Top'#3'&'#1#5'Width'#2'd'#16'AutoCompleteText'#11
-  +#22'cbactEndOfLineComplete'#20'cbactSearchAscending'#0#9'ItemIndex'#2#0#13'I'
-  +'tems.Strings'#1#6#4'Alsa'#6#3'OSS'#0#9'MaxLength'#2#0#8'TabOrder'#2#6#4'Tex'
-  +'t'#6#4'Alsa'#0#0#9'TCheckBox'#12'AutostartBox'#4'Left'#2'&'#6'Height'#2#23#3
-  +'Top'#2'I'#5'Width'#3' '#1#7'Caption'#6'1Automaticly start playing first son'
-  +'g in playlist '#8'TabOrder'#2#7#0#0#0#9'TTabSheet'#9'TabSheet2'#7'Caption'#6
-  +#13'Mobile Device'#12'ClientHeight'#3#165#1#11'ClientWidth'#3#176#1#0#6'TLab'
-  +'el'#11'LMountpoint'#4'Left'#2#24#6'Height'#2#12#3'Top'#2#26#5'Width'#3#165#0
-  +#7'Caption'#6#28'Path to mp3player mountpoint'#11'ParentColor'#8#0#0#5'TEdit'
-  +#15'playerpathedit1'#4'Left'#2#24#6'Height'#2#23#3'Top'#2'2'#5'Width'#3'@'#1
-  +#8'TabOrder'#2#0#4'Text'#6#10'/mp3player'#0#0#7'TButton'#7'Button1'#4'Left'#3
-  +'`'#1#6'Height'#2#25#3'Top'#2'2'#5'Width'#2#24#25'BorderSpacing.InnerBorder'
-  +#2#4#7'Caption'#6#3'...'#7'OnClick'#7#12'Button1Click'#8'TabOrder'#2#1#0#0#9
-  +'TCheckBox'#10'subfolders'#4'Left'#2#24#6'Height'#2#22#3'Top'#2'r'#5'Width'#3
+  'TPF0'#9'TSettings'#8'Settings'#4'Left'#3#234#0#6'Height'#3#250#1#5'Width'#3
+  +#193#1#18'HorzScrollBar.Page'#3#192#1#19'HorzScrollBar.Range'#3#184#1#18'Ver'
+  +'tScrollBar.Page'#3#249#1#19'VertScrollBar.Range'#3#225#1#13'ActiveControl'#7
+  +#7'savebut'#11'BorderIcons'#11#12'biSystemMenu'#0#11'BorderStyle'#7#8'bsDial'
+  +'og'#7'Caption'#6#11'Settings...'#12'ClientHeight'#3#250#1#11'ClientWidth'#3
+  +#193#1#8'OnCreate'#7#10'FormCreate'#9'OnDestroy'#7#11'FormDestroy'#8'Positio'
+  +'n'#7#9'poDefault'#13'ShowInTaskBar'#7#7'stNever'#0#7'TButton'#7'savebut'#4
+  +'Left'#2'8'#6'Height'#2#25#3'Top'#3#200#1#5'Width'#2'K'#25'BorderSpacing.Inn'
+  +'erBorder'#2#4#7'Caption'#6#4'Save'#7'OnClick'#7#12'savebutClick'#8'TabOrder'
+  +#2#0#0#0#7'TButton'#9'cancelbut'#4'Left'#3'H'#1#6'Height'#2#25#3'Top'#3#200#1
+  +#5'Width'#2'K'#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#6'Cancel'#7'On'
+  +'Click'#7#14'cancelbutClick'#8'TabOrder'#2#1#0#0#12'TPageControl'#12'PageCon'
+  +'trol1'#4'Left'#2#8#6'Height'#3#165#1#3'Top'#2#16#5'Width'#3#176#1#10'Active'
+  +'Page'#7#9'TabSheet1'#8'TabIndex'#2#0#8'TabOrder'#2#2#0#9'TTabSheet'#9'TabSh'
+  +'eet1'#7'Caption'#6#7'General'#12'ClientHeight'#3#132#1#11'ClientWidth'#3#172
+  +#1#0#6'TLabel'#9'LLanguage'#4'Left'#2'6'#6'Height'#2#14#3'Top'#3#12#1#5'Widt'
+  +'h'#2'9'#7'Caption'#6#8'Language'#11'ParentColor'#8#0#0#6'TLabel'#9'LAudioOu'
+  +'t'#4'Left'#2'6'#6'Height'#2#14#3'Top'#3'1'#1#5'Width'#2'M'#7'Caption'#6#12
+  +'Audio Output'#11'ParentColor'#8#0#0#9'TCheckBox'#9'autoload1'#4'Left'#2'&'#6
+  +'Height'#2#23#3'Top'#2#18#5'Width'#3#198#0#11'AllowGrayed'#9#7'Caption'#6' A'
+  +'utoload last library at startup'#7'Checked'#9#5'State'#7#9'cbChecked'#8'Tab'
+  +'Order'#2#0#0#0#9'TCheckBox'#8'backscan'#4'Left'#2'&'#6'Height'#2#23#3'Top'#2
+  +'+'#5'Width'#3'g'#1#7'Caption'#6':Scan for new files in background  on start'
+  +'up(experimental)'#8'TabOrder'#2#1#7'Visible'#8#0#0#9'TComboBox'#11'Language'
+  +'Box'#4'Left'#3#158#0#6'Height'#2#25#3'Top'#3#1#1#5'Width'#2'd'#16'AutoCompl'
+  +'eteText'#11#22'cbactEndOfLineComplete'#20'cbactSearchAscending'#0#9'ItemInd'
+  +'ex'#2#0#13'Items.Strings'#1#6#10'en_buildin'#0#9'MaxLength'#2#0#8'OnChange'
+  +#7#17'LanguageBoxChange'#8'TabOrder'#2#2#4'Text'#6#10'en_buildin'#0#0#9'TChe'
+  +'ckBox'#13'kdeservicebox'#4'Left'#2'&'#6'Height'#2#23#3'Top'#3#169#0#5'Width'
+  +#3#173#0#7'Caption'#6#23'enable KDE service menu'#8'OnChange'#7#19'kdeservic'
+  +'eboxChange'#8'TabOrder'#2#3#0#0#7'TButton'#10'ClearCover'#4'Left'#3'6'#1#6
+  +'Height'#2#29#3'Top'#3#203#0#5'Width'#2'S'#8'AutoSize'#9#25'BorderSpacing.In'
+  +'nerBorder'#2#4#7'Caption'#6#11'Clear cache'#7'OnClick'#7#15'ClearCoverClick'
+  +#8'TabOrder'#2#4#0#0#9'TCheckBox'#13'CoverDownload'#4'Left'#2'&'#6'Height'#2
+  +#23#3'Top'#3#209#0#5'Width'#3#248#0#7'Caption'#6'&Download album cover art f'
+  +'orm internet'#8'TabOrder'#2#5#0#0#9'TComboBox'#8'AudioOut'#4'Left'#3#158#0#6
+  +'Height'#2#25#3'Top'#3')'#1#5'Width'#2'd'#16'AutoCompleteText'#11#22'cbactEn'
+  +'dOfLineComplete'#20'cbactSearchAscending'#0#9'ItemIndex'#2#0#13'Items.Strin'
+  +'gs'#1#6#4'Alsa'#6#3'OSS'#0#9'MaxLength'#2#0#8'TabOrder'#2#6#4'Text'#6#4'Als'
+  +'a'#0#0#9'TCheckBox'#12'AutostartBox'#4'Left'#2'&'#6'Height'#2#23#3'Top'#2'I'
+  +#5'Width'#3' '#1#7'Caption'#6'1Automaticly start playing first song in playl'
+  +'ist '#8'TabOrder'#2#7#0#0#0#9'TTabSheet'#9'TabSheet2'#7'Caption'#6#13'Mobil'
+  +'e Device'#12'ClientHeight'#3#165#1#11'ClientWidth'#3#176#1#0#6'TLabel'#11'L'
+  +'Mountpoint'#4'Left'#2#24#6'Height'#2#12#3'Top'#2#26#5'Width'#3#165#0#7'Capt'
+  +'ion'#6#28'Path to mp3player mountpoint'#11'ParentColor'#8#0#0#5'TEdit'#15'p'
+  +'layerpathedit1'#4'Left'#2#24#6'Height'#2#23#3'Top'#2'2'#5'Width'#3'@'#1#8'T'
+  +'abOrder'#2#0#4'Text'#6#10'/mp3player'#0#0#7'TButton'#7'Button1'#4'Left'#3'`'
+  +#1#6'Height'#2#25#3'Top'#2'2'#5'Width'#2#24#25'BorderSpacing.InnerBorder'#2#4
+  +#7'Caption'#6#3'...'#7'OnClick'#7#12'Button1Click'#8'TabOrder'#2#1#0#0#9'TCh'
+  +'eckBox'#10'subfolders'#4'Left'#2#24#6'Height'#2#22#3'Top'#2'r'#5'Width'#3
   +#184#0#7'Caption'#6#27'Create subfolders on upload'#8'TabOrder'#2#2#0#0#0#9
   +'TTabSheet'#9'TabSheet3'#7'Caption'#6#5'Paths'#12'ClientHeight'#3#165#1#11'C'
   +'lientWidth'#3#176#1#0#6'TLabel'#6'Label5'#4'Left'#2#14#6'Height'#2#18#3'Top'
