@@ -1,11 +1,11 @@
 object Main: TMain
-  Left = 163
+  Left = 149
   Height = 666
   Top = 51
   Width = 870
   HorzScrollBar.Page = 869
   HorzScrollBar.Range = 369
-  VertScrollBar.Page = 638
+  VertScrollBar.Page = 665
   ActiveControl = ArtistTree
   BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'titel'
@@ -106,7 +106,7 @@ object Main: TMain
   ShowInTaskBar = stAlways
   object StatusBar1: TStatusBar
     Height = 23
-    Top = 616
+    Top = 643
     Width = 870
     Panels = <    
       item
@@ -120,7 +120,7 @@ object Main: TMain
   end
   object Splitter1: TSplitter
     Left = 271
-    Height = 616
+    Height = 643
     Width = 8
     Align = alRight
     Color = clBtnFace
@@ -131,12 +131,12 @@ object Main: TMain
   end
   object Panel1: TPanel
     Left = 279
-    Height = 616
+    Height = 643
     Width = 591
     Align = alRight
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 616
+    ClientHeight = 643
     ClientWidth = 591
     ParentColor = False
     TabOrder = 0
@@ -144,7 +144,7 @@ object Main: TMain
     object SearchPanel: TPanel
       Left = 12
       Height = 81
-      Top = 251
+      Top = 278
       Width = 424
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -243,7 +243,7 @@ object Main: TMain
     object PlayerControlsPanel: TPanel
       Left = 12
       Height = 263
-      Top = 345
+      Top = 372
       Width = 224
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -566,7 +566,7 @@ object Main: TMain
       Left = 504
       Height = 30
       Hint = 'Clear Playlist'
-      Top = 303
+      Top = 330
       Width = 67
       Anchors = [akRight, akBottom]
       AutoSize = True
@@ -617,7 +617,7 @@ object Main: TMain
     end
     object TitleTree: TListView
       Left = 8
-      Height = 233
+      Height = 260
       Top = 10
       Width = 572
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -673,7 +673,7 @@ object Main: TMain
     object Playlist: TListView
       Left = 248
       Height = 265
-      Top = 346
+      Top = 373
       Width = 332
       Anchors = [akLeft, akRight, akBottom]
       Columns = <      
@@ -703,18 +703,18 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
-    Height = 616
+    Height = 643
     Width = 271
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 616
+    ClientHeight = 643
     ClientWidth = 271
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 10
-      Height = 601
+      Height = 628
       Top = 10
       Width = 261
       Align = alClient

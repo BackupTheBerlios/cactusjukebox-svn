@@ -207,7 +207,7 @@ var i:integer;
     MedFileObj: TMediaFileClass;
 begin
        savepath:=path;
-    //   try
+       try
              system.assign(lfile,path);
              reset(lfile);
 
@@ -254,11 +254,11 @@ begin
              close(lfile);
              writeln('library sucessfully loaded');
              result:=true;
-        // except
-          //    writeln('lib seems corupted');
-           //   write('exception at entry ');writeln(i);
-            //  result:=false;
-  //    end;
+         except
+              writeln('lib seems corupted');
+              write('exception at entry ');writeln(i);
+              result:=false;
+     end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
