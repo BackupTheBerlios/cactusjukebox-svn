@@ -1272,50 +1272,50 @@ begin
 
 
   // Load resourcestrings to Captions
-  QuitItem.Caption:= Utf8ToAnsi(rsQuit);
-  FileItem.Caption:= Utf8ToAnsi(rsFile);
-  openfile.Caption:=  Utf8ToAnsi(rsOpenFile);
-  player_lib.Caption:= Utf8ToAnsi(rsPlayerOnly);
-  skinmenu.Caption:= Utf8ToAnsi(rsChooseSkin);
-  SettingsItem.Caption:= Utf8ToAnsi(rsSettings);
+  QuitItem.Caption:= rsQuit;
+  FileItem.Caption:= rsFile;
+  openfile.Caption:=  rsOpenFile;
+  player_lib.Caption:= rsPlayerOnly;
+  skinmenu.Caption:= rsChooseSkin;
+  SettingsItem.Caption:= rsSettings;
   
-  MIlibrary.Caption:= Utf8ToAnsi(rsLibrary);
-  MInewlib.Caption:= Utf8ToAnsi(rsNewLibrary);
-  MIloadlib.Caption:=  Utf8ToAnsi(rsLoadLibrary);
-  MIsavelib.Caption:= Utf8ToAnsi(rsSaveLibrary);
-  MIlibinfo.Caption:= Utf8ToAnsi(rsLibraryInfo);
-  MIManagLib.Caption:= Utf8ToAnsi(rsManageLibrar);
-  MIrescanlib.Caption:= Utf8ToAnsi(rsRescanDirect);
+  MIlibrary.Caption:= rsLibrary;
+  MInewlib.Caption:= rsNewLibrary;
+  MIloadlib.Caption:=  rsLoadLibrary;
+  MIsavelib.Caption:= rsSaveLibrary;
+  MIlibinfo.Caption:= rsLibraryInfo;
+  MIManagLib.Caption:= rsManageLibrar;
+  MIrescanlib.Caption:= rsRescanDirect;
   
-  MIPlaylist.Caption:= Utf8ToAnsi(rsPlaylist);
-  MIplay.Caption:= Utf8ToAnsi(rsPlay);
-  MInext.Caption:= Utf8ToAnsi(rsNext);
-  MIprevious.Caption:= Utf8ToAnsi(rsPrevious);
-  MImute.Caption:= Utf8ToAnsi(rsMute);
-  MIload_list.Caption:= Utf8ToAnsi(rsLoadPlaylist);
-  MIsave_list.Caption:= Utf8ToAnsi(rsSavePlaylist);
+  MIPlaylist.Caption:= rsPlaylist;
+  MIplay.Caption:= rsPlay;
+  MInext.Caption:= rsNext;
+  MIprevious.Caption:= rsPrevious;
+  MImute.Caption:= rsMute;
+  MIload_list.Caption:= rsLoadPlaylist;
+  MIsave_list.Caption:= rsSavePlaylist;
   
-  MImobile.Caption:= Utf8ToAnsi(rsMobilePlayer);
-  MImobile_info.Caption:= Utf8ToAnsi(rsDeviceInfo);
-  MIscan_mobile.Caption:= Utf8ToAnsi(rsScanPlayer);
-  MIsync.Caption:= Utf8ToAnsi(rsSync);
-  MIclear_mobile.Caption:= Utf8ToAnsi(rsClearPlayer);
-  MIundosync.Caption:= Utf8ToAnsi(rsUndoSelectio);
+  MImobile.Caption:= rsMobilePlayer;
+  MImobile_info.Caption:= rsDeviceInfo;
+  MIscan_mobile.Caption:= rsScanPlayer;
+  MIsync.Caption:= rsSync;
+  MIclear_mobile.Caption:= rsClearPlayer;
+  MIundosync.Caption:= rsUndoSelectio;
 
-  MIaudiocd.Caption:= Utf8ToAnsi(rsAudioCD);
-  MIrip.Caption:= Utf8ToAnsi(rsRipEncode);
+  MIaudiocd.Caption:= rsAudioCD;
+  MIrip.Caption:= rsRipEncode;
   
-  MIhelp.Caption:= Utf8ToAnsi(rsHelp);
-  MIabout.Caption:= Utf8ToAnsi(rsAbout);
-  MImanual.Caption:= Utf8ToAnsi(rsManual);
+  MIhelp.Caption:= rsHelp;
+  MIabout.Caption:= rsAbout;
+  MImanual.Caption:= rsManual;
   
-  clear_list.Caption:= Utf8ToAnsi(rsClear);
-  srch_button.Caption:= Utf8ToAnsi(rsSearch);
-  srch_album.Caption:= Utf8ToAnsi(rsAlbum);
-  srch_artist.Caption:= Utf8ToAnsi(rsArtist);
-  srch_file.Caption:= Utf8ToAnsi(rsFilename);
-  srch_title.Caption:= Utf8ToAnsi(rsTitle);
-  randomcheck.Caption:= Utf8ToAnsi(rsRandom);
+  clear_list.Caption:= rsClear;
+  srch_button.Caption:= rsSearch;
+  srch_album.Caption:= rsAlbum;
+  srch_artist.Caption:= rsArtist;
+  srch_file.Caption:= rsFilename;
+  srch_title.Caption:= rsTitle;
+  randomcheck.Caption:= rsRandom;
   
   oldSplitterWidth:=Splitter1.Left;
   SplitterResize:=true;

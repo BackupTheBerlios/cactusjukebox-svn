@@ -6,4 +6,5 @@ GenericName=
 Exec=/usr/bin/cactus
 Icon=/usr/share/cactusjukebox/icon/cactus-icon.png
 Terminal=false
+Type=Application
 Categories=Application;AudioVideo;

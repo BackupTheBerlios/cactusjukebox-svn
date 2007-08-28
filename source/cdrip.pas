@@ -198,16 +198,16 @@ var b, z:byte;
 begin
      TranslateUnitResourceStrings('cdrip', cactusconfig.DataPrefix+'languages/cactus.%s.po', 'de', '');
 
-     encodecheck.Caption:= Utf8ToAnsi(rsEncodeToMp3);
-     LArtist.Caption:= Utf8ToAnsi(rsArtist);
-     LAlbum.Caption:= Utf8ToAnsi(rsAlbum);
-     querrybtn.Caption:= Utf8ToAnsi(rsQuerryCDDB);
-     loadbtn.Caption:= Utf8ToAnsi(rsLoad);
-     ejectbtn.Caption:= Utf8ToAnsi(rsEject);
-     startbtn.Caption:= Utf8ToAnsi(rsStart);
-     backbtn.Caption:= Utf8ToAnsi(rsBack);
-     writetagscheck.Caption:= Utf8ToAnsi(rsSetID3Tag);
-     subfoldercheck.Caption:= Utf8ToAnsi(rsCrSubfolders);
+     encodecheck.Caption:= rsEncodeToMp3;
+     LArtist.Caption:= rsArtist;
+     LAlbum.Caption:= rsAlbum;
+     querrybtn.Caption:= rsQuerryCDDB;
+     loadbtn.Caption:= rsLoad;
+     ejectbtn.Caption:= rsEject;
+     startbtn.Caption:= rsStart;
+     backbtn.Caption:= rsBack;
+     writetagscheck.Caption:= rsSetID3Tag;
+     subfoldercheck.Caption:= rsCrSubfolders;
      LNameScheme.Caption:=rsOutfileNamin;
      
 
