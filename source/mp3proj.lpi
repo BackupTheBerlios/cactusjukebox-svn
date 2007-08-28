@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="1"/>
+      <ActiveEditorIndexAtStart Value="5"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -29,14 +29,14 @@
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="JPEGForLazarus"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
@@ -57,7 +57,7 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="33" Y="1318"/>
+        <CursorPos X="110" Y="1270"/>
         <TopLine Value="1254"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
@@ -141,7 +141,7 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="82" Y="243"/>
+        <CursorPos X="45" Y="250"/>
         <TopLine Value="225"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="200"/>
@@ -455,8 +455,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="cdrip.lrs"/>
         <UnitName Value="cdrip"/>
-        <CursorPos X="48" Y="210"/>
-        <TopLine Value="216"/>
+        <CursorPos X="115" Y="199"/>
+        <TopLine Value="194"/>
         <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -694,8 +694,8 @@
     </Units>
     <JumpHistory Count="1" HistoryIndex="0">
       <Position1>
-        <Filename Value="settings.pas"/>
-        <Caret Line="243" Column="80" TopLine="223"/>
+        <Filename Value="cdrip.pas"/>
+        <Caret Line="210" Column="48" TopLine="216"/>
       </Position1>
     </JumpHistory>
   </ProjectOptions>

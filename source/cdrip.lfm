@@ -1,7 +1,7 @@
 object cdrip: Tcdrip
   Left = 141
   Height = 547
-  Top = 199
+  Top = 197
   Width = 540
   HorzScrollBar.Page = 539
   VertScrollBar.Page = 546
