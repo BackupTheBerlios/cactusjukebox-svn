@@ -240,7 +240,7 @@ begin
    if FindFirst(IncludeTrailingPathDelimiter(CactusConfig.DataPrefix)+'languages'+DirectorySeparator+'*.mo', faAnyFile,srec)=0 then
        begin
           repeat begin
-               i:=LanguageBox.Items.Add(Copy(srec.Name, 8, 2));
+               i:=LanguageBox.Items.Add(Copy(srec.Name, 8, length(srec.Name)-10));
                if CactusConfig.language=LanguageBox.Items[i] then LanguageBox.ItemIndex:=i;
            end;
           until FindNext(srec)<>0;
@@ -351,7 +351,7 @@ begin
 
     WWidth:=FConfigFile.GetValue('Userinterface/Window/Width', 854);
     WHeight:=FConfigFile.GetValue('Userinterface/Window/Height', 680);
-    language:=FConfigFile.GetValue('Userinterface/Language/Code', copy(tmps1, 0, 2));
+    language:=FConfigFile.GetValue('Userinterface/Language/Code', tmps1);
  except result:=false;
  end;
 end;

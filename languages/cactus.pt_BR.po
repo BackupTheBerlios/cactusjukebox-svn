@@ -1,0 +1,297 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: mp3:rsquit
+msgid "Quit"
+msgstr "Sair"
+
+#: mp3:rsfile
+msgid "File"
+msgstr "Arquivo"
+
+#: mp3:rsopenfile
+msgid "Open File..."
+msgstr "Abrir arquivo.."
+
+#: mp3:rsplayeronly
+msgid "Player only"
+msgstr "Somente player"
+
+#: mp3:rschooseskin
+msgid "Choose Skin..."
+msgstr "Escolher tema..."
+
+#: mp3:rssettings
+msgid "Settings..."
+msgstr "Configurações..."
+
+#: mp3:rslibrary
+msgid "Library"
+msgstr "Biblioteca"
+
+#: mp3:rsnewlibrary
+msgid "New library"
+msgstr "Nova biblioteca..."
+
+#: mp3:rsloadlibrary
+msgid "Load library"
+msgstr "Carregar biblioteca..."
+
+#: mp3:rssavelibrary
+msgid "Save library"
+msgstr "Salvar biblioteca..."
+
+#: mp3:rslibraryinfo
+msgid "Library info"
+msgstr "Informações"
+
+#: mp3:rsmanagelibrar
+msgid "Manage library..."
+msgstr "Administrar bibliotecas..."
+
+#: mp3:rsrescandirect
+msgid "Rescan directories"
+msgstr "Reler diretórios"
+
+#: mp3:rsplaylist
+msgid "Playlist"
+msgstr "Lista de música"
+
+#: mp3:rsplay
+msgid "Play"
+msgstr "Tocar"
+
+#: mp3:rsnext
+msgid "Next"
+msgstr "Próxima"
+
+#: mp3:rsprevious
+msgid "Previous"
+msgstr "Anterior"
+
+#: mp3:rsmute
+msgid "Mute"
+msgstr "Mudo"
+
+#: mp3:rsloadplaylist
+msgid "Load playlist"
+msgstr "Carregar lista..."
+
+#: mp3:rssaveplaylist
+msgid "Save playlist"
+msgstr "Salvar lista..."
+
+#: mp3:rsmobileplayer
+msgid "Mobile player"
+msgstr "MP3 Player"
+
+#: mp3:rsdeviceinfo
+msgid "Device info"
+msgstr "Sobre o MP3 player"
+
+#: mp3:rsscanplayer
+msgid "Scan player"
+msgstr "Ler MP3 player"
+
+#: mp3:rssync
+msgid "Sync"
+msgstr "Sincronizar"
+
+#: mp3:rsclearplayer
+msgid "Clear player"
+msgstr "Limpar MP3 player"
+
+#: mp3:rsundoselectio
+msgid "Undo selection"
+msgstr "Desfazer seleção"
+
+#: mp3:rsaudiocd
+msgid "Audio CD"
+msgstr "CD de áudio"
+
+#: mp3:rsripencode
+msgid "Rip / Encode..."
+msgstr "Decodificar CD..."
+
+#: mp3:rshelp
+msgid "Help"
+msgstr "Ajuda"
+
+#: mp3:rsabout
+msgid "About..."
+msgstr "Sobre..."
+
+#: mp3:rsmanual
+msgid "Manual..."
+msgstr "Manual..."
+
+#: mp3:rsclear
+msgid "Clear"
+msgstr "Limpar"
+
+#: mp3:rssearch
+msgid "Search"
+msgstr "Buscar"
+
+#: mp3:rsalbum
+msgid "Album"
+msgstr "Álbum"
+
+#: mp3:rsfilename
+msgid "Filename"
+msgstr "Nome do arquivo"
+
+#: mp3:rsartist
+msgid "Artist"
+msgstr "Artista"
+
+#: mp3:rstitle
+msgid "Title"
+msgstr "Título"
+
+#: mp3:rsrandom
+msgid "Random"
+msgstr "Aleatório"
+
+#: mp3:rsnotconnected
+msgid "Device not Connected"
+msgstr "Dispositivo não conectado"
+
+#: mp3:rsok
+msgid "OK"
+msgstr "OK"
+
+#: cdrip:rsencodetomp3
+msgid "Encode to mp3"
+msgstr "Converter para MP3"
+
+#: cdrip:rsquerrycddb
+msgid "Querry CDDB"
+msgstr "Buscar CDDB"
+
+#: cdrip:rsload
+msgid "Load"
+msgstr "Carregar CD"
+
+#: cdrip:rseject
+msgid "Eject"
+msgstr "Ejetar"
+
+#: cdrip:rsstart
+msgid "Start"
+msgstr "Iniciar"
+
+#: cdrip:rsback
+msgid "Back"
+msgstr "Voltar"
+
+#: cdrip:rssetid3tag
+msgid "Write ID3-Tags"
+msgstr "Escrever tags ID3"
+
+#: cdrip:rscrsubfolders
+msgid "Create artist subfolders"
+msgstr "Criar subpastas de artistas"
+
+#: cdrip:rsoutfilenamin
+msgid "Outfile naming scheme"
+msgstr "Esquema de nome de arquivo"
+
+#: settings:rsautoloadlast
+msgid "Autoload last library at startup"
+msgstr "Carregar última biblioteca na inicialização"
+
+#: settings:rsscanfornewfi
+msgid "Scan for new files in background  on startup"
+msgstr "Buscar novos arquivos na inicialização (experimental)"
+
+#: settings:rslanguage
+msgid "Language"
+msgstr "Idioma"
+
+#: settings:rswhattodowhen
+msgid "What to do when there is no ID3"
+msgstr "O que fazer quando não há tag ID3..."
+
+#: settings:rsguesstagfrom
+msgid "Guess tag from filename"
+msgstr "Supor informações apartir do nome"
+
+#: settings:rsmovetosectio
+msgid "Move to section %sUnknown%s"
+msgstr "Mover para seção %sDesconhecido%s"
+
+#: settings:rsid3type
+msgid "ID3 type"
+msgstr "Tipo de ID3"
+
+#: settings:rsid3v1priorit
+msgid "ID3v1 Priority"
+msgstr "Primeiro ID3v1"
+
+#: settings:rsid3v2priorit
+msgid "ID3v2 Priority"
+msgstr "Primeiro ID3v2"
+
+#: settings:rsgeneral
+msgid "General"
+msgstr "Geral"
+
+#: settings:rspathtomp3pla
+msgid "Path to mp3player mountpoint"
+msgstr "Caminho para ponto de montagem do MP3 player"
+
+#: settings:rscreatesubfol
+msgid "Create subfolders on upload"
+msgstr "Criar subpastas ao enviar"
+
+#: settings:rspathstoaddit
+msgid "Paths to additional application needed for Cactus Jukebox"
+msgstr "Caminhos para aplicações adicionais"
+
+#: settings:rscdda2wavtool
+msgid "Cdda2wav (tool to rip CDs)"
+msgstr "Cdda2wav (programa para decodificar CDs)"
+
+#: settings:rssave
+msgid "Save"
+msgstr "Salvar"
+
+#: settings:rscancel
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: settings:rsmobiledevice
+msgid "Mobile Device"
+msgstr "Mp3-Player"
+
+#: settings:rspaths
+msgid "Paths"
+msgstr "Caminhos"
+
+#: settings:rslameneededto
+msgid "lame (needed to encode mp3 files)"
+msgstr "lame (necessário para criar arquivos MP3)"
+
+#: settings:rsenablekdeser
+msgid "Enable KDE Service Menu"
+msgstr "Ativar menu de serviço KDE"
+
+#: settings:rsaudiooutput
+#, fuzzy
+msgid "Audio Output"
+msgstr "Saída de áudio"
+
+#: settings:rsdownloadalbu
+msgid "Download album cover image from internet"
+msgstr "Baixar imagem da capa do CD na internet"
+
+#: settings:rsclearcache
+msgid "Clear Cache"
+msgstr "Limpar cache"
+
+#: settings:rsautomaticlys
+msgid "Automaticly start playing first song in playlist"
+msgstr "Tocar automaticamente primeira faixa da lista"
