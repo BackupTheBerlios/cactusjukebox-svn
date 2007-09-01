@@ -731,12 +731,7 @@
         <UsageCount Value="10"/>
       </Unit86>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
-      <Position1>
-        <Filename Value="settings.pas"/>
-        <Caret Line="77" Column="99" TopLine="85"/>
-      </Position1>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
