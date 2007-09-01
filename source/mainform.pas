@@ -1267,7 +1267,7 @@ begin
   Width:=CactusConfig.WWidth;
   Height:=CactusConfig.WHeight;
 
-  TranslateUnitResourceStrings('mp3', CactusConfig.DataPrefix+'languages'+DirectorySeparator+'cactus.%s.po', CactusConfig.language, '');
+  TranslateUnitResourceStrings('mainform', CactusConfig.DataPrefix+'languages'+DirectorySeparator+'cactus.%s.po', CactusConfig.language, '');
   if SystemCharSetIsUTF8 then writeln('##System charset is UTF8');
 
 
@@ -1312,7 +1312,7 @@ begin
   clear_list.Caption:= rsClear;
   srch_button.Caption:= rsSearch;
   srch_album.Caption:= rsAlbum;
-//  srch_artist.Caption:= rsArtist;
+  srch_artist.Caption:= rsArtist;
   srch_file.Caption:= rsFilename;
   srch_title.Caption:= rsTitle;
   randomcheck.Caption:= rsRandom;

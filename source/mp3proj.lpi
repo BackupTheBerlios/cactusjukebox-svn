@@ -717,8 +717,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="21" Y="1320"/>
-        <TopLine Value="1305"/>
+        <CursorPos X="41" Y="1270"/>
+        <TopLine Value="1263"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
@@ -731,28 +731,7 @@
         <UsageCount Value="10"/>
       </Unit86>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
-      <Position1>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1386" Column="50" TopLine="1327"/>
-      </Position1>
-      <Position2>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="11" Column="69" TopLine="1"/>
-      </Position2>
-      <Position3>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="354" Column="15" TopLine="339"/>
-      </Position3>
-      <Position4>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1036" Column="30" TopLine="1021"/>
-      </Position4>
-      <Position5>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1037" Column="36" TopLine="1022"/>
-      </Position5>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
