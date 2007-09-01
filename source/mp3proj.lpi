@@ -29,14 +29,14 @@
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="JPEGForLazarus"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
@@ -717,8 +717,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="41" Y="1270"/>
-        <TopLine Value="1263"/>
+        <CursorPos X="63" Y="1397"/>
+        <TopLine Value="1377"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>

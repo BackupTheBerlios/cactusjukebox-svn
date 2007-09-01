@@ -1382,7 +1382,7 @@ begin
   // ------
 
   if FileExists(CactusConfig.LastLib) then begin
-     main.StatusBar1.Panels[0].Text:='Loading last library...';
+     //main.StatusBar1.Panels[0].Text:='Loading last library...';
      if Mediacollection.LoadFromFile(CactusConfig.LastLib)=false then begin
            //MediaCollection.clear;
            ShowMessage('ERROR while reading last library. You need to create a new one.'+LineEnding+'Please choose a directory to scan for mediafiles...');
