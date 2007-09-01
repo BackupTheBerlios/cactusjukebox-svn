@@ -54,7 +54,7 @@ var
   dirwin: Tdirwin;
 
 implementation
-uses mp3,status,mediacol, settings;
+uses mainform,status,mediacol, settings;
 { Tdirwin }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

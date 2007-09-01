@@ -20,8 +20,8 @@ uses
    cthreads,
  {$endif}
   Interfaces,SysUtils,
-  Forms, mp3, status, settings, player, fmodplayer, graphics, editid3, directories, skin,
-  cdrip, functions, aws, JPEGForLazarus, mediacol, BigCoverImg;
+  Forms, status, settings, player, fmodplayer, graphics, editid3, directories, skin,
+  cdrip, functions, aws, JPEGForLazarus, mediacol, BigCoverImg, mainform;
 
 var
   s, loadfile: string;
@@ -96,10 +96,10 @@ begin
                                    end;
      end;
 
-
   Application.CreateForm(TMain, Main);
   Application.CreateForm(Tplaywin, playwin);
   Application.CreateForm(TEditID3, editid3win);
+
     
   invalid_param:=false;
 
@@ -109,6 +109,7 @@ begin
       playwin.show;
       main.playermode:=true;
       main.hide;
+      writeln('starting in player mode');
      end;
 
 

@@ -23,7 +23,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons, fmodplayer, mp3, mediacol, {messages,} ComCtrls, Menus;
+  Buttons, fmodplayer, mainform, mediacol, {messages,} ComCtrls, Menus;
 
 type
 
@@ -429,7 +429,7 @@ begin
   timeimage.Free;}
   AlbumCoverImg.Free;
 
-  if main.playermode then begin
+  if (main<>nil) and main.playermode then begin
      main.Close;
    end;
 end;

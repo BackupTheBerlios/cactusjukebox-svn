@@ -64,7 +64,7 @@ var SkinData: TSkin;
 
 implementation
 
-uses mp3, settings;
+uses mainform, settings;
 
 var skinxml: TXMLConfig;
 

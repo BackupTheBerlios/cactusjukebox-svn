@@ -131,7 +131,7 @@ var
   EditID3win: TEditID3;
 
 implementation
-uses mp3, lazjpeg, settings, functions;
+uses mainform, lazjpeg, settings, functions;
 { TEditID3 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -85,7 +85,7 @@ var
 
 
 implementation
-uses mp3, mediacol, translations, functions, settings;
+uses mainform, mediacol, translations, functions, settings;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

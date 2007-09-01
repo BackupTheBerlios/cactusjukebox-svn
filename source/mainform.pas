@@ -1,3 +1,4 @@
+
 {
 Main unit for Cactus Jukebox
 
@@ -13,9 +14,8 @@ This Software is published under the GPL
 
 
 }
+unit mainform;
 
-
-unit mp3;
 
 {$mode objfpc}{$H+}
 
@@ -26,8 +26,8 @@ uses
 
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
   ExtCtrls, ComCtrls, StdCtrls, Menus, fmodplayer,
-  ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, CheckLst, aws;
-  
+  ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws;
+
 resourcestring
   rsQuit = 'Quit';
   rsFile = 'File';
@@ -69,7 +69,7 @@ resourcestring
   rsRandom = 'Random';
   rsNotConnected = 'Device not Connected';
   rsOK = 'OK';
-  
+
 type
 
   { TMain }
@@ -338,7 +338,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure undoSyncItemClick(Sender: TObject);
     procedure volumebarChange(Sender: TObject);
-    
+
     //procedure fileopen(path:string);
     procedure loadskin(Sender: TObject);
     procedure update_player_hdd_relations;
@@ -372,9 +372,9 @@ type
 
     skinmenuitems:array[1..16] of TMenuItem;
     { public declarations }
-  end; 
-  
-  
+  end;
+
+
  Type
 
    { TScanThread }
@@ -392,7 +392,7 @@ type
    end;
 
  { TScanThread }
- 
+
  Type
 
    { TSyncThread }
@@ -424,7 +424,7 @@ var
   Main: TMain;
   SyncThread: TSyncThread;
   ScanThread: TscanThread;
-  
+
 //procedure update_title_view_album;
 procedure update_artist_view;
 procedure update_title_view;
@@ -532,7 +532,7 @@ procedure TSyncThread.DeleteFile(path: string);
 begin
   DeleteList.Add(path);
 end;
-        
+
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -559,7 +559,7 @@ begin
           //   Main.update_player_hdd_relations;
              update_artist_view;
              update_title_view;
-             
+
              Main.StatusBar1.Panels[0].Text:=('Succesfully updated library...');
              tmpcollection.Free;
           end;
@@ -755,7 +755,7 @@ var spos, slength: real;
     x2:integer;
     fileobj: TMediaFileClass;
     PlaylistItem: TPlaylistItemClass;
-    
+
 begin
    spos:=0;
    slength:=0;
@@ -810,7 +810,7 @@ if (tsnode<>nil) and (tsnode.Level>0) then begin
        MediaColObj:=MediaFileObj.Collection;
        curartist:=lowercase(MediaFileObj.artist);
        curalbum:=lowercase(MediaFileObj.album);
-     
+
        z:=MediaColObj.getTracks(curartist, MediaFileObj.index);
 
        repeat begin
@@ -1004,16 +1004,16 @@ begin
   BigCoverImgForm.Image1.Left:=16;
   BigCoverImgForm.Left:=x+Panel1.Left+self.Left+20;
   BigCoverImgForm.Top:=y+Panel1.height+self.top- 220;
-  
+
   //BigCoverImgForm.BackImg.Canvas.Color:=clWhite;
-  
+
   BigCoverImgForm.BackImg.Width:=BigCoverImgForm.Image1.Width+32;
   BigCoverImgForm.BackImg.Height:=BigCoverImgForm.Image1.Height+32;
   BigCoverImgForm.BackImg.Canvas.FillRect(0,0, BigCoverImgForm.BackImg.Width, BigCoverImgForm.BackImg.Height);
 
  // BigCoverImgForm.BackImg.Canvas.Color:=clBlack;
   BigCoverImgForm.BackImg.Canvas.Rectangle(5,5, BigCoverImgForm.BackImg.Width-5, BigCoverImgForm.BackImg.Height-5);
-  
+
 
   BigCoverImgForm.Image1.BringToFront;
 
@@ -1050,7 +1050,7 @@ if MessageDlg('The selected file(s) will permanently be'+#10+#13+'removed from h
   MedFileObj:=TMediaFileClass(TitleTree.Selected.Data);
   MedColObj:=MedFileObj.collection;
   i:=MedFileObj.index;
-  
+
   if DeleteFile(MedFileObj.path) then
       begin
           writeln('deleted file from disk: '+MedFileObj.path);
@@ -1059,7 +1059,7 @@ if MessageDlg('The selected file(s) will permanently be'+#10+#13+'removed from h
           if FileGetAttr(MedFileObj.path)=faReadOnly then ShowMessage('File is read only!');
           if FileExists(MedFileObj.path)=false then MedColObj.remove(i);
         end;
-   
+
   update_artist_view;
   update_title_view;
   MedColObj.SaveToFile;
@@ -1236,7 +1236,7 @@ begin
 
      timetmpbmp.free;
      tempbitmap.Free;
-     
+
      ImageList1.Free;   }
      CoverImage.Free;
 
@@ -1278,7 +1278,7 @@ begin
   player_lib.Caption:= rsPlayerOnly;
   skinmenu.Caption:= rsChooseSkin;
   SettingsItem.Caption:= rsSettings;
-  
+
   MIlibrary.Caption:= rsLibrary;
   MInewlib.Caption:= rsNewLibrary;
   MIloadlib.Caption:=  rsLoadLibrary;
@@ -1286,7 +1286,7 @@ begin
   MIlibinfo.Caption:= rsLibraryInfo;
   MIManagLib.Caption:= rsManageLibrar;
   MIrescanlib.Caption:= rsRescanDirect;
-  
+
   MIPlaylist.Caption:= rsPlaylist;
   MIplay.Caption:= rsPlay;
   MInext.Caption:= rsNext;
@@ -1294,7 +1294,7 @@ begin
   MImute.Caption:= rsMute;
   MIload_list.Caption:= rsLoadPlaylist;
   MIsave_list.Caption:= rsSavePlaylist;
-  
+
   MImobile.Caption:= rsMobilePlayer;
   MImobile_info.Caption:= rsDeviceInfo;
   MIscan_mobile.Caption:= rsScanPlayer;
@@ -1304,22 +1304,22 @@ begin
 
   MIaudiocd.Caption:= rsAudioCD;
   MIrip.Caption:= rsRipEncode;
-  
+
   MIhelp.Caption:= rsHelp;
   MIabout.Caption:= rsAbout;
   MImanual.Caption:= rsManual;
-  
+
   clear_list.Caption:= rsClear;
   srch_button.Caption:= rsSearch;
   srch_album.Caption:= rsAlbum;
-  srch_artist.Caption:= rsArtist;
+//  srch_artist.Caption:= rsArtist;
   srch_file.Caption:= rsFilename;
   srch_title.Caption:= rsTitle;
   randomcheck.Caption:= rsRandom;
-  
+
   oldSplitterWidth:=Splitter1.Left;
   SplitterResize:=true;
-  
+
   srch_title.checked:=true;
   srch_artist.checked:=true;
   playing:=false;
@@ -1337,8 +1337,8 @@ begin
         writeln('ERROR loading bitmaps, files not found');
   end;
 
-  
-  
+
+
 {$ifdef win32}{workaround Listview autosize bug in win32}
   Main.Playlist.Columns[0].autosize:=false;
   Main.Playlist.Columns[0].width:=315;
@@ -1445,7 +1445,7 @@ begin
    if player.playing then begin
       i:=player.CurrentTrack;
       //MedFileObj:=playlist.Items[player.CurrentTrack].Data;
-      
+
       if player.Playlist.items[i].artist<>'' then current_title_edit.text:=player.Playlist.items[i].artist else current_title_edit.text:=ExtractFileName(player.Playlist.items[i].path);
       current_title_edit1.text:=player.Playlist.items[i].title;
 
@@ -1517,9 +1517,9 @@ begin
                   if MedFileObj.id=PlayerCol.items[i].id then PlayerCol.items[i].action:=AREMOVE;
      update_artist_view;
      update_title_view;
-     
+
      tmps:=ByteToFmtString(FreeSpaceOnDAP + sizediff, 3, 2);
-     
+
      StatusBar1.Panels[1].Text:='Device connected     '+tmps+' Free';
    end;
 end;
@@ -1559,7 +1559,7 @@ begin
 
      tmps:=ByteToFmtString(FreeSpaceOnDAP, 4 , 2);
      str(PlayerCol.ItemCount-1, s);
-     
+
      ShowMessage(s+' Files on mobile player    '+#10+used+' of music'+#10+'Free Disk Space: '+tmps);
    end else ShowMessage(rsNotConnected);
 end;
@@ -2033,7 +2033,7 @@ begin
              dec(i);
            end;
         until i=0;
-             
+
       if err=false then ShowMessage('Error while deleting one or more files.'+#10+#13+' Perhaps no write permission or file doesn''t exist')
     end;
 
@@ -2182,7 +2182,7 @@ begin
 
      writeln(Targetitem.Caption);
      writeln(targetitem.index);
-     
+
      if (Targetitem<>nil) and (Targetitem<>Sourceitem) then begin
         player.move_entry(sourceitem.Index+1, ind);
         writeln('insert');
@@ -2511,7 +2511,7 @@ begin
            end;
       update_artist_view;
       update_title_view;
-      
+
       tmps:=ByteToFmtString(FreeSpaceOnDAP + sizediff, 3, 2);
       StatusBar1.Panels[1].Text:='Device connected     '+tmps+' Free';
    end;
@@ -2587,7 +2587,7 @@ begin
 
     checkmobile.Enabled:=false;
     disconnectDAP;
-    
+
     StatusBar1.Panels[1].Text:='Please Wait...';
     SyncThread.Resume;
 
@@ -2732,7 +2732,7 @@ begin
       if MediaCollection.items[i].action=AUPLOAD then MediaCollection.items[i].action:=ANOTHING;
       if MediaCollection.items[i].action=AREMOVE then MediaCollection.items[i].action:=AONPLAYER;
     end;
-    
+
   for i:= 1 to PlayerCol.ItemCount-1 do begin
       if PlayerCol.items[i].action=AUPLOAD then PlayerCol.items[i].action:=ANOTHING;
       if PlayerCol.items[i].action=AREMOVE then PlayerCol.items[i].action:=AONPLAYER;
@@ -2785,7 +2785,7 @@ begin
    tsnode:=main.TitleTree.Selected;
    if (tsnode<>nil) and (tsnode.ImageIndex<>4) then begin
      MedFileObj:=TMediaFileClass(tsnode.data);
-     
+
      main.player.playlist.add(MedFileObj);
 
      ListItem := Main.Playlist.Items.Add;
@@ -2843,7 +2843,7 @@ var tsnode:TTreeNode;
 begin
     tsnode:=Main.ArtistTree.Selected;
     main.StatusBar1.Panels[0].Text:='Please wait... updating...';
-     
+
     writeln;
     write('## update title view...');
 
@@ -2875,7 +2875,7 @@ begin
                  if MedColObj.items[i].title<>'' then
                         ListItem.SubItems.Add((MedColObj.items[i].Artist))
                      else ListItem.SubItems.Add(extractfilename(MedColObj.items[i].path));
-                     
+
                  ListItem.SubItems.Add ((MedColObj.items[i].title));
                  ListItem.SubItems.Add ((MedColObj.items[i].album));
                  ListItem.SubItems.Add (MedColObj.items[i].track);
@@ -2999,8 +2999,8 @@ if MediaCollection.Count>0 then begin
         until ((lowercase(main.artisttree.items[i].text)=curartist) and (MedFileObj.collection=CurCol))
                or (i>=main.artisttree.items.count-1);
      end;
-     
-     
+
+
      if lowercase(main.artisttree.items[i].text)=curartist then begin
             main.artisttree.selected:=main.artisttree.items[i];
             if i >=10 then begin
@@ -3101,7 +3101,7 @@ end;
 
 
 initialization
-  {$I mp3.lrs}
+  {$I mainform.lrs}
 
 end.
 

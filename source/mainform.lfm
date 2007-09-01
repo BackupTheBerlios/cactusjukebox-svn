@@ -621,7 +621,6 @@ object Main: TMain
       Top = 10
       Width = 572
       Anchors = [akTop, akLeft, akRight, akBottom]
-      BorderSpacing.Around = 20
       Columns = <      
         item
           Alignment = taRightJustify

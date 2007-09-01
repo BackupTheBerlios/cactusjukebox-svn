@@ -27,7 +27,7 @@ var
   BigCoverImgForm: TBigCoverImg;
 
 implementation
-uses mp3;
+uses mainform;
 { TBigCoverImg }
 
 procedure TBigCoverImg.Image1Click(Sender: TObject);

@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="5"/>
+      <ActiveEditorIndexAtStart Value="12"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -40,13 +40,13 @@
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="82">
+    <Units Count="87">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="3" Y="22"/>
-        <TopLine Value="4"/>
+        <CursorPos X="42" Y="112"/>
+        <TopLine Value="93"/>
         <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -54,12 +54,10 @@
       <Unit1>
         <Filename Value="mp3.pas"/>
         <ComponentName Value="Main"/>
-        <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mp3.lrs"/>
         <UnitName Value="mp3"/>
-        <CursorPos X="110" Y="1270"/>
-        <TopLine Value="1254"/>
-        <EditorIndex Value="2"/>
+        <CursorPos X="43" Y="3089"/>
+        <TopLine Value="3077"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="6">
           <Item0 X="22" Y="482" ID="0"/>
@@ -69,7 +67,6 @@
           <Item4 X="10" Y="896" ID="7"/>
           <Item5 X="18" Y="3081" ID="8"/>
         </Bookmarks>
-        <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="mp3file.pas"/>
@@ -87,8 +84,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="editid3.lrs"/>
         <UnitName Value="editid3"/>
-        <CursorPos X="76" Y="584"/>
-        <TopLine Value="553"/>
+        <CursorPos X="14" Y="134"/>
+        <TopLine Value="105"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -141,8 +138,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="45" Y="250"/>
-        <TopLine Value="225"/>
+        <CursorPos X="99" Y="77"/>
+        <TopLine Value="85"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -183,8 +180,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="player.lrs"/>
         <UnitName Value="player"/>
-        <CursorPos X="3" Y="423"/>
-        <TopLine Value="421"/>
+        <CursorPos X="32" Y="26"/>
+        <TopLine Value="12"/>
         <EditorIndex Value="12"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -323,8 +320,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="directories.lrs"/>
         <UnitName Value="directories"/>
-        <CursorPos X="3" Y="65"/>
-        <TopLine Value="62"/>
+        <CursorPos X="14" Y="57"/>
+        <TopLine Value="37"/>
         <EditorIndex Value="8"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -387,8 +384,8 @@
         <Filename Value="skin.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="skin"/>
-        <CursorPos X="19" Y="67"/>
-        <TopLine Value="51"/>
+        <CursorPos X="15" Y="67"/>
+        <TopLine Value="52"/>
         <EditorIndex Value="11"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -455,8 +452,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="cdrip.lrs"/>
         <UnitName Value="cdrip"/>
-        <CursorPos X="115" Y="199"/>
-        <TopLine Value="194"/>
+        <CursorPos X="32" Y="202"/>
+        <TopLine Value="67"/>
         <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -464,8 +461,8 @@
       <Unit51>
         <Filename Value="cddb.pas"/>
         <UnitName Value="cddb"/>
-        <CursorPos X="74" Y="14"/>
-        <TopLine Value="1"/>
+        <CursorPos X="48" Y="16"/>
+        <TopLine Value="43"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
@@ -620,7 +617,7 @@
         <UnitName Value="aws"/>
         <CursorPos X="59" Y="110"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit73>
@@ -685,18 +682,80 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="bigcoverimg.lrs"/>
         <UnitName Value="BigCoverImg"/>
-        <CursorPos X="2" Y="47"/>
+        <CursorPos X="14" Y="30"/>
         <TopLine Value="14"/>
         <EditorIndex Value="9"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit81>
+      <Unit82>
+        <Filename Value="mainunit.pas"/>
+        <ComponentName Value="Main"/>
+        <HasResources Value="True"/>
+        <ResourceFilename Value="mainunit.lrs"/>
+        <UnitName Value="mainunit"/>
+        <CursorPos X="26" Y="3090"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="20"/>
+      </Unit82>
+      <Unit83>
+        <Filename Value="mainunit.lrs"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="10"/>
+      </Unit83>
+      <Unit84>
+        <Filename Value="main.pas"/>
+        <UnitName Value="mainunit"/>
+        <CursorPos X="6" Y="18"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="10"/>
+      </Unit84>
+      <Unit85>
+        <Filename Value="mainform.pas"/>
+        <ComponentName Value="Main"/>
+        <IsPartOfProject Value="True"/>
+        <ResourceFilename Value="mp3.lrs"/>
+        <UnitName Value="mainform"/>
+        <CursorPos X="3" Y="1264"/>
+        <TopLine Value="1366"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit85>
+      <Unit86>
+        <Filename Value="../../lazarus-svn/lcl/lclclasses.pp"/>
+        <UnitName Value="LCLClasses"/>
+        <CursorPos X="3" Y="137"/>
+        <TopLine Value="122"/>
+        <UsageCount Value="10"/>
+      </Unit86>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
+    <JumpHistory Count="6" HistoryIndex="5">
       <Position1>
-        <Filename Value="cdrip.pas"/>
-        <Caret Line="210" Column="48" TopLine="216"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="67" Column="23" TopLine="52"/>
       </Position1>
+      <Position2>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="363" Column="42" TopLine="348"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="1244" Column="19" TopLine="1229"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2152" Column="18" TopLine="2137"/>
+      </Position4>
+      <Position5>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2160" Column="25" TopLine="2141"/>
+      </Position5>
+      <Position6>
+        <Filename Value="player.pas"/>
+        <Caret Line="432" Column="12" TopLine="413"/>
+      </Position6>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -707,7 +766,7 @@
     <SearchPaths>
       <OtherUnitFiles Value="fmodintf/;C:/Documents and Settings/Sebastian Kraft/My Documents/units/lnet-0.4.0/lib/sys/;C:/Documents and Settings/Sebastian Kraft/My Documents/units/synapse/source/lib/;/home/daseeb/devel/units/lnet-0.4.0/lib/;/home/daseeb/devel/units/synapse/source/lib/"/>
       <UnitOutputDirectory Value="../source"/>
-      <LCLWidgetType Value="gtk2"/>
+      <LCLWidgetType Value="gtk"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
