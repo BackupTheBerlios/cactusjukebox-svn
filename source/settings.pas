@@ -147,7 +147,7 @@ var
 const configname='cactus.cfg';
 
 implementation
-uses mp3, translations, functions;
+uses mainform, translations, functions;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

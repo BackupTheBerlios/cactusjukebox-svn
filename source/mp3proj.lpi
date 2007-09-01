@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="12"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -138,8 +138,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="99" Y="77"/>
-        <TopLine Value="85"/>
+        <CursorPos X="14" Y="150"/>
+        <TopLine Value="135"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -662,7 +662,7 @@
         <CursorPos X="3" Y="598"/>
         <TopLine Value="13"/>
         <EditorIndex Value="7"/>
-        <UsageCount Value="93"/>
+        <UsageCount Value="94"/>
         <Bookmarks Count="2">
           <Item0 X="26" Y="229" ID="2"/>
           <Item1 X="15" Y="367" ID="3"/>
@@ -685,7 +685,7 @@
         <CursorPos X="14" Y="30"/>
         <TopLine Value="14"/>
         <EditorIndex Value="9"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="31"/>
         <Loaded Value="True"/>
       </Unit81>
       <Unit82>
@@ -720,7 +720,7 @@
         <CursorPos X="3" Y="1264"/>
         <TopLine Value="1366"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit85>
       <Unit86>
@@ -731,31 +731,11 @@
         <UsageCount Value="10"/>
       </Unit86>
     </Units>
-    <JumpHistory Count="6" HistoryIndex="5">
+    <JumpHistory Count="1" HistoryIndex="0">
       <Position1>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="67" Column="23" TopLine="52"/>
+        <Filename Value="settings.pas"/>
+        <Caret Line="77" Column="99" TopLine="85"/>
       </Position1>
-      <Position2>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="363" Column="42" TopLine="348"/>
-      </Position2>
-      <Position3>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1244" Column="19" TopLine="1229"/>
-      </Position3>
-      <Position4>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2152" Column="18" TopLine="2137"/>
-      </Position4>
-      <Position5>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2160" Column="25" TopLine="2141"/>
-      </Position5>
-      <Position6>
-        <Filename Value="player.pas"/>
-        <Caret Line="432" Column="12" TopLine="413"/>
-      </Position6>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
