@@ -1214,6 +1214,7 @@ begin
 
      CactusConfig.WHeight:=Height;
      CactusConfig.WWidth:=Width;
+     CactusConfig.WSplitterWidth:=Splitter1.Left;
      if (MediaCollection.ItemCount>1) then
           begin
              MediaCollection.SaveToFile(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'last.mlb');
@@ -1317,7 +1318,7 @@ begin
   srch_title.Caption:= rsTitle;
   randomcheck.Caption:= rsRandom;
 
-  oldSplitterWidth:=Splitter1.Left;
+  oldSplitterWidth:=CactusConfig.WSplitterWidth;
   SplitterResize:=true;
 
   srch_title.checked:=true;

@@ -71,7 +71,7 @@ type
     Lame, CDDA2wav: string;
     
     DataPrefix, ConfigPrefix, LibraryPrefix, HomeDir: string;
-    WWidth, WHeight: Integer;
+    WWidth, WHeight, WSplitterWidth: Integer;
 
     constructor create(ConfigFile:string);
     destructor destroy;
@@ -351,6 +351,7 @@ begin
 
     WWidth:=FConfigFile.GetValue('Userinterface/Window/Width', 854);
     WHeight:=FConfigFile.GetValue('Userinterface/Window/Height', 680);
+    WSplitterWidth:=FConfigFile.GetValue('Userinterface/Window/SplitterWidth', 270);
     language:=FConfigFile.GetValue('Userinterface/Language/Code', tmps1);
  except result:=false;
  end;
@@ -382,10 +383,13 @@ begin
     FConfigFile.SetValue('Playlist/Autoplay', AutostartPlay);
     FConfigFile.SetValue('Userinterface/Window/Width', WWidth);
     FConfigFile.SetValue('Userinterface/Window/Height', WHeight);
+    FConfigFile.SetValue('Userinterface/Window/SplitterWidth', WSplitterWidth);
     FConfigFile.Flush;
   except result:=false;
   end;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TConfigObject.Clear;
 begin

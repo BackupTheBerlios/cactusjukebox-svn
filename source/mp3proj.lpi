@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="3"/>
+      <ActiveEditorIndexAtStart Value="2"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -29,14 +29,14 @@
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="JPEGForLazarus"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
@@ -47,7 +47,7 @@
         <UnitName Value="mp3proj"/>
         <CursorPos X="42" Y="112"/>
         <TopLine Value="93"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -138,8 +138,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="14" Y="150"/>
-        <TopLine Value="135"/>
+        <CursorPos X="80" Y="392"/>
+        <TopLine Value="237"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -182,7 +182,7 @@
         <UnitName Value="player"/>
         <CursorPos X="32" Y="26"/>
         <TopLine Value="12"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit14>
@@ -322,7 +322,7 @@
         <UnitName Value="directories"/>
         <CursorPos X="14" Y="57"/>
         <TopLine Value="37"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit33>
@@ -386,7 +386,7 @@
         <UnitName Value="skin"/>
         <CursorPos X="15" Y="67"/>
         <TopLine Value="52"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit42>
@@ -454,7 +454,7 @@
         <UnitName Value="cdrip"/>
         <CursorPos X="32" Y="202"/>
         <TopLine Value="67"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit50>
@@ -463,7 +463,7 @@
         <UnitName Value="cddb"/>
         <CursorPos X="48" Y="16"/>
         <TopLine Value="43"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
       </Unit51>
@@ -580,7 +580,7 @@
         <UnitName Value="functions"/>
         <CursorPos X="115" Y="42"/>
         <TopLine Value="21"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit68>
@@ -617,9 +617,7 @@
         <UnitName Value="aws"/>
         <CursorPos X="59" Y="110"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
         <UsageCount Value="204"/>
-        <Loaded Value="True"/>
       </Unit73>
       <Unit74>
         <Filename Value="../../lazarus-svn/lcl/interfaces/gtk/gtkwsmenus.pp"/>
@@ -661,7 +659,7 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="3" Y="598"/>
         <TopLine Value="13"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="94"/>
         <Bookmarks Count="2">
           <Item0 X="26" Y="229" ID="2"/>
@@ -684,7 +682,7 @@
         <UnitName Value="BigCoverImg"/>
         <CursorPos X="14" Y="30"/>
         <TopLine Value="14"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="31"/>
         <Loaded Value="True"/>
       </Unit81>
@@ -717,9 +715,9 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="63" Y="1397"/>
-        <TopLine Value="1377"/>
-        <EditorIndex Value="3"/>
+        <CursorPos X="49" Y="1217"/>
+        <TopLine Value="1210"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit85>
@@ -731,7 +729,12 @@
         <UsageCount Value="10"/>
       </Unit86>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="1" HistoryIndex="0">
+      <Position1>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="1320" Column="48" TopLine="1305"/>
+      </Position1>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

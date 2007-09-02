@@ -1,3 +1,10 @@
+Changes from 0.3.8.1 to xxx
+	- Internal Mediacollection structure changed
+		- faster querries
+		- faster reload
+		- albums osrted alphabetical
+	- Brazilian translation added
+
 Changes from 0.3.8 to 0.3.8.1
 	- Bugfix: Loading files directly form disk now working again
 	- Hungarian translation added
