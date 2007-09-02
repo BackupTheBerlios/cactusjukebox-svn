@@ -660,7 +660,7 @@
         <CursorPos X="3" Y="598"/>
         <TopLine Value="13"/>
         <EditorIndex Value="6"/>
-        <UsageCount Value="94"/>
+        <UsageCount Value="95"/>
         <Bookmarks Count="2">
           <Item0 X="26" Y="229" ID="2"/>
           <Item1 X="15" Y="367" ID="3"/>
@@ -683,7 +683,7 @@
         <CursorPos X="14" Y="30"/>
         <TopLine Value="14"/>
         <EditorIndex Value="8"/>
-        <UsageCount Value="31"/>
+        <UsageCount Value="32"/>
         <Loaded Value="True"/>
       </Unit81>
       <Unit82>
@@ -715,10 +715,10 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="49" Y="1217"/>
-        <TopLine Value="1210"/>
+        <CursorPos X="56" Y="11"/>
+        <TopLine Value="46"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit85>
       <Unit86>
@@ -729,11 +729,27 @@
         <UsageCount Value="10"/>
       </Unit86>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
+    <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
         <Filename Value="mainform.pas"/>
         <Caret Line="1320" Column="48" TopLine="1305"/>
       </Position1>
+      <Position2>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="1229" Column="35" TopLine="1195"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="1265" Column="3" TopLine="1271"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2102" Column="3" TopLine="2084"/>
+      </Position4>
+      <Position5>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="35" Column="40" TopLine="155"/>
+      </Position5>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

@@ -32,6 +32,7 @@ resourcestring
   rsQuit = 'Quit';
   rsFile = 'File';
   rsOpenFile = 'Open File...';
+  rsOpenDirector = 'Open Directory...';
   rsPlayerOnly = 'Player only';
   rsChooseSkin = 'Choose Skin...';
   rsSettings = 'Settings...';
@@ -1276,6 +1277,7 @@ begin
   QuitItem.Caption:= rsQuit;
   FileItem.Caption:= rsFile;
   openfile.Caption:=  rsOpenFile;
+  opendir.Caption:= rsOpenDirector;
   player_lib.Caption:= rsPlayerOnly;
   skinmenu.Caption:= rsChooseSkin;
   SettingsItem.Caption:= rsSettings;
