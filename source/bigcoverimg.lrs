@@ -1,12 +1,12 @@
 { Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
 
 LazarusResources.Add('TBigCoverImg','FORMDATA',[
-  'TPF0'#12'TBigCoverImg'#11'BigCoverImg'#4'Left'#3#138#1#6'Height'#3#169#0#5'W'
-  +'idth'#3#230#0#18'HorzScrollBar.Page'#3#229#0#18'VertScrollBar.Page'#3#168#0
-  +#11'BorderIcons'#11#0#11'BorderStyle'#7#6'bsNone'#7'Caption'#6#11'BigCoverIm'
-  +'g'#12'ClientHeight'#3#169#0#11'ClientWidth'#3#230#0#9'FormStyle'#7#8'fsSpla'
-  +'sh'#7'OnClose'#7#9'FormClose'#8'Position'#7#16'poMainFormCenter'#13'ShowInT'
-  +'askBar'#7#7'stNever'#7'Visible'#9#0#6'TImage'#6'Image1'#6'Height'#2'i'#5'Wi'
-  +'dth'#3#158#0#7'OnClick'#7#11'Image1Click'#11'Transparent'#8#0#0#6'TImage'#7
-  +'BackImg'#6'Height'#3#144#0#5'Width'#2'p'#7'OnClick'#7#12'BackImgClick'#0#0#0
+  'TPF0'#12'TBigCoverImg'#11'BigCoverImg'#4'Left'#3#149#1#6'Height'#3#169#0#3'T'
+  +'op'#3#222#0#5'Width'#3#230#0#18'HorzScrollBar.Page'#3#229#0#18'VertScrollBa'
+  +'r.Page'#3#168#0#7'Caption'#6#11'BigCoverImg'#12'ClientHeight'#3#169#0#11'Cl'
+  +'ientWidth'#3#230#0#9'FormStyle'#7#11'fsStayOnTop'#7'OnClose'#7#9'FormClose'
+  +#8'Position'#7#16'poMainFormCenter'#13'ShowInTaskBar'#7#7'stNever'#0#6'TImag'
+  +'e'#7'BackImg'#6'Height'#3#168#0#3'Top'#2#1#5'Width'#3#216#0#7'OnClick'#7#12
+  +'BackImgClick'#0#0#6'TImage'#6'Image1'#4'Left'#2' '#6'Height'#2'i'#3'Top'#2
+  +' '#5'Width'#3#158#0#7'OnClick'#7#11'Image1Click'#11'Transparent'#8#0#0#0
 ]);

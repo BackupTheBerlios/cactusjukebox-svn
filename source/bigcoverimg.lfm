@@ -1,28 +1,29 @@
 object BigCoverImg: TBigCoverImg
-  Left = 394
+  Left = 405
   Height = 169
+  Top = 222
   Width = 230
   HorzScrollBar.Page = 229
   VertScrollBar.Page = 168
-  BorderIcons = []
-  BorderStyle = bsNone
   Caption = 'BigCoverImg'
   ClientHeight = 169
   ClientWidth = 230
-  FormStyle = fsSplash
+  FormStyle = fsStayOnTop
   OnClose = FormClose
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  Visible = True
+  object BackImg: TImage
+    Height = 168
+    Top = 1
+    Width = 216
+    OnClick = BackImgClick
+  end
   object Image1: TImage
+    Left = 32
     Height = 105
+    Top = 32
     Width = 158
     OnClick = Image1Click
     Transparent = False
-  end
-  object BackImg: TImage
-    Height = 144
-    Width = 112
-    OnClick = BackImgClick
   end
 end

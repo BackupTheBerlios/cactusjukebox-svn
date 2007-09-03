@@ -994,10 +994,10 @@ end;
 procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-//if player.playing and player.Playlist.Items[player.CurrentTrack].co;
+if player.playing {and player.Playlist.Items[player.CurrentTrack].co} then begin
 
   BigCoverImgForm:=TBigCoverImg.Create(self);
-
+  BigCoverImgForm.ShowModal;
 //  BigCoverImgForm.Image1.Picture:=(CoverImage.Picture);
   BigCoverImgForm.Image1.Picture.Bitmap.Assign(CoverImage.Picture.Bitmap);
   BigCoverImgForm.Image1.AutoSize:=true;
@@ -1016,10 +1016,11 @@ begin
   BigCoverImgForm.BackImg.Canvas.Rectangle(5,5, BigCoverImgForm.BackImg.Width-5, BigCoverImgForm.BackImg.Height-5);
 
 
-  BigCoverImgForm.Image1.BringToFront;
+//  BigCoverImgForm.Image1.BringToFront;
 
   BigCoverImgForm.AutoSize:=true;
   Enabled:=false;
+end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1355,7 +1356,7 @@ begin
   Main.Titletree.Columns[2].width:=170;
   Main.Titletree.Columns[1].width:=140;
   Main.Titletree.Columns[0].width:=16;
-  Main.homedir:='C:\';
+//  Main.homedir:='C:\';
 {$endif win32}
 
 {$ifdef LCLGtk2}
@@ -3033,6 +3034,7 @@ begin
      for i:= 0 to player.Playlist.ItemCount-1 do begin
           MedfileObj:=TMediaFileClass(playlist.Items[i].Data);
           player.Playlist.Items[i].update(MedfileObj);
+
           if MedfileObj.title<>'' then
               playlist.Items[i].caption:=MedfileObj.artist+' - '+MedfileObj.title
             else

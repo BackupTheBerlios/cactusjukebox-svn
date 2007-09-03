@@ -20,8 +20,8 @@ uses
    cthreads,
  {$endif}
   Interfaces,SysUtils,
-  Forms, status, settings, player, fmodplayer, graphics, editid3, directories, skin,
-  cdrip, functions, aws, JPEGForLazarus, mediacol, BigCoverImg, mainform;
+  Forms, status, settings, player, graphics, editid3, directories, skin,
+  cdrip, JPEGForLazarus, mediacol, BigCoverImg, mainform;
 
 var
   s, loadfile: string;

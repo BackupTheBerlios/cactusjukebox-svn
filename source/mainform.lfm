@@ -497,7 +497,7 @@ object Main: TMain
         Top = 75
         Width = 152
         Max = 100
-        ScalePos = trRight
+        ScalePos = trTop
         TickMarks = tmBoth
         TickStyle = tsNone
         OnMouseDown = trackbarMouseDown
@@ -545,8 +545,8 @@ object Main: TMain
         Max = 50
         OnChange = volumebarChange
         Orientation = trVertical
-        ScalePos = trBottom
-        TickMarks = tmBoth
+        ScalePos = trRight
+        TickMarks = tmTopLeft
         TickStyle = tsNone
         ParentCtl3D = False
         TabOrder = 0
@@ -617,7 +617,7 @@ object Main: TMain
     object TitleTree: TListView
       Left = 8
       Height = 233
-      Top = 10
+      Top = 8
       Width = 542
       Anchors = [akTop, akLeft, akRight, akBottom]
       Columns = <      
@@ -674,14 +674,13 @@ object Main: TMain
       Top = 346
       Width = 302
       Anchors = [akLeft, akRight, akBottom]
+      Color = clWhite
       Columns = <      
         item
           AutoSize = True
           Caption = 'Playlist'
           Width = 42
         end>
-      Font.Color = clGreen
-      Font.Height = -14
       HideSelection = False
       LargeImages = ImageList1
       MultiSelect = True

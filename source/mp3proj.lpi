@@ -29,25 +29,25 @@
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="JPEGForLazarus"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="87">
+    <Units Count="90">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="42" Y="112"/>
-        <TopLine Value="93"/>
-        <EditorIndex Value="9"/>
+        <CursorPos X="36" Y="23"/>
+        <TopLine Value="8"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -182,7 +182,7 @@
         <UnitName Value="player"/>
         <CursorPos X="32" Y="26"/>
         <TopLine Value="12"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit14>
@@ -322,7 +322,7 @@
         <UnitName Value="directories"/>
         <CursorPos X="14" Y="57"/>
         <TopLine Value="37"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit33>
@@ -386,7 +386,7 @@
         <UnitName Value="skin"/>
         <CursorPos X="15" Y="67"/>
         <TopLine Value="52"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit42>
@@ -454,7 +454,7 @@
         <UnitName Value="cdrip"/>
         <CursorPos X="32" Y="202"/>
         <TopLine Value="67"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit50>
@@ -463,7 +463,7 @@
         <UnitName Value="cddb"/>
         <CursorPos X="48" Y="16"/>
         <TopLine Value="43"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
       </Unit51>
@@ -580,7 +580,7 @@
         <UnitName Value="functions"/>
         <CursorPos X="115" Y="42"/>
         <TopLine Value="21"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit68>
@@ -659,8 +659,8 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="3" Y="598"/>
         <TopLine Value="13"/>
-        <EditorIndex Value="6"/>
-        <UsageCount Value="95"/>
+        <EditorIndex Value="7"/>
+        <UsageCount Value="103"/>
         <Bookmarks Count="2">
           <Item0 X="26" Y="229" ID="2"/>
           <Item1 X="15" Y="367" ID="3"/>
@@ -681,9 +681,9 @@
         <ResourceFilename Value="bigcoverimg.lrs"/>
         <UnitName Value="BigCoverImg"/>
         <CursorPos X="14" Y="30"/>
-        <TopLine Value="14"/>
-        <EditorIndex Value="8"/>
-        <UsageCount Value="32"/>
+        <TopLine Value="19"/>
+        <EditorIndex Value="9"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
       </Unit81>
       <Unit82>
@@ -715,10 +715,13 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="56" Y="11"/>
-        <TopLine Value="46"/>
+        <CursorPos X="48" Y="1361"/>
+        <TopLine Value="1343"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="30"/>
+        <Bookmarks Count="1">
+          <Item0 X="14" Y="1400" ID="0"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit85>
       <Unit86>
@@ -728,29 +731,31 @@
         <TopLine Value="122"/>
         <UsageCount Value="10"/>
       </Unit86>
+      <Unit87>
+        <Filename Value="../../lazarus-svn/lcl/graphics.pp"/>
+        <UnitName Value="Graphics"/>
+        <CursorPos X="17" Y="36"/>
+        <TopLine Value="20"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit87>
+      <Unit88>
+        <Filename Value="../../../tmp/cactusjukebox/source/fmodintf/fmod.pas"/>
+        <UnitName Value="fmod"/>
+        <CursorPos X="65" Y="81"/>
+        <TopLine Value="55"/>
+        <UsageCount Value="10"/>
+      </Unit88>
+      <Unit89>
+        <Filename Value="../../../tmp/cactusjukebox/source/fmodintf/fmoddyn.pas"/>
+        <UnitName Value="fmoddyn"/>
+        <CursorPos X="109" Y="72"/>
+        <TopLine Value="55"/>
+        <UsageCount Value="10"/>
+      </Unit89>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
-      <Position1>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1320" Column="48" TopLine="1305"/>
-      </Position1>
-      <Position2>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1229" Column="35" TopLine="1195"/>
-      </Position2>
-      <Position3>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1265" Column="3" TopLine="1271"/>
-      </Position3>
-      <Position4>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2102" Column="3" TopLine="2084"/>
-      </Position4>
-      <Position5>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="35" Column="40" TopLine="155"/>
-      </Position5>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
@@ -758,9 +763,9 @@
       <Filename Value="../cactus_jukebox"/>
     </Target>
     <SearchPaths>
+      <Libraries Value="/home/daseeb/devel/fmodapi375win/api/lib/;/home/daseeb/devel/fmodapi375win/api/inc/;/home/daseeb/devel/fmodapi375win/api/"/>
       <OtherUnitFiles Value="fmodintf/;C:/Documents and Settings/Sebastian Kraft/My Documents/units/lnet-0.4.0/lib/sys/;C:/Documents and Settings/Sebastian Kraft/My Documents/units/synapse/source/lib/;/home/daseeb/devel/units/lnet-0.4.0/lib/;/home/daseeb/devel/units/synapse/source/lib/"/>
       <UnitOutputDirectory Value="../source"/>
-      <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
@@ -772,15 +777,17 @@
       <SmartLinkUnit Value="True"/>
       <Generate Value="Faster"/>
       <TargetProcessor Value="2"/>
-      <TargetOS Value="Linux"/>
     </CodeGeneration>
     <Linking>
       <Debugging>
         <StripSymbols Value="True"/>
       </Debugging>
+      <LinkSmart Value="True"/>
       <Options>
-        <PassLinkerOptions Value="True"/>
         <LinkerOptions Value="-lgcc"/>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
       </Options>
     </Linking>
     <Other>
@@ -788,7 +795,7 @@
         <ShowHintsForUnusedUnitsInMainSrc Value="True"/>
       </Verbosity>
       <WriteFPCLogo Value="False"/>
-      <CustomOptions Value="
+      <CustomOptions Value="-Xe
 "/>
       <CompilerPath Value="$(CompPath)"/>
       <CreateMakefileOnBuild Value="True"/>
