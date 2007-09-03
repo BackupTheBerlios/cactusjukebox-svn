@@ -241,12 +241,12 @@ begin
        begin
           repeat begin
                i:=LanguageBox.Items.Add(Copy(srec.Name, 8, length(srec.Name)-10));
-               if CactusConfig.language=LanguageBox.Items[i] then LanguageBox.ItemIndex:=i;
+               if (CactusConfig.language=LanguageBox.Items[i]) or (copy(CactusConfig.language, 0, 2)=LanguageBox.Items[i]) then LanguageBox.ItemIndex:=i;
            end;
           until FindNext(srec)<>0;
      end;
 
-   TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, '');
+   TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, copy(CactusConfig.language, 0, 2));
    autoload1.Caption:=rsAutoloadLast;
    backscan.Caption:=rsScanForNewFi;
    LLanguage.Caption:=rsLanguage;

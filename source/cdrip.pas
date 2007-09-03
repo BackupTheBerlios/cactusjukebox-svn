@@ -196,7 +196,7 @@ var b, z:byte;
     tmps, s, t1, t2: string;
     ti1, ti2, i: integer;
 begin
-     TranslateUnitResourceStrings('cdrip', cactusconfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, '');
+     TranslateUnitResourceStrings('cdrip', cactusconfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, copy(CactusConfig.language, 0, 2));
 
      encodecheck.Caption:= rsEncodeToMp3;
      LArtist.Caption:= rsArtist;

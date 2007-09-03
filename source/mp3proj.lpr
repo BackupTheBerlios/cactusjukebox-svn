@@ -36,7 +36,7 @@ begin
   writeln();
 
   writeln('Cactus Jukebox v'+CACTUS_VERSION);
-  writeln('written by Sebastian Kraft, (c) 2006');
+  writeln('written by Sebastian Kraft, (c) 2004-2007');
   writeln();
   for i:= 1 to paramcount do if (paramstr(i)='-h') or (paramstr(i)='--help') or invalid_param then begin
 

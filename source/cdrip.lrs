@@ -1,5 +1,3 @@
-{ Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
-
 LazarusResources.Add('Tcdrip','FORMDATA',[
   'TPF0'#6'Tcdrip'#5'cdrip'#4'Left'#3#141#0#6'Height'#3'#'#2#3'Top'#3#197#0#5'W'
   +'idth'#3#28#2#18'HorzScrollBar.Page'#3#27#2#18'VertScrollBar.Page'#3'"'#2#13
