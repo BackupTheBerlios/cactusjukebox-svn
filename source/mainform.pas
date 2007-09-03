@@ -1269,8 +1269,8 @@ begin
 
   Width:=CactusConfig.WWidth;
   Height:=CactusConfig.WHeight;
-
-  TranslateUnitResourceStrings('mainform', CactusConfig.DataPrefix+'languages'+DirectorySeparator+'cactus.%s.po', CactusConfig.language, '');
+  
+  TranslateUnitResourceStrings('mainform', CactusConfig.DataPrefix+'languages'+DirectorySeparator+'cactus.%s.po', CactusConfig.language, copy(CactusConfig.language, 0, 2));
   if SystemCharSetIsUTF8 then writeln('##System charset is UTF8');
 
 
@@ -2366,7 +2366,8 @@ begin
     43: for i:=0 to ArtistTree.Items.Count-1 do if ArtistTree.Items[i].Level=0 then ArtistTree.Items[i].Expanded:=true;
     27: ArtistSrchField.Hide;
     13: ArtistSrchField.Hide;
-   else begin
+
+    65..255:begin
              if not ArtistSrchField.visible then begin
                 ArtistSrchField.Top:=main.Height-120;
                 ArtistSrchField.Left:=Panel4.Width-155;
