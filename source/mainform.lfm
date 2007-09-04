@@ -5,11 +5,11 @@ object Main: TMain
   Width = 870
   HorzScrollBar.Page = 869
   HorzScrollBar.Range = 369
-  VertScrollBar.Page = 645
+  VertScrollBar.Page = 638
   ActiveControl = ArtistTree
   BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'titel'
-  ClientHeight = 646
+  ClientHeight = 639
   ClientWidth = 870
   Icon.Data = {
     610A00002F2A2058504D202A2F0A7374617469632063686172202A6772617068
@@ -106,7 +106,7 @@ object Main: TMain
   ShowInTaskBar = stAlways
   object StatusBar1: TStatusBar
     Height = 23
-    Top = 623
+    Top = 616
     Width = 870
     Panels = <    
       item
@@ -120,7 +120,7 @@ object Main: TMain
   end
   object Splitter1: TSplitter
     Left = 304
-    Height = 623
+    Height = 616
     Width = 8
     Align = alRight
     AutoSnap = False
@@ -131,11 +131,11 @@ object Main: TMain
   end
   object Panel1: TPanel
     Left = 312
-    Height = 623
+    Height = 616
     Width = 558
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 623
+    ClientHeight = 616
     ClientWidth = 558
     ParentColor = False
     TabOrder = 0
@@ -143,7 +143,7 @@ object Main: TMain
     object SearchPanel: TPanel
       Left = 12
       Height = 81
-      Top = 258
+      Top = 251
       Width = 424
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -160,7 +160,7 @@ object Main: TMain
       OnClick = SearchPanelClick
       object searchstr: TEdit
         Left = 16
-        Height = 27
+        Height = 25
         Top = 13
         Width = 272
         AutoSize = True
@@ -170,17 +170,17 @@ object Main: TMain
       end
       object srch_album: TCheckBox
         Left = 144
-        Height = 13
+        Height = 23
         Top = 54
-        Width = 49
+        Width = 61
         Caption = 'Album'
         TabOrder = 5
       end
       object srch_title: TCheckBox
         Left = 84
-        Height = 13
+        Height = 23
         Top = 54
-        Width = 40
+        Width = 48
         Caption = 'Title'
         Checked = True
         ParentShowHint = False
@@ -189,9 +189,9 @@ object Main: TMain
       end
       object srch_artist: TCheckBox
         Left = 13
-        Height = 13
+        Height = 23
         Top = 54
-        Width = 43
+        Width = 55
         Caption = 'Artist'
         Checked = True
         ParentShowHint = False
@@ -213,9 +213,9 @@ object Main: TMain
       end
       object srch_file: TCheckBox
         Left = 220
-        Height = 13
+        Height = 23
         Top = 54
-        Width = 62
+        Width = 77
         Caption = 'Filename'
         ParentShowHint = False
         TabOrder = 6
@@ -226,7 +226,6 @@ object Main: TMain
         Top = 48
         Width = 90
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemHeight = 13
         ItemIndex = 0
         Items.Strings = (
           'all types'
@@ -244,7 +243,7 @@ object Main: TMain
     object PlayerControlsPanel: TPanel
       Left = 12
       Height = 263
-      Top = 352
+      Top = 345
       Width = 224
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -389,7 +388,6 @@ object Main: TMain
         Height = 85
         Top = 165
         Width = 90
-        OnClick = CoverImageClick
         OnMouseUp = CoverImageMouseUp
         Stretch = True
       end
@@ -555,20 +553,20 @@ object Main: TMain
       end
       object randomcheck: TCheckBox
         Left = 135
-        Height = 13
+        Height = 23
         Top = 230
-        Width = 60
+        Width = 72
         Caption = 'Random'
         TabOrder = 5
       end
     end
     object clear_list: TBitBtn
       AnchorSideBottom.Side = asrCenter
-      Left = 466
-      Height = 32
+      Left = 474
+      Height = 30
       Hint = 'Clear Playlist'
-      Top = 308
-      Width = 75
+      Top = 303
+      Width = 67
       Anchors = [akRight, akBottom]
       AutoSize = True
       Caption = 'Clear'
@@ -618,7 +616,7 @@ object Main: TMain
     end
     object TitleTree: TListView
       Left = 8
-      Height = 240
+      Height = 233
       Top = 8
       Width = 542
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -673,7 +671,7 @@ object Main: TMain
     object Playlist: TListView
       Left = 248
       Height = 265
-      Top = 353
+      Top = 346
       Width = 302
       Anchors = [akLeft, akRight, akBottom]
       Color = clWhite
@@ -702,17 +700,17 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
-    Height = 623
+    Height = 616
     Width = 304
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 623
+    ClientHeight = 616
     ClientWidth = 304
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 10
-      Height = 608
+      Height = 601
       Top = 10
       Width = 294
       Align = alClient
@@ -757,7 +755,7 @@ object Main: TMain
         Left = 80
         Height = 14
         Top = 18
-        Width = 34
+        Width = 42
         Caption = 'Search'
         ParentColor = False
       end

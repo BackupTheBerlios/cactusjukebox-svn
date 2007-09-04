@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="9"/>
+      <ActiveEditorIndexAtStart Value="2"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -29,14 +29,14 @@
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="JPEGForLazarus"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
@@ -138,7 +138,7 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="123" Y="244"/>
+        <CursorPos X="39" Y="238"/>
         <TopLine Value="214"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="200"/>
@@ -660,7 +660,7 @@
         <CursorPos X="3" Y="598"/>
         <TopLine Value="13"/>
         <EditorIndex Value="6"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="107"/>
         <Bookmarks Count="2">
           <Item0 X="26" Y="229" ID="2"/>
           <Item1 X="15" Y="367" ID="3"/>
@@ -680,10 +680,10 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="bigcoverimg.lrs"/>
         <UnitName Value="BigCoverImg"/>
-        <CursorPos X="14" Y="30"/>
+        <CursorPos X="64" Y="43"/>
         <TopLine Value="19"/>
         <EditorIndex Value="8"/>
-        <UsageCount Value="43"/>
+        <UsageCount Value="44"/>
         <Loaded Value="True"/>
       </Unit81>
       <Unit82>
@@ -715,12 +715,12 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="138" Y="1273"/>
-        <TopLine Value="1258"/>
+        <CursorPos X="66" Y="1017"/>
+        <TopLine Value="990"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="34"/>
         <Bookmarks Count="1">
-          <Item0 X="14" Y="1400" ID="0"/>
+          <Item0 X="14" Y="1399" ID="0"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit85>
@@ -753,16 +753,7 @@
         <UsageCount Value="10"/>
       </Unit89>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
-      <Position1>
-        <Filename Value="settings.pas"/>
-        <Caret Line="344" Column="58" TopLine="335"/>
-      </Position1>
-      <Position2>
-        <Filename Value="cdrip.pas"/>
-        <Caret Line="202" Column="32" TopLine="67"/>
-      </Position2>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
@@ -773,7 +764,6 @@
       <Libraries Value="/home/daseeb/devel/fmodapi375win/api/lib/;/home/daseeb/devel/fmodapi375win/api/inc/;/home/daseeb/devel/fmodapi375win/api/"/>
       <OtherUnitFiles Value="fmodintf/;/home/daseeb/devel/units/lnet-0.4.0/lib/;C:/Dokumente und Einstellungen/daseeb/Eigene Dateien/lnet/lib/;C:/Dokumente und Einstellungen/daseeb/Eigene Dateien/lnet/lib/sys/;C:/Dokumente und Einstellungen/daseeb/Eigene Dateien/synapse/source/lib/;/home/daseeb/devel/units/synapse/source/lib/"/>
       <UnitOutputDirectory Value="../source"/>
-      <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
@@ -792,7 +782,6 @@
       </Debugging>
       <LinkSmart Value="True"/>
       <Options>
-        <PassLinkerOptions Value="True"/>
         <LinkerOptions Value="-lgcc"/>
       </Options>
     </Linking>

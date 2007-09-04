@@ -1,29 +1,36 @@
 object BigCoverImg: TBigCoverImg
-  Left = 405
-  Height = 169
-  Top = 222
-  Width = 230
-  HorzScrollBar.Page = 229
-  VertScrollBar.Page = 168
+  Left = 307
+  Height = 239
+  Top = 284
+  Width = 267
+  HorzScrollBar.Page = 266
+  VertScrollBar.Page = 238
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
   Caption = 'BigCoverImg'
-  ClientHeight = 169
-  ClientWidth = 230
+  ClientHeight = 239
+  ClientWidth = 267
+  Color = clWhite
   FormStyle = fsStayOnTop
   OnClose = FormClose
-  Position = poMainFormCenter
+  Position = poDefault
   ShowInTaskBar = stNever
   object BackImg: TImage
-    Height = 168
-    Top = 1
-    Width = 216
+    Height = 239
+    Width = 267
+    Anchors = [akTop, akLeft, akRight, akBottom]
     OnClick = BackImgClick
+    Transparent = False
   end
   object Image1: TImage
-    Left = 32
-    Height = 105
-    Top = 32
-    Width = 158
+    Left = 16
+    Height = 210
+    Top = 16
+    Width = 235
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    Center = True
     OnClick = Image1Click
+    Proportional = True
     Transparent = False
   end
 end

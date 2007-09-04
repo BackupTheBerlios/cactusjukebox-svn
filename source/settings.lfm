@@ -7,7 +7,7 @@ object Settings: TSettings
   VertScrollBar.Page = 505
   VertScrollBar.Range = 481
   ActiveControl = savebut
-  BorderIcons = [biSystemMenu]
+  BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'Settings...'
   ClientHeight = 506
