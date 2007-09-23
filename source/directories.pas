@@ -141,7 +141,7 @@ begin
     rescandir:=dirlistview.Items[n];
     dirlistview.show;
     if rescandir[length(rescandir)]=DirectorySeparator then delete(rescandir,length(rescandir), 1);
-    i:=1;
+    i:=0;
     repeat begin
        if pos(rescandir, ExtractFileDir(MediaCollection.items[i].path))=1 then begin
              MediaCollection.remove(i);

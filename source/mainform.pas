@@ -84,6 +84,7 @@ type
     artistsearch: TEdit;
     filetypebox: TComboBox;
     CoverImage: TImage;
+    MenuItem7: TMenuItem;
     opendir: TMenuItem;
     Playlist: TListView;
     MenuItem6: TMenuItem;
@@ -206,6 +207,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure FormResize(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
+    procedure MenuItem7Click(Sender: TObject);
     procedure NextButtonImgClick(Sender: TObject);
     procedure NextButtonImgMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -1067,6 +1069,11 @@ if MessageDlg('The selected file(s) will permanently be'+#10+#13+'removed from h
  end;
 end;
 
+procedure TMain.MenuItem7Click(Sender: TObject);
+begin
+
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.NextButtonImgClick(Sender: TObject);
@@ -1629,7 +1636,7 @@ begin
      player.Playlist.LoadFromFile(Opendialog1.Filename);
      for id:= 0 to player.Playlist.Count-1 do begin
             ListItem := Playlist.Items.Add;
-            listitem.Data:=TMediaFileClass.create(player.Playlist.Items[id].path);
+            listitem.Data:=TMediaFileClass.create(player.Playlist.Items[id].path, nil);
             ListItem.Caption:=player.Playlist.items[id].Artist+' - '+player.Playlist.Items[id].Title;
          end;
 
@@ -2087,6 +2094,7 @@ begin
      for i:= 1 to MediaCollection.ItemCount-1 do z:=z+MediaCollection.items[i].size;
 
      used:=ByteToFmtString(z, 3, 2);
+    s:= IntToStr(MediaCollection.ItemCount);
      ShowMessage(s+' Files in library '+#10+' '+used+' of music files');
 end;
 
@@ -2373,7 +2381,9 @@ begin
                 ArtistSrchField.Show;
                 artistsearch.Text:=c;
                 artistsearch.SetFocus;
-                artistsearch.SelLength:=0;
+                artistsearch.SelStart:=1;
+//                artistsearch.SelLength:=0;
+
               end;
              i:=0;
              repeat inc(i) until ((pos(lowercase(artistsearch.Text), lowercase(ArtistTree.Items[i].Text))=1) and (ArtistTree.Items[i].Level=1)) or (i>=ArtistTree.Items.Count-1);

@@ -21,7 +21,7 @@ uses
  {$endif}
   Interfaces,SysUtils,
   Forms, status, settings, player, graphics, editid3, directories, skin,
-  cdrip, JPEGForLazarus, mediacol, BigCoverImg, mainform;
+  cdrip, JPEGForLazarus, mediacol, BigCoverImg, mainform, plugin;
 
 var
   s, loadfile: string;
@@ -32,7 +32,7 @@ var
   {$i cactus_const.inc}
 
 begin
-  Application.Title:='cactus';
+  Application.Title:='Cactus Jukebox v'+CACTUS_VERSION;
   writeln();
 
   writeln('Cactus Jukebox v'+CACTUS_VERSION);
@@ -65,10 +65,19 @@ begin
    SetCurrentDir(ExtractFilePath(ParamStr(0)));
    CactusConfig:=TConfigObject.create(CONFIGNAME);
    CactusConfig.HomeDir:=IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'));
-   CactusConfig.DataPrefix:=ExtractFilePath(ParamStr(0));
-   CactusConfig.ConfigPrefix:=ExtractFilePath(ParamStr(0));
+   CactusConfig.DataPrefix:=IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
+   CactusConfig.ConfigPrefix:=IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
    if DirectoryExists('lib')=false then  mkdir('lib');
 {$endif}
+
+// Search for Plugins, create Pluginlist
+  CactusPlugins:=TPluginListClass.Create;
+  CactusPlugins.PluginFolder:=CactusConfig.DataPrefix+'plugins'+DirectorySeparator;
+ // CactusPlugins.autoload:=true;
+ // CactusPlugins.ScanPluginFolder;
+
+
+
   skip_config:=false;
   for i:= 1 to paramcount do if paramstr(i)='-c' then begin
         skip_config:=true

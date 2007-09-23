@@ -620,6 +620,7 @@ object Main: TMain
       Top = 8
       Width = 542
       Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderWidth = 1
       Columns = <      
         item
           Alignment = taRightJustify
@@ -671,9 +672,10 @@ object Main: TMain
     object Playlist: TListView
       Left = 248
       Height = 265
-      Top = 346
+      Top = 343
       Width = 302
       Anchors = [akLeft, akRight, akBottom]
+      BorderWidth = 1
       Color = clWhite
       Columns = <      
         item
@@ -720,6 +722,7 @@ object Main: TMain
       BorderSpacing.InnerBorder = 20
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       BorderSpacing.CellAlignVertical = ccaLeftTop
+      BackgroundColor = clWindow
       BorderStyle = bsNone
       BorderWidth = 1
       Color = clBtnFace
@@ -839,6 +842,8 @@ object Main: TMain
     top = 400
     object MenuItem10: TMenuItem
       Caption = 'File info/edit'
+      ImageIndex = 8
+      SubMenuImages = ImageList1
       OnClick = MenuItem10Click
     end
     object MenuItem3: TMenuItem
@@ -1259,6 +1264,12 @@ object Main: TMain
     Images = ImageList1
     OnPopup = titlelistmenuPopup
     top = 432
+    object MenuItem7: TMenuItem
+      Caption = 'Listen track'
+      ImageIndex = 0
+      SubMenuImages = ImageList1
+      OnClick = MenuItem7Click
+    end
     object Menuitem8: TMenuItem
       Caption = 'Track to playlist'
       OnClick = TitleTreeDblClick
@@ -1269,6 +1280,8 @@ object Main: TMain
     end
     object TEditID3item: TMenuItem
       Caption = 'File info/edit'
+      ImageIndex = 8
+      SubMenuImages = ImageList1
       OnClick = EditID3itemClick
     end
     object MenuItem11: TMenuItem
@@ -1323,6 +1336,8 @@ object Main: TMain
     end
     object MenuItem33: TMenuItem
       Caption = 'File info/edit'
+      ImageIndex = 8
+      SubMenuImages = ImageList1
       OnClick = MenuItem33Click
     end
     object space1: TMenuItem
@@ -1331,6 +1346,7 @@ object Main: TMain
     object MenuItem30: TMenuItem
       Caption = 'Upload to player'
       ImageIndex = 3
+      SubMenuImages = ImageList1
       OnClick = MenuItem30Click
     end
     object rm_artist_playeritem: TMenuItem

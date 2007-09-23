@@ -112,7 +112,7 @@ try
         artistok:=true;  //artist always ok, only check for album name
         writeln(FArtist);
        end else writeln('ERROR parsing xml file');
-     writeln(2);
+     writeln('2');
      node:=XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('ItemAttributes').FindNode('Title');
      if assigned(node) then begin
         //if node.FirstChild.NodeValue=FAlbum then albumok:=true else writeln('wrong album');

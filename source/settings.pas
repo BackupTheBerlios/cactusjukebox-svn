@@ -23,7 +23,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, ComCtrls, xmlcfg, gettext;
+  ExtCtrls, Buttons, ComCtrls, xmlcfg, gettext, CheckLst;
   
 resourcestring
   rsAutoloadLast = 'Autoload last library at startup';
@@ -91,23 +91,30 @@ type
     autoload1: TCheckBox;
     Button1: TButton;
     backscan: TCheckBox;
-    AutostartBox: TCheckBox;
+    Button2: TButton;
+    CheckBox1: TCheckBox;
+    CheckBox2: TCheckBox;
+    PluginList: TCheckListBox;
     ClearCover: TButton;
     AudioOut: TComboBox;
     CoverDownload: TCheckBox;
+    GroupBox1: TGroupBox;
     guesstag1: TRadioButton;
     GuessTagBox: TGroupBox;
     ID3typebox: TGroupBox;
     kdeservicebox: TCheckBox;
+    Label1: TLabel;
     LanguageBox: TComboBox;
     Edit1: TEdit;
     Edit2: TEdit;
     LAudioOut: TLabel;
+    PluginInfo: TMemo;
     PathBox: TGroupBox;
     LLanguage: TLabel;
     Lcdda2wav: TLabel;
     Llame: TLabel;
     Label5: TLabel;
+    RadioGroup1: TRadioGroup;
     TabSheet3: TTabSheet;
     TabSheet4: TTabSheet;
     subfolders: TCheckBox;
@@ -118,6 +125,7 @@ type
     cancelbut: TButton;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
+    TabSheet5: TTabSheet;
     unknown1: TRadioButton;
     v1_prio: TRadioButton;
     v1_prio1: TRadioButton;
@@ -128,6 +136,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure LanguageBoxChange(Sender: TObject);
+    procedure PluginListMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure cancelbutClick(Sender: TObject);
     procedure kdeserviceboxChange(Sender: TObject);
     procedure savebutClick(Sender: TObject);
@@ -147,7 +157,7 @@ var
 const configname='cactus.cfg';
 
 implementation
-uses mainform, translations, functions;
+uses mainform, translations, functions, plugin;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -182,7 +192,7 @@ begin
      if v2_prio.Checked then CactusConfig.id3v2_prio:=true else CactusConfig.id3v2_prio:=false;
      if subfolders.checked then CactusConfig.mobile_subfolders:=true else CactusConfig.mobile_subfolders:=false;
      if CoverDownload.Checked then CactusConfig.CoverDownload:=true else CactusConfig.CoverDownload:=false;
-     if AutostartBox.Checked then CactusConfig.AutostartPlay:=true else CactusConfig.AutostartPlay:=false;
+//     if AutostartBox.Checked then CactusConfig.AutostartPlay:=true else CactusConfig.AutostartPlay:=false;
 //     MediaCollection.guess_tag:=CactusConfig.GuessTag;
      main.player.oss:=not CactusConfig.OutputAlsa;
 
@@ -271,7 +281,7 @@ begin
    CoverDownload.Caption:=rsDownloadAlbu;
    ClearCover.Caption:=rsClearCache;
    LLanguage.Caption:=rsLanguage;
-   AutostartBox.Caption:=rsAutomaticlyS;
+//   AutostartBox.Caption:=rsAutomaticlyS;
 
  {$ifdef linux}
    kdeservicebox.Checked:=CactusConfig.KDEServiceMenu;
@@ -290,7 +300,10 @@ begin
    if CactusConfig.background_scan then backscan.checked:=true else backscan.checked:=false;
    if CactusConfig.mobile_subfolders then subfolders.checked:=true else subfolders.checked:=false;
    if CactusConfig.id3v2_prio then v2_prio.Checked:=true else v1_prio.checked:=true;
-   AutostartBox.Checked:=CactusConfig.AutostartPlay;
+   //AutostartBox.Checked:=CactusConfig.AutostartPlay;
+
+   for i:=0 to CactusPlugins.Count-1 do PluginList.Items.Add(CactusPlugins.Items[i].Name);
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -302,6 +315,18 @@ end;
 procedure TSettings.LanguageBoxChange(Sender: TObject);
 begin
   ShowMessage('To show user interface with new selected language'+LineEnding+' you need to restart cactus Jukebox');
+end;
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TSettings.PluginListMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var index: integer;
+begin
+  index:=PluginList.GetIndexAtY(Y);
+  PluginInfo.Clear;
+  if index >= 0 then PluginInfo.Lines.Add(CactusPlugins.Items[index].Comment);
 end;
 
 
@@ -384,6 +409,7 @@ begin
     FConfigFile.SetValue('Userinterface/Window/Width', WWidth);
     FConfigFile.SetValue('Userinterface/Window/Height', WHeight);
     FConfigFile.SetValue('Userinterface/Window/SplitterWidth', WSplitterWidth);
+
     FConfigFile.Flush;
   except result:=false;
   end;
@@ -393,8 +419,8 @@ end;
 
 procedure TConfigObject.Clear;
 begin
-  DeleteFile(IncludeTrailingPathDelimiter(ConfigPrefix)+CONFIGNAME);
   FConfigFile.Free;
+  DeleteFile(IncludeTrailingPathDelimiter(ConfigPrefix)+CONFIGNAME);
   FConfigFile:=TXMLConfig.Create(nil);
   FConfigFile.Filename:=FConfigPath;
   ReadConfig;

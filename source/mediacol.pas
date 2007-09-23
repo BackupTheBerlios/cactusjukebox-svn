@@ -25,10 +25,15 @@ type
      procedure read_tag_ogg;
      procedure read_tag_wave;
      procedure read_tag_mp3;
+     procedure SetArtist(aValue: string);
+     procedure SetAlbum(aValue: string);
+     procedure SetTitle(aValue: string);
+     FTitle, FAlbum, FArtist: string;
+
 
    public
-     constructor create(filepath:string);
-     constructor create;
+     constructor create(filepath:string; ParentCollection: TMediaCollectionClass);
+     constructor create(ParentCollection: TMediaCollectionClass);
      destructor destroy;
      procedure Write_Tag;
      procedure Read_Tag;
@@ -36,7 +41,10 @@ type
      Path: String;
      CoverPath: ansistring;
      Collection: TMediaCollectionClass;
-     Artist, Album, Title, Comment: ansistring;
+     property Artist: string read FArtist write SetArtist;
+     property Album: string read FAlbum write SetAlbum;
+     property Title: string read FTitle write SetTitle;
+     Comment: ansistring;
      Year, Track, Filetype:string[4];
      Size: int64;
      ID, Bitrate, Samplerate, Playlength, Action: longint;
@@ -71,6 +79,7 @@ type
      function add(MedFileObj: TMediaFileClass): integer;
      procedure add_directory(dir: string);
      procedure remove(ind: integer);
+     procedure move(dest, target: integer);
      function ItemCount: integer;
      procedure enumerate;
      procedure enumerate(StartFrom: integer);
@@ -181,6 +190,7 @@ constructor TMediaCollectionClass.create;
 begin
   Inherited create;
   FSorted:=true;
+  
   DirList:=TStringList.Create;
   PathFmt:=FDirect;
 end;
@@ -218,8 +228,8 @@ begin
              NumEntries:=StrToInt(tmps);
              writeln(NumEntries);
              readln(lfile, tmps);
-             i:= pos(';', tmps);
              if tmps[length(tmps)]=';' then System.Delete(tmps, length(tmps), 1);
+             i:= pos(';', tmps);
              while i<>0 do begin
                   DirList.Add(IncludeTrailingPathDelimiter(copy(tmps, 1, i-1)));
                   system.delete(tmps, 1, i);
@@ -230,7 +240,7 @@ begin
              readln(lfile);
              fsorted:=false;
              for i:= 0 to  NumEntries-1 do begin
-                 MedFileObj:=TMediaFileClass.create;
+                 MedFileObj:=TMediaFileClass.create(self);
                  MedFileObj.action:=ANOTHING;
                  readln(lfile, MedFileObj.path);
                  if PathFmt = FRelative then MedFileObj.Path:=RPath+MedFileObj.Path;
@@ -321,6 +331,8 @@ end;
 procedure TMediaCollectionClass.clear;
 begin
    while count>0 do remove(0);
+  // remove(0);
+   DirList.Clear;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -328,7 +340,7 @@ end;
 procedure TMediaCollectionClass.insert(path: string; atInd: integer);
 var i: integer;
 begin
- inherited Insert(atInd, TMediaFileClass.create(path));
+ inherited Insert(atInd, TMediaFileClass.create(path, self));
  items[atInd].index:=atInd;
  items[atInd].Collection:=self;
 end;
@@ -338,10 +350,13 @@ end;
 function TMediaCollectionClass.add(path: string):integer;
 var i,z: integer;
     MedFileObj: TMediaFileClass;
+    SortedState: boolean;
 begin
  i:=0;
- MedFileObj:=TMediaFileClass.create(path);
- if (sorted) then begin
+ SortedState:=FSorted;
+ FSorted:=false;
+ MedFileObj:=TMediaFileClass.create(path, self);
+ if (SortedState) then begin
      if MedFileObj.Artist<>'' then begin
        while (i<ItemCount) and (CompareText(items[i].Artist, MedFileObj.Artist)<0)
              do inc(i);
@@ -358,15 +373,19 @@ begin
   end;
   items[i].Collection:=self;
   result:=i;
+  FSorted:=SortedState;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TMediaCollectionClass.add(MedFileObj: TMediaFileClass): integer;
 var i: integer;
+    SortedState: boolean;
 begin
+ SortedState:=FSorted;
+ FSorted:=false;
  i:=0;
- if sorted then begin
+ if SortedState then begin
      if MedFileObj.Artist<>'' then begin
        while (i<ItemCount) and (CompareText(items[i].Artist, MedFileObj.Artist)<0)
              do inc(i);
@@ -383,6 +402,7 @@ begin
   end;
   items[i].Collection:=self;
   result:=i;
+  FSorted:=SortedState;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -404,8 +424,21 @@ begin
      if (FSrchPos<=ind) and (FSrchAscending=False) then dec(FSrchPos);
      if (FSrchPos>ind) and (FSrchAscending) then dec(FSrchPos);
      if AutoEnum then enumerate(ind) else FEnumerated:=false;
-
   end;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMediaCollectionClass.move(dest, target: integer);
+begin
+//TODO: Test move operation for all FsrchPos cases
+  inherited move(dest, target);
+//  if (FSrchPos>=dest) and (FSrchPos>target) then inc(FSrchPos);
+  if (FSrchPos>=dest) and (FSrchPos<target) then dec(FSrchPos);
+  
+  
+//  if (FSrchPos>ind) and (FSrchAscending) then dec(FSrchPos);
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -526,11 +559,12 @@ begin
     end;
    tmplist:=TStringList.Create;
    tmplist.Sorted:=true;
+   tmplist.CaseSensitive:=false;
    tmplist.Duplicates:=dupIgnore;
    if (i>=0) and (i<Count) then begin
    
        while (i<Count) and (lowercase(Items[i].Artist)=artist) do begin
-             if Items[i].Album<>'' then tmplist.AddObject(lowercase(Items[i].Album), Items[i])
+             if Items[i].Album<>'' then tmplist.AddObject(items[i].Album, Items[i])
                     else tmplist.AddObject('Unknown', Items[i]);
              inc(i);
            end;
@@ -672,7 +706,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMediaFileClass.read_tag_mp3;
-var b, xx:byte;
+var b:byte;
     i, z, tagpos:integer;
     buf: array[1..1024] of byte;
     artistv2, albumv2, titlev2, commentv2, yearv2, trackv2: string;
@@ -812,9 +846,98 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-constructor TMediaFileClass.create(filepath: string);
+procedure TMediaFileClass.SetArtist(aValue: string);
+var i, start: integer;
+begin
+  i:=index;
+  start:=index;
+  FArtist:=aValue;
+  if Collection.sorted then begin
+         if (i<Collection.Count-1) and (CompareText(FArtist, Collection.Items[i+1].Artist)>0) then
+             begin
+               inc(i);
+               while (i<=Collection.Count-1) and (compareText(FArtist, Collection.Items[i].Artist)>0) do
+                 begin
+                   inc(i);
+                 end;
+               while (i<=Collection.Count-1) and (compareText(FTitle, Collection.Items[i].Title)>0)
+                       and (CompareText(FArtist, Collection.Items[i].Artist)=0) do
+                 begin
+                   inc(i);
+                 end;
+               Collection.Move(index, i-1);
+               if Collection.AutoEnum then Collection.enumerate(start);
+             end;
+         if (i>0) and (CompareText(FArtist, Collection.Items[i-1].Artist)<0) then
+             begin
+               dec(i);
+               while (i>=0) and (compareText(FArtist, Collection.Items[i].Artist)<0) do
+                 begin
+                   dec(i);
+                 end;
+
+               while ((i>=0) and (compareText(FTitle, Collection.Items[i].Title)<0))
+                      and (CompareText(FArtist, Collection.Items[i].Artist)=0) do
+                 begin
+                   dec(i);
+                 end;
+               Collection.Move(index, i+1);
+               if Collection.AutoEnum then Collection.enumerate;
+             end;
+       end;
+
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMediaFileClass.SetAlbum(aValue: string);
+begin
+   FAlbum:=aValue;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMediaFileClass.SetTitle(aValue: string);
+var i, start: integer;
+begin
+  FTitle:=aValue;
+  i:=index;
+  start:=index;
+  if Collection.sorted then begin
+      writeln(i);
+      if (i<Collection.Count-1) and (CompareText(FTitle, Collection.Items[i+1].Title)>0)
+            and (CompareText(FArtist, Collection.Items[i+1].Artist)=0) then begin
+         inc(i);
+         while ((i<=Collection.Count-1) and (compareText(FTitle, Collection.Items[i].Title)>0))
+               and (CompareText(FArtist, Collection.Items[i].Artist)=0) do
+             begin
+                inc(i);
+             end;
+         Collection.Move(index, i-1);
+         if Collection.AutoEnum then Collection.enumerate(start);
+      end;
+
+      if (i>0) and (CompareText(FTitle, Collection.Items[i-1].Title)<0)
+            and (CompareText(FArtist, Collection.Items[i-1].Artist)=0) then begin
+         dec(i);
+         while ((i>=0) and (compareText(FTitle, Collection.Items[i].Title)<0))
+                and (compareText(FArtist, Collection.Items[i].Artist)=0) do
+             begin
+                dec(i);
+             end;
+         Collection.Move(index, i+1);
+         if Collection.AutoEnum then Collection.enumerate;
+      end;
+  end;
+
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+constructor TMediaFileClass.create(filepath: string; ParentCollection: TMediaCollectionClass);
 var tmpfile: file of byte;
 begin
+   Collection:=ParentCollection;
    path:=filepath;
    action:= ANOTHING;
 
@@ -834,7 +957,7 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-constructor TMediaFileClass.create;
+constructor TMediaFileClass.create(ParentCollection: TMediaCollectionClass);
 begin
 
 end;
@@ -851,21 +974,20 @@ procedure TMediaFileClass.Write_Tag;
 var
        buf: array[1..1024] of byte;
        bufstr, tmptag, tmps:string;
-       artistv2, albumv2, titlev2, commentv2, yearv2, trackv2: string;
+//       artistv2, albumv2, titlev2, commentv2, yearv2, trackv2: string;
        i, z:integer;
        id3v1str: string[31];
        mp3filehandle:longint;
 begin
 {id3v2}
-  if (length(artist)>30) or (length(title)>30) or (length(album)>30) or (length(comment)>30) then
+  mp3filehandle:=fileopen(path,fmOpenRead);
+  fileseek(mp3filehandle, 0, fsfrombeginning);
+  fileread(mp3filehandle, buf, high(buf));
+  fileclose(mp3filehandle);
+  for i:= 1 to high(buf) do bufstr:=bufstr+char(buf[i]);
+
+  if (pos('ID3',bufstr) <> 0) or (length(artist)>30) or (length(title)>30) or (length(album)>30) then
     begin
-     mp3filehandle:=fileopen(path,fmOpenRead);
-     fileseek(mp3filehandle, 0, fsfrombeginning);
-     fileread(mp3filehandle, buf, high(buf));
-     fileclose(mp3filehandle);
-
-     for i:= 1 to high(buf) do bufstr:=bufstr+char(buf[i]);
-
      if pos('ID3',bufstr) = 0 then
         begin                                               {create new ID3v2 Tag skeleton}
             bufstr:='';
@@ -878,18 +1000,18 @@ begin
             for i:= z to high(buf) do bufstr:=bufstr+char(0);
           end;
 
-          // Now lets write the tags
-             i:=pos('TPE1',bufstr);
-             if i<> 0 then
-                begin
-                     tmptag:=UTF8toLatin1(artistv2);
+     // Now lets write the tags
+     i:=pos('TPE1',bufstr);
+     if i<> 0 then
+          begin
+                     tmptag:=UTF8toLatin1(artist);
                      if length(tmptag)>0 then begin
                         Delete(bufstr, i+11, byte(bufstr[i+7])-1);
                         Insert(tmptag, bufstr, i+11);
                         bufstr[i+7]:=char(length(tmptag)+1);
                       end else Delete(bufstr, i, byte(bufstr[i+7])+10);
                 end else begin
-                     tmptag:=UTF8toLatin1(artistv2);
+                     tmptag:=UTF8toLatin1(artist);
                      if length(tmptag)>0 then begin
                         tmps:=char(0)+char(0)+char(0)+char(length(tmptag)+1)+char(0)+char(0)+char(0);
                         Insert('TPE1'+tmps+(tmptag), bufstr, pos('ID3',bufstr)+10);
@@ -899,21 +1021,21 @@ begin
              i:=pos('TP1',bufstr);
              if i<> 0 then
                 begin
-                     tmptag:=UTF8toLatin1(artistv2);
+                     tmptag:=UTF8toLatin1(artist);
                      Delete(bufstr, i, byte(bufstr[i+5])+6); //delete whole TP1 tag
                 end;
 
              i:=pos('TIT2',bufstr);
              if i<> 0 then
                 begin
-                     tmptag:=UTF8toLatin1(titlev2);
+                     tmptag:=UTF8toLatin1(title);
                      if length(tmptag)>0 then begin
                         Delete(bufstr, i+11, byte(bufstr[i+7])-1);
                         Insert(tmptag, bufstr, i+11);
                         bufstr[i+7]:=char(length(tmptag)+1);
                       end else Delete(bufstr, i, byte(bufstr[i+7])+10);
                 end else begin
-                     tmptag:=UTF8toLatin1(titlev2);
+                     tmptag:=UTF8toLatin1(title);
                      if length(tmptag)>0 then begin
                          tmps:=char(0)+char(0)+char(0)+char(length(tmptag)+1)+char(0)+char(0)+char(0);
                          Insert('TIT2'+tmps+tmptag, bufstr, pos('ID3',bufstr)+10);
@@ -923,14 +1045,14 @@ begin
              i:=pos('TRCK',bufstr);
              if i<> 0 then
                 begin
-                     tmptag:=UTF8toLatin1(trackv2);
+                     tmptag:=UTF8toLatin1(track);
                      if length(tmptag)>0 then begin
                           Delete(bufstr, i+11, byte(bufstr[i+7])-1);
                           Insert(tmptag, bufstr, i+11);
                           bufstr[i+7]:=char(length(tmptag)+1);
                         end else Delete(bufstr, i, byte(bufstr[i+7])+10);
                 end else begin
-                     tmptag:=UTF8toLatin1(trackv2);
+                     tmptag:=UTF8toLatin1(track);
                      if length(tmptag)>0 then begin
                         tmps:=char(0)+char(0)+char(0)+char(length(tmptag)+1)+char(0)+char(0)+char(0);
                         Insert('TRCK'+tmps+tmptag, bufstr, pos('ID3',bufstr)+10);
@@ -940,14 +1062,14 @@ begin
              i:=pos('TYER',bufstr);
              if i<> 0 then
                 begin
-                     tmptag:=UTF8toLatin1(yearv2);
+                     tmptag:=UTF8toLatin1(year);
                      if length(tmptag)>0 then begin
                         Delete(bufstr, i+11, byte(bufstr[i+7])-1);
                         Insert(tmptag, bufstr, i+11);
                         bufstr[i+7]:=char(length(tmptag)+1);
                       end else Delete(bufstr, i, byte(bufstr[i+7])+10);
                 end else begin
-                     tmptag:=UTF8toLatin1(yearv2);
+                     tmptag:=UTF8toLatin1(year);
                      if length(tmptag)>0 then begin
                         tmps:=char(0)+char(0)+char(0)+char(length(tmptag)+1)+char(0)+char(0)+char(0);
                         Insert('TYER'+tmps+tmptag, bufstr, pos('ID3',bufstr)+10);
@@ -957,14 +1079,14 @@ begin
              i:=pos('TALB',bufstr);
              if i<> 0 then
                 begin
-                     tmptag:=UTF8toLatin1(albumv2);
+                     tmptag:=UTF8toLatin1(album);
                      if length(tmptag)>0 then begin
                         Delete(bufstr, i+11, byte(bufstr[i+7])-1);
                         Insert(tmptag, bufstr, i+11);
                         bufstr[i+7]:=char(length(tmptag)+1);
                       end else Delete(bufstr, i, byte(bufstr[i+7])+10);
                 end else begin
-                     tmptag:=UTF8toLatin1(albumv2);
+                     tmptag:=UTF8toLatin1(album);
                      if length(tmptag)>0 then begin
                         tmps:=char(0)+char(0)+char(0)+char(length(tmptag)+1)+char(0)+char(0)+char(0);
                         Insert('TALB'+tmps+tmptag, bufstr, pos('ID3',bufstr)+10);
