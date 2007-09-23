@@ -1270,19 +1270,27 @@ object Main: TMain
       SubMenuImages = ImageList1
       OnClick = MenuItem7Click
     end
-    object Menuitem8: TMenuItem
-      Caption = 'Track to playlist'
-      OnClick = TitleTreeDblClick
-    end
-    object MenuItem2: TMenuItem
-      Caption = 'All tracks to playlist'
-      OnClick = MenuItem2Click
-    end
     object TEditID3item: TMenuItem
       Caption = 'File info/edit'
       ImageIndex = 8
       SubMenuImages = ImageList1
       OnClick = EditID3itemClick
+    end
+    object MenuItem13: TMenuItem
+      Caption = '-'
+      OnClick = MenuItem13Click
+    end
+    object MenuItem9: TMenuItem
+      Caption = '-> next in playlist'
+      OnClick = MenuItem9Click
+    end
+    object Menuitem8: TMenuItem
+      Caption = '-> append to playlist'
+      OnClick = TitleTreeDblClick
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'All tracks to playlist'
+      OnClick = MenuItem2Click
     end
     object MenuItem11: TMenuItem
       Caption = '-'

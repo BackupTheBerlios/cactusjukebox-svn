@@ -55,6 +55,7 @@ type
      procedure clear; override;
      function add(filepath:string):integer;       //Read track info out of file at path
      function add(MedFileObj: TMediaFileClass):integer; //Get track info from FileObj
+     procedure insert(index:integer; MedFileObj: TMediaFileClass);
 
      function update(index: integer; filepath:string):integer;       //update track info out of file at path
      function update(index: integer; MedFileObj: TMediaFileClass):integer; //update track info from FileObj
@@ -480,6 +481,22 @@ begin
      Items[index].ID:=MedFileObj.ID;
      Items[index].LengthMS:=MedFileObj.Playlength;
      result:=index;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TPlaylistClass.insert(index: integer; MedFileObj: TMediaFileClass);
+begin
+     inherited insert(index, TPlaylistitemClass.create);
+
+     Items[index].Path:=MedFileObj.path;
+     Items[index].Artist:=MedFileObj.Artist;
+     Items[index].Title:=MedFileObj.Title;
+     Items[index].Album:=MedFileObj.Album;
+
+     Items[index].ID:=MedFileObj.ID;
+     Items[index].LengthMS:=MedFileObj.Playlength;
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

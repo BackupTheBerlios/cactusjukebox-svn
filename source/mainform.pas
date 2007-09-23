@@ -84,7 +84,9 @@ type
     artistsearch: TEdit;
     filetypebox: TComboBox;
     CoverImage: TImage;
+    MenuItem13: TMenuItem;
     MenuItem7: TMenuItem;
+    MenuItem9: TMenuItem;
     opendir: TMenuItem;
     Playlist: TListView;
     MenuItem6: TMenuItem;
@@ -206,8 +208,10 @@ type
     procedure FormMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormResize(Sender: TObject);
+    procedure MenuItem13Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
+    procedure MenuItem9Click(Sender: TObject);
     procedure NextButtonImgClick(Sender: TObject);
     procedure NextButtonImgMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -431,6 +435,7 @@ var
 procedure update_artist_view;
 procedure update_title_view;
 procedure artist_to_playlist;
+procedure title_to_playlist_at(index: integer);
 procedure title_to_playlist;
 
 //procedure album_to_playlist;
@@ -681,6 +686,7 @@ begin
       if i >= 0 then begin
           if oldindex>=0 then playlist.Items[oldindex].ImageIndex:=-1;
           playlist.Items[i].ImageIndex:=0;
+          playlist.Items[i].MakeVisible(false);
           playtimer.Enabled:=true;
         end;
     end
@@ -702,6 +708,7 @@ begin
           if playlist.Items.Count>1 then begin
                      if OldTrack>=0 then playlist.Items[OldTrack].ImageIndex:=-1;
                      playlist.Items[i].ImageIndex:=0;
+                     playlist.Items[i].MakeVisible(false);
                  end;
           playtimer.Enabled:=true;
         end
@@ -726,6 +733,7 @@ begin
             if (err=0) then begin
                   playtimer.enabled:=true;
                   playitem.ImageIndex:=0;
+                  playitem.MakeVisible(false);
                   update_player_display;
                 end
              else begin
@@ -1040,6 +1048,11 @@ begin
      Panel1.Width:=Width-oldSplitterWidth-8;
 end;
 
+procedure TMain.MenuItem13Click(Sender: TObject);
+begin
+
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.MenuItem6Click(Sender: TObject);
@@ -1069,9 +1082,20 @@ if MessageDlg('The selected file(s) will permanently be'+#10+#13+'removed from h
  end;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMain.MenuItem7Click(Sender: TObject);
 begin
+    title_to_playlist;
+    Playlist.Items[Playlist.Items.Count-1].Focused:=true;
+    playClick(nil);
+end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMain.MenuItem9Click(Sender: TObject);
+begin
+  title_to_playlist_at(player.CurrentTrack+1);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2789,6 +2813,28 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+procedure title_to_playlist_at(index: integer);
+var tsnode:TListitem;
+    MedColObj: TMediaCollectionClass;
+    listitem:TListitem;
+    MedFileObj: TMediaFileClass;
+begin
+   tsnode:=main.TitleTree.Selected;
+   if (tsnode<>nil) and (tsnode.ImageIndex<>4) then begin
+     MedFileObj:=TMediaFileClass(tsnode.data);
+
+     main.player.playlist.Insert(index, MedFileObj);
+
+     ListItem := Main.Playlist.Items.Insert(index);
+     listitem.data:=MedFileObj;
+     listitem.MakeVisible(false);
+     if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
+   end;
+   main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(main.player.playlist.ItemCount)+' Files/ '+main.player.Playlist.TotalPlayTimeStr +')';
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure title_to_playlist;
 var tsnode:TListitem;
     MedColObj: TMediaCollectionClass;
@@ -2804,7 +2850,8 @@ begin
 
      ListItem := Main.Playlist.Items.Add;
      listitem.data:=MedFileObj;
-
+     listitem.MakeVisible(false);
+//     listitem.Focused:=true;
      if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
    end;
    main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(main.player.playlist.ItemCount)+' Files/ '+main.player.Playlist.TotalPlayTimeStr +')';
@@ -2835,11 +2882,13 @@ begin
            Main.player.playlist.add(MedColObj.items[z]);
            ListItem := Main.Playlist.Items.Add;
            listitem.data:=MedColObj.items[z];
+          // Listitem.Focused:=true;
            if MedColObj.items[z].title<>'' then ListItem.Caption:=MedColObj.items[z].artist+' - '+MedColObj.items[z].title else ListItem.Caption:=extractfilename(MedColObj.items[z].path);
         end;
         z:=MedColObj.GetNext;
       end;
       until z<0;
+     Listitem.MakeVisible(false);
    end;
   main.playlist.Column[0].Caption:='Playlist            ('+IntToStr(main.player.playlist.ItemCount)+' Files/ '+main.player.Playlist.TotalPlayTimeStr+' )';
 end;
