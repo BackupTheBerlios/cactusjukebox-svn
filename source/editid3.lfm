@@ -1,15 +1,15 @@
 object EditID3: TEditID3
-  Left = 372
-  Height = 421
-  Top = 133
-  Width = 395
-  HorzScrollBar.Page = 394
-  VertScrollBar.Page = 420
+  Left = 477
+  Height = 426
+  Top = 94
+  Width = 392
+  HorzScrollBar.Page = 391
+  VertScrollBar.Page = 425
   ActiveControl = cancelbut1
-  BorderStyle = bsDialog
+  BorderStyle = bsSingle
   Caption = 'Edit ID3 Tag'
-  ClientHeight = 421
-  ClientWidth = 395
+  ClientHeight = 426
+  ClientWidth = 392
   OnClose = EditID3Close
   OnCreate = FormCreate
   OnHide = FormHide
@@ -25,13 +25,13 @@ object EditID3: TEditID3
     TabOrder = 0
     object metatab: TTabSheet
       Caption = 'Meta-Info'
-      ClientHeight = 319
-      ClientWidth = 372
+      ClientHeight = 326
+      ClientWidth = 368
       object lblArtist: TLabel
         Left = 20
         Height = 14
         Top = 102
-        Width = 32
+        Width = 27
         Caption = 'Artist'
         ParentColor = False
       end
@@ -39,7 +39,7 @@ object EditID3: TEditID3
         Left = 20
         Height = 14
         Top = 130
-        Width = 25
+        Width = 21
         Caption = 'Title'
         ParentColor = False
       end
@@ -47,7 +47,7 @@ object EditID3: TEditID3
         Left = 20
         Height = 14
         Top = 162
-        Width = 38
+        Width = 30
         Caption = 'Album'
         ParentColor = False
       end
@@ -55,7 +55,7 @@ object EditID3: TEditID3
         Left = 118
         Height = 14
         Top = 190
-        Width = 28
+        Width = 23
         Caption = 'Year'
         ParentColor = False
       end
@@ -63,7 +63,7 @@ object EditID3: TEditID3
         Left = 20
         Height = 14
         Top = 222
-        Width = 36
+        Width = 30
         Caption = 'Genre'
         ParentColor = False
       end
@@ -71,7 +71,7 @@ object EditID3: TEditID3
         Left = 20
         Height = 14
         Top = 266
-        Width = 57
+        Width = 46
         Caption = 'Comment'
         ParentColor = False
       end
@@ -79,7 +79,7 @@ object EditID3: TEditID3
         Left = 14
         Height = 14
         Top = 30
-        Width = 63
+        Width = 53
         Caption = 'Path to file'
         ParentColor = False
       end
@@ -87,7 +87,7 @@ object EditID3: TEditID3
         Left = 20
         Height = 14
         Top = 190
-        Width = 33
+        Width = 27
         Caption = 'Track'
         ParentColor = False
       end
@@ -154,9 +154,9 @@ object EditID3: TEditID3
       end
       object Button1: TButton
         Left = 275
-        Height = 21
-        Top = 23
-        Width = 78
+        Height = 17
+        Top = 27
+        Width = 80
         Anchors = [akLeft, akBottom]
         AutoSize = True
         BorderSpacing.Around = 4
@@ -183,10 +183,10 @@ object EditID3: TEditID3
         TabOrder = 4
       end
       object guessname1: TButton
-        Left = 174
-        Height = 21
-        Top = 23
-        Width = 92
+        Left = 175
+        Height = 17
+        Top = 27
+        Width = 91
         Anchors = [akRight, akBottom]
         AutoSize = True
         BorderSpacing.Around = 4
@@ -197,10 +197,11 @@ object EditID3: TEditID3
       end
       object cmbYear: TComboBox
         Left = 150
-        Height = 25
+        Height = 21
         Top = 183
         Width = 64
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemHeight = 13
         MaxLength = 4
         OnChange = cmbYearChange
         Sorted = True
@@ -210,10 +211,11 @@ object EditID3: TEditID3
       end
       object cmbComment: TComboBox
         Left = 20
-        Height = 25
+        Height = 21
         Top = 280
         Width = 196
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemHeight = 13
         MaxLength = 0
         OnChange = activateEMode
         Sorted = True
@@ -224,8 +226,8 @@ object EditID3: TEditID3
     end
     object fileinfo: TTabSheet
       Caption = 'File-Info'
-      ClientHeight = 352
-      ClientWidth = 376
+      ClientHeight = 326
+      ClientWidth = 368
       object mtype: TLabel
         Left = 40
         Height = 12
@@ -291,8 +293,8 @@ object EditID3: TEditID3
     end
     object id3v2tab: TTabSheet
       Caption = 'ID3v2'
-      ClientHeight = 352
-      ClientWidth = 376
+      ClientHeight = 326
+      ClientWidth = 368
       object Label9: TLabel
         Left = 16
         Height = 12
@@ -403,8 +405,8 @@ object EditID3: TEditID3
     end
     object id3v1tab: TTabSheet
       Caption = 'ID3v1'
-      ClientHeight = 352
-      ClientWidth = 376
+      ClientHeight = 326
+      ClientWidth = 368
       object Label7: TLabel
         Left = 177
         Height = 12
@@ -507,7 +509,7 @@ object EditID3: TEditID3
     TabOrder = 1
   end
   object savebut1: TButton
-    Left = 200
+    Left = 192
     Height = 25
     Top = 384
     Width = 75
@@ -532,6 +534,6 @@ object EditID3: TEditID3
     Interval = 100
     OnTimer = PicDownloadTimerTimer
     OnStartTimer = PicDownloadTimerStartTimer
-    left = 394
+    left = 224
   end
 end
