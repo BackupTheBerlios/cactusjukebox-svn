@@ -1375,7 +1375,7 @@ begin
 
 {$ifdef win32}{workaround Listview autosize bug in win32}
   Main.Playlist.Columns[0].autosize:=false;
-  Main.Playlist.Columns[0].width:=315;
+  Playlist.Columns[0].width:=Playlist.Width;
   Main.Titletree.Columns[0].autosize:=false;
   Main.Titletree.Columns[1].autosize:=false;
   Main.Titletree.Columns[2].autosize:=false;
@@ -1784,7 +1784,19 @@ end;
 
 procedure TMain.Panel1Resize(Sender: TObject);
 begin
-   Splitter1.Left:=oldSplitterWidth;
+  // Splitter1.Left:=oldSplitterWidth;
+{$ifdef win32}
+
+  Playlist.Columns[0].width:=Playlist.Width;
+  Titletree.Columns[5].width:=45;
+  Titletree.Columns[4].width:=45;
+  Titletree.Columns[3].width:=110;
+  Titletree.Columns[2].width:=TitleTree.Width-45-45-110-140-16;
+  Titletree.Columns[1].width:=140;
+  Titletree.Columns[0].width:=16;
+
+{$endif}
+  
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
