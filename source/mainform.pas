@@ -19,6 +19,7 @@ unit mainform;
 
 {$mode objfpc}{$H+}
 
+
 interface
 
 
@@ -1367,8 +1368,11 @@ begin
 
   player_connected:=false;
   try
+
   write('loading program icon...  ');
-  Icon.LoadFromFile(CactusConfig.DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
+
+  //Icon.LoadFromFile(CactusConfig.DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
+
 //  CoverImage.Picture.LoadFromFile(DataPrefix+'tools'+DirectorySeparator+'cactus-logo-small.png');
   writeln('... loaded');
   except
@@ -1428,7 +1432,16 @@ begin
            TitleTree.Clear;
         end;
    end;
+  if CactusConfig.AlbumCoverFirsttime then begin
+     tmps1:='Cactus Jukebox can download album cover art from internet and show it on playback'
+            +LineEnding+'(No private data is submitted. Only album title and artist)'
+            +LineEnding+LineEnding+'Do you want to enable this feature?'
+            +LineEnding+LineEnding+'You can change this behaviour later in File->Settings';
 
+     if MessageDlg(tmps1, mtConfirmation , mbYesNo, 0)=mrYes then CactusConfig.CoverDownload:=true;
+  end;
+  
+  
   // Load file specified on commandline
   if CactusConfig.LoadOnStart<>'' then begin
        LoadFile(CactusConfig.LoadOnStart);
@@ -1440,37 +1453,11 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.ApplicationIdle(Sender: TObject; var Done: Boolean);
-var templistitem: TListitem;
-    fpath: string;
-    i:integer;
+
 begin
-
-if SimpleIPCServer1.PeekMessage(1,True) then begin
-  fpath:=copy(SimpleIPCServer1.StringMessage, 4, length(SimpleIPCServer1.StringMessage));
-  writeln(fpath);
-  case byte(StrToInt(SimpleIPCServer1.StringMessage)) of
-     VOLUME_UP: if volumebar.Position>4 then  volumebar.Position:=volumebar.Position-5;
-     VOLUME_DOWN: if volumebar.Position<46 then volumebar.Position:=volumebar.Position+5;
-     NEXT_TRACK: nextClick(nil);
-     STOP_PLAYING: stopClick(nil);
-     START_PLAYING: playClick(nil);
-     PREV_TRACK: prevClick(nil);
-     PAUSE_PLAYING: pauseClick(nil);
-   else writeln(' --> Invalid message/filename received via IPC');
-  if (pos(inttostr(OPEN_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
-        LoadFile(fpath);
-        playClick(nil);
-        exit;
-   end
-    else writeln(' --> Invalid message/filename received via IPC');
-  if (pos(inttostr(ENQUEU_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
-        LoadFile(fpath);
-        exit;
-   end
-    else writeln(' --> Invalid message/filename received via IPC');
-  end;
-end;
-
+{$ifdef linux}   //linux doesn't recognize onIPCMessage Event. so we call it manually
+  if SimpleIPCServer1.PeekMessage(1,True) then SimpleIPCServer1Message(nil);
+{$endif}
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1639,12 +1626,9 @@ end;
 
 procedure TMain.MenuItem26Click(Sender: TObject);
 begin
-{$ifdef win32}
-  ShowMessage('Cactus Jukebox'+LineEnding+'version 0.3 unstable'+LineEnding+'This windows version is in alpha state and not fully functional   '+LineEnding+'written by Sebastian Kraft '+LineEnding+LineEnding+'(c) 2006'+LineEnding+'http://cactus.hey-you-freaks.de     ');
-{$endif win32}
-{$ifdef linux}
+
   ShowMessage('Cactus Jukebox'+LineEnding+'version'+CACTUS_VERSION+LineEnding+'written by Sebastian Kraft '+LineEnding+LineEnding+'(c) 2005-2007'+LineEnding+'http://cactus.hey-you-freaks.de     ');
-{$endif linux}
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1855,8 +1839,33 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.SimpleIPCServer1Message(Sender: TObject);
+var fpath: string;
+    i:integer;
 begin
+  writeln(' IPC Message received');
+  fpath:=copy(SimpleIPCServer1.StringMessage, 4, length(SimpleIPCServer1.StringMessage));
   writeln(SimpleIPCServer1.StringMessage);
+  case byte(StrToInt(SimpleIPCServer1.StringMessage)) of
+     VOLUME_UP: if volumebar.Position>4 then  volumebar.Position:=volumebar.Position-5;
+     VOLUME_DOWN: if volumebar.Position<46 then volumebar.Position:=volumebar.Position+5;
+     NEXT_TRACK: nextClick(nil);
+     STOP_PLAYING: stopClick(nil);
+     START_PLAYING: playClick(nil);
+     PREV_TRACK: prevClick(nil);
+     PAUSE_PLAYING: pauseClick(nil);
+   else writeln(' --> Invalid message/filename received via IPC');
+  if (pos(inttostr(OPEN_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
+        LoadFile(fpath);
+        playClick(nil);
+        exit;
+   end
+    else writeln(' --> Invalid message/filename received via IPC');
+  if (pos(inttostr(ENQUEU_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
+        LoadFile(fpath);
+        exit;
+   end
+    else writeln(' --> Invalid message/filename received via IPC');
+  end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

@@ -39,6 +39,7 @@ type
     SelectDirectoryDialog1: TSelectDirectoryDialog;
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure dirlistviewClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure addClick(Sender: TObject);
     procedure removeClick(Sender: TObject);
@@ -186,6 +187,11 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure Tdirwin.Button3Click(Sender: TObject);
+begin
+
+end;
+
+procedure Tdirwin.dirlistviewClick(Sender: TObject);
 begin
 
 end;

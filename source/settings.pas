@@ -73,6 +73,8 @@ type
     DataPrefix, ConfigPrefix, LibraryPrefix, HomeDir: string;
     WWidth, WHeight, WSplitterWidth: Integer;
 
+    AlbumCoverFirsttime:boolean;
+
     constructor create(ConfigFile:string);
     destructor destroy;
     
@@ -372,6 +374,7 @@ begin
 //    background_scan:=FConfigFile.GetValue('Library/background_scan', false);
     background_scan:=false;
     DAPPath:=IncludeTrailingPathDelimiter(FConfigFile.getValue('Mobile_Player/Mountpoint', ''));
+    if FConfigFile.GetValue('Networking/Album_Cover_Download/Enabled','')='' then AlbumCoverFirsttime:=true;
     CoverDownload:=FConfigFile.GetValue('Networking/Album_Cover_Download/Enabled', false);
     CurrentSkin:=FConfigFile.getValue('Skin/File', 'default.xml');
     KDEServiceMenu:=FConfigFile.GetValue('KDE/servicemenu', false);

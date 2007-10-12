@@ -1,20 +1,21 @@
 object EditID3: TEditID3
-  Left = 477
-  Height = 426
-  Top = 94
-  Width = 392
-  HorzScrollBar.Page = 391
-  VertScrollBar.Page = 425
+  Left = 487
+  Height = 429
+  Top = 168
+  Width = 393
+  HorzScrollBar.Page = 392
+  VertScrollBar.Page = 428
   ActiveControl = cancelbut1
   BorderStyle = bsSingle
   Caption = 'Edit ID3 Tag'
-  ClientHeight = 426
-  ClientWidth = 392
+  ClientHeight = 429
+  ClientWidth = 393
+  FormStyle = fsStayOnTop
   OnClose = EditID3Close
   OnCreate = FormCreate
   OnHide = FormHide
-  Position = poDefault
-  ShowInTaskBar = stNever
+  Position = poMainFormCenter
+  ShowInTaskBar = stAlways
   object metacontrol: TPageControl
     Left = 8
     Height = 352

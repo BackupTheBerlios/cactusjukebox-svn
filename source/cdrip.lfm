@@ -1,7 +1,7 @@
 object cdrip: Tcdrip
-  Left = 141
+  Left = 180
   Height = 547
-  Top = 197
+  Top = 75
   Width = 540
   HorzScrollBar.Page = 539
   VertScrollBar.Page = 546
@@ -39,7 +39,7 @@ object cdrip: Tcdrip
     Left = 40
     Height = 14
     Top = 392
-    Width = 134
+    Width = 109
     Caption = 'Outfile naming scheme'
     ParentColor = False
   end
@@ -74,16 +74,16 @@ object cdrip: Tcdrip
     object Label1: TLabel
       Left = 208
       Height = 14
-      Top = 24
-      Width = 75
+      Top = 16
+      Width = 62
       Caption = 'Bitrate kbit/s'
       ParentColor = False
     end
     object writetagscheck: TCheckBox
       Left = 56
-      Height = 23
-      Top = 40
-      Width = 110
+      Height = 13
+      Top = 44
+      Width = 92
       Caption = 'Write ID3-Tags'
       Checked = True
       State = cbChecked
@@ -91,9 +91,9 @@ object cdrip: Tcdrip
     end
     object encodecheck: TCheckBox
       Left = 16
-      Height = 23
+      Height = 13
       Top = 16
-      Width = 112
+      Width = 92
       Caption = 'Encode to mp3'
       Checked = True
       OnChange = encodecheckChange
@@ -101,11 +101,12 @@ object cdrip: Tcdrip
       TabOrder = 1
     end
     object bitratebox: TComboBox
-      Left = 304
-      Height = 25
-      Top = 16
+      Left = 289
+      Height = 21
+      Top = 12
       Width = 63
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+      ItemHeight = 13
       ItemIndex = 2
       Items.Strings = (
         '64'
@@ -122,9 +123,9 @@ object cdrip: Tcdrip
     end
     object subfoldercheck: TCheckBox
       Left = 216
-      Height = 23
-      Top = 40
-      Width = 151
+      Height = 13
+      Top = 45
+      Width = 122
       Caption = 'Create artist subfolder'
       Checked = True
       State = cbChecked
@@ -132,9 +133,9 @@ object cdrip: Tcdrip
     end
     object paranoia: TCheckBox
       Left = 16
-      Height = 23
+      Height = 13
       Top = 80
-      Width = 254
+      Width = 208
       Caption = 'Deep error eorrection (using libparanoia)'
       TabOrder = 4
       Visible = False
@@ -158,7 +159,7 @@ object cdrip: Tcdrip
   end
   object querrybtn: TButton
     Left = 384
-    Height = 29
+    Height = 25
     Top = 24
     Width = 89
     AutoSize = True
@@ -229,10 +230,11 @@ object cdrip: Tcdrip
   end
   object outputfolderbox: TComboBox
     Left = 24
-    Height = 25
+    Height = 21
     Top = 352
     Width = 344
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+    ItemHeight = 13
     MaxLength = 0
     TabOrder = 9
     Text = 'outputfolderbox'
@@ -248,20 +250,22 @@ object cdrip: Tcdrip
   end
   object drivebox: TComboBox
     Left = 424
-    Height = 25
+    Height = 21
     Top = 128
     Width = 96
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+    ItemHeight = 13
     MaxLength = 0
     TabOrder = 11
     Text = ' '
   end
   object FileNameType: TComboBox
     Left = 184
-    Height = 25
+    Height = 21
     Top = 384
     Width = 184
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+    ItemHeight = 13
     ItemIndex = 0
     Items.Strings = (
       'Track - Artist - Title'

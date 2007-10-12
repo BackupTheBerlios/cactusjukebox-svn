@@ -1,21 +1,21 @@
 object Settings: TSettings
-  Left = 356
-  Height = 506
-  Top = 154
-  Width = 449
-  HorzScrollBar.Page = 448
+  Left = 374
+  Height = 504
+  Top = 116
+  Width = 448
+  HorzScrollBar.Page = 447
   HorzScrollBar.Range = 440
-  VertScrollBar.Page = 505
+  VertScrollBar.Page = 503
   VertScrollBar.Range = 481
   ActiveControl = savebut
-  BorderIcons = []
+  BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 'Settings...'
-  ClientHeight = 506
-  ClientWidth = 449
+  ClientHeight = 504
+  ClientWidth = 448
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  Position = poDefault
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   object savebut: TButton
     Left = 56
@@ -47,13 +47,13 @@ object Settings: TSettings
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'General'
-      ClientHeight = 421
-      ClientWidth = 432
+      ClientHeight = 395
+      ClientWidth = 424
       object LLanguage: TLabel
         Left = 54
         Height = 14
         Top = 308
-        Width = 57
+        Width = 48
         Caption = 'Language'
         ParentColor = False
       end
@@ -61,15 +61,15 @@ object Settings: TSettings
         Left = 54
         Height = 14
         Top = 345
-        Width = 77
+        Width = 65
         Caption = 'Audio Output'
         ParentColor = False
       end
       object autoload1: TCheckBox
         Left = 38
-        Height = 23
+        Height = 13
         Top = 18
-        Width = 198
+        Width = 158
         AllowGrayed = True
         Caption = 'Autoload last library at startup'
         Checked = True
@@ -78,19 +78,20 @@ object Settings: TSettings
       end
       object backscan: TCheckBox
         Left = 38
-        Height = 23
+        Height = 13
         Top = 43
-        Width = 359
+        Width = 293
         Caption = 'Scan for new files in background  on startup(experimental)'
         TabOrder = 1
         Visible = False
       end
       object LanguageBox: TComboBox
         Left = 158
-        Height = 25
+        Height = 21
         Top = 297
         Width = 100
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemHeight = 13
         ItemIndex = 0
         Items.Strings = (
           'en_buildin'
@@ -102,18 +103,18 @@ object Settings: TSettings
       end
       object kdeservicebox: TCheckBox
         Left = 38
-        Height = 23
+        Height = 13
         Top = 217
-        Width = 173
+        Width = 143
         Caption = 'enable KDE service menu'
         OnChange = kdeserviceboxChange
         TabOrder = 3
       end
       object ClearCover: TButton
         Left = 310
-        Height = 29
+        Height = 25
         Top = 243
-        Width = 83
+        Width = 85
         AutoSize = True
         BorderSpacing.InnerBorder = 4
         Caption = 'Clear cache'
@@ -122,18 +123,19 @@ object Settings: TSettings
       end
       object CoverDownload: TCheckBox
         Left = 38
-        Height = 23
+        Height = 13
         Top = 249
-        Width = 248
+        Width = 205
         Caption = 'Download album cover art form internet'
         TabOrder = 5
       end
       object AudioOut: TComboBox
         Left = 158
-        Height = 25
+        Height = 21
         Top = 337
         Width = 100
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemHeight = 13
         ItemIndex = 0
         Items.Strings = (
           'Alsa'
@@ -149,22 +151,22 @@ object Settings: TSettings
         Top = 105
         Width = 356
         Caption = 'Doubleclick behaviour'
-        ClientHeight = 44
+        ClientHeight = 46
         ClientWidth = 352
         TabOrder = 7
         object CheckBox1: TCheckBox
           Left = 30
-          Height = 23
+          Height = 13
           Top = 14
-          Width = 75
+          Width = 59
           Caption = 'Play title'
           TabOrder = 0
         end
         object CheckBox2: TCheckBox
           Left = 190
-          Height = 23
+          Height = 13
           Top = 14
-          Width = 132
+          Width = 104
           Caption = 'Add title to playlist'
           TabOrder = 1
         end
@@ -172,8 +174,8 @@ object Settings: TSettings
     end
     object TabSheet2: TTabSheet
       Caption = 'Mobile Device'
-      ClientHeight = 421
-      ClientWidth = 432
+      ClientHeight = 395
+      ClientWidth = 424
       object LMountpoint: TLabel
         Left = 24
         Height = 14
@@ -211,8 +213,8 @@ object Settings: TSettings
     end
     object TabSheet5: TTabSheet
       Caption = 'Plugins'
-      ClientHeight = 388
-      ClientWidth = 428
+      ClientHeight = 395
+      ClientWidth = 424
       object Label1: TLabel
         Left = 14
         Height = 14
@@ -252,8 +254,8 @@ object Settings: TSettings
     end
     object TabSheet3: TTabSheet
       Caption = 'Paths'
-      ClientHeight = 421
-      ClientWidth = 432
+      ClientHeight = 395
+      ClientWidth = 424
       object Label5: TLabel
         Left = 14
         Height = 18
@@ -306,8 +308,8 @@ object Settings: TSettings
     end
     object TabSheet4: TTabSheet
       Caption = 'ID3v2/v1'
-      ClientHeight = 421
-      ClientWidth = 432
+      ClientHeight = 395
+      ClientWidth = 424
       object ID3typebox: TGroupBox
         Left = 38
         Height = 88
