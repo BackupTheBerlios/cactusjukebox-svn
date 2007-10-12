@@ -8,8 +8,10 @@ uses
   Classes, SysUtils;
 
 type
-  TEventNotification = (evnFileNew, evnFileOpen, evnFileSave, evnFileSaveAs,
-      evnCut, evnCopy, evnPaste, evnClose);
+  TCactusEvent = (
+            evnStartPlay,
+            evnStopPlay
+            );
 
 
   TPluginInfoRec = record
@@ -19,7 +21,7 @@ type
 { TCactusPlugInClass }
   TCactusPlugInClass = class
   public
-    constructor Create(aParent: THandle);
+    constructor Create;
 
     function GetName: pchar; virtual; stdcall; abstract;
     function GetVersion: pchar; virtual; stdcall; abstract;
@@ -28,12 +30,12 @@ type
 
     procedure Execute; virtual; stdcall; abstract;
 
-    function EventHandler(EventNotification: TEventNotification): boolean;
+    function EventHandler(Event: TCactusEvent): boolean;
         virtual; stdcall; abstract;
   end;
 { TCactusPlugInClass }
 
-  TLoadPlugIn = function(Parent: THandle; var CactusPlugIn: TCactusPlugInClass): Boolean;
+  TLoadPlugIn = function(var CactusPlugIn: TCactusPlugInClass): Boolean;
   TGetPluginInfoProc = function : TPluginInfoRec;
 
 
@@ -41,7 +43,7 @@ implementation
 
 { TCactusPlugInClass }
 
-constructor TCactusPlugInClass.Create(aParent: THandle);
+constructor TCactusPlugInClass.Create;
 begin
 
 end;

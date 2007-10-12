@@ -157,7 +157,7 @@ var
 const configname='cactus.cfg';
 
 implementation
-uses mainform, translations, functions, plugin;
+uses mainform, translations, functions, plugin, fmodplayer;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -166,6 +166,7 @@ uses mainform, translations, functions, plugin;
 
 procedure TSettings.savebutClick(Sender: TObject);
 var tmps:string;
+    i: integer;
 begin
   //   Main.mpg123:=mpg123pathedit1.text;
   //   Main.lame:=lamepathedit1.text;
@@ -194,10 +195,15 @@ begin
      if CoverDownload.Checked then CactusConfig.CoverDownload:=true else CactusConfig.CoverDownload:=false;
 //     if AutostartBox.Checked then CactusConfig.AutostartPlay:=true else CactusConfig.AutostartPlay:=false;
 //     MediaCollection.guess_tag:=CactusConfig.GuessTag;
-     main.player.oss:=not CactusConfig.OutputAlsa;
+     fmodplayer.player.oss:=not CactusConfig.OutputAlsa;
 
      CactusConfig.language:=LanguageBox.Items[LanguageBox.ItemIndex];
      CactusConfig.FlushConfig;
+     
+     for i:=0 to PluginList.Count-1 do
+        if PluginList.Checked[i] then
+            CactusPlugins.Items[i].enabled:=true
+         else CactusPlugins.Items[i].enabled:=false;
 
      TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, '');
      TranslateUnitResourceStrings('mp3', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, '');
@@ -302,7 +308,10 @@ begin
    if CactusConfig.id3v2_prio then v2_prio.Checked:=true else v1_prio.checked:=true;
    //AutostartBox.Checked:=CactusConfig.AutostartPlay;
 
-   for i:=0 to CactusPlugins.Count-1 do PluginList.Items.Add(CactusPlugins.Items[i].Name);
+   for i:=0 to CactusPlugins.Count-1 do begin
+          PluginList.Items.Add(CactusPlugins.Items[i].Name);
+          PluginList.Checked[i]:=CactusPlugins.Items[i].enabled;
+       end;
 
 end;
 

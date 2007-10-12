@@ -9,12 +9,12 @@ LazarusResources.Add('TSettings','FORMDATA',[
   +#1#8'OnCreate'#7#10'FormCreate'#9'OnDestroy'#7#11'FormDestroy'#8'Position'#7
   +#9'poDefault'#13'ShowInTaskBar'#7#7'stNever'#0#7'TButton'#7'savebut'#4'Left'
   +#2'8'#6'Height'#2#25#3'Top'#3#200#1#5'Width'#2'K'#25'BorderSpacing.InnerBord'
-  +'er'#2#4#7'Caption'#6#4'Save'#7'OnClick'#7#12'savebutClick'#8'TabOrder'#2#0#0
+  +'er'#2#4#7'Caption'#6#4'Save'#7'OnClick'#7#12'savebutClick'#8'TabOrder'#2#1#0
   +#0#7'TButton'#9'cancelbut'#4'Left'#3'H'#1#6'Height'#2#25#3'Top'#3#200#1#5'Wi'
   +'dth'#2'K'#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#6'Cancel'#7'OnClic'
-  +'k'#7#14'cancelbutClick'#8'TabOrder'#2#1#0#0#12'TPageControl'#12'PageControl'
+  +'k'#7#14'cancelbutClick'#8'TabOrder'#2#2#0#0#12'TPageControl'#12'PageControl'
   +'1'#4'Left'#2#8#6'Height'#3#165#1#3'Top'#2#16#5'Width'#3#176#1#10'ActivePage'
-  +#7#9'TabSheet5'#8'TabIndex'#2#2#8'TabOrder'#2#2#0#9'TTabSheet'#9'TabSheet1'#7
+  +#7#9'TabSheet1'#8'TabIndex'#2#0#8'TabOrder'#2#0#0#9'TTabSheet'#9'TabSheet1'#7
   +'Caption'#6#7'General'#12'ClientHeight'#3#165#1#11'ClientWidth'#3#176#1#0#6
   +'TLabel'#9'LLanguage'#4'Left'#2'6'#6'Height'#2#14#3'Top'#3'4'#1#5'Width'#2'9'
   +#7'Caption'#6#8'Language'#11'ParentColor'#8#0#0#6'TLabel'#9'LAudioOut'#4'Lef'
@@ -41,8 +41,8 @@ LazarusResources.Add('TSettings','FORMDATA',[
   +'LineComplete'#20'cbactSearchAscending'#0#9'ItemIndex'#2#0#13'Items.Strings'
   +#1#6#4'Alsa'#6#3'OSS'#0#9'MaxLength'#2#0#8'TabOrder'#2#6#4'Text'#6#4'Alsa'#0
   +#0#9'TGroupBox'#9'GroupBox1'#4'Left'#2'&'#6'Height'#2'@'#3'Top'#2'i'#5'Width'
-  +#3'd'#1#7'Caption'#6#21'Doubleclick behaviour'#12'ClientHeight'#2'@'#11'Clie'
-  +'ntWidth'#3'd'#1#8'TabOrder'#2#7#0#9'TCheckBox'#9'CheckBox1'#4'Left'#2#30#6
+  +#3'd'#1#7'Caption'#6#21'Doubleclick behaviour'#12'ClientHeight'#2','#11'Clie'
+  +'ntWidth'#3'`'#1#8'TabOrder'#2#7#0#9'TCheckBox'#9'CheckBox1'#4'Left'#2#30#6
   +'Height'#2#23#3'Top'#2#14#5'Width'#2'K'#7'Caption'#6#10'Play title'#8'TabOrd'
   +'er'#2#0#0#0#9'TCheckBox'#9'CheckBox2'#4'Left'#3#190#0#6'Height'#2#23#3'Top'
   +#2#14#5'Width'#3#132#0#7'Caption'#6#21'Add title to playlist'#8'TabOrder'#2#1

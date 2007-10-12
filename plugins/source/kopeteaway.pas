@@ -5,7 +5,7 @@ library kopeteaway;
 
 
 uses
-  Classes, SysUtils, plugintypes;
+  Classes, SysUtils, plugintypes, dos;
 
 type
 
@@ -13,7 +13,7 @@ type
 
   TKopeteAwayMsgPlugin = class(TCactusPluginClass)
   public
-    constructor Create(aParent: THandle);
+    constructor Create;
 
     function GetName: pchar; override; stdcall;
     function GetVersion: pchar; override; stdcall;
@@ -21,7 +21,7 @@ type
     function GetComment: pchar; override; stdcall;
 
     procedure Execute; override; stdcall;
-    function EventHandler(EventNotification: TEventNotification): BOOLEAN;
+    function EventHandler(Event: TCactusEvent): BOOLEAN;
         override; stdcall;
   end;
 
@@ -38,7 +38,7 @@ CONST PluginInfo: TPluginInforec = (
 
 
 
-constructor TKopeteAwayMsgPlugin.Create(aParent: THandle);
+constructor TKopeteAwayMsgPlugin.Create;
 begin
 
 end;
@@ -69,16 +69,22 @@ procedure TKopeteAwayMsgPlugin.Execute;stdcall;
 begin
 end;
 
-function TKopeteAwayMsgPlugin.EventHandler(EventNotification: TEventNotification
-  ): boolean;stdcall;
+function TKopeteAwayMsgPlugin.EventHandler(Event: TCactusEvent): boolean;stdcall;
 begin
-
+   case Event of
+     evnStartPlay: begin
+	   exec('/usr/bin/dcop', 'kopete KopeteIface setAway "away"');
+         end;
+     evnStopPlay: begin
+	   exec('/usr/bin/dcop', 'kopete KopeteIface setAvailable');
+	 end;
+   end;
 end;
 
-function LoadPlugin(Parent: THandle; var CactusPlugIn: TCactusPluginClass): Boolean; export;
+function LoadPlugin(var CactusPlugIn: TCactusPluginClass): Boolean; export;
 begin
   try
-    CactusPlugIn := TKopeteAwayMsgPlugin.Create(Parent);
+    CactusPlugIn := TKopeteAwayMsgPlugin.Create;
     Result := True;
   except
     Result := False;
@@ -94,6 +100,7 @@ end;
 //exports LoadPlugIn name 'LoadPlugIn';
 
 exports  GetPluginInfo;
+exports  LoadPlugin;
 
 
 begin

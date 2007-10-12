@@ -5,11 +5,10 @@ unit plugin;
 interface
 
 uses
-  Classes, SysUtils, plugintypes, dynlibs, settings, xmlcfg;
+  Classes, SysUtils, interfaces,forms,  plugintypes, dynlibs, settings, xmlcfg, fmodplayer;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 type
-  TPlayerEvent = (evnStartPlay, evnStopPlay);
 
 { TPluginListItemClass }
   TPluginListItemClass = class
@@ -18,8 +17,11 @@ type
     FPluginHandle: TCactusPlugInClass;
     FLibraryHandle: TLibHandle;
     FEnabled: Boolean;
+    FPlayerObjectPointer: TFModPlayerClass;
+    procedure setEnabled( aValue: boolean);
   public
     constructor create;
+    destructor destroy;
     function ReadPlugin(pluginpath: string):boolean;
     property Name: string read FName;
     property LibName: string read FLibName;
@@ -28,7 +30,8 @@ type
     property Comment: string read FComment;
     property PluginHandle: TCactusPlugInClass read FPluginHandle;
     property LibraryHandle: TLibHandle read FLibraryHandle;
-    property enabled: boolean read FEnabled;
+    property enabled: boolean read FEnabled write setEnabled;
+    property PlayerObjectPointer: TFModPlayerClass read FPlayerObjectPointer;
 
     function loadPlugin: boolean;
     function unloadPlugin: boolean;
@@ -42,14 +45,16 @@ type
   private
     function GetItems(index: integer):TPlugInListItemClass;
     function ReadPluginConfig:boolean;
-    function FlushPluginConfig:boolean;
+
     FConfigPath: string;
     FConfigFile: TXMLConfig;
   public
     constructor Create;
+    destructor destroy;
+    function FlushPluginConfig:boolean;
     function add(dllname: string):boolean;
     procedure ScanPluginFolder;
-//    procedure SendEvent( Evn
+    procedure SendEvent(event: TCactusEvent);
     property Items[index: integer]: TPlugInListItemClass read GetItems;
     PluginFolder: string;
     autoload: boolean;  //reload all previous loaded plugins if found during ScanPluginFolder
@@ -79,8 +84,8 @@ function TPluginListClass.ReadPluginConfig: boolean;
 var i: integer;
 begin
   for i:=0 to Count-1 do  begin
-        Items[i].FEnabled:=FConfigFile.GetValue('Plugins/'+Items[i].FLibName+'/Enabled', false);
-        if autoload and items[i].FEnabled then Items[i].loadPlugin;
+
+        Items[i].Enabled:=FConfigFile.GetValue('Plugin/'+Items[i].LibName+'/Enabled', true);
       end;
 end;
 
@@ -89,11 +94,13 @@ end;
 function TPluginListClass.FlushPluginConfig: boolean;
 var i:integer;
 begin
+  writeln('pluginconfig');
   for i:=0 to Count-1 do
-       if Items[i].FEnabled then
-             FConfigFile.SetValue('Plugin/'+Items[i].LibName+'/Enabled', true)
-           else
-             FConfigFile.DeletePath('Plugin/'+Items[i].LibName);
+       if Items[i].FEnabled then begin
+             FConfigFile.SetValue('Plugin/'+Items[i].LibName+'/Enabled', true);
+          end else
+             FConfigFile.SetValue('Plugin/'+Items[i].LibName+'/Enabled', false);
+  FConfigFile.Flush;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -106,6 +113,17 @@ begin
   FConfigFile:=TXMLConfig.Create(nil);
   FConfigFile.Filename:=FConfigPath;
 
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+destructor TPluginListClass.destroy;
+var i: integer;
+begin
+  FlushPluginConfig;
+  FConfigFile.Free;
+  writeln('free plugins');
+  for i:= 0 to Count-1 do Items[i].Free;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -155,12 +173,38 @@ begin
   ReadPluginConfig;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TPluginListClass.SendEvent(event: TCactusEvent);
+var i: integer;
+begin
+  writelN('Sendevent');
+
+  for i:= 0 to Count-1 do if Items[i].enabled then Items[i].PluginHandle.EventHandler(event);
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TPluginListItemClass.setEnabled(aValue: boolean);
+begin
+  if (FEnabled=false) and (aValue=true) then loadPlugin else unloadPlugin;
+  FEnabled:=aValue;
+
+end;
+
+
 { TPluginListItemClass }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 constructor TPluginListItemClass.create;
 begin
+  FEnabled:=false;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+destructor TPluginListItemClass.destroy;
+begin
+  unloadPlugin;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -196,10 +240,11 @@ begin
 
    FName:=StrPas(PluginInfo.Name);
    FLibName:=ExtractFileName(pluginpath);
-   FLibPath:=ExtractFileDir(pluginpath);
+   FLibPath:=IncludeTrailingPathDelimiter(ExtractFileDir(pluginpath));
    FAuthor:=StrPas(PluginInfo.Author);
    FVersion:=StrPas(PluginInfo.Version);
    FComment:=StrPas(PluginInfo.Comment);
+   FPlayerObjectPointer:=player;
    result:=true;
  //finally
   except
@@ -213,22 +258,32 @@ end;
 function TPluginListItemClass.loadPlugin: boolean;
 var LoadAddr: TLoadPlugIn;
 begin
+ write('Loading plugin '+FLibName+'...');
  try
-   if FileExists(FLibPath+FLibName) then write('ok');
+   if FileExists(FLibPath+FLibName) then write(' ok ') else writeln(' error '+FLibPath+FLibName);
    FLibraryHandle:=LoadLibrary(FLibPath+FLibName);
  except;
    result:=false;
+   writeln('file not found');
    exit;
  end;
+   LoadAddr:=nil;
+ try
    LoadAddr:=TLoadPlugIn(GetProcAddress(FLibraryHandle, 'LoadPlugin'));
-   LoadAddr(FLibraryHandle, FPluginHandle);
+   LoadAddr(FPluginHandle);
+   writeln('done');
+ except
+   writeln('error loading object!');
+ end;
+   
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function TPluginListItemClass.unloadPlugin: boolean;
 begin
-
+  FPluginHandle.Free;
+  UnloadLibrary(FLibraryHandle);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

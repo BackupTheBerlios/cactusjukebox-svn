@@ -81,6 +81,7 @@ var fhandle: THandle;
     i, eofile: longint;
     l: longint;
 begin
+ {$Q-}
      fhandle:=sysutils.fileopen(path, fmOpenRead);
      l:=0;
      i:=0;
@@ -94,7 +95,7 @@ begin
             end;
      FileClose(fhandle);
      result:= l;
-
+ {$Q+}
 end;
 
 function crc32_math(path: string):int64;  //creates an very, very basic checksum to identify files

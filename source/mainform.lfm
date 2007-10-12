@@ -1,16 +1,25 @@
 object Main: TMain
-  Left = 149
-  Height = 666
-  Top = 51
-  Width = 870
-  HorzScrollBar.Page = 869
+  Left = 90
+  Height = 670
+  Top = 75
+  Width = 854
+  HorzScrollBar.Page = 853
   HorzScrollBar.Range = 369
+<<<<<<< .mine
+  VertScrollBar.Page = 642
+=======
   VertScrollBar.Page = 645
+>>>>>>> .r96
   ActiveControl = ArtistTree
   BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'titel'
+<<<<<<< .mine
+  ClientHeight = 643
+  ClientWidth = 854
+=======
   ClientHeight = 646
   ClientWidth = 870
+>>>>>>> .r96
   Icon.Data = {
     610A00002F2A2058504D202A2F0A7374617469632063686172202A6772617068
     69635B5D203D207B0A223136203136203132372032222C0A222E2E2063204E6F
@@ -106,8 +115,13 @@ object Main: TMain
   ShowInTaskBar = stAlways
   object StatusBar1: TStatusBar
     Height = 23
+<<<<<<< .mine
+    Top = 620
+    Width = 854
+=======
     Top = 623
     Width = 870
+>>>>>>> .r96
     Panels = <    
       item
         Text = 'Cactus Jukebox'
@@ -119,8 +133,13 @@ object Main: TMain
     SimplePanel = False
   end
   object Splitter1: TSplitter
+<<<<<<< .mine
+    Left = 288
+    Height = 620
+=======
     Left = 304
     Height = 623
+>>>>>>> .r96
     Width = 8
     Align = alRight
     AutoSnap = False
@@ -130,12 +149,21 @@ object Main: TMain
     ResizeAnchor = akRight
   end
   object Panel1: TPanel
+<<<<<<< .mine
+    Left = 296
+    Height = 620
+=======
     Left = 312
     Height = 623
+>>>>>>> .r96
     Width = 558
     Align = alRight
     BevelOuter = bvNone
+<<<<<<< .mine
+    ClientHeight = 620
+=======
     ClientHeight = 623
+>>>>>>> .r96
     ClientWidth = 558
     ParentColor = False
     TabOrder = 0
@@ -144,7 +172,11 @@ object Main: TMain
     object SearchPanel: TPanel
       Left = 12
       Height = 81
+<<<<<<< .mine
+      Top = 255
+=======
       Top = 258
+>>>>>>> .r96
       Width = 424
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -172,7 +204,7 @@ object Main: TMain
       object srch_album: TCheckBox
         Left = 144
         Height = 13
-        Top = 54
+        Top = 48
         Width = 49
         Caption = 'Album'
         TabOrder = 5
@@ -180,7 +212,7 @@ object Main: TMain
       object srch_title: TCheckBox
         Left = 84
         Height = 13
-        Top = 54
+        Top = 48
         Width = 40
         Caption = 'Title'
         Checked = True
@@ -191,7 +223,7 @@ object Main: TMain
       object srch_artist: TCheckBox
         Left = 13
         Height = 13
-        Top = 54
+        Top = 48
         Width = 43
         Caption = 'Artist'
         Checked = True
@@ -215,7 +247,7 @@ object Main: TMain
       object srch_file: TCheckBox
         Left = 220
         Height = 13
-        Top = 54
+        Top = 48
         Width = 62
         Caption = 'Filename'
         ParentShowHint = False
@@ -245,7 +277,11 @@ object Main: TMain
     object PlayerControlsPanel: TPanel
       Left = 12
       Height = 263
+<<<<<<< .mine
+      Top = 349
+=======
       Top = 352
+>>>>>>> .r96
       Width = 224
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -329,7 +365,7 @@ object Main: TMain
         ParentShowHint = False
       end
       object PlayButtonImg: TImage
-        Left = 88
+        Left = 89
         Height = 36
         Top = 13
         Width = 43
@@ -500,7 +536,6 @@ object Main: TMain
         Width = 152
         Max = 100
         ScalePos = trTop
-        TickMarks = tmBoth
         TickStyle = tsNone
         OnMouseDown = trackbarMouseDown
         OnMouseUp = trackbarMouseUp
@@ -567,8 +602,13 @@ object Main: TMain
       Left = 466
       Height = 32
       Hint = 'Clear Playlist'
+<<<<<<< .mine
+      Top = 307
+      Width = 67
+=======
       Top = 308
       Width = 75
+>>>>>>> .r96
       Anchors = [akRight, akBottom]
       AutoSize = True
       Caption = 'Clear'
@@ -618,7 +658,11 @@ object Main: TMain
     end
     object TitleTree: TListView
       Left = 8
+<<<<<<< .mine
+      Height = 237
+=======
       Height = 240
+>>>>>>> .r96
       Top = 8
       Width = 542
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -674,7 +718,11 @@ object Main: TMain
     object Playlist: TListView
       Left = 248
       Height = 265
+<<<<<<< .mine
+      Top = 347
+=======
       Top = 350
+>>>>>>> .r96
       Width = 302
       Anchors = [akLeft, akRight, akBottom]
       BorderWidth = 1
@@ -704,19 +752,33 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
+<<<<<<< .mine
+    Height = 620
+    Width = 288
+=======
     Height = 623
     Width = 304
+>>>>>>> .r96
     Align = alClient
     BevelOuter = bvNone
+<<<<<<< .mine
+    ClientHeight = 620
+    ClientWidth = 288
+=======
     ClientHeight = 623
     ClientWidth = 304
+>>>>>>> .r96
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 10
+<<<<<<< .mine
+      Height = 605
+=======
       Height = 608
+>>>>>>> .r96
       Top = 10
-      Width = 294
+      Width = 278
       Align = alClient
       BorderSpacing.Left = 10
       BorderSpacing.Top = 10

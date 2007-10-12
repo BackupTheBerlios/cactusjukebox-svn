@@ -26,7 +26,7 @@ uses
 
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
   ExtCtrls, ComCtrls, StdCtrls, Menus, fmodplayer,
-  ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws;
+  ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, plugin, plugintypes;
 
 resourcestring
   rsQuit = 'Quit';
@@ -372,7 +372,6 @@ type
     playitem:TListitem;
     curlib:string;
 
-    player: TFModPlayerclass;
     tempbitmap, timetmpbmp:TBitmap;
     player_freespace, player_totalspace:longint;
 
@@ -679,10 +678,10 @@ procedure TMain.nextClick(Sender: TObject);
 var oldindex, err, i: integer;
 begin
   playtimer.Enabled:=false;
-  oldindex:=player.CurrentTrack;
-  if randomcheck.Checked=false then err:=player.next_track else err:=player.play(player.Playlist.RandomIndex);
+  oldindex:=fmodplayer.player.CurrentTrack;
+  if randomcheck.Checked=false then err:=fmodplayer.player.next_track else err:=fmodplayer.player.play(fmodplayer.player.Playlist.RandomIndex);
   if err=0 then begin
-      i:=player.CurrentTrack;
+      i:=fmodplayer.player.CurrentTrack;
       if i >= 0 then begin
           if oldindex>=0 then playlist.Items[oldindex].ImageIndex:=-1;
           playlist.Items[i].ImageIndex:=0;
@@ -701,10 +700,10 @@ var err:byte;
     i, OldTrack:integer;
 begin
      playtimer.Enabled:=false;
-     OldTrack:=player.CurrentTrack;
-     err:=player.prev_track;
+     OldTrack:=fmodplayer.player.CurrentTrack;
+     err:=fmodplayer.player.prev_track;
      if (err=0) then begin
-          i:=player.CurrentTrack;
+          i:=fmodplayer.player.CurrentTrack;
           if playlist.Items.Count>1 then begin
                      if OldTrack>=0 then playlist.Items[OldTrack].ImageIndex:=-1;
                      playlist.Items[i].ImageIndex:=0;
@@ -722,19 +721,20 @@ procedure TMain.playClick(Sender: TObject);
 var err: byte;
     i: integer;
 begin
-    if (not player.paused) then  begin
+    if (not fmodplayer.player.paused) then  begin
          playtimer.Enabled:=false;
          if (Playlist.items.count>0) and (Playlist.Selected=nil)then playitem:=Playlist.Items[0]
            else playitem:=playlist.selected;
-         if (player.playing) and (player.Playlist.Count>0) and (player.CurrentTrack<player.Playlist.Count) and (player.CurrentTrack>=0)
-                 then playlist.Items[player.CurrentTrack].ImageIndex:=-1;;
+         if (fmodplayer.player.playing) and (fmodplayer.player.Playlist.Count>0) and (fmodplayer.player.CurrentTrack<fmodplayer.player.Playlist.Count) and (fmodplayer.player.CurrentTrack>=0)
+                 then playlist.Items[fmodplayer.player.CurrentTrack].ImageIndex:=-1;;
          if playitem<>nil then begin
-            err:=player.play(playitem.Index);
+            err:=fmodplayer.player.play(playitem.Index);
             if (err=0) then begin
                   playtimer.enabled:=true;
                   playitem.ImageIndex:=0;
                   playitem.MakeVisible(false);
                   update_player_display;
+                  CactusPlugins.SendEvent(evnStartPlay);
                 end
              else begin
                   if (err=1) then Showmessage('File not Found! Goto Library/Rescan Directories for updating file links');
@@ -751,10 +751,11 @@ end;
 
 procedure TMain.stopClick(Sender: TObject);
 begin
-    if (player.CurrentTrack>=0) and (player.CurrentTrack<player.Playlist.ItemCount) then playlist.Items[player.CurrentTrack].ImageIndex:=-1;
-    player.stop;
-    player.playlist.reset_random;
+    if (fmodplayer.player.CurrentTrack>=0) and (fmodplayer.player.CurrentTrack<fmodplayer.player.Playlist.ItemCount) then playlist.Items[fmodplayer.player.CurrentTrack].ImageIndex:=-1;
+    fmodplayer.player.stop;
+    fmodplayer.player.playlist.reset_random;
     update_player_display;
+    CactusPlugins.SendEvent(evnStopPlay);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -770,14 +771,14 @@ begin
    spos:=0;
    slength:=0;
    try
-   if player.playing then begin
-     playtime.text:=player.get_timestr;
+   if fmodplayer.player.playing then begin
+     playtime.text:=fmodplayer.player.get_timestr;
      playwin.TimeImg.Picture.LoadFromFile(SkinData.Time.Img);
      playwin.TimeImg.Canvas.Font.Color:=ClNavy;
      playwin.TimeImg.Canvas.TextOut(5,3, playtime.text);
 
-     spos:=player.get_fileposition;
-     slength:=player.get_filelength;
+     spos:=fmodplayer.player.get_fileposition;
+     slength:=fmodplayer.player.get_filelength;
      r := ((spos*100) / slength);
      trackbar.position:= round(r);
      x2:=(trackbar.position*2)-3;
@@ -786,7 +787,7 @@ begin
      if (CoverFound=false) and (LoopCount<20) then begin
                   inc(LoopCount);
                   if (assigned(awsclass)) and (awsclass.data_ready){  }then begin
-                       fileobj:=TMediaFileClass(playlist.Items[player.CurrentTrack].Data);
+                       fileobj:=TMediaFileClass(playlist.Items[fmodplayer.player.CurrentTrack].Data);
                        if FileExists(fileobj.CoverPath) then begin
                           CoverImage.Picture.LoadFromFile(fileobj.CoverPath);
                           playwin.AlbumCoverImg.Picture.LoadFromFile(fileobj.CoverPath);
@@ -874,7 +875,7 @@ begin
   if Savedialog1.execute=true then begin
          if FileExists(SaveDialog1.FileName) then
               if MessageDlg('File '+SaveDialog1.FileName+' alreday exists'+sLineBreak+sLineBreak+'Overwrite?', mtWarning, mbOKCancel, 0)=mrCancel then exit;
-         player.playlist.SaveToFile(Savedialog1.Filename);
+         fmodplayer.player.playlist.SaveToFile(Savedialog1.Filename);
       end;
 end;
 
@@ -1000,7 +1001,7 @@ end;
 procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-if player.playing {and player.Playlist.Items[player.CurrentTrack].co} then begin
+if fmodplayer.player.playing {and player.Playlist.Items[player.CurrentTrack].co} then begin
 
   BigCoverImgForm:=TBigCoverImg.Create(self);
   BigCoverImgForm.AutoSize:=true;
@@ -1095,7 +1096,7 @@ end;
 
 procedure TMain.MenuItem9Click(Sender: TObject);
 begin
-  title_to_playlist_at(player.CurrentTrack+1);
+  title_to_playlist_at(fmodplayer.player.CurrentTrack+1);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1141,7 +1142,7 @@ procedure TMain.PlaylistCustomDrawItem(Sender: TCustomListView;
 begin
 // not working because font colors not implemented in Lazarus 0.9.23
 
-  if (player.Playlist.Items[Item.Index].Played) and (player.CurrentTrack<>Item.Index) then
+  if (fmodplayer.player.Playlist.Items[Item.Index].Played) and (fmodplayer.player.CurrentTrack<>Item.Index) then
          Sender.Canvas.Font.Color:=clGrayText
        else
           Sender.Canvas.Font.Color:=clWindowText;
@@ -1242,7 +1243,7 @@ end;
 procedure TMain.MainClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
      writeln('stop playing');
-     player.stop;
+     fmodplayer.player.stop;
 
      CactusConfig.WHeight:=Height;
      CactusConfig.WWidth:=Width;
@@ -1258,7 +1259,7 @@ begin
      playtimer.Enabled:=false;
 
 
-     player.free;
+     fmodplayer.player.free;
 
 {     skinmenuitems[1].free;
      PlayButtonImg.free;
@@ -1284,6 +1285,8 @@ begin
     except writeln('ERROR: Exception while shutting down IPC server');
     end;
   writeln('end.');
+     CactusPlugins.FlushPluginConfig;
+     CactusPlugins.Free;
      if CactusConfig.FlushConfig then writeln('Config succesfully written to disk') else writeln('ERROR: writing config to disk');
      CactusConfig.Free;
      Application.Terminate;
@@ -1358,8 +1361,8 @@ begin
   srch_artist.checked:=true;
   playing:=false;
 
-  player:=TFModPlayerClass.create;
-  player.oss:=not CactusConfig.OutputAlsa;
+  fmodplayer.player:=TFModPlayerClass.create;
+  fmodplayer.player.oss:=not CactusConfig.OutputAlsa;
 
   player_connected:=false;
   try
@@ -1375,7 +1378,7 @@ begin
 
 {$ifdef win32}{workaround Listview autosize bug in win32}
   Main.Playlist.Columns[0].autosize:=false;
-  Playlist.Columns[0].width:=Playlist.Width;
+  Main.Playlist.Columns[0].width:=315;
   Main.Titletree.Columns[0].autosize:=false;
   Main.Titletree.Columns[1].autosize:=false;
   Main.Titletree.Columns[2].autosize:=false;
@@ -1476,18 +1479,18 @@ var MedFileObj: TMediaFileClass;
     PPlaylistItem: PPlaylistItemClass;
     i: integer;
 begin
-   if player.playing then begin
-      i:=player.CurrentTrack;
+   if fmodplayer.player.playing then begin
+      i:=fmodplayer.player.CurrentTrack;
       //MedFileObj:=playlist.Items[player.CurrentTrack].Data;
 
-      if player.Playlist.items[i].artist<>'' then current_title_edit.text:=player.Playlist.items[i].artist else current_title_edit.text:=ExtractFileName(player.Playlist.items[i].path);
-      current_title_edit1.text:=player.Playlist.items[i].title;
+      if fmodplayer.player.Playlist.items[i].artist<>'' then current_title_edit.text:=fmodplayer.player.Playlist.items[i].artist else current_title_edit.text:=ExtractFileName(fmodplayer.player.Playlist.items[i].path);
+      current_title_edit1.text:=fmodplayer.player.Playlist.items[i].title;
 
       playwin.TitleImg.Picture.LoadFromFile(SkinData.Title.Img);
       playwin.TitleImg.canvas.Font.Color:=Clnavy;
 
-      if player.Playlist.items[i].artist<>'' then playwin.TitleImg.canvas.textout(5,5,player.Playlist.items[i].artist) else playwin.TitleImg.canvas.textout(5,5,ExtractFileName(player.Playlist.items[i].path));
-      playwin.TitleImg.canvas.textout(5,25,player.Playlist.items[i].title);
+      if fmodplayer.player.Playlist.items[i].artist<>'' then playwin.TitleImg.canvas.textout(5,5,fmodplayer.player.Playlist.items[i].artist) else playwin.TitleImg.canvas.textout(5,5,ExtractFileName(fmodplayer.player.Playlist.items[i].path));
+      playwin.TitleImg.canvas.textout(5,25,fmodplayer.player.Playlist.items[i].title);
     end else begin  //clear everything
       playwin.TitleImg.canvas.Clear;
       CoverImage.Picture.Clear;
@@ -1512,12 +1515,12 @@ begin
    if z<0 then begin
       z:=MediaCollection.add(path);
    end;
-   player.playlist.add(MediaCollection.items[z]);
+   fmodplayer.player.playlist.add(MediaCollection.items[z]);
    ListItem := Playlist.Items.Add;
    listitem.data:=MediaCollection.items[z];
 
    if MediaCollection.items[z].title<>'' then ListItem.Caption:=MediaCollection.items[z].artist+' - '+MediaCollection.items[z].title else ListItem.Caption:=extractfilename(MediaCollection.items[z].path);
-   playlist.Column[0].Caption:='Playlist                       ('+IntToStr(player.playlist.ItemCount)+' Files/ '+player.Playlist.TotalPlayTimeStr +')';
+   playlist.Column[0].Caption:='Playlist                       ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr +')';
    result:=true;
    update_artist_view;
    update_title_view;
@@ -1656,12 +1659,12 @@ begin
   OpenDialog1.FilterIndex := 1;
   if Opendialog1.execute=true then begin
      playlist.Clear;
-     player.Playlist.clear;
-     player.Playlist.LoadFromFile(Opendialog1.Filename);
-     for id:= 0 to player.Playlist.Count-1 do begin
+     fmodplayer.player.Playlist.clear;
+     fmodplayer.player.Playlist.LoadFromFile(Opendialog1.Filename);
+     for id:= 0 to fmodplayer.player.Playlist.Count-1 do begin
             ListItem := Playlist.Items.Add;
-            listitem.Data:=TMediaFileClass.create(player.Playlist.Items[id].path, nil);
-            ListItem.Caption:=player.Playlist.items[id].Artist+' - '+player.Playlist.Items[id].Title;
+            listitem.Data:=TMediaFileClass.create(fmodplayer.player.Playlist.Items[id].path, nil);
+            ListItem.Caption:=fmodplayer.player.Playlist.items[id].Artist+' - '+fmodplayer.player.Playlist.Items[id].Title;
          end;
 
    end;
@@ -1679,7 +1682,7 @@ begin
    if (TitleTree.Items.Count>0) then begin
      for i:= 0 to TitleTree.Items.Count-1 do begin
            MedFileObj:=TMediaFileClass(TitleTree.Items[i].Data);
-           player.playlist.add(MedFileObj);
+           fmodplayer.player.playlist.add(MedFileObj);
 
            ListItem := Playlist.Items.Add;
            listitem.data:=MedFileObj;
@@ -1690,7 +1693,7 @@ begin
                   ListItem.Caption:=extractfilename(MedFileObj.path);
        end;
    end;
-   playlist.Column[0].Caption:='Playlist                       ('+IntToStr(player.playlist.ItemCount)+' Files/ '+player.Playlist.TotalPlayTimeStr +')';
+   playlist.Column[0].Caption:='Playlist                       ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr +')';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1784,19 +1787,7 @@ end;
 
 procedure TMain.Panel1Resize(Sender: TObject);
 begin
-  // Splitter1.Left:=oldSplitterWidth;
-{$ifdef win32}
-
-  Playlist.Columns[0].width:=Playlist.Width;
-  Titletree.Columns[5].width:=45;
-  Titletree.Columns[4].width:=45;
-  Titletree.Columns[3].width:=110;
-  Titletree.Columns[2].width:=TitleTree.Width-45-45-110-140-16;
-  Titletree.Columns[1].width:=140;
-  Titletree.Columns[0].width:=16;
-
-{$endif}
-  
+   Splitter1.Left:=oldSplitterWidth;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1986,8 +1977,8 @@ end;
 
 procedure TMain.TrackInfoClick(Sender: TObject);
 begin
-       if (player.CurrentTrack)>=0 then begin
-         playlist.selected:=playlist.Items[main.player.CurrentTrack];
+       if (fmodplayer.player.CurrentTrack)>=0 then begin
+         playlist.selected:=playlist.Items[fmodplayer.player.CurrentTrack];
          MenuItem10Click(nil);
        end;
 end;
@@ -2108,7 +2099,7 @@ begin
       Playlist.BeginUpdate;
       Playlist.Items.Clear;
       playlist.Column[0].Caption:= 'Playlist';
-      player.playlist.clear;
+      fmodplayer.player.playlist.clear;
       Playlist.EndUpdate;
 end;
 
@@ -2138,8 +2129,8 @@ end;
 
 procedure TMain.muteClick(Sender: TObject);
 begin
-  player.mute;
-  if player.muted then mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mute1.xpm') else mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mute2.xpm');
+  fmodplayer.player.mute;
+  if fmodplayer.player.muted then mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mute1.xpm') else mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mute2.xpm');
 end;
 
 procedure TMain.opendirClick(Sender: TObject);
@@ -2186,7 +2177,7 @@ end;
 
 procedure TMain.pauseClick(Sender: TObject);
 begin
-   player.pause;
+   fmodplayer.player.pause;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2275,13 +2266,12 @@ begin
               writeln(i);
               if ctrl_pressed then begin
                    tempitem:=playlist.selected;
-                   player.playlist.move(i, i-1);
+                   fmodplayer.player.playlist.move(i, i-1);
                    playlist.items[i]:=playlist.items[i-1];
                    playlist.items[i-1]:=tempitem;
                    Playlist.SetFocus;
                    playlist.items[i].Selected:=false;
                    playlist.items[i-1].Selected:=true;
-                   writeln(player.CurrentTrack);
                    //tempitem.MakeVisible(true);
                  end;
               writeln(playlist.Selected.Index);
@@ -2293,13 +2283,12 @@ begin
               writeln(i);
               if ctrl_pressed then begin
                    tempitem:=playlist.selected;
-                   player.playlist.move(i,i+1);
+                   fmodplayer.player.playlist.move(i,i+1);
                    playlist.items[i]:=playlist.items[i+1];
                    playlist.items[i+1]:=tempitem;
                    Playlist.SetFocus;
                    playlist.items[i].Selected:=false;
                    playlist.items[i+1].Selected:=true;
-                   writeln(player.CurrentTrack);
                    //tempitem.MakeVisible(true);
                end;
               writeln(playlist.Selected.Index);
@@ -2356,8 +2345,8 @@ var MedFileObj: TMediaFileClass;
 begin
   CoverFound:=false;
   LoopCount:=0;
-  i:=player.CurrentTrack;
-  MedFileObj:=TMediaFileClass(playlist.Items[player.CurrentTrack].Data);
+  i:=fmodplayer.player.CurrentTrack;
+  MedFileObj:=TMediaFileClass(playlist.Items[fmodplayer.player.CurrentTrack].Data);
   if (MedFileObj.album<>'') then begin
      MedFileObj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+MedFileObj.artist+'_'+MedFileObj.album+'.jpeg';
      if (FileExists(MedFileObj.CoverPath)=false) then begin
@@ -2651,11 +2640,11 @@ var s1, s2: string;
 begin
     if playlist.selected<>nil then begin
       i:=playlist.selected.index;
-      player.playlist.remove(i);
+      fmodplayer.player.playlist.remove(i);
       Playlist.Selected.delete;
-      s1:=IntToStr((player.Playlist.TotalPlayTime div 60) mod 60 );
-      s2:=IntToStr((player.Playlist.TotalPlayTime div 60) div 60 );
-      playlist.Column[0].Caption:='Playlist            ('+IntToStr(player.Playlist.ItemCount)+' Files/ '+s2+'h '+s1+'min )';
+      s1:=IntToStr((fmodplayer.player.Playlist.TotalPlayTime div 60) mod 60 );
+      s2:=IntToStr((fmodplayer.player.Playlist.TotalPlayTime div 60) div 60 );
+      playlist.Column[0].Caption:='Playlist            ('+IntToStr(fmodplayer.player.Playlist.ItemCount)+' Files/ '+s2+'h '+s1+'min )';
       if (i>=1) and (i=playlist.items.count) then dec(i);
       playlist.selected:=playlist.items[i];
     end;
@@ -2746,7 +2735,7 @@ end;
 
 procedure TMain.toggle_playpause(Sender: TObject);
 begin
-  if player.playing then pauseClick(nil) else playClick(nil);
+  if fmodplayer.player.playing then pauseClick(nil) else playClick(nil);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2765,11 +2754,11 @@ var k, spos, slength: real;
     i:integer;
 begin
   k:=trackbar.position;
-  slength:=player.get_filelength;
+  slength:=fmodplayer.player.get_filelength;
   spos:=round((k*slength) / (100));
   i:=round(spos);
-  player.set_fileposition(i);
-  if player.playing then playtimer.enabled:=true;
+  fmodplayer.player.set_fileposition(i);
+  if fmodplayer.player.playing then playtimer.enabled:=true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2799,8 +2788,8 @@ end;
 
 procedure TMain.volumebarChange(Sender: TObject);
 begin
-  player.set_volume((50-volumebar.Position)*2);
-  writeln('volume set '+ IntToStr(player.volume));
+  fmodplayer.player.set_volume((50-volumebar.Position)*2);
+  writeln('volume set '+ IntToStr(fmodplayer.player.volume));
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2835,14 +2824,14 @@ begin
    if (tsnode<>nil) and (tsnode.ImageIndex<>4) then begin
      MedFileObj:=TMediaFileClass(tsnode.data);
 
-     main.player.playlist.Insert(index, MedFileObj);
+     fmodplayer.player.playlist.Insert(index, MedFileObj);
 
      ListItem := Main.Playlist.Items.Insert(index);
      listitem.data:=MedFileObj;
      listitem.MakeVisible(false);
      if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
    end;
-   main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(main.player.playlist.ItemCount)+' Files/ '+main.player.Playlist.TotalPlayTimeStr +')';
+   main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr +')';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2858,7 +2847,7 @@ begin
    if (tsnode<>nil) and (tsnode.ImageIndex<>4) then begin
      MedFileObj:=TMediaFileClass(tsnode.data);
 
-     main.player.playlist.add(MedFileObj);
+     fmodplayer.player.playlist.add(MedFileObj);
 
      ListItem := Main.Playlist.Items.Add;
      listitem.data:=MedFileObj;
@@ -2866,7 +2855,7 @@ begin
 //     listitem.Focused:=true;
      if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
    end;
-   main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(main.player.playlist.ItemCount)+' Files/ '+main.player.Playlist.TotalPlayTimeStr +')';
+   main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr +')';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2891,7 +2880,7 @@ begin
      repeat begin
         writeln(MedColObj.items[z].title);
         if (album_mode=false) or ((album_mode=true) and (lowercase(MedColObj.items[z].album)=curalbum)) then begin
-           Main.player.playlist.add(MedColObj.items[z]);
+           fmodplayer.player.playlist.add(MedColObj.items[z]);
            ListItem := Main.Playlist.Items.Add;
            listitem.data:=MedColObj.items[z];
           // Listitem.Focused:=true;
@@ -2902,7 +2891,7 @@ begin
       until z<0;
      Listitem.MakeVisible(false);
    end;
-  main.playlist.Column[0].Caption:='Playlist            ('+IntToStr(main.player.playlist.ItemCount)+' Files/ '+main.player.Playlist.TotalPlayTimeStr+' )';
+  main.playlist.Column[0].Caption:='Playlist            ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr+' )';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3102,9 +3091,9 @@ var    PPlaylistItem: PPlaylistItemClass;
        i:integer;
 begin
 
-     for i:= 0 to player.Playlist.ItemCount-1 do begin
+     for i:= 0 to fmodplayer.player.Playlist.ItemCount-1 do begin
           MedfileObj:=TMediaFileClass(playlist.Items[i].Data);
-          player.Playlist.Items[i].update(MedfileObj);
+          fmodplayer.player.Playlist.Items[i].update(MedfileObj);
 
           if MedfileObj.title<>'' then
               playlist.Items[i].caption:=MedfileObj.artist+' - '+MedfileObj.title
@@ -3125,8 +3114,8 @@ begin
     i:=0;
     while i < playlist.Items.Count do begin
          if TMediaFileClass(playlist.Items[i].Data).collection=PlayerCol then begin
-            Player.playlist.remove(i);
-            if player.Playlist.ItemCount<>0 then Playlist.Items[i].Delete;
+            fmodplayer.Player.playlist.remove(i);
+            if fmodplayer.player.Playlist.ItemCount<>0 then Playlist.Items[i].Delete;
             dec(i);
           end;
       inc(i);

@@ -396,8 +396,8 @@ end;
 
 procedure Tplaywin.file_infoClick(Sender: TObject);
 begin
-     if (main.player.CurrentTrack)>=0 then begin
-         main.playlist.selected:=main.playlist.Items[main.player.CurrentTrack-1];
+     if (fmodplayer.player.CurrentTrack)>=0 then begin
+         main.playlist.selected:=main.playlist.Items[fmodplayer.player.CurrentTrack-1];
          Main.MenuItem10Click(nil);
        end;
 end;
@@ -530,7 +530,7 @@ begin
   if key=113 then Main.player_libClick(nil);
   if key = 17 then strg:=true;
   if (strg=true) and (key=78) then Main.nextClick(nil);
-  if (key=32) or ((strg=true) and (key=80)) then if Main.player.playing then Main.pauseClick(nil) else Main.playClick(nil);
+  if (key=32) or ((strg=true) and (key=80)) then if fmodplayer.player.playing then pauseClick(nil) else Main.playClick(nil);
   if (key=77) or ((strg=true) and (key=77)) then Main.muteClick(nil);
   if (strg=true) and (key=66) then Main.prevClick(nil);
 end;
@@ -564,9 +564,9 @@ procedure Tplaywin.trackbarMouseDown(Sender: TOBject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var spos,slength:integer;
 begin
-  slength:=Main.player.get_filelength;
+  slength:=fmodplayer.player.get_filelength;
   spos:=(x*slength) div (200);
-  Main.player.set_fileposition(spos);
+  fmodplayer.player.set_fileposition(spos);
 
 end;
 
