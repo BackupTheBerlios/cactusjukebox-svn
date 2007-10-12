@@ -1089,6 +1089,7 @@ procedure TMain.MenuItem7Click(Sender: TObject);
 begin
     title_to_playlist;
     Playlist.Items[Playlist.Items.Count-1].Focused:=true;
+    {$ifdef win32} Playlist.Items[Playlist.Items.Count-1].Selected:=true;{$endif}
     playClick(nil);
 end;
 
@@ -2093,13 +2094,17 @@ end;
 procedure TMain.MenuItem10Click(Sender: TObject);
 var MedFileObj: TMediaFileClass;
 begin
-    Main.enabled:=false;
+
 
     if playlist.Selected<>nil then begin
        MedFileObj:=TMediaFileClass(Playlist.Selected.Data);
        editid3win.display_window(MedFileObj);
+       EditID3win.Show;
+       EditID3win.Visible:=true;
+       EditID3win.BringToFront;
+       enabled:=false;
      end;
-    EditID3win.Show;
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
