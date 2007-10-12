@@ -1,4 +1,4 @@
-<<<<<<< .mine
+
 {
 
   classes that implement the player functions for FMOD library
@@ -19,7 +19,9 @@ interface
 
 uses
   Classes, SysUtils,
-  fmod, fmodtypes, mediacol;
+  {$ifdef win32} fmoddyn, {$endif}
+  {$ifdef unix} fmod, {$endif}
+  fmodtypes, mediacol;
 
 
 
@@ -1273,5 +1275,3 @@ end;
 begin
 fmod_load('');
 end.
-
->>>>>>> .r91
