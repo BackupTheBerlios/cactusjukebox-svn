@@ -18,7 +18,7 @@ interface
 
 uses
   Classes, SysUtils,
-  fmod, fmodtypes, mediacol;
+  fmoddyn, fmodtypes, mediacol;
 
 
 
@@ -631,5 +631,7 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+begin
+fmod_load('');
 end.
 
