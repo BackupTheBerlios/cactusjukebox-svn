@@ -13,6 +13,7 @@ object Settings: TSettings
   Caption = 'Settings...'
   ClientHeight = 504
   ClientWidth = 448
+  FormStyle = fsStayOnTop
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poMainFormCenter
@@ -47,13 +48,13 @@ object Settings: TSettings
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'General'
-      ClientHeight = 395
-      ClientWidth = 424
+      ClientHeight = 388
+      ClientWidth = 428
       object LLanguage: TLabel
         Left = 54
         Height = 14
         Top = 308
-        Width = 48
+        Width = 57
         Caption = 'Language'
         ParentColor = False
       end
@@ -61,15 +62,15 @@ object Settings: TSettings
         Left = 54
         Height = 14
         Top = 345
-        Width = 65
+        Width = 77
         Caption = 'Audio Output'
         ParentColor = False
       end
       object autoload1: TCheckBox
         Left = 38
-        Height = 13
+        Height = 23
         Top = 18
-        Width = 158
+        Width = 198
         AllowGrayed = True
         Caption = 'Autoload last library at startup'
         Checked = True
@@ -78,9 +79,9 @@ object Settings: TSettings
       end
       object backscan: TCheckBox
         Left = 38
-        Height = 13
+        Height = 23
         Top = 43
-        Width = 293
+        Width = 359
         Caption = 'Scan for new files in background  on startup(experimental)'
         TabOrder = 1
         Visible = False
@@ -91,7 +92,6 @@ object Settings: TSettings
         Top = 297
         Width = 100
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemHeight = 13
         ItemIndex = 0
         Items.Strings = (
           'en_buildin'
@@ -103,18 +103,18 @@ object Settings: TSettings
       end
       object kdeservicebox: TCheckBox
         Left = 38
-        Height = 13
+        Height = 23
         Top = 217
-        Width = 143
+        Width = 173
         Caption = 'enable KDE service menu'
         OnChange = kdeserviceboxChange
         TabOrder = 3
       end
       object ClearCover: TButton
         Left = 310
-        Height = 25
+        Height = 29
         Top = 243
-        Width = 85
+        Width = 83
         AutoSize = True
         BorderSpacing.InnerBorder = 4
         Caption = 'Clear cache'
@@ -123,9 +123,9 @@ object Settings: TSettings
       end
       object CoverDownload: TCheckBox
         Left = 38
-        Height = 13
+        Height = 23
         Top = 249
-        Width = 205
+        Width = 248
         Caption = 'Download album cover art form internet'
         TabOrder = 5
       end
@@ -135,7 +135,6 @@ object Settings: TSettings
         Top = 337
         Width = 100
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemHeight = 13
         ItemIndex = 0
         Items.Strings = (
           'Alsa'
@@ -151,22 +150,22 @@ object Settings: TSettings
         Top = 105
         Width = 356
         Caption = 'Doubleclick behaviour'
-        ClientHeight = 46
+        ClientHeight = 44
         ClientWidth = 352
         TabOrder = 7
         object CheckBox1: TCheckBox
           Left = 30
-          Height = 13
+          Height = 23
           Top = 14
-          Width = 59
+          Width = 75
           Caption = 'Play title'
           TabOrder = 0
         end
         object CheckBox2: TCheckBox
           Left = 190
-          Height = 13
+          Height = 23
           Top = 14
-          Width = 104
+          Width = 132
           Caption = 'Add title to playlist'
           TabOrder = 1
         end
@@ -174,8 +173,8 @@ object Settings: TSettings
     end
     object TabSheet2: TTabSheet
       Caption = 'Mobile Device'
-      ClientHeight = 395
-      ClientWidth = 424
+      ClientHeight = 421
+      ClientWidth = 432
       object LMountpoint: TLabel
         Left = 24
         Height = 14
@@ -213,8 +212,8 @@ object Settings: TSettings
     end
     object TabSheet5: TTabSheet
       Caption = 'Plugins'
-      ClientHeight = 395
-      ClientWidth = 424
+      ClientHeight = 421
+      ClientWidth = 432
       object Label1: TLabel
         Left = 14
         Height = 14
@@ -254,8 +253,8 @@ object Settings: TSettings
     end
     object TabSheet3: TTabSheet
       Caption = 'Paths'
-      ClientHeight = 395
-      ClientWidth = 424
+      ClientHeight = 421
+      ClientWidth = 432
       object Label5: TLabel
         Left = 14
         Height = 18
@@ -308,8 +307,8 @@ object Settings: TSettings
     end
     object TabSheet4: TTabSheet
       Caption = 'ID3v2/v1'
-      ClientHeight = 395
-      ClientWidth = 424
+      ClientHeight = 421
+      ClientWidth = 432
       object ID3typebox: TGroupBox
         Left = 38
         Height = 88

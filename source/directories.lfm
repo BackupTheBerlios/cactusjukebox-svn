@@ -1,15 +1,18 @@
 object dirwin: Tdirwin
-  Left = 388
+  Left = 350
   Height = 275
-  Top = 391
+  Top = 271
   Width = 471
   HorzScrollBar.Page = 470
   VertScrollBar.Page = 274
   ActiveControl = add
+  BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'Directories'
   ClientHeight = 275
   ClientWidth = 471
+  FormStyle = fsStayOnTop
   OnCreate = FormCreate
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   object add: TButton
     Left = 383
@@ -74,6 +77,7 @@ object dirwin: Tdirwin
     Anchors = [akTop, akLeft, akRight, akBottom]
     OnClick = dirlistviewClick
     TabOrder = 5
+    TopIndex = -1
   end
   object SelectDirectoryDialog1: TSelectDirectoryDialog
     Title = 'Select Directory'

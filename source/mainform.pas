@@ -987,7 +987,7 @@ begin
   tsitem:=TitleTree.Selected;
 
   editid3win.display_window(TMediaFileClass(tsitem.data));
-  EditID3win.Show;
+  EditID3win.ShowModal;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1367,18 +1367,16 @@ begin
   fmodplayer.player.oss:=not CactusConfig.OutputAlsa;
 
   player_connected:=false;
+  {$ifdef linux}
   try
-
   write('loading program icon...  ');
-
-  //Icon.LoadFromFile(CactusConfig.DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
-
+  Icon.LoadFromFile(CactusConfig.DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
 //  CoverImage.Picture.LoadFromFile(DataPrefix+'tools'+DirectorySeparator+'cactus-logo-small.png');
   writeln('... loaded');
   except
         writeln('ERROR loading bitmaps, files not found');
   end;
-
+  {$endif}
 
 
 {$ifdef win32}{workaround Listview autosize bug in win32}
@@ -1519,9 +1517,12 @@ end;
 
 procedure TMain.MenuItem11Click(Sender: TObject);
 begin
-   dirwin:=Tdirwin.Create(nil);
 
+   dirwin:=Tdirwin.Create(Application);
+   Enabled:=false;
    dirwin.ShowModal;
+   dirwin.Free;
+   Enabled:=true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1756,9 +1757,11 @@ end;
 
 procedure TMain.MenuItem46Click(Sender: TObject);
 begin
-  cdripwin:=Tcdrip.Create(nil);
-  main.Enabled:=false;
+  cdripwin:=Tcdrip.Create(Application);
+  Enabled:=false;
   cdripwin.ShowModal;
+  cdripwin.Free;
+  Enabled:=true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2678,10 +2681,11 @@ end;
 
 procedure TMain.Menuitem22Click(Sender: TObject);
 begin
-    setupwin:=Tsettings.create(nil);
-
+    Enabled:=false;
+    setupwin:=Tsettings.create(Application);
     setupwin.ShowModal;
-    setupwin.Release;
+    setupwin.Free;
+    Enabled:=true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

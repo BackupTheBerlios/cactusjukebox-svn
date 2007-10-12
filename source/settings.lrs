@@ -6,49 +6,49 @@ LazarusResources.Add('TSettings','FORMDATA',[
   +#1#18'VertScrollBar.Page'#3#247#1#19'VertScrollBar.Range'#3#225#1#13'ActiveC'
   +'ontrol'#7#7'savebut'#11'BorderIcons'#11#12'biSystemMenu'#10'biMinimize'#0#11
   +'BorderStyle'#7#8'bsDialog'#7'Caption'#6#11'Settings...'#12'ClientHeight'#3
-  +#248#1#11'ClientWidth'#3#192#1#8'OnCreate'#7#10'FormCreate'#9'OnDestroy'#7#11
-  +'FormDestroy'#8'Position'#7#16'poMainFormCenter'#13'ShowInTaskBar'#7#7'stNev'
-  +'er'#0#7'TButton'#7'savebut'#4'Left'#2'8'#6'Height'#2#25#3'Top'#3#200#1#5'Wi'
-  +'dth'#2'K'#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#4'Save'#7'OnClick'
-  +#7#12'savebutClick'#8'TabOrder'#2#1#0#0#7'TButton'#9'cancelbut'#4'Left'#3'H'
-  +#1#6'Height'#2#25#3'Top'#3#200#1#5'Width'#2'K'#25'BorderSpacing.InnerBorder'
-  +#2#4#7'Caption'#6#6'Cancel'#7'OnClick'#7#14'cancelbutClick'#8'TabOrder'#2#2#0
-  +#0#12'TPageControl'#12'PageControl1'#4'Left'#2#8#6'Height'#3#165#1#3'Top'#2
-  +#16#5'Width'#3#176#1#10'ActivePage'#7#9'TabSheet1'#8'TabIndex'#2#0#8'TabOrde'
-  +'r'#2#0#0#9'TTabSheet'#9'TabSheet1'#7'Caption'#6#7'General'#12'ClientHeight'
-  +#3#139#1#11'ClientWidth'#3#168#1#0#6'TLabel'#9'LLanguage'#4'Left'#2'6'#6'Hei'
-  +'ght'#2#14#3'Top'#3'4'#1#5'Width'#2'0'#7'Caption'#6#8'Language'#11'ParentCol'
-  +'or'#8#0#0#6'TLabel'#9'LAudioOut'#4'Left'#2'6'#6'Height'#2#14#3'Top'#3'Y'#1#5
-  +'Width'#2'A'#7'Caption'#6#12'Audio Output'#11'ParentColor'#8#0#0#9'TCheckBox'
-  +#9'autoload1'#4'Left'#2'&'#6'Height'#2#13#3'Top'#2#18#5'Width'#3#158#0#11'Al'
-  +'lowGrayed'#9#7'Caption'#6' Autoload last library at startup'#7'Checked'#9#5
-  +'State'#7#9'cbChecked'#8'TabOrder'#2#0#0#0#9'TCheckBox'#8'backscan'#4'Left'#2
-  +'&'#6'Height'#2#13#3'Top'#2'+'#5'Width'#3'%'#1#7'Caption'#6':Scan for new fi'
-  +'les in background  on startup(experimental)'#8'TabOrder'#2#1#7'Visible'#8#0
-  +#0#9'TComboBox'#11'LanguageBox'#4'Left'#3#158#0#6'Height'#2#21#3'Top'#3')'#1
-  +#5'Width'#2'd'#16'AutoCompleteText'#11#22'cbactEndOfLineComplete'#20'cbactSe'
-  +'archAscending'#0#10'ItemHeight'#2#13#9'ItemIndex'#2#0#13'Items.Strings'#1#6
-  +#10'en_buildin'#0#9'MaxLength'#2#0#8'OnChange'#7#17'LanguageBoxChange'#8'Tab'
-  +'Order'#2#2#4'Text'#6#10'en_buildin'#0#0#9'TCheckBox'#13'kdeservicebox'#4'Le'
-  +'ft'#2'&'#6'Height'#2#13#3'Top'#3#217#0#5'Width'#3#143#0#7'Caption'#6#23'ena'
-  +'ble KDE service menu'#8'OnChange'#7#19'kdeserviceboxChange'#8'TabOrder'#2#3
-  +#0#0#7'TButton'#10'ClearCover'#4'Left'#3'6'#1#6'Height'#2#25#3'Top'#3#243#0#5
-  +'Width'#2'U'#8'AutoSize'#9#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#11
-  +'Clear cache'#7'OnClick'#7#15'ClearCoverClick'#8'TabOrder'#2#4#0#0#9'TCheckB'
-  +'ox'#13'CoverDownload'#4'Left'#2'&'#6'Height'#2#13#3'Top'#3#249#0#5'Width'#3
-  +#205#0#7'Caption'#6'&Download album cover art form internet'#8'TabOrder'#2#5
-  +#0#0#9'TComboBox'#8'AudioOut'#4'Left'#3#158#0#6'Height'#2#21#3'Top'#3'Q'#1#5
-  +'Width'#2'd'#16'AutoCompleteText'#11#22'cbactEndOfLineComplete'#20'cbactSear'
-  +'chAscending'#0#10'ItemHeight'#2#13#9'ItemIndex'#2#0#13'Items.Strings'#1#6#4
-  +'Alsa'#6#3'OSS'#0#9'MaxLength'#2#0#8'TabOrder'#2#6#4'Text'#6#4'Alsa'#0#0#9'T'
-  +'GroupBox'#9'GroupBox1'#4'Left'#2'&'#6'Height'#2'@'#3'Top'#2'i'#5'Width'#3'd'
-  +#1#7'Caption'#6#21'Doubleclick behaviour'#12'ClientHeight'#2'.'#11'ClientWid'
-  +'th'#3'`'#1#8'TabOrder'#2#7#0#9'TCheckBox'#9'CheckBox1'#4'Left'#2#30#6'Heigh'
-  +'t'#2#13#3'Top'#2#14#5'Width'#2';'#7'Caption'#6#10'Play title'#8'TabOrder'#2
-  +#0#0#0#9'TCheckBox'#9'CheckBox2'#4'Left'#3#190#0#6'Height'#2#13#3'Top'#2#14#5
-  +'Width'#2'h'#7'Caption'#6#21'Add title to playlist'#8'TabOrder'#2#1#0#0#0#0#9
+  +#248#1#11'ClientWidth'#3#192#1#9'FormStyle'#7#11'fsStayOnTop'#8'OnCreate'#7
+  +#10'FormCreate'#9'OnDestroy'#7#11'FormDestroy'#8'Position'#7#16'poMainFormCe'
+  +'nter'#13'ShowInTaskBar'#7#7'stNever'#0#7'TButton'#7'savebut'#4'Left'#2'8'#6
+  +'Height'#2#25#3'Top'#3#200#1#5'Width'#2'K'#25'BorderSpacing.InnerBorder'#2#4
+  +#7'Caption'#6#4'Save'#7'OnClick'#7#12'savebutClick'#8'TabOrder'#2#1#0#0#7'TB'
+  +'utton'#9'cancelbut'#4'Left'#3'H'#1#6'Height'#2#25#3'Top'#3#200#1#5'Width'#2
+  +'K'#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#6'Cancel'#7'OnClick'#7#14
+  +'cancelbutClick'#8'TabOrder'#2#2#0#0#12'TPageControl'#12'PageControl1'#4'Lef'
+  +'t'#2#8#6'Height'#3#165#1#3'Top'#2#16#5'Width'#3#176#1#10'ActivePage'#7#9'Ta'
+  +'bSheet1'#8'TabIndex'#2#0#8'TabOrder'#2#0#0#9'TTabSheet'#9'TabSheet1'#7'Capt'
+  +'ion'#6#7'General'#12'ClientHeight'#3#132#1#11'ClientWidth'#3#172#1#0#6'TLab'
+  +'el'#9'LLanguage'#4'Left'#2'6'#6'Height'#2#14#3'Top'#3'4'#1#5'Width'#2'9'#7
+  +'Caption'#6#8'Language'#11'ParentColor'#8#0#0#6'TLabel'#9'LAudioOut'#4'Left'
+  +#2'6'#6'Height'#2#14#3'Top'#3'Y'#1#5'Width'#2'M'#7'Caption'#6#12'Audio Outpu'
+  +'t'#11'ParentColor'#8#0#0#9'TCheckBox'#9'autoload1'#4'Left'#2'&'#6'Height'#2
+  +#23#3'Top'#2#18#5'Width'#3#198#0#11'AllowGrayed'#9#7'Caption'#6' Autoload la'
+  +'st library at startup'#7'Checked'#9#5'State'#7#9'cbChecked'#8'TabOrder'#2#0
+  +#0#0#9'TCheckBox'#8'backscan'#4'Left'#2'&'#6'Height'#2#23#3'Top'#2'+'#5'Widt'
+  +'h'#3'g'#1#7'Caption'#6':Scan for new files in background  on startup(experi'
+  +'mental)'#8'TabOrder'#2#1#7'Visible'#8#0#0#9'TComboBox'#11'LanguageBox'#4'Le'
+  +'ft'#3#158#0#6'Height'#2#21#3'Top'#3')'#1#5'Width'#2'd'#16'AutoCompleteText'
+  +#11#22'cbactEndOfLineComplete'#20'cbactSearchAscending'#0#9'ItemIndex'#2#0#13
+  +'Items.Strings'#1#6#10'en_buildin'#0#9'MaxLength'#2#0#8'OnChange'#7#17'Langu'
+  +'ageBoxChange'#8'TabOrder'#2#2#4'Text'#6#10'en_buildin'#0#0#9'TCheckBox'#13
+  +'kdeservicebox'#4'Left'#2'&'#6'Height'#2#23#3'Top'#3#217#0#5'Width'#3#173#0#7
+  +'Caption'#6#23'enable KDE service menu'#8'OnChange'#7#19'kdeserviceboxChange'
+  +#8'TabOrder'#2#3#0#0#7'TButton'#10'ClearCover'#4'Left'#3'6'#1#6'Height'#2#29
+  +#3'Top'#3#243#0#5'Width'#2'S'#8'AutoSize'#9#25'BorderSpacing.InnerBorder'#2#4
+  +#7'Caption'#6#11'Clear cache'#7'OnClick'#7#15'ClearCoverClick'#8'TabOrder'#2
+  +#4#0#0#9'TCheckBox'#13'CoverDownload'#4'Left'#2'&'#6'Height'#2#23#3'Top'#3
+  +#249#0#5'Width'#3#248#0#7'Caption'#6'&Download album cover art form internet'
+  +#8'TabOrder'#2#5#0#0#9'TComboBox'#8'AudioOut'#4'Left'#3#158#0#6'Height'#2#21
+  +#3'Top'#3'Q'#1#5'Width'#2'd'#16'AutoCompleteText'#11#22'cbactEndOfLineComple'
+  +'te'#20'cbactSearchAscending'#0#9'ItemIndex'#2#0#13'Items.Strings'#1#6#4'Als'
+  +'a'#6#3'OSS'#0#9'MaxLength'#2#0#8'TabOrder'#2#6#4'Text'#6#4'Alsa'#0#0#9'TGro'
+  +'upBox'#9'GroupBox1'#4'Left'#2'&'#6'Height'#2'@'#3'Top'#2'i'#5'Width'#3'd'#1
+  +#7'Caption'#6#21'Doubleclick behaviour'#12'ClientHeight'#2','#11'ClientWidth'
+  +#3'`'#1#8'TabOrder'#2#7#0#9'TCheckBox'#9'CheckBox1'#4'Left'#2#30#6'Height'#2
+  +#23#3'Top'#2#14#5'Width'#2'K'#7'Caption'#6#10'Play title'#8'TabOrder'#2#0#0#0
+  +#9'TCheckBox'#9'CheckBox2'#4'Left'#3#190#0#6'Height'#2#23#3'Top'#2#14#5'Widt'
+  +'h'#3#132#0#7'Caption'#6#21'Add title to playlist'#8'TabOrder'#2#1#0#0#0#0#9
   +'TTabSheet'#9'TabSheet2'#7'Caption'#6#13'Mobile Device'#12'ClientHeight'#3
-  +#139#1#11'ClientWidth'#3#168#1#0#6'TLabel'#11'LMountpoint'#4'Left'#2#24#6'He'
+  +#165#1#11'ClientWidth'#3#176#1#0#6'TLabel'#11'LMountpoint'#4'Left'#2#24#6'He'
   +'ight'#2#14#3'Top'#2#26#5'Width'#3#175#0#7'Caption'#6#28'Path to mp3player m'
   +'ountpoint'#11'ParentColor'#8#0#0#5'TEdit'#15'playerpathedit1'#4'Left'#2#24#6
   +'Height'#2#23#3'Top'#2'2'#5'Width'#3'@'#1#8'TabOrder'#2#0#4'Text'#6#10'/mp3p'
@@ -57,7 +57,7 @@ LazarusResources.Add('TSettings','FORMDATA',[
   +#7#12'Button1Click'#8'TabOrder'#2#1#0#0#9'TCheckBox'#10'subfolders'#4'Left'#2
   +#24#6'Height'#2#23#3'Top'#2'r'#5'Width'#3#185#0#7'Caption'#6#27'Create subfo'
   +'lders on upload'#8'TabOrder'#2#2#0#0#0#9'TTabSheet'#9'TabSheet5'#7'Caption'
-  +#6#7'Plugins'#12'ClientHeight'#3#139#1#11'ClientWidth'#3#168#1#0#6'TLabel'#6
+  +#6#7'Plugins'#12'ClientHeight'#3#165#1#11'ClientWidth'#3#176#1#0#6'TLabel'#6
   +'Label1'#4'Left'#2#14#6'Height'#2#14#3'Top'#3#17#1#5'Width'#2'h'#7'Caption'#6
   +#18'Plugin information'#11'ParentColor'#8#0#0#13'TCheckListBox'#10'PluginLis'
   +'t'#4'Left'#2#14#6'Height'#3#240#0#3'Top'#2#17#5'Width'#3#240#0#14'ExtendedS'
@@ -67,7 +67,7 @@ LazarusResources.Add('TSettings','FORMDATA',[
   +'abOrder'#2#1#0#0#7'TButton'#7'Button2'#4'Left'#3'.'#1#6'Height'#2#25#3'Top'
   ,#2#25#5'Width'#2'K'#25'BorderSpacing.InnerBorder'#2#4#7'Caption'#6#5'Setup'#8
   +'TabOrder'#2#2#0#0#0#9'TTabSheet'#9'TabSheet3'#7'Caption'#6#5'Paths'#12'Clie'
-  +'ntHeight'#3#139#1#11'ClientWidth'#3#168#1#0#6'TLabel'#6'Label5'#4'Left'#2#14
+  +'ntHeight'#3#165#1#11'ClientWidth'#3#176#1#0#6'TLabel'#6'Label5'#4'Left'#2#14
   +#6'Height'#2#18#3'Top'#2'3'#5'Width'#3#29#1#11'ParentColor'#8#0#0#9'TGroupBo'
   +'x'#7'PathBox'#4'Left'#2#14#6'Height'#3#208#0#3'Top'#2#19#5'Width'#3#136#1#7
   +'Caption'#6'9Paths to additional application needed for Cactus Jukebox'#12'C'
@@ -79,8 +79,8 @@ LazarusResources.Add('TSettings','FORMDATA',[
   +'ft'#2'&'#6'Height'#2#23#3'Top'#3#128#0#5'Width'#3'@'#1#8'TabOrder'#2#0#4'Te'
   +'xt'#6#7'default'#0#0#5'TEdit'#5'Edit1'#4'Left'#2'&'#6'Height'#2#23#3'Top'#2
   +'8'#5'Width'#3'@'#1#8'TabOrder'#2#1#4'Text'#6#7'default'#0#0#0#0#9'TTabSheet'
-  +#9'TabSheet4'#7'Caption'#6#8'ID3v2/v1'#12'ClientHeight'#3#139#1#11'ClientWid'
-  +'th'#3#168#1#0#9'TGroupBox'#10'ID3typebox'#4'Left'#2'&'#6'Height'#2'X'#3'Top'
+  +#9'TabSheet4'#7'Caption'#6#8'ID3v2/v1'#12'ClientHeight'#3#165#1#11'ClientWid'
+  +'th'#3#176#1#0#9'TGroupBox'#10'ID3typebox'#4'Left'#2'&'#6'Height'#2'X'#3'Top'
   +#3#162#0#5'Width'#3'P'#1#7'Caption'#6#8'ID3 type'#12'ClientHeight'#2'X'#11'C'
   +'lientWidth'#3'P'#1#11'ParentCtl3D'#8#8'TabOrder'#2#0#0#12'TRadioButton'#7'v'
   +'1_prio'#4'Left'#2'F'#6'Height'#2#22#3'Top'#2#1#5'Width'#2'b'#11'AllowGrayed'
