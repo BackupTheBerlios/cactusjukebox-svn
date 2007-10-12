@@ -1,13 +1,13 @@
 {
   Cactus Jukebox
-  
+
   Main Project File.
-  
+
   written by Sebastian Kraft
   sebastian_kraft@gmx.de
-  
+
   This software is free under the GNU Public License
-  
+
   (c)2005-2006
 }
 
@@ -74,7 +74,7 @@ begin
   CactusPlugins:=TPluginListClass.Create;
   CactusPlugins.PluginFolder:=CactusConfig.DataPrefix+'plugins'+DirectorySeparator;
  // CactusPlugins.autoload:=true;
- // CactusPlugins.ScanPluginFolder;
+  CactusPlugins.ScanPluginFolder;
 
 
 
@@ -109,7 +109,6 @@ begin
   Application.CreateForm(Tplaywin, playwin);
   Application.CreateForm(TEditID3, editid3win);
 
-    
   invalid_param:=false;
 
   main.show;
