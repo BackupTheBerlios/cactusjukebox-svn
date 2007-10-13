@@ -385,7 +385,10 @@ begin
    if (picrequest_send) and awsclass.data_ready then begin
              writeln(MedFileObj.CoverPath);
              AlbumCoverImg.Canvas.Clear;
-             AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
+             try
+               AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
+             except writeln('EXCEPTION');
+             end;
              awsclass.free;
              picrequest_send:=false;
              PicDownloadTimer.Enabled:=false;
@@ -604,11 +607,17 @@ begin
       AlbumCoverImg.Canvas.Clear;
       AlbumCoverImg.Picture.Clear;
       Application.ProcessMessages;
+      writeln('kkk');
       if MedFileObj.album<>''
       then
       begin
         MedFileObj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+MedFileObj.artist+'_'+MedFileObj.album+'.jpeg';
-        if FileExists(MedFileObj.CoverPath) then AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath)
+        if FileExists(MedFileObj.CoverPath) then begin
+             try
+                 AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
+             except writeln('EXCEPTION');
+             end;
+          end
         else
         begin
           if CactusConfig.CoverDownload
@@ -657,9 +666,12 @@ begin
     begin
       MedFileObj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+MedFileObj.artist+'_'+MedFileObj.album+'.jpeg';
       if FileExists(MedFileObj.CoverPath)
-      then
-        AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath)
-      else
+      then begin
+       try
+           AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
+        except writeln('EXCEPTION');
+        end;
+      end else
       begin
         if CactusConfig.CoverDownload
         then

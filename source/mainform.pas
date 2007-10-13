@@ -793,8 +793,11 @@ begin
                   if (assigned(awsclass)) and (awsclass.data_ready){  }then begin
                        fileobj:=TMediaFileClass(playlist.Items[fmodplayer.player.CurrentTrack].Data);
                        if FileExists(fileobj.CoverPath) then begin
-                          CoverImage.Picture.LoadFromFile(fileobj.CoverPath);
-                          playwin.AlbumCoverImg.Picture.LoadFromFile(fileobj.CoverPath);
+                         try
+                            CoverImage.Picture.LoadFromFile(fileobj.CoverPath);
+                            playwin.AlbumCoverImg.Picture.LoadFromFile(fileobj.CoverPath);
+                         except writeln('EXCEPTION');
+                         end;
                          end;
                         CoverFound:=true;
                         FreeAndNil(awsclass);
@@ -1797,7 +1800,7 @@ begin
   Titletree.Columns[5].width:=45;
   Titletree.Columns[4].width:=45;
   Titletree.Columns[3].width:=110;
-  Titletree.Columns[2].width:=TitleTree.Width-45-45-110-140-16;
+  Titletree.Columns[2].width:=TitleTree.Width-45-45-110-140-16-15;
   Titletree.Columns[1].width:=140;
   Titletree.Columns[0].width:=16;
 {$endif}
@@ -2398,8 +2401,11 @@ begin
                   awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
                end;
         end else begin
-             CoverImage.Picture.LoadFromFile(MedFileObj.CoverPath);
-             playwin.AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
+              try
+               CoverImage.Picture.LoadFromFile(MedFileObj.CoverPath);
+               playwin.AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
+             except writeln('EXCEPTION');
+             end;
              CoverFound:=true;
         end;
     end else CoverImage.Picture.Clear;//CoverImage.Picture.LoadFromFile(DataPrefix+'tools'+DirectorySeparator+'cactus-logo-small.png');
@@ -2982,11 +2988,18 @@ begin
                  if MedColObj.items[i].title<>'' then
                         ListItem.SubItems.Add((MedColObj.items[i].Artist))
                      else ListItem.SubItems.Add(extractfilename(MedColObj.items[i].path));
-
+                {$ifdef win32}
+                 ListItem.SubItems.Add (Utf8ToAnsi(MedColObj.items[i].title));
+                 ListItem.SubItems.Add (Utf8ToAnsi(MedColObj.items[i].album));
+                 ListItem.SubItems.Add (Utf8ToAnsi(MedColObj.items[i].track));
+                 ListItem.SubItems.Add(Utf8ToAnsi(MedColObj.items[i].playtime));
+                {$else}
                  ListItem.SubItems.Add ((MedColObj.items[i].title));
                  ListItem.SubItems.Add ((MedColObj.items[i].album));
                  ListItem.SubItems.Add (MedColObj.items[i].track);
                  ListItem.SubItems.Add(MedColObj.items[i].playtime);
+                {$endif}
+
                end;
             i:=MedColObj.GetNext;
           end;

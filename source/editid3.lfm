@@ -26,13 +26,13 @@ object EditID3: TEditID3
     TabOrder = 0
     object metatab: TTabSheet
       Caption = 'Meta-Info'
-      ClientHeight = 319
-      ClientWidth = 372
+      ClientHeight = 326
+      ClientWidth = 368
       object lblArtist: TLabel
         Left = 20
         Height = 14
         Top = 102
-        Width = 32
+        Width = 27
         Caption = 'Artist'
         ParentColor = False
       end
@@ -40,7 +40,7 @@ object EditID3: TEditID3
         Left = 20
         Height = 14
         Top = 130
-        Width = 25
+        Width = 21
         Caption = 'Title'
         ParentColor = False
       end
@@ -48,7 +48,7 @@ object EditID3: TEditID3
         Left = 20
         Height = 14
         Top = 162
-        Width = 38
+        Width = 30
         Caption = 'Album'
         ParentColor = False
       end
@@ -56,7 +56,7 @@ object EditID3: TEditID3
         Left = 118
         Height = 14
         Top = 190
-        Width = 28
+        Width = 23
         Caption = 'Year'
         ParentColor = False
       end
@@ -64,7 +64,7 @@ object EditID3: TEditID3
         Left = 20
         Height = 14
         Top = 222
-        Width = 36
+        Width = 30
         Caption = 'Genre'
         ParentColor = False
       end
@@ -72,7 +72,7 @@ object EditID3: TEditID3
         Left = 20
         Height = 14
         Top = 266
-        Width = 57
+        Width = 46
         Caption = 'Comment'
         ParentColor = False
       end
@@ -80,7 +80,7 @@ object EditID3: TEditID3
         Left = 14
         Height = 14
         Top = 30
-        Width = 63
+        Width = 53
         Caption = 'Path to file'
         ParentColor = False
       end
@@ -88,7 +88,7 @@ object EditID3: TEditID3
         Left = 20
         Height = 14
         Top = 190
-        Width = 33
+        Width = 27
         Caption = 'Track'
         ParentColor = False
       end
@@ -155,9 +155,9 @@ object EditID3: TEditID3
       end
       object Button1: TButton
         Left = 275
-        Height = 21
-        Top = 23
-        Width = 78
+        Height = 17
+        Top = 27
+        Width = 80
         Anchors = [akLeft, akBottom]
         AutoSize = True
         BorderSpacing.Around = 4
@@ -184,10 +184,10 @@ object EditID3: TEditID3
         TabOrder = 4
       end
       object guessname1: TButton
-        Left = 174
-        Height = 21
-        Top = 23
-        Width = 92
+        Left = 175
+        Height = 17
+        Top = 27
+        Width = 91
         Anchors = [akRight, akBottom]
         AutoSize = True
         BorderSpacing.Around = 4
@@ -202,6 +202,7 @@ object EditID3: TEditID3
         Top = 183
         Width = 64
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemHeight = 13
         MaxLength = 4
         OnChange = cmbYearChange
         Sorted = True
@@ -215,6 +216,7 @@ object EditID3: TEditID3
         Top = 280
         Width = 196
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemHeight = 13
         MaxLength = 0
         OnChange = activateEMode
         Sorted = True
@@ -225,8 +227,8 @@ object EditID3: TEditID3
     end
     object fileinfo: TTabSheet
       Caption = 'File-Info'
-      ClientHeight = 352
-      ClientWidth = 376
+      ClientHeight = 326
+      ClientWidth = 368
       object mtype: TLabel
         Left = 40
         Height = 12
@@ -292,8 +294,8 @@ object EditID3: TEditID3
     end
     object id3v2tab: TTabSheet
       Caption = 'ID3v2'
-      ClientHeight = 352
-      ClientWidth = 376
+      ClientHeight = 326
+      ClientWidth = 368
       object Label9: TLabel
         Left = 16
         Height = 12
@@ -404,8 +406,8 @@ object EditID3: TEditID3
     end
     object id3v1tab: TTabSheet
       Caption = 'ID3v1'
-      ClientHeight = 352
-      ClientWidth = 376
+      ClientHeight = 326
+      ClientWidth = 368
       object Label7: TLabel
         Left = 177
         Height = 12
