@@ -355,18 +355,22 @@ type
     procedure ApplicationIdle(Sender: TObject; var Done: Boolean);
     procedure update_player_display;
     function LoadFile(path: string):boolean;
-
+    
+    
     changetree, ctrl_pressed, SplitterResize:boolean;
     tsnode:TTreeNode;
     oldSplitterWidth, LoopCount: integer;
     sourceitem: TListItem;
     CoverFound: Boolean;
     awsclass: TAWSAccess;
+    ScanSyncCount: Integer;
 
   public
     procedure update_playlist;
     procedure disconnectDAP;
     function connectDAP:byte;
+    procedure ScanSyncronize(dir:string);
+    
     playing, player_connected, playermode: boolean;
     playpos: integer;
     playnode: TTreeNode;
@@ -437,9 +441,6 @@ procedure update_title_view;
 procedure artist_to_playlist;
 procedure title_to_playlist_at(index: integer);
 procedure title_to_playlist;
-
-//procedure album_to_playlist;
-
 
 
 implementation
@@ -658,6 +659,7 @@ end;
 
 procedure TMain.newlibClick(Sender: TObject);
 begin
+     Enabled:=false;
      Selectdirectorydialog1.initialdir:=CactusConfig.HomeDir;
      Selectdirectorydialog1.title:='Add Directory...';
      if Selectdirectorydialog1.execute=true then begin
@@ -671,6 +673,7 @@ begin
                 update_title_view;
               end;
            end;
+     Enabled:=true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1302,6 +1305,8 @@ begin
   writeln('## Main.onCreate ##');
   Caption:='Cactus Jukebox '+CACTUS_VERSION;
 
+  MediaCollection.syncronize:=@ScanSyncronize;
+
   Width:=CactusConfig.WWidth;
   Height:=CactusConfig.WHeight;
   
@@ -1513,11 +1518,21 @@ begin
   end else result:=false
 end;
 
+procedure TMain.ScanSyncronize(dir: string);
+begin
+  StatusBar1.Panels[0].Text :='scanning trough:  '+dir;
+  Application.ProcessMessages;
+  inc(ScanSyncCount);
+  if ScanSyncCount>50 then begin
+       update_artist_view;
+       ScanSyncCount:=0;
+    end;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.MenuItem11Click(Sender: TObject);
 begin
-
    dirwin:=Tdirwin.Create(Application);
    Enabled:=false;
    dirwin.ShowModal;
@@ -2993,11 +3008,12 @@ var existing, curartist, tmps2, tmps:string;
     AlbumList:TStringList;
     MedFileObj: TMediaFileClass;
     i, z:integer;
+    restoreEnabled:boolean;
 begin
 if MediaCollection.Count>0 then begin
      main.changetree:=true;
+     if main.Enabled then restoreEnabled:=true else restoreEnabled:=false;
      main.Enabled:=false;
-     main.ArtistTree.Enabled:=false;
      main.StatusBar1.Panels[0].Text:='Please wait... updating...';
      Application.ProcessMessages;
      main.artisttree.beginupdate;
@@ -3106,8 +3122,7 @@ if MediaCollection.Count>0 then begin
      main.changetree:=false;
      writeln(' finished artistview##');
      main.StatusBar1.Panels[0].Text:='Ready.';
-     main.Enabled:=true;
-     main.ArtistTree.Enabled:=true;
+     main.Enabled:=restoreEnabled;
  end;
 end;
 

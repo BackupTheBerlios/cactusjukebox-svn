@@ -99,6 +99,9 @@ type
      function getNextArtist: integer;
 
      function getIndexByPath(path: string):integer;
+
+     syncronize: procedure (dir: string) of object;
+
      property Items[index: integer]: TMediaFileClass read GetItems;
      property sorted: boolean read FSorted write SetSorted;         // when Sorted is set true, add/insert always adds at right position
                                                                     // on changing state from false to true whole collection is getting sorted once
@@ -140,14 +143,13 @@ var mp3search,dirsearch:TSearchrec;
 begin
   dir:=IncludeTrailingPathDelimiter(dir);
   writeln('scanning through:  '+dir);
-//  main.StatusBar1.Panels[0].Text :='scanning trough:  '+dir;
-//  Application.ProcessMessages;
+  syncronize(dir);
    if FindFirst(dir+'*.*',faAnyFile,mp3search)=0 then
         begin
           repeat
               begin
                   tmps:=lowercase(ExtractFileExt(mp3search.name));
-    //              Application.ProcessMessages;
+                 syncronize(dir);
                  if (tmps='.mp3') or (tmps='.wav') or (tmps='.ogg') then begin
                     add(dir+mp3search.name);
                   end;
@@ -157,7 +159,7 @@ begin
    Findclose(mp3search);
    if Findfirst(dir+'*',faanyfile,dirsearch)=0 then
          begin
-  //           Application.ProcessMessages;
+             syncronize(dir);
              repeat
                 begin
                    if (dirsearch.attr and FaDirectory)=FaDirectory then begin
