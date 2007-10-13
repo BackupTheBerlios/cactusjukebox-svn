@@ -204,6 +204,7 @@ type
     procedure ArtistTreeMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure ArtistTreeSelectionChanged(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormMouseDown(Sender: TOBject; Button: TMouseButton;
@@ -664,6 +665,8 @@ begin
      Selectdirectorydialog1.title:='Add Directory...';
      if Selectdirectorydialog1.execute=true then begin
               MediaCollection.clear;
+              update_artist_view;
+              update_title_view;
               Application.ProcessMessages;
               MediaCollection.add_directory(Selectdirectorydialog1.Filename);
               Writeln('finished scan of '+Selectdirectorydialog1.Filename);
@@ -1003,6 +1006,11 @@ begin
   if main.changetree=false then update_title_view;
 end;
 
+procedure TMain.Button1Click(Sender: TObject);
+begin
+  TitleTree.Clear;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
@@ -1304,6 +1312,7 @@ end;
 
 procedure TMain.MainCreate(Sender: TObject);
 var tmps1, tmps2: string;
+    listitem: TListitem;
 begin
   writeln('## Main.onCreate ##');
   Caption:='Cactus Jukebox '+CACTUS_VERSION;
@@ -1450,9 +1459,9 @@ begin
   
   // Load file specified on commandline
   if CactusConfig.LoadOnStart<>'' then begin
-       LoadFile(CactusConfig.LoadOnStart);
+      // LoadFile(CactusConfig.LoadOnStart);
     end;
-//  update_artist_view;
+ // update_artist_view;
 //  update_title_view;
 end;
 
@@ -1502,8 +1511,8 @@ function TMain.LoadFile(path: string): boolean;
 var z: integer;
     listitem: TListItem;
 begin
+ writeln('** Loadfile **');
  if FileExists(path) then begin
-   writeln('** Loadfile **');
    z:=MediaCollection.GetIndexByPath(path);
    writeln(z);
    if z<0 then begin
@@ -2959,7 +2968,6 @@ begin
 
     writeln;
     write('## update title view...');
-
 
     Main.TitleTree.Clear;
  //   Main.TitleTree.BeginUpdate;

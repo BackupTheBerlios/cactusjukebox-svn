@@ -154,6 +154,8 @@ begin
     MediaCollection.DirList.Delete(n);
     Caption:='Please wait... Scanning...';
     Enabled:=false;
+    update_artist_view;
+    update_title_view;
     Application.ProcessMessages;
     MediaCollection.add_directory(rescandir);
    end;

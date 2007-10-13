@@ -170,11 +170,12 @@ begin
 
       z:=MedColObj.getTracks(oldart, MedFileObj.index);
       repeat begin
+          MedFileObj:=MedColObj.Items[z];
           writeln('artist_mode: '+ artistedit1.Text +' #'+ IntToStr(z));    // DEBUG-INFO
-          MedColObj.items[z].artist:=newart;
+          MedFileObj.artist:=newart;
           if bYearLongEnough then MedColObj.items[z].year := self.cmbYear.Caption;
-          MedColObj.items[z].comment:= strNewComment;
-          MedColObj.items[z].write_tag;
+          MedFileObj.comment:= strNewComment;
+          MedFileObj.write_tag;
           z:=MedColObj.getNext;
       end;
       until z<0;
@@ -197,11 +198,12 @@ begin
       z:=MedColObj.getTracks(curartist, oldalbum, MedFileObj.index);
        
       repeat begin
-            MedColObj.items[z].album:=newalbum;
-            MedColObj.items[z].artist:=newart;
-            if bYearLongEnough then MedColObj.items[z].year := self.cmbYear.Caption;
-            MedColObj.items[z].comment:= strNewComment;
-            MedColObj.items[z].write_tag;
+            MedFileObj:= MedColObj.items[z];
+            MedFileObj.album:=newalbum;
+            MedFileObj.Artist:=newart;
+            if bYearLongEnough then MedFileObj.year := self.cmbYear.Caption;
+            MedFileObj.comment:= strNewComment;
+            MedFileObj.write_tag;
             z:=MedColObj.getNext;
       end;
       until z<0;

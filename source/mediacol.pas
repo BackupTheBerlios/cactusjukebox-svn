@@ -1141,6 +1141,7 @@ begin
            if FileGetAttr(Path)=faReadOnly then writeln('file is read only');
            fileseek(mp3filehandle,-128,fsfromend);
            writeln(title);
+           writeln(artist);
            filewrite(mp3filehandle,buf,128);
            fileclose(mp3filehandle);
      end else writeln('ERROR: cant write tag. file not found');
