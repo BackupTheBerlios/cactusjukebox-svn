@@ -650,16 +650,6 @@ object Main: TMain
       OnMouseDown = PlaylistMouseDown
       OnSelectItem = PlaylistSelectItem
     end
-    object Button1: TButton
-      Left = 464
-      Height = 25
-      Top = 272
-      Width = 75
-      BorderSpacing.InnerBorder = 4
-      Caption = 'Button1'
-      OnClick = Button1Click
-      TabOrder = 5
-    end
   end
   object Panel4: TPanel
     Height = 628

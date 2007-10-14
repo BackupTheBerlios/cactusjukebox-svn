@@ -78,7 +78,6 @@ type
 
   TMain = class(TForm)
     ArtistTree: TTreeView;
-    Button1: TButton;
     clear_list: TBitBtn;
     current_title_edit: TEdit;
     current_title_edit1: TEdit;
@@ -1459,10 +1458,10 @@ begin
   
   // Load file specified on commandline
   if CactusConfig.LoadOnStart<>'' then begin
-      // LoadFile(CactusConfig.LoadOnStart);
+       LoadFile(CactusConfig.LoadOnStart);
     end;
- // update_artist_view;
-//  update_title_view;
+  update_artist_view;
+  update_title_view;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

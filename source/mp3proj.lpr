@@ -125,8 +125,6 @@ begin
   writeln('-> loading skin '+CactusConfig.DataPrefix+'skins/'+CactusConfig.CurrentSkin);
   SkinData.load_skin(CactusConfig.CurrentSkin);
 
-  update_artist_view;
-  update_title_view;
 
   if CactusConfig.background_scan then begin
     ScanThread:=TScanThread.Create(true);
