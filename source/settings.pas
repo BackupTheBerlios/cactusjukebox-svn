@@ -159,7 +159,7 @@ var
 const configname='cactus.cfg';
 
 implementation
-uses mainform, translations, functions, plugin, fmodplayer;
+uses mainform, translations, functions,{ plugin,} fmodplayer;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -202,11 +202,11 @@ begin
      CactusConfig.language:=LanguageBox.Items[LanguageBox.ItemIndex];
      CactusConfig.FlushConfig;
      
-     for i:=0 to PluginList.Count-1 do
+   {  for i:=0 to PluginList.Count-1 do
         if PluginList.Checked[i] then
             CactusPlugins.Items[i].enabled:=true
          else CactusPlugins.Items[i].enabled:=false;
-
+    }
      TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, '');
      TranslateUnitResourceStrings('mp3', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, '');
      close;
@@ -310,11 +310,11 @@ begin
    if CactusConfig.id3v2_prio then v2_prio.Checked:=true else v1_prio.checked:=true;
    //AutostartBox.Checked:=CactusConfig.AutostartPlay;
 
-   for i:=0 to CactusPlugins.Count-1 do begin
+{   for i:=0 to CactusPlugins.Count-1 do begin
           PluginList.Items.Add(CactusPlugins.Items[i].Name);
           PluginList.Checked[i]:=CactusPlugins.Items[i].enabled;
        end;
-
+ }
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -337,7 +337,7 @@ var index: integer;
 begin
   index:=PluginList.GetIndexAtY(Y);
   PluginInfo.Clear;
-  if index >= 0 then PluginInfo.Lines.Add(CactusPlugins.Items[index].Comment);
+//  if index >= 0 then PluginInfo.Lines.Add(CactusPlugins.Items[index].Comment);
 end;
 
 

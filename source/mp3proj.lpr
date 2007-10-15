@@ -21,7 +21,7 @@ uses
  {$endif}
   Interfaces,SysUtils,
   Forms, status, settings, player, graphics, editid3, directories, skin,
-  cdrip, JPEGForLazarus, mediacol, BigCoverImg, mainform, plugin;
+  cdrip, JPEGForLazarus, mediacol, BigCoverImg, mainform{, plugin};
 
 var
   s, loadfile: string;
@@ -71,10 +71,10 @@ begin
 {$endif}
 
 // Search for Plugins, create Pluginlist
-  CactusPlugins:=TPluginListClass.Create;
-  CactusPlugins.PluginFolder:=CactusConfig.DataPrefix+'plugins'+DirectorySeparator;
+ // CactusPlugins:=TPluginListClass.Create;
+ // CactusPlugins.PluginFolder:=CactusConfig.DataPrefix+'plugins'+DirectorySeparator;
  // CactusPlugins.autoload:=true;
-  CactusPlugins.ScanPluginFolder;
+ // CactusPlugins.ScanPluginFolder;
 
 
 

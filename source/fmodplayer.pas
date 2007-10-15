@@ -430,16 +430,16 @@ begin
     begin
        inherited Move(dest, target);
 
+
+
        if CurrentTrack=dest then begin
            CurrentTrack:=target;
-           write('curtrack');           writeln(CurrentTrack);
-           writeln(target);
          end
         else if CurrentTrack=target then begin
            CurrentTrack:=dest;
-           write('curtrack2');writeln(CurrentTrack);
-           writeln(target);
          end;
+       if (CurrentTrack>dest) and (CurrentTrack<target) then dec(CurrentTrack);
+       if (CurrentTrack<dest) and (CurrentTrack>target) then inc(CurrentTrack);
     end;
 end;
 

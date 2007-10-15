@@ -27,7 +27,7 @@ uses
 
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
   ExtCtrls, ComCtrls, StdCtrls, Menus, fmodplayer,
-  ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, plugin, plugintypes;
+  ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws{, plugin, plugintypes};
 
 resourcestring
   rsQuit = 'Quit';
@@ -740,7 +740,7 @@ begin
                   playitem.ImageIndex:=0;
                   playitem.MakeVisible(false);
                   update_player_display;
-                  CactusPlugins.SendEvent(evnStartPlay);
+//                  CactusPlugins.SendEvent(evnStartPlay);
                 end
              else begin
                   if (err=1) then Showmessage('File not Found! Goto Library/Rescan Directories for updating file links');
@@ -761,7 +761,7 @@ begin
     fmodplayer.player.stop;
     fmodplayer.player.playlist.reset_random;
     update_player_display;
-    CactusPlugins.SendEvent(evnStopPlay);
+//    CactusPlugins.SendEvent(evnStopPlay);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -913,6 +913,7 @@ begin
      checkmobile.Enabled:=false;
      disconnectDAP;
      ScanCol:=TMediaCollectionClass.create;
+     ScanCol.syncronize:=@ScanSyncronize;
      Enabled:=false;
      ScanCol.PathFmt:=FRelative;
      ScanCol.savepath:=CactusConfig.DAPPath+'cactuslib';
@@ -1300,8 +1301,8 @@ begin
     except writeln('ERROR: Exception while shutting down IPC server');
     end;
   writeln('end.');
-     CactusPlugins.FlushPluginConfig;
-     CactusPlugins.Free;
+//     CactusPlugins.FlushPluginConfig;
+  //   CactusPlugins.Free;
      if CactusConfig.FlushConfig then writeln('Config succesfully written to disk') else writeln('ERROR: writing config to disk');
      CactusConfig.Free;
      Application.Terminate;
@@ -2266,31 +2267,48 @@ procedure TMain.playlistDragDrop(Sender, Source: TObject; X, Y: Integer);
 var   Targetitem, tmpitem : TListItem;
       ind:integer;
 begin
-{     writeln('ondragdrop');
-     if playlist.GetItemAt(x,y)<>nil then Targetitem:=playlist.GetItemAt(x,y) else Targetitem := playlist.Selected;
+  //   Playlist.MultiSelect:=true;
+     writeln('ondragdrop');
+     sourceitem:=Playlist.Selected;
+     Targetitem:=playlist.GetItemAt(x,y);
+     if Targetitem=nil then Targetitem:=Playlist.Items[Playlist.Items.Count-1];
+     writeln(Targetitem.Caption);
+     writeln(targetitem.index);
      writeln(Sourceitem.Caption);
      writeln(sourceitem.Index);
 
-     writeln(Targetitem.Caption);
-     writeln(targetitem.index);
-
      if (Targetitem<>nil) and (Targetitem<>Sourceitem) then begin
-        player.move_entry(sourceitem.Index+1, ind);
+
         writeln('insert');
-        tmpitem:=playlist.Items.Insert(ind);
-        tmpitem.Assign(sourceitem);
+        ind:=sourceitem.Index;
 
-        sourceitem.Delete;
-
-
-     end;    }
+        if Targetitem.Index<>Playlist.Items.Count-1 THEN begin
+               tmpitem:=playlist.Items.Insert(Targetitem.Index);
+               tmpitem.Assign(sourceitem);
+               tmpitem.Selected:=true;
+               sourceitem.Delete;
+               if ind>tmpitem.Index then fmodplayer.player.Playlist.move(ind, tmpitem.Index)
+                     else fmodplayer.player.Playlist.move(ind, tmpitem.Index-1)
+             end
+             else begin
+               tmpitem:=playlist.Items.Add;
+               tmpitem.Assign(sourceitem);
+               tmpitem.Selected:=true;
+               sourceitem.Delete;
+               fmodplayer.player.Playlist.move(ind, tmpitem.Index-1);
+             end;
+     end;
 end;
 
 procedure TMain.playlistDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
 begin
   writeln('ondragover');
-  Accept:=true;
+ // Accept:=(source is TListItem);
+ // Accept:=(sender is TListItem);
+//  Accept:=(source is TListView);
+  accept:=true;
+
 end;
 
 procedure TMain.playlistEndDrag(Sender, Target: TObject; X, Y: Integer);
@@ -2385,8 +2403,9 @@ end;
 
 procedure TMain.playlistStartDrag(Sender: TObject; var DragObject: TDragObject);
 begin
-  sourceitem:=playlist.Selected;
-  writeln(sourceitem.Caption);
+
+  writeln('Startdrag');
+  Playlist.MultiSelect:=false;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
