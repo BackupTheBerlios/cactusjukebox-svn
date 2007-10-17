@@ -140,6 +140,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure LanguageBoxChange(Sender: TObject);
+    procedure PageControl1Change(Sender: TObject);
     procedure PluginListMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure cancelbutClick(Sender: TObject);
@@ -335,6 +336,11 @@ begin
   ShowMessage('To show user interface with new selected language'+LineEnding+' you need to restart cactus Jukebox');
 end;
 
+procedure TSettings.PageControl1Change(Sender: TObject);
+begin
+
+end;
+
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -374,6 +380,7 @@ function TConfigObject.ReadConfig: boolean;
 var tmps1, tmps2: string;
 begin
  result:=true;
+ 
  try
     GuessTag:=FConfigFile.GetValue('Library/GuessTags', false);
     Mobile_Subfolders:=FConfigFile.GetValue('Mobile_Player/Subfolders', true);
