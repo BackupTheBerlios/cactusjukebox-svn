@@ -96,10 +96,6 @@ uses mainform, mediacol, translations, functions, settings;
 
 procedure Tcdrip.Button1Click(Sender: TObject);
 begin
-
-
-
-
      Button5Click(nil);
      if CDDBcon=nil then
         CDDBcon:=TCddbObject.create
@@ -108,8 +104,8 @@ begin
         CDDBcon.destroy;
         CDDBcon:=TCddbObject.create;
        end;
-     if CDDBcon.ReadTOC(CDDBcon.CDromDrives[drivebox.ItemIndex+1]) then begin
-        CDDBcon.query(CDDBcon.CDromDrives[drivebox.ItemIndex+1], 'freedb.org', 8880);
+     if CDDBcon.ReadTOC(drivebox.Text) then begin
+        CDDBcon.query(drivebox.Text, 'freedb.org', 8880);
         Timer1.Enabled:=true;
       end;
 end;
@@ -143,7 +139,7 @@ var b, z:byte;
     ti1, ti2: integer;
 begin
      Trackgrid.Clean([gzNormal, gzFixedCols]);
-     if CDDBcon.ReadTOC(CDDBcon.CDromDrives[drivebox.ItemIndex+1]) then begin
+     if CDDBcon.ReadTOC(drivebox.Text) then begin
         artistedit.Text:='Unknown';
         albumedit.Text:='Unknown';
         Trackgrid.RowCount:=1;
@@ -225,38 +221,43 @@ begin
           
      outputfolderbox.ItemIndex:=0;
      CDDBcon:=TCddbObject.create;
-     if CDDBcon.DriveCount>0 then begin
+     if (CDDBcon.DriveCount>0) then begin
         for b:=1 to CDDBcon.DriveCount do drivebox.AddItem(CDDBcon.CDromDrives[b], nil);
         drivebox.ItemIndex:=0;
-      end;
-
-
-     if CDDBcon.ReadTOC(CDDBcon.CDromDrives[drivebox.ItemIndex+1]) then begin
-        artistedit.Text:='Unknown';
-        albumedit.Text:='Unknown';
-        Trackgrid.Clean([gzNormal, gzFixedCols]);
-     Trackgrid.Cells[1,0]:='Title';
-     Trackgrid.Cells[2,0]:='Rip';
-     Trackgrid.Cells[3,0]:='Length';
-        Trackgrid.RowCount:=1;
-        Trackgrid.ColWidths[0]:=20;
-        for b := 1 to CDDBcon.NrTracks do begin
-            str(b, tmps);
-            Trackgrid.RowCount:=Trackgrid.RowCount+1;
-            Trackgrid.Cells[0,b]:=tmps;
-            Trackgrid.Cells[1,b]:='Track '+tmps;
-            z:=b;
-            ti1:=(CDDBcon.TOCEntries[z+1].min)-(CDDBcon.TOCEntries[z].min);
-            ti2:=(CDDBcon.TOCEntries[z+1].sec)-(CDDBcon.TOCEntries[z].sec);
-            if ti2<0 then dec(ti1);
-            ti2:=abs(ti2);
-            str(ti1, t1);
-            str(ti2, t2);
-            if ti2<10 then t2:='0'+t2;
-            Trackgrid.Cells[3,b]:=t1+':'+t2;
+        if CDDBcon.ReadTOC(CDDBcon.CDromDrives[drivebox.ItemIndex+1]) then begin
+            artistedit.Text:='Unknown';
+            albumedit.Text:='Unknown';
+            Trackgrid.Clean([gzNormal, gzFixedCols]);
+         Trackgrid.Cells[1,0]:='Title';
+         Trackgrid.Cells[2,0]:='Rip';
+         Trackgrid.Cells[3,0]:='Length';
+            Trackgrid.RowCount:=1;
+            Trackgrid.ColWidths[0]:=20;
+            for b := 1 to CDDBcon.NrTracks do begin
+                str(b, tmps);
+                Trackgrid.RowCount:=Trackgrid.RowCount+1;
+                Trackgrid.Cells[0,b]:=tmps;
+                Trackgrid.Cells[1,b]:='Track '+tmps;
+                z:=b;
+                ti1:=(CDDBcon.TOCEntries[z+1].min)-(CDDBcon.TOCEntries[z].min);
+                ti2:=(CDDBcon.TOCEntries[z+1].sec)-(CDDBcon.TOCEntries[z].sec);
+                if ti2<0 then dec(ti1);
+                ti2:=abs(ti2);
+                str(ti1, t1);
+                str(ti2, t2);
+                if ti2<10 then t2:='0'+t2;
+                Trackgrid.Cells[3,b]:=t1+':'+t2;
+              end;
           end;
+         Timer1.Enabled:=true;
+        
+      end else begin
+        ShowMessage('No CDROM-Drive found on this computer');
+      
       end;
-     Timer1.Enabled:=true;
+
+
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

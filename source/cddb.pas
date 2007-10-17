@@ -14,7 +14,7 @@ unit cddb;
 interface
 
 uses
-  Classes, SysUtils, CDrom, discid, lnet;
+  Classes, SysUtils, CDrom, discid, lnet, settings;
 
 
 type
@@ -310,14 +310,17 @@ begin
      FHostname:='localhost';
  Try
      DriveCount:=GetCDRomDevices(CDromDrives);
-     Writeln('This PC has ',DriveCount,' CD-ROM drives');
+     Writeln(DriveCount,' CD-ROM drives autodetected');
      For b:=1 to DriveCount do
        Writeln('Drive ',b,' on device: ',CDRomDrives[b]);
   Except
      On E : exception do
        Writeln(E.ClassName,' exception caught with message: ',E.Message);
   end;
-
+     if DriveCount=0 then begin
+          CDromDrives[1]:=CactusConfig.CDRomDevice;
+          inc(DriveCount);
+         end;
      Connection.CallAction;
 end;
 

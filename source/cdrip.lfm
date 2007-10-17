@@ -1,7 +1,7 @@
 object cdrip: Tcdrip
-  Left = 180
+  Left = 261
   Height = 547
-  Top = 75
+  Top = 45
   Width = 540
   HorzScrollBar.Page = 539
   VertScrollBar.Page = 546
@@ -11,9 +11,10 @@ object cdrip: Tcdrip
   Caption = 'Rip CD...'
   ClientHeight = 547
   ClientWidth = 540
+  FormStyle = fsStayOnTop
   OnClose = FormClose
   OnCreate = FormCreate
-  Position = poScreenCenter
+  Position = poMainFormCenter
   ShowInTaskBar = stNever
   object LArtist: TLabel
     Left = 24
@@ -37,9 +38,9 @@ object cdrip: Tcdrip
   end
   object LNameScheme: TLabel
     Left = 40
-    Height = 14
+    Height = 20
     Top = 392
-    Width = 109
+    Width = 133
     Caption = 'Outfile naming scheme'
     ParentColor = False
   end
@@ -106,7 +107,6 @@ object cdrip: Tcdrip
       Top = 12
       Width = 63
       AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-      ItemHeight = 13
       ItemIndex = 2
       Items.Strings = (
         '64'
@@ -159,9 +159,9 @@ object cdrip: Tcdrip
   end
   object querrybtn: TButton
     Left = 384
-    Height = 25
+    Height = 27
     Top = 24
-    Width = 89
+    Width = 90
     AutoSize = True
     BorderSpacing.InnerBorder = 4
     Caption = 'Query CDDB'
@@ -234,7 +234,6 @@ object cdrip: Tcdrip
     Top = 352
     Width = 344
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-    ItemHeight = 13
     MaxLength = 0
     TabOrder = 9
     Text = 'outputfolderbox'
@@ -254,7 +253,6 @@ object cdrip: Tcdrip
     Top = 128
     Width = 96
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-    ItemHeight = 13
     MaxLength = 0
     TabOrder = 11
     Text = ' '
@@ -265,7 +263,6 @@ object cdrip: Tcdrip
     Top = 384
     Width = 184
     AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-    ItemHeight = 13
     ItemIndex = 0
     Items.Strings = (
       'Track - Artist - Title'

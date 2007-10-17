@@ -43,12 +43,12 @@ object Settings: TSettings
     Height = 421
     Top = 16
     Width = 432
-    ActivePage = TabSheet1
-    TabIndex = 0
+    ActivePage = TabSheet3
+    TabIndex = 3
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'General'
-      ClientHeight = 388
+      ClientHeight = 394
       ClientWidth = 428
       object LLanguage: TLabel
         Left = 54
@@ -150,7 +150,7 @@ object Settings: TSettings
         Top = 105
         Width = 356
         Caption = 'Doubleclick behaviour'
-        ClientHeight = 44
+        ClientHeight = 49
         ClientWidth = 352
         TabOrder = 7
         object CheckBox1: TCheckBox
@@ -173,8 +173,8 @@ object Settings: TSettings
     end
     object TabSheet2: TTabSheet
       Caption = 'Mobile Device'
-      ClientHeight = 421
-      ClientWidth = 432
+      ClientHeight = 394
+      ClientWidth = 428
       object LMountpoint: TLabel
         Left = 24
         Height = 14
@@ -212,8 +212,8 @@ object Settings: TSettings
     end
     object TabSheet5: TTabSheet
       Caption = 'Plugins'
-      ClientHeight = 421
-      ClientWidth = 432
+      ClientHeight = 394
+      ClientWidth = 428
       object Label1: TLabel
         Left = 14
         Height = 14
@@ -253,44 +253,52 @@ object Settings: TSettings
     end
     object TabSheet3: TTabSheet
       Caption = 'Paths'
-      ClientHeight = 421
-      ClientWidth = 432
+      ClientHeight = 394
+      ClientWidth = 428
       object Label5: TLabel
         Left = 14
-        Height = 18
+        Height = 20
         Top = 51
-        Width = 285
+        Width = 287
+        ParentColor = False
+      end
+      object Label2: TLabel
+        Left = 46
+        Height = 20
+        Top = 231
+        Width = 127
+        Caption = 'Default CDROM Device'
         ParentColor = False
       end
       object PathBox: TGroupBox
         Left = 14
-        Height = 208
+        Height = 172
         Top = 19
         Width = 392
         Caption = 'Paths to additional application needed for Cactus Jukebox'
-        ClientHeight = 208
-        ClientWidth = 392
+        ClientHeight = 157
+        ClientWidth = 388
         TabOrder = 0
         object Llame: TLabel
           Left = 22
-          Height = 12
-          Top = 104
-          Width = 193
+          Height = 20
+          Top = 87
+          Width = 200
           Caption = 'lame (needed to encode mp3 files)'
           ParentColor = False
         end
         object Lcdda2wav: TLabel
           Left = 22
-          Height = 12
-          Top = 32
-          Width = 148
+          Height = 20
+          Top = 15
+          Width = 153
           Caption = 'Cdda2wav (tool to rip CDs)'
           ParentColor = False
         end
         object Edit2: TEdit
           Left = 38
           Height = 23
-          Top = 128
+          Top = 111
           Width = 320
           TabOrder = 0
           Text = 'default'
@@ -298,25 +306,33 @@ object Settings: TSettings
         object Edit1: TEdit
           Left = 38
           Height = 23
-          Top = 56
+          Top = 39
           Width = 320
           TabOrder = 1
           Text = 'default'
         end
       end
+      object CDRomEdit: TEdit
+        Left = 182
+        Height = 23
+        Top = 223
+        Width = 112
+        TabOrder = 1
+        Text = '/dev/cdromx'
+      end
     end
     object TabSheet4: TTabSheet
       Caption = 'ID3v2/v1'
-      ClientHeight = 421
-      ClientWidth = 432
+      ClientHeight = 394
+      ClientWidth = 428
       object ID3typebox: TGroupBox
         Left = 38
         Height = 88
         Top = 162
         Width = 336
         Caption = 'ID3 type'
-        ClientHeight = 88
-        ClientWidth = 336
+        ClientHeight = 73
+        ClientWidth = 332
         ParentCtl3D = False
         TabOrder = 0
         object v1_prio: TRadioButton
@@ -346,8 +362,8 @@ object Settings: TSettings
         Top = 42
         Width = 336
         Caption = 'What to do when there is no ID3'
-        ClientHeight = 80
-        ClientWidth = 336
+        ClientHeight = 65
+        ClientWidth = 332
         ParentCtl3D = False
         TabOrder = 1
         object unknown1: TRadioButton

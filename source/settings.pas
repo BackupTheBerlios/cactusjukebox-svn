@@ -66,7 +66,7 @@ type
     AutostartPlay: Boolean;
     language: string; // country code, e.g. de -> germany
     
-    DAPPath: string;
+    DAPPath, CDRomDevice: string;
     CurrentSkin, LastLib, LoadOnStart: string;
     Lame, CDDA2wav: string;
     
@@ -96,6 +96,8 @@ type
     Button2: TButton;
     CheckBox1: TCheckBox;
     CheckBox2: TCheckBox;
+    CDRomEdit: TEdit;
+    Label2: TLabel;
     PluginList: TCheckListBox;
     ClearCover: TButton;
     AudioOut: TComboBox;
@@ -173,6 +175,7 @@ begin
   //   Main.mpg123:=mpg123pathedit1.text;
   //   Main.lame:=lamepathedit1.text;
      CactusConfig.DAPPath:=IncludeTrailingPathDelimiter(playerpathedit1.Text);
+     CactusConfig.CDRomDevice:=CDRomEdit.Text;
 {$ifdef linux}
      if servicemenu_changed then
           if kdeservicebox.checked then begin
@@ -263,7 +266,10 @@ begin
            end;
           until FindNext(srec)<>0;
      end;
-
+   {$ifdef win32}
+       label2.Hide;
+       CDRomEdit.Hide;;
+   {$endif}
    TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, copy(CactusConfig.language, 0, 2));
    autoload1.Caption:=rsAutoloadLast;
    backscan.Caption:=rsScanForNewFi;
@@ -304,6 +310,7 @@ begin
    CoverDownload.Checked:=CactusConfig.CoverDownload;
 
    playerpathedit1.text:=CactusConfig.DAPPath;
+   CDRomEdit.Text:=CactusConfig.CDRomDevice;
    if CactusConfig.GuessTag then guesstag1.checked:=true else unknown1.checked:=true;
    if CactusConfig.background_scan then backscan.checked:=true else backscan.checked:=false;
    if CactusConfig.mobile_subfolders then subfolders.checked:=true else subfolders.checked:=false;
@@ -390,6 +397,7 @@ begin
     WHeight:=FConfigFile.GetValue('Userinterface/Window/Height', 680);
     WSplitterWidth:=FConfigFile.GetValue('Userinterface/Window/SplitterWidth', 270);
     language:=FConfigFile.GetValue('Userinterface/Language/Code', tmps1);
+    CDRomDevice:=FConfigFile.GetValue('Devices/CDROM/Name', '/dev/cdrom');
  except result:=false;
  end;
 end;
@@ -421,6 +429,7 @@ begin
     FConfigFile.SetValue('Userinterface/Window/Width', WWidth);
     FConfigFile.SetValue('Userinterface/Window/Height', WHeight);
     FConfigFile.SetValue('Userinterface/Window/SplitterWidth', WSplitterWidth);
+    FConfigFile.SetValue('Devices/CDROM/Name', CDRomDevice);
 
     FConfigFile.Flush;
   except result:=false;

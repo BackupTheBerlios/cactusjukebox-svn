@@ -21,7 +21,7 @@ uses
  {$endif}
   Interfaces,SysUtils,
   Forms, status, settings, player, graphics, editid3, directories, skin,
-  cdrip, JPEGForLazarus, mediacol, BigCoverImg, mainform{, plugin};
+  cdrip, JPEGForLazarus, mediacol, BigCoverImg, mainform{, plugin}, cddb;
 
 var
   s, loadfile: string;
