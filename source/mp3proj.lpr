@@ -133,6 +133,10 @@ begin
     ScanThread.Resume;
     writeln('starting scan thread...');
   end;
+  {$ifdef win32}
+  main.Width:=CactusConfig.WWidth;
+  main.Height:=CactusConfig.WHeight;
+  {$endif}
   writeln('##### Application running  #####');
   Application.Run;
 end.

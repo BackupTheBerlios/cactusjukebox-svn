@@ -383,7 +383,7 @@ begin
     DAPPath:=IncludeTrailingPathDelimiter(FConfigFile.getValue('Mobile_Player/Mountpoint', ''));
     if FConfigFile.GetValue('Networking/Album_Cover_Download/Enabled','')='' then AlbumCoverFirsttime:=true;
     CoverDownload:=FConfigFile.GetValue('Networking/Album_Cover_Download/Enabled', false);
-    CurrentSkin:=FConfigFile.getValue('Skin/File', 'default.xml');
+    CurrentSkin:=FConfigFile.getValue('Skin/File', 'green.xml');
     KDEServiceMenu:=FConfigFile.GetValue('KDE/servicemenu', false);
     if FConfigFile.GetValue('Audio/Output', 'Alsa')='Alsa' then OutputAlsa:=true else OutputAlsa:=false;
 

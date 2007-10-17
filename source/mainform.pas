@@ -198,6 +198,7 @@ type
     volumebar: TTrackBar;
     procedure ArtistTreeClick(Sender: TObject);
     procedure ArtistTreeDblClick(Sender: TObject);
+    procedure ArtistTreeEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure ArtistTreeKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
       );
     procedure ArtistTreeMouseDown(Sender: TOBject; Button: TMouseButton;
@@ -276,6 +277,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure TitleTreeClick(Sender: TObject);
     procedure TitleTreeColumnClick(Sender: TObject; Column: TListColumn);
+    procedure TitleTreeEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure TitleTreeMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure TitleTreeSelectItem(Sender: TObject; Item: TListItem;
@@ -2012,6 +2014,11 @@ begin
 end;
 end;
 
+procedure TMain.TitleTreeEndDrag(Sender, Target: TObject; X, Y: Integer);
+begin
+  title_drag:=false;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.TitleTreeMouseDown(Sender: TOBject; Button: TMouseButton;
@@ -2021,6 +2028,11 @@ begin
   // the menu is reanabled in TMain.TitleTreeSelectItem
   if (Button = mbRight) and (TitleTree.Selected = nil) then
     TitleTree.PopupMenu.AutoPopup := false;
+    
+ //Enable Dragging
+  if Button = mbLeft then begin	{ only drag if left button pressed }
+         // TitleTree.BeginDrag(false, 10);
+    end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2036,6 +2048,7 @@ procedure TMain.TitleTreeStartDrag(Sender: TObject; var DragObject: TDragObject
   );
 begin
   title_drag:=true;
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2352,8 +2365,7 @@ end;
 procedure TMain.playlistEndDrag(Sender, Target: TObject; X, Y: Integer);
 var tmplitem: TListItem;
 begin
-  tmplitem:=TListItem(Target);
-  writeln(tmplitem.Caption);
+  playlist_drag:=false;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2484,6 +2496,11 @@ begin
    if Playlist.Items.Count=0 then first:=true;
    if (ArtistTree.Selected<>nil) and (ArtistTree.Selected.Level>0) then artist_to_playlist;
    if first and CactusConfig.AutostartPlay then playClick(nil);
+end;
+
+procedure TMain.ArtistTreeEndDrag(Sender, Target: TObject; X, Y: Integer);
+begin
+  artist_drag:=false;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2880,6 +2897,7 @@ procedure TMain.undoSyncItemClick(Sender: TObject);
 var tmps:string;
     i:integer;
 begin
+if player_connected then begin
   for i:= 1 to MediaCollection.ItemCount-1 do begin
       if MediaCollection.items[i].action=AUPLOAD then MediaCollection.items[i].action:=ANOTHING;
       if MediaCollection.items[i].action=AREMOVE then MediaCollection.items[i].action:=AONPLAYER;
@@ -2895,6 +2913,7 @@ begin
 
   tmps:=ByteToFmtString(FreeSpaceOnDAP, 3, 2);
   StatusBar1.Panels[1].Text:='Device connected     '+tmps+' Free';
+ end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3236,7 +3255,7 @@ if MediaCollection.Count>0 then begin
      writeln(' finished artistview##');
      main.StatusBar1.Panels[0].Text:='Ready.';
      main.Enabled:=restoreEnabled;
- end;
+ end else main.ArtistTree.Selected:=nil;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
