@@ -203,6 +203,7 @@ type
     procedure ArtistTreeMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure ArtistTreeSelectionChanged(Sender: TObject);
+    procedure ArtistTreeStartDrag(Sender: TObject; var DragObject: TDragObject);
     procedure Button1Click(Sender: TObject);
     procedure CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -279,6 +280,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure TitleTreeSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
+    procedure TitleTreeStartDrag(Sender: TObject; var DragObject: TDragObject);
     procedure TrackInfoClick(Sender: TObject);
     procedure artisttreemenuPopup(Sender: TObject);
     procedure checkmobileTimer(Sender: TObject);
@@ -361,7 +363,7 @@ type
     tsnode:TTreeNode;
     oldSplitterWidth, LoopCount: integer;
     sourceitem: TListItem;
-    CoverFound: Boolean;
+    CoverFound, title_drag, playlist_drag, artist_drag: Boolean;
     awsclass: TAWSAccess;
     ScanSyncCount: Integer;
 
@@ -439,6 +441,7 @@ var
 procedure update_artist_view;
 procedure update_title_view;
 procedure artist_to_playlist;
+procedure artist_to_playlist_at(index: integer);
 procedure title_to_playlist_at(index: integer);
 procedure title_to_playlist;
 
@@ -1006,6 +1009,12 @@ begin
   if main.changetree=false then update_title_view;
 end;
 
+procedure TMain.ArtistTreeStartDrag(Sender: TObject; var DragObject: TDragObject
+  );
+begin
+  artist_drag:=true;
+end;
+
 procedure TMain.Button1Click(Sender: TObject);
 begin
   TitleTree.Clear;
@@ -1019,29 +1028,29 @@ begin
 if fmodplayer.player.playing {and player.Playlist.Items[player.CurrentTrack].co} then begin
 
   BigCoverImgForm:=TBigCoverImg.Create(self);
-  BigCoverImgForm.AutoSize:=true;
-
-  BigCoverImgForm.Image1.Top:=16;
-  BigCoverImgForm.Image1.Left:=16;
+  BigCoverImgForm.Caption:=fmodplayer.player.Playlist.Items[fmodplayer.player.CurrentTrack].Album;
+  //BigCoverImgForm.AutoSize:=true;
+  
+  BigCoverImgForm.Image1.Picture.Assign(CoverImage.Picture);
   BigCoverImgForm.Image1.AutoSize:=true;
 
-
-  BigCoverImgForm.Image1.Picture.Assign(CoverImage.Picture);
-
   BigCoverImgForm.BackImg.Canvas.Color:=clWhite;
-
-  BigCoverImgForm.BackImg.Width:=150;//BigCoverImgForm.Image1.Width+32;
-  BigCoverImgForm.BackImg.Height:=150;//BigCoverImgForm.Image1.Height+32;
-  BigCoverImgForm.BackImg.Canvas.FillRect(0,0, BigCoverImgForm.BackImg.Width, BigCoverImgForm.BackImg.Height);
+  BigCoverImgForm.BackImg.AutoSize:=true;
+  BigCoverImgForm.Width:=BigCoverImgForm.Image1.Width+32;
+  BigCoverImgForm.Height:=BigCoverImgForm.Image1.Height+32;
+  BigCoverImgForm.BackImg.Canvas.FillRect(0,0, BigCoverImgForm.Width, BigCoverImgForm.Height);
 
 //  BigCoverImgForm.BackImg.Canvas.Color:=clBlack;
-  BigCoverImgForm.BackImg.Canvas.Rectangle(5,5, BigCoverImgForm.BackImg.Width-5, BigCoverImgForm.BackImg.Height-5);
+  BigCoverImgForm.BackImg.Canvas.Rectangle(5,5, BigCoverImgForm.Width-10, BigCoverImgForm.Height-5);
 
 
-  BigCoverImgForm.Image1.BringToFront;
+ // BigCoverImgForm.Image1.BringToFront;
+  BigCoverImgForm.Image1.Top:=16;
+  BigCoverImgForm.Image1.Left:=16;
 
   BigCoverImgForm.Left:=x+Panel1.Left+self.Left+20;
   BigCoverImgForm.Top:=y+Panel1.height+self.top- 220;
+  BigCoverImgForm.BorderStyle:=bsDialog;
   BigCoverImgForm.ShowModal;
 
  // Enabled:=false;
@@ -2023,6 +2032,12 @@ begin
   TitleTree.PopupMenu.AutoPopup := true;
 end;
 
+procedure TMain.TitleTreeStartDrag(Sender: TObject; var DragObject: TDragObject
+  );
+begin
+  title_drag:=true;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.TrackInfoClick(Sender: TObject);
@@ -2265,39 +2280,62 @@ end;
 
 procedure TMain.playlistDragDrop(Sender, Source: TObject; X, Y: Integer);
 var   Targetitem, tmpitem : TListItem;
+      sourceNode:TTreeNode;
       ind:integer;
+      MedFileObj: TMediaFileClass;
 begin
   //   Playlist.MultiSelect:=true;
-     writeln('ondragdrop');
+  writeln('ondragdrop');
+  Targetitem:=playlist.GetItemAt(x,y);
+
+  if title_drag  then begin
+     title_drag:=false;
+     sourceitem:=TitleTree.Selected;
+     MedFileObj:=TMediaFileClass(sourceitem.Data);
+     tmpitem:=TListItem.Create(Playlist.Items);
+     if (MedFileObj.Artist<>'') or (MedFileObj.Title<>'') then
+           tmpitem.Caption:=MedFileObj.Artist+' - '+MedFileObj.Title
+         else
+           tmpitem.Caption:=ExtractFileName(MedFileObj.Path);
+     tmpitem.Data:=MedFileObj;
+
+     if (Targetitem<>nil) and (Targetitem.Index<>Playlist.Items.Count-1) THEN begin
+          ind:=Targetitem.Index;
+          Playlist.Items.InsertItem(tmpitem, ind);
+          fmodplayer.player.Playlist.insert(tmpitem.Index, MedFileObj);
+
+       end else begin
+          Playlist.Items.AddItem(tmpitem);
+          fmodplayer.player.playlist.add(MedFileObj);
+        end;
+  end;
+
+  if artist_drag then begin
+     artist_drag:=false;
+     sourceNode:=ArtistTree.Selected;
+     if (Targetitem<>nil) and (Targetitem.Index<>Playlist.Items.Count-1) then
+          artist_to_playlist_at(Targetitem.Index)
+        else artist_to_playlist;
+  end;
+
+  if playlist_drag and (Targetitem<>nil) and (Targetitem<>Sourceitem) then begin
+     playlist_drag:=false;
      sourceitem:=Playlist.Selected;
-     Targetitem:=playlist.GetItemAt(x,y);
-     if Targetitem=nil then Targetitem:=Playlist.Items[Playlist.Items.Count-1];
-     writeln(Targetitem.Caption);
-     writeln(targetitem.index);
-     writeln(Sourceitem.Caption);
-     writeln(sourceitem.Index);
-
-     if (Targetitem<>nil) and (Targetitem<>Sourceitem) then begin
-
-        writeln('insert');
-        ind:=sourceitem.Index;
-
-        if Targetitem.Index<>Playlist.Items.Count-1 THEN begin
-               tmpitem:=playlist.Items.Insert(Targetitem.Index);
-               tmpitem.Assign(sourceitem);
-               tmpitem.Selected:=true;
-               sourceitem.Delete;
-               if ind>tmpitem.Index then fmodplayer.player.Playlist.move(ind, tmpitem.Index)
+     ind:=sourceitem.Index;
+     tmpitem:=TListItem.Create(Playlist.Items);
+     tmpitem.Assign(sourceitem);
+     if Targetitem.Index<>Playlist.Items.Count-1 THEN begin
+          Playlist.Items.InsertItem(tmpitem, Targetitem.Index);
+          sourceitem.Delete;
+          if ind>tmpitem.Index then fmodplayer.player.Playlist.move(ind, tmpitem.Index)
                      else fmodplayer.player.Playlist.move(ind, tmpitem.Index-1)
-             end
-             else begin
-               tmpitem:=playlist.Items.Add;
-               tmpitem.Assign(sourceitem);
-               tmpitem.Selected:=true;
-               sourceitem.Delete;
-               fmodplayer.player.Playlist.move(ind, tmpitem.Index-1);
-             end;
-     end;
+       end else begin
+          Playlist.Items.AddItem(tmpitem);
+          sourceitem.Delete;
+          fmodplayer.player.Playlist.move(ind, tmpitem.Index-1);
+        end;
+  end;
+
 end;
 
 procedure TMain.playlistDragOver(Sender, Source: TObject; X, Y: Integer;
@@ -2308,7 +2346,7 @@ begin
  // Accept:=(sender is TListItem);
 //  Accept:=(source is TListView);
   accept:=true;
-
+  if title_Drag then writeln('***Title');
 end;
 
 procedure TMain.playlistEndDrag(Sender, Target: TObject; X, Y: Integer);
@@ -2403,9 +2441,8 @@ end;
 
 procedure TMain.playlistStartDrag(Sender: TObject; var DragObject: TDragObject);
 begin
-
-  writeln('Startdrag');
-  Playlist.MultiSelect:=false;
+  playlist_drag:=true;
+  writeln('playlist drag');
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2932,6 +2969,43 @@ begin
      if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
    end;
    main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr +')';
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure artist_to_playlist_at(index: integer);
+var tempnode, tsnode:TTreeNode;
+    curartist, curalbum: string;
+    Listitem:TListitem;
+    album_mode:boolean;
+    MedColObj: TMediaCollectionClass;
+    MedFileObj: TMediaFileClass;
+    z, i:integer;
+begin
+  tsnode:=Main.ArtistTree.Selected;
+  if (tsnode<>nil) and (tsnode.Level>0) then begin
+     if tsnode.level<2 then album_mode:=false else album_mode:=true;
+     MedFileObj:=TMediaFileClass(tsnode.data);
+     MedColObj:=MedFileObj.Collection;
+     curartist:=lowercase(MedFileObj.Artist);
+     curalbum:=lowercase(MedFileObj.Album);
+     z:=MedColObj.getTracks(MedFileObj.Artist, MedFileObj.index);
+     repeat begin
+        writeln(MedColObj.items[z].title);
+        if (album_mode=false) or ((album_mode=true) and (lowercase(MedColObj.items[z].album)=curalbum)) then begin
+           fmodplayer.player.playlist.insert(index, MedColObj.items[z]);
+           ListItem := Main.Playlist.Items.Insert(index);
+           inc(index);
+           listitem.data:=MedColObj.items[z];
+          // Listitem.Focused:=true;
+           if MedColObj.items[z].title<>'' then ListItem.Caption:=MedColObj.items[z].artist+' - '+MedColObj.items[z].title else ListItem.Caption:=extractfilename(MedColObj.items[z].path);
+        end;
+        z:=MedColObj.GetNext;
+      end;
+      until z<0;
+     Listitem.MakeVisible(false);
+   end;
+  main.playlist.Column[0].Caption:='Playlist            ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr+' )';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

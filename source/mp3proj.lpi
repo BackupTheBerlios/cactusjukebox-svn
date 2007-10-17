@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="3"/>
+      <ActiveEditorIndexAtStart Value="4"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -45,9 +45,9 @@
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="59" Y="12"/>
-        <TopLine Value="97"/>
-        <EditorIndex Value="8"/>
+        <CursorPos X="79" Y="50"/>
+        <TopLine Value="27"/>
+        <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -140,7 +140,7 @@
         <UnitName Value="settings"/>
         <CursorPos X="3" Y="340"/>
         <TopLine Value="325"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit9>
@@ -182,7 +182,7 @@
         <UnitName Value="player"/>
         <CursorPos X="13" Y="569"/>
         <TopLine Value="542"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit14>
@@ -213,7 +213,7 @@
         <UnitName Value="fmodplayer"/>
         <CursorPos X="56" Y="441"/>
         <TopLine Value="426"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit18>
@@ -324,7 +324,7 @@
         <UnitName Value="directories"/>
         <CursorPos X="73" Y="6"/>
         <TopLine Value="21"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit33>
@@ -576,7 +576,7 @@
         <UnitName Value="functions"/>
         <CursorPos X="6" Y="98"/>
         <TopLine Value="72"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit68>
@@ -613,7 +613,7 @@
         <UnitName Value="aws"/>
         <CursorPos X="19" Y="115"/>
         <TopLine Value="97"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit73>
@@ -657,11 +657,10 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="3" Y="144"/>
         <TopLine Value="140"/>
-        <EditorIndex Value="5"/>
-        <UsageCount Value="158"/>
-        <Bookmarks Count="2">
-          <Item0 X="26" Y="241" ID="2"/>
-          <Item1 X="15" Y="386" ID="3"/>
+        <EditorIndex Value="6"/>
+        <UsageCount Value="161"/>
+        <Bookmarks Count="1">
+          <Item0 X="15" Y="386" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit79>
@@ -678,9 +677,11 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="bigcoverimg.lrs"/>
         <UnitName Value="BigCoverImg"/>
-        <CursorPos X="64" Y="43"/>
-        <TopLine Value="19"/>
-        <UsageCount Value="95"/>
+        <CursorPos X="50" Y="33"/>
+        <TopLine Value="8"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="98"/>
+        <Loaded Value="True"/>
       </Unit81>
       <Unit82>
         <Filename Value="mainunit.pas"/>
@@ -711,12 +712,14 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="41" Y="916"/>
-        <TopLine Value="905"/>
-        <EditorIndex Value="3"/>
-        <UsageCount Value="85"/>
-        <Bookmarks Count="1">
-          <Item0 X="14" Y="1445" ID="0"/>
+        <CursorPos X="72" Y="1044"/>
+        <TopLine Value="1025"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="88"/>
+        <Bookmarks Count="3">
+          <Item0 X="14" Y="1454" ID="0"/>
+          <Item1 X="22" Y="2298" ID="1"/>
+          <Item2 X="47" Y="3006" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit85>
@@ -768,8 +771,8 @@
         <UnitName Value="plugintypes"/>
         <CursorPos X="24" Y="13"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="4"/>
-        <UsageCount Value="65"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="68"/>
         <Loaded Value="True"/>
       </Unit92>
       <Unit93>
@@ -792,8 +795,8 @@
         <UnitName Value="plugin"/>
         <CursorPos X="17" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="9"/>
-        <UsageCount Value="55"/>
+        <EditorIndex Value="10"/>
+        <UsageCount Value="58"/>
         <Loaded Value="True"/>
       </Unit95>
       <Unit96>
@@ -825,31 +828,11 @@
         <UsageCount Value="10"/>
       </Unit99>
     </Units>
-    <JumpHistory Count="6" HistoryIndex="5">
+    <JumpHistory Count="1" HistoryIndex="0">
       <Position1>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2291" Column="90" TopLine="2274"/>
+        <Filename Value="mp3proj.lpr"/>
+        <Caret Line="136" Column="47" TopLine="108"/>
       </Position1>
-      <Position2>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="919" Column="18" TopLine="905"/>
-      </Position2>
-      <Position3>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1534" Column="3" TopLine="1532"/>
-      </Position3>
-      <Position4>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="670" Column="30" TopLine="660"/>
-      </Position4>
-      <Position5>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1319" Column="23" TopLine="1304"/>
-      </Position5>
-      <Position6>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2662" Column="3" TopLine="2655"/>
-      </Position6>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -870,24 +853,21 @@
       </SyntaxOptions>
     </Parsing>
     <CodeGeneration>
-      <SmartLinkUnit Value="True"/>
       <Checks>
         <IOChecks Value="True"/>
         <RangeChecks Value="True"/>
         <OverflowChecks Value="True"/>
         <StackChecks Value="True"/>
       </Checks>
-      <Generate Value="Faster"/>
       <TargetProcessor Value="2"/>
       <Optimizations>
-        <OptimizationLevel Value="2"/>
+        <OptimizationLevel Value="0"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
       <Debugging>
         <StripSymbols Value="True"/>
       </Debugging>
-      <LinkSmart Value="True"/>
       <Options>
         <PassLinkerOptions Value="True"/>
         <LinkerOptions Value="-lgcc"/>
