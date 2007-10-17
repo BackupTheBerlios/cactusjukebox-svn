@@ -85,6 +85,10 @@ type
     filetypebox: TComboBox;
     CoverImage: TImage;
     MenuItem13: TMenuItem;
+    MenuItem15: TMenuItem;
+    MenuItem19: TMenuItem;
+    MenuItem22: TMenuItem;
+    MenuItem23: TMenuItem;
     MenuItem7: TMenuItem;
     MenuItem9: TMenuItem;
     opendir: TMenuItem;
@@ -212,6 +216,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure FormResize(Sender: TObject);
     procedure MenuItem13Click(Sender: TObject);
+    procedure MenuItem15Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
@@ -264,6 +269,7 @@ type
     procedure PreviousButtonImgMouseLeave(Sender: TObject);
     procedure PreviousButtonImgMouseUp(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure SettingsItemClick(Sender: TObject);
     procedure SimpleIPCServer1Message(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
 
@@ -321,7 +327,7 @@ type
     procedure skinmenuClick(Sender: TObject);
     procedure syncplayeritem(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
-    procedure Menuitem22Click(Sender: TObject);
+    procedure MenuItem22aClick(Sender: TObject);
     procedure Menuitem10Click(Sender: TObject);
     procedure RemoveClick(Sender: TObject);
     procedure QuitItemClick(Sender: TObject);
@@ -1077,6 +1083,17 @@ end;
 
 procedure TMain.MenuItem13Click(Sender: TObject);
 begin
+
+end;
+
+procedure TMain.MenuItem15Click(Sender: TObject);
+var i: integer;
+begin
+  i:=playlist.Items.Count;
+  artist_to_playlist;
+  Playlist.Selected:=nil;
+  playlist.Items[i].Selected:=true;
+  playClick(nil);
 
 end;
 
@@ -1877,6 +1894,15 @@ begin
   PreviousButtonImg.Picture.LoadFromFile(SkinData.previous.MouseOver);
 end;
 
+procedure TMain.SettingsItemClick(Sender: TObject);
+begin
+    Enabled:=false;
+    setupwin:=Tsettings.create(Application);
+    setupwin.ShowModal;
+    setupwin.Free;
+    Enabled:=true;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.SimpleIPCServer1Message(Sender: TObject);
@@ -2048,7 +2074,6 @@ procedure TMain.TitleTreeStartDrag(Sender: TObject; var DragObject: TDragObject
   );
 begin
   title_drag:=true;
-
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2095,6 +2120,12 @@ begin
             rm_artist_playeritem.Enabled:=true;
             MenuItem30.Enabled:=true;
           end;
+     if player_connected=false then begin
+        MenuItem30.Visible:=false;
+        rm_artist_playeritem.Visible:=false;
+        menuitem37.Visible:=false;
+        space1.Visible:=false;
+      end;
     end;
 end;
 
@@ -2354,13 +2385,10 @@ end;
 procedure TMain.playlistDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
 begin
-  writeln('ondragover');
- // Accept:=(source is TListItem);
- // Accept:=(sender is TListItem);
-//  Accept:=(source is TListView);
   accept:=true;
-  if title_Drag then writeln('***Title');
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.playlistEndDrag(Sender, Target: TObject; X, Y: Integer);
 var tmplitem: TListItem;
@@ -2781,13 +2809,11 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TMain.Menuitem22Click(Sender: TObject);
+procedure TMain.MenuItem22aClick(Sender: TObject);
 begin
-    Enabled:=false;
-    setupwin:=Tsettings.create(Application);
-    setupwin.ShowModal;
-    setupwin.Free;
-    Enabled:=true;
+   if fmodplayer.player.playing then
+        artist_to_playlist_at(fmodplayer.player.CurrentTrack+1)
+      else artist_to_playlist;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2855,9 +2881,12 @@ if TitleTree.Selected<>nil then begin
           Menuitem14.enabled:=true;
          end;
     end;
-{  MenuItem16.ImageIndex:=1;
-  MenuItem14.ImageIndex:=1;
-  TEditID3item.ImageIndex:=1;}
+  if player_connected=false then begin
+       MenuItem16.Visible:=false;
+       menuitem14.Visible:=false;
+       menuitem20.Visible:=false;
+       menuitem11.Visible:=false;
+    end;
  end;
 end;
 

@@ -1,14 +1,14 @@
 object Main: TMain
-  Left = 44
-  Height = 584
-  Top = 58
-  Width = 835
-  HorzScrollBar.Page = 834
-  VertScrollBar.Page = 563
+  Left = 280
+  Height = 687
+  Top = 41
+  Width = 903
+  HorzScrollBar.Page = 902
+  VertScrollBar.Page = 665
   ActiveControl = ArtistTree
   Caption = 'titel'
-  ClientHeight = 564
-  ClientWidth = 835
+  ClientHeight = 666
+  ClientWidth = 903
   Icon.Data = {
     36040000424D3604000000000000360000002800000010000000100000000100
     2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -53,9 +53,9 @@ object Main: TMain
   Position = poDefault
   ShowInTaskBar = stAlways
   object StatusBar1: TStatusBar
-    Height = 23
-    Top = 541
-    Width = 835
+    Height = 17
+    Top = 649
+    Width = 903
     Panels = <    
       item
         Text = 'Cactus Jukebox'
@@ -67,8 +67,8 @@ object Main: TMain
     SimplePanel = False
   end
   object Splitter1: TSplitter
-    Left = 259
-    Height = 541
+    Left = 263
+    Height = 649
     Width = 8
     Align = alRight
     AutoSnap = False
@@ -78,13 +78,13 @@ object Main: TMain
     ResizeAnchor = akRight
   end
   object Panel1: TPanel
-    Left = 267
-    Height = 541
-    Width = 568
+    Left = 271
+    Height = 649
+    Width = 632
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 541
-    ClientWidth = 568
+    ClientHeight = 649
+    ClientWidth = 632
     ParentColor = False
     TabOrder = 0
     OnClick = Panel1Click
@@ -92,7 +92,7 @@ object Main: TMain
     object SearchPanel: TPanel
       Left = 12
       Height = 81
-      Top = 176
+      Top = 284
       Width = 424
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -175,7 +175,6 @@ object Main: TMain
         Top = 48
         Width = 90
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemHeight = 13
         ItemIndex = 0
         Items.Strings = (
           'all types'
@@ -193,7 +192,7 @@ object Main: TMain
     object PlayerControlsPanel: TPanel
       Left = 12
       Height = 263
-      Top = 270
+      Top = 378
       Width = 224
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -214,7 +213,7 @@ object Main: TMain
         Left = 132
         Height = 22
         Hint = 'Mute'
-        Top = 205
+        Top = 200
         Width = 30
         Color = clBtnFace
         Flat = True
@@ -456,7 +455,7 @@ object Main: TMain
       end
       object playtime: TEdit
         Left = 88
-        Height = 21
+        Height = 23
         Top = 53
         Width = 40
         Anchors = [akTop, akRight]
@@ -503,20 +502,20 @@ object Main: TMain
       end
       object randomcheck: TCheckBox
         Left = 135
-        Height = 13
+        Height = 20
         Top = 230
-        Width = 60
+        Width = 68
         Caption = 'Random'
         TabOrder = 5
       end
     end
     object clear_list: TBitBtn
       AnchorSideBottom.Side = asrCenter
-      Left = 476
-      Height = 32
+      Left = 542
+      Height = 34
       Hint = 'Clear Playlist'
-      Top = 226
-      Width = 75
+      Top = 332
+      Width = 73
       Anchors = [akRight, akBottom]
       AutoSize = True
       Caption = 'Clear'
@@ -566,9 +565,9 @@ object Main: TMain
     end
     object TitleTree: TListView
       Left = 8
-      Height = 158
+      Height = 266
       Top = 8
-      Width = 552
+      Width = 616
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderWidth = 1
       Columns = <      
@@ -600,8 +599,9 @@ object Main: TMain
           Alignment = taRightJustify
           AutoSize = True
           Caption = 'Length'
-          Width = 350
+          Width = 424
         end>
+      DragMode = dmAutomatic
       HideSelection = False
       LargeImages = ImageList1
       MultiSelect = True
@@ -619,12 +619,13 @@ object Main: TMain
       OnEndDrag = TitleTreeEndDrag
       OnMouseDown = TitleTreeMouseDown
       OnSelectItem = TitleTreeSelectItem
+      OnStartDrag = TitleTreeStartDrag
     end
     object Playlist: TListView
       Left = 248
       Height = 265
-      Top = 268
-      Width = 312
+      Top = 376
+      Width = 376
       Anchors = [akLeft, akRight, akBottom]
       BorderWidth = 1
       Color = clWhite
@@ -632,7 +633,7 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Playlist'
-          Width = 284
+          Width = 358
         end>
       DragMode = dmAutomatic
       HideSelection = False
@@ -658,19 +659,19 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
-    Height = 541
-    Width = 259
+    Height = 649
+    Width = 263
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 541
-    ClientWidth = 259
+    ClientHeight = 649
+    ClientWidth = 263
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 10
-      Height = 526
+      Height = 634
       Top = 10
-      Width = 249
+      Width = 253
       Align = alClient
       BorderSpacing.Left = 10
       BorderSpacing.Top = 10
@@ -805,6 +806,11 @@ object Main: TMain
       SubMenuImages = ImageList1
       OnClick = MenuItem10Click
     end
+    object MenuItem23: TMenuItem
+      Caption = 'Listen Track'
+      ImageIndex = 0
+      OnClick = PlaylistDblClick
+    end
     object MenuItem3: TMenuItem
       Caption = 'Remove Selected'
       OnClick = MenuItem3Click
@@ -852,7 +858,7 @@ object Main: TMain
       end
       object SettingsItem: TMenuItem
         Caption = 'Settings...'
-        OnClick = MenuItem22Click
+        OnClick = SettingsItemClick
       end
       object spacer15: TMenuItem
         Caption = '-'
@@ -1297,15 +1303,27 @@ object Main: TMain
     Images = ImageList1
     OnPopup = artisttreemenuPopup
     top = 464
-    object toplaylistitem: TMenuItem
-      Caption = 'put in playlist'
-      OnClick = ArtistTreeDblClick
+    object MenuItem15: TMenuItem
+      Caption = 'Listen Artist/Album'
+      ImageIndex = 0
+      OnClick = MenuItem15Click
     end
     object MenuItem33: TMenuItem
       Caption = 'File info/edit'
       ImageIndex = 8
       SubMenuImages = ImageList1
       OnClick = MenuItem33Click
+    end
+    object MenuItem19: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem22: TMenuItem
+      Caption = '-> next in playlist'
+      OnClick = MenuItem22aClick
+    end
+    object toplaylistitem: TMenuItem
+      Caption = '-> append to playlist'
+      OnClick = ArtistTreeDblClick
     end
     object space1: TMenuItem
       Caption = '-'
