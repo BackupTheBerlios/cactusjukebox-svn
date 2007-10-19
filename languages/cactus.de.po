@@ -67,7 +67,7 @@ msgstr "Verzeichnisse erneut durchsuchen"
 
 #: mainform:rsplaylist
 msgid "Playlist"
-msgstr "Playlist"
+msgstr "Wiedergabeliste"
 
 #: mainform:rsplay
 msgid "Play"
@@ -87,15 +87,19 @@ msgstr "Stumm"
 
 #: mainform:rsloadplaylist
 msgid "Load playlist"
-msgstr "Playlist laden..."
+msgstr "Wiedergabeliste laden..."
 
 #: mainform:rssaveplaylist
 msgid "Save playlist"
-msgstr "Playlist speichern..."
+msgstr "Wiedergabeliste speichern..."
 
 #: mainform:rsmobileplayer
 msgid "Mobile player"
 msgstr "Mp3-Player"
+
+#: mainform:rsclearplaylist
+msgid "Clear Playlist"
+msgstr "Wiedergabeliste löschen"
 
 #: mainform:rsdeviceinfo
 msgid "Device info"
@@ -172,6 +176,14 @@ msgstr "Gerät nicht gefunden"
 #: mainform:rsok
 msgid "OK"
 msgstr "OK"
+
+#: mainform:rslenght
+msgid "Length"
+msgstr "Länge"
+
+#: mainform:rstrack
+msgid "Track"
+msgstr "Nr"
 
 #: cdrip:rsencodetomp3
 msgid "Encode to mp3"

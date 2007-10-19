@@ -87,6 +87,10 @@ mainform.rssaveplaylist='Save playlist'
 mainform.rsmobileplayer='Mobile player'
 
 
+# hash value = 3699060
+mainform.rsclearplaylist='Clear Playlist'
+
+
 # hash value = 154945599
 mainform.rsdeviceinfo='Device info'
 
@@ -161,6 +165,14 @@ mainform.rsnotconnected='Device not Connected'
 
 # hash value = 1339
 mainform.rsok='OK'
+
+
+# hash value = 86789800
+mainform.rslenght='Length'
+
+
+# hash value = 5998491
+mainform.rstrack='Track'
 
 
 # hash value = 201018883

@@ -52,6 +52,7 @@ resourcestring
   rsLoadPlaylist = 'Load playlist';
   rsSavePlaylist = 'Save playlist';
   rsMobilePlayer = 'Mobile player';
+  rsClearPlaylist = 'Clear Playlist';
   rsDeviceInfo = 'Device info';
   rsScanPlayer = 'Scan player';
   rsSync = 'Sync';
@@ -71,6 +72,8 @@ resourcestring
   rsRandom = 'Random';
   rsNotConnected = 'Device not Connected';
   rsOK = 'OK';
+  rsLenght = 'Length';
+  rsTrack = 'Track';
 
 type
 
@@ -172,7 +175,7 @@ type
     MIsave_list: TMenuItem;
     spacer29: TMenuItem;
     space1: TMenuItem;
-    menuclear_list: TMenuItem;
+    MIclear_playlist: TMenuItem;
     FileItem: TMenuItem;
     OpenDialog1: TOpenDialog;
     artisttreemenu: TPopupMenu;
@@ -201,6 +204,7 @@ type
     trackbar: TTrackBar;
     volumebar: TTrackBar;
     procedure ArtistTreeClick(Sender: TObject);
+    procedure ArtistTreeCollapsed(Sender: TObject; Node: TTreeNode);
     procedure ArtistTreeDblClick(Sender: TObject);
     procedure ArtistTreeEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure ArtistTreeKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
@@ -283,8 +287,12 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure TitleTreeClick(Sender: TObject);
     procedure TitleTreeColumnClick(Sender: TObject; Column: TListColumn);
+    procedure TitleTreeDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
     procedure TitleTreeEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure TitleTreeMouseDown(Sender: TOBject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure TitleTreeMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure TitleTreeSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
@@ -1378,6 +1386,7 @@ begin
   MImute.Caption:= rsMute;
   MIload_list.Caption:= rsLoadPlaylist;
   MIsave_list.Caption:= rsSavePlaylist;
+  MIclear_playlist.Caption:=rsClearPlaylist;
 
   MImobile.Caption:= rsMobilePlayer;
   MImobile_info.Caption:= rsDeviceInfo;
@@ -1392,6 +1401,15 @@ begin
   MIhelp.Caption:= rsHelp;
   MIabout.Caption:= rsAbout;
   MImanual.Caption:= rsManual;
+  
+  Playlist.Column[0].Caption:=rsPlaylist;
+  
+  TitleTree.Column[1].Caption:=rsArtist;
+  TitleTree.Column[2].Caption:=rsTitle;
+  TitleTree.Column[3].Caption:=rsAlbum;
+  TitleTree.Column[4].Caption:=rsTrack;
+  TitleTree.Column[5].Caption:=rsLenght;
+
 
   clear_list.Caption:= rsClear;
   srch_button.Caption:= rsSearch;
@@ -2040,6 +2058,17 @@ begin
 end;
 end;
 
+procedure TMain.TitleTreeDragOver(Sender, Source: TObject; X, Y: Integer;
+  State: TDragState; var Accept: Boolean);
+begin
+  //Workaround for GTK1.x to reset selected Item while dragging
+ if title_drag then begin
+  TitleTree.Selected:=nil;
+  TitleTree.Items[sourceitem.Index].Selected:=true;
+ end;
+ Accept:=false;
+end;
+
 procedure TMain.TitleTreeEndDrag(Sender, Target: TObject; X, Y: Integer);
 begin
   title_drag:=false;
@@ -2057,8 +2086,19 @@ begin
     
  //Enable Dragging
   if Button = mbLeft then begin	{ only drag if left button pressed }
-         // TitleTree.BeginDrag(false, 10);
+         {$ifdef  LCLGtk2}
+          sourceitem:=TitleTree.GetItemAt(x, y-20);
+         {$else}
+          sourceitem:=TitleTree.GetItemAt(x, y);
+         {$endif}
+          TitleTree.BeginDrag(false, 10);
     end;
+end;
+
+procedure TMain.TitleTreeMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2074,6 +2114,7 @@ procedure TMain.TitleTreeStartDrag(Sender: TObject; var DragObject: TDragObject
   );
 begin
   title_drag:=true;
+  //sourceitem:=TitleTree.Selected;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2334,7 +2375,7 @@ begin
 
   if title_drag  then begin
      title_drag:=false;
-     sourceitem:=TitleTree.Selected;
+     //sourceitem:=TitleTree.Selected;
      MedFileObj:=TMediaFileClass(sourceitem.Data);
      tmpitem:=TListItem.Create(Playlist.Items);
      if (MedFileObj.Artist<>'') or (MedFileObj.Title<>'') then
@@ -2352,6 +2393,8 @@ begin
           Playlist.Items.AddItem(tmpitem);
           fmodplayer.player.playlist.add(MedFileObj);
         end;
+     sourceitem:=nil;
+     if not fmodplayer.player.playing and (CactusConfig.AutostartPlay) and (Playlist.Items.Count=1) then playClick(self);
   end;
 
   if artist_drag then begin
@@ -2539,6 +2582,11 @@ begin
  // if ArtistTree.Selected<>nil then update_title_view;
 end;
 
+procedure TMain.ArtistTreeCollapsed(Sender: TObject; Node: TTreeNode);
+begin
+
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.ArtistTreeKeyUp(Sender: TObject; var Key: Word;
@@ -2582,7 +2630,7 @@ begin
   ArtistTree.SetFocus;
  // ensure that the popup menu is only opened when an item is selected
  if Button = mbRight then
-    if ArtistTree.GetNodeAt(X, Y) = nil then
+    if (ArtistTree.GetNodeAt(X, Y) = nil) or (ArtistTree.GetNodeAt(X, Y).Level=0) then
         ArtistTree.PopupMenu.AutoPopup := false
     else
         ArtistTree.PopupMenu.AutoPopup := true;
@@ -2956,12 +3004,9 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.TitleTreeDblClick(Sender: TObject);
-var first: boolean;
 begin
-    first:=false;
-    if Playlist.Items.Count=0 then first:=true;
     title_to_playlist;
-    if first and CactusConfig.AutostartPlay then playClick(nil);
+    writeln('clik');
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2983,6 +3028,10 @@ var tsnode:TListitem;
 begin
    tsnode:=main.TitleTree.Selected;
    if (tsnode<>nil) and (tsnode.ImageIndex<>4) then begin
+     if main.Playlist.Items.Count=0 then begin
+          title_to_playlist;
+          exit;
+       end;
      MedFileObj:=TMediaFileClass(tsnode.data);
 
      fmodplayer.player.playlist.Insert(index, MedFileObj);
@@ -3015,6 +3064,10 @@ begin
      listitem.MakeVisible(false);
 //     listitem.Focused:=true;
      if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
+     if not fmodplayer.player.playing and CactusConfig.AutostartPlay and (main.Playlist.Items.Count=1) then begin
+           main.Playlist.Selected:=Main.Playlist.Items[0];
+           Main.playClick(main);
+         end;
    end;
    main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr +')';
 end;
@@ -3031,6 +3084,10 @@ var tempnode, tsnode:TTreeNode;
     z, i:integer;
 begin
   tsnode:=Main.ArtistTree.Selected;
+  if main.Playlist.Items.Count=0 then begin
+      artist_to_playlist;
+      exit;
+    end;
   if (tsnode<>nil) and (tsnode.Level>0) then begin
      if tsnode.level<2 then album_mode:=false else album_mode:=true;
      MedFileObj:=TMediaFileClass(tsnode.data);
@@ -3065,10 +3122,11 @@ var tempnode, tsnode:TTreeNode;
     album_mode:boolean;
     MedColObj: TMediaCollectionClass;
     MedFileObj: TMediaFileClass;
-    z, i:integer;
+    z, i, oldcount:integer;
 begin
   tsnode:=Main.ArtistTree.Selected;
   if (tsnode<>nil) and (tsnode.Level>0) then begin
+     oldcount:=main.Playlist.Items.Count;
      if tsnode.level<2 then album_mode:=false else album_mode:=true;
      MedFileObj:=TMediaFileClass(tsnode.data);
      MedColObj:=MedFileObj.Collection;
@@ -3088,6 +3146,10 @@ begin
       end;
       until z<0;
      Listitem.MakeVisible(false);
+     if CactusConfig.AutostartPlay and (oldcount=0) and (main.Playlist.Items.Count>0) then begin
+           main.Playlist.Selected:=Main.Playlist.Items[0];
+           Main.playClick(main);
+         end;
    end;
   main.playlist.Column[0].Caption:='Playlist            ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr+' )';
 end;
@@ -3132,6 +3194,7 @@ begin
                  listitem.data:=MedColObj.items[i];
                  Listitem.ImageIndex:=MedColObj.items[i].action;
                  Listitem.caption:='';
+
 
                  if MedColObj.items[i].title<>'' then
                         ListItem.SubItems.Add((MedColObj.items[i].Artist))
@@ -3192,7 +3255,7 @@ if MediaCollection.Count>0 then begin
      Main.ArtistTree.Items.Clear;
 
 //     for i:= 0 to MediaCollection.Count-1 do writeln(MediaCollection.Items[i].artist + '   ' +MediaCollection.Items[i].Title+'   '+MediaCollection.Items[i].Album);
-     localnode:=Main.ArtistTree.Items.Add(nil, 'Local Harddisk');
+     localnode:=Main.ArtistTree.Items.Add(nil, rsLibrary);
      localnode.ImageIndex:=6;
      localnode.SelectedIndex:=6;
      localnode.data:=pointer(1);

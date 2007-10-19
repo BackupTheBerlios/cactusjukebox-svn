@@ -146,31 +146,13 @@ object Settings: TSettings
         TabOrder = 6
         Text = 'Alsa'
       end
-      object GroupBox1: TGroupBox
+      object AutoPlayBox: TCheckBox
         Left = 38
-        Height = 64
-        Top = 105
-        Width = 356
-        Caption = 'Doubleclick behaviour'
-        ClientHeight = 49
-        ClientWidth = 352
+        Height = 20
+        Top = 87
+        Width = 292
+        Caption = 'Always start playing first song in empty playlist'
         TabOrder = 7
-        object CheckBox1: TCheckBox
-          Left = 30
-          Height = 20
-          Top = 14
-          Width = 70
-          Caption = 'Play title'
-          TabOrder = 0
-        end
-        object CheckBox2: TCheckBox
-          Left = 190
-          Height = 20
-          Top = 14
-          Width = 127
-          Caption = 'Add title to playlist'
-          TabOrder = 1
-        end
       end
     end
     object TabSheet2: TTabSheet

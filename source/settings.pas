@@ -94,15 +94,13 @@ type
     Button1: TButton;
     backscan: TCheckBox;
     Button2: TButton;
-    CheckBox1: TCheckBox;
-    CheckBox2: TCheckBox;
     CDRomEdit: TEdit;
+    AutoPlayBox: TCheckBox;
     Label2: TLabel;
     PluginList: TCheckListBox;
     ClearCover: TButton;
     AudioOut: TComboBox;
     CoverDownload: TCheckBox;
-    GroupBox1: TGroupBox;
     guesstag1: TRadioButton;
     GuessTagBox: TGroupBox;
     ID3typebox: TGroupBox;
@@ -199,7 +197,7 @@ begin
      if v2_prio.Checked then CactusConfig.id3v2_prio:=true else CactusConfig.id3v2_prio:=false;
      if subfolders.checked then CactusConfig.mobile_subfolders:=true else CactusConfig.mobile_subfolders:=false;
      if CoverDownload.Checked then CactusConfig.CoverDownload:=true else CactusConfig.CoverDownload:=false;
-//     if AutostartBox.Checked then CactusConfig.AutostartPlay:=true else CactusConfig.AutostartPlay:=false;
+     if AutoPlayBox.Checked then CactusConfig.AutostartPlay:=true else CactusConfig.AutostartPlay:=false;
 //     MediaCollection.guess_tag:=CactusConfig.GuessTag;
      fmodplayer.player.oss:=not CactusConfig.OutputAlsa;
 
@@ -316,7 +314,7 @@ begin
    if CactusConfig.background_scan then backscan.checked:=true else backscan.checked:=false;
    if CactusConfig.mobile_subfolders then subfolders.checked:=true else subfolders.checked:=false;
    if CactusConfig.id3v2_prio then v2_prio.Checked:=true else v1_prio.checked:=true;
-   //AutostartBox.Checked:=CactusConfig.AutostartPlay;
+   AutoPlayBox.Checked:=CactusConfig.AutostartPlay;
 
 {   for i:=0 to CactusPlugins.Count-1 do begin
           PluginList.Items.Add(CactusPlugins.Items[i].Name);

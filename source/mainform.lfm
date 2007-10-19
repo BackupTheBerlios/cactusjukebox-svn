@@ -1,7 +1,7 @@
 object Main: TMain
-  Left = 280
+  Left = 372
   Height = 687
-  Top = 41
+  Top = 36
   Width = 903
   HorzScrollBar.Page = 902
   VertScrollBar.Page = 665
@@ -564,15 +564,14 @@ object Main: TMain
       TabOrder = 2
     end
     object TitleTree: TListView
-      Left = 8
+      Left = 16
       Height = 266
-      Top = 8
+      Top = 10
       Width = 616
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderWidth = 1
       Columns = <      
         item
-          Alignment = taRightJustify
           Width = 16
         end      
         item
@@ -593,18 +592,17 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Track'
-          Width = 39
+          MaxWidth = 30
+          Width = 30
         end      
         item
-          Alignment = taRightJustify
           AutoSize = True
           Caption = 'Length'
-          Width = 424
+          MaxWidth = 60
+          Width = 433
         end>
-      DragMode = dmAutomatic
       HideSelection = False
       LargeImages = ImageList1
-      MultiSelect = True
       PopupMenu = titlelistmenu
       ReadOnly = True
       RowSelect = True
@@ -616,8 +614,10 @@ object Main: TMain
       OnClick = TitleTreeClick
       OnColumnClick = TitleTreeColumnClick
       OnDblClick = TitleTreeDblClick
+      OnDragOver = TitleTreeDragOver
       OnEndDrag = TitleTreeEndDrag
       OnMouseDown = TitleTreeMouseDown
+      OnMouseUp = TitleTreeMouseUp
       OnSelectItem = TitleTreeSelectItem
       OnStartDrag = TitleTreeStartDrag
     end
@@ -638,7 +638,6 @@ object Main: TMain
       DragMode = dmAutomatic
       HideSelection = False
       LargeImages = ImageList1
-      MultiSelect = True
       PopupMenu = playlistmenu
       ReadOnly = True
       SmallImages = ImageList1
@@ -695,6 +694,7 @@ object Main: TMain
       ShowRoot = False
       TabOrder = 0
       OnClick = ArtistTreeClick
+      OnCollapsed = ArtistTreeCollapsed
       OnDblClick = ArtistTreeDblClick
       OnEndDrag = ArtistTreeEndDrag
       OnKeyUp = ArtistTreeKeyUp
@@ -1081,7 +1081,7 @@ object Main: TMain
       object spacer29: TMenuItem
         Caption = '-'
       end
-      object menuclear_list: TMenuItem
+      object MIclear_playlist: TMenuItem
         Caption = 'Clear Playlist'
         OnClick = clear_listClick
       end
