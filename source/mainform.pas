@@ -1477,9 +1477,6 @@ begin
 {$ifdef unix}
  Application.OnIdle:=@ApplicationIdle;
 {$endif}
-{$ifdef win32}
-  SimpleIPCServer1.OnMessage:=@SimpleIPCServer1Message;
-{$endif}
   SimpleIPCServer1.Global:=true;
 
   SimpleIPCServer1.StartServer;
@@ -1526,7 +1523,9 @@ procedure TMain.ApplicationIdle(Sender: TObject; var Done: Boolean);
 
 begin
 {$ifdef linux}   //linux doesn't recognize onIPCMessage Event. so we call it manually
-  if SimpleIPCServer1.PeekMessage(1,True) then SimpleIPCServer1Message(nil);
+  if SimpleIPCServer1.PeekMessage(1,true) then begin  //PeekMessage automaticly calls OnMessage event
+       writeln('IPC Messge received');
+     end;
 {$endif}
 end;
 
@@ -1567,6 +1566,7 @@ var z: integer;
     listitem: TListItem;
 begin
  writeln('** Loadfile **');
+ Application.ProcessMessages;
  if FileExists(path) then begin
    z:=MediaCollection.GetIndexByPath(path);
    writeln(z);
@@ -1582,7 +1582,8 @@ begin
    result:=true;
    update_artist_view;
    update_title_view;
-  end else result:=false
+  end else result:=false;
+ Application.ProcessMessages;
 end;
 
 procedure TMain.ScanSyncronize(dir: string);
@@ -1934,32 +1935,35 @@ end;
 
 procedure TMain.SimpleIPCServer1Message(Sender: TObject);
 var fpath: string;
-    i:integer;
+    CommandCode:integer;
 begin
   writeln(' IPC Message received');
-  fpath:=copy(SimpleIPCServer1.StringMessage, 4, length(SimpleIPCServer1.StringMessage));
-  writeln(SimpleIPCServer1.StringMessage);
-  case byte(StrToInt(SimpleIPCServer1.StringMessage)) of
+  if length(SimpleIPCServer1.StringMessage)>2 then begin
+       fpath:=copy(SimpleIPCServer1.StringMessage, Pos(':', SimpleIPCServer1.StringMessage)+2, length(SimpleIPCServer1.StringMessage));
+       CommandCode:=StrToInt(Copy(SimpleIPCServer1.StringMessage,0 , Pos(':', SimpleIPCServer1.StringMessage)-1 ));
+     end else begin
+        fpath:='';
+        CommandCode:=StrToInt(SimpleIPCServer1.StringMessage);
+       end;
+  case CommandCode of
      VOLUME_UP: if volumebar.Position>4 then  volumebar.Position:=volumebar.Position-5;
      VOLUME_DOWN: if volumebar.Position<46 then volumebar.Position:=volumebar.Position+5;
-     NEXT_TRACK: nextClick(nil);
-     STOP_PLAYING: stopClick(nil);
-     START_PLAYING: playClick(nil);
-     PREV_TRACK: prevClick(nil);
-     PAUSE_PLAYING: pauseClick(nil);
+     NEXT_TRACK: nextClick(self);
+     STOP_PLAYING: stopClick(self);
+     START_PLAYING: playClick(self);
+     PREV_TRACK: prevClick(self);
+     PAUSE_PLAYING: pauseClick(self);
+     OPEN_FILE: if FileExists(fpath) then begin
+                  LoadFile(fpath);
+                  Playlist.Selected:=Playlist.Items[Playlist.Items.Count-1];
+                  playClick(self);
+                end else  writeln('--> Filename received from IPC does not exist');
+     ENQUEU_FILE: if FileExists(fpath) then begin
+                       LoadFile(fpath);
+                     end else  writeln('--> Filename received from IPC does not exist');
    else writeln(' --> Invalid message/filename received via IPC');
-  if (pos(inttostr(OPEN_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
-        LoadFile(fpath);
-        playClick(nil);
-        exit;
-   end
-    else writeln(' --> Invalid message/filename received via IPC');
-  if (pos(inttostr(ENQUEU_FILE), SimpleIPCServer1.StringMessage)=1) and FileExists(fpath) then begin
-        LoadFile(fpath);
-        exit;
-   end
-    else writeln(' --> Invalid message/filename received via IPC');
   end;
+  Writeln('IPC end');
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3017,7 +3021,6 @@ begin
     Application.ProcessMessages;
     title_to_playlist;
      Application.ProcessMessages;
-    writeln('clik');
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
