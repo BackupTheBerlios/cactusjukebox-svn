@@ -86,7 +86,7 @@
         <UnitName Value="editid3"/>
         <CursorPos X="3" Y="416"/>
         <TopLine Value="457"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -140,7 +140,7 @@
         <UnitName Value="settings"/>
         <CursorPos X="15" Y="317"/>
         <TopLine Value="303"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit9>
@@ -320,7 +320,9 @@
         <UnitName Value="directories"/>
         <CursorPos X="20" Y="176"/>
         <TopLine Value="162"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="200"/>
+        <Loaded Value="True"/>
       </Unit33>
       <Unit34>
         <Filename Value="../../mp3.pas"/>
@@ -583,7 +585,7 @@
         <Filename Value="cactus_const.inc"/>
         <CursorPos X="7" Y="16"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit70>
@@ -703,12 +705,12 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="38" Y="3192"/>
-        <TopLine Value="3174"/>
+        <CursorPos X="34" Y="3011"/>
+        <TopLine Value="3007"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="83"/>
         <Bookmarks Count="1">
-          <Item0 X="14" Y="1467" ID="0"/>
+          <Item0 X="14" Y="1468" ID="0"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit85>
@@ -813,55 +815,11 @@
         <SyntaxHighlighter Value="LFM"/>
       </Unit99>
     </Units>
-    <JumpHistory Count="12" HistoryIndex="11">
+    <JumpHistory Count="1" HistoryIndex="0">
       <Position1>
         <Filename Value="mainform.pas"/>
-        <Caret Line="3045" Column="89" TopLine="3033"/>
+        <Caret Line="1000" Column="59" TopLine="988"/>
       </Position1>
-      <Position2>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="3139" Column="31" TopLine="3128"/>
-      </Position2>
-      <Position3>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2385" Column="71" TopLine="2363"/>
-      </Position3>
-      <Position4>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="3057" Column="31" TopLine="3034"/>
-      </Position4>
-      <Position5>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="3139" Column="31" TopLine="3125"/>
-      </Position5>
-      <Position6>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2419" Column="3" TopLine="2416"/>
-      </Position6>
-      <Position7>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="3254" Column="100" TopLine="3297"/>
-      </Position7>
-      <Position8>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="175" Column="21" TopLine="175"/>
-      </Position8>
-      <Position9>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2240" Column="3" TopLine="2238"/>
-      </Position9>
-      <Position10>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="55" Column="18" TopLine="153"/>
-      </Position10>
-      <Position11>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="76" Column="21" TopLine="63"/>
-      </Position11>
-      <Position12>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="3197" Column="35" TopLine="3178"/>
-      </Position12>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

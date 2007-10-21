@@ -1,14 +1,14 @@
 object Main: TMain
-  Left = 372
+  Left = 63
   Height = 687
   Top = 36
-  Width = 903
-  HorzScrollBar.Page = 902
+  Width = 913
+  HorzScrollBar.Page = 912
   VertScrollBar.Page = 665
   ActiveControl = ArtistTree
   Caption = 'titel'
   ClientHeight = 666
-  ClientWidth = 903
+  ClientWidth = 913
   Icon.Data = {
     36040000424D3604000000000000360000002800000010000000100000000100
     2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -55,7 +55,7 @@ object Main: TMain
   object StatusBar1: TStatusBar
     Height = 17
     Top = 649
-    Width = 903
+    Width = 913
     Panels = <    
       item
         Text = 'Cactus Jukebox'
@@ -67,7 +67,7 @@ object Main: TMain
     SimplePanel = False
   end
   object Splitter1: TSplitter
-    Left = 263
+    Left = 273
     Height = 649
     Width = 8
     Align = alRight
@@ -78,7 +78,7 @@ object Main: TMain
     ResizeAnchor = akRight
   end
   object Panel1: TPanel
-    Left = 271
+    Left = 281
     Height = 649
     Width = 632
     Align = alRight
@@ -332,7 +332,7 @@ object Main: TMain
         OnMouseUp = NextButtonImgMouseUp
       end
       object CoverImage: TImage
-        Cursor = crDrag
+        Cursor = crAppStart
         Left = 24
         Height = 85
         Top = 165
@@ -468,6 +468,7 @@ object Main: TMain
         Text = '00:00'
       end
       object current_title_edit: TEdit
+        Cursor = crArrow
         Left = 12
         Height = 23
         Top = 102
@@ -477,6 +478,7 @@ object Main: TMain
         TabOrder = 3
       end
       object current_title_edit1: TEdit
+        Cursor = crArrow
         Left = 12
         Height = 24
         Top = 131
@@ -564,10 +566,10 @@ object Main: TMain
       TabOrder = 2
     end
     object TitleTree: TListView
-      Left = 16
+      Left = 13
       Height = 266
       Top = 10
-      Width = 616
+      Width = 611
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderWidth = 1
       Columns = <      
@@ -599,7 +601,7 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 433
+          Width = 428
         end>
       HideSelection = False
       LargeImages = ImageList1
@@ -659,18 +661,18 @@ object Main: TMain
   end
   object Panel4: TPanel
     Height = 649
-    Width = 263
+    Width = 273
     Align = alClient
     BevelOuter = bvNone
     ClientHeight = 649
-    ClientWidth = 263
+    ClientWidth = 273
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 10
       Height = 634
       Top = 10
-      Width = 253
+      Width = 263
       Align = alClient
       BorderSpacing.Left = 10
       BorderSpacing.Top = 10
@@ -705,9 +707,9 @@ object Main: TMain
       ExpandSignColor = clSkyBlue
     end
     object ArtistSrchField: TPanel
-      Left = 110
+      Left = 120
       Height = 64
-      Top = 529
+      Top = 568
       Width = 128
       ClientHeight = 64
       ClientWidth = 128

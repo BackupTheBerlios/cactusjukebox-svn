@@ -998,7 +998,8 @@ begin
                     else ListItem.SubItems.Add(extractfilename(MediaCollection.items[i].path));
               ListItem.SubItems.Add (MediaCollection.items[i].title);
               ListItem.SubItems.Add (MediaCollection.items[i].album);
-              ListItem.SubItems.Add(MediaCollection.items[i].playtime);
+              ListItem.SubItems.Add (MediaCollection.items[i].Track);
+              ListItem.SubItems.Add (MediaCollection.items[i].playtime);
               end;
            end;
        end;
@@ -3005,7 +3006,9 @@ end;
 
 procedure TMain.TitleTreeDblClick(Sender: TObject);
 begin
+    Application.ProcessMessages;
     title_to_playlist;
+     Application.ProcessMessages;
     writeln('clik');
 end;
 
