@@ -743,7 +743,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.playClick(Sender: TObject);
-var err: byte;
+var err: integer;
     i: integer;
 begin
     if (not fmodplayer.player.paused) then  begin
@@ -1404,13 +1404,6 @@ begin
   MImanual.Caption:= rsManual;
   
   Playlist.Column[0].Caption:=rsPlaylist;
-  
-  TitleTree.Column[1].Caption:=rsArtist;
-  TitleTree.Column[2].Caption:=rsTitle;
-  TitleTree.Column[3].Caption:=rsAlbum;
-  TitleTree.Column[4].Caption:=rsTrack;
-  TitleTree.Column[5].Caption:=rsLenght;
-
 
   clear_list.Caption:= rsClear;
   srch_button.Caption:= rsSearch;
@@ -1419,6 +1412,21 @@ begin
   srch_file.Caption:= rsFilename;
   srch_title.Caption:= rsTitle;
   randomcheck.Caption:= rsRandom;
+
+  {$ifdef win32}
+  TitleTree.Column[1].Caption:=Utf8ToAnsi(rsArtist);
+  TitleTree.Column[2].Caption:=Utf8ToAnsi(rsTitle);
+  TitleTree.Column[3].Caption:=Utf8ToAnsi(rsAlbum);
+  TitleTree.Column[4].Caption:=Utf8ToAnsi(rsTrack);
+  TitleTree.Column[5].Caption:=Utf8ToAnsi(rsLenght);
+  {$else}
+  TitleTree.Column[1].Caption:=rsArtist;
+  TitleTree.Column[2].Caption:=rsTitle;
+  TitleTree.Column[3].Caption:=rsAlbum;
+  TitleTree.Column[4].Caption:=rsTrack;
+  TitleTree.Column[5].Caption:=rsLenght;
+  
+  {$endif}
 
   oldSplitterWidth:=CactusConfig.WSplitterWidth;
   SplitterResize:=true;
@@ -3069,6 +3077,7 @@ begin
      if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
      if not fmodplayer.player.playing and CactusConfig.AutostartPlay and (main.Playlist.Items.Count=1) then begin
            main.Playlist.Selected:=Main.Playlist.Items[0];
+           writeln(Main.Playlist.Selected.Caption);
            Main.playClick(main);
          end;
    end;
@@ -3198,16 +3207,20 @@ begin
                  Listitem.ImageIndex:=MedColObj.items[i].action;
                  Listitem.caption:='';
 
-
+                 {$ifdef win32} // ifdef to workaround incomplete utf8 support in win32 interface
                  if MedColObj.items[i].title<>'' then
-                        ListItem.SubItems.Add((MedColObj.items[i].Artist))
+                        ListItem.SubItems.Add((Utf8ToAnsi(MedColObj.items[i].Artist)))
                      else ListItem.SubItems.Add(extractfilename(MedColObj.items[i].path));
-                {$ifdef win32}
+
                  ListItem.SubItems.Add (Utf8ToAnsi(MedColObj.items[i].title));
                  ListItem.SubItems.Add (Utf8ToAnsi(MedColObj.items[i].album));
                  ListItem.SubItems.Add (Utf8ToAnsi(MedColObj.items[i].track));
                  ListItem.SubItems.Add(Utf8ToAnsi(MedColObj.items[i].playtime));
                 {$else}
+                 if MedColObj.items[i].title<>'' then
+                        ListItem.SubItems.Add((MedColObj.items[i].Artist))
+                     else ListItem.SubItems.Add(extractfilename(MedColObj.items[i].path));
+
                  ListItem.SubItems.Add ((MedColObj.items[i].title));
                  ListItem.SubItems.Add ((MedColObj.items[i].album));
                  ListItem.SubItems.Add (MedColObj.items[i].track);

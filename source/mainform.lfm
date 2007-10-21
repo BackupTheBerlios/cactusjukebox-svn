@@ -1,14 +1,11 @@
 object Main: TMain
-  Left = 63
-  Height = 687
-  Top = 36
-  Width = 913
-  HorzScrollBar.Page = 912
-  VertScrollBar.Page = 665
+  Height = 645
+  Top = 707
+  Width = 837
+  HorzScrollBar.Page = 836
+  VertScrollBar.Page = 624
   ActiveControl = ArtistTree
   Caption = 'titel'
-  ClientHeight = 666
-  ClientWidth = 913
   Icon.Data = {
     36040000424D3604000000000000360000002800000010000000100000000100
     2000000000000004000064000000640000000000000000000000FFFFFF00FFFF
@@ -53,9 +50,9 @@ object Main: TMain
   Position = poDefault
   ShowInTaskBar = stAlways
   object StatusBar1: TStatusBar
-    Height = 17
-    Top = 649
-    Width = 913
+    Height = 23
+    Top = 602
+    Width = 837
     Panels = <    
       item
         Text = 'Cactus Jukebox'
@@ -67,8 +64,8 @@ object Main: TMain
     SimplePanel = False
   end
   object Splitter1: TSplitter
-    Left = 273
-    Height = 649
+    Left = 197
+    Height = 602
     Width = 8
     Align = alRight
     AutoSnap = False
@@ -78,12 +75,12 @@ object Main: TMain
     ResizeAnchor = akRight
   end
   object Panel1: TPanel
-    Left = 281
-    Height = 649
+    Left = 205
+    Height = 602
     Width = 632
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 649
+    ClientHeight = 602
     ClientWidth = 632
     ParentColor = False
     TabOrder = 0
@@ -92,7 +89,7 @@ object Main: TMain
     object SearchPanel: TPanel
       Left = 12
       Height = 81
-      Top = 284
+      Top = 237
       Width = 424
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -175,6 +172,7 @@ object Main: TMain
         Top = 48
         Width = 90
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemHeight = 13
         ItemIndex = 0
         Items.Strings = (
           'all types'
@@ -192,7 +190,7 @@ object Main: TMain
     object PlayerControlsPanel: TPanel
       Left = 12
       Height = 263
-      Top = 378
+      Top = 331
       Width = 224
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 20
@@ -513,11 +511,11 @@ object Main: TMain
     end
     object clear_list: TBitBtn
       AnchorSideBottom.Side = asrCenter
-      Left = 542
-      Height = 34
+      Left = 540
+      Height = 32
       Hint = 'Clear Playlist'
-      Top = 332
-      Width = 73
+      Top = 287
+      Width = 75
       Anchors = [akRight, akBottom]
       AutoSize = True
       Caption = 'Clear'
@@ -567,7 +565,7 @@ object Main: TMain
     end
     object TitleTree: TListView
       Left = 13
-      Height = 266
+      Height = 219
       Top = 10
       Width = 611
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -626,7 +624,7 @@ object Main: TMain
     object Playlist: TListView
       Left = 248
       Height = 265
-      Top = 376
+      Top = 329
       Width = 376
       Anchors = [akLeft, akRight, akBottom]
       BorderWidth = 1
@@ -660,19 +658,19 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
-    Height = 649
-    Width = 273
+    Height = 602
+    Width = 197
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 649
-    ClientWidth = 273
+    ClientHeight = 602
+    ClientWidth = 197
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 10
-      Height = 634
+      Height = 587
       Top = 10
-      Width = 263
+      Width = 187
       Align = alClient
       BorderSpacing.Left = 10
       BorderSpacing.Top = 10
@@ -707,9 +705,9 @@ object Main: TMain
       ExpandSignColor = clSkyBlue
     end
     object ArtistSrchField: TPanel
-      Left = 120
+      Left = 58
       Height = 64
-      Top = 568
+      Top = 529
       Width = 128
       ClientHeight = 64
       ClientWidth = 128
@@ -725,7 +723,7 @@ object Main: TMain
         ParentColor = False
       end
       object SpeedButton1: TSpeedButton
-        Left = 8
+        Left = 2
         Height = 22
         Top = 6
         Width = 23

@@ -210,8 +210,8 @@ begin
            end else begin
                write('error: can''t play file');writeln(z);
               end;
-       end else play:=1;
-     end else play:=2;
+       end else result:=1;
+     end else result:=2;
    end;
   end
   else begin
