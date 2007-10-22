@@ -209,8 +209,8 @@
         <Filename Value="fmodplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="fmodplayer"/>
-        <CursorPos X="11" Y="184"/>
-        <TopLine Value="177"/>
+        <CursorPos X="3" Y="459"/>
+        <TopLine Value="457"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -653,7 +653,7 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="3" Y="435"/>
         <TopLine Value="420"/>
-        <UsageCount Value="164"/>
+        <UsageCount Value="165"/>
         <Bookmarks Count="2">
           <Item0 X="26" Y="239" ID="2"/>
           <Item1 X="15" Y="384" ID="3"/>
@@ -674,7 +674,7 @@
         <UnitName Value="BigCoverImg"/>
         <CursorPos X="64" Y="43"/>
         <TopLine Value="19"/>
-        <UsageCount Value="101"/>
+        <UsageCount Value="102"/>
       </Unit81>
       <Unit82>
         <Filename Value="mainunit.pas"/>
@@ -705,13 +705,13 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="40" Y="1962"/>
-        <TopLine Value="1945"/>
+        <CursorPos X="7" Y="2271"/>
+        <TopLine Value="2246"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="91"/>
+        <UsageCount Value="92"/>
         <Bookmarks Count="2">
           <Item0 X="14" Y="1475" ID="0"/>
-          <Item1 X="75" Y="3074" ID="1"/>
+          <Item1 X="75" Y="3076" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit85>
@@ -763,7 +763,7 @@
         <UnitName Value="plugintypes"/>
         <CursorPos X="1" Y="38"/>
         <TopLine Value="14"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit92>
       <Unit93>
         <Filename Value="kopeteaway.pas"/>
@@ -785,7 +785,7 @@
         <UnitName Value="plugin"/>
         <CursorPos X="81" Y="58"/>
         <TopLine Value="41"/>
-        <UsageCount Value="61"/>
+        <UsageCount Value="62"/>
       </Unit95>
       <Unit96>
         <Filename Value="../../lazarus-svn/lcl/interfaces/qt/qtwsextctrls.pp"/>
@@ -825,7 +825,24 @@
         <Loaded Value="True"/>
       </Unit100>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="4" HistoryIndex="3">
+      <Position1>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2580" Column="31" TopLine="2566"/>
+      </Position1>
+      <Position2>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2432" Column="89" TopLine="2415"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2266" Column="3" TopLine="2264"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2457" Column="76" TopLine="2418"/>
+      </Position4>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>

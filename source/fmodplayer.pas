@@ -430,8 +430,6 @@ begin
     begin
        inherited Move(dest, target);
 
-
-
        if CurrentTrack=dest then begin
            CurrentTrack:=target;
          end

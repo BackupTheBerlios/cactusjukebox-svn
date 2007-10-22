@@ -2263,11 +2263,12 @@ end;
 
 procedure TMain.clear_listClick(Sender: TObject);
 begin
-      Playlist.BeginUpdate;
+      //Playlist.BeginUpdate;
       Playlist.Items.Clear;
+      writeln('clear');
       playlist.Column[0].Caption:= 'Playlist';
       fmodplayer.player.playlist.clear;
-      Playlist.EndUpdate;
+    //  Playlist.EndUpdate;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2418,12 +2419,13 @@ begin
         else artist_to_playlist;
   end;
 
-  if playlist_drag and (Targetitem<>nil) and (Targetitem<>Sourceitem) then begin
+  if playlist_drag and (Targetitem<>Sourceitem) then begin
      playlist_drag:=false;
      sourceitem:=Playlist.Selected;
      ind:=sourceitem.Index;
      tmpitem:=TListItem.Create(Playlist.Items);
      tmpitem.Assign(sourceitem);
+     if Targetitem=nil then Targetitem:=Playlist.Items[Playlist.Items.Count-1];
      if Targetitem.Index<>Playlist.Items.Count-1 THEN begin
           Playlist.Items.InsertItem(tmpitem, Targetitem.Index);
           sourceitem.Delete;
@@ -2432,11 +2434,13 @@ begin
        end else begin
           Playlist.Items.AddItem(tmpitem);
           sourceitem.Delete;
-          fmodplayer.player.Playlist.move(ind, tmpitem.Index-1);
+          fmodplayer.player.Playlist.move(ind, tmpitem.Index);
         end;
   end;
 
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.playlistDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
@@ -2574,13 +2578,13 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.ArtistTreeDblClick(Sender: TObject);
-var first: boolean;
 begin
-   first:=false;
-   if Playlist.Items.Count=0 then first:=true;
+   Application.ProcessMessages;
    if (ArtistTree.Selected<>nil) and (ArtistTree.Selected.Level>0) then artist_to_playlist;
-   if first and CactusConfig.AutostartPlay then playClick(nil);
+   Application.ProcessMessages;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.ArtistTreeEndDrag(Sender, Target: TObject; X, Y: Integer);
 begin
