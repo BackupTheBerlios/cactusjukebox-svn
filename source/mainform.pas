@@ -2099,12 +2099,13 @@ begin
     
  //Enable Dragging
   if Button = mbLeft then begin	{ only drag if left button pressed }
+         sourceitem:=nil;
          {$ifdef  LCLGtk2}
           sourceitem:=TitleTree.GetItemAt(x, y-20);
          {$else}
           sourceitem:=TitleTree.GetItemAt(x, y);
          {$endif}
-          TitleTree.BeginDrag(false, 10);
+         if sourceitem<>nil then TitleTree.BeginDrag(false, 10);
     end;
 end;
 
@@ -2387,9 +2388,9 @@ begin
   writeln('ondragdrop');
   Targetitem:=nil;
  {$ifdef  LCLGtk2}   //workaround gtk2 bug.... getitem is 20px wrong
-  if Playlist.Items.Count>0 then Targetitem:=TitleTree.GetItemAt(x, y-20) else Targetitem:=playlist.GetItemAt(x,y);
+  if Playlist.Items.Count>0 then Targetitem:=Playlist.GetItemAt(x, y-20) else Targetitem:=playlist.GetItemAt(x,y);
  {$else}
-   Targetitem:=TitleTree.GetItemAt(x, y);
+   Targetitem:=Playlist.GetItemAt(x, y);
  {$endif}
   
   if Targetitem<>nil then writeln(Targetitem.Index) else writeln('TARGET NIL');
@@ -2420,29 +2421,33 @@ begin
      artist_drag:=false;
      sourceNode:=ArtistTree.Selected;
      if (Targetitem<>nil) and (Targetitem.Index<Playlist.Items.Count-1) and (Playlist.Items.Count>0) then
-          artist_to_playlist_at(Targetitem.Index)
+          artist_to_playlist_at(Targetitem.Index+1)
         else artist_to_playlist;
   end;
 
-  if playlist_drag and (Targetitem<>Sourceitem) then begin
-     playlist_drag:=false;
-     sourceitem:=Playlist.Selected;
-     ind:=sourceitem.Index;
-     tmpitem:=TListItem.Create(Playlist.Items);
-     tmpitem.Assign(sourceitem);
-     if Targetitem=nil then Targetitem:=Playlist.Items[Playlist.Items.Count-1];
-     if Targetitem.Index<>Playlist.Items.Count-1 THEN begin
-          Playlist.Items.InsertItem(tmpitem, Targetitem.Index);
-          sourceitem.Delete;
-          if ind>tmpitem.Index then fmodplayer.player.Playlist.move(ind, tmpitem.Index)
-                     else fmodplayer.player.Playlist.move(ind, tmpitem.Index-1)
-       end else begin
-          Playlist.Items.AddItem(tmpitem);
-          sourceitem.Delete;
-          fmodplayer.player.Playlist.move(ind, tmpitem.Index);
-        end;
+  if playlist_drag then begin
+    playlist_drag:=false;
+    sourceitem:=Playlist.Selected;
+    writeln('playlist_Drag');
+    if (sourceitem<>nil) and (Targetitem<>sourceitem) then begin
+       ind:=sourceitem.Index;
+       writeln('OK');
+       tmpitem:=TListItem.Create(Playlist.Items);
+       tmpitem.Assign(sourceitem);
+       if (Targetitem<>nil) and (Targetitem.Index<Playlist.Items.Count-1) THEN begin
+            Playlist.Items.InsertItem(tmpitem, Targetitem.Index+1);
+            sourceitem.Delete;
+            if ind>tmpitem.Index-1 then fmodplayer.player.Playlist.move(ind, tmpitem.Index)
+                        else fmodplayer.player.Playlist.move(ind, tmpitem.Index-1);
+            writeln('MOVE')
+         end else begin
+            Playlist.Items.AddItem(tmpitem);
+            sourceitem.Delete;
+            fmodplayer.player.Playlist.move(ind, tmpitem.Index-1);
+            writeln('ADD');
+          end;
+    end;
   end;
-
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3114,7 +3119,6 @@ begin
     end;
     
   if (tsnode<>nil) and (tsnode.Level>0) then begin
-     writeln('AT');
      if tsnode.level<2 then album_mode:=false else album_mode:=true;
      MedFileObj:=TMediaFileClass(tsnode.data);
      MedColObj:=MedFileObj.Collection;

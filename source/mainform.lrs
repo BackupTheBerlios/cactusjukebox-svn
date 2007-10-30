@@ -258,7 +258,7 @@ LazarusResources.Add('TMain','FORMDATA',[
   +'Over'#7#17'TitleTreeDragOver'#9'OnEndDrag'#7#16'TitleTreeEndDrag'#11'OnMous'
   +'eDown'#7#18'TitleTreeMouseDown'#9'OnMouseUp'#7#16'TitleTreeMouseUp'#12'OnSe'
   ,'lectItem'#7#19'TitleTreeSelectItem'#11'OnStartDrag'#7#18'TitleTreeStartDrag'
-  +#0#0#9'TListView'#8'Playlist'#4'Left'#3#248#0#6'Height'#3#9#1#3'Top'#3'N'#1#5
+  +#0#0#9'TListView'#8'Playlist'#4'Left'#3#248#0#6'Height'#3#9#1#3'Top'#3'Q'#1#5
   +'Width'#3'U'#1#7'Anchors'#11#6'akLeft'#7'akRight'#8'akBottom'#0#11'BorderWid'
   +'th'#2#1#5'Color'#7#7'clWhite'#7'Columns'#14#1#8'AutoSize'#9#7'Caption'#6#8
   +'Playlist'#5'Width'#3'C'#1#0#0#8'DragMode'#7#11'dmAutomatic'#13'HideSelectio'

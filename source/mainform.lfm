@@ -626,7 +626,7 @@ object Main: TMain
     object Playlist: TListView
       Left = 248
       Height = 265
-      Top = 334
+      Top = 337
       Width = 341
       Anchors = [akLeft, akRight, akBottom]
       BorderWidth = 1
