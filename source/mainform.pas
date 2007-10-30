@@ -2383,26 +2383,31 @@ var   Targetitem, tmpitem : TListItem;
       ind:integer;
       MedFileObj: TMediaFileClass;
 begin
-  //   Playlist.MultiSelect:=true;
+
   writeln('ondragdrop');
-  Targetitem:=playlist.GetItemAt(x,y);
+  Targetitem:=nil;
+ {$ifdef  LCLGtk2}   //workaround gtk2 bug.... getitem is 20px wrong
+  if Playlist.Items.Count>0 then Targetitem:=TitleTree.GetItemAt(x, y-20) else Targetitem:=playlist.GetItemAt(x,y);
+ {$else}
+   Targetitem:=TitleTree.GetItemAt(x, y);
+ {$endif}
+  
+  if Targetitem<>nil then writeln(Targetitem.Index) else writeln('TARGET NIL');
 
   if title_drag  then begin
      title_drag:=false;
-     //sourceitem:=TitleTree.Selected;
      MedFileObj:=TMediaFileClass(sourceitem.Data);
      tmpitem:=TListItem.Create(Playlist.Items);
-     if (MedFileObj.Artist<>'') or (MedFileObj.Title<>'') then
-           tmpitem.Caption:=MedFileObj.Artist+' - '+MedFileObj.Title
+     if (MedFileObj.Artist<>'') or (MedFileObj.Title<>'') then begin
+           tmpitem.Caption:=MedFileObj.Artist+' - '+MedFileObj.Title; end
          else
            tmpitem.Caption:=ExtractFileName(MedFileObj.Path);
      tmpitem.Data:=MedFileObj;
 
-     if (Targetitem<>nil) and (Targetitem.Index<>Playlist.Items.Count-1) THEN begin
+     if (Targetitem<>nil) and (Targetitem.Index<Playlist.Items.Count-1) and (Playlist.Items.Count>0) THEN begin
           ind:=Targetitem.Index;
-          Playlist.Items.InsertItem(tmpitem, ind);
-          fmodplayer.player.Playlist.insert(tmpitem.Index, MedFileObj);
-
+          Playlist.Items.InsertItem(tmpitem, ind+1);
+          fmodplayer.player.Playlist.insert(tmpitem.Index+1, MedFileObj);
        end else begin
           Playlist.Items.AddItem(tmpitem);
           fmodplayer.player.playlist.add(MedFileObj);
@@ -2414,7 +2419,7 @@ begin
   if artist_drag then begin
      artist_drag:=false;
      sourceNode:=ArtistTree.Selected;
-     if (Targetitem<>nil) and (Targetitem.Index<>Playlist.Items.Count-1) then
+     if (Targetitem<>nil) and (Targetitem.Index<Playlist.Items.Count-1) and (Playlist.Items.Count>0) then
           artist_to_playlist_at(Targetitem.Index)
         else artist_to_playlist;
   end;
@@ -3107,7 +3112,9 @@ begin
       artist_to_playlist;
       exit;
     end;
+    
   if (tsnode<>nil) and (tsnode.Level>0) then begin
+     writeln('AT');
      if tsnode.level<2 then album_mode:=false else album_mode:=true;
      MedFileObj:=TMediaFileClass(tsnode.data);
      MedColObj:=MedFileObj.Collection;

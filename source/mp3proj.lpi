@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="2"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -29,25 +29,25 @@
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="JPEGForLazarus"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="101">
+    <Units Count="102">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="47" Y="140"/>
-        <TopLine Value="112"/>
-        <EditorIndex Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -86,7 +86,7 @@
         <UnitName Value="editid3"/>
         <CursorPos X="3" Y="416"/>
         <TopLine Value="457"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -140,7 +140,7 @@
         <UnitName Value="settings"/>
         <CursorPos X="15" Y="317"/>
         <TopLine Value="303"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit9>
@@ -211,7 +211,7 @@
         <UnitName Value="fmodplayer"/>
         <CursorPos X="3" Y="459"/>
         <TopLine Value="457"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit18>
@@ -585,8 +585,8 @@
         <Filename Value="cactus_const.inc"/>
         <CursorPos X="7" Y="16"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="5"/>
-        <UsageCount Value="25"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="26"/>
         <Loaded Value="True"/>
       </Unit70>
       <Unit71>
@@ -635,10 +635,8 @@
         <Filename Value="fmodintf/fmod.pas"/>
         <UnitName Value="fmod"/>
         <CursorPos X="81" Y="541"/>
-        <TopLine Value="505"/>
-        <EditorIndex Value="0"/>
+        <TopLine Value="545"/>
         <UsageCount Value="21"/>
-        <Loaded Value="True"/>
       </Unit77>
       <Unit78>
         <Filename Value="../../lazarus-svn/ide/lazarus.pp"/>
@@ -653,7 +651,7 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="3" Y="435"/>
         <TopLine Value="420"/>
-        <UsageCount Value="165"/>
+        <UsageCount Value="167"/>
         <Bookmarks Count="2">
           <Item0 X="26" Y="239" ID="2"/>
           <Item1 X="15" Y="384" ID="3"/>
@@ -674,7 +672,7 @@
         <UnitName Value="BigCoverImg"/>
         <CursorPos X="64" Y="43"/>
         <TopLine Value="19"/>
-        <UsageCount Value="102"/>
+        <UsageCount Value="104"/>
       </Unit81>
       <Unit82>
         <Filename Value="mainunit.pas"/>
@@ -705,13 +703,13 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="7" Y="2271"/>
-        <TopLine Value="2246"/>
-        <EditorIndex Value="2"/>
-        <UsageCount Value="92"/>
+        <CursorPos X="46" Y="2405"/>
+        <TopLine Value="2376"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="94"/>
         <Bookmarks Count="2">
           <Item0 X="14" Y="1475" ID="0"/>
-          <Item1 X="75" Y="3076" ID="1"/>
+          <Item1 X="75" Y="3081" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit85>
@@ -763,7 +761,7 @@
         <UnitName Value="plugintypes"/>
         <CursorPos X="1" Y="38"/>
         <TopLine Value="14"/>
-        <UsageCount Value="72"/>
+        <UsageCount Value="74"/>
       </Unit92>
       <Unit93>
         <Filename Value="kopeteaway.pas"/>
@@ -785,7 +783,7 @@
         <UnitName Value="plugin"/>
         <CursorPos X="81" Y="58"/>
         <TopLine Value="41"/>
-        <UsageCount Value="62"/>
+        <UsageCount Value="64"/>
       </Unit95>
       <Unit96>
         <Filename Value="../../lazarus-svn/lcl/interfaces/qt/qtwsextctrls.pp"/>
@@ -820,29 +818,17 @@
         <UnitName Value="simpleipc"/>
         <CursorPos X="28" Y="38"/>
         <TopLine Value="25"/>
-        <EditorIndex Value="3"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit100>
+      <Unit101>
+        <Filename Value="../../lazarus-svn/lcl/grids.pas"/>
+        <UnitName Value="Grids"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="10"/>
+      </Unit101>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
-      <Position1>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2580" Column="31" TopLine="2566"/>
-      </Position1>
-      <Position2>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2432" Column="89" TopLine="2415"/>
-      </Position2>
-      <Position3>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2266" Column="3" TopLine="2264"/>
-      </Position3>
-      <Position4>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2457" Column="76" TopLine="2418"/>
-      </Position4>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
