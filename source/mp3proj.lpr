@@ -21,7 +21,8 @@ uses
  {$endif}
   Interfaces,SysUtils,
   Forms, status, settings, player, graphics, editid3, directories, skin,
-  cdrip, JPEGForLazarus, mediacol, BigCoverImg, mainform{, plugin}, cddb;
+  cdrip, JPEGForLazarus, mediacol, BigCoverImg, mainform{, plugin}, cddb,
+  debug;
 
 var
   s, loadfile: string;
@@ -33,25 +34,30 @@ var
 
 begin
   Application.Title:='Cactus Jukebox v'+CACTUS_VERSION;
-  writeln();
+ {$ifdef CactusDebug}
+  CVerbosityLevel:=9;
+ {$else}
+  CVerbosityLevel:=1;
+ {$endif}
 
-  writeln('Cactus Jukebox v'+CACTUS_VERSION);
-  writeln('written by Sebastian Kraft, (c) 2004-2007');
-  writeln();
+  DebugOut('', 1);
+
+  DebugOutLn('Cactus Jukebox v'+CACTUS_VERSION, 1);
+  DebugOutLn('written by Sebastian Kraft, (c) 2004-2007', 1);
+  DebugOutLn('', 1);
   for i:= 1 to paramcount do if (paramstr(i)='-h') or (paramstr(i)='--help') or invalid_param then begin
 
-        writeln('cactus_jukebox <OPTIONS> FILE');
-        writeln;
-        writeln(' Command line options:');
-        writeln('    -c      don''t load config file, overwrite with standard settings');
-        writeln('    -p      start in playermode');
-        writeln();
-        writeln('    -h/--help  show this help');
-        writeln();
+        DebugOutLn('cactus_jukebox <OPTIONS> FILE', 1);
+        DebugOutLn('', 1);
+        DebugOutLn(' Command line options:', 1);
+        DebugOutLn('    -c      don''t load config file, overwrite with standard settings', 1);
+        DebugOutLn('    -p      start in playermode', 1);
+        DebugOutLn('', 1);
+        DebugOutLn('    -h/--help  show this help', 1);
+        DebugOutLn('', 1);
         halt;
-
       end;
-  writeln('##### Application init  #####');
+  DebugOutLn('##### Application init  #####', 2);
   Application.Initialize;
 
 //   Init config object
@@ -60,7 +66,7 @@ begin
    CactusConfig.homeDir:=IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'));
    CactusConfig.DataPrefix:='/usr/share/cactusjukebox/';
    CactusConfig.ConfigPrefix:=CactusConfig.HomeDir+'.cactusjukebox/';
-   writeln('This is Cactus RPM.');
+   DebugOutLn('This is Cactus RPM.', 2);
  {$else}
    SetCurrentDir(ExtractFilePath(ParamStr(0)));
    CactusConfig:=TConfigObject.create(CONFIGNAME);
@@ -83,7 +89,7 @@ begin
         skip_config:=true
      end;
   if skip_config then begin
-                 writeln('*removing old config file');
+                 DebugOutLn('--> Removing old config file', 1);
                  CactusConfig.Clear;
               end;
 
@@ -100,7 +106,7 @@ begin
                                       end
                                      else
                                        begin
-                                         writeln('file not found: '+paramstr(i));
+                                         DebugOutLn('ERROR: file not found: '+paramstr(i), 1);
                                          halt;
                                    end;
      end;
@@ -117,12 +123,12 @@ begin
       playwin.show;
       main.playermode:=true;
       main.hide;
-      writeln('starting in player mode');
+      DebugOutLn('starting in player mode', 2);
      end;
 
 
   Register_skins;
-  writeln('-> loading skin '+CactusConfig.DataPrefix+'skins/'+CactusConfig.CurrentSkin);
+  DebugOutLn('--> loading skin '+CactusConfig.DataPrefix+'skins/'+CactusConfig.CurrentSkin, 2);
   SkinData.load_skin(CactusConfig.CurrentSkin);
 
 
@@ -131,13 +137,13 @@ begin
     ScanThread.tmpcollection.Assign(MediaCollection);
     ScanThread.PTargetCollection:=MediaCollection;
     ScanThread.Resume;
-    writeln('starting scan thread...');
+    DebugOutLn('starting scan thread...', 2);
   end;
   {$ifdef win32}
   main.Width:=CactusConfig.WWidth;
   main.Height:=CactusConfig.WHeight;
   {$endif}
-  writeln('##### Application running  #####');
+  DebugOutLn('##### Application running  #####', 2);
   Application.Run;
 end.
 

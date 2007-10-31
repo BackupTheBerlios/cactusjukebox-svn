@@ -27,7 +27,7 @@ uses
 
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
   ExtCtrls, ComCtrls, StdCtrls, Menus, fmodplayer,
-  ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws{, plugin, plugintypes};
+  ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws{, plugin, plugintypes}, debug;
 
 resourcestring
   rsQuit = 'Quit';
@@ -638,7 +638,7 @@ end;
 
 procedure TMain.loadskin(Sender: TObject);
 begin
-     writeln('loading skin');
+     DebugOutLn('loading skin', 2);
      with (sender as TMenuitem) do begin
           SkinData.load_skin(caption);
           CactusConfig.CurrentSkin:=caption;
@@ -687,7 +687,7 @@ begin
               update_title_view;
               Application.ProcessMessages;
               MediaCollection.add_directory(Selectdirectorydialog1.Filename);
-              Writeln('finished scan of '+Selectdirectorydialog1.Filename);
+              DebugOutLn('finished scan of '+Selectdirectorydialog1.Filename, 2);
               if MediaCollection.ItemCount>0 then begin
                 ArtistTree.Selected:=nil;
                 update_artist_view;
@@ -817,7 +817,7 @@ begin
                          try
                             CoverImage.Picture.LoadFromFile(fileobj.CoverPath);
                             playwin.AlbumCoverImg.Picture.LoadFromFile(fileobj.CoverPath);
-                         except writeln('EXCEPTION');
+                         except DebugOutLn('EXCEPTION', 3);
                          end;
                          end;
                         CoverFound:=true;
@@ -826,7 +826,7 @@ begin
               end else if (LoopCount>=20) and (CoverFound=false) then CoverImage.Picture.Clear;
     end else playtimer.Enabled:=false;
    except
-     writeln('CAUGHT EXCEPTION IN PLAYTIMER!!!!');
+     DebugOutLn('CAUGHT EXCEPTION IN PLAYTIMER!!!!', 3);
    end;
 
 end;
@@ -857,10 +857,10 @@ if (tsnode<>nil) and (tsnode.Level>0) then begin
             ((album_mode=true) and (lowercase(MediaColObj.items[z].album)=curalbum)) then
             begin
                if DeleteFile(MediaColObj.items[z].path) then begin
-                    writeln('deleted file from disk: '+MediaColObj.items[z].path);
+                    DebugOutLn('deleted file from disk: '+MediaColObj.items[z].path, 2);
                     MediaColObj.remove(z);
                   end
-                    else writeln('ERROR deleting file: '+MediaColObj.items[z].path);
+                    else DebugOutLn('ERROR deleting file: '+MediaColObj.items[z].path, 2);
             end;
          z:=MediaColObj.getNext;
        end;
@@ -885,7 +885,7 @@ begin
 
     ScanThread.tmpcollection.Assign(MediaCollection);
 //    ScanThread.PTargetCollection:=@MediaCollection;
-    writeln('scanning for new files...');
+    DebugOutLn('scanning for new files...', 3);
     ScanThread.Resume;
    end;
 
@@ -945,7 +945,7 @@ begin
      tmps:=ByteToFmtString(FreeSpaceOnDAP, 3, 2);
      StatusBar1.Panels[1].Text:='Device connected     '+tmps+' Free';
    end
-    else writeln(CactusConfig.DAPPath+' does not exist');
+    else DebugOutLn(CactusConfig.DAPPath+' does not exist', 2);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1122,7 +1122,7 @@ if MessageDlg('The selected file(s) will permanently be'+#10+#13+'removed from h
 
   if DeleteFile(MedFileObj.path) then
       begin
-          writeln('deleted file from disk: '+MedFileObj.path);
+          DebugOutLn('deleted file from disk: '+MedFileObj.path, 2);
           MedColObj.remove(i);
       end else begin
           if FileGetAttr(MedFileObj.path)=faReadOnly then ShowMessage('File is read only!');
@@ -1335,12 +1335,12 @@ begin
    try
      SimpleIPCServer1.StopServer;
      SimpleIPCServer1.free;
-    except writeln('ERROR: Exception while shutting down IPC server');
+    except DebugOutLn('ERROR: Exception while shutting down IPC server', 2);
     end;
   writeln('end.');
 //     CactusPlugins.FlushPluginConfig;
   //   CactusPlugins.Free;
-     if CactusConfig.FlushConfig then writeln('Config succesfully written to disk') else writeln('ERROR: writing config to disk');
+     if CactusConfig.FlushConfig then DebugOutLn('Config succesfully written to disk', 3) else DebugOutLn('ERROR: writing config to disk', 3);
      CactusConfig.Free;
      Application.Terminate;
 end;
@@ -1351,7 +1351,7 @@ procedure TMain.MainCreate(Sender: TObject);
 var tmps1, tmps2: string;
     listitem: TListitem;
 begin
-  writeln('## Main.onCreate ##');
+  DebugOutLn('## Main.onCreate ##', 3);
   Caption:='Cactus Jukebox '+CACTUS_VERSION;
 
   MediaCollection.syncronize:=@ScanSyncronize;
@@ -1360,7 +1360,7 @@ begin
   Height:=CactusConfig.WHeight;
   
   TranslateUnitResourceStrings('mainform', CactusConfig.DataPrefix+'languages'+DirectorySeparator+'cactus.%s.po', CactusConfig.language, copy(CactusConfig.language, 0, 2));
-  if SystemCharSetIsUTF8 then writeln('##System charset is UTF8');
+  if SystemCharSetIsUTF8 then DebugOutLn('##System charset is UTF8', 3);
 
 
   // Load resourcestrings to Captions
@@ -1441,12 +1441,12 @@ begin
   player_connected:=false;
   {$ifdef linux}
   try
-  write('loading program icon...  ');
+  DebugOut('loading program icon...  ', 2);
   Icon.LoadFromFile(CactusConfig.DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
 //  CoverImage.Picture.LoadFromFile(DataPrefix+'tools'+DirectorySeparator+'cactus-logo-small.png');
-  writeln('... loaded');
+  DebugOutLn('... loaded', 2);
   except
-        writeln('ERROR loading bitmaps, files not found');
+        DebugOutLn('ERROR loading bitmaps, files not found', 2);
   end;
   {$endif}
 
@@ -1524,7 +1524,7 @@ procedure TMain.ApplicationIdle(Sender: TObject; var Done: Boolean);
 begin
 {$ifdef linux}   //linux doesn't recognize onIPCMessage Event. so we call it manually
   if SimpleIPCServer1.PeekMessage(1,true) then begin  //PeekMessage automaticly calls OnMessage event
-       writeln('IPC Messge received');
+       DebugOutLn('IPC Messge received', 2);
      end;
 {$endif}
 end;
@@ -1565,11 +1565,11 @@ function TMain.LoadFile(path: string): boolean;
 var z: integer;
     listitem: TListItem;
 begin
- writeln('** Loadfile **');
+ DebugOutLn('** Loadfile **', 2);
  Application.ProcessMessages;
  if FileExists(path) then begin
    z:=MediaCollection.GetIndexByPath(path);
-   writeln(z);
+   DebugOutLn(z, 3);
    if z<0 then begin
       z:=MediaCollection.add(path);
    end;
@@ -1937,7 +1937,7 @@ procedure TMain.SimpleIPCServer1Message(Sender: TObject);
 var fpath: string;
     CommandCode:integer;
 begin
-  writeln(' IPC Message received');
+  DebugOutLn(' IPC Message received', 2);
   if length(SimpleIPCServer1.StringMessage)>2 then begin
        fpath:=copy(SimpleIPCServer1.StringMessage, Pos(':', SimpleIPCServer1.StringMessage)+2, length(SimpleIPCServer1.StringMessage));
        CommandCode:=StrToInt(Copy(SimpleIPCServer1.StringMessage,0 , Pos(':', SimpleIPCServer1.StringMessage)-1 ));
@@ -1957,11 +1957,11 @@ begin
                   LoadFile(fpath);
                   Playlist.Selected:=Playlist.Items[Playlist.Items.Count-1];
                   playClick(self);
-                end else  writeln('--> Filename received from IPC does not exist');
+                end else  DebugOutLn('--> Filename received from IPC does not exist', 2);
      ENQUEU_FILE: if FileExists(fpath) then begin
                        LoadFile(fpath);
-                     end else  writeln('--> Filename received from IPC does not exist');
-   else writeln(' --> Invalid message/filename received via IPC');
+                     end else  DebugOutLn('--> Filename received from IPC does not exist', 2);
+   else DebugOutLn(' --> Invalid message/filename received via IPC', 2);
   end;
   Writeln('IPC end');
 end;
@@ -2193,10 +2193,10 @@ var i,z:integer;
 
 begin
      if (player_connected=false) and FileExists(CactusConfig.DAPPath+'cactuslib') then begin
-         write('DAP detected...');
+         DebugOut('DAP detected...', 2);
          if connectDAP=0 then begin
             tmps:=GetCurrentDir;                             // get free memory on player, format string
-            writeln('loaded');
+            DebugOut('loaded', 2);
             tmps:= ByteToFmtString(FreeSpaceOnDAP, 3, 2);
             StatusBar1.Panels[1].Text:='Device connected     '+tmps+' Free';
             if CactusConfig.background_scan then begin
@@ -2317,7 +2317,7 @@ begin
      Enabled:=false;
      Application.ProcessMessages;
      MediaCollection.add_directory(SelectDirectoryDialog1.FileName);
-     Writeln('finished scan of '+Selectdirectorydialog1.Filename);
+     DebugOutLn('finished scan of '+Selectdirectorydialog1.Filename, 3);
      if MediaCollection.ItemCount>1 then begin
                 Main.ArtistTree.Selected:=nil;
                 update_artist_view;
@@ -2385,7 +2385,7 @@ var   Targetitem, tmpitem : TListItem;
       MedFileObj: TMediaFileClass;
 begin
 
-  writeln('ondragdrop');
+  DebugOutLn('ondragdrop', 3);
   Targetitem:=nil;
  {$ifdef  LCLGtk2}   //workaround gtk2 bug.... getitem is 20px wrong
   if Playlist.Items.Count>0 then Targetitem:=Playlist.GetItemAt(x, y-20) else Targetitem:=playlist.GetItemAt(x,y);
@@ -2393,7 +2393,7 @@ begin
    Targetitem:=Playlist.GetItemAt(x, y);
  {$endif}
   
-  if Targetitem<>nil then writeln(Targetitem.Index) else writeln('TARGET NIL');
+  if Targetitem<>nil then DebugOutLn(Targetitem.Index, 3) else DebugOutLn('TARGET NIL', 3);
 
   if title_drag  then begin
      title_drag:=false;
@@ -2428,10 +2428,10 @@ begin
   if playlist_drag then begin
     playlist_drag:=false;
     sourceitem:=Playlist.Selected;
-    writeln('playlist_Drag');
+    DebugOutLn('playlist_Drag', 3);
     if (sourceitem<>nil) and (Targetitem<>sourceitem) then begin
        ind:=sourceitem.Index;
-       writeln('OK');
+       DebugOutLn('OK', 3);
        tmpitem:=TListItem.Create(Playlist.Items);
        tmpitem.Assign(sourceitem);
        if (Targetitem<>nil) and (Targetitem.Index<Playlist.Items.Count-1) THEN begin
@@ -2439,12 +2439,12 @@ begin
             sourceitem.Delete;
             if ind>tmpitem.Index-1 then fmodplayer.player.Playlist.move(ind, tmpitem.Index)
                         else fmodplayer.player.Playlist.move(ind, tmpitem.Index-1);
-            writeln('MOVE')
+            DebugOutLn('MOVE', 3)
          end else begin
             Playlist.Items.AddItem(tmpitem);
             sourceitem.Delete;
             fmodplayer.player.Playlist.move(ind, tmpitem.Index-1);
-            writeln('ADD');
+            DebugOutLn('ADD', 3);
           end;
     end;
   end;
@@ -2473,7 +2473,7 @@ procedure TMain.playlistKeyDown(Sender: TObject; var Key: Word;
 var tempitem:TListItem;
     i:integer;
 begin
-  write('Playlist keypress event: Keycode ');writeln(key);
+  DebugOutLn('Playlist keypress event: Keycode ', 2);writeln(key);
   case key of
 
     // Key Ctrl
@@ -2482,7 +2482,7 @@ begin
     // Key UP
        38: if playlist.Selected.Index>0 then begin
               i:=playlist.Selected.Index;
-              writeln(i);
+              DebugOutLn(i, 2);
               if ctrl_pressed then begin
                    tempitem:=playlist.selected;
                    fmodplayer.player.playlist.move(i, i-1);
@@ -2499,7 +2499,7 @@ begin
     // Key DOWN
        40:  if playlist.Selected.Index<playlist.items.Count-1 then begin
               i:=playlist.Selected.Index;
-              writeln(i);
+              DebugOutLn(i, 2);
               if ctrl_pressed then begin
                    tempitem:=playlist.selected;
                    fmodplayer.player.playlist.move(i,i+1);
@@ -2510,7 +2510,7 @@ begin
                    playlist.items[i+1].Selected:=true;
                    //tempitem.MakeVisible(true);
                end;
-              writeln(playlist.Selected.Index);
+              DebugOutLn(playlist.Selected.Index, 2);
             end;
      // Key Del
        46: MenuItem3Click(nil);
@@ -2552,7 +2552,7 @@ end;
 procedure TMain.playlistStartDrag(Sender: TObject; var DragObject: TDragObject);
 begin
   playlist_drag:=true;
-  writeln('playlist drag');
+  DebugOutLn('playlist drag', 3);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2578,7 +2578,7 @@ begin
               try
                CoverImage.Picture.LoadFromFile(MedFileObj.CoverPath);
                playwin.AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
-             except writeln('EXCEPTION');
+             except DebugOutLn('EXCEPTION', 3);
              end;
              CoverFound:=true;
         end;
@@ -2844,7 +2844,7 @@ begin
                       inc(rcount);
                       bytesneeded:=bytesneeded - PlayerCol.items[n].size;
                       SyncThread.deleteFile(PlayerCol.items[n].path);
-                      writeln(PlayerCol.items[n].path+' to be deleted');  //Debug
+                      DebugOutLn(PlayerCol.items[n].path+' to be deleted', 2);
                end;
       end;
     Enabled:=true;
@@ -3025,7 +3025,7 @@ end;
 procedure TMain.volumebarChange(Sender: TObject);
 begin
   fmodplayer.player.set_volume((50-volumebar.Position)*2);
-  writeln('volume set '+ IntToStr(fmodplayer.player.volume));
+  DebugOutLn('volume set '+ IntToStr(fmodplayer.player.volume), 3);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3094,7 +3094,7 @@ begin
      if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
      if not fmodplayer.player.playing and CactusConfig.AutostartPlay and (main.Playlist.Items.Count=1) then begin
            main.Playlist.Selected:=Main.Playlist.Items[0];
-           writeln(Main.Playlist.Selected.Caption);
+           DebugOutLn(Main.Playlist.Selected.Caption, 3);
            Main.playClick(main);
          end;
    end;
@@ -3126,7 +3126,7 @@ begin
      curalbum:=lowercase(MedFileObj.Album);
      z:=MedColObj.getTracks(MedFileObj.Artist, MedFileObj.index);
      repeat begin
-        writeln(MedColObj.items[z].title);
+        DebugOutLn(MedColObj.items[z].title, 3);
         if (album_mode=false) or ((album_mode=true) and (lowercase(MedColObj.items[z].album)=curalbum)) then begin
            fmodplayer.player.playlist.insert(index, MedColObj.items[z]);
            ListItem := Main.Playlist.Items.Insert(index);
@@ -3164,7 +3164,7 @@ begin
      curalbum:=lowercase(MedFileObj.Album);
      z:=MedColObj.getTracks(MedFileObj.Artist, MedFileObj.index);
      repeat begin
-        writeln(MedColObj.items[z].title);
+        DebugOutLn(MedColObj.items[z].title, 3);
         if (album_mode=false) or ((album_mode=true) and (lowercase(MedColObj.items[z].album)=curalbum)) then begin
            fmodplayer.player.playlist.add(MedColObj.items[z]);
            ListItem := Main.Playlist.Items.Add;
@@ -3198,12 +3198,12 @@ begin
     tsnode:=Main.ArtistTree.Selected;
     main.StatusBar1.Panels[0].Text:='Please wait... updating...';
 
-    writeln;
-    write('## update title view...');
+    DebugOutLn('', 2);
+    DebugOut('## update title view...', 2);
 
     Main.TitleTree.Clear;
- //   Main.TitleTree.BeginUpdate;
-    write(' cleared items... ');
+    Main.TitleTree.BeginUpdate;
+    DebugOut(' cleared items... ', 2);
 
      if (tsnode<>nil) and (tsnode.level>0) then begin
          if tsnode.level=2 then album_mode:=true else album_mode:=false;
@@ -3212,7 +3212,7 @@ begin
          MedColObj:=MedFileObj.Collection;
          curartist:=lowercase(MedFileObj.artist);
          curalbum:=lowercase(MedFileObj.album);
-         write(curartist);
+         DebugOut(curartist, 2);
 
          i:=MedColObj.getTracks(MedFileObj.Artist, MedFileObj.index);
 
@@ -3251,8 +3251,8 @@ begin
          until (i<0);
      end;
 
-     writeln(' finished title view ##');
-    // Main.TitleTree.EndUpdate;
+     DebugOutLn(' finished title view ##', 2);
+     Main.TitleTree.EndUpdate;
      main.StatusBar1.Panels[0].Text:='Ready.';
 
 end;
@@ -3275,8 +3275,8 @@ if MediaCollection.Count>0 then begin
      main.StatusBar1.Panels[0].Text:='Please wait... updating...';
      Application.ProcessMessages;
      main.artisttree.beginupdate;
-     writeln;
-     write('## update artist view... ');
+     DebugOutLn('', 2);
+     DebugOut('## update artist view... ', 2);
      tsnode:=Main.ArtistTree.Selected;
      if (tsnode<>nil) and (tsnode.level>0)  then begin
           MedFileObj:=TMediaFileClass(tsnode.data);
@@ -3285,7 +3285,7 @@ if MediaCollection.Count>0 then begin
        end else begin
            curartist:='';
          end;
-     write(' clear trees...');
+     DebugOut(' clear tree...', 2);
      Main.ArtistTree.Items.Clear;
 
 //     for i:= 0 to MediaCollection.Count-1 do writeln(MediaCollection.Items[i].artist + '   ' +MediaCollection.Items[i].Title+'   '+MediaCollection.Items[i].Album);
@@ -3378,7 +3378,7 @@ if MediaCollection.Count>0 then begin
      AlbumList.Free;
      main.artisttree.endupdate;
      main.changetree:=false;
-     writeln(' finished artistview##');
+     DebugOutLn(' finished artistview##', 2);
      main.StatusBar1.Panels[0].Text:='Ready.';
      main.Enabled:=restoreEnabled;
  end else main.ArtistTree.Selected:=nil;
@@ -3410,7 +3410,7 @@ procedure TMain.disconnectDAP;
 var i : integer;
     PPlaylistItem: PPlaylistItemClass;
 begin
-    writeln('### Disconnect DAP ###');
+    DebugOutLn('### Disconnect DAP ###', 2);
     Enabled:=false;
     i:=0;
     while i < playlist.Items.Count do begin
@@ -3438,7 +3438,7 @@ begin
        Result:=255;
        PlayerCol:=TMediaCollectionClass.create;
        PlayerCol.PathFmt:=FRelative;
-       writeln('### ConnectDAP  ###');
+       DebugOutLn('### ConnectDAP  ###', 2);
        if PlayerCol.LoadFromFile(CactusConfig.DAPPath+'cactuslib')=true then begin
 
               sizediff:=0;

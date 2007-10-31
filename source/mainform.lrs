@@ -1,7 +1,7 @@
 { Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
 
 LazarusResources.Add('TMain','FORMDATA',[
-  'TPF0'#5'TMain'#4'Main'#4'Left'#3#183#0#6'Height'#3#133#2#3'Top'#2'8'#5'Width'
+  'TPF0'#5'TMain'#4'Main'#4'Left'#3#182#0#6'Height'#3#133#2#3'Top'#2'I'#5'Width'
   +#3'E'#3#18'HorzScrollBar.Page'#3'D'#3#18'VertScrollBar.Page'#3'o'#2#13'Activ'
   +'eControl'#7#10'ArtistTree'#7'Caption'#6#5'titel'#12'ClientHeight'#3'p'#2#11
   +'ClientWidth'#3'E'#3#9'Icon.Data'#10':'#4#0#0'6'#4#0#0'BM6'#4#0#0#0#0#0#0'6'
