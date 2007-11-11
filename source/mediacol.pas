@@ -217,8 +217,10 @@ var i:integer;
     RPath, tmps: String;
     NumEntries: Integer;
     MedFileObj: TMediaFileClass;
+    sortState: boolean;
 begin
        savepath:=path;
+       sortState:=FSorted;
        try
              system.assign(lfile,path);
              reset(lfile);
@@ -261,12 +263,13 @@ begin
                  readln(lfile, MedFileObj.playtime);
                  add(MedFileObj);
                end;
-             fsorted:=true;
+             fsorted:=sortState;
              AutoEnum:=true;
              close(lfile);
              writeln('library sucessfully loaded');
              result:=true;
          except
+              fsorted:=sortState;
               writeln('lib seems corupted');
               write('exception at entry ');writeln(i);
               result:=false;

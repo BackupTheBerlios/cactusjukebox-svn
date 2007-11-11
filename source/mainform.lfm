@@ -109,7 +109,7 @@ object Main: TMain
       OnClick = SearchPanelClick
       object searchstr: TEdit
         Left = 16
-        Height = 21
+        Height = 23
         Top = 13
         Width = 272
         AutoSize = True
@@ -119,17 +119,17 @@ object Main: TMain
       end
       object srch_album: TCheckBox
         Left = 144
-        Height = 13
+        Height = 20
         Top = 48
-        Width = 49
+        Width = 57
         Caption = 'Album'
         TabOrder = 5
       end
       object srch_title: TCheckBox
         Left = 84
-        Height = 13
+        Height = 20
         Top = 48
-        Width = 40
+        Width = 46
         Caption = 'Title'
         Checked = True
         ParentShowHint = False
@@ -138,9 +138,9 @@ object Main: TMain
       end
       object srch_artist: TCheckBox
         Left = 13
-        Height = 13
+        Height = 20
         Top = 48
-        Width = 43
+        Width = 52
         Caption = 'Artist'
         Checked = True
         ParentShowHint = False
@@ -148,7 +148,7 @@ object Main: TMain
         TabOrder = 3
       end
       object srch_button: TButton
-        Left = 309
+        Left = 308
         Height = 28
         Hint = 'Search the library'
         Top = 13
@@ -162,9 +162,9 @@ object Main: TMain
       end
       object srch_file: TCheckBox
         Left = 220
-        Height = 13
+        Height = 20
         Top = 48
-        Width = 62
+        Width = 72
         Caption = 'Filename'
         ParentShowHint = False
         TabOrder = 6
@@ -286,6 +286,7 @@ object Main: TMain
         OnMouseEnter = PlayButtonImgMouseEnter
         OnMouseLeave = PlayButtonImgMouseLeave
         OnMouseUp = PlayButtonImgMouseUp
+        Transparent = False
       end
       object PauseButtonImg: TImage
         Left = 40
@@ -297,6 +298,7 @@ object Main: TMain
         OnMouseEnter = PauseButtonImgMouseEnter
         OnMouseLeave = PauseButtonImgMouseLeave
         OnMouseUp = PauseButtonImgMouseUp
+        Transparent = False
       end
       object PreviousButtonImg: TImage
         Left = 24
@@ -308,6 +310,7 @@ object Main: TMain
         OnMouseEnter = PreviousButtonImgMouseEnter
         OnMouseLeave = PreviousButtonImgMouseLeave
         OnMouseUp = PreviousButtonImgMouseUp
+        Transparent = False
       end
       object StopButtonImg: TImage
         Left = 144
@@ -319,6 +322,7 @@ object Main: TMain
         OnMouseEnter = StopButtonImgMouseEnter
         OnMouseLeave = StopButtonImgMouseLeave
         OnMouseUp = StopButtonImgMouseUp
+        Transparent = False
       end
       object NextButtonImg: TImage
         Left = 160
@@ -330,6 +334,7 @@ object Main: TMain
         OnMouseEnter = NextButtonImgMouseEnter
         OnMouseLeave = NextButtonImgMouseLeave
         OnMouseUp = NextButtonImgMouseUp
+        Transparent = False
       end
       object CoverImage: TImage
         Cursor = crAppStart
@@ -339,6 +344,7 @@ object Main: TMain
         Width = 90
         OnMouseUp = CoverImageMouseUp
         Stretch = True
+        Transparent = False
       end
       object Trackinfo: TSpeedButton
         Left = 132
@@ -513,11 +519,11 @@ object Main: TMain
     end
     object clear_list: TBitBtn
       AnchorSideBottom.Side = asrCenter
-      Left = 507
-      Height = 34
+      Left = 515
+      Height = 32
       Hint = 'Clear Playlist'
-      Top = 290
-      Width = 73
+      Top = 292
+      Width = 65
       Anchors = [akRight, akBottom]
       AutoSize = True
       Caption = 'Clear'

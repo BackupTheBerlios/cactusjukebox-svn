@@ -1051,7 +1051,7 @@ if fmodplayer.player.playing {and player.Playlist.Items[player.CurrentTrack].co}
   BigCoverImgForm.Image1.Picture.Assign(CoverImage.Picture);
   BigCoverImgForm.Image1.AutoSize:=true;
 
-  BigCoverImgForm.BackImg.Canvas.Color:=clWhite;
+//  BigCoverImgForm.BackImg.Canvas.Color:=clWhite;
   BigCoverImgForm.BackImg.AutoSize:=true;
   BigCoverImgForm.Width:=BigCoverImgForm.Image1.Width+32;
   BigCoverImgForm.Height:=BigCoverImgForm.Image1.Height+32;
@@ -1413,20 +1413,11 @@ begin
   srch_title.Caption:= rsTitle;
   randomcheck.Caption:= rsRandom;
 
-  {$ifdef win32}
-  TitleTree.Column[1].Caption:=Utf8ToAnsi(rsArtist);
-  TitleTree.Column[2].Caption:=Utf8ToAnsi(rsTitle);
-  TitleTree.Column[3].Caption:=Utf8ToAnsi(rsAlbum);
-  TitleTree.Column[4].Caption:=Utf8ToAnsi(rsTrack);
-  TitleTree.Column[5].Caption:=Utf8ToAnsi(rsLenght);
-  {$else}
   TitleTree.Column[1].Caption:=rsArtist;
   TitleTree.Column[2].Caption:=rsTitle;
   TitleTree.Column[3].Caption:=rsAlbum;
   TitleTree.Column[4].Caption:=rsTrack;
   TitleTree.Column[5].Caption:=rsLenght;
-  
-  {$endif}
 
   oldSplitterWidth:=CactusConfig.WSplitterWidth;
   SplitterResize:=true;
@@ -3225,16 +3216,6 @@ begin
                  Listitem.ImageIndex:=MedColObj.items[i].action;
                  Listitem.caption:='';
 
-                 {$ifdef win32} // ifdef to workaround incomplete utf8 support in win32 interface
-                 if MedColObj.items[i].title<>'' then
-                        ListItem.SubItems.Add((Utf8ToAnsi(MedColObj.items[i].Artist)))
-                     else ListItem.SubItems.Add(extractfilename(MedColObj.items[i].path));
-
-                 ListItem.SubItems.Add (Utf8ToAnsi(MedColObj.items[i].title));
-                 ListItem.SubItems.Add (Utf8ToAnsi(MedColObj.items[i].album));
-                 ListItem.SubItems.Add (Utf8ToAnsi(MedColObj.items[i].track));
-                 ListItem.SubItems.Add(Utf8ToAnsi(MedColObj.items[i].playtime));
-                {$else}
                  if MedColObj.items[i].title<>'' then
                         ListItem.SubItems.Add((MedColObj.items[i].Artist))
                      else ListItem.SubItems.Add(extractfilename(MedColObj.items[i].path));
@@ -3243,7 +3224,6 @@ begin
                  ListItem.SubItems.Add ((MedColObj.items[i].album));
                  ListItem.SubItems.Add (MedColObj.items[i].track);
                  ListItem.SubItems.Add(MedColObj.items[i].playtime);
-                {$endif}
 
                end;
             i:=MedColObj.GetNext;

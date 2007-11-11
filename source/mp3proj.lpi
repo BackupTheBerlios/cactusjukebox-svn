@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -29,24 +29,24 @@
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="JPEGForLazarus"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="104">
+    <Units Count="105">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
         <CursorPos X="94" Y="131"/>
-        <TopLine Value="114"/>
+        <TopLine Value="71"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -86,7 +86,7 @@
         <UnitName Value="editid3"/>
         <CursorPos X="1" Y="563"/>
         <TopLine Value="534"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -140,7 +140,7 @@
         <UnitName Value="settings"/>
         <CursorPos X="75" Y="327"/>
         <TopLine Value="303"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit9>
@@ -211,7 +211,7 @@
         <UnitName Value="fmodplayer"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit18>
@@ -320,9 +320,11 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="directories.lrs"/>
         <UnitName Value="directories"/>
-        <CursorPos X="20" Y="176"/>
-        <TopLine Value="162"/>
+        <CursorPos X="2" Y="145"/>
+        <TopLine Value="129"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="200"/>
+        <Loaded Value="True"/>
       </Unit33>
       <Unit34>
         <Filename Value="../../mp3.pas"/>
@@ -384,7 +386,7 @@
         <UnitName Value="skin"/>
         <CursorPos X="92" Y="7"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit42>
@@ -649,13 +651,15 @@
         <Filename Value="mediacol.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mediacol"/>
-        <CursorPos X="3" Y="435"/>
-        <TopLine Value="420"/>
+        <CursorPos X="2" Y="272"/>
+        <TopLine Value="239"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="173"/>
         <Bookmarks Count="2">
-          <Item0 X="26" Y="239" ID="2"/>
-          <Item1 X="15" Y="384" ID="3"/>
+          <Item0 X="26" Y="241" ID="2"/>
+          <Item1 X="15" Y="387" ID="3"/>
         </Bookmarks>
+        <Loaded Value="True"/>
       </Unit79>
       <Unit80>
         <Filename Value="../../lazarus-svn/components/jpeg/jpegforlazarus.pas"/>
@@ -703,13 +707,13 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="11" Y="1444"/>
-        <TopLine Value="1493"/>
+        <CursorPos X="3" Y="1054"/>
+        <TopLine Value="1037"/>
         <EditorIndex Value="1"/>
         <UsageCount Value="100"/>
         <Bookmarks Count="2">
-          <Item0 X="14" Y="1475" ID="0"/>
-          <Item1 X="75" Y="3086" ID="1"/>
+          <Item0 X="14" Y="1466" ID="0"/>
+          <Item1 X="75" Y="3077" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit85>
@@ -840,40 +844,35 @@
         <UnitName Value="debug"/>
         <CursorPos X="80" Y="29"/>
         <TopLine Value="23"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit103>
+      <Unit104>
+        <Filename Value="../../lazarus-svn/lcl/interfaces/gtk/interfaces.pp"/>
+        <UnitName Value="Interfaces"/>
+        <CursorPos X="2" Y="29"/>
+        <TopLine Value="10"/>
+        <UsageCount Value="10"/>
+      </Unit104>
     </Units>
-    <JumpHistory Count="7" HistoryIndex="6">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
-        <Filename Value="mp3proj.lpr"/>
-        <Caret Line="25" Column="11" TopLine="24"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="967" Column="3" TopLine="983"/>
       </Position1>
       <Position2>
-        <Filename Value="debug.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="1354" Column="3" TopLine="1361"/>
       </Position2>
       <Position3>
-        <Filename Value="mp3proj.lpr"/>
-        <Caret Line="25" Column="8" TopLine="14"/>
+        <Filename Value="directories.pas"/>
+        <Caret Line="176" Column="20" TopLine="162"/>
       </Position3>
       <Position4>
         <Filename Value="mainform.pas"/>
-        <Caret Line="3441" Column="43" TopLine="3438"/>
+        <Caret Line="671" Column="3" TopLine="658"/>
       </Position4>
-      <Position5>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1572" Column="16" TopLine="1554"/>
-      </Position5>
-      <Position6>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2396" Column="54" TopLine="2378"/>
-      </Position6>
-      <Position7>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="3113" Column="90" TopLine="3111"/>
-      </Position7>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
