@@ -22,7 +22,7 @@ unit skin;
 interface
 
 uses
-  Classes, SysUtils, xmlcfg, Menus, graphics;
+  Classes, SysUtils, xmlcfg, Menus, graphics, config;
 
 type
 
@@ -64,7 +64,7 @@ var SkinData: TSkin;
 
 implementation
 
-uses mainform, settings;
+uses mainform;
 
 var skinxml: TXMLConfig;
 

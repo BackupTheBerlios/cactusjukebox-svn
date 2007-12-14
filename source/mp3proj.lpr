@@ -21,8 +21,8 @@ uses
  {$endif}
   Interfaces,SysUtils,
   Forms, status, settings, player, graphics, editid3, directories, skin,
-  cdrip, JPEGForLazarus, mediacol, BigCoverImg, mainform{, plugin}, cddb,
-  debug;
+  cdrip, mediacol, BigCoverImg, mainform, plugin, cddb,
+  debug, config, imagesforlazarus;
 
 var
   s, loadfile: string;
@@ -75,14 +75,6 @@ begin
    CactusConfig.ConfigPrefix:=IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
    if DirectoryExists('lib')=false then  mkdir('lib');
 {$endif}
-
-// Search for Plugins, create Pluginlist
- // CactusPlugins:=TPluginListClass.Create;
- // CactusPlugins.PluginFolder:=CactusConfig.DataPrefix+'plugins'+DirectorySeparator;
- // CactusPlugins.autoload:=true;
- // CactusPlugins.ScanPluginFolder;
-
-
 
   skip_config:=false;
   for i:= 1 to paramcount do if paramstr(i)='-c' then begin
@@ -143,6 +135,15 @@ begin
   main.Width:=CactusConfig.WWidth;
   main.Height:=CactusConfig.WHeight;
   {$endif}
+
+// Search for Plugins, create Pluginlist
+  DebugOutLn('##### searching plugins  #####', 2);
+  CactusPlugins:=TPluginListClass.Create;
+  CactusPlugins.PluginFolder:=CactusConfig.DataPrefix+'plugins'+DirectorySeparator;
+  CactusPlugins.autoload:=true;
+  CactusPlugins.ScanPluginFolder;
+  DebugOut(CactusPlugins.Count, 5);DebugOutLn(' plugins found', 5);
+
   DebugOutLn('##### Application running  #####', 2);
   Application.Run;
 end.

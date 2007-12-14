@@ -5,7 +5,7 @@ unit plugintypes;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, fmodplayer;
 
 type
   TCactusEvent = (
@@ -32,11 +32,13 @@ type
 
     function EventHandler(Event: TCactusEvent): boolean;
         virtual; stdcall; abstract;
+
   end;
 { TCactusPlugInClass }
 
   TLoadPlugIn = function(var CactusPlugIn: TCactusPlugInClass): Boolean;
   TGetPluginInfoProc = function : TPluginInfoRec;
+  TSetObjectConnections =  procedure (PlayerObj:pointer);
 
 
 implementation

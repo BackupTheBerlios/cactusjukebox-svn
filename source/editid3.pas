@@ -131,7 +131,7 @@ var
   EditID3win: TEditID3;
 
 implementation
-uses mainform, lazjpeg, settings, functions;
+uses mainform, lazjpg, config, functions;
 { TEditID3 }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -228,7 +228,7 @@ begin
 
     if main.player_connected then PlayerCol.SaveToFile(CactusConfig.DAPPath+'cactuslib');
 
-    update_artist_view;
+    main.update_artist_view;
     update_title_view;
     main.update_playlist;
   end

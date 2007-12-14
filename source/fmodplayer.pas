@@ -23,9 +23,6 @@ uses
   {$ifdef unix} fmod, {$endif}
   fmodtypes, mediacol;
 
-
-
-
 type
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 { TPlaylistitemClass }

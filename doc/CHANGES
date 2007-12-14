@@ -1,4 +1,5 @@
-Changes from 0.3.8.1 to xxx
+
+Changes from 0.3.8.1 to 0.3.8.5
 	- Internal Mediacollection structure changed
 		- faster querries
 		- faster reload

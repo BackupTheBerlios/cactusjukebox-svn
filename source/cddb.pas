@@ -14,7 +14,7 @@ unit cddb;
 interface
 
 uses
-  Classes, SysUtils, CDrom, discid, lnet, settings;
+  Classes, SysUtils, CDrom, discid, lnet, config;
 
 
 type

@@ -85,7 +85,7 @@ var
 
 
 implementation
-uses mainform, mediacol, translations, functions, settings;
+uses mainform, mediacol, translations, functions, config;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -372,7 +372,7 @@ begin
            Caption:='CD Rip... < Finished >';
            Trackgrid.Enabled:=true;
            Timer1.Enabled:=false;
-           update_artist_view;
+           main.update_artist_view;
            update_title_view;
            ripping:=false;
            encoding:=false;

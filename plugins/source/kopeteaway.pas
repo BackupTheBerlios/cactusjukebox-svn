@@ -5,7 +5,7 @@ library kopeteaway;
 
 
 uses
-  Classes, SysUtils, plugintypes, dos;
+  Classes, SysUtils, plugintypes, dos, fmodplayer;
 
 type
 
@@ -69,14 +69,20 @@ procedure TKopeteAwayMsgPlugin.Execute;stdcall;
 begin
 end;
 
-function TKopeteAwayMsgPlugin.EventHandler(Event: TCactusEvent): boolean;stdcall;
+function TKopeteAwayMsgPlugin.EventHandler(Event: TCactusEvent; Data: Pointer): boolean;stdcall;
+var datastr: string;
 begin
+   writeln('event received');
+   datastr:=tfmodplayerclass(data).currentTrack;
+   writeln(datastr);
    case Event of
      evnStartPlay: begin
 	   exec('/usr/bin/dcop', 'kopete KopeteIface setAway "away"');
+           writeln('KOpete send away');
          end;
      evnStopPlay: begin
 	   exec('/usr/bin/dcop', 'kopete KopeteIface setAvailable');
+           writeln('KOpete send aail');
 	 end;
    end;
 end;

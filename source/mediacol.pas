@@ -5,7 +5,7 @@ unit mediacol;
 interface
 
 uses
-  Classes, SysUtils, settings;
+  Classes, SysUtils, config;
 
 
 

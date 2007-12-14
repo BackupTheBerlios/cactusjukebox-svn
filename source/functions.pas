@@ -14,7 +14,7 @@ unit functions;
 interface
 
 uses
-    Classes, SysUtils, Objects, Process, crt, mmx, math, settings;
+    Classes, SysUtils, crt, mmx, math, config;
 
 
 

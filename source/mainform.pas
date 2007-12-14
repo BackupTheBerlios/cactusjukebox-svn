@@ -27,7 +27,8 @@ uses
 
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
   ExtCtrls, ComCtrls, StdCtrls, Menus, fmodplayer,
-  ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws{, plugin, plugintypes}, debug;
+  ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, plugin, plugintypes, debug, config,
+  CheckLst, ButtonPanel;
 
 resourcestring
   rsQuit = 'Quit';
@@ -85,8 +86,16 @@ type
     current_title_edit: TEdit;
     current_title_edit1: TEdit;
     artistsearch: TEdit;
-    filetypebox: TComboBox;
     CoverImage: TImage;
+    filetypebox: TComboBox;
+    SrchFileItem: TMenuItem;
+    SrchArtItem: TMenuItem;
+    SrchTitleItem: TMenuItem;
+    SrchAlbumItem: TMenuItem;
+    Panel2: TPanel;
+    SearchMenu: TPopupMenu;
+    searchstr: TEdit;
+    SidebarImgList: TImageList;
     MenuItem13: TMenuItem;
     MenuItem15: TMenuItem;
     MenuItem19: TMenuItem;
@@ -101,6 +110,11 @@ type
     PauseButtonImg: TImage;
     PreviousButtonImg: TImage;
     randomcheck: TCheckBox;
+    srch_button: TButton;
+    ToolBar1: TToolBar;
+    LibModeBtn: TToolButton;
+    NetModeBtn: TToolButton;
+    DeviceModeBtn: TToolButton;
     Trackinfo: TSpeedButton;
     StopButtonImg: TImage;
     NextButtonImg: TImage;
@@ -115,20 +129,13 @@ type
     spacer15: TMenuItem;
     mute: TSpeedButton;
     Panel1: TPanel;
-    SearchPanel: TPanel;
     PlayerControlsPanel: TPanel;
     playtime: TEdit;
-    searchstr: TEdit;
     SettingsItem: TMenuItem;
     Menuitem26: TMenuItem;
     MIload_list: TMenuItem;
     MenuItem3: TMenuItem;
     Splitter1: TSplitter;
-    srch_album: TCheckBox;
-    srch_artist: TCheckBox;
-    srch_button: TButton;
-    srch_file: TCheckBox;
-    srch_title: TCheckBox;
     StatusBar1: TStatusBar;
     toplaylistitem: TMenuItem;
     MIaudiocd: TMenuItem;
@@ -214,16 +221,20 @@ type
     procedure ArtistTreeSelectionChanged(Sender: TObject);
     procedure ArtistTreeStartDrag(Sender: TObject; var DragObject: TDragObject);
     procedure Button1Click(Sender: TObject);
+    procedure ButtonPanel1Click(Sender: TObject);
     procedure CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure DeviceModeBtnClick(Sender: TObject);
     procedure FormMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormResize(Sender: TObject);
+    procedure LibModeBtnClick(Sender: TObject);
     procedure MenuItem13Click(Sender: TObject);
     procedure MenuItem15Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
+    procedure NetModeBtnClick(Sender: TObject);
     procedure NextButtonImgClick(Sender: TObject);
     procedure NextButtonImgMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -278,6 +289,10 @@ type
     procedure SpeedButton1Click(Sender: TObject);
 
     procedure Splitter1Moved(Sender: TObject);
+    procedure SrchAlbumItemClick(Sender: TObject);
+    procedure SrchArtItemClick(Sender: TObject);
+    procedure SrchFileItemClick(Sender: TObject);
+    procedure SrchTitleItemClick(Sender: TObject);
     procedure StopButtonImgClick(Sender: TObject);
     procedure StopButtonImgMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -330,8 +345,6 @@ type
     procedure MenuItem33Click(Sender: TObject);
     procedure rm_artist_playeritemClick(Sender: TObject);
     procedure searchstrClick(Sender: TObject);
-    procedure searchstrKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure skinmenuClick(Sender: TObject);
     procedure syncplayeritem(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
@@ -374,12 +387,12 @@ type
     procedure update_player_display;
     function LoadFile(path: string):boolean;
     
-    
-    changetree, ctrl_pressed, SplitterResize:boolean;
-    tsnode:TTreeNode;
+    ctrl_pressed, SplitterResize:boolean;
+
     oldSplitterWidth, LoopCount: integer;
     sourceitem: TListItem;
     CoverFound, title_drag, playlist_drag, artist_drag: Boolean;
+    DeviceMode, NetworkMode, LibraryMode: boolean;
     awsclass: TAWSAccess;
     ScanSyncCount: Integer;
 
@@ -388,6 +401,7 @@ type
     procedure disconnectDAP;
     function connectDAP:byte;
     procedure ScanSyncronize(dir:string);
+    procedure update_artist_view;
     
     playing, player_connected, playermode: boolean;
     playpos: integer;
@@ -454,7 +468,6 @@ var
   ScanThread: TscanThread;
 
 //procedure update_title_view_album;
-procedure update_artist_view;
 procedure update_title_view;
 procedure artist_to_playlist;
 procedure artist_to_playlist_at(index: integer);
@@ -584,7 +597,7 @@ begin
 
              writeln('WARNING: if excption occurs, playlist has to be cleared here!');
           //   Main.update_player_hdd_relations;
-             update_artist_view;
+             main.update_artist_view;
              update_title_view;
 
              Main.StatusBar1.Panels[0].Text:=('Succesfully updated library...');
@@ -759,7 +772,7 @@ begin
                   playitem.ImageIndex:=0;
                   playitem.MakeVisible(false);
                   update_player_display;
-//                  CactusPlugins.SendEvent(evnStartPlay);
+                  CactusPlugins.SendEvent(evnStartPlay);
                 end
              else begin
                   if (err=1) then Showmessage('File not Found! Goto Library/Rescan Directories for updating file links');
@@ -780,7 +793,7 @@ begin
     fmodplayer.player.stop;
     fmodplayer.player.playlist.reset_random;
     update_player_display;
-//    CactusPlugins.SendEvent(evnStopPlay);
+    CactusPlugins.SendEvent(evnStopPlay);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -839,6 +852,7 @@ var curartist, curalbum: string;
     MediaFileObj: TMediaFileClass;
     MediaColObj: TMediaCollectionClass;
     z : integer;
+    tsnode: TTreeNode;
 begin
 tsnode:=Main.ArtistTree.Selected;
 if (tsnode<>nil) and (tsnode.Level>0) then begin
@@ -847,7 +861,7 @@ if (tsnode<>nil) and (tsnode.Level>0) then begin
        if tsnode.level<2 then album_mode:=false else album_mode:=true;
        MediaFileObj:=TMediaFileClass(tsnode.data);
        MediaColObj:=MediaFileObj.Collection;
-       curartist:=lowercase(MediaFileObj.artist);
+       curartist:=lowercase(MediaFileObj.Artist);
        curalbum:=lowercase(MediaFileObj.album);
 
        z:=MediaColObj.getTracks(curartist, MediaFileObj.index);
@@ -953,7 +967,7 @@ end;
 procedure TMain.searchstrKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-    srch_buttonClick(nil);
+  if length(searchstr.Text)>1 then srch_buttonClick(nil) else TitleTree.Clear;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -966,16 +980,14 @@ var searchstring, ft:string;
 begin
      TitleTree.Items.Clear;
      TitleTree.BeginUpdate;
-     changetree:=true;
      artisttree.selected:=nil;
-     changetree:=false;
-     searchstring:=searchstr.text;
+     searchstring:=lowercase(searchstr.text);
      found:=false;
      for i:= 0 to MediaCollection.ItemCount-1 do begin
-         if srch_title.checked then if  pos(lowercase(searchstring),lowercase(MediaCollection.items[i].title))<>0 then found:=true;
-         if srch_artist.checked then if  pos(lowercase(searchstring),lowercase(MediaCollection.items[i].artist))<>0 then found:=true;
-         if srch_album.checked then if  pos(lowercase(searchstring),lowercase(MediaCollection.items[i].album))<>0 then found:=true;
-         if srch_file.checked then if  pos(lowercase(searchstring),lowercase(extractfilename(MediaCollection.items[i].path)))<>0 then found:=true;
+         if SrchTitleItem.checked then if  pos(searchstring,lowercase(MediaCollection.items[i].title))<>0 then found:=true;
+         if SrchArtItem.checked then if  pos(searchstring,lowercase(MediaCollection.items[i].Artist))<>0 then found:=true;
+         if SrchAlbumItem.checked then if  pos(searchstring,lowercase(MediaCollection.items[i].album))<>0 then found:=true;
+         if SrchFileItem.checked then if  pos(searchstring,lowercase(extractfilename(MediaCollection.items[i].path)))<>0 then found:=true;
          if found then begin
              found:=false;
              ft:='';
@@ -994,7 +1006,7 @@ begin
               Listitem.ImageIndex:=MediaCollection.items[i].action;
               Listitem.caption:='';
 
-              if MediaCollection.items[i].title<>'' then ListItem.SubItems.Add(MediaCollection.items[i].artist)
+              if MediaCollection.items[i].title<>'' then ListItem.SubItems.Add(MediaCollection.items[i].Artist)
                     else ListItem.SubItems.Add(extractfilename(MediaCollection.items[i].path));
               ListItem.SubItems.Add (MediaCollection.items[i].title);
               ListItem.SubItems.Add (MediaCollection.items[i].album);
@@ -1023,7 +1035,7 @@ end;
 
 procedure TMain.ArtistTreeSelectionChanged(Sender: TObject);
 begin
-  if main.changetree=false then update_title_view;
+  update_title_view;
 end;
 
 procedure TMain.ArtistTreeStartDrag(Sender: TObject; var DragObject: TDragObject
@@ -1035,6 +1047,11 @@ end;
 procedure TMain.Button1Click(Sender: TObject);
 begin
   TitleTree.Clear;
+end;
+
+procedure TMain.ButtonPanel1Click(Sender: TObject);
+begin
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1074,6 +1091,16 @@ if fmodplayer.player.playing {and player.Playlist.Items[player.CurrentTrack].co}
 end;
 end;
 
+procedure TMain.DeviceModeBtnClick(Sender: TObject);
+begin
+  LibModeBtn.Down:=false;
+  NetModeBtn.Down:=false;
+  LibraryMode:=false;
+  DeviceMode:=true;
+  NetworkMode:=false;
+  update_artist_view;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.FormMouseDown(Sender: TOBject; Button: TMouseButton;
@@ -1088,6 +1115,16 @@ procedure TMain.FormResize(Sender: TObject);
 begin
      Panel4.Width:=oldSplitterWidth;
      Panel1.Width:=Width-oldSplitterWidth-8;
+end;
+
+procedure TMain.LibModeBtnClick(Sender: TObject);
+begin
+  DeviceModeBtn.Down:=false;
+  NetModeBtn.Down:=false;
+  LibraryMode:=true;
+  DeviceMode:=false;
+  NetworkMode:=false;
+  update_artist_view;
 end;
 
 procedure TMain.MenuItem13Click(Sender: TObject);
@@ -1150,6 +1187,17 @@ end;
 procedure TMain.MenuItem9Click(Sender: TObject);
 begin
   title_to_playlist_at(fmodplayer.player.CurrentTrack+1);
+end;
+
+procedure TMain.NetModeBtnClick(Sender: TObject);
+begin
+  DeviceModeBtn.down:=false;
+  LibModeBtn.down:=false;
+  LibraryMode:=false;
+  DeviceMode:=false;
+  NetworkMode:=true;
+  update_artist_view;
+  update_title_view;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1338,8 +1386,8 @@ begin
     except DebugOutLn('ERROR: Exception while shutting down IPC server', 2);
     end;
   writeln('end.');
-//     CactusPlugins.FlushPluginConfig;
-  //   CactusPlugins.Free;
+     CactusPlugins.FlushPluginConfig;
+     CactusPlugins.Free;
      if CactusConfig.FlushConfig then DebugOutLn('Config succesfully written to disk', 3) else DebugOutLn('ERROR: writing config to disk', 3);
      CactusConfig.Free;
      Application.Terminate;
@@ -1353,6 +1401,13 @@ var tmps1, tmps2: string;
 begin
   DebugOutLn('## Main.onCreate ##', 3);
   Caption:='Cactus Jukebox '+CACTUS_VERSION;
+
+  LibraryMode:=true;
+  DeviceMode:=false;
+  NetworkMode:=false;
+  LibModeBtn.Down:=true;
+  DeviceModeBtn.Down:=false;
+  NetModeBtn.Down:=false;
 
   MediaCollection.syncronize:=@ScanSyncronize;
 
@@ -1407,10 +1462,10 @@ begin
 
   clear_list.Caption:= rsClear;
   srch_button.Caption:= rsSearch;
-  srch_album.Caption:= rsAlbum;
-  srch_artist.Caption:= rsArtist;
-  srch_file.Caption:= rsFilename;
-  srch_title.Caption:= rsTitle;
+  SrchAlbumItem.Caption:= rsAlbum;
+  SrchArtItem.Caption:= rsArtist;
+  SrchFileItem.Caption:= rsFilename;
+  SrchTitleItem.Caption:= rsTitle;
   randomcheck.Caption:= rsRandom;
 
   TitleTree.Column[1].Caption:=rsArtist;
@@ -1422,8 +1477,8 @@ begin
   oldSplitterWidth:=CactusConfig.WSplitterWidth;
   SplitterResize:=true;
 
-  srch_title.checked:=true;
-  srch_artist.checked:=true;
+  SrchTitleItem.checked:=true;
+  SrchArtItem.checked:=true;
   playing:=false;
 
   fmodplayer.player:=TFModPlayerClass.create;
@@ -1531,13 +1586,13 @@ begin
       i:=fmodplayer.player.CurrentTrack;
       //MedFileObj:=playlist.Items[player.CurrentTrack].Data;
 
-      if fmodplayer.player.Playlist.items[i].artist<>'' then current_title_edit.text:=fmodplayer.player.Playlist.items[i].artist else current_title_edit.text:=ExtractFileName(fmodplayer.player.Playlist.items[i].path);
+      if fmodplayer.player.Playlist.items[i].Artist<>'' then current_title_edit.text:=fmodplayer.player.Playlist.items[i].Artist else current_title_edit.text:=ExtractFileName(fmodplayer.player.Playlist.items[i].path);
       current_title_edit1.text:=fmodplayer.player.Playlist.items[i].title;
 
       playwin.TitleImg.Picture.LoadFromFile(SkinData.Title.Img);
       playwin.TitleImg.canvas.Font.Color:=Clnavy;
 
-      if fmodplayer.player.Playlist.items[i].artist<>'' then playwin.TitleImg.canvas.textout(5,5,fmodplayer.player.Playlist.items[i].artist) else playwin.TitleImg.canvas.textout(5,5,ExtractFileName(fmodplayer.player.Playlist.items[i].path));
+      if fmodplayer.player.Playlist.items[i].Artist<>'' then playwin.TitleImg.canvas.textout(5,5,fmodplayer.player.Playlist.items[i].Artist) else playwin.TitleImg.canvas.textout(5,5,ExtractFileName(fmodplayer.player.Playlist.items[i].path));
       playwin.TitleImg.canvas.textout(5,25,fmodplayer.player.Playlist.items[i].title);
     end else begin  //clear everything
       playwin.TitleImg.canvas.Clear;
@@ -1568,7 +1623,7 @@ begin
    ListItem := Playlist.Items.Add;
    listitem.data:=MediaCollection.items[z];
 
-   if MediaCollection.items[z].title<>'' then ListItem.Caption:=MediaCollection.items[z].artist+' - '+MediaCollection.items[z].title else ListItem.Caption:=extractfilename(MediaCollection.items[z].path);
+   if MediaCollection.items[z].title<>'' then ListItem.Caption:=MediaCollection.items[z].Artist+' - '+MediaCollection.items[z].title else ListItem.Caption:=extractfilename(MediaCollection.items[z].path);
    playlist.Column[0].Caption:='Playlist                       ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr +')';
    result:=true;
    update_artist_view;
@@ -1576,6 +1631,8 @@ begin
   end else result:=false;
  Application.ProcessMessages;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.ScanSyncronize(dir: string);
 begin
@@ -1586,6 +1643,141 @@ begin
        update_artist_view;
        ScanSyncCount:=0;
     end;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMain.update_artist_view;
+var curartist:string;
+    tsnode, artnode, TopNode:Ttreenode;
+    MedColObj: TMediaCollectionClass;
+    AlbumList:TStringList;
+    MedFileObj: TMediaFileClass;
+    i, z:integer;
+    restoreEnabled:boolean;
+begin
+
+  if Enabled then restoreEnabled:=true else restoreEnabled:=false;
+  Enabled:=false;
+  StatusBar1.Panels[0].Text:='Please wait... updating...';
+  Application.ProcessMessages;
+
+  artisttree.beginupdate;
+  DebugOutLn('', 2);
+  DebugOut('## update artist view... ', 2);
+  if NetworkMode then begin
+     ArtistTree.BeginUpdate;
+     ArtistTree.Items.Clear;
+     ArtistTree.EndUpdate;
+  end;
+  tsnode:=ArtistTree.Selected;
+  if (tsnode<>nil) and (tsnode.level>0)  then begin
+      MedFileObj:=TMediaFileClass(tsnode.data);
+      curartist:=lowercase(MedFileObj.Artist);
+     end else begin
+         curartist:='';
+   end;
+  DebugOut(' clear tree...', 2);
+  ArtistTree.Items.Clear;
+ // If library mode add Mediacollection
+  if LibraryMode and (MediaCollection.Count>0) then begin
+     TopNode:=Main.ArtistTree.Items.Add(nil, rsLibrary);
+     TopNode.ImageIndex:=6;
+     TopNode.SelectedIndex:=6;
+     TopNode.data:=pointer(1);
+
+     i:=MediaCollection.getArtists;
+     repeat begin
+        if MediaCollection.Items[i].Artist<>'' then artnode:=Main.ArtistTree.Items.AddChild(TopNode, MediaCollection.Items[i].Artist)
+          else artnode:=Main.ArtistTree.Items.AddChild(TopNode, 'Unknown');
+        with artnode do
+            begin
+               MakeVisible;
+               ImageIndex:=MediaCollection.Items[i].Action;
+               SelectedIndex:=MediaCollection.Items[i].Action;
+               Data:=MediaCollection.items[i];
+            end;
+        AlbumList:=MediaCollection.getAlbums(MediaCollection.Items[i].Artist, i);
+        for z:=0 to AlbumList.Count-1 do begin  // add albums to node of current SrchArtItem
+           with Main.ArtistTree.Items.Addchild(artnode, AlbumList[z]) do
+             begin
+               MakeVisible;
+               ImageIndex:=MediaCollection.Items[i].Action;
+               SelectedIndex:=MediaCollection.Items[i].Action;
+               Data:=AlbumList.Objects[z];
+             end;
+        end;
+        artnode.Expanded:=false;
+        i:=MediaCollection.getNextArtist;
+     end;
+     until i<0;
+    // finally free AlbumList
+     AlbumList.Free;
+  end;
+
+ // If Device mode add playercollection and other devices
+  if DeviceMode and player_connected then begin
+
+     TopNode:=Main.ArtistTree.Items.Add(nil, rsMobileDevice);
+     TopNode.SelectedIndex:=1;
+     TopNode.ImageIndex:=1;
+     TopNode.data:=pointer(0);
+
+     i:=PlayerCol.getArtists;
+     repeat begin
+        if PlayerCol.Items[i].Artist<>'' then artnode:=Main.ArtistTree.Items.AddChild(TopNode, PlayerCol.Items[i].Artist)
+          else artnode:=Main.ArtistTree.Items.AddChild(TopNode, 'Unknown');
+        with artnode do
+            begin
+               MakeVisible;
+               ImageIndex:=PlayerCol.Items[i].Action;
+               SelectedIndex:=PlayerCol.Items[i].Action;
+               Data:=PlayerCol.items[i];
+            end;
+        AlbumList:=PlayerCol.getAlbums(PlayerCol.Items[i].Artist, i);
+        for z:=0 to AlbumList.Count-1 do begin  // add albums to node of current SrchArtItem
+           with Main.ArtistTree.Items.Addchild(artnode, AlbumList[z]) do
+             begin
+               MakeVisible;
+               ImageIndex:=PlayerCol.Items[i].Action;
+               SelectedIndex:=PlayerCol.Items[i].Action;
+               Data:=AlbumList.Objects[z];
+             end;
+        end;
+        artnode.Expanded:=false;
+        i:=PlayerCol.getNextArtist;
+     end;
+     until i<0;
+    // finally free AlbumList
+     AlbumList.Free;
+  end;
+  DebugOut(' reselecting last item ', 2);
+ // Reselect last selected item if possible
+  i:=0;
+  if ArtistTree.Items.Count>0 then ArtistTree.Selected:=ArtistTree.Items[0];
+  if (curartist<>'') and (ArtistTree.Items.Count>0) then begin
+     repeat begin
+         MedFileObj:=TMediaFileClass(ArtistTree.items[i].data);
+         inc(i);
+      end;
+     until ((lowercase(artisttree.items[i].text)=curartist) and (ArtistTree.Items[i].Level=1))
+             or (i>=artisttree.items.count-1);
+     if lowercase(artisttree.items[i].text)=curartist then begin
+            artisttree.selected:=main.artisttree.items[i];
+            if i >=10 then
+                ArtistTree.TopItem:=artisttree.items[i-10].Parent
+              else
+                ArtistTree.TopItem:=artisttree.items[0];
+       end else
+         artisttree.selected:=artisttree.items[1];
+  end;
+
+  ArtistTree.EndUpdate;
+  DebugOutLn(' finished artistview ##', 2);
+
+  StatusBar1.Panels[0].Text:='Ready.';
+  Enabled:=restoreEnabled;
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1748,7 +1940,7 @@ begin
            listitem.data:=MedFileObj;
 
            if MedFileObj.title<>'' then
-                  ListItem.Caption:=MedFileObj.artist+' - '+MedFileObj.title
+                  ListItem.Caption:=MedFileObj.Artist+' - '+MedFileObj.title
                 else
                   ListItem.Caption:=extractfilename(MedFileObj.path);
        end;
@@ -1763,6 +1955,7 @@ var MedColObj: TMediaCollectionClass;
     curartist, curalbum, s, tmps: string;
     MedFileObj: TMediaFileClass;
     i:integer;
+    tsnode: TTreeNode;
 begin
    tsnode:=ArtistTree.Selected;
 
@@ -1772,7 +1965,7 @@ begin
       i:=MedColObj.getTracks(MedFileObj.Artist, MedFileObj.index);
       if tsnode.level=2 then
            begin
-                curartist:=lowercase(MedFileObj.artist);
+                curartist:=lowercase(MedFileObj.Artist);
                 curalbum:=lowercase(MedFileObj.album);
                 repeat begin
                       if (lowercase(MedColObj.items[i].album)=curalbum) and (MedColObj.items[i].action=AREMOVE) then begin
@@ -1790,7 +1983,7 @@ begin
            end;
       if tsnode.level=1 then
            begin
-                curartist:=lowercase(MedFileObj.artist);
+                curartist:=lowercase(MedFileObj.Artist);
                 repeat begin
                        if (MedColObj.items[i].action=AREMOVE) then begin
                           MedColObj.items[i].action:=AONPLAYER;
@@ -1973,6 +2166,28 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+procedure TMain.SrchAlbumItemClick(Sender: TObject);
+begin
+  SrchAlbumItem.Checked:=not SrchAlbumItem.Checked;
+end;
+
+procedure TMain.SrchArtItemClick(Sender: TObject);
+begin
+  SrchArtItem.Checked:=not SrchArtItem.Checked;
+end;
+
+procedure TMain.SrchFileItemClick(Sender: TObject);
+begin
+  SrchFileItem.Checked:=not SrchFileItem.Checked;
+end;
+
+procedure TMain.SrchTitleItemClick(Sender: TObject);
+begin
+  SrchTitleItem.Checked:=not SrchTitleItem.Checked;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMain.StopButtonImgClick(Sender: TObject);
 begin
    stopClick(nil);
@@ -2065,11 +2280,13 @@ end;
 procedure TMain.TitleTreeDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
 begin
+{$ifdef LCLGtk}
   //Workaround for GTK1.x to reset selected Item while dragging
  if title_drag then begin
   TitleTree.Selected:=nil;
   TitleTree.Items[sourceitem.Index].Selected:=true;
  end;
+{$endif}
  Accept:=false;
 end;
 
@@ -2258,7 +2475,7 @@ begin
       //Playlist.BeginUpdate;
       Playlist.Items.Clear;
       writeln('clear');
-      playlist.Column[0].Caption:= 'Playlist';
+      playlist.Column[0].Caption:= rsPlaylist;
       fmodplayer.player.playlist.clear;
     //  Playlist.EndUpdate;
 end;
@@ -2381,11 +2598,15 @@ begin
  {$ifdef  LCLGtk2}   //workaround gtk2 bug.... getitem is 20px wrong
   if Playlist.Items.Count>0 then Targetitem:=Playlist.GetItemAt(x, y-20) else Targetitem:=playlist.GetItemAt(x,y);
  {$else}
-   Targetitem:=Playlist.GetItemAt(x, y);
+  try
+    if Playlist.Items.Count>0 then Targetitem:=Playlist.GetItemAt(x, y);
+  except Targetitem:=nil;
+  end;
  {$endif}
-  
+  DebugOutLn('mmm', 5);
+  if Playlist.Items.Count=0 then Targetitem:=nil;
   if Targetitem<>nil then DebugOutLn(Targetitem.Index, 3) else DebugOutLn('TARGET NIL', 3);
-
+  DebugOutLn('mmm', 5);
   if title_drag  then begin
      title_drag:=false;
      MedFileObj:=TMediaFileClass(sourceitem.Data);
@@ -2446,6 +2667,14 @@ end;
 procedure TMain.playlistDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
 begin
+{$ifdef LCLGtk}
+  //Workaround for GTK1.x to reset selected Item while dragging
+  DebugOutLn('gtk1', 5);
+ if playlist_drag then begin
+  playlist.Selected:=nil;
+  playlist.Items[sourceitem.Index].Selected:=true;
+ end;
+{$endif}
   accept:=true;
 end;
 
@@ -2527,6 +2756,17 @@ begin
   // the menu is reanabled in TMain.playlistSelectItem
   if (Button = mbRight) and (playlist.Selected = nil) then
     playlist.PopupMenu.AutoPopup := false;
+ //Enable Dragging
+  if Button = mbLeft then begin	{ only drag if left button pressed }
+         sourceitem:=nil;
+         {$ifdef  LCLGtk2}
+          sourceitem:=Playlist.GetItemAt(x, y-20);
+         {$else}
+          sourceitem:=Playlist.GetItemAt(x, y);
+         {$endif}
+         if sourceitem<>nil then Playlist.BeginDrag(false, 10);
+    end;
+    
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2558,11 +2798,11 @@ begin
   i:=fmodplayer.player.CurrentTrack;
   MedFileObj:=TMediaFileClass(playlist.Items[fmodplayer.player.CurrentTrack].Data);
   if (MedFileObj.album<>'') then begin
-     MedFileObj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+MedFileObj.artist+'_'+MedFileObj.album+'.jpeg';
+     MedFileObj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+MedFileObj.Artist+'_'+MedFileObj.album+'.jpeg';
      if (FileExists(MedFileObj.CoverPath)=false) then begin
              CoverImage.Picture.Clear;
              if  (CactusConfig.CoverDownload) then begin
-                  awsclass:=TAWSAccess.CreateRequest(MedFileObj.artist, MedFileObj.album);
+                  awsclass:=TAWSAccess.CreateRequest(MedFileObj.Artist, MedFileObj.album);
                   awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
                end;
         end else begin
@@ -2662,6 +2902,7 @@ var MedColObj: TMediaCollectionClass;
     tmpsize: int64;
     MedFileObj: TMediaFileClass;
     i:integer;
+    tsnode:TTreeNode;
 begin
    tsnode:=ArtistTree.Selected;
    tmpsize:=0;
@@ -2669,7 +2910,7 @@ begin
    if (tsnode<>nil) and (tsnode.level>0) and player_connected then begin
       MedFileObj:=TMediaFileClass(tsnode.data);
       MedColObj:=MedFileObj.collection;
-      curartist:=lowercase(MedFileObj.artist);
+      curartist:=lowercase(MedFileObj.Artist);
       i:=MedColObj.getTracks(MedFileObj.Artist, MedFileObj.index);
       if tsnode.level=2 then     //album
            begin
@@ -2688,7 +2929,7 @@ begin
                   until i<0;
 
            end;
-      if tsnode.level=1 then     //artist
+      if tsnode.level=1 then     //SrchArtItem
            begin
                 repeat begin
                        if (MedColObj.items[i].action=AREMOVE) then begin
@@ -2715,6 +2956,7 @@ end;
 
 procedure TMain.MenuItem33Click(Sender: TObject);
 var MedFileObj: TMediaFileClass;
+    tsnode: TTreeNode;
 begin
   Enabled:=false;
 
@@ -2736,6 +2978,7 @@ var MedColObj: TMediaCollectionClass;
     curartist, curalbum, tmps: string;
     MedFileObj: TMediaFileClass;
     i, z:integer;
+    tsnode: TTreeNode;
 begin
    tsnode:=ArtistTree.Selected;
    if (tsnode<>nil) and (tsnode.level>0) and player_connected then begin
@@ -2757,7 +3000,7 @@ begin
                     end;
                   until  (i<0);
            end;
-      if tsnode.level=1 then      //remove the artist
+      if tsnode.level=1 then      //remove the SrchArtItem
            begin
                 i:=PlayerCol.getTracks(MedFileObj.Artist);
                 repeat begin
@@ -2786,11 +3029,6 @@ begin
   ArtistSrchField.Hide;
 end;
 
-procedure TMain.searchstrKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-
-end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -2821,8 +3059,8 @@ begin
                        inc(ucount);
                        bytesneeded:=bytesneeded + MediaCollection.items[n].size;
                        if CactusConfig.mobile_subfolders then begin
-                           if not DirectoryExists(CactusConfig.DAPPath+lowercase(MediaCollection.items[n].artist)) then mkdir(CactusConfig.DAPPath+lowercase(MediaCollection.items[n].artist));
-                           newfile:=CactusConfig.DAPPath+lowercase(MediaCollection.items[n].artist)+'/'+ExtractFileName(MediaCollection.items[n].path);
+                           if not DirectoryExists(CactusConfig.DAPPath+lowercase(MediaCollection.items[n].Artist)) then mkdir(CactusConfig.DAPPath+lowercase(MediaCollection.items[n].Artist));
+                           newfile:=CactusConfig.DAPPath+lowercase(MediaCollection.items[n].Artist)+'/'+ExtractFileName(MediaCollection.items[n].path);
                          end
                          else
                            newfile:=CactusConfig.DAPPath+ExtractFileName(MediaCollection.items[n].path);
@@ -2867,7 +3105,7 @@ begin
       Playlist.Selected.delete;
       s1:=IntToStr((fmodplayer.player.Playlist.TotalPlayTime div 60) mod 60 );
       s2:=IntToStr((fmodplayer.player.Playlist.TotalPlayTime div 60) div 60 );
-      playlist.Column[0].Caption:='Playlist            ('+IntToStr(fmodplayer.player.Playlist.ItemCount)+' Files/ '+s2+'h '+s1+'min )';
+      playlist.Column[0].Caption:=rsPlaylist+'            ('+IntToStr(fmodplayer.player.Playlist.ItemCount)+' Files/ '+s2+'h '+s1+'min )';
       if (i>=1) and (i=playlist.items.count) then dec(i);
       playlist.selected:=playlist.items[i];
     end;
@@ -2886,12 +3124,10 @@ end;
 
 procedure TMain.RemoveClick(Sender: TObject);
 begin
-     main.changetree:=true;
      MediaCollection.clear;
-     Main.TitleTree.Items.Clear;
-     Main.ArtistTree.Items.Clear;
-     Main.Playlist.Items.Clear;
-     main.changetree:=false;
+     TitleTree.Items.Clear;
+     ArtistTree.Items.Clear;
+     Playlist.Items.Clear;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3058,9 +3294,9 @@ begin
      ListItem := Main.Playlist.Items.Insert(index);
      listitem.data:=MedFileObj;
      listitem.MakeVisible(false);
-     if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
+     if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.Artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
    end;
-   main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr +')';
+   main.playlist.Column[0].Caption:=rsPlaylist+'                       ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr +')';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3082,14 +3318,14 @@ begin
      listitem.data:=MedFileObj;
      listitem.MakeVisible(false);
 //     listitem.Focused:=true;
-     if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
+     if MedFileObj.title<>'' then ListItem.Caption:=MedFileObj.Artist+' - '+MedFileObj.title else ListItem.Caption:=extractfilename(MedFileObj.path);
      if not fmodplayer.player.playing and CactusConfig.AutostartPlay and (main.Playlist.Items.Count=1) then begin
            main.Playlist.Selected:=Main.Playlist.Items[0];
            DebugOutLn(Main.Playlist.Selected.Caption, 3);
            Main.playClick(main);
          end;
    end;
-   main.playlist.Column[0].Caption:='Playlist                       ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr +')';
+   main.playlist.Column[0].Caption:=rsPlaylist+'                       ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr +')';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3124,14 +3360,14 @@ begin
            inc(index);
            listitem.data:=MedColObj.items[z];
           // Listitem.Focused:=true;
-           if MedColObj.items[z].title<>'' then ListItem.Caption:=MedColObj.items[z].artist+' - '+MedColObj.items[z].title else ListItem.Caption:=extractfilename(MedColObj.items[z].path);
+           if MedColObj.items[z].title<>'' then ListItem.Caption:=MedColObj.items[z].Artist+' - '+MedColObj.items[z].title else ListItem.Caption:=extractfilename(MedColObj.items[z].path);
         end;
         z:=MedColObj.GetNext;
       end;
       until z<0;
      Listitem.MakeVisible(false);
    end;
-  main.playlist.Column[0].Caption:='Playlist            ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr+' )';
+  main.playlist.Column[0].Caption:=rsPlaylist+'            ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr+' )';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3161,7 +3397,7 @@ begin
            ListItem := Main.Playlist.Items.Add;
            listitem.data:=MedColObj.items[z];
           // Listitem.Focused:=true;
-           if MedColObj.items[z].title<>'' then ListItem.Caption:=MedColObj.items[z].artist+' - '+MedColObj.items[z].title else ListItem.Caption:=extractfilename(MedColObj.items[z].path);
+           if MedColObj.items[z].title<>'' then ListItem.Caption:=MedColObj.items[z].Artist+' - '+MedColObj.items[z].title else ListItem.Caption:=extractfilename(MedColObj.items[z].path);
         end;
         z:=MedColObj.GetNext;
       end;
@@ -3172,7 +3408,7 @@ begin
            Main.playClick(main);
          end;
    end;
-  main.playlist.Column[0].Caption:='Playlist            ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr+' )';
+  main.playlist.Column[0].Caption:=rsplaylist+'            ('+IntToStr(fmodplayer.player.playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.TotalPlayTimeStr+' )';
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3201,7 +3437,7 @@ begin
 
          MedFileObj:=TMediaFileClass(tsnode.data);
          MedColObj:=MedFileObj.Collection;
-         curartist:=lowercase(MedFileObj.artist);
+         curartist:=lowercase(MedFileObj.Artist);
          curalbum:=lowercase(MedFileObj.album);
          DebugOut(curartist, 2);
 
@@ -3239,133 +3475,6 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure update_artist_view;
-var existing, curartist, tmps2, tmps:string;
-    tsnode, artnode, localnode, playernode, cdnode:Ttreenode;
-    MedColObj, CurCol: TMediaCollectionClass;
-    AlbumList:TStringList;
-    MedFileObj: TMediaFileClass;
-    i, z:integer;
-    restoreEnabled:boolean;
-begin
-if MediaCollection.Count>0 then begin
-     main.changetree:=true;
-     if main.Enabled then restoreEnabled:=true else restoreEnabled:=false;
-     main.Enabled:=false;
-     main.StatusBar1.Panels[0].Text:='Please wait... updating...';
-     Application.ProcessMessages;
-     main.artisttree.beginupdate;
-     DebugOutLn('', 2);
-     DebugOut('## update artist view... ', 2);
-     tsnode:=Main.ArtistTree.Selected;
-     if (tsnode<>nil) and (tsnode.level>0)  then begin
-          MedFileObj:=TMediaFileClass(tsnode.data);
-          curartist:=lowercase(MedFileObj.artist);
-          CurCol:=MedFileObj.Collection;
-       end else begin
-           curartist:='';
-         end;
-     DebugOut(' clear tree...', 2);
-     Main.ArtistTree.Items.Clear;
-
-//     for i:= 0 to MediaCollection.Count-1 do writeln(MediaCollection.Items[i].artist + '   ' +MediaCollection.Items[i].Title+'   '+MediaCollection.Items[i].Album);
-     localnode:=Main.ArtistTree.Items.Add(nil, rsLibrary);
-     localnode.ImageIndex:=6;
-     localnode.SelectedIndex:=6;
-     localnode.data:=pointer(1);
-
-     i:=MediaCollection.getArtists;
-     repeat begin
-        if MediaCollection.Items[i].Artist<>'' then artnode:=Main.ArtistTree.Items.AddChild(localnode, MediaCollection.Items[i].Artist)
-          else artnode:=Main.ArtistTree.Items.AddChild(localnode, 'Unknown');
-        with artnode do
-            begin
-               MakeVisible;
-               ImageIndex:=MediaCollection.Items[i].Action;
-               SelectedIndex:=MediaCollection.Items[i].Action;
-               Data:=MediaCollection.items[i];
-            end;
-        AlbumList:=MediaCollection.getAlbums(MediaCollection.Items[i].Artist, i);
-        for z:=0 to AlbumList.Count-1 do begin  // add albums to node of current artist
-           with Main.ArtistTree.Items.Addchild(artnode, AlbumList[z]) do
-             begin
-               MakeVisible;
-               ImageIndex:=MediaCollection.Items[i].Action;
-               SelectedIndex:=MediaCollection.Items[i].Action;
-               Data:=AlbumList.Objects[z];
-             end;
-        end;
-        artnode.Expanded:=false;
-        i:=MediaCollection.getNextArtist;
-     end;
-     until i<0;
-
-     existing:='';
-  if main.player_connected then begin
-     playernode:=Main.ArtistTree.Items.Add(nil, 'Mobile Player');
-     playernode.SelectedIndex:=1;
-     playernode.ImageIndex:=1;
-     playernode.data:=pointer(0);
-
-
-     i:=PlayerCol.getArtists;
-     repeat begin
-        if PlayerCol.Items[i].Artist<>'' then artnode:=Main.ArtistTree.Items.AddChild(playernode, PlayerCol.Items[i].Artist)
-          else artnode:=Main.ArtistTree.Items.AddChild(playernode, 'Unknown');
-        with artnode do
-            begin
-               MakeVisible;
-               ImageIndex:=PlayerCol.Items[i].Action;
-               SelectedIndex:=PlayerCol.Items[i].Action;
-               Data:=PlayerCol.items[i];
-            end;
-        AlbumList:=PlayerCol.getAlbums(PlayerCol.Items[i].Artist, i);
-        for z:=0 to AlbumList.Count-1 do begin  // add albums to node of current artist
-           with Main.ArtistTree.Items.Addchild(artnode, AlbumList[z]) do
-             begin
-               MakeVisible;
-               ImageIndex:=PlayerCol.Items[i].Action;
-               SelectedIndex:=PlayerCol.Items[i].Action;
-               Data:=AlbumList.Objects[z];
-             end;
-        end;
-        artnode.Expanded:=false;
-        i:=PlayerCol.getNextArtist;
-     end;
-     until i<0;
-  end;
-
-
-     i:=0;
-     if curartist<>'' then begin
-        repeat begin
-            repeat inc(i) until (main.ArtistTree.items[i].Level=1) or (i>=main.ArtistTree.Items.Count-1);
-            MedFileObj:=TMediaFileClass(main.ArtistTree.items[i].data);
-         end;
-        until ((lowercase(main.artisttree.items[i].text)=curartist) and (MedFileObj.collection=CurCol))
-               or (i>=main.artisttree.items.count-1);
-     end;
-
-
-     if lowercase(main.artisttree.items[i].text)=curartist then begin
-            main.artisttree.selected:=main.artisttree.items[i];
-            if i >=10 then begin
-                main.ArtistTree.TopItem:=main.artisttree.items[i-10].Parent;
-              end
-            else main.ArtistTree.TopItem:=main.artisttree.items[0];
-
-       end else main.artisttree.selected:=main.artisttree.items[1];
-     AlbumList.Free;
-     main.artisttree.endupdate;
-     main.changetree:=false;
-     DebugOutLn(' finished artistview##', 2);
-     main.StatusBar1.Panels[0].Text:='Ready.';
-     main.Enabled:=restoreEnabled;
- end else main.ArtistTree.Selected:=nil;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 procedure TMain.update_playlist;
 var    PPlaylistItem: PPlaylistItemClass;
        MedfileObj: TMediaFileClass;
@@ -3377,7 +3486,7 @@ begin
           fmodplayer.player.Playlist.Items[i].update(MedfileObj);
 
           if MedfileObj.title<>'' then
-              playlist.Items[i].caption:=MedfileObj.artist+' - '+MedfileObj.title
+              playlist.Items[i].caption:=MedfileObj.Artist+' - '+MedfileObj.title
             else
               playlist.Items[i].caption:=extractfilename(MedfileObj.path);
      end;

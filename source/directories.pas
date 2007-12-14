@@ -55,7 +55,7 @@ var
   dirwin: Tdirwin;
 
 implementation
-uses mainform,status,mediacol, settings;
+uses mainform,status,mediacol, config;
 { Tdirwin }
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -94,7 +94,7 @@ begin
 
      if MediaCollection.ItemCount>1 then begin
                 Main.ArtistTree.Selected:=nil;
-                update_artist_view;
+                main.update_artist_view;
                 update_title_view;
       end;
      Caption:='Directories';
@@ -126,7 +126,7 @@ begin
       dirlistview.Items.Delete(dirlistview.ItemIndex);
 
   Main.ArtistTree.Selected:=nil;
-  update_artist_view;
+  main.update_artist_view;
   update_title_view;
 end;
 
@@ -154,7 +154,7 @@ begin
     MediaCollection.DirList.Delete(n);
     Caption:='Please wait... Scanning...';
     Enabled:=false;
-    update_artist_view;
+    main.update_artist_view;
     update_title_view;
     Application.ProcessMessages;
     MediaCollection.add_directory(rescandir);
@@ -162,7 +162,7 @@ begin
 
   if MediaCollection.ItemCount>1 then begin
                 Main.ArtistTree.Selected:=nil;
-                update_artist_view;
+                main.update_artist_view;
                 update_title_view;
     end;
   Caption:='Directories';
