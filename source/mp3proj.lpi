@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="4"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -45,8 +45,8 @@
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="34" Y="25"/>
-        <TopLine Value="24"/>
+        <CursorPos X="3" Y="144"/>
+        <TopLine Value="113"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -711,8 +711,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="52" Y="1758"/>
-        <TopLine Value="1740"/>
+        <CursorPos X="62" Y="1757"/>
+        <TopLine Value="1650"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="126"/>
         <Bookmarks Count="2">

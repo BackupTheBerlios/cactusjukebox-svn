@@ -140,8 +140,8 @@ begin
   DebugOutLn('##### searching plugins  #####', 2);
   CactusPlugins:=TPluginListClass.Create;
   CactusPlugins.PluginFolder:=CactusConfig.DataPrefix+'plugins'+DirectorySeparator;
-  CactusPlugins.autoload:=true;
-  CactusPlugins.ScanPluginFolder;
+//  CactusPlugins.autoload:=true;
+//  CactusPlugins.ScanPluginFolder;
   DebugOut(CactusPlugins.Count, 5);DebugOutLn(' plugins found', 5);
 
   DebugOutLn('##### Application running  #####', 2);

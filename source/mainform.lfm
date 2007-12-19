@@ -350,6 +350,7 @@ object Main: TMain
         Height = 41
         Top = 73
         Width = 152
+        Frequency = 0
         Max = 100
         ScalePos = trTop
         TickStyle = tsNone
@@ -398,11 +399,11 @@ object Main: TMain
         Height = 64
         Top = 165
         Width = 31
+        Frequency = 0
         Max = 50
         OnChange = volumebarChange
         Orientation = trVertical
-        ScalePos = trRight
-        TickMarks = tmTopLeft
+        ScalePos = trBottom
         TickStyle = tsNone
         ParentCtl3D = False
         TabOrder = 0
