@@ -12,6 +12,7 @@ uses
 type
   // PMediaCollectionClass = ^TMediaCollectionClass;
   TSrchType = ( FTrackSrch_Artist, FTrackSrch_ArtistAlbum, FAlbumSrch, FArtistSrch, FAllArtist );
+  TMediaType = (MTAudioFile, MTStream);
   TPathFmt = ( FRelative, FDirect );
   
   TMediaCollectionClass = class;
@@ -28,8 +29,10 @@ type
      procedure SetArtist(aValue: string);
      procedure SetAlbum(aValue: string);
      procedure SetTitle(aValue: string);
+     procedure setStreamUrl(aValue: string);
      FTitle, FAlbum, FArtist: string;
-
+     FStreamUrl: string;
+     FMediaType: TMediaType;
 
    public
      constructor create(filepath:string; ParentCollection: TMediaCollectionClass);
@@ -44,12 +47,14 @@ type
      property Artist: string read FArtist write SetArtist;
      property Album: string read FAlbum write SetAlbum;
      property Title: string read FTitle write SetTitle;
+     property StreamUrl: string read FStreamUrl write SetStreamUrl;
      Comment: ansistring;
      Year, Track, Filetype:string[4];
      Size: int64;
      ID, Bitrate, Samplerate, Playlength, Action: longint;
      Playtime: string;
      index: integer;
+     property MediaType: TMediaType read FMEdiaType;
   end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -937,6 +942,11 @@ begin
 
 end;
 
+procedure TMediaFileClass.setStreamUrl(aValue: string);
+begin
+
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 constructor TMediaFileClass.create(filepath: string; ParentCollection: TMediaCollectionClass);
@@ -945,6 +955,8 @@ begin
    Collection:=ParentCollection;
    path:=filepath;
    action:= ANOTHING;
+   if pos(URLID, filepath)=0 then FMediaType:=MTStream
+                 else FMediaType:=MTAudioFile;
 
    Filemode:=0;
 //   try

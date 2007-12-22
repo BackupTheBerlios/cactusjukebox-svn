@@ -21,7 +21,7 @@ type
     language: string; // country code, e.g. de -> germany
 
     DAPPath, CDRomDevice: string;
-    CurrentSkin, LastLib, LoadOnStart: string;
+    CurrentSkin, LastLib, StreamColPath, LoadOnStart: string;
     Lame, CDDA2wav: string;
 
     DataPrefix, ConfigPrefix, LibraryPrefix, HomeDir: string;
@@ -87,6 +87,7 @@ begin
     if FConfigFile.GetValue('Audio/Output', 'Alsa')='Alsa' then OutputAlsa:=true else OutputAlsa:=false;
 
     LastLib:=FConfigFile.GetValue('Library/autoload','');
+    StreamColPath:=FConfigFile.GetValue('Library/StreamCollection','');
     AutostartPlay:=FConfigFile.GetValue('Playlist/Autoplay', true);
 
     Lame:=FConfigFile.GetValue('Lame/Path', '/usr/bin/lame');
@@ -122,6 +123,7 @@ begin
     FConfigFile.SetValue('Library/GuessTags', guesstag);
     FConfigFile.SetValue('Library/background_scan', background_scan);
     FConfigFile.SetValue('Library/autoload', LastLib);
+    FConfigFile.SetValue('Library/StreamCollection', StreamColPath);
     FConfigFile.SetValue('Skin/File', CurrentSkin);
     FConfigFile.SetValue('Userinterface/Language/Code', language);
     FConfigFile.SetValue('Playlist/Autoplay', AutostartPlay);

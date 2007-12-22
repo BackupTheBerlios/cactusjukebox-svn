@@ -88,6 +88,12 @@ type
     artistsearch: TEdit;
     CoverImage: TImage;
     filetypebox: TComboBox;
+    MenuItem25: TMenuItem;
+    MenuItem27: TMenuItem;
+    MenuItem28: TMenuItem;
+    MenuItem29: TMenuItem;
+    MenuItem32: TMenuItem;
+    NetworktreePopup: TPopupMenu;
     SrchFileItem: TMenuItem;
     SrchArtItem: TMenuItem;
     SrchTitleItem: TMenuItem;
@@ -231,6 +237,7 @@ type
     procedure LibModeBtnClick(Sender: TObject);
     procedure MenuItem13Click(Sender: TObject);
     procedure MenuItem15Click(Sender: TObject);
+    procedure MenuItem25Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
@@ -476,7 +483,7 @@ procedure title_to_playlist;
 
 
 implementation
-uses editid3, status, settings, player, directories, skin, cdrip, translations, bigcoverimg;
+uses editid3, status, settings, player, directories, skin, cdrip, translations, bigcoverimg, streamcol, addradio;
 
 {$i cactus_const.inc}
 
@@ -1035,7 +1042,7 @@ end;
 
 procedure TMain.ArtistTreeSelectionChanged(Sender: TObject);
 begin
-  update_title_view;
+ if not NetworkMode then update_title_view;
 end;
 
 procedure TMain.ArtistTreeStartDrag(Sender: TObject; var DragObject: TDragObject
@@ -1093,12 +1100,19 @@ end;
 
 procedure TMain.DeviceModeBtnClick(Sender: TObject);
 begin
+DeviceModeBtn.Down:=true;
+if not DeviceMode then begin
+  ArtistTree.Selected:=nil;
   LibModeBtn.Down:=false;
   NetModeBtn.Down:=false;
   LibraryMode:=false;
   DeviceMode:=true;
   NetworkMode:=false;
+  Playlist.Enabled:=true;
+  TitleTree.Enabled:=true;
+  
   update_artist_view;
+end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1119,12 +1133,18 @@ end;
 
 procedure TMain.LibModeBtnClick(Sender: TObject);
 begin
+LibModeBtn.Down:=true;
+if not LibraryMode then begin
+  ArtistTree.Selected:=nil;
   DeviceModeBtn.Down:=false;
   NetModeBtn.Down:=false;
   LibraryMode:=true;
   DeviceMode:=false;
   NetworkMode:=false;
+  Playlist.Enabled:=true;
+  TitleTree.Enabled:=true;
   update_artist_view;
+ end;
 end;
 
 procedure TMain.MenuItem13Click(Sender: TObject);
@@ -1138,9 +1158,15 @@ begin
   i:=playlist.Items.Count;
   artist_to_playlist;
   Playlist.Selected:=nil;
-  playlist.Items[i].Selected:=true;
+  if playlist.Items.Count>0 then playlist.Items[i].Selected:=true;
   playClick(nil);
 
+end;
+
+procedure TMain.MenuItem25Click(Sender: TObject);
+begin
+  addRadioForm:= TaddRadioForm.Create(self);
+  addRadioForm.ShowModal;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1191,13 +1217,20 @@ end;
 
 procedure TMain.NetModeBtnClick(Sender: TObject);
 begin
+NetModeBtn.Down:=true;
+if not NetworkMode then begin
+  ArtistTree.Selected:=nil;
   DeviceModeBtn.down:=false;
   LibModeBtn.down:=false;
   LibraryMode:=false;
   DeviceMode:=false;
   NetworkMode:=true;
+  Playlist.Enabled:=false;
+  TitleTree.Enabled:=false;
+  
   update_artist_view;
   update_title_view;
+ end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1354,6 +1387,10 @@ begin
              MediaCollection.SaveToFile(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'last.mlb');
              CactusConfig.LastLib:=MediaCollection.savepath;
           end;
+     if StreamCollection.Count>0 then begin
+         StreamCollection.SaveToFile(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'streams.col');
+         CactusConfig.StreamColPath:=CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'streams.col';
+     end;
      MediaCollection.Free;
      PlayerCol.free;
      checkmobile.Enabled:=false;
@@ -1545,6 +1582,12 @@ begin
            TitleTree.Clear;
         end;
    end;
+  if FileExists(CactusConfig.StreamColPath) then begin
+       if StreamCollection.LoadFromFile(CactusConfig.StreamColPath)=false then begin
+           writeln('Error loading stream collection');
+       end;
+       
+   end;
   if CactusConfig.AlbumCoverFirsttime then begin
      tmps1:='Cactus Jukebox can download album cover art from internet and show it on playback'
             +LineEnding+'(No private data is submitted. Only album title and artist)'
@@ -1665,11 +1708,6 @@ begin
   artisttree.beginupdate;
   DebugOutLn('', 2);
   DebugOut('## update artist view... ', 2);
-  if NetworkMode then begin
-     ArtistTree.BeginUpdate;
-     ArtistTree.Items.Clear;
-     ArtistTree.EndUpdate;
-  end;
   tsnode:=ArtistTree.Selected;
   if (tsnode<>nil) and (tsnode.level>0)  then begin
       MedFileObj:=TMediaFileClass(tsnode.data);
@@ -1679,6 +1717,22 @@ begin
    end;
   DebugOut(' clear tree...', 2);
   ArtistTree.Items.Clear;
+
+  if NetworkMode then begin
+
+     TopNode:=ArtistTree.Items.Add(nil, 'Webradio stations');
+     TopNode.Data:=pointer(1);
+     for i:=0 to StreamCollection.Count-1 do begin
+        artnode:=ArtistTree.Items.AddChild(TopNode, StreamCollection.Strings[i]);
+        with artnode do
+            begin
+               MakeVisible;
+               ImageIndex:=-1;
+               SelectedIndex:=-1;
+               Data:=StreamCollection.Objects[i];
+            end;
+      end;
+  end;
  // If library mode add Mediacollection
   if LibraryMode and (MediaCollection.Count>0) then begin
      TopNode:=Main.ArtistTree.Items.Add(nil, rsLibrary);
@@ -2819,10 +2873,21 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.ArtistTreeDblClick(Sender: TObject);
+var StreamInfoObj: TStreamInfoItemClass;
 begin
-   Application.ProcessMessages;
-   if (ArtistTree.Selected<>nil) and (ArtistTree.Selected.Level>0) then artist_to_playlist;
-   Application.ProcessMessages;
+  if LibraryMode or DeviceMode then begin
+     if (ArtistTree.Selected<>nil) and (ArtistTree.Selected.Level>0) then artist_to_playlist;
+  end;
+  
+  if NetworkMode then begin
+     if (ArtistTree.Selected<>nil) and (ArtistTree.Selected.Level>0) then begin
+        StreamInfoObj:= TStreamInfoItemClass(ArtistTree.Selected.Data);
+        fmodplayer.player.playStream(StreamInfoObj.URL);
+        current_title_edit.Text:='Playing radio stream...';
+        current_title_edit1.Text:=StreamInfoObj.Name;
+     end;
+  end;
+  
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2887,11 +2952,13 @@ procedure TMain.ArtistTreeMouseDown(Sender: TOBject; Button: TMouseButton;
 begin
   ArtistTree.SetFocus;
  // ensure that the popup menu is only opened when an item is selected
- if Button = mbRight then
-    if (ArtistTree.GetNodeAt(X, Y) = nil) or (ArtistTree.GetNodeAt(X, Y).Level=0) then
+ if Button = mbRight then begin
+    if NetworkMode then ArtistTree.PopupMenu:=NetworktreePopup else ArtistTree.PopupMenu:=artisttreemenu;
+    if (ArtistTree.GetNodeAt(X, Y) = nil) then
         ArtistTree.PopupMenu.AutoPopup := false
     else
         ArtistTree.PopupMenu.AutoPopup := true;
+   end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

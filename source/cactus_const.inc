@@ -15,3 +15,5 @@ const AUPLOAD = 3;  //file action/state IDs
       ANOTHING = -1;
       AREMOVE = 2;
       AONPLAYER = 1;
+      
+const URLID = 'url://';

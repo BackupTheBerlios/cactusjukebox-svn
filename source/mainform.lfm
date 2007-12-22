@@ -377,7 +377,7 @@ object Main: TMain
         Cursor = crArrow
         Left = 12
         Height = 23
-        Top = 102
+        Top = 101
         Width = 200
         Color = clBtnFace
         ReadOnly = True
@@ -1089,6 +1089,7 @@ object Main: TMain
   end
   object artisttreemenu: TPopupMenu
     Images = ImageList1
+    AutoPopup = False
     OnPopup = artisttreemenuPopup
     top = 464
     object MenuItem15: TMenuItem
@@ -2612,6 +2613,27 @@ object Main: TMain
     object SrchFileItem: TMenuItem
       Caption = 'Filename'
       OnClick = SrchFileItemClick
+    end
+  end
+  object NetworktreePopup: TPopupMenu
+    AutoPopup = False
+    left = 40
+    top = 464
+    object MenuItem28: TMenuItem
+      Caption = 'Play radio station'
+    end
+    object MenuItem32: TMenuItem
+      Caption = 'Info/Edit'
+    end
+    object MenuItem29: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem25: TMenuItem
+      Caption = 'Add radio station...'
+      OnClick = MenuItem25Click
+    end
+    object MenuItem27: TMenuItem
+      Caption = 'Remove radio station'
     end
   end
 end

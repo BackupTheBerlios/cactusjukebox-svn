@@ -86,6 +86,7 @@ TFModPlayerClass = class
      destructor destroy;
 
      function play(index:integer):byte;
+     function playStream(url: string):byte;
      procedure pause;
      procedure stop;
      function next_track:byte;
@@ -215,6 +216,73 @@ begin
          writeln('INTERNAL error: playlistindex out of bound');
          Result:=3;
        end;
+end;
+
+function TFModPlayerClass.playStream(url: string): byte;
+{startplay=0 -> succesful
+ startplay=1 -> invalid stream URL
+ startplay=2 -> soundcard init failed}
+var z: integer;
+    StreamStatus:TFSoundStreamNetStatus;
+    BufferUsed, Bitrate: integer;
+    Flags: Cardinal;
+begin
+   if (fplaying=true) then begin
+         if FSOUND_Stream_Stop(Soundhandle)=false then writeln('ERROR stop stream');
+         if FSOUND_Stream_Close(Soundhandle)=false then writeln('ERROR on closing stream');
+         fplaying:=false;
+      end;
+   if (fplaying=false) then begin
+   //FSOUND_Close;
+ {$ifdef linux}
+  {  if oss then begin
+           if FSOUND_SetOutput(FSOUND_OUTPUT_OSS) then writeln('Oss output openend') else writeln('failed opening oss output')
+         end
+         else begin
+           if FSOUND_SetOutput(FSOUND_OUTPUT_ALSA) then writeln('alsa output openend') else writeln('failed opening alsa output')
+         end;}
+  {$endif}
+    if FSOUND_Init(44100, 32, 0)=true then begin
+
+      writeln('playing  -> '+url);
+         tmpp:=StrAlloc(length(url)+1);
+         StrPCopy(tmpp,url);
+
+       // Open the stream
+         write(' openingstream... ');
+         Soundhandle:=FSOUND_Stream_Open(tmpp, FSOUND_NONBLOCKING, 0, 0);
+         
+         repeat begin
+            z:=FSOUND_Stream_GetOpenState(Soundhandle);
+         //   writeln(FSOUND_Stream_Net_GetLastServerStatus();
+         end;
+         until z=0;
+         z:=0;
+         repeat begin   //Wait until it is loaded and ready
+                FSOUND_Stream_Net_GetStatus(Soundhandle, StreamStatus, BufferUsed, Bitrate, Flags);
+                //writeln(BufferUsed);
+                case StreamStatus of
+                  FSOUND_STREAM_NET_READY: writeln('stream ready');
+                  FSOUND_STREAM_NET_ERROR: writeln('error');
+                  FSOUND_STREAM_NET_CONNECTING: writeln('connecting');
+                  FSOUND_STREAM_NET_BUFFERING: writeln('buffering');
+                  FSOUND_STREAM_NET_NOTCONNECTED: writeln('not connected');
+                end;
+              end;
+          until (BufferUsed>90) and (StreamStatus=FSOUND_STREAM_NET_READY);
+         write(' ready... ');
+         if z = 0 then begin //If loading was succesful
+            write(' start playing... ');
+            FSOUND_Stream_Play (FSOUND_FREE,Soundhandle);      //   Start playing
+            writeln(' ready... ');
+            FSOUND_SetVolume(0, volume);
+            fplaying:=true;
+            result:=0;
+           end else begin
+               write('error: can''t open stream');writeln(z);
+              end;
+       end else result:=1;
+     end else result:=2;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

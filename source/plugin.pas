@@ -126,7 +126,6 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
 function TPluginListClass.add(dllname: string): boolean;
 var   listitem: TPluginListItemClass;
 begin

@@ -22,7 +22,7 @@ uses
   Interfaces,SysUtils,
   Forms, status, settings, player, graphics, editid3, directories, skin,
   cdrip, mediacol, BigCoverImg, mainform, plugin, cddb,
-  debug, config, imagesforlazarus;
+  debug, config, imagesforlazarus, addradio, streamcol;
 
 var
   s, loadfile: string;
@@ -90,6 +90,7 @@ begin
 // end config
 
   MediaCollection:=TMediaCollectionClass.create;
+  StreamCollection:=TStreamCollectionClass.create;
   SkinData:=TSkin.Create('default.xml', CactusConfig.DataPrefix);
 
   for i:= 1 to paramcount do if (paramstr(i)<>'-c') and (paramstr(i)<>'-p') and (paramstr(i)<>'-h') and (paramstr(i)<>'--help') then begin
@@ -145,6 +146,7 @@ begin
   DebugOut(CactusPlugins.Count, 5);DebugOutLn(' plugins found', 5);
 
   DebugOutLn('##### Application running  #####', 2);
+  Application.CreateForm(TaddRadioForm, addRadioForm);
   Application.Run;
 end.
 
