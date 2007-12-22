@@ -1,0 +1,26 @@
+{ Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
+
+LazarusResources.Add('TaddRadioForm','FORMDATA',[
+  'TPF0'#13'TaddRadioForm'#12'addRadioForm'#4'Left'#3#21#1#6'Height'#3#223#0#3
+  +'Top'#3#171#0#5'Width'#3#136#1#18'HorzScrollBar.Page'#3#135#1#18'VertScrollB'
+  +'ar.Page'#3#222#0#13'ActiveControl'#7#5'Edit1'#11'BorderIcons'#11#12'biSyste'
+  +'mMenu'#0#11'BorderStyle'#7#8'bsDialog'#7'Caption'#6#20'Add Radio Station...'
+  +#12'ClientHeight'#3#223#0#11'ClientWidth'#3#136#1#8'OnCreate'#7#10'FormCreat'
+  +'e'#0#6'TLabel'#6'Label1'#4'Left'#2#8#6'Height'#2#20#3'Top'#2#16#5'Width'#3
+  +'`'#1#7'Caption'#6':Radio station stream URL (only ogg, mp3 streams supporte'
+  +'d)'#11'ParentColor'#8#0#0#6'TLabel'#6'Label2'#4'Left'#2#26#6'Height'#2#20#3
+  +'Top'#2'x'#5'Width'#3#27#1#7'Caption'#6'0Stream URL/Port (http://server.com:'
+  +'9000/file.mp3'#11'ParentColor'#8#7'Visible'#8#0#0#6'TLabel'#11'StationName'
+  +#4'Left'#2#24#6'Height'#2#20#3'Top'#3#168#0#5'Width'#2'J'#7'Caption'#6#11'St'
+  +'ationName'#11'ParentColor'#8#7'Visible'#8#0#0#5'TEdit'#5'Edit1'#4'Left'#2#7
+  +#6'Height'#2#23#3'Top'#2''''#5'Width'#3'x'#1#8'TabOrder'#2#0#0#0#7'TBitBtn'#7
+  +'BitBtn1'#4'Left'#3'4'#1#6'Height'#2#30#3'Top'#2'H'#5'Width'#2'K'#7'Caption'
+  +#6#3'Add'#9'NumGlyphs'#2#0#7'OnClick'#7#12'BitBtn1Click'#8'TabOrder'#2#1#0#0
+  +#7'TButton'#11'AdvancedBtn'#4'Left'#2#7#6'Height'#2#25#3'Top'#2'H'#5'Width'#2
+  +'X'#8'AutoSize'#9#7'Caption'#6#11'Advanced >>'#7'OnClick'#7#16'AdvancedBtnCl'
+  +'ick'#8'TabOrder'#2#2#0#0#5'TEdit'#13'StreamUrlEdit'#4'Left'#2'0'#6'Height'#2
+  +#23#3'Top'#3#136#0#5'Width'#3'('#1#8'OnChange'#7#19'StreamUrlEditChange'#8'T'
+  +'abOrder'#2#3#7'Visible'#8#0#0#5'TEdit'#15'StationNameEdit'#4'Left'#2'0'#6'H'
+  +'eight'#2#23#3'Top'#3#184#0#5'Width'#3'('#1#8'TabOrder'#2#4#4'Text'#6#7'Unkn'
+  +'own'#7'Visible'#8#0#0#0
+]);
