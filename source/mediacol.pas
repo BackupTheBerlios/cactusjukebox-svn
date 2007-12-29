@@ -12,7 +12,7 @@ uses
 type
   // PMediaCollectionClass = ^TMediaCollectionClass;
   TSrchType = ( FTrackSrch_Artist, FTrackSrch_ArtistAlbum, FAlbumSrch, FArtistSrch, FAllArtist );
-  TMediaType = (MTAudioFile, MTStream);
+  TMediaType = (MTAudioFile, MTStream, MTCDAudio);
   TPathFmt = ( FRelative, FDirect );
   
   TMediaCollectionClass = class;

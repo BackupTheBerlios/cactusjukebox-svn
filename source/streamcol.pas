@@ -100,12 +100,11 @@ begin
     ReadLn(sfile, tmps1);
     ReadLn(sfile, tmps1);
     
-    repeat begin
+    while not EOF(sfile) do begin
        ReadLn(sfile, tmps1);
        ReadLn(sfile, tmps2);
        add(tmps2, tmps1);
     end;
-    until EOF(sfile)
   except
     writeln('ERROR reading stream collection');
   end;

@@ -1110,7 +1110,7 @@ if not DeviceMode then begin
   NetworkMode:=false;
   Playlist.Enabled:=true;
   TitleTree.Enabled:=true;
-  
+  trackbar.Enabled:=true;
   update_artist_view;
 end;
 end;
@@ -1143,6 +1143,7 @@ if not LibraryMode then begin
   NetworkMode:=false;
   Playlist.Enabled:=true;
   TitleTree.Enabled:=true;
+  trackbar.Enabled:=true;
   update_artist_view;
  end;
 end;
@@ -1227,7 +1228,7 @@ if not NetworkMode then begin
   NetworkMode:=true;
   Playlist.Enabled:=false;
   TitleTree.Enabled:=false;
-  
+  trackbar.Enabled:=false;
   update_artist_view;
   update_title_view;
  end;

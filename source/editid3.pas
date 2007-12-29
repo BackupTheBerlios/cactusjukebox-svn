@@ -43,12 +43,15 @@ type
     cancelbut1: TButton;
     cmbYear: TComboBox;
     cmbComment: TComboBox;
-    Edit1: TEdit;
     commentedit1: TEdit;
+    Edit1: TEdit;
     Edit3: TEdit;
+    Edit4: TEdit;
+    Edit5: TEdit;
     guessname1: TButton;
     Filelogo: TImage;
     AlbumCoverImg: TImage;
+    Label1: TLabel;
     Label10: TLabel;
     Label11: TLabel;
     Label12: TLabel;
@@ -59,10 +62,13 @@ type
     Label17: TLabel;
     Label18: TLabel;
     Label19: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
     lblTrack: TLabel;
     Label21: TLabel;
     idlabel: TLabel;
     indexlabel: TLabel;
+    Memo1: TMemo;
     mtype: TLabel;
     bitrate: TLabel;
     fsize: TLabel;
@@ -75,6 +81,7 @@ type
     id3v1tab: TTabSheet;
     fileinfo: TTabSheet;
     PicDownloadTimer: TTimer;
+    StreamTab: TTabSheet;
     titleedit2: TEdit;
     titleedit3: TEdit;
     trackedit1: TEdit;
