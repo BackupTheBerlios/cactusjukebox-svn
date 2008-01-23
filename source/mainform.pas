@@ -94,6 +94,8 @@ type
     MenuItem29: TMenuItem;
     MenuItem32: TMenuItem;
     NetworktreePopup: TPopupMenu;
+    Volumebar: TProgressBar;
+    trackbar: TProgressBar;
     SrchFileItem: TMenuItem;
     SrchArtItem: TMenuItem;
     SrchTitleItem: TMenuItem;
@@ -214,8 +216,6 @@ type
     Selectdirectorydialog1: TSELECTDIRECTORYDIALOG;
     playtimer: TTimer;
     seldirdialog: TSelectDirectoryDialog;
-    trackbar: TTrackBar;
-    volumebar: TTrackBar;
     procedure ArtistTreeClick(Sender: TObject);
     procedure ArtistTreeCollapsed(Sender: TObject; Node: TTreeNode);
     procedure ArtistTreeDblClick(Sender: TObject);
@@ -387,6 +387,8 @@ type
     //procedure fileopen(path:string);
     procedure loadskin(Sender: TObject);
     procedure update_player_hdd_relations;
+    procedure VolumebarMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     { private declarations }
     Procedure MoveNode(TargetNode, SourceNode : TTreeNode);
@@ -682,6 +684,20 @@ begin
        end;
   end;
 Playercol.SaveToFile(CactusConfig.DAPPath+'cactuslib');
+end;
+
+procedure TMain.VolumebarMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var newVolume:byte;
+begin
+  if y>Volumebar.Height then y:=Volumebar.Height;
+  if y<0 then y:=0;
+  writeln(y);
+  
+  newVolume:=100-((y*100) div (Volumebar.Height));
+  fmodplayer.player.set_volume(newVolume);
+  Volumebar.Position:=newVolume;
+  DebugOutLn('volume set '+ IntToStr(fmodplayer.player.volume), 3);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2883,7 +2899,7 @@ begin
   if NetworkMode then begin
      if (ArtistTree.Selected<>nil) and (ArtistTree.Selected.Level>0) then begin
         StreamInfoObj:= TStreamInfoItemClass(ArtistTree.Selected.Data);
-        fmodplayer.player.playStream(StreamInfoObj.URL);
+        writeln(fmodplayer.player.playStream(StreamInfoObj.URL));
         current_title_edit.Text:='Playing radio stream...';
         current_title_edit1.Text:=StreamInfoObj.Name;
      end;
@@ -3282,11 +3298,14 @@ procedure TMain.trackbarMouseUp(Sender: TOBject; Button: TMouseButton;
 var k, spos, slength: real;
     i:integer;
 begin
-  k:=trackbar.position;
+  if k>trackbar.Width then k:=trackbar.Width;
+  if k<0 then k:=0;
+  k:=(x*100) / trackbar.Width;
   slength:=fmodplayer.player.get_filelength;
   spos:=round((k*slength) / (100));
   i:=round(spos);
   fmodplayer.player.set_fileposition(i);
+  trackbar.Position:=i;
   if fmodplayer.player.playing then playtimer.enabled:=true;
 end;
 

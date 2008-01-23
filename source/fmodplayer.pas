@@ -173,14 +173,16 @@ begin
    if (fplaying=false) then begin
    //FSOUND_Close;
  {$ifdef linux}
-  {  if oss then begin
+    if oss then begin
            if FSOUND_SetOutput(FSOUND_OUTPUT_OSS) then writeln('Oss output openend') else writeln('failed opening oss output')
          end
          else begin
            if FSOUND_SetOutput(FSOUND_OUTPUT_ALSA) then writeln('alsa output openend') else writeln('failed opening alsa output')
-         end;}
+         end;
   {$endif}
+
     if FSOUND_Init(44100, 32, 0)=true then begin
+
 
       writeln('playing  -> '+playlist.items[index].path);
       if (FileExists(playlist.items[index].path)) then begin
@@ -235,12 +237,12 @@ begin
    if (fplaying=false) then begin
    //FSOUND_Close;
  {$ifdef linux}
-  {  if oss then begin
+    if oss then begin
            if FSOUND_SetOutput(FSOUND_OUTPUT_OSS) then writeln('Oss output openend') else writeln('failed opening oss output')
          end
          else begin
            if FSOUND_SetOutput(FSOUND_OUTPUT_ALSA) then writeln('alsa output openend') else writeln('failed opening alsa output')
-         end;}
+         end;
   {$endif}
     if FSOUND_Init(44100, 32, 0)=true then begin
 
