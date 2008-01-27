@@ -20,11 +20,12 @@ interface
 
 uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  {ExtCtrls,} Buttons, ComCtrls, lcltype, mediacol, ExtCtrls, skin, aws;
+  {ExtCtrls,} Buttons, ComCtrls, lcltype, mediacol, ExtCtrls, skin, aws, streamcol;
 
 
   const ALBUM_MODE = 1;
   const ARTIST_MODE = 2;
+  const STREAM_MODE = 2;
 
 type
   PLabel = ^TLabel;
@@ -46,8 +47,8 @@ type
     commentedit1: TEdit;
     Edit1: TEdit;
     Edit3: TEdit;
-    Edit4: TEdit;
-    Edit5: TEdit;
+    NameEdit: TEdit;
+    URLEdit: TEdit;
     guessname1: TButton;
     Filelogo: TImage;
     AlbumCoverImg: TImage;
@@ -68,7 +69,7 @@ type
     Label21: TLabel;
     idlabel: TLabel;
     indexlabel: TLabel;
-    Memo1: TMemo;
+    DescEdit: TMemo;
     mtype: TLabel;
     bitrate: TLabel;
     fsize: TLabel;
@@ -107,6 +108,7 @@ type
     procedure EditID3Close(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormHide(Sender: TObject);
+    procedure Label3Click(Sender: TObject);
     procedure PicDownloadTimerStartTimer(Sender: TObject);
     procedure PicDownloadTimerTimer(Sender: TObject);
     procedure cancelbutClick(Sender: TObject);
@@ -128,10 +130,12 @@ type
     procedure show_tags();
     MedFileObj:TMediaFileClass;
     MedColObj: TMediaCollectionClass;
+    StreamInfoObj: TStreamInfoItemClass;
   public
     { public declarations }
     fileid: integer;
     procedure display_window(MedFile:TMediaFileClass; intMode: Integer = 0);
+    procedure display_window(StreamInfo: TStreamInfoItemClass);
   end; 
 
 var
@@ -370,6 +374,11 @@ begin
   self.ShowInTaskBar:=stNever;
 end;
 
+procedure TEditID3.Label3Click(Sender: TObject);
+begin
+
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TEditID3.PicDownloadTimerStartTimer(Sender: TObject);
@@ -569,10 +578,20 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.display_window(MedFile:TMediaFileClass; intMode: Integer = 0);
+procedure TEditID3.display_window(MedFile: TMediaFileClass; intMode: Integer);
 var s, tmps:string;
-  i: Integer;
+    i: Integer;
 begin
+  // set up gui elements
+  metacontrol.ActivePage:=metatab;
+  metatab.TabVisible:=true;
+//  fileinfo.TabVisible:=true;
+  StreamTab.TabVisible:=false;
+  id3v1tab.TabVisible:=false;
+  id3v2tab.TabVisible:=false;
+
+  btnReset.Enabled:=true;
+
   self.MedFileObj:=MedFile;
   self.MedColObj:=MedFileObj.Collection;
   self.fileid:=0;
@@ -583,14 +602,6 @@ begin
     ALBUM_MODE: self.album_only := true;
     ARTIST_MODE: self.artist_only := true;
   end;
-
-  // set up gui elements
-  metacontrol.ActivePage:=metatab;
-  id3v1tab.TabVisible:=false;
-  id3v2tab.TabVisible:=false;
-
-  //show in taskbar so you don't loose the windows. showmodal doesn't work here
-  self.ShowInTaskBar:=stAlways;
 
   // artist and album(-mode) specific actions
   if (artist_only = true) or (album_only = true)
@@ -695,8 +706,28 @@ begin
       end;
     end;
   end;
-  
+
   show_tags();
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TEditID3.display_window(StreamInfo: TStreamInfoItemClass);
+
+begin
+  StreamInfoObj:=StreamInfo;
+  StreamTab.TabVisible:=true;
+  metatab.TabVisible:=false;
+  fileinfo.TabVisible:=false;
+  id3v1tab.TabVisible:=false;
+  id3v2tab.TabVisible:=false;
+
+  btnReset.Enabled:=true;
+
+  NameEdit.Text:=StreamInfoObj.Name;
+  URLEdit.Text:=StreamInfoObj.URL;
+  DescEdit.Text:=StreamInfoObj.Description;
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

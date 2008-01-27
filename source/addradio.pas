@@ -15,7 +15,7 @@ type
   TaddRadioForm = class(TForm)
     BitBtn1: TBitBtn;
     AdvancedBtn: TButton;
-    Edit1: TEdit;
+    PlaylistURLEdit: TEdit;
     StreamUrlEdit: TEdit;
     StationNameEdit: TEdit;
     Label1: TLabel;
@@ -23,6 +23,7 @@ type
     StationName: TLabel;
     procedure AdvancedBtnClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure PlaylistURLEditClick(Sender: TObject);
     procedure StreamUrlEditChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -47,6 +48,8 @@ end;
 procedure TaddRadioForm.FormCreate(Sender: TObject);
 begin
   Height:=115;
+  FAdvanced:=false;
+  AdvancedBtnClick(nil);
 end;
 
 procedure TaddRadioForm.AdvancedBtnClick(Sender: TObject);
@@ -59,16 +62,16 @@ if FAdvanced=false then begin
   Label2.Visible:=true;
   StreamUrlEdit.Visible:=true;
   StationNameEdit.Visible:=true;
-  Edit1.Enabled:=false;
+  PlaylistURLEdit.Enabled:=false;
  end else begin
-  FAdvanced:=false;
+{  FAdvanced:=false;
   AdvancedBtn.Caption:='Advanced >>';
   Height:=115;
   StationName.Visible:=false;
   Label2.Visible:=false;
   StreamUrlEdit.Visible:=false;
   StationNameEdit.Visible:=false;
-  Edit1.Enabled:=true;
+  PlaylistURLEdit.Enabled:=true;}
  end;
 end;
 
@@ -83,6 +86,11 @@ begin
   end;
   Main.update_artist_view;
   close;
+end;
+
+procedure TaddRadioForm.PlaylistURLEditClick(Sender: TObject);
+begin
+  if PlaylistURLEdit.Enabled then PlaylistURLEdit.Text:='';
 end;
 
 initialization

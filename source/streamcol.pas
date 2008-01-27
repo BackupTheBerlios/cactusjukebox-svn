@@ -13,26 +13,26 @@ Type
 
    TStreamInfoItemClass = class
       private
-       FURL, FName: string;
+       FURL, FName, FDescription: string;
       public
        constructor create(URL, name: string);
-       
        property Name: string read FName write FName;
        property URL: string read FURL write FURL;
+       property Description: string read FDescription write FDescription;
     end;
 
    { TStreamCollectionClass }
 
    TStreamCollectionClass = class(TStringList)
       private
-
+        FFilename: string;
       public
        constructor create;
        destructor destroy;
 
        function add(URL, name: string):integer;
        
-       procedure remove(index: integer);
+       procedure Delete(index: integer); override;
        
        function SaveToFile(filename: string):boolean;
        function LoadFromFile(filename: string):boolean;
@@ -60,9 +60,10 @@ begin
    result:= inherited AddObject(name, TStreamInfoItemClass.create(URL, name));
 end;
 
-procedure TStreamCollectionClass.remove(index: integer);
+procedure TStreamCollectionClass.Delete(index: integer);
 begin
-
+    Objects[index].Free;
+    inherited Delete(index);
 end;
 
 function TStreamCollectionClass.SaveToFile(filename: string): boolean;
@@ -79,6 +80,7 @@ begin
     for i:= 0 to Count-1 do begin
        writeln(sfile, TStreamInfoItemClass(Objects[i]).Name);
        WriteLn(sfile, TStreamInfoItemClass(Objects[i]).URL);
+       WriteLn(sfile, TStreamInfoItemClass(Objects[i]).Description);
     end;
     close(sfile);
     result:=true;
@@ -91,6 +93,7 @@ end;
 function TStreamCollectionClass.LoadFromFile(filename: string): boolean;
 var sfile: textfile;
     tmps1, tmps2: string;
+    i: integer;
 begin
   try
     system.Assign(sfile, filename);
@@ -103,7 +106,8 @@ begin
     while not EOF(sfile) do begin
        ReadLn(sfile, tmps1);
        ReadLn(sfile, tmps2);
-       add(tmps2, tmps1);
+       i:=add(tmps2, tmps1);
+       ReadLn(sfile, TStreamInfoItemClass(Objects[i]).Description);
     end;
   except
     writeln('ERROR reading stream collection');

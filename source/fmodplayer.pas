@@ -25,6 +25,9 @@ uses
 
 type
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+TStreamStatus=(STREAM_READY, STREAM_BUFFERING, STREAM_NOTFOUND);
+TPlaybackMode=(STREAMING_MODE, FILE_MODE);
+
 { TPlaylistitemClass }
 
 TPlaylistitemClass = class
@@ -78,6 +81,7 @@ TFModPlayerClass = class
      FPlaying, FPaused: Boolean;
      Soundhandle: PFSoundStream;
      FVolume: Byte;
+     FPlaybackMode:TPlaybackMode;
      function GetCurrentTrack: integer;
      procedure SetCurrentTrack(index: integer);
      property FCurrentTrack: Integer read GetCurrentTrack write SetCurrentTrack;
@@ -86,11 +90,13 @@ TFModPlayerClass = class
      destructor destroy;
 
      function play(index:integer):byte;
-     function playStream(url: string):byte;
+     function play(url: string):byte;
      procedure pause;
      procedure stop;
      function next_track:byte;
      function prev_track:byte;
+     
+     function Get_Stream_Status:TStreamStatus;
 
      function Get_Time:longint;
      function Get_TimeStr:string;
@@ -112,6 +118,7 @@ TFModPlayerClass = class
      property playing: boolean read FPlaying;
      property paused: boolean read FPaused;
      property volume:byte read FVolume write Set_Volume;
+     property PlaybackMode: TPlaybackMode read FPlaybackMode;
   end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -183,7 +190,7 @@ begin
 
     if FSOUND_Init(44100, 32, 0)=true then begin
 
-
+      FPlaybackMode:=FILE_MODE;
       writeln('playing  -> '+playlist.items[index].path);
       if (FileExists(playlist.items[index].path)) then begin
          tmpp:=StrAlloc(length(playlist.items[index].path)+1);
@@ -220,14 +227,12 @@ begin
        end;
 end;
 
-function TFModPlayerClass.playStream(url: string): byte;
+function TFModPlayerClass.play(url: string): byte;
 {startplay=0 -> succesful
  startplay=1 -> invalid stream URL
  startplay=2 -> soundcard init failed}
 var z: integer;
-    StreamStatus:TFSoundStreamNetStatus;
-    BufferUsed, Bitrate: integer;
-    Flags: Cardinal;
+
 begin
    if (fplaying=true) then begin
          if FSOUND_Stream_Stop(Soundhandle)=false then writeln('ERROR stop stream');
@@ -245,7 +250,7 @@ begin
          end;
   {$endif}
     if FSOUND_Init(44100, 32, 0)=true then begin
-
+      FPlaybackMode:=STREAMING_MODE;
       writeln('playing  -> '+url);
          tmpp:=StrAlloc(length(url)+1);
          StrPCopy(tmpp,url);
@@ -253,36 +258,8 @@ begin
        // Open the stream
          write(' openingstream... ');
          Soundhandle:=FSOUND_Stream_Open(tmpp, FSOUND_NONBLOCKING, 0, 0);
-         
-         repeat begin
-            z:=FSOUND_Stream_GetOpenState(Soundhandle);
-         //   writeln(FSOUND_Stream_Net_GetLastServerStatus();
-         end;
-         until z=0;
-         z:=0;
-         repeat begin   //Wait until it is loaded and ready
-                FSOUND_Stream_Net_GetStatus(Soundhandle, StreamStatus, BufferUsed, Bitrate, Flags);
-                //writeln(BufferUsed);
-                case StreamStatus of
-                  FSOUND_STREAM_NET_READY: writeln('stream ready');
-                  FSOUND_STREAM_NET_ERROR: writeln('error');
-                  FSOUND_STREAM_NET_CONNECTING: writeln('connecting');
-                  FSOUND_STREAM_NET_BUFFERING: writeln('buffering');
-                  FSOUND_STREAM_NET_NOTCONNECTED: writeln('not connected');
-                end;
-              end;
-          until (BufferUsed>90) and (StreamStatus=FSOUND_STREAM_NET_READY);
-         write(' ready... ');
-         if z = 0 then begin //If loading was succesful
-            write(' start playing... ');
-            FSOUND_Stream_Play (FSOUND_FREE,Soundhandle);      //   Start playing
-            writeln(' ready... ');
-            FSOUND_SetVolume(0, volume);
-            fplaying:=true;
-            result:=0;
-           end else begin
-               write('error: can''t open stream');writeln(z);
-              end;
+
+
        end else result:=1;
      end else result:=2;
 end;
@@ -326,6 +303,32 @@ begin
            end;
    end;
   result:=r;
+end;
+
+function TFModPlayerClass.Get_Stream_Status: TStreamStatus;
+var    StreamStatus:TFSoundStreamNetStatus;
+    BufferUsed, Bitrate: integer;
+    Flags: Cardinal;
+begin
+if FSOUND_Stream_GetOpenState(Soundhandle)=0 then begin
+    FSOUND_Stream_Net_GetStatus(Soundhandle, StreamStatus, BufferUsed, Bitrate, Flags);
+   //writeln(BufferUsed);
+    case StreamStatus of
+        FSOUND_STREAM_NET_READY: Result:=STREAM_READY;
+        FSOUND_STREAM_NET_ERROR: Result:=STREAM_NOTFOUND;
+        FSOUND_STREAM_NET_CONNECTING: Result:=STREAM_BUFFERING;
+        FSOUND_STREAM_NET_BUFFERING:Result:=STREAM_BUFFERING;
+        FSOUND_STREAM_NET_NOTCONNECTED: Result:=STREAM_NOTFOUND;
+     end;
+     
+     if Result=STREAM_READY then begin
+            FSOUND_Stream_Play (FSOUND_FREE,Soundhandle);      //   Start playing
+            FSOUND_SetVolume(0, volume);
+            fplaying:=true;
+       end else begin
+               write('error: can''t open stream');
+              end;
+  end else result:=STREAM_BUFFERING;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

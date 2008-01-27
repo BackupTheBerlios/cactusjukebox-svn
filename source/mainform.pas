@@ -89,7 +89,7 @@ type
     CoverImage: TImage;
     filetypebox: TComboBox;
     MenuItem25: TMenuItem;
-    MenuItem27: TMenuItem;
+    MIremoveRadio: TMenuItem;
     MenuItem28: TMenuItem;
     MenuItem29: TMenuItem;
     MenuItem32: TMenuItem;
@@ -238,9 +238,12 @@ type
     procedure MenuItem13Click(Sender: TObject);
     procedure MenuItem15Click(Sender: TObject);
     procedure MenuItem25Click(Sender: TObject);
+    procedure MenuItem28Click(Sender: TObject);
+    procedure MenuItem32Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem7Click(Sender: TObject);
     procedure MenuItem9Click(Sender: TObject);
+    procedure MIremoveRadioClick(Sender: TObject);
     procedure NetModeBtnClick(Sender: TObject);
     procedure NextButtonImgClick(Sender: TObject);
     procedure NextButtonImgMouseDown(Sender: TOBject; Button: TMouseButton;
@@ -829,10 +832,17 @@ var spos, slength: real;
     PlaylistItem: TPlaylistItemClass;
 
 begin
-   spos:=0;
-   slength:=0;
    try
-   if fmodplayer.player.playing then begin
+   if fmodplayer.player.PlaybackMode=STREAMING_MODE then begin
+     if fmodplayer.player.Get_Stream_Status=STREAM_READY then
+        StatusBar1.Panels[0].Text:='Stream Ready'
+       else
+        StatusBar1.Panels[0].Text:='Buffering Stream...';
+   end;
+   
+   if (fmodplayer.player.playing) and (fmodplayer.player.PlaybackMode=FILE_MODE) then begin
+     spos:=0;
+     slength:=0;
      playtime.text:=fmodplayer.player.get_timestr;
      playwin.TimeImg.Picture.LoadFromFile(SkinData.Time.Img);
      playwin.TimeImg.Canvas.Font.Color:=ClNavy;
@@ -860,7 +870,7 @@ begin
                         FreeAndNil(awsclass);
                     end;
               end else if (LoopCount>=20) and (CoverFound=false) then CoverImage.Picture.Clear;
-    end else playtimer.Enabled:=false;
+    end else {playtimer.Enabled:=false};
    except
      DebugOutLn('CAUGHT EXCEPTION IN PLAYTIMER!!!!', 3);
    end;
@@ -1186,6 +1196,21 @@ begin
   addRadioForm.ShowModal;
 end;
 
+procedure TMain.MenuItem28Click(Sender: TObject);
+begin
+
+end;
+
+procedure TMain.MenuItem32Click(Sender: TObject);
+begin
+  Enabled:=false;
+
+  if (ArtistTree.Selected<>nil) and (ArtistTree.Selected.Level>0) then begin
+    editid3win.display_window(TStreamInfoItemClass(ArtistTree.Selected.Data));
+    EditID3win.Show;
+  end;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.MenuItem6Click(Sender: TObject);
@@ -1231,6 +1256,22 @@ procedure TMain.MenuItem9Click(Sender: TObject);
 begin
   title_to_playlist_at(fmodplayer.player.CurrentTrack+1);
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMain.MIremoveRadioClick(Sender: TObject);
+var index: integer;
+begin
+  if (ArtistTree.Selected<>nil) and (ArtistTree.Selected.Level>0) then
+     begin
+        index:=StreamCollection.IndexOfObject(TStreamInfoItemClass(ArtistTree.Selected.Data));
+        StreamCollection.Delete(index);
+        ArtistTree.Selected:=nil;
+     end;
+   update_artist_view;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.NetModeBtnClick(Sender: TObject);
 begin
@@ -1407,6 +1448,9 @@ begin
      if StreamCollection.Count>0 then begin
          StreamCollection.SaveToFile(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'streams.col');
          CactusConfig.StreamColPath:=CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'streams.col';
+     end else begin
+        if not DeleteFile(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'streams.col') then
+            DebugOutLn('Cannot delete streamcolelction savefile: '+CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'streams.col', 1);
      end;
      MediaCollection.Free;
      PlayerCol.free;
@@ -2864,6 +2908,7 @@ var MedFileObj: TMediaFileClass;
     PPlaylistItem: PPlaylistItemClass;
     i: integer;
 begin
+if fmodplayer.player.PlaybackMode=FILE_MODE then begin
   CoverFound:=false;
   LoopCount:=0;
   i:=fmodplayer.player.CurrentTrack;
@@ -2885,6 +2930,7 @@ begin
              CoverFound:=true;
         end;
     end else CoverImage.Picture.Clear;//CoverImage.Picture.LoadFromFile(DataPrefix+'tools'+DirectorySeparator+'cactus-logo-small.png');
+ end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2898,10 +2944,12 @@ begin
   
   if NetworkMode then begin
      if (ArtistTree.Selected<>nil) and (ArtistTree.Selected.Level>0) then begin
+        StatusBar1.Panels[0].Text:='Buffering stream...';
         StreamInfoObj:= TStreamInfoItemClass(ArtistTree.Selected.Data);
-        writeln(fmodplayer.player.playStream(StreamInfoObj.URL));
+        writeln(fmodplayer.player.play(StreamInfoObj.URL));
         current_title_edit.Text:='Playing radio stream...';
         current_title_edit1.Text:=StreamInfoObj.Name;
+        playtimer.Enabled:=true;
      end;
   end;
   
@@ -3042,8 +3090,8 @@ procedure TMain.MenuItem33Click(Sender: TObject);
 var MedFileObj: TMediaFileClass;
     tsnode: TTreeNode;
 begin
+if ArtistTree.Selected<>nil then begin
   Enabled:=false;
-
   tsnode:=ArtistTree.Selected;
   MedFileObj:=TMediaFileClass(tsnode.data);
   if tsnode.level= 1 then begin
@@ -3052,7 +3100,8 @@ begin
   if tsnode.level= 2 then begin
     editid3win.display_window(MedFileObj, ALBUM_MODE);
   end;
-  EditID3win.Show;
+  EditID3win.ShowModal;
+end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
