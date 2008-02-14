@@ -2707,7 +2707,7 @@ var   Targetitem, tmpitem : TListItem;
       ind:integer;
       MedFileObj: TMediaFileClass;
 begin
-
+if not NetworkMode then begin
   DebugOutLn('ondragdrop', 3);
   Targetitem:=nil;
  {$ifdef  LCLGtk2}   //workaround gtk2 bug.... getitem is 20px wrong
@@ -2775,6 +2775,7 @@ begin
           end;
     end;
   end;
+end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
