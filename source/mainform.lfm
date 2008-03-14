@@ -1,14 +1,14 @@
 object Main: TMain
-  Left = 138
-  Height = 645
-  Top = 41
-  Width = 837
-  HorzScrollBar.Page = 836
-  VertScrollBar.Page = 623
+  Left = 286
+  Height = 751
+  Top = 84
+  Width = 861
+  HorzScrollBar.Page = 860
+  VertScrollBar.Page = 731
   ActiveControl = ArtistTree
   Caption = 'titel'
-  ClientHeight = 624
-  ClientWidth = 837
+  ClientHeight = 732
+  ClientWidth = 861
   Icon.Data = {
     D10A00002F2A2058504D202A2F0A7374617469632063686172202A6772617068
     69635B5D203D207B0A223136203136203133342032222C0A222E2E2063204E6F
@@ -105,10 +105,11 @@ object Main: TMain
   ParentFont = True
   Position = poDefault
   ShowInTaskBar = stAlways
+  LCLVersion = '0.9.25'
   object StatusBar1: TStatusBar
-    Height = 17
-    Top = 607
-    Width = 837
+    Height = 15
+    Top = 717
+    Width = 861
     Panels = <    
       item
         Text = 'Cactus Jukebox'
@@ -120,8 +121,8 @@ object Main: TMain
     SimplePanel = False
   end
   object Splitter1: TSplitter
-    Left = 232
-    Height = 607
+    Left = 256
+    Height = 717
     Width = 8
     Align = alRight
     AutoSnap = False
@@ -131,346 +132,25 @@ object Main: TMain
     ResizeAnchor = akRight
   end
   object Panel1: TPanel
-    Left = 240
-    Height = 607
+    Left = 264
+    Height = 717
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 607
+    ClientHeight = 717
     ClientWidth = 597
     ParentColor = False
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
-    object PlayerControlsPanel: TPanel
-      Left = 4
-      Height = 263
-      Top = 339
-      Width = 224
-      Anchors = [akLeft, akBottom]
-      BorderSpacing.Left = 20
-      BorderSpacing.Top = 20
-      BorderSpacing.Right = 20
-      BorderSpacing.Bottom = 20
-      BorderSpacing.CellAlignHorizontal = ccaCenter
-      BorderSpacing.CellAlignVertical = ccaCenter
-      ClientHeight = 263
-      ClientWidth = 224
-      Font.Height = -9
-      FullRepaint = False
-      ParentColor = False
-      TabOrder = 0
-      TabStop = True
-      OnClick = PlayerControlsPanelClick
-      object mute: TSpeedButton
-        Left = 132
-        Height = 22
-        Hint = 'Mute'
-        Top = 200
-        Width = 30
-        Color = clBtnFace
-        Flat = True
-        Glyph.Data = {
-          36040000424D3604000000000000360000002800000010000000100000000100
-          200000000000000400006400000064000000000000000000000000FF000062E5
-          F9004000000000FF00000000000000006200F9CB40000000A1000000000000FF
-          FF00FFFF0C00DFFCDE0000FFFF007F020000FFFFFF000055DF0000000000FF00
-          3D003B00FF0000FF00003FF10000000000000000B300000000001083CA0065E9
-          460000000000B773000034EE000035B30000FFFFFF00FF000000E800000000FF
-          000000000000000090000954E8000000620000000000C3C3C3FFB7B7B7FF4906
-          4B0000000100D578000000FF000000EE49004BED00004B064B00A900FF0000FF
-          00003FDC0000000000000000E900000000000009FA00DADADAFFCCCCCCFF9191
-          91FF34EE000010E800000000FF000000000000FF000090150900FEFFFF004141
-          ADFF4242ADFF0000230000000000000036004747AAFF8A8AC1FFC5C5C5FFA7A7
-          A7FF909090FF00DA49004BD900004B074B0000000000FF00AF00FA4D00006464
-          BFFF5B5BC2FF4242AEFF168AC6004242AEFF5555C0FF5656B8FF9D9DA8FFA8A8
-          A8FFA7A7A7FF909090FFFFFFFF0000000900DB00FE00FFFFFF00FFEE38006565
-          BDFF6C6CC8FF6060C3FF4D4DB2FF5555C1FF5353BDFF7E7EBEFFABABABFFABAB
-          ABFFABABABFF9A9A9AFF6F6F6FFF6F6F6FFF707070FF7F7F7FFF0000E9000000
-          FF006969BEFF7A7ACEFF6F6FCDFF6A6AC7FF5D5DADFFD5D5D5FFB7B7B7FFB7B7
-          B7FFB7B7B7FF9E9E9EFF777777FF777777FF777777FF7C7C7CFF630000000000
-          00007F7FC7FF9191D6FF8686D5FF8484D2FF6B6BB7FFDADADBFFC4C4C4FFC4C4
-          C4FFC4C4C4FFB0B0B0FF7F7F7FFF7F7F7FFF7F7F7FFF828282FF000000008181
-          C8FFA6A6DDFFA6A6DDFF8A8ACDFF9C9CD8FF9595D6FF8383C4FFCECECFFFCFCF
-          CFFFCFCFCFFFB6B6B6FF919191FF868686FF878787FF8A8A8AFF64EB0000B3B3
-          E0FFB5B5E3FF7C7CC7FF00FF00007C7CC7FFABABDEFFA1A1D6FFC2C2CCFFCFCF
-          CFFFCFCFCFFFA0A0A0FF939393FF8F8F8FFF8F8F8FFF0000FF0044007A006D6D
-          C1FF7676C4FF765A00000000FF00000000007474C0FF8B8BB3FFD4D4D4FFCECE
-          CEFFA5A5A5FF0000A2000956EC0000000000A200000000AA2C00004ADB00BE17
-          0000FFFF00000052DC00DD52000080E5FE0000000000ACACACFFC8C8C8FFA4A4
-          A4FFE25C00000000000000005A000000FF00FFFF000055D5FA0000000000A904
-          0000FFFFFF000000000080FF000057D8FA00440000009E9E9EFFA6A6A6FF0000
-          5700FAD0440000000000E00000000055D500D0440000DCFCDD00000000000000
-          0000000000000000000000000000000000000000000000000000000000000000
-          0000000004000000000000000000000000000000000000000000D8D3E4009070
-          D80038CCA4009070D80000000000000000000000000000000000000000000000
-          0000000000000000000000000000000000000000000000000000
-        }
-        NumGlyphs = 0
-        OnClick = muteClick
-        ShowHint = True
-        ParentShowHint = False
-      end
-      object PlayButtonImg: TImage
-        Left = 94
-        Height = 36
-        Top = 13
-        Width = 43
-        Center = True
-        OnClick = PlayButtonImgClick
-        OnMouseDown = PlayButtonImgMouseDown
-        OnMouseEnter = PlayButtonImgMouseEnter
-        OnMouseLeave = PlayButtonImgMouseLeave
-        OnMouseUp = PlayButtonImgMouseUp
-        Transparent = False
-      end
-      object PauseButtonImg: TImage
-        Left = 40
-        Height = 24
-        Top = 13
-        Width = 40
-        OnClick = PauseButtonImgClick
-        OnMouseDown = PauseButtonImgMouseDown
-        OnMouseEnter = PauseButtonImgMouseEnter
-        OnMouseLeave = PauseButtonImgMouseLeave
-        OnMouseUp = PauseButtonImgMouseUp
-        Transparent = False
-      end
-      object PreviousButtonImg: TImage
-        Left = 24
-        Height = 24
-        Top = 45
-        Width = 32
-        OnClick = PreviousButtonImgClick
-        OnMouseDown = PreviousButtonImgMouseDown
-        OnMouseEnter = PreviousButtonImgMouseEnter
-        OnMouseLeave = PreviousButtonImgMouseLeave
-        OnMouseUp = PreviousButtonImgMouseUp
-        Transparent = False
-      end
-      object StopButtonImg: TImage
-        Left = 156
-        Height = 24
-        Top = 13
-        Width = 32
-        OnClick = StopButtonImgClick
-        OnMouseDown = StopButtonImgMouseDown
-        OnMouseEnter = StopButtonImgMouseEnter
-        OnMouseLeave = StopButtonImgMouseLeave
-        OnMouseUp = StopButtonImgMouseUp
-        Transparent = False
-      end
-      object NextButtonImg: TImage
-        Left = 168
-        Height = 24
-        Top = 45
-        Width = 32
-        OnClick = NextButtonImgClick
-        OnMouseDown = NextButtonImgMouseDown
-        OnMouseEnter = NextButtonImgMouseEnter
-        OnMouseLeave = NextButtonImgMouseLeave
-        OnMouseUp = NextButtonImgMouseUp
-        Transparent = False
-      end
-      object CoverImage: TImage
-        Cursor = crAppStart
-        Left = 24
-        Height = 85
-        Top = 165
-        Width = 90
-        OnMouseUp = CoverImageMouseUp
-        Stretch = True
-        Transparent = False
-      end
-      object Trackinfo: TSpeedButton
-        Left = 132
-        Height = 22
-        Top = 173
-        Width = 30
-        Color = clBtnFace
-        Flat = True
-        Glyph.Data = {
-          36040000424D3604000000000000360000002800000010000000100000000100
-          2000000000000004000064000000640000000000000000000000FF8407000000
-          00000000000000A6FF0059FFA500FFFF5900FFBF000000FFFF0000000000FF00
-          000000FFFF0059FFC00096FF97000000000000FFFF00000000000000000034F8
-          0000FFFF0000FFFF000000FF000000000000836135FF815E33FF7B5A30FF7E5D
-          32FF0000FF0000FF000000A6FF0059FFA500C1FF5800FFFF0000000000000000
-          000000F3FF000BFFF300896638FF976E3FFF9C7142FF9E7343FF9E7343FF986E
-          3FFF8B6538FF7A592FFF0000000000E5FF0003000300FFE50000FEB30000FFFF
-          0000FFFF000097774EFF9F7444FF9F7545FFB09271FFDDD1C5FFDACAB7FFAA84
-          5AFF9E7343FF9A7041FF7A582EFFF7FF0A00FFFF0000FF0D00000000000000F3
-          FF009B7E58FFA67D4FFFA4794AFFA4794BFFD7CFC6FFFDFDFDFFB79671FFA780
-          54FF9E7343FF9E7343FF976D3FFF7A5A30FFED4D00000028A100FFFFFF00FFFF
-          0000B1926BFFA67C4DFFA97F50FFAA8052FFC8BCAEFFFFFFFFFFB99771FFA47A
-          4BFFA17647FF9E7343FF9E7343FF886136FFFFFFFF00FD00000000A6FF00A085
-          61FFB28D63FFAB8153FFAD8456FFAF8658FFBAA58EFFFFFFFFFFC7B19AFFA87F
-          50FFA57A4BFFA07646FF9E7343FF966C3EFF7E5C32FF830C0000FFFF0000B7A2
-          85FFAC8354FFAF8557FFB2895CFFB48C5EFFAF9273FFFFFFFFFFD5C8BAFFAC83
-          54FFA87E4FFFA37849FF9E7343FF9D7243FF7C5A31FF00000000F3A51000BCA7
-          8CFFAF8759FFB2895BFFB68E61FFAC9172FFBAA894FFFFFFFFFFD4C7B8FFB188
-          5AFFAB8253FFA57B4CFFA07545FF9D7243FF7F5D32FFFFFF000000000000A78D
-          6BFFBE9D78FFB58C5FFFBD976DFFBC9771FFBCA38AFFBEAA94FFB4946EFFB58E
-          63FFB0885DFFAB8456FFA17848FF996F40FF826035FF0010A500FFFF00000000
-          0000C9B296FFB99267FFC09C74FFC5A179FFC6A27AFFBFA17FFFDDCBB6FFBD9A
-          74FFB48E65FFAF895EFFA67E51FF936B3CFFFFFF0000FFFF000000000000FFEF
-          0000B29B7DFFC3A482FFC09E76FFC3A17AFFC4A17BFFC5B5A6FFFFFFFFFFD3C2
-          AEFFB6926AFFB28D64FFA57E51FF856336FF00000000000000000000000000FF
-          FF0000000000B8A285FFC6A786FFC2A17BFFC2A17CFFB99E82FFC6B8A9FFB99C
-          7CFFB8956FFFB18D66FF8A683AFFFFFF0000FFFF000000000000E06800000000
-          F0003300000000FF0000AD9575FFC9B297FFC8AC8CFFBD9C77FFBA9872FFBD9D
-          7AFFB1906CFF93744AFF000000000000000000000000FFFF000000FFFF000000
-          0000E4FDFF000000000000000000000000009E835FFFBBA78CFFB59F82FF9578
-          51FF00000000000000000000000000000000000000000000FF00D8D3E40038CC
-          A40038CCA40038CCA40000000000000000000000000000000000FFFF00000000
-          000000000000000000000000000000000000FFFF000000000000
-        }
-        NumGlyphs = 0
-        OnClick = TrackInfoClick
-      end
-      object playtime: TEdit
-        Left = 92
-        Height = 21
-        Top = 53
-        Width = 45
-        Anchors = [akTop, akRight]
-        BorderSpacing.Around = 3
-        Font.Height = -10
-        MaxLength = 5
-        PopupMenu = playlistmenu
-        ReadOnly = True
-        TabOrder = 0
-        Text = '00:00'
-      end
-      object current_title_edit: TEdit
-        Cursor = crArrow
-        Left = 12
-        Height = 23
-        Top = 101
-        Width = 200
-        Color = clBtnFace
-        ReadOnly = True
-        TabOrder = 1
-      end
-      object current_title_edit1: TEdit
-        Cursor = crArrow
-        Left = 12
-        Height = 24
-        Top = 131
-        Width = 200
-        Color = clBtnFace
-        DragMode = dmAutomatic
-        ReadOnly = True
-        TabOrder = 2
-      end
-      object randomcheck: TCheckBox
-        Left = 135
-        Height = 22
-        Top = 230
-        Width = 70
-        Caption = 'Random'
-        TabOrder = 3
-      end
-      object Volumebar: TProgressBar
-        Left = 176
-        Height = 57
-        Top = 169
-        Width = 12
-        Max = 100
-        OnMouseUp = VolumebarMouseUp
-        Orientation = pbVertical
-        Position = 100
-        Smooth = True
-        TabOrder = 4
-      end
-      object trackbar: TProgressBar
-        Left = 24
-        Height = 10
-        Top = 83
-        Width = 176
-        Max = 100
-        OnMouseUp = trackbarMouseUp
-        Smooth = True
-        TabOrder = 5
-      end
-    end
-    object clear_list: TBitBtn
-      AnchorSideBottom.Side = asrCenter
-      Left = 515
-      Height = 32
-      Hint = 'Clear Playlist'
-      Top = 296
-      Width = 65
-      Anchors = [akRight, akBottom]
-      AutoSize = True
-      Caption = 'Clear'
-      Glyph.Data = {
-        76060000424D7606000000000000360000002800000014000000140000000100
-        2000000000004006000064000000640000000000000000000000FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008700
-        00000000000039000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00A9B4A9FFA9BCA9FFB9BCB9FFF1D8F1FFF1DCF1FFB9BCB9FFB9B4B9FFA9BC
-        A9FF8700000078FFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00F9D8F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FC
-        F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF1DCF1FFA9BCA9FFFFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00F1D8F1FFF9FC
-        F9FFF9FCF9FFB9D8A9FF78B4B9FF58B478FF509078FF78B4A9FFF9FCF9FFF9FC
-        F9FFF9FCF9FFF1DCF1FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFA9DCB9FFB9D8B9FF50BC78FF50B4
-        78FF289458FF289C58FF589C78FFF9FCF9FFF9FCF9FFF9D8F9FFFFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008700000078FFFF00F1DCF1FFF9FC
-        F9FFF9FCF9FFA1BCA9FF78B4B9FFF1FCF9FFB9D8B9FF389478FF289C58FFA9D8
-        B9FFF9FCF9FFF9D8F9FFFFFFFF00FFFFFF00FFFFFF00FFFFFF0078FFFF00FFFF
-        FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFF9D8F1FFF1FCF9FFF9FCF9FFF9FC
-        F9FFF9FCF9FF58B4A1FF289878FFB1BCA9FFF9FCF9FFF9D8F9FFFFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00F1DCF1FFF9FC
-        F9FFB1D8A9FF78BCB1FF58B4A1FF509878FFA9DCB9FF50B478FF50B478FFA9D8
-        B9FFF9FCF9FFF9D8F9FFFFFFFF00FFFFFF00FFFFFF0087000000FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFB9D8B9FFA1DCA9FF38B478FF58B4
-        A1FF38BC78FF50BC78FFA9D8A9FFF9FCF9FFF9FCF9FFF9D8F9FF8700000078FF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00F1DCF1FFF9FC
-        F9FFF9FCF9FFB9DCB9FFA9D8B9FFA1D8A9FFB9DCB9FFB9DCB9FFF9FCF9FFF9FC
-        F9FFF9FCF9FFF9D8F9FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFF9FCF9FFA9DCB9FFF9FCF9FFF1FC
-        F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9D8F9FFFFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00F1DCF1FFF9FC
-        F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FC
-        F9FFF9FCF9FFF9D8F9FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FC
-        F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9D8F9FFFFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF008700000078FFFF00FFFFFF00F1DCF1FFF9FC
-        F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FC
-        F9FFF9FCF9FFF9D8F9FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFF9D8F9FFF1D8F1FFF9DCF9FFF1DC
-        F1FFF9D8F9FFF1DCF1FFF9DCF9FFF9FCF9FFF9FCF9FFF9D8F9FFFFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00F1DCF1FFA9BC
-        A9FFA9BCA9FFA9BCA9FFA9BCA9FFA9BCA9FFA9BCA9FFA9BCA9FFA9BCA9FFA9BC
-        A9FFB9BCB9FFF1DCF1FFFFFFFF00FFFFFF008700000078FFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00B9BCB9FFB9B4B9FFB9BCB9FFB9BCB9FFB9BC
-        B9FFB9BCB9FFB9BCB9FFB9BCB9FFB9B4B9FFB9BCB9FF8700000078FFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00FFFFFF00B9BCB9FFB9BCB9FFFFFFFF007C00000078FF
-        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000009B00FFFF
-        FF00000000000000000000000000000000000000000000000000000000000000
-        000075FFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
-        FF00FFFFFF00FFFFFF00A8C7CA0070671A000000000000000000107E2200035E
-        4E00000000005C00000048DD8A00FCDC8A0000000000000000000000000010DD
-        8A000000000000000000080000009C009B00ED033B0000049B00
-      }
-      Layout = blGlyphRight
-      NumGlyphs = 0
-      OnClick = clear_listClick
-      ParentShowHint = False
-      ShowHint = True
-      TabOrder = 1
-    end
     object TitleTree: TListView
-      Left = 4
-      Height = 264
-      Top = 8
-      Width = 576
+      Height = 300
+      Top = 5
+      Width = 587
+      Align = alTop
       Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Top = 5
+      BorderSpacing.Right = 10
       BorderWidth = 1
       Columns = <      
         item
@@ -479,17 +159,17 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Artist'
-          Width = 40
+          Width = 42
         end      
         item
           AutoSize = True
           Caption = 'Title'
-          Width = 34
+          Width = 36
         end      
         item
           AutoSize = True
           Caption = 'Album'
-          Width = 45
+          Width = 47
         end      
         item
           AutoSize = True
@@ -501,7 +181,7 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 393
+          Width = 397
         end>
       HideSelection = False
       LargeImages = ImageList1
@@ -511,7 +191,7 @@ object Main: TMain
       SmallImages = ImageList1
       SortColumn = 4
       SortType = stBoth
-      TabOrder = 2
+      TabOrder = 0
       ViewStyle = vsReport
       OnClick = TitleTreeClick
       OnColumnClick = TitleTreeColumnClick
@@ -523,111 +203,448 @@ object Main: TMain
       OnSelectItem = TitleTreeSelectItem
       OnStartDrag = TitleTreeStartDrag
     end
-    object Playlist: TListView
-      Left = 240
-      Height = 259
-      Top = 340
-      Width = 344
-      Align = alCustom
-      Anchors = [akLeft, akRight, akBottom]
-      BorderWidth = 1
-      Color = clWhite
-      Columns = <      
-        item
-          AutoSize = True
-          Caption = 'Playlist'
-          Width = 326
-        end>
-      HideSelection = False
-      LargeImages = ImageList1
-      PopupMenu = playlistmenu
-      ReadOnly = True
-      SmallImages = ImageList1
-      StateImages = ImageList1
-      TabOrder = 3
-      ToolTips = False
-      ViewStyle = vsReport
-      OnClick = playlistClick
-      OnCustomDrawItem = PlaylistCustomDrawItem
-      OnDblClick = PlaylistDblClick
-      OnDragDrop = PlaylistDragDrop
-      OnDragOver = PlaylistDragOver
-      OnEndDrag = PlaylistEndDrag
-      OnKeyDown = playlistKeyDown
-      OnKeyUp = playlistKeyUp
-      OnMouseDown = PlaylistMouseDown
-      OnSelectItem = PlaylistSelectItem
-      OnStartDrag = PlaylistStartDrag
+    object Splitter2: TSplitter
+      Cursor = crVSplit
+      Height = 10
+      Top = 305
+      Width = 597
+      Align = alTop
+      ResizeAnchor = akTop
     end
-    object Panel2: TPanel
-      Left = 24
-      Height = 50
-      Top = 280
-      Width = 464
-      Anchors = [akLeft, akBottom]
-      ClientHeight = 50
-      ClientWidth = 464
-      PopupMenu = SearchMenu
-      TabOrder = 4
-      object filetypebox: TComboBox
-        Left = 360
-        Height = 23
-        Top = 14
-        Width = 90
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemIndex = 0
-        Items.Strings = (
-          'all types'
-          'flac'
-          'mp3'
-          'ogg'
-          'wav'
-        )
-        MaxLength = 0
-        PopupMenu = SearchMenu
-        Style = csDropDownList
+    object Panel3: TPanel
+      Height = 402
+      Top = 315
+      Width = 597
+      Align = alClient
+      BevelOuter = bvNone
+      Caption = 'Panel3'
+      ClientHeight = 402
+      ClientWidth = 597
+      TabOrder = 2
+      object PlayerControlsPanel: TPanel
+        Left = 4
+        Height = 263
+        Top = 91
+        Width = 224
+        BorderSpacing.Left = 20
+        BorderSpacing.Top = 20
+        BorderSpacing.Right = 20
+        BorderSpacing.Bottom = 20
+        BorderSpacing.CellAlignHorizontal = ccaCenter
+        BorderSpacing.CellAlignVertical = ccaCenter
+        ClientHeight = 263
+        ClientWidth = 224
+        Font.Height = -9
+        FullRepaint = False
+        ParentColor = False
         TabOrder = 0
-        Text = 'all types'
+        TabStop = True
+        OnMouseDown = PlayerControlsPanelMouseDown
+        OnMouseUp = PlayerControlsPanelMouseUp
+        object mute: TSpeedButton
+          Left = 132
+          Height = 22
+          Hint = 'Mute'
+          Top = 200
+          Width = 30
+          Color = clBtnFace
+          Flat = True
+          Glyph.Data = {
+            36040000424D3604000000000000360000002800000010000000100000000100
+            200000000000000400006400000064000000000000000000000000FF000062E5
+            F9004000000000FF00000000000000006200F9CB40000000A1000000000000FF
+            FF00FFFF0C00DFFCDE0000FFFF007F020000FFFFFF000055DF0000000000FF00
+            3D003B00FF0000FF00003FF10000000000000000B300000000001083CA0065E9
+            460000000000B773000034EE000035B30000FFFFFF00FF000000E800000000FF
+            000000000000000090000954E8000000620000000000C3C3C3FFB7B7B7FF4906
+            4B0000000100D578000000FF000000EE49004BED00004B064B00A900FF0000FF
+            00003FDC0000000000000000E900000000000009FA00DADADAFFCCCCCCFF9191
+            91FF34EE000010E800000000FF000000000000FF000090150900FEFFFF004141
+            ADFF4242ADFF0000230000000000000036004747AAFF8A8AC1FFC5C5C5FFA7A7
+            A7FF909090FF00DA49004BD900004B074B0000000000FF00AF00FA4D00006464
+            BFFF5B5BC2FF4242AEFF168AC6004242AEFF5555C0FF5656B8FF9D9DA8FFA8A8
+            A8FFA7A7A7FF909090FFFFFFFF0000000900DB00FE00FFFFFF00FFEE38006565
+            BDFF6C6CC8FF6060C3FF4D4DB2FF5555C1FF5353BDFF7E7EBEFFABABABFFABAB
+            ABFFABABABFF9A9A9AFF6F6F6FFF6F6F6FFF707070FF7F7F7FFF0000E9000000
+            FF006969BEFF7A7ACEFF6F6FCDFF6A6AC7FF5D5DADFFD5D5D5FFB7B7B7FFB7B7
+            B7FFB7B7B7FF9E9E9EFF777777FF777777FF777777FF7C7C7CFF630000000000
+            00007F7FC7FF9191D6FF8686D5FF8484D2FF6B6BB7FFDADADBFFC4C4C4FFC4C4
+            C4FFC4C4C4FFB0B0B0FF7F7F7FFF7F7F7FFF7F7F7FFF828282FF000000008181
+            C8FFA6A6DDFFA6A6DDFF8A8ACDFF9C9CD8FF9595D6FF8383C4FFCECECFFFCFCF
+            CFFFCFCFCFFFB6B6B6FF919191FF868686FF878787FF8A8A8AFF64EB0000B3B3
+            E0FFB5B5E3FF7C7CC7FF00FF00007C7CC7FFABABDEFFA1A1D6FFC2C2CCFFCFCF
+            CFFFCFCFCFFFA0A0A0FF939393FF8F8F8FFF8F8F8FFF0000FF0044007A006D6D
+            C1FF7676C4FF765A00000000FF00000000007474C0FF8B8BB3FFD4D4D4FFCECE
+            CEFFA5A5A5FF0000A2000956EC0000000000A200000000AA2C00004ADB00BE17
+            0000FFFF00000052DC00DD52000080E5FE0000000000ACACACFFC8C8C8FFA4A4
+            A4FFE25C00000000000000005A000000FF00FFFF000055D5FA0000000000A904
+            0000FFFFFF000000000080FF000057D8FA00440000009E9E9EFFA6A6A6FF0000
+            5700FAD0440000000000E00000000055D500D0440000DCFCDD00000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000004000000000000000000000000000000000000000000D8D3E4009070
+            D80038CCA4009070D80000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000
+          }
+          NumGlyphs = 0
+          OnClick = muteClick
+          ShowHint = True
+          ParentShowHint = False
+        end
+        object PlayButtonImg: TImage
+          Left = 94
+          Height = 36
+          Top = 13
+          Width = 43
+          Center = True
+          OnClick = PlayButtonImgClick
+          OnMouseDown = PlayButtonImgMouseDown
+          OnMouseEnter = PlayButtonImgMouseEnter
+          OnMouseLeave = PlayButtonImgMouseLeave
+          OnMouseUp = PlayButtonImgMouseUp
+          Transparent = False
+        end
+        object PauseButtonImg: TImage
+          Left = 40
+          Height = 24
+          Top = 13
+          Width = 40
+          OnClick = PauseButtonImgClick
+          OnMouseDown = PauseButtonImgMouseDown
+          OnMouseEnter = PauseButtonImgMouseEnter
+          OnMouseLeave = PauseButtonImgMouseLeave
+          OnMouseUp = PauseButtonImgMouseUp
+          Transparent = False
+        end
+        object PreviousButtonImg: TImage
+          Left = 24
+          Height = 24
+          Top = 45
+          Width = 32
+          OnClick = PreviousButtonImgClick
+          OnMouseDown = PreviousButtonImgMouseDown
+          OnMouseEnter = PreviousButtonImgMouseEnter
+          OnMouseLeave = PreviousButtonImgMouseLeave
+          OnMouseUp = PreviousButtonImgMouseUp
+          Transparent = False
+        end
+        object StopButtonImg: TImage
+          Left = 156
+          Height = 24
+          Top = 13
+          Width = 32
+          OnClick = StopButtonImgClick
+          OnMouseDown = StopButtonImgMouseDown
+          OnMouseEnter = StopButtonImgMouseEnter
+          OnMouseLeave = StopButtonImgMouseLeave
+          OnMouseUp = StopButtonImgMouseUp
+          Transparent = False
+        end
+        object NextButtonImg: TImage
+          Left = 168
+          Height = 24
+          Top = 45
+          Width = 32
+          OnClick = NextButtonImgClick
+          OnMouseDown = NextButtonImgMouseDown
+          OnMouseEnter = NextButtonImgMouseEnter
+          OnMouseLeave = NextButtonImgMouseLeave
+          OnMouseUp = NextButtonImgMouseUp
+          Transparent = False
+        end
+        object CoverImage: TImage
+          Cursor = crAppStart
+          Left = 24
+          Height = 85
+          Top = 165
+          Width = 90
+          OnMouseUp = CoverImageMouseUp
+          Stretch = True
+          Transparent = False
+        end
+        object Trackinfo: TSpeedButton
+          Left = 132
+          Height = 22
+          Top = 173
+          Width = 30
+          Color = clBtnFace
+          Flat = True
+          Glyph.Data = {
+            36040000424D3604000000000000360000002800000010000000100000000100
+            2000000000000004000064000000640000000000000000000000FF8407000000
+            00000000000000A6FF0059FFA500FFFF5900FFBF000000FFFF0000000000FF00
+            000000FFFF0059FFC00096FF97000000000000FFFF00000000000000000034F8
+            0000FFFF0000FFFF000000FF000000000000836135FF815E33FF7B5A30FF7E5D
+            32FF0000FF0000FF000000A6FF0059FFA500C1FF5800FFFF0000000000000000
+            000000F3FF000BFFF300896638FF976E3FFF9C7142FF9E7343FF9E7343FF986E
+            3FFF8B6538FF7A592FFF0000000000E5FF0003000300FFE50000FEB30000FFFF
+            0000FFFF000097774EFF9F7444FF9F7545FFB09271FFDDD1C5FFDACAB7FFAA84
+            5AFF9E7343FF9A7041FF7A582EFFF7FF0A00FFFF0000FF0D00000000000000F3
+            FF009B7E58FFA67D4FFFA4794AFFA4794BFFD7CFC6FFFDFDFDFFB79671FFA780
+            54FF9E7343FF9E7343FF976D3FFF7A5A30FFED4D00000028A100FFFFFF00FFFF
+            0000B1926BFFA67C4DFFA97F50FFAA8052FFC8BCAEFFFFFFFFFFB99771FFA47A
+            4BFFA17647FF9E7343FF9E7343FF886136FFFFFFFF00FD00000000A6FF00A085
+            61FFB28D63FFAB8153FFAD8456FFAF8658FFBAA58EFFFFFFFFFFC7B19AFFA87F
+            50FFA57A4BFFA07646FF9E7343FF966C3EFF7E5C32FF830C0000FFFF0000B7A2
+            85FFAC8354FFAF8557FFB2895CFFB48C5EFFAF9273FFFFFFFFFFD5C8BAFFAC83
+            54FFA87E4FFFA37849FF9E7343FF9D7243FF7C5A31FF00000000F3A51000BCA7
+            8CFFAF8759FFB2895BFFB68E61FFAC9172FFBAA894FFFFFFFFFFD4C7B8FFB188
+            5AFFAB8253FFA57B4CFFA07545FF9D7243FF7F5D32FFFFFF000000000000A78D
+            6BFFBE9D78FFB58C5FFFBD976DFFBC9771FFBCA38AFFBEAA94FFB4946EFFB58E
+            63FFB0885DFFAB8456FFA17848FF996F40FF826035FF0010A500FFFF00000000
+            0000C9B296FFB99267FFC09C74FFC5A179FFC6A27AFFBFA17FFFDDCBB6FFBD9A
+            74FFB48E65FFAF895EFFA67E51FF936B3CFFFFFF0000FFFF000000000000FFEF
+            0000B29B7DFFC3A482FFC09E76FFC3A17AFFC4A17BFFC5B5A6FFFFFFFFFFD3C2
+            AEFFB6926AFFB28D64FFA57E51FF856336FF00000000000000000000000000FF
+            FF0000000000B8A285FFC6A786FFC2A17BFFC2A17CFFB99E82FFC6B8A9FFB99C
+            7CFFB8956FFFB18D66FF8A683AFFFFFF0000FFFF000000000000E06800000000
+            F0003300000000FF0000AD9575FFC9B297FFC8AC8CFFBD9C77FFBA9872FFBD9D
+            7AFFB1906CFF93744AFF000000000000000000000000FFFF000000FFFF000000
+            0000E4FDFF000000000000000000000000009E835FFFBBA78CFFB59F82FF9578
+            51FF00000000000000000000000000000000000000000000FF00D8D3E40038CC
+            A40038CCA40038CCA40000000000000000000000000000000000FFFF00000000
+            000000000000000000000000000000000000FFFF000000000000
+          }
+          NumGlyphs = 0
+          OnClick = TrackinfoClick
+        end
+        object playtime: TEdit
+          Left = 92
+          Height = 21
+          Top = 53
+          Width = 45
+          Anchors = [akTop, akRight]
+          BorderSpacing.Around = 3
+          Font.Height = -10
+          MaxLength = 5
+          PopupMenu = playlistmenu
+          ReadOnly = True
+          TabOrder = 0
+          Text = '00:00'
+        end
+        object current_title_edit: TEdit
+          Cursor = crArrow
+          Left = 12
+          Height = 23
+          Top = 101
+          Width = 200
+          Color = clBtnFace
+          ReadOnly = True
+          TabOrder = 1
+        end
+        object current_title_edit1: TEdit
+          Cursor = crArrow
+          Left = 12
+          Height = 24
+          Top = 131
+          Width = 200
+          Color = clBtnFace
+          DragMode = dmAutomatic
+          ReadOnly = True
+          TabOrder = 2
+        end
+        object randomcheck: TCheckBox
+          Left = 135
+          Height = 21
+          Top = 230
+          Width = 69
+          Caption = 'Random'
+          TabOrder = 3
+        end
+        object Volumebar: TProgressBar
+          Left = 176
+          Height = 57
+          Top = 169
+          Width = 12
+          Max = 100
+          OnMouseUp = VolumebarMouseUp
+          Orientation = pbVertical
+          Position = 100
+          Smooth = True
+          TabOrder = 4
+        end
+        object trackbar: TProgressBar
+          Left = 24
+          Height = 10
+          Top = 83
+          Width = 176
+          Max = 100
+          OnMouseUp = trackbarMouseUp
+          Smooth = True
+          TabOrder = 5
+        end
       end
-      object searchstr: TEdit
-        Left = 112
-        Height = 23
-        Top = 14
-        Width = 232
-        AutoSize = True
-        OnKeyUp = searchstrKeyUp
+      object Playlist: TListView
+        Left = 240
+        Height = 320
+        Top = 75
+        Width = 348
+        Align = alCustom
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        BorderWidth = 1
+        Color = clWhite
+        Columns = <        
+          item
+            AutoSize = True
+            Caption = 'Playlist'
+            Width = 329
+          end>
+        HideSelection = False
+        LargeImages = ImageList1
+        PopupMenu = playlistmenu
+        ReadOnly = True
+        SmallImages = ImageList1
+        StateImages = ImageList1
         TabOrder = 1
+        ToolTips = False
+        ViewStyle = vsReport
+        OnDblClick = PlaylistDblClick
+        OnDragDrop = PlaylistDragDrop
+        OnDragOver = PlaylistDragOver
+        OnEndDrag = PlaylistEndDrag
+        OnMouseDown = PlaylistMouseDown
+        OnStartDrag = PlaylistStartDrag
       end
-      object srch_button: TButton
-        Left = 12
-        Height = 28
-        Hint = 'Search the library'
+      object Panel2: TPanel
+        Left = 4
+        Height = 50
         Top = 11
-        Width = 90
-        BorderSpacing.InnerBorder = 4
-        Caption = 'Search'
-        OnClick = srch_buttonClick
+        Width = 464
+        ClientHeight = 50
+        ClientWidth = 464
+        PopupMenu = SearchMenu
+        TabOrder = 2
+        object filetypebox: TComboBox
+          Left = 360
+          Height = 23
+          Top = 14
+          Width = 90
+          AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+          ItemIndex = 0
+          Items.Strings = (
+            'all types'
+            'flac'
+            'mp3'
+            'ogg'
+            'wav'
+          )
+          MaxLength = 0
+          OnChange = filetypeboxChange
+          PopupMenu = SearchMenu
+          Style = csDropDownList
+          TabOrder = 0
+          Text = 'all types'
+        end
+        object searchstr: TEdit
+          Left = 120
+          Height = 19
+          Top = 14
+          Width = 232
+          AutoSize = True
+          OnKeyUp = searchstrKeyUp
+          TabOrder = 1
+        end
+        object srch_button: TButton
+          Left = 16
+          Height = 28
+          Hint = 'Search the library'
+          Top = 8
+          Width = 90
+          BorderSpacing.InnerBorder = 4
+          Caption = 'Search'
+          OnClick = srch_buttonClick
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 2
+        end
+      end
+      object clear_list: TBitBtn
+        AnchorSideBottom.Side = asrCenter
+        Left = 500
+        Height = 28
+        Hint = 'Clear Playlist'
+        Top = 33
+        Width = 65
+        Anchors = [akTop, akRight]
+        AutoSize = True
+        Caption = 'Clear'
+        Glyph.Data = {
+          76060000424D7606000000000000360000002800000014000000140000000100
+          2000000000004006000064000000640000000000000000000000FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008700
+          00000000000039000000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00A9B4A9FFA9BCA9FFB9BCB9FFF1D8F1FFF1DCF1FFB9BCB9FFB9B4B9FFA9BC
+          A9FF8700000078FFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00F9D8F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FC
+          F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF1DCF1FFA9BCA9FFFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00F1D8F1FFF9FC
+          F9FFF9FCF9FFB9D8A9FF78B4B9FF58B478FF509078FF78B4A9FFF9FCF9FFF9FC
+          F9FFF9FCF9FFF1DCF1FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFA9DCB9FFB9D8B9FF50BC78FF50B4
+          78FF289458FF289C58FF589C78FFF9FCF9FFF9FCF9FFF9D8F9FFFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008700000078FFFF00F1DCF1FFF9FC
+          F9FFF9FCF9FFA1BCA9FF78B4B9FFF1FCF9FFB9D8B9FF389478FF289C58FFA9D8
+          B9FFF9FCF9FFF9D8F9FFFFFFFF00FFFFFF00FFFFFF00FFFFFF0078FFFF00FFFF
+          FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFF9D8F1FFF1FCF9FFF9FCF9FFF9FC
+          F9FFF9FCF9FF58B4A1FF289878FFB1BCA9FFF9FCF9FFF9D8F9FFFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00F1DCF1FFF9FC
+          F9FFB1D8A9FF78BCB1FF58B4A1FF509878FFA9DCB9FF50B478FF50B478FFA9D8
+          B9FFF9FCF9FFF9D8F9FFFFFFFF00FFFFFF00FFFFFF0087000000FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFB9D8B9FFA1DCA9FF38B478FF58B4
+          A1FF38BC78FF50BC78FFA9D8A9FFF9FCF9FFF9FCF9FFF9D8F9FF8700000078FF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00F1DCF1FFF9FC
+          F9FFF9FCF9FFB9DCB9FFA9D8B9FFA1D8A9FFB9DCB9FFB9DCB9FFF9FCF9FFF9FC
+          F9FFF9FCF9FFF9D8F9FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFF9FCF9FFA9DCB9FFF9FCF9FFF1FC
+          F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9D8F9FFFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00F1DCF1FFF9FC
+          F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FC
+          F9FFF9FCF9FFF9D8F9FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FC
+          F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9D8F9FFFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF008700000078FFFF00FFFFFF00F1DCF1FFF9FC
+          F9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FCF9FFF9FC
+          F9FFF9FCF9FFF9D8F9FFFFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00F1DCF1FFF9FCF9FFF9D8F9FFF1D8F1FFF9DCF9FFF1DC
+          F1FFF9D8F9FFF1DCF1FFF9DCF9FFF9FCF9FFF9FCF9FFF9D8F9FFFFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00F1DCF1FFA9BC
+          A9FFA9BCA9FFA9BCA9FFA9BCA9FFA9BCA9FFA9BCA9FFA9BCA9FFA9BCA9FFA9BC
+          A9FFB9BCB9FFF1DCF1FFFFFFFF00FFFFFF008700000078FFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00B9BCB9FFB9B4B9FFB9BCB9FFB9BCB9FFB9BC
+          B9FFB9BCB9FFB9BCB9FFB9BCB9FFB9B4B9FFB9BCB9FF8700000078FFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FFFFFF00B9BCB9FFB9BCB9FFFFFFFF007C00000078FF
+          FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF0000009B00FFFF
+          FF00000000000000000000000000000000000000000000000000000000000000
+          000075FFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00A8C7CA0070671A000000000000000000107E2200035E
+          4E00000000005C00000048DD8A00FCDC8A0000000000000000000000000010DD
+          8A000000000000000000080000009C009B00ED033B0000049B00
+        }
+        Layout = blGlyphRight
+        NumGlyphs = 0
+        OnClick = clear_listClick
         ParentShowHint = False
         ShowHint = True
-        TabOrder = 2
+        TabOrder = 3
       end
     end
   end
   object Panel4: TPanel
-    Height = 607
-    Width = 232
+    Height = 717
+    Width = 256
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 607
-    ClientWidth = 232
+    ClientHeight = 717
+    ClientWidth = 256
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 24
-      Height = 597
+      Height = 707
       Top = 5
-      Width = 205
+      Width = 229
       Align = alClient
       BorderSpacing.Top = 5
       BorderSpacing.Right = 3
@@ -635,7 +652,6 @@ object Main: TMain
       BorderSpacing.InnerBorder = 20
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       BorderSpacing.CellAlignVertical = ccaLeftTop
-      BackgroundColor = clWindow
       BorderStyle = bsNone
       BorderWidth = 1
       Color = clBtnFace
@@ -736,7 +752,7 @@ object Main: TMain
       end
     end
     object ToolBar1: TToolBar
-      Height = 602
+      Height = 712
       Top = 5
       Width = 24
       Align = alLeft
@@ -2572,8 +2588,8 @@ object Main: TMain
     }
   end
   object SearchMenu: TPopupMenu
-    left = 696
-    top = 288
+    left = 728
+    top = 320
     object SrchArtItem: TMenuItem
       Caption = 'Artist'
       Checked = True

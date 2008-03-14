@@ -82,27 +82,36 @@ type
 
   TMain = class(TForm)
     ArtistTree: TTreeView;
+    artistsearch: TEdit;
     clear_list: TBitBtn;
+    CoverImage: TImage;
     current_title_edit: TEdit;
     current_title_edit1: TEdit;
-    artistsearch: TEdit;
-    CoverImage: TImage;
     filetypebox: TComboBox;
     MenuItem25: TMenuItem;
     MIremoveRadio: TMenuItem;
     MenuItem28: TMenuItem;
     MenuItem29: TMenuItem;
     MenuItem32: TMenuItem;
+    mute: TSpeedButton;
     NetworktreePopup: TPopupMenu;
-    Volumebar: TProgressBar;
-    trackbar: TProgressBar;
+    NextButtonImg: TImage;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    PauseButtonImg: TImage;
+    PlayButtonImg: TImage;
+    PlayerControlsPanel: TPanel;
+    Playlist: TListView;
+    playtime: TEdit;
+    PreviousButtonImg: TImage;
+    randomcheck: TCheckBox;
+    searchstr: TEdit;
+    Splitter2: TSplitter;
     SrchFileItem: TMenuItem;
     SrchArtItem: TMenuItem;
     SrchTitleItem: TMenuItem;
     SrchAlbumItem: TMenuItem;
-    Panel2: TPanel;
     SearchMenu: TPopupMenu;
-    searchstr: TEdit;
     SidebarImgList: TImageList;
     MenuItem13: TMenuItem;
     MenuItem15: TMenuItem;
@@ -112,20 +121,13 @@ type
     MenuItem7: TMenuItem;
     MenuItem9: TMenuItem;
     opendir: TMenuItem;
-    Playlist: TListView;
     MenuItem6: TMenuItem;
-    PlayButtonImg: TImage;
-    PauseButtonImg: TImage;
-    PreviousButtonImg: TImage;
-    randomcheck: TCheckBox;
     srch_button: TButton;
+    StopButtonImg: TImage;
     ToolBar1: TToolBar;
     LibModeBtn: TToolButton;
     NetModeBtn: TToolButton;
     DeviceModeBtn: TToolButton;
-    Trackinfo: TSpeedButton;
-    StopButtonImg: TImage;
-    NextButtonImg: TImage;
     Label2: TLabel;
     MenuItem2: TMenuItem;
     Panel4: TPanel;
@@ -135,10 +137,7 @@ type
     TitleTree: TListView;
     MenuItem11: TMenuItem;
     spacer15: TMenuItem;
-    mute: TSpeedButton;
     Panel1: TPanel;
-    PlayerControlsPanel: TPanel;
-    playtime: TEdit;
     SettingsItem: TMenuItem;
     Menuitem26: TMenuItem;
     MIload_list: TMenuItem;
@@ -216,6 +215,9 @@ type
     Selectdirectorydialog1: TSELECTDIRECTORYDIALOG;
     playtimer: TTimer;
     seldirdialog: TSelectDirectoryDialog;
+    trackbar: TProgressBar;
+    Trackinfo: TSpeedButton;
+    Volumebar: TProgressBar;
     procedure ArtistTreeClick(Sender: TObject);
     procedure ArtistTreeCollapsed(Sender: TObject; Node: TTreeNode);
     procedure ArtistTreeDblClick(Sender: TObject);
@@ -251,6 +253,10 @@ type
     procedure NextButtonImgMouseEnter(Sender: TObject);
     procedure NextButtonImgMouseLeave(Sender: TObject);
     procedure NextButtonImgMouseUp(Sender: TOBject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure PlayerControlsPanelMouseDown(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure PlayerControlsPanelMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure PlaylistCustomDrawItem(Sender: TCustomListView; Item: TListItem;
       State: TCustomDrawState; var DefaultDraw: Boolean);
@@ -294,6 +300,8 @@ type
     procedure PreviousButtonImgMouseLeave(Sender: TObject);
     procedure PreviousButtonImgMouseUp(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure searchstrChange(Sender: TObject);
+    procedure searchstrEditingDone(Sender: TObject);
     procedure SettingsItemClick(Sender: TObject);
     procedure SimpleIPCServer1Message(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
@@ -303,6 +311,8 @@ type
     procedure SrchArtItemClick(Sender: TObject);
     procedure SrchFileItemClick(Sender: TObject);
     procedure SrchTitleItemClick(Sender: TObject);
+    procedure srch_buttonKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
     procedure StopButtonImgClick(Sender: TObject);
     procedure StopButtonImgMouseDown(Sender: TOBject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -390,6 +400,8 @@ type
     //procedure fileopen(path:string);
     procedure loadskin(Sender: TObject);
     procedure update_player_hdd_relations;
+    procedure VolumebarMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure VolumebarMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
   private
@@ -687,6 +699,12 @@ begin
        end;
   end;
 Playercol.SaveToFile(CactusConfig.DAPPath+'cactuslib');
+end;
+
+procedure TMain.VolumebarMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+
 end;
 
 procedure TMain.VolumebarMouseUp(Sender: TObject; Button: TMouseButton;
@@ -1327,6 +1345,18 @@ procedure TMain.NextButtonImgMouseUp(Sender: TOBject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   NextButtonImg.Picture.LoadFromFile(SkinData.next.MouseOver);
+end;
+
+procedure TMain.PlayerControlsPanelMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+
+end;
+
+procedure TMain.PlayerControlsPanelMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+
 end;
 
 procedure TMain.PlaylistCustomDrawItem(Sender: TCustomListView;
@@ -2221,6 +2251,16 @@ begin
   PreviousButtonImg.Picture.LoadFromFile(SkinData.previous.MouseOver);
 end;
 
+procedure TMain.searchstrChange(Sender: TObject);
+begin
+
+end;
+
+procedure TMain.searchstrEditingDone(Sender: TObject);
+begin
+
+end;
+
 procedure TMain.SettingsItemClick(Sender: TObject);
 begin
     Enabled:=false;
@@ -2299,6 +2339,12 @@ end;
 procedure TMain.SrchTitleItemClick(Sender: TObject);
 begin
   SrchTitleItem.Checked:=not SrchTitleItem.Checked;
+end;
+
+procedure TMain.srch_buttonKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2587,12 +2633,13 @@ end;
 
 procedure TMain.clear_listClick(Sender: TObject);
 begin
-      //Playlist.BeginUpdate;
+      Playlist.BeginUpdate;
+      writeln(Playlist.Items.Count);
       Playlist.Items.Clear;
       writeln('clear');
       playlist.Column[0].Caption:= rsPlaylist;
       fmodplayer.player.playlist.clear;
-    //  Playlist.EndUpdate;
+      Playlist.EndUpdate;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

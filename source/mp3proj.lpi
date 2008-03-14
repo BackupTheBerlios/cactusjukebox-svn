@@ -29,15 +29,15 @@
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="imagesforlazarus"/>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
-        <MinVersion Major="1" Valid="True"/>
+        <PackageName Value="imagesforlazarus"/>
       </Item3>
     </RequiredPackages>
     <Units Count="110">
@@ -678,7 +678,7 @@
         <UnitName Value="BigCoverImg"/>
         <CursorPos X="64" Y="43"/>
         <TopLine Value="19"/>
-        <UsageCount Value="147"/>
+        <UsageCount Value="149"/>
       </Unit81>
       <Unit82>
         <Filename Value="mainunit.pas"/>
@@ -709,13 +709,13 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="19" Y="2710"/>
-        <TopLine Value="2689"/>
+        <CursorPos X="1" Y="2757"/>
+        <TopLine Value="2751"/>
         <EditorIndex Value="1"/>
-        <UsageCount Value="137"/>
+        <UsageCount Value="139"/>
         <Bookmarks Count="2">
-          <Item0 X="11" Y="1211" ID="0"/>
-          <Item1 X="75" Y="3382" ID="1"/>
+          <Item0 X="11" Y="1229" ID="0"/>
+          <Item1 X="75" Y="3429" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit85>
@@ -767,7 +767,7 @@
         <UnitName Value="plugintypes"/>
         <CursorPos X="56" Y="41"/>
         <TopLine Value="1"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="119"/>
       </Unit92>
       <Unit93>
         <Filename Value="kopeteaway.pas"/>
@@ -789,7 +789,7 @@
         <UnitName Value="plugin"/>
         <CursorPos X="39" Y="275"/>
         <TopLine Value="236"/>
-        <UsageCount Value="107"/>
+        <UsageCount Value="109"/>
       </Unit95>
       <Unit96>
         <Filename Value="../../lazarus-svn/lcl/interfaces/qt/qtwsextctrls.pp"/>
@@ -846,7 +846,7 @@
         <UnitName Value="debug"/>
         <CursorPos X="17" Y="30"/>
         <TopLine Value="33"/>
-        <UsageCount Value="58"/>
+        <UsageCount Value="60"/>
       </Unit103>
       <Unit104>
         <Filename Value="../../lazarus-svn/lcl/interfaces/gtk/interfaces.pp"/>
@@ -869,7 +869,7 @@
         <CursorPos X="37" Y="8"/>
         <TopLine Value="1"/>
         <EditorIndex Value="10"/>
-        <UsageCount Value="52"/>
+        <UsageCount Value="54"/>
         <Loaded Value="True"/>
       </Unit106>
       <Unit107>
@@ -887,26 +887,42 @@
         <ResourceFilename Value="addradio.lrs"/>
         <UnitName Value="addradio"/>
         <CursorPos X="50" Y="64"/>
-        <TopLine Value="48"/>
+        <TopLine Value="45"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
       </Unit108>
       <Unit109>
         <Filename Value="streamcol.pas"/>
         <UnitName Value="streamcol"/>
         <CursorPos X="28" Y="88"/>
-        <TopLine Value="86"/>
+        <TopLine Value="71"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit109>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
+    <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
         <Filename Value="mainform.pas"/>
-        <Caret Line="2911" Column="19" TopLine="2906"/>
+        <Caret Line="2640" Column="28" TopLine="2634"/>
       </Position1>
+      <Position2>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2918" Column="3" TopLine="2914"/>
+      </Position2>
+      <Position3>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2948" Column="3" TopLine="2946"/>
+      </Position3>
+      <Position4>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2849" Column="3" TopLine="2846"/>
+      </Position4>
+      <Position5>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2833" Column="1" TopLine="2830"/>
+      </Position5>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -939,9 +955,6 @@
       </Optimizations>
     </CodeGeneration>
     <Linking>
-      <Debugging>
-        <StripSymbols Value="True"/>
-      </Debugging>
       <Options>
         <PassLinkerOptions Value="True"/>
         <LinkerOptions Value="-lgcc"/>
