@@ -1625,19 +1625,9 @@ begin
   {$endif}
 
 
-{$ifdef win32}{workaround Listview autosize bug in win32}
-  Main.Playlist.Columns[0].autosize:=false;
-  Main.Playlist.Columns[0].width:=315;
-  Main.Titletree.Columns[0].autosize:=false;
-  Main.Titletree.Columns[1].autosize:=false;
-  Main.Titletree.Columns[2].autosize:=false;
-  Main.Titletree.Columns[3].autosize:=false;
-  Main.Titletree.Columns[4].autosize:=false;
-  Main.Titletree.Columns[4].width:=65;
-  Main.Titletree.Columns[3].width:=140;
-  Main.Titletree.Columns[2].width:=170;
-  Main.Titletree.Columns[1].width:=140;
-  Main.Titletree.Columns[0].width:=16;
+{$ifdef win32}
+  playtime.Font.Height:=10;
+  playtime.Font.Size:=10;
 //  Main.homedir:='C:\';
 {$endif win32}
 
@@ -2463,9 +2453,12 @@ procedure TMain.TitleTreeMouseDown(Sender: TOBject; Button: TMouseButton;
 begin
   // ensure that the popup menu is only opened when an item is selected
   // the menu is reanabled in TMain.TitleTreeSelectItem
+  {$ifdef win32}
+     TitleTree.PopupMenu.AutoPopup := true;
+  {$else}
   if (Button = mbRight) and (TitleTree.Selected = nil) then
     TitleTree.PopupMenu.AutoPopup := false;
-    
+  {$endif}
  //Enable Dragging
   if Button = mbLeft then begin	{ only drag if left button pressed }
          sourceitem:=nil;
