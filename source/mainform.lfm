@@ -299,7 +299,7 @@ object Main: TMain
           Transparent = False
         end
         object CoverImage: TImage
-          Cursor = crAppStart
+          Cursor = crSizeNWSE
           Left = 24
           Height = 85
           Top = 165
@@ -746,7 +746,6 @@ object Main: TMain
     object MenuItem10: TMenuItem
       Caption = 'File info/edit'
       ImageIndex = 8
-      SubMenuImages = ImageList1
       OnClick = MenuItem10Click
     end
     object MenuItem23: TMenuItem
@@ -2558,7 +2557,7 @@ object Main: TMain
   object NetworktreePopup: TPopupMenu
     AutoPopup = False
     left = 40
-    top = 464
+    top = 448
     object MenuItem28: TMenuItem
       Caption = 'Play radio station'
       OnClick = MenuItem28Click

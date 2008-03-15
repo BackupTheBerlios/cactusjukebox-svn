@@ -1110,6 +1110,7 @@ end;
 procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
+{$ifdef linux}
 if fmodplayer.player.playing {and player.Playlist.Items[player.CurrentTrack].co} then begin
 
   BigCoverImgForm:=TBigCoverImg.Create(self);
@@ -1140,6 +1141,7 @@ if fmodplayer.player.playing {and player.Playlist.Items[player.CurrentTrack].co}
 
  // Enabled:=false;
 end;
+{$endif}
 end;
 
 procedure TMain.DeviceModeBtnClick(Sender: TObject);
@@ -2454,7 +2456,8 @@ begin
   // ensure that the popup menu is only opened when an item is selected
   // the menu is reanabled in TMain.TitleTreeSelectItem
   {$ifdef win32}
-     TitleTree.PopupMenu.AutoPopup := true;
+  if (Button = mbRight) and (TitleTree.Selected <> nil) then
+    TitleTree.PopupMenu.PopUp(self.Left+Panel1.Left+TitleTree.left+X, self.top+Panel1.Top+TitleTree.top+Y+50);
   {$else}
   if (Button = mbRight) and (TitleTree.Selected = nil) then
     TitleTree.PopupMenu.AutoPopup := false;
@@ -2910,8 +2913,13 @@ var tempitem: TListItem;
 begin
   // ensure that the popup menu is only opened when an item is selected
   // the menu is reanabled in TMain.playlistSelectItem
+  {$ifdef win32}
+  if (Button = mbRight) and (Playlist.Selected <> nil) then
+    Playlist.PopupMenu.PopUp(self.Left+panel4.Width+Panel3.Left+Playlist.left+X+10, self.top+Panel3.Top+Playlist.top+Y+50);
+  {$else}
   if (Button = mbRight) and (playlist.Selected = nil) then
     playlist.PopupMenu.AutoPopup := false;
+  {$endif}
  //Enable Dragging
   if Button = mbLeft then begin	{ only drag if left button pressed }
          sourceitem:=nil;
