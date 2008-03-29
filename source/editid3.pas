@@ -393,7 +393,7 @@ procedure TEditID3.PicDownloadTimerTimer(Sender: TObject);
 begin
   inc(timer_loop_count);
   if (timer_loop_count mod 8)=0 then AlbumCoverImg.Canvas.Clear else AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-  if (picrequest_send and awsclass.ImgNotFound) or (timer_loop_count>80) then begin
+  if (picrequest_send and awsclass.ImgNotFound) or (timer_loop_count>20) then begin
      writeln('TIMEOUT while loading album cover image from Internet');
      AlbumCoverImg.Canvas.Clear;
      AlbumCoverImg.Canvas.TextOut(10,10, 'No cover found :(');
