@@ -393,14 +393,16 @@ procedure TEditID3.PicDownloadTimerTimer(Sender: TObject);
 begin
   inc(timer_loop_count);
   if (timer_loop_count mod 8)=0 then AlbumCoverImg.Canvas.Clear else AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-  if timer_loop_count>20 then begin
+  if (picrequest_send and awsclass.ImgNotFound) or (timer_loop_count>80) then begin
      writeln('TIMEOUT while loading album cover image from Internet');
-     PicDownloadTimer.Enabled:=false;
      AlbumCoverImg.Canvas.Clear;
-     AlbumCoverImg.Canvas.TextOut(10,10, 'No cover found :(')
+     AlbumCoverImg.Canvas.TextOut(10,10, 'No cover found :(');
+     awsclass.free;
+     picrequest_send:=false;
+     PicDownloadTimer.Enabled:=false;
     end;
     
-   if (picrequest_send) and awsclass.data_ready then begin
+  if (picrequest_send) and awsclass.data_ready then begin
              writeln(MedFileObj.CoverPath);
              AlbumCoverImg.Canvas.Clear;
              try
@@ -589,6 +591,8 @@ begin
   StreamTab.TabVisible:=false;
   id3v1tab.TabVisible:=false;
   id3v2tab.TabVisible:=false;
+  AlbumCoverImg.Canvas.Clear;
+  AlbumCoverImg.Picture.Clear;
 
   btnReset.Enabled:=true;
 
@@ -624,9 +628,6 @@ begin
     then
     begin
       writeln('########AlbumCover');     // DEBUG-INFO
-      AlbumCoverImg.Canvas.Clear;
-      AlbumCoverImg.Picture.Clear;
-      Application.ProcessMessages;
       writeln('kkk');
       if MedFileObj.album<>''
       then
@@ -678,9 +679,6 @@ begin
     indexlabel.Caption := 'File-Index: ' + IntToStr(MedFileObj.index);
 
     writeln('########AlbumCover');     // DEBUG-INFO
-    AlbumCoverImg.Canvas.Clear;
-    AlbumCoverImg.Picture.Clear;
-    Application.ProcessMessages;
     if MedFileObj.album<>''
     then
     begin

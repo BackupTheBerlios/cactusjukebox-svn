@@ -61,12 +61,13 @@ TAWSAccess = class
     FImgW, FImgH: integer;
     HTTPThread: TNetworkThread;
     FSavePath: ansistring;
-    FData_Ready: boolean;
+    FData_Ready, FImgNotFound: boolean;
     procedure ReceiveData;
     Procedure AlbumcoverReceive;
   public
     { public declarations }
     property data_ready: boolean read FData_Ready;
+    property ImgNotFound: boolean read FImgNotFound;
     procedure SendRequest;
     procedure LoadAlbumCover;
     procedure SaveAlbumCover(savepath: string);
@@ -83,6 +84,8 @@ begin
      FAlbum:=UTF8toLatin1(album);
      FArtist:=UTF8toLatin1(artist);
      HTTPRecData:=TMemoryStream.Create;
+     FData_Ready:=false;
+     FImgNotFound:=false;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -143,15 +146,16 @@ try
      XMLResult.Free;
   except writeln('EXCEPTION while parsing xml file');
     end;
-
-     fdata_ready:=false;
-     HTTPThread:=TNetworkThread.Create(true);
-//     writeln(FSavePath);
-     HTTPThread.URL:=FAlbumCoverURL;
-     HTTPThread.ReceiveProc:=@AlbumcoverReceive;
-     HTTPThread.ReceiveData:=@HTTPRecData;
-  //   writeln('exec albumcovertofile');
-     HTTPThread.Resume;
+     if FAlbumCoverURL<>'' then begin
+        fdata_ready:=false;
+        HTTPThread:=TNetworkThread.Create(true);
+//      writeln(FSavePath);
+        HTTPThread.URL:=FAlbumCoverURL;
+        HTTPThread.ReceiveProc:=@AlbumcoverReceive;
+        HTTPThread.ReceiveData:=@HTTPRecData;
+  //    writeln('exec albumcovertofile');
+        HTTPThread.Resume;
+      end else FImgNotFound:=true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -240,15 +244,16 @@ begin
      ReceiveData^:=FHTTP.Document;
      Synchronize(ReceiveProc);
      FHTTP.Free;
+     writeln('NetworkThread terminated');
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 constructor TNetworkThread.Create(Suspd: boolean);
 begin
+  inherited Create(suspd);
   FreeOnTerminate := True;
   fStatus:=255;
-  inherited Create(suspd);
 end;
 
 end.
