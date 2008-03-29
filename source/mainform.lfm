@@ -1,49 +1,49 @@
 object Main: TMain
   Left = 212
-  Height = 496
+  Height = 747
   Top = 136
-  Width = 760
-  HorzScrollBar.Page = 759
-  VertScrollBar.Page = 475
+  Width = 884
+  HorzScrollBar.Page = 883
+  VertScrollBar.Page = 723
   ActiveControl = ArtistTree
   Caption = 'titel'
-  ClientHeight = 476
-  ClientWidth = 760
+  ClientHeight = 724
+  ClientWidth = 884
   Icon.Data = {
     36040000424D3604000000000000360000002800000010000000100000000100
     2000000000000004000064000000640000000000000000000000000000000000
-    00000000000000000000000000000000000000000000697A79FF697A79FF0000
-    0000000000000000000000000000000000000000000000000000000000000000
+    00000080010000000000000000000000000006000000697A79FF697A79FF0000
+    0000000000000000000002000000000000000000000000000000000000000000
     00000000000083A4A2FF95CDCAFF97DBD6FF95DDDBFF93DCD7FF93DCD7FF95DD
     D8FF97DBD6FF95CECBFF85A6A4FF000000000000000000000000000000000000
     000095CCC8FF94D9D0FF87CFC3FF83D0C2FF82CDC0FF82D1CBFF83D2CEFF86D4
-    CFFF8CD8D2FF90D5D0FF96DED9FFADCFCBFF000000000000000000000000BAC9
+    CFFF8CD8D2FF90D5D0FF96DED9FFADCFCBFF885ED1000000000000000000BAC9
     A6FF99E2DBFF6EC087FF58AB84FF61B88AFF61BC70FF5EAD7CFF65B68EFF68B9
-    92FF6EA58BFF7F8086FF84AAADFF9ADFDBFFC5EFE1FF0000000000000000CEBE
+    92FF6EA58BFF7F8086FF84AAADFF9ADFDBFFC5EFE1FF0600080000800100CEBE
     8CFF99D9D9FF6FC087FF2D7DB2FF1E6BA1FF4C968AFF52A947FF5EC554FF5CC8
     52FF55C14DFF6B986EFF848791FF99D9DCFF7BB0EBFF00000000000000000000
     000075A8EDFF71B37FFF3080B3FF1F73ADFF4F9379FF4F9644FF64C259FF55AC
-    4BFF49A141FF61B962FFADC0BFFF75F78AFF0000000000000000000000000000
-    000000000000000000004FA1A4FF4392B5FF4C9063FF5DA250FF5DA451FF539C
-    49FF499641FF78A669FF00000000000000000000000000000000000000000000
-    0000000000000000000054B047FF5DB750FF68BC58FF7ED06EFF66AA59FF5BA1
-    50FF519F48FF56B64DFF00000000000000000000000000000000000000000000
-    000000000000000000005DC353FF72D064FF7FD26FFF8EDB7BFF89D577FF7ED4
-    6EFF69C95DFF559C6BFF00000000000000000000000000000000000000000000
-    0000000000000000000060C457FF8FE5D3FF90E6D7FF89DDD0FF7FD4C4FF7BD7
-    C3FF74D4A0FF70984DFF00000000000000000000000000000000000000000000
-    0000000000000000000060C555FF9AEDF1FF90E2E7FF5E9A9CFF539091FF5DAC
-    AAFF72D5C5FF749557FF00000000000000000000000000000000000000000000
-    0000000000000000000059B84CFF8FE5D5FF81CACFFF599294FF4F8989FF57A0
-    9FFF71D5C6FF5F8F59FF00000000000000000000000000000000000000000000
+    4BFF49A141FF61B962FFADC0BFFF75F78AFFE07BB9004B7F0000FF0000000000
+    00000000000005A12D004FA1A4FF4392B5FF4C9063FF5DA250FF5DA451FF539C
+    49FF499641FF78A669FF0000000000000000FC6000000000000000FF00000000
+    0000B9800700FF00000054B047FF5DB750FF68BC58FF7ED06EFF66AA59FF5BA1
+    50FF519F48FF56B64DFFFFFF000026D3F500FF000000000087000000000014F5
+    0000BF564C000000FF005DC353FF72D064FF7FD26FFF8EDB7BFF89D577FF7ED4
+    6EFF69C95DFF559C6BFF73DB00003FD2C1000000FF000000FF00FFFF0000B880
+    0800FF0000000000FF0060C457FF8FE5D3FF90E6D7FF89DDD0FF7FD4C4FF7BD7
+    C3FF74D4A0FF70984DFFF5100000FF0000000000FF00003E0500000040000200
+    0000E324FF00F0E9510060C555FF9AEDF1FF90E2E7FF5E9A9CFF539091FF5DAC
+    AAFF72D5C5FF749557FF59000000A500FF000C55DF0000FFFF0000000000FF00
+    00000000FF000000000059B84CFF8FE5D5FF81CACFFF599294FF4F8989FF57A0
+    9FFF71D5C6FF5F8F59FFFF0000000000FF0000000000F51D0000000000000000
     000000000000000000005EA162FF84DFB7FF8AD9DEFF5F9B9DFF549191FF67BD
-    BBFF70D4BDFFB39C5AFF00000000000000000000000000000000000000000000
-    000000000000000000005895B1FF6DCE83FF92E6ECFF87DEE1FF7CD6D7FF77D9
+    BBFF70D4BDFFB39C5AFF000000000000000000FFFF00FFFF000000FE0100FFFF
+    FF0000000000000000005895B1FF6DCE83FF92E6ECFF87DEE1FF7CD6D7FF77D9
     D8FF6CD1A0FF0000000000000000000000000000000000000000000000000000
     00000000000000000000000000005AAD50FF63C768FF6ED07EFF6ED07EFF63C7
-    6BFF57AF4DFF0000000000000000000000000000000000000000000000000000
-    000000000000000000000000000000000000577152FF5DA152FF54AB49FF5C97
-    54FF000000000000000000000000000000000000000000000000
+    6BFF57AF4DFF0000000008000000000000000000000000000000107EB9004B7F
+    0000107EB9004B7F0000105BD10000000000577152FF5DA152FF54AB49FF5C97
+    54FF000000002C000000D85BD10000000000685BD10000000000
   }
   Menu = Mainmenu1
   OnClose = MainClose
@@ -54,9 +54,9 @@ object Main: TMain
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.25'
   object StatusBar1: TStatusBar
-    Height = 23
-    Top = 453
-    Width = 760
+    Height = 17
+    Top = 707
+    Width = 884
     Panels = <    
       item
         Text = 'Cactus Jukebox'
@@ -68,8 +68,8 @@ object Main: TMain
     SimplePanel = False
   end
   object Splitter1: TSplitter
-    Left = 155
-    Height = 453
+    Left = 279
+    Height = 707
     Width = 8
     Align = alRight
     AutoSnap = False
@@ -79,19 +79,19 @@ object Main: TMain
     ResizeAnchor = akRight
   end
   object Panel1: TPanel
-    Left = 163
-    Height = 453
+    Left = 287
+    Height = 707
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 453
+    ClientHeight = 707
     ClientWidth = 597
     ParentColor = False
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
-      Height = 36
+      Height = 290
       Top = 5
       Width = 587
       Align = alTop
@@ -106,17 +106,17 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Artist'
-          Width = 42
+          Width = 40
         end      
         item
           AutoSize = True
           Caption = 'Title'
-          Width = 36
+          Width = 34
         end      
         item
           AutoSize = True
           Caption = 'Album'
-          Width = 47
+          Width = 45
         end      
         item
           AutoSize = True
@@ -128,7 +128,7 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 397
+          Width = 403
         end>
       HideSelection = False
       LargeImages = ImageList1
@@ -153,14 +153,14 @@ object Main: TMain
     object Splitter2: TSplitter
       Cursor = crVSplit
       Height = 10
-      Top = 41
+      Top = 295
       Width = 597
       Align = alTop
       ResizeAnchor = akTop
     end
     object Panel3: TPanel
       Height = 402
-      Top = 51
+      Top = 305
       Width = 597
       Align = alClient
       BevelOuter = bvNone
@@ -391,9 +391,9 @@ object Main: TMain
         end
         object randomcheck: TCheckBox
           Left = 135
-          Height = 19
+          Height = 21
           Top = 230
-          Width = 66
+          Width = 69
           Caption = 'Random'
           TabOrder = 3
         end
@@ -446,6 +446,8 @@ object Main: TMain
         OnDragDrop = PlaylistDragDrop
         OnDragOver = PlaylistDragOver
         OnEndDrag = PlaylistEndDrag
+        OnKeyDown = PlaylistKeyDown
+        OnKeyUp = PlaylistKeyUp
         OnMouseDown = PlaylistMouseDown
         OnStartDrag = PlaylistStartDrag
       end
@@ -460,11 +462,10 @@ object Main: TMain
         TabOrder = 2
         object filetypebox: TComboBox
           Left = 360
-          Height = 21
+          Height = 25
           Top = 14
           Width = 90
           AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-          ItemHeight = 13
           ItemIndex = 0
           Items.Strings = (
             'all types'
@@ -482,7 +483,7 @@ object Main: TMain
         end
         object searchstr: TEdit
           Left = 120
-          Height = 19
+          Height = 21
           Top = 14
           Width = 232
           AutoSize = True
@@ -505,11 +506,11 @@ object Main: TMain
       end
       object clear_list: TBitBtn
         AnchorSideBottom.Side = asrCenter
-        Left = 511
+        Left = 521
         Height = 30
         Hint = 'Clear Playlist'
         Top = 33
-        Width = 73
+        Width = 63
         Anchors = [akTop, akRight]
         AutoSize = True
         Caption = 'Clear'
@@ -577,20 +578,20 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
-    Height = 453
-    Width = 155
+    Height = 707
+    Width = 279
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 453
-    ClientWidth = 155
+    ClientHeight = 707
+    ClientWidth = 279
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 24
-      Height = 443
+      Height = 697
       Top = 5
-      Width = 128
+      Width = 252
       Align = alClient
       BorderSpacing.Top = 5
       BorderSpacing.Right = 3
@@ -698,7 +699,7 @@ object Main: TMain
       end
     end
     object ToolBar1: TToolBar
-      Height = 448
+      Height = 702
       Top = 5
       Width = 24
       Align = alLeft

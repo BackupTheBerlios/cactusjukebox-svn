@@ -760,13 +760,13 @@ var
   Saved8087CW: Word;
 
 {$ifdef FPC} //FPC do not have this function in its RTL
-const
+{const
   Default8087CW = $1332; //according to the FPC site it's the value used in the
                          //startup code.
 procedure Set8087CW( value :word );oldfpccall; Assembler;
 asm
    FLDCW  value
-end;
+end;}
 {$endif}
 
 

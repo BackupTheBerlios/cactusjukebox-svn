@@ -14,14 +14,13 @@ unit functions;
 interface
 
 uses
-    Classes, SysUtils, crt, mmx, math, config;
+    Classes, SysUtils, crt, math, config;
 
 
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
    function crc32(path: string):longint;
-   function crc32_mmx(path: string):int64;
    function crc32_math(path: string):int64;
    function DirectoryIsEmpty(Directory: string): Boolean;
    function EraseDirectory(Directory: string):Boolean; //delete directory and all subdirectories/files in it
@@ -45,34 +44,6 @@ uses
 implementation
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function crc32_mmx(path: string):int64;  //creates an very, very basic checksum to identify files
-var fhandle: THandle;
-    buf: array [0..31] of int64;
-    z:byte;
-    i, eofile: longint;
-    l: int64;
-begin
-     fhandle:=sysutils.fileopen(path, fmOpenRead);
-     l:=0;
-     i:=0;
-     z:=0;
-     eofile:=0;
-  {MMX+}
-     while (eofile<>-1) and (i<1024) do
-           begin
-                eofile:=FileRead(fhandle, buf, high(buf));
-                for z:=0 to high(buf) do L:=l+buf[z];
-              //  if eofile<>-1 then eofile:=FileSeek(fhandle, fsFromCurrent, 1024 - high(buf));
-                inc(i);
-            end;
-  {MMX-}
-     if is_amd_3d_mmx_cpu then femms else emms;
-     FileClose(fhandle);
-     
-     result:= l;
-
-end;
 
 function crc32(path: string):longint;  //creates an very, very basic checksum to identify files
 var fhandle: THandle;

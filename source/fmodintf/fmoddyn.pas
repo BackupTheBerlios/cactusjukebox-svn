@@ -533,8 +533,8 @@ var
 implementation
 
 {$IFDEF LINUX}
-uses
-  Libc;
+//uses
+  //Libc;
 {$ENDIF}
 
 const
