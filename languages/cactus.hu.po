@@ -1,176 +1,195 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural>1;\n"
 "Project-Id-Version: Cactus Music Jukebox\n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: 2007-06-24 08:14+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: Hungarian\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural>1;\n"
 "X-Poedit-Language: Hungarian\n"
 "X-Poedit-Country: HUNGARY\n"
 
-#: mp3:rsquit
+#: mainform:rsquit
 msgid "Quit"
 msgstr "Kilép"
 
-#: mp3:rsfile
+#: mainform:rsfile
 msgid "File"
 msgstr "Fájl"
 
-#: mp3:rsopenfile
+#: mainform:rsopenfile
 msgid "Open File..."
 msgstr "Fájl megnyitása"
 
-#: mp3:rsplayeronly
+#: mainform:rsopendirector
+#, fuzzy
+msgid "Open Directory..."
+msgstr "Fájl megnyitása"
+
+#: mainform:rsplayeronly
 msgid "Player only"
 msgstr "Csak lejátszó"
 
-#: mp3:rschooseskin
+#: mainform:rschooseskin
 msgid "Choose Skin..."
 msgstr "Válassz bőrt..."
 
-#: mp3:rssettings
+#: mainform:rssettings
 msgid "Settings..."
 msgstr "Beállítások..."
 
-#: mp3:rslibrary
+#: mainform:rslibrary
 msgid "Library"
 msgstr "Könyvtár"
 
-#: mp3:rsnewlibrary
+#: mainform:rsnewlibrary
 msgid "New library"
 msgstr "Új könyvtár"
 
-#: mp3:rsloadlibrary
+#: mainform:rsloadlibrary
 msgid "Load library"
 msgstr "Könyvtár betöltése"
 
-#: mp3:rssavelibrary
+#: mainform:rssavelibrary
 msgid "Save library"
 msgstr "Könyvtár mentése"
 
-#: mp3:rslibraryinfo
+#: mainform:rslibraryinfo
 msgid "Library info"
 msgstr "Könyvtár adatok"
 
-#: mp3:rsmanagelibrar
+#: mainform:rsmanagelibrar
 msgid "Manage library..."
 msgstr "Könyvtár kezelése..."
 
-#: mp3:rsrescandirect
+#: mainform:rsrescandirect
 msgid "Rescan directories"
 msgstr "Mappák újraolvasása"
 
-#: mp3:rsplaylist
+#: mainform:rsplaylist
 msgid "Playlist"
 msgstr "Lejátszólista"
 
-#: mp3:rsplay
+#: mainform:rsplay
 msgid "Play"
 msgstr "Lejátszás"
 
-#: mp3:rsnext
+#: mainform:rsnext
 msgid "Next"
 msgstr "Következő"
 
-#: mp3:rsprevious
+#: mainform:rsprevious
 msgid "Previous"
 msgstr "Előző"
 
-#: mp3:rsmute
+#: mainform:rsmute
 msgid "Mute"
 msgstr "Néma"
 
-#: mp3:rsloadplaylist
+#: mainform:rsloadplaylist
 msgid "Load playlist"
 msgstr "Lista betöltése"
 
-#: mp3:rssaveplaylist
+#: mainform:rssaveplaylist
 msgid "Save playlist"
 msgstr "Lista mentése"
 
-#: mp3:rsmobileplayer
+#: mainform:rsmobileplayer
 msgid "Mobile player"
 msgstr "Mobil lejátszó"
 
-#: mp3:rsdeviceinfo
+#: mainform:rsclearplaylist
+#, fuzzy
+msgid "Clear Playlist"
+msgstr "Lejátszólista"
+
+#: mainform:rsdeviceinfo
 msgid "Device info"
 msgstr "Eszköz adatai"
 
-#: mp3:rsscanplayer
+#: mainform:rsscanplayer
 msgid "Scan player"
 msgstr "Lejátszó felderítése"
 
-#: mp3:rssync
+#: mainform:rssync
 msgid "Sync"
 msgstr "Szinkron"
 
-#: mp3:rsclearplayer
+#: mainform:rsclearplayer
 msgid "Clear player"
 msgstr "Lejátszó törlése"
 
-#: mp3:rsundoselectio
+#: mainform:rsundoselectio
 msgid "Undo selection"
 msgstr "Kijelölés elvetése"
 
-#: mp3:rsaudiocd
+#: mainform:rsaudiocd
 msgid "Audio CD"
 msgstr "Hang CD"
 
-#: mp3:rsripencode
+#: mainform:rsripencode
 msgid "Rip / Encode..."
 msgstr "Leszed/Kódol..."
 
-#: mp3:rshelp
+#: mainform:rshelp
 msgid "Help"
 msgstr "Súgó"
 
-#: mp3:rsabout
+#: mainform:rsabout
 msgid "About..."
 msgstr "Névjegy"
 
-#: mp3:rsmanual
+#: mainform:rsmanual
 msgid "Manual..."
 msgstr "Kézikönyv..."
 
-#: mp3:rsclear
+#: mainform:rsclear
 msgid "Clear"
 msgstr "Töröl"
 
-#: mp3:rssearch
+#: mainform:rssearch
 msgid "Search"
 msgstr "Keres"
 
-#: mp3:rsalbum
+#: mainform:rsalbum
 msgid "Album"
 msgstr "Album"
 
-#: mp3:rsfilename
+#: mainform:rsfilename
 msgid "Filename"
 msgstr "Fájlnév"
 
-#: mp3:rsartist
+#: mainform:rsartist
 msgid "Artist"
 msgstr "Művész"
 
-#: mp3:rstitle
+#: mainform:rstitle
 msgid "Title"
 msgstr "Cím"
 
-#: mp3:rsrandom
+#: mainform:rsrandom
 msgid "Random"
 msgstr "Véletlen"
 
-#: mp3:rsnotconnected
+#: mainform:rsnotconnected
 msgid "Device not Connected"
 msgstr "Eszköz leválasztva"
 
-#: mp3:rsok
+#: mainform:rsok
 msgid "OK"
 msgstr "OK"
+
+#: mainform:rslenght
+msgid "Length"
+msgstr ""
+
+#: mainform:rstrack
+#, fuzzy
+msgid "Track"
+msgstr "Vissza"
 
 #: cdrip:rsencodetomp3
 msgid "Encode to mp3"
@@ -300,3 +319,6 @@ msgstr "Album borító kép letöltése az internetről"
 msgid "Clear Cache"
 msgstr "Gyorstár törlése"
 
+#: settings:rsautomaticlys
+msgid "Automaticly start playing first song in playlist"
+msgstr ""

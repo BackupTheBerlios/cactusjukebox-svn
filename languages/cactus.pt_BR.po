@@ -3,165 +3,184 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: mp3:rsquit
+#: mainform:rsquit
 msgid "Quit"
 msgstr "Sair"
 
-#: mp3:rsfile
+#: mainform:rsfile
 msgid "File"
 msgstr "Arquivo"
 
-#: mp3:rsopenfile
+#: mainform:rsopenfile
 msgid "Open File..."
 msgstr "Abrir arquivo.."
 
-#: mp3:rsplayeronly
+#: mainform:rsopendirector
+#, fuzzy
+msgid "Open Directory..."
+msgstr "Abrir arquivo.."
+
+#: mainform:rsplayeronly
 msgid "Player only"
 msgstr "Somente player"
 
-#: mp3:rschooseskin
+#: mainform:rschooseskin
 msgid "Choose Skin..."
 msgstr "Escolher tema..."
 
-#: mp3:rssettings
+#: mainform:rssettings
 msgid "Settings..."
 msgstr "Configurações..."
 
-#: mp3:rslibrary
+#: mainform:rslibrary
 msgid "Library"
 msgstr "Biblioteca"
 
-#: mp3:rsnewlibrary
+#: mainform:rsnewlibrary
 msgid "New library"
 msgstr "Nova biblioteca..."
 
-#: mp3:rsloadlibrary
+#: mainform:rsloadlibrary
 msgid "Load library"
 msgstr "Carregar biblioteca..."
 
-#: mp3:rssavelibrary
+#: mainform:rssavelibrary
 msgid "Save library"
 msgstr "Salvar biblioteca..."
 
-#: mp3:rslibraryinfo
+#: mainform:rslibraryinfo
 msgid "Library info"
 msgstr "Informações"
 
-#: mp3:rsmanagelibrar
+#: mainform:rsmanagelibrar
 msgid "Manage library..."
 msgstr "Administrar bibliotecas..."
 
-#: mp3:rsrescandirect
+#: mainform:rsrescandirect
 msgid "Rescan directories"
 msgstr "Reler diretórios"
 
-#: mp3:rsplaylist
+#: mainform:rsplaylist
 msgid "Playlist"
 msgstr "Lista de música"
 
-#: mp3:rsplay
+#: mainform:rsplay
 msgid "Play"
 msgstr "Tocar"
 
-#: mp3:rsnext
+#: mainform:rsnext
 msgid "Next"
 msgstr "Próxima"
 
-#: mp3:rsprevious
+#: mainform:rsprevious
 msgid "Previous"
 msgstr "Anterior"
 
-#: mp3:rsmute
+#: mainform:rsmute
 msgid "Mute"
 msgstr "Mudo"
 
-#: mp3:rsloadplaylist
+#: mainform:rsloadplaylist
 msgid "Load playlist"
 msgstr "Carregar lista..."
 
-#: mp3:rssaveplaylist
+#: mainform:rssaveplaylist
 msgid "Save playlist"
 msgstr "Salvar lista..."
 
-#: mp3:rsmobileplayer
+#: mainform:rsmobileplayer
 msgid "Mobile player"
 msgstr "MP3 Player"
 
-#: mp3:rsdeviceinfo
+#: mainform:rsclearplaylist
+#, fuzzy
+msgid "Clear Playlist"
+msgstr "Lista de música"
+
+#: mainform:rsdeviceinfo
 msgid "Device info"
 msgstr "Sobre o MP3 player"
 
-#: mp3:rsscanplayer
+#: mainform:rsscanplayer
 msgid "Scan player"
 msgstr "Ler MP3 player"
 
-#: mp3:rssync
+#: mainform:rssync
 msgid "Sync"
 msgstr "Sincronizar"
 
-#: mp3:rsclearplayer
+#: mainform:rsclearplayer
 msgid "Clear player"
 msgstr "Limpar MP3 player"
 
-#: mp3:rsundoselectio
+#: mainform:rsundoselectio
 msgid "Undo selection"
 msgstr "Desfazer seleção"
 
-#: mp3:rsaudiocd
+#: mainform:rsaudiocd
 msgid "Audio CD"
 msgstr "CD de áudio"
 
-#: mp3:rsripencode
+#: mainform:rsripencode
 msgid "Rip / Encode..."
 msgstr "Decodificar CD..."
 
-#: mp3:rshelp
+#: mainform:rshelp
 msgid "Help"
 msgstr "Ajuda"
 
-#: mp3:rsabout
+#: mainform:rsabout
 msgid "About..."
 msgstr "Sobre..."
 
-#: mp3:rsmanual
+#: mainform:rsmanual
 msgid "Manual..."
 msgstr "Manual..."
 
-#: mp3:rsclear
+#: mainform:rsclear
 msgid "Clear"
 msgstr "Limpar"
 
-#: mp3:rssearch
+#: mainform:rssearch
 msgid "Search"
 msgstr "Buscar"
 
-#: mp3:rsalbum
+#: mainform:rsalbum
 msgid "Album"
 msgstr "Álbum"
 
-#: mp3:rsfilename
+#: mainform:rsfilename
 msgid "Filename"
 msgstr "Nome do arquivo"
 
-#: mp3:rsartist
+#: mainform:rsartist
 msgid "Artist"
 msgstr "Artista"
 
-#: mp3:rstitle
+#: mainform:rstitle
 msgid "Title"
 msgstr "Título"
 
-#: mp3:rsrandom
+#: mainform:rsrandom
 msgid "Random"
 msgstr "Aleatório"
 
-#: mp3:rsnotconnected
+#: mainform:rsnotconnected
 msgid "Device not Connected"
 msgstr "Dispositivo não conectado"
 
-#: mp3:rsok
+#: mainform:rsok
 msgid "OK"
 msgstr "OK"
+
+#: mainform:rslenght
+msgid "Length"
+msgstr ""
+
+#: mainform:rstrack
+#, fuzzy
+msgid "Track"
+msgstr "Voltar"
 
 #: cdrip:rsencodetomp3
 msgid "Encode to mp3"
