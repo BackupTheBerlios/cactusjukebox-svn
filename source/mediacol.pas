@@ -725,33 +725,40 @@ var b:byte;
 begin
     Try
      mp3filehandle:=fileopen(path, fmOpenRead);
+
 {calculating playtime}
      fileseek(mp3filehandle,0,fsfrombeginning);
      fileread(mp3filehandle,buf,high(buf));
 
      i:=0;
      z:=1;
-     repeat begin
+     repeat begin     // iterate buf to finde mpeg header start sequenz
+                      // start sequenz is 1111 1111 1111 10xx = $FF $Fx
            inc(i);
-           if i=high(buf) then begin
-               fileseek(mp3filehandle, (i*z)-4, fsFromBeginning);
+           if i=high(buf)-2 then begin  // if reached end of buf, read next part of file to buf
+               fileseek(mp3filehandle, (i*z)-8, fsFromBeginning);
                fileread(mp3filehandle,buf,high(buf));
                inc(z);
                i:=1;
               end;
           end;
-      until ((buf[i]=$FF) and ((buf[i+1] or $3)=$FB)) or (z>256);
-     if (buf[i]=$FF) and (buf[i+1] or $3=$FB) then begin
-              b:= buf[i+2] shr 4;
+      until ((buf[i]=$FF) and ((buf[i+1] or $3)=$FB)) or (z>256);  // until mpgeg header start seuqenz found
+
+      
+     if (buf[i]=$FF) and ((buf[i+1] or $3)=$FB) then begin       //if header found then do
+              b:= buf[i+2] shr 4;                              //shift the byte containing the bitrate right by 4 positions
+                                                               // bbbb xxxx -> 0000 bbbb
+                                                               // b : bitrate bits, x: any other bits
               if b > 15 then b:=0;
-              bitrate:=bitrates[b];
-              b:=buf[i+2] and $0F;
+              bitrate:=bitrates[b];    // select bitrate at index b from table bitrates
+
+              b:=buf[i+2] and $0F;     // the same with samplerate byte
               b:= b shr 2;
               if b > 3 then b:=3;
-              samplerate:=samplerates[b];
+              samplerate:=samplerates[b];  // select samplerate at index b from table samplerates
               if bitrate>0 then begin
-                 playlength:=round(size / (bitrate*125));
-                 playtime:=SecondsToFmtStr(Playlength);
+                 playlength:=round(size / (bitrate*125));    //calculate playlength from bitrate and samplerate
+                 playtime:=SecondsToFmtStr(Playlength);      // doesn't work with VBR files !
                end;
             end
         else writeln(path+' -> no valid mpeg header found');
