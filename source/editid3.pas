@@ -587,7 +587,7 @@ begin
   // set up gui elements
 
   metacontrol.Pages[0].TabVisible:=true;
-  metacontrol.Pages[1].TabVisible:=false;
+  metacontrol.Pages[1].TabVisible:=true;
   metacontrol.Pages[2].TabVisible:=false;
 
   metacontrol.ActivePage:=metacontrol.Pages[0];

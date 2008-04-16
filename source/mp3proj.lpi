@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="5"/>
+      <ActiveEditorIndexAtStart Value="4"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -84,8 +84,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceFilename Value="editid3.lrs"/>
         <UnitName Value="editid3"/>
-        <CursorPos X="21" Y="50"/>
-        <TopLine Value="50"/>
+        <CursorPos X="40" Y="590"/>
+        <TopLine Value="583"/>
         <EditorIndex Value="4"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -121,7 +121,7 @@
         <UnitName Value="status"/>
         <CursorPos X="71" Y="7"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit7>
@@ -142,7 +142,7 @@
         <UnitName Value="settings"/>
         <CursorPos X="32" Y="26"/>
         <TopLine Value="97"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit9>
@@ -213,7 +213,7 @@
         <UnitName Value="fmodplayer"/>
         <CursorPos X="71" Y="340"/>
         <TopLine Value="241"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit18>
@@ -324,7 +324,7 @@
         <UnitName Value="directories"/>
         <CursorPos X="22" Y="165"/>
         <TopLine Value="130"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit33>
@@ -454,7 +454,7 @@
         <UnitName Value="cdrip"/>
         <CursorPos X="17" Y="375"/>
         <TopLine Value="358"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="12"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit50>
@@ -578,7 +578,7 @@
         <UnitName Value="functions"/>
         <CursorPos X="23" Y="17"/>
         <TopLine Value="12"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit68>
@@ -659,7 +659,7 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="37" Y="752"/>
         <TopLine Value="722"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="2">
           <Item0 X="26" Y="241" ID="2"/>
@@ -872,7 +872,7 @@
         <UnitName Value="config"/>
         <CursorPos X="37" Y="8"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="61"/>
         <Loaded Value="True"/>
       </Unit106>
@@ -919,11 +919,9 @@
       </Unit111>
       <Unit112>
         <Filename Value="editid3.lfm"/>
-        <CursorPos X="34" Y="11"/>
+        <CursorPos X="45" Y="28"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="5"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit112>
     </Units>
