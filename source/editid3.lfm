@@ -22,75 +22,19 @@ object EditID3: TEditID3
     Height = 352
     Top = 16
     Width = 376
-    ActivePage = fileinfo
+    ActivePage = StreamTab
     TabIndex = 2
     TabOrder = 0
     object metatab: TTabSheet
       Caption = 'Meta-Info'
-      ClientHeight = 326
-      ClientWidth = 368
-      object lblArtist: TLabel
-        Left = 20
-        Height = 14
-        Top = 102
-        Width = 27
-        Caption = 'Artist'
-        ParentColor = False
-      end
-      object lblTitle: TLabel
-        Left = 20
-        Height = 14
-        Top = 130
-        Width = 21
-        Caption = 'Title'
-        ParentColor = False
-      end
-      object lblAlbum: TLabel
-        Left = 20
-        Height = 14
-        Top = 162
-        Width = 30
-        Caption = 'Album'
-        ParentColor = False
-      end
+      ClientHeight = 325
+      ClientWidth = 372
       object lblYear: TLabel
         Left = 118
-        Height = 14
+        Height = 20
         Top = 190
-        Width = 23
+        Width = 26
         Caption = 'Year'
-        ParentColor = False
-      end
-      object lblGenre: TLabel
-        Left = 20
-        Height = 14
-        Top = 222
-        Width = 30
-        Caption = 'Genre'
-        ParentColor = False
-      end
-      object lblComment: TLabel
-        Left = 20
-        Height = 14
-        Top = 266
-        Width = 46
-        Caption = 'Comment'
-        ParentColor = False
-      end
-      object lblPath: TLabel
-        Left = 14
-        Height = 14
-        Top = 30
-        Width = 53
-        Caption = 'Path to file'
-        ParentColor = False
-      end
-      object lblTrack: TLabel
-        Left = 20
-        Height = 14
-        Top = 190
-        Width = 27
-        Caption = 'Track'
         ParentColor = False
       end
       object AlbumCoverImg: TImage
@@ -99,6 +43,76 @@ object EditID3: TEditID3
         Top = 190
         Width = 120
         Stretch = True
+        Transparent = False
+      end
+      object lblPath: TLabel
+        Left = 14
+        Height = 20
+        Top = 30
+        Width = 62
+        Caption = 'Path to file'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object lblArtist: TLabel
+        Left = 20
+        Height = 20
+        Top = 102
+        Width = 31
+        Caption = 'Artist'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object lblTitle: TLabel
+        Left = 20
+        Height = 20
+        Top = 130
+        Width = 25
+        Caption = 'Title'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object lblAlbum: TLabel
+        Left = 20
+        Height = 20
+        Top = 162
+        Width = 36
+        Caption = 'Album'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object lblTrack: TLabel
+        Left = 20
+        Height = 20
+        Top = 190
+        Width = 30
+        Caption = 'Track'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object lblGenre: TLabel
+        Left = 20
+        Height = 20
+        Top = 222
+        Width = 36
+        Caption = 'Genre'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object lblComment: TLabel
+        Left = 20
+        Height = 20
+        Top = 266
+        Width = 56
+        Caption = 'Comment'
+        Color = clBackground
+        ParentColor = False
         Transparent = False
       end
       object artistedit1: TEdit
@@ -158,8 +172,8 @@ object EditID3: TEditID3
       object Button1: TButton
         Left = 275
         Height = 23
-        Top = 22
-        Width = 86
+        Top = 21
+        Width = 80
         Anchors = [akLeft, akBottom]
         AutoSize = True
         BorderSpacing.Around = 4
@@ -185,10 +199,10 @@ object EditID3: TEditID3
         TabOrder = 4
       end
       object guessname1: TButton
-        Left = 165
+        Left = 170
         Height = 23
-        Top = 22
-        Width = 97
+        Top = 21
+        Width = 96
         Anchors = [akRight, akBottom]
         AutoSize = True
         BorderSpacing.Around = 4
@@ -198,11 +212,10 @@ object EditID3: TEditID3
       end
       object cmbYear: TComboBox
         Left = 150
-        Height = 21
+        Height = 25
         Top = 183
         Width = 64
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemHeight = 13
         MaxLength = 4
         OnChange = cmbYearChange
         Sorted = True
@@ -212,11 +225,10 @@ object EditID3: TEditID3
       end
       object cmbComment: TComboBox
         Left = 20
-        Height = 21
+        Height = 25
         Top = 280
         Width = 196
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemHeight = 13
         MaxLength = 0
         OnChange = activateEMode
         Sorted = True
@@ -225,33 +237,121 @@ object EditID3: TEditID3
         Visible = False
       end
     end
+    object fileinfo: TTabSheet
+      Caption = 'File-Info'
+      ClientHeight = 325
+      ClientWidth = 372
+      object mtype: TLabel
+        Left = 40
+        Height = 20
+        Top = 34
+        Width = 62
+        Caption = 'Mediatype:'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object bitrate: TLabel
+        Left = 40
+        Height = 20
+        Top = 114
+        Width = 81
+        Caption = 'Bitrate: 0kbps'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object fsize: TLabel
+        Left = 40
+        Height = 20
+        Top = 94
+        Width = 77
+        Caption = 'Filesize: 0 MB'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object srate: TLabel
+        Left = 40
+        Height = 20
+        Top = 134
+        Width = 71
+        Caption = 'Samplerate:'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object plength: TLabel
+        Left = 40
+        Height = 20
+        Top = 58
+        Width = 43
+        Caption = 'Length:'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object idlabel: TLabel
+        Left = 41
+        Height = 20
+        Top = 178
+        Width = 37
+        Caption = 'Fileid: '
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object indexlabel: TLabel
+        Left = 40
+        Height = 20
+        Top = 194
+        Width = 53
+        Caption = 'FileIndex:'
+        Color = clBackground
+        ParentColor = False
+        Transparent = False
+      end
+      object Filelogo: TImage
+        Left = 230
+        Height = 100
+        Top = 34
+        Width = 100
+        Transparent = False
+      end
+    end
     object StreamTab: TTabSheet
       Caption = 'Stream-Info'
-      ClientHeight = 326
-      ClientWidth = 368
+      ClientHeight = 325
+      ClientWidth = 372
       object Label1: TLabel
         Left = 26
-        Height = 14
+        Height = 20
         Top = 15
-        Width = 28
+        Width = 34
         Caption = 'Name'
+        Color = clBackground
         ParentColor = False
+        Transparent = False
       end
       object Label2: TLabel
         Left = 26
-        Height = 14
+        Height = 20
         Top = 79
-        Width = 57
+        Width = 68
         Caption = 'Stream URL'
+        Color = clBackground
         ParentColor = False
+        Transparent = False
       end
       object Label3: TLabel
         Left = 26
-        Height = 14
+        Height = 20
         Top = 143
-        Width = 54
+        Width = 65
         Caption = 'Description'
+        Color = clBackground
         ParentColor = False
+        Transparent = False
         OnClick = Label3Click
       end
       object NameEdit: TEdit
@@ -274,279 +374,6 @@ object EditID3: TEditID3
         Top = 167
         Width = 296
         TabOrder = 2
-      end
-    end
-    object fileinfo: TTabSheet
-      Caption = 'File-Info'
-      ClientHeight = 326
-      ClientWidth = 368
-      object mtype: TLabel
-        Left = 40
-        Height = 14
-        Top = 34
-        Width = 55
-        Caption = 'Mediatype:'
-        ParentColor = False
-      end
-      object bitrate: TLabel
-        Left = 40
-        Height = 14
-        Top = 114
-        Width = 68
-        Caption = 'Bitrate: 0kbps'
-        ParentColor = False
-      end
-      object fsize: TLabel
-        Left = 40
-        Height = 14
-        Top = 94
-        Width = 65
-        Caption = 'Filesize: 0 MB'
-        ParentColor = False
-      end
-      object srate: TLabel
-        Left = 40
-        Height = 14
-        Top = 134
-        Width = 59
-        Caption = 'Samplerate:'
-        ParentColor = False
-      end
-      object plength: TLabel
-        Left = 40
-        Height = 14
-        Top = 58
-        Width = 38
-        Caption = 'Length:'
-        ParentColor = False
-      end
-      object idlabel: TLabel
-        Left = 41
-        Height = 14
-        Top = 178
-        Width = 32
-        Caption = 'Fileid: '
-        ParentColor = False
-      end
-      object indexlabel: TLabel
-        Left = 40
-        Height = 14
-        Top = 194
-        Width = 49
-        Caption = 'FileIndex:'
-        ParentColor = False
-      end
-      object Filelogo: TImage
-        Left = 230
-        Height = 100
-        Top = 34
-        Width = 100
-        Transparent = False
-      end
-    end
-    object id3v2tab: TTabSheet
-      Caption = 'ID3v2'
-      ClientHeight = 326
-      ClientWidth = 368
-      object Label9: TLabel
-        Left = 16
-        Height = 14
-        Top = 184
-        Width = 27
-        Caption = 'Track'
-        ParentColor = False
-      end
-      object Label10: TLabel
-        Left = 216
-        Height = 14
-        Top = 184
-        Width = 30
-        Caption = 'Genre'
-        ParentColor = False
-      end
-      object Label11: TLabel
-        Left = 112
-        Height = 14
-        Top = 184
-        Width = 23
-        Caption = 'Year'
-        ParentColor = False
-      end
-      object Label12: TLabel
-        Left = 12
-        Height = 14
-        Top = 136
-        Width = 30
-        Caption = 'Album'
-        ParentColor = False
-      end
-      object Label13: TLabel
-        Left = 12
-        Height = 14
-        Top = 106
-        Width = 21
-        Caption = 'Title'
-        ParentColor = False
-      end
-      object Label14: TLabel
-        Left = 12
-        Height = 14
-        Top = 72
-        Width = 27
-        Caption = 'Artist'
-        ParentColor = False
-      end
-      object Label15: TLabel
-        Left = 12
-        Height = 14
-        Top = 20
-        Width = 144
-        Caption = 'Additional ID3v2 Informations'
-        ParentColor = False
-      end
-      object trackedit2: TEdit
-        Left = 64
-        Height = 23
-        Top = 178
-        Width = 25
-        MaxLength = 3
-        ReadOnly = True
-        TabOrder = 0
-      end
-      object Edit1: TEdit
-        Left = 256
-        Height = 23
-        Top = 178
-        Width = 104
-        MaxLength = 8
-        ReadOnly = True
-        TabOrder = 1
-      end
-      object yearEdit2: TEdit
-        Left = 152
-        Height = 23
-        Top = 178
-        Width = 40
-        MaxLength = 4
-        ReadOnly = True
-        TabOrder = 2
-      end
-      object albumedit2: TEdit
-        Left = 64
-        Height = 23
-        Top = 130
-        Width = 296
-        ReadOnly = True
-        TabOrder = 3
-      end
-      object titleedit2: TEdit
-        Left = 64
-        Height = 23
-        Top = 100
-        Width = 296
-        ReadOnly = True
-        TabOrder = 4
-      end
-      object artistedit2: TEdit
-        Left = 64
-        Height = 23
-        Top = 66
-        Width = 296
-        ReadOnly = True
-        TabOrder = 5
-      end
-    end
-    object id3v1tab: TTabSheet
-      Caption = 'ID3v1'
-      ClientHeight = 326
-      ClientWidth = 368
-      object Label7: TLabel
-        Left = 177
-        Height = 14
-        Top = 192
-        Width = 30
-        Caption = 'Genre'
-        ParentColor = False
-      end
-      object Label16: TLabel
-        Left = 81
-        Height = 14
-        Top = 192
-        Width = 23
-        Caption = 'Year'
-        ParentColor = False
-      end
-      object Label17: TLabel
-        Left = 12
-        Height = 14
-        Top = 162
-        Width = 30
-        Caption = 'Album'
-        ParentColor = False
-      end
-      object Label18: TLabel
-        Left = 12
-        Height = 14
-        Top = 112
-        Width = 21
-        Caption = 'Title'
-        ParentColor = False
-      end
-      object Label19: TLabel
-        Left = 12
-        Height = 14
-        Top = 80
-        Width = 27
-        Caption = 'Artist'
-        ParentColor = False
-      end
-      object Label21: TLabel
-        Left = 28
-        Height = 14
-        Top = 26
-        Width = 144
-        Caption = 'Additional ID3v1 Informations'
-        ParentColor = False
-      end
-      object Edit3: TEdit
-        Left = 217
-        Height = 23
-        Top = 186
-        Width = 104
-        MaxLength = 8
-        TabOrder = 0
-      end
-      object yearEdit3: TEdit
-        Left = 121
-        Height = 23
-        Top = 186
-        Width = 40
-        MaxLength = 4
-        TabOrder = 1
-      end
-      object albumedit3: TEdit
-        Left = 60
-        Height = 23
-        Top = 154
-        Width = 296
-        MaxLength = 30
-        TabOrder = 2
-      end
-      object titleedit3: TEdit
-        Left = 60
-        Height = 23
-        Top = 106
-        Width = 296
-        MaxLength = 30
-        TabOrder = 3
-      end
-      object artistedit3: TEdit
-        Left = 60
-        Height = 23
-        Top = 74
-        Width = 296
-        MaxLength = 30
-        TabOrder = 4
       end
     end
   end
