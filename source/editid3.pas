@@ -585,14 +585,12 @@ var s, tmps:string;
     i: Integer;
 begin
   // set up gui elements
-  metacontrol.ActivePage:=metatab;
-  metatab.TabVisible:=true;
-//  fileinfo.TabVisible:=true;
-  StreamTab.TabVisible:=false;
-  id3v1tab.TabVisible:=false;
-  id3v2tab.TabVisible:=false;
-  AlbumCoverImg.Canvas.Clear;
-  AlbumCoverImg.Picture.Clear;
+
+  metacontrol.Pages[0].TabVisible:=true;
+  metacontrol.Pages[1].TabVisible:=false;
+  metacontrol.Pages[2].TabVisible:=false;
+
+  metacontrol.ActivePage:=metacontrol.Pages[0];
 
   btnReset.Enabled:=true;
 
@@ -714,11 +712,11 @@ procedure TEditID3.display_window(StreamInfo: TStreamInfoItemClass);
 
 begin
   StreamInfoObj:=StreamInfo;
-  StreamTab.TabVisible:=true;
-  metatab.TabVisible:=false;
-  fileinfo.TabVisible:=false;
-  id3v1tab.TabVisible:=false;
-  id3v2tab.TabVisible:=false;
+  metacontrol.Pages[0].TabVisible:=false;
+  metacontrol.Pages[1].TabVisible:=false;
+  metacontrol.Pages[2].TabVisible:=true;
+  
+  metacontrol.ActivePage:=metacontrol.Pages[2];
 
   btnReset.Enabled:=true;
 
