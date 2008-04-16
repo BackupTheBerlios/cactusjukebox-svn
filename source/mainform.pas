@@ -191,7 +191,6 @@ type
     space1: TMenuItem;
     MIclear_playlist: TMenuItem;
     FileItem: TMenuItem;
-    OpenDialog1: TOpenDialog;
     artisttreemenu: TPopupMenu;
     QuitItem: TMenuItem;
     TEditID3item: TMenuItem;
@@ -373,7 +372,6 @@ type
     procedure RemoveClick(Sender: TObject);
     procedure QuitItemClick(Sender: TObject);
     procedure TitleTreeDblClick(Sender: TObject);
-    procedure addFileItemClick(Sender: TObject);
     procedure loadlibClick(Sender: TObject);
     procedure newlibClick(Sender: TObject);
     procedure nextClick(Sender: TObject);
@@ -724,11 +722,14 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.loadlibClick(Sender: TObject);
+var OpenDialog: TOpenDialog;
 begin
-  OpenDialog1.Filter := 'Mp3lib Library|*.mlb';
-  OpenDialog1.InitialDir:=CactusConfig.HomeDir;
-  OpenDialog1.FilterIndex := 1;
-  if Opendialog1.execute=true then MediaCollection.LoadFromFile(Main.Opendialog1.Filename);
+  OpenDialog:=TOpenDialog.Create(self);
+  OpenDialog.Filter := 'Mp3lib Library|*.mlb';
+  OpenDialog.InitialDir:=CactusConfig.HomeDir;
+  OpenDialog.FilterIndex := 1;
+  if Opendialog.execute=true then MediaCollection.LoadFromFile(Opendialog.Filename);
+  OpenDialog.free;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2040,23 +2041,23 @@ end;
 procedure TMain.MenuItem27Click(Sender: TObject);
 var id, i:longint;
     listitem:TListitem;
+    OpenDialog: TOpenDialog;
 begin
-  OpenDialog1.Filter := 'M3U Playlist|*.m3u|All Files|*.*';
-  OpenDialog1.InitialDir:=CactusConfig.HomeDir;
- // DoDirSeparators(OpenDialog1.InitialDir);
-  //OpenDialog1.DefaultExt := 'mlb';
-  OpenDialog1.FilterIndex := 1;
-  if Opendialog1.execute=true then begin
+  OpenDialog:=TOpenDialog.Create(self);
+  OpenDialog.Filter := 'M3U Playlist|*.m3u|All Files|*.*';
+  OpenDialog.InitialDir:=CactusConfig.HomeDir;
+  OpenDialog.FilterIndex := 1;
+  if Opendialog.execute=true then begin
      playlist.Clear;
      fmodplayer.player.Playlist.clear;
-     fmodplayer.player.Playlist.LoadFromFile(Opendialog1.Filename);
+     fmodplayer.player.Playlist.LoadFromFile(Opendialog.Filename);
      for id:= 0 to fmodplayer.player.Playlist.Count-1 do begin
             ListItem := Playlist.Items.Add;
             listitem.Data:=TMediaFileClass.create(fmodplayer.player.Playlist.Items[id].path, nil);
             ListItem.Caption:=fmodplayer.player.Playlist.items[id].Artist+' - '+fmodplayer.player.Playlist.Items[id].Title;
          end;
-
    end;
+  OpenDialog.Free;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2696,16 +2697,16 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.openfileClick(Sender: TObject);
-var mp3obj: TMediaFileClass;
-    templistitem: TListItem;
-    i:integer;
+var OpenDialog: TOpenDialog;
 begin
-     OpenDialog1.Filter := 'All supported audio|*.wav;*.mp3;*.ogg|MP3|*.mp3|OGG|*.ogg|WAV|*.wav';
-     OpenDialog1.InitialDir:=CactusConfig.HomeDir;
-     OpenDialog1.FilterIndex := 1;
-     if Opendialog1.execute=true then begin
-        LoadFile(Opendialog1.Filename);
+     OpenDialog:=TOpenDialog.Create(self);
+     OpenDialog.Filter := 'All supported audio|*.wav;*.mp3;*.ogg|MP3|*.mp3|OGG|*.ogg|WAV|*.wav';
+     OpenDialog.InitialDir:=CactusConfig.HomeDir;
+     OpenDialog.FilterIndex := 1;
+     if Opendialog.execute=true then begin
+        LoadFile(Opendialog.Filename);
      end;
+     OpenDialog.Free;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3447,15 +3448,6 @@ begin
     Application.ProcessMessages;
     title_to_playlist;
      Application.ProcessMessages;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure TMain.addFileItemClick(Sender: TObject);
-begin
-     if Opendialog1.execute=true then MediaCollection.add(Opendialog1.Filename);
-     update_artist_view;
-     update_title_view;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
