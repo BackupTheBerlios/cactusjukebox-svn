@@ -1,3 +1,4 @@
+
 {
 Directory dialog for Cactus Jukebox
 
@@ -15,21 +16,21 @@ This Software is published under the GPL
 }
 
 
-unit directories;
+Unit directories;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  Buttons, CheckLst, StdCtrls;
+Uses 
+Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ComCtrls,
+Buttons, CheckLst, StdCtrls;
 
-type
+Type 
 
   { Tdirwin }
 
-  Tdirwin = class(TForm)
+  Tdirwin = Class(TForm)
     add: TButton;
     Button1: TButton;
     dirlistview: TListBox;
@@ -37,171 +38,191 @@ type
     rescan: TButton;
     rescanall: TButton;
     SelectDirectoryDialog1: TSelectDirectoryDialog;
-    procedure Button1Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
-    procedure dirlistviewClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure addClick(Sender: TObject);
-    procedure removeClick(Sender: TObject);
-    procedure rescanClick(Sender: TObject);
-    procedure rescanallClick(Sender: TObject);
-  private
+    Procedure Button1Click(Sender: TObject);
+    Procedure Button3Click(Sender: TObject);
+    Procedure dirlistviewClick(Sender: TObject);
+    Procedure FormCreate(Sender: TObject);
+    Procedure addClick(Sender: TObject);
+    Procedure removeClick(Sender: TObject);
+    Procedure rescanClick(Sender: TObject);
+    Procedure rescanallClick(Sender: TObject);
+    Private 
     { private declarations }
-  public
+    Public 
     { public declarations }
-  end; 
+  End;
 
-var
+Var 
   dirwin: Tdirwin;
 
-implementation
-uses mainform,status,mediacol, config;
+  Implementation
+
+  Uses mainform,status,mediacol, config;
 { Tdirwin }
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tdirwin.FormCreate(Sender: TObject);
-var i:integer;
-begin
-   dirlistview.Clear;
-   for i:= 0 to MediaCollection.dirlist.Count-1 do begin
-               dirlistview.Items.Add(MediaCollection.dirlist[i]);
-      end;
-end;
+Procedure Tdirwin.FormCreate(Sender: TObject);
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure Tdirwin.addClick(Sender: TObject);
-var listitem:TListitem;
-    tmps: string;
-    i: integer;
-begin
-  SelectDirectoryDialog1.InitialDir:=CactusConfig.HomeDir;
-
-
-  If SelectDirectoryDialog1.Execute=true then begin
-    for i:= 0 to MediaCollection.dirlist.Count-1 do begin
-            if pos(MediaCollection.dirlist[i], SelectDirectoryDialog1.FileName)=1 then begin
-                      ShowMessage('Directory '+SelectDirectoryDialog1.FileName+' is still part of directorylist');
-                      exit;
-             end;
-       end;
-     Caption:='Please wait... Scanning...';
-     Enabled:=false;
-     Application.ProcessMessages;
-     MediaCollection.add_directory(SelectDirectoryDialog1.FileName);
-     dirlistview.Items.Add(SelectDirectoryDialog1.FileName);
-
-     if MediaCollection.ItemCount>1 then begin
-                Main.ArtistTree.Selected:=nil;
-                main.update_artist_view;
-                update_title_view;
-      end;
-     Caption:='Directories';
-     Enabled:=true;
-   end;
-end;
+Var i: integer;
+Begin
+  dirlistview.Clear;
+  For i:= 0 To MediaCollection.dirlist.Count-1 Do
+    Begin
+      dirlistview.Items.Add(MediaCollection.dirlist[i]);
+    End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tdirwin.removeClick(Sender: TObject);
-var removedir: string;
-    tmpc: char;
-    i, z, n:integer;
-begin
+Procedure Tdirwin.addClick(Sender: TObject);
 
-     removedir:=dirlistview.Items[dirlistview.ItemIndex];
-     if removedir[length(removedir)]=DirectorySeparator then delete(removedir,length(removedir), 1);
-     i:=0;
+Var listitem: TListitem;
+  tmps: string;
+  i: integer;
+Begin
+  SelectDirectoryDialog1.InitialDir := CactusConfig.HomeDir;
 
-     repeat begin
-            if pos(removedir, ExtractFileDir(MediaCollection.items[i].path))=1 then begin
-               MediaCollection.remove(i);
-               dec(i);
-             end;
-            inc(i);
-         end;
-      until i>=MediaCollection.ItemCount;
-      MediaCollection.DirList.Delete(dirlistview.ItemIndex);
-      dirlistview.Items.Delete(dirlistview.ItemIndex);
 
-  Main.ArtistTree.Selected:=nil;
+  If SelectDirectoryDialog1.Execute=true Then
+    Begin
+      For i:= 0 To MediaCollection.dirlist.Count-1 Do
+        Begin
+          If pos(MediaCollection.dirlist[i], SelectDirectoryDialog1.FileName)=1 Then
+            Begin
+              ShowMessage('Directory '+SelectDirectoryDialog1.FileName+
+                          ' is still part of directorylist');
+              exit;
+            End;
+        End;
+      Caption := 'Please wait... Scanning...';
+      Enabled := false;
+      Application.ProcessMessages;
+      MediaCollection.add_directory(SelectDirectoryDialog1.FileName);
+      dirlistview.Items.Add(SelectDirectoryDialog1.FileName);
+
+      If MediaCollection.ItemCount>1 Then
+        Begin
+          Main.ArtistTree.Selected := Nil;
+          main.update_artist_view;
+          update_title_view;
+        End;
+      Caption := 'Directories';
+      Enabled := true;
+    End;
+End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Procedure Tdirwin.removeClick(Sender: TObject);
+
+Var removedir: string;
+  tmpc: char;
+  i, z, n: integer;
+Begin
+
+  removedir := dirlistview.Items[dirlistview.ItemIndex];
+  If removedir[length(removedir)]=DirectorySeparator Then delete(removedir,length(removedir), 1);
+  i := 0;
+
+  Repeat
+    Begin
+      If pos(removedir, ExtractFileDir(MediaCollection.items[i].path))=1 Then
+        Begin
+          MediaCollection.remove(i);
+          dec(i);
+        End;
+      inc(i);
+    End;
+  Until i>=MediaCollection.ItemCount;
+  MediaCollection.DirList.Delete(dirlistview.ItemIndex);
+  dirlistview.Items.Delete(dirlistview.ItemIndex);
+
+  Main.ArtistTree.Selected := Nil;
   main.update_artist_view;
   update_title_view;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tdirwin.rescanClick(Sender: TObject);
-var rescandir: string;
-    listitem:TListitem;
-    i, z, n:integer;
-begin
- for n:= 0 to dirlistview.Items.Count-1 do begin
-   if dirlistview.Selected[n] then begin
-    rescandir:=dirlistview.Items[n];
-    dirlistview.show;
-    if rescandir[length(rescandir)]=DirectorySeparator then delete(rescandir,length(rescandir), 1);
-    i:=0;
-    repeat begin
-       if pos(rescandir, ExtractFileDir(MediaCollection.items[i].path))=1 then begin
-             MediaCollection.remove(i);
-             dec(i);
-       end;
-       inc(i);
-    end;
-    until i>=MediaCollection.ItemCount;
-    MediaCollection.DirList.Delete(n);
-    Caption:='Please wait... Scanning...';
-    Enabled:=false;
-    main.update_artist_view;
-    update_title_view;
-    Application.ProcessMessages;
-    MediaCollection.add_directory(rescandir);
-   end;
+Procedure Tdirwin.rescanClick(Sender: TObject);
 
-  if MediaCollection.ItemCount>1 then begin
-                Main.ArtistTree.Selected:=nil;
-                main.update_artist_view;
-                update_title_view;
-    end;
-  Caption:='Directories';
-  Enabled:=true;
-  end;
-end;
+Var rescandir: string;
+  listitem: TListitem;
+  i, z, n: integer;
+Begin
+  For n:= 0 To dirlistview.Items.Count-1 Do
+    Begin
+      If dirlistview.Selected[n] Then
+        Begin
+          rescandir := dirlistview.Items[n];
+          dirlistview.show;
+          If rescandir[length(rescandir)]=DirectorySeparator Then delete(rescandir,length(rescandir)
+            , 1);
+          i := 0;
+          Repeat
+            Begin
+              If pos(rescandir, ExtractFileDir(MediaCollection.items[i].path))=1 Then
+                Begin
+                  MediaCollection.remove(i);
+                  dec(i);
+                End;
+              inc(i);
+            End;
+          Until i>=MediaCollection.ItemCount;
+          MediaCollection.DirList.Delete(n);
+          Caption := 'Please wait... Scanning...';
+          Enabled := false;
+          main.update_artist_view;
+          update_title_view;
+          Application.ProcessMessages;
+          MediaCollection.add_directory(rescandir);
+        End;
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure Tdirwin.rescanallClick(Sender: TObject);
-var i: integer;
-begin
-  for i:= 0 to dirlistview.Items.Count-1 do dirlistview.Selected[i]:=true;
-  rescanClick(nil);
-end;
+      If MediaCollection.ItemCount>1 Then
+        Begin
+          Main.ArtistTree.Selected := Nil;
+          main.update_artist_view;
+          update_title_view;
+        End;
+      Caption := 'Directories';
+      Enabled := true;
+    End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tdirwin.Button1Click(Sender: TObject);
-begin
+Procedure Tdirwin.rescanallClick(Sender: TObject);
+
+Var i: integer;
+Begin
+  For i:= 0 To dirlistview.Items.Count-1 Do
+    dirlistview.Selected[i] := true;
+  rescanClick(Nil);
+End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Procedure Tdirwin.Button1Click(Sender: TObject);
+Begin
   Close;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tdirwin.Button3Click(Sender: TObject);
-begin
+Procedure Tdirwin.Button3Click(Sender: TObject);
+Begin
 
-end;
+End;
 
-procedure Tdirwin.dirlistviewClick(Sender: TObject);
-begin
+Procedure Tdirwin.dirlistviewClick(Sender: TObject);
+Begin
 
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 initialization
   {$I directories.lrs}
 
-end.
-
+End.

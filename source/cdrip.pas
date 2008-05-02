@@ -1,30 +1,31 @@
-unit cdrip;
+
+Unit cdrip;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  StdCtrls, Buttons, ExtCtrls, cddb, dos, Grids, DBCtrls, process;
+Uses 
+Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ComCtrls,
+StdCtrls, Buttons, ExtCtrls, cddb, dos, Grids, DBCtrls, process;
 
 
 resourcestring
-  rsEncodeToMp3 = 'Encode to mp3';
-  rsQuerryCDDB = 'Querry CDDB';
-  rsLoad = 'Load';
-  rsEject = 'Eject';
-  rsStart = 'Start';
-  rsBack = 'Back';
-  rsSetID3Tag = 'Write ID3-Tags';
-  rsCrSubfolders = 'Create artist subfolders';
-  rsOutfileNamin = 'Outfile naming scheme';
+rsEncodeToMp3 = 'Encode to mp3';
+rsQuerryCDDB = 'Querry CDDB';
+rsLoad = 'Load';
+rsEject = 'Eject';
+rsStart = 'Start';
+rsBack = 'Back';
+rsSetID3Tag = 'Write ID3-Tags';
+rsCrSubfolders = 'Create artist subfolders';
+rsOutfileNamin = 'Outfile naming scheme';
 
-type
+Type 
 
   { Tcdrip }
 
-  Tcdrip = class(TForm)
+  Tcdrip = Class(TForm)
     bitratebox: TComboBox;
     FileNameType: TComboBox;
     LNameScheme: TLabel;
@@ -49,449 +50,529 @@ type
     Trackgrid: TStringGrid;
     Panel1: TPanel;
     Timer1: TTimer;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
-    procedure Button4Click(Sender: TObject);
-    procedure Button5Click(Sender: TObject);
-    procedure CheckBox1Change(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormCreate(Sender: TObject);
-    procedure Timer1Timer(Sender: TObject);
-    procedure TrackgridHeaderClick(Sender: TObject; IsColumn: Boolean;
-      index: Integer);
-    procedure TrackgridMouseDown(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure TrackgridSelectCell(Sender: TObject; Col, Row: Integer;
-      var CanSelect: Boolean);
-    procedure encodecheckChange(Sender: TObject);
-    procedure startButClick(Sender: TObject);
-  private
+    Procedure Button1Click(Sender: TObject);
+    Procedure Button2Click(Sender: TObject);
+    Procedure Button4Click(Sender: TObject);
+    Procedure Button5Click(Sender: TObject);
+    Procedure CheckBox1Change(Sender: TObject);
+    Procedure FormClose(Sender: TObject; Var CloseAction: TCloseAction);
+    Procedure FormCreate(Sender: TObject);
+    Procedure Timer1Timer(Sender: TObject);
+    Procedure TrackgridHeaderClick(Sender: TObject; IsColumn: Boolean;
+                                   index: Integer);
+    Procedure TrackgridMouseDown(Sender: TOBject; Button: TMouseButton;
+                                 Shift: TShiftState; X, Y: Integer);
+    Procedure TrackgridSelectCell(Sender: TObject; Col, Row: Integer;
+                                  Var CanSelect: Boolean);
+    Procedure encodecheckChange(Sender: TObject);
+    Procedure startButClick(Sender: TObject);
+    Private 
     { private declarations }
     Outputstring: TStringlist;
     Outputstream: TMemoryStream;
     RipProcess, EncodeProcess: TProcess;
-  public
+    Public 
     { public declarations }
-    ToRemove, ToRip, ToEncode: array[1..100] of boolean;
-    OutFileNames: array[1..100] of string;
+    ToRemove, ToRip, ToEncode: array[1..100] Of boolean;
+    OutFileNames: array[1..100] Of string;
     RipTrack, EncodeTrack: byte;
     ripping, encoding: boolean;
-    outfolder:string;
+    outfolder: string;
     CDDBcon: TCddbObject;
-  end; 
+  End;
 
-var
+Var 
   cdripwin: Tcdrip;
 
 
-implementation
-uses mainform, mediacol, translations, functions, config;
+  Implementation
+
+  Uses mainform, mediacol, translations, functions, config;
 
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 { Tcdrip }
 
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Procedure Tcdrip.Button1Click(Sender: TObject);
+Begin
+  Button5Click(Nil);
+  If CDDBcon=Nil Then
+    CDDBcon := TCddbObject.create
+  Else
+    Begin
+      Timer1.Enabled := false;
+      CDDBcon.destroy;
+      CDDBcon := TCddbObject.create;
+    End;
+  If CDDBcon.ReadTOC(drivebox.Text) Then
+    Begin
+      CDDBcon.query(drivebox.Text, 'freedb.org', 8880);
+      Timer1.Enabled := true;
+    End;
+End;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tcdrip.Button1Click(Sender: TObject);
-begin
-     Button5Click(nil);
-     if CDDBcon=nil then
-        CDDBcon:=TCddbObject.create
-       else begin
-        Timer1.Enabled:=false;
-        CDDBcon.destroy;
-        CDDBcon:=TCddbObject.create;
-       end;
-     if CDDBcon.ReadTOC(drivebox.Text) then begin
-        CDDBcon.query(drivebox.Text, 'freedb.org', 8880);
-        Timer1.Enabled:=true;
-      end;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure Tcdrip.Button2Click(Sender: TObject);
-begin
+Procedure Tcdrip.Button2Click(Sender: TObject);
+Begin
   close;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tcdrip.Button4Click(Sender: TObject);
-begin
+Procedure Tcdrip.Button4Click(Sender: TObject);
+Begin
 {$ifdef linux}
-   Exec('/usr/bin/eject',CDDBcon.CDromDrives[drivebox.ItemIndex+1]);
+  Exec('/usr/bin/eject',CDDBcon.CDromDrives[drivebox.ItemIndex+1]);
 {$endif linux}
 {$ifdef win32}
-   Exec('eject.exe',CDDBcon.CDromDrives[drivebox.ItemIndex+1]);
+  Exec('eject.exe',CDDBcon.CDromDrives[drivebox.ItemIndex+1]);
 {$endif win32}
-   writeln('ATTENTION!! DIRTY! ejecting cdrom drive... ');
-   Trackgrid.Clean([gzNormal, gzFixedCols]);
-end;
+  writeln('ATTENTION!! DIRTY! ejecting cdrom drive... ');
+  Trackgrid.Clean([gzNormal, gzFixedCols]);
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tcdrip.Button5Click(Sender: TObject);
-var b, z:byte;
-    tmps, s, t1, t2: string;
-    ti1, ti2: integer;
-begin
-     Trackgrid.Clean([gzNormal, gzFixedCols]);
-     if CDDBcon.ReadTOC(drivebox.Text) then begin
-        artistedit.Text:='Unknown';
-        albumedit.Text:='Unknown';
-        Trackgrid.RowCount:=1;
-        Trackgrid.ColWidths[0]:=20;
-        for b := 1 to CDDBcon.NrTracks do begin
-            str(b, tmps);
-            Trackgrid.RowCount:=Trackgrid.RowCount+1;
-            Trackgrid.Cells[0,b]:=tmps;
-            Trackgrid.Cells[1,b]:='Track '+tmps;
-            z:=b;
-            ti1:=(CDDBcon.TOCEntries[z+1].min)-(CDDBcon.TOCEntries[z].min);
-            ti2:=(CDDBcon.TOCEntries[z+1].sec)-(CDDBcon.TOCEntries[z].sec);
-            if ti2<0 then dec(ti1);
-            ti2:=abs(ti2);
-            str(ti1, t1);
-            str(ti2, t2);
-            if ti2<10 then t2:='0'+t2;
-            Trackgrid.Cells[3,b]:=t1+':'+t2;
-            end;
-      end;
-     Timer1.Enabled:=true;
-end;
+Procedure Tcdrip.Button5Click(Sender: TObject);
+
+Var b, z: byte;
+  tmps, s, t1, t2: string;
+  ti1, ti2: integer;
+Begin
+  Trackgrid.Clean([gzNormal, gzFixedCols]);
+  If CDDBcon.ReadTOC(drivebox.Text) Then
+    Begin
+      artistedit.Text := 'Unknown';
+      albumedit.Text := 'Unknown';
+      Trackgrid.RowCount := 1;
+      Trackgrid.ColWidths[0] := 20;
+      For b := 1 To CDDBcon.NrTracks Do
+        Begin
+          str(b, tmps);
+          Trackgrid.RowCount := Trackgrid.RowCount+1;
+          Trackgrid.Cells[0,b] := tmps;
+          Trackgrid.Cells[1,b] := 'Track '+tmps;
+          z := b;
+          ti1 := (CDDBcon.TOCEntries[z+1].min)-(CDDBcon.TOCEntries[z].min);
+          ti2 := (CDDBcon.TOCEntries[z+1].sec)-(CDDBcon.TOCEntries[z].sec);
+          If ti2<0 Then dec(ti1);
+          ti2 := abs(ti2);
+          str(ti1, t1);
+          str(ti2, t2);
+          If ti2<10 Then t2 := '0'+t2;
+          Trackgrid.Cells[3,b] := t1+':'+t2;
+        End;
+    End;
+  Timer1.Enabled := true;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tcdrip.CheckBox1Change(Sender: TObject);
-begin
-   
-end;
+Procedure Tcdrip.CheckBox1Change(Sender: TObject);
+Begin
+
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tcdrip.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
-  Timer1.Enabled:=false;
+Procedure Tcdrip.FormClose(Sender: TObject; Var CloseAction: TCloseAction);
+Begin
+  Timer1.Enabled := false;
   RipProcess.free;
   EncodeProcess.free;
   Outputstream.free;
   Outputstring.free;
   Timer1.free;
   CDDBcon.destroy;
-  main.Enabled:=true;
-end;
+  main.Enabled := true;
+End;
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tcdrip.FormCreate(Sender: TObject);
-var b, z:byte;
-    tmps, s, t1, t2: string;
-    ti1, ti2, i: integer;
-begin
-     TranslateUnitResourceStrings('cdrip', cactusconfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, copy(CactusConfig.language, 0, 2));
+Procedure Tcdrip.FormCreate(Sender: TObject);
 
-     encodecheck.Caption:= rsEncodeToMp3;
-     LArtist.Caption:= rsArtist;
-     LAlbum.Caption:= rsAlbum;
-     querrybtn.Caption:= rsQuerryCDDB;
-     loadbtn.Caption:= rsLoad;
-     ejectbtn.Caption:= rsEject;
-     startbtn.Caption:= rsStart;
-     backbtn.Caption:= rsBack;
-     writetagscheck.Caption:= rsSetID3Tag;
-     subfoldercheck.Caption:= rsCrSubfolders;
-     LNameScheme.Caption:=rsOutfileNamin;
-     
+Var b, z: byte;
+  tmps, s, t1, t2: string;
+  ti1, ti2, i: integer;
+Begin
+  TranslateUnitResourceStrings('cdrip', cactusconfig.DataPrefix+'languages/cactus.%s.po',
+                               CactusConfig.language, copy(CactusConfig.language, 0, 2));
 
-
-     ripping:=false;
-     RipProcess:=TProcess.Create(nil);
-     EncodeProcess:=TProcess.Create(nil);
-     Outputstring:=TStringList.Create;
-     Outputstream:=TMemoryStream.Create;
-        
-     for i:= 0 to MediaCollection.DirList.Count-1 do   //
-        begin
-            outputfolderbox.AddItem(MediaCollection.DirList[i], nil);
-          end;
-          
-     outputfolderbox.ItemIndex:=0;
-     CDDBcon:=TCddbObject.create;
-     if (CDDBcon.DriveCount>0) then begin
-        for b:=1 to CDDBcon.DriveCount do drivebox.AddItem(CDDBcon.CDromDrives[b], nil);
-        drivebox.ItemIndex:=0;
-        if CDDBcon.ReadTOC(CDDBcon.CDromDrives[drivebox.ItemIndex+1]) then begin
-            artistedit.Text:='Unknown';
-            albumedit.Text:='Unknown';
-            Trackgrid.Clean([gzNormal, gzFixedCols]);
-         Trackgrid.Cells[1,0]:='Title';
-         Trackgrid.Cells[2,0]:='Rip';
-         Trackgrid.Cells[3,0]:='Length';
-            Trackgrid.RowCount:=1;
-            Trackgrid.ColWidths[0]:=20;
-            for b := 1 to CDDBcon.NrTracks do begin
-                str(b, tmps);
-                Trackgrid.RowCount:=Trackgrid.RowCount+1;
-                Trackgrid.Cells[0,b]:=tmps;
-                Trackgrid.Cells[1,b]:='Track '+tmps;
-                z:=b;
-                ti1:=(CDDBcon.TOCEntries[z+1].min)-(CDDBcon.TOCEntries[z].min);
-                ti2:=(CDDBcon.TOCEntries[z+1].sec)-(CDDBcon.TOCEntries[z].sec);
-                if ti2<0 then dec(ti1);
-                ti2:=abs(ti2);
-                str(ti1, t1);
-                str(ti2, t2);
-                if ti2<10 then t2:='0'+t2;
-                Trackgrid.Cells[3,b]:=t1+':'+t2;
-              end;
-          end;
-         Timer1.Enabled:=true;
-        
-      end else begin
-        ShowMessage('No CDROM-Drive found on this computer');
-      
-      end;
+  encodecheck.Caption := rsEncodeToMp3;
+  LArtist.Caption := rsArtist;
+  LAlbum.Caption := rsAlbum;
+  querrybtn.Caption := rsQuerryCDDB;
+  loadbtn.Caption := rsLoad;
+  ejectbtn.Caption := rsEject;
+  startbtn.Caption := rsStart;
+  backbtn.Caption := rsBack;
+  writetagscheck.Caption := rsSetID3Tag;
+  subfoldercheck.Caption := rsCrSubfolders;
+  LNameScheme.Caption := rsOutfileNamin;
 
 
 
-end;
+  ripping := false;
+  RipProcess := TProcess.Create(Nil);
+  EncodeProcess := TProcess.Create(Nil);
+  Outputstring := TStringList.Create;
+  Outputstream := TMemoryStream.Create;
+
+  For i:= 0 To MediaCollection.DirList.Count-1 Do
+    //
+    Begin
+      outputfolderbox.AddItem(MediaCollection.DirList[i], Nil);
+    End;
+
+  outputfolderbox.ItemIndex := 0;
+  CDDBcon := TCddbObject.create;
+  If (CDDBcon.DriveCount>0) Then
+    Begin
+      For b:=1 To CDDBcon.DriveCount Do
+        drivebox.AddItem(CDDBcon.CDromDrives[b], Nil);
+      drivebox.ItemIndex := 0;
+      If CDDBcon.ReadTOC(CDDBcon.CDromDrives[drivebox.ItemIndex+1]) Then
+        Begin
+          artistedit.Text := 'Unknown';
+          albumedit.Text := 'Unknown';
+          Trackgrid.Clean([gzNormal, gzFixedCols]);
+          Trackgrid.Cells[1,0] := 'Title';
+          Trackgrid.Cells[2,0] := 'Rip';
+          Trackgrid.Cells[3,0] := 'Length';
+          Trackgrid.RowCount := 1;
+          Trackgrid.ColWidths[0] := 20;
+          For b := 1 To CDDBcon.NrTracks Do
+            Begin
+              str(b, tmps);
+              Trackgrid.RowCount := Trackgrid.RowCount+1;
+              Trackgrid.Cells[0,b] := tmps;
+              Trackgrid.Cells[1,b] := 'Track '+tmps;
+              z := b;
+              ti1 := (CDDBcon.TOCEntries[z+1].min)-(CDDBcon.TOCEntries[z].min);
+              ti2 := (CDDBcon.TOCEntries[z+1].sec)-(CDDBcon.TOCEntries[z].sec);
+              If ti2<0 Then dec(ti1);
+              ti2 := abs(ti2);
+              str(ti1, t1);
+              str(ti2, t2);
+              If ti2<10 Then t2 := '0'+t2;
+              Trackgrid.Cells[3,b] := t1+':'+t2;
+            End;
+        End;
+      Timer1.Enabled := true;
+
+    End
+  Else
+    Begin
+      ShowMessage('No CDROM-Drive found on this computer');
+
+    End;
+
+
+
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 {This timerevent is too confusing, big and buggy. split in 2 timer objects -> one for IP communication and one for rip/encode status }
 
-procedure Tcdrip.Timer1Timer(Sender: TObject);
-var ListItem: TListItem;
-    b:byte;
-    tmps, tmps2:string;
-    ledit:TEdit;
-    editRect: TRect;
-    ti1, ti2:integer;
-    t1,t2: string;
-    buf: array[0..256] of byte;
-    i, n: integer;
-begin
+Procedure Tcdrip.Timer1Timer(Sender: TObject);
 
- if (ripping=false) and (encoding=false) then begin
-  CDDBcon.callevents;
-  if CDDBcon.data_ready then begin
-     artistedit.Text:=CDDBcon.artist;
-     albumedit.Text:=CDDBcon.album;
-     Trackgrid.Clean([gzNormal, gzFixedCols]);
-     Trackgrid.RowCount:=1;
-     Trackgrid.ColWidths[0]:=20;
-     for i:= 1 to length(CDDBcon.album) do begin write(byte(CDDBcon.album[i]));write('-'); end;
-     writeln;
-     for b:= 1 to CDDBcon.NrTracks do begin
-         str(b, tmps);
-         Trackgrid.RowCount:=Trackgrid.RowCount+1;
-         Trackgrid.Cells[0,b]:=tmps;
-         Trackgrid.Cells[1,b]:=CDDBcon.title[b];
-         ti1:=(CDDBcon.TOCEntries[b+1].min)-(CDDBcon.TOCEntries[b].min);
-         ti2:=(CDDBcon.TOCEntries[b+1].sec)-(CDDBcon.TOCEntries[b].sec);
-         if ti2<0 then dec(ti1);
-         ti2:=abs(ti2);
-         str(ti1, t1);
-         str(ti2, t2);
-         if ti2<10 then t2:='0'+t2;
-         Trackgrid.Cells[3,b]:=t1+':'+t2;
-     end;
-     CDDBcon.data_ready:=false;
-   end;
-  end;
- if ripping and RipProcess.Running then begin
-   Outputstream.Clear;
-   Outputstream.SetSize(2048);
-   i:=(RipProcess.OutPut.Read(Outputstream.Memory^, 2048));
-   Outputstream.SetSize(i);
-   if i>5 then begin
-      Outputstring.clear;
-      Outputstring.LoadFromStream(Outputstream);
-      tmps:=copy(Outputstring.Strings[Outputstring.Count-1], pos('%', Outputstring.Strings[Outputstring.Count-1])-3, 3);
-      Trackgrid.Cells[2,RipTrack]:=tmps+'%';
-      // Uncomment for Debug if Outputstring.Count>0 then for n:= 1 to Outputstring.Count-1 do {if pos('(==',Outputstring.Strings[n])>0 then }writeln(Outputstring.Strings[n]);
-    end;
- end;
- if (ripping) and (RipProcess.Running=false) then begin
-    if ToEncode[RipTrack] then begin
-         encoding:=true;
-         EncodeTrack:=RipTrack;
-         str(EncodeTrack, tmps);
-         if EncodeTrack<10 then tmps:='0'+tmps;
-         if FileNameType.ItemIndex=0 then OutFileNames[EncodeTrack]:=outfolder+'/'+tmps+' - '+artistedit.Text+' - '+Trackgrid.Cells[1, EncodeTrack]+'.mp3';
-         if FileNameType.ItemIndex=1 then OutFileNames[EncodeTrack]:=outfolder+'/'+artistedit.Text+' - '+Trackgrid.Cells[1, EncodeTrack]+'.mp3';
-         if FileNameType.ItemIndex=2 then OutFileNames[EncodeTrack]:=outfolder+'/'+artistedit.Text+' - '+inttostr(EncodeTrack)+' - '+Trackgrid.Cells[1, EncodeTrack]+'.mp3';
-         OutFileNames[EncodeTrack]:=StringReplace(OutFileNames[EncodeTrack], #39, '', [rfReplaceAll]);
-         writeln(OutFileNames[EncodeTrack]);
-         EncodeProcess.CommandLine:='/usr/bin/lame -h -b'+bitratebox.Items[bitratebox.ItemIndex]+' --tt "'+UTF8toLatin1(Trackgrid.Cells[1, EncodeTrack])+'" --ta "'+UTF8toLatin1(artistedit.Text)+'" --tl "'+UTF8toLatin1(albumedit.Text)+'" --tn '+tmps+' "'+outfolder+'/Track'+tmps+'.wav"'+' "'+OutFileNames[EncodeTrack]+'"';
-         writeln(EncodeProcess.CommandLine);
-         Caption:='Encoding Track '+inttostr(EncodeTrack)+' ...';
-         EncodeProcess.Options:=[poUsePipes, poStderrToOutPut];
-         EncodeProcess.Execute;
-         encoding:=true;
-         ripping:=false;
-         Timer1.Enabled:=true;
-        end
-       else begin
-        encoding:=false;
-        i:=0;
-        str(Riptrack, tmps);
-        if RipTrack<10 then tmps:='0'+tmps;
-        if ToRemove[RipTrack] then begin
+Var ListItem: TListItem;
+  b: byte;
+  tmps, tmps2: string;
+  ledit: TEdit;
+  editRect: TRect;
+  ti1, ti2: integer;
+  t1,t2: string;
+  buf: array[0..256] Of byte;
+  i, n: integer;
+Begin
+
+  If (ripping=false) And (encoding=false) Then
+    Begin
+      CDDBcon.callevents;
+      If CDDBcon.data_ready Then
+        Begin
+          artistedit.Text := CDDBcon.artist;
+          albumedit.Text := CDDBcon.album;
+          Trackgrid.Clean([gzNormal, gzFixedCols]);
+          Trackgrid.RowCount := 1;
+          Trackgrid.ColWidths[0] := 20;
+          For i:= 1 To length(CDDBcon.album) Do
+            Begin
+              write(byte(CDDBcon.album[i]));
+              write('-');
+            End;
+          writeln;
+          For b:= 1 To CDDBcon.NrTracks Do
+            Begin
+              str(b, tmps);
+              Trackgrid.RowCount := Trackgrid.RowCount+1;
+              Trackgrid.Cells[0,b] := tmps;
+              Trackgrid.Cells[1,b] := CDDBcon.title[b];
+              ti1 := (CDDBcon.TOCEntries[b+1].min)-(CDDBcon.TOCEntries[b].min);
+              ti2 := (CDDBcon.TOCEntries[b+1].sec)-(CDDBcon.TOCEntries[b].sec);
+              If ti2<0 Then dec(ti1);
+              ti2 := abs(ti2);
+              str(ti1, t1);
+              str(ti2, t2);
+              If ti2<10 Then t2 := '0'+t2;
+              Trackgrid.Cells[3,b] := t1+':'+t2;
+            End;
+          CDDBcon.data_ready := false;
+        End;
+    End;
+  If ripping And RipProcess.Running Then
+    Begin
+      Outputstream.Clear;
+      Outputstream.SetSize(2048);
+      i := (RipProcess.OutPut.Read(Outputstream.Memory^, 2048));
+      Outputstream.SetSize(i);
+      If i>5 Then
+        Begin
+          Outputstring.clear;
+          Outputstring.LoadFromStream(Outputstream);
+          tmps := copy(Outputstring.Strings[Outputstring.Count-1], pos('%', Outputstring.Strings[
+                  Outputstring.Count-1])-3, 3);
+          Trackgrid.Cells[2,RipTrack] := tmps+'%';
+
+// Uncomment for Debug if Outputstring.Count>0 then for n:= 1 to Outputstring.Count-1 do {if pos('(==',Outputstring.Strings[n])>0 then }writeln(Outputstring.Strings[n]);
+        End;
+    End;
+  If (ripping) And (RipProcess.Running=false) Then
+    Begin
+      If ToEncode[RipTrack] Then
+        Begin
+          encoding := true;
+          EncodeTrack := RipTrack;
+          str(EncodeTrack, tmps);
+          If EncodeTrack<10 Then tmps := '0'+tmps;
+          If FileNameType.ItemIndex=0 Then OutFileNames[EncodeTrack] := outfolder+'/'+tmps+' - '+
+                                                                        artistedit.Text+' - '+
+                                                                        Trackgrid.Cells[1,
+                                                                        EncodeTrack]+'.mp3';
+          If FileNameType.ItemIndex=1 Then OutFileNames[EncodeTrack] := outfolder+'/'+artistedit.
+                                                                        Text+' - '+Trackgrid.Cells[1
+                                                                        , EncodeTrack]+'.mp3';
+          If FileNameType.ItemIndex=2 Then OutFileNames[EncodeTrack] := outfolder+'/'+artistedit.
+                                                                        Text+' - '+inttostr(
+                                                                        EncodeTrack)+' - '+Trackgrid
+                                                                        .Cells[1, EncodeTrack]+
+                                                                        '.mp3';
+          OutFileNames[EncodeTrack] := StringReplace(OutFileNames[EncodeTrack], #39, '', [
+                                       rfReplaceAll]);
+          writeln(OutFileNames[EncodeTrack]);
+          EncodeProcess.CommandLine := '/usr/bin/lame -h -b'+bitratebox.Items[bitratebox.ItemIndex]+
+                                       ' --tt "'+UTF8toLatin1(Trackgrid.Cells[1, EncodeTrack])+
+                                       '" --ta "'+UTF8toLatin1(artistedit.Text)+'" --tl "'+
+                                       UTF8toLatin1(albumedit.Text)+'" --tn '+tmps+' "'+outfolder+
+                                       '/Track'+tmps+'.wav"'+' "'+OutFileNames[EncodeTrack]+'"';
+          writeln(EncodeProcess.CommandLine);
+          Caption := 'Encoding Track '+inttostr(EncodeTrack)+' ...';
+          EncodeProcess.Options := [poUsePipes, poStderrToOutPut];
+          EncodeProcess.Execute;
+          encoding := true;
+          ripping := false;
+          Timer1.Enabled := true;
+        End
+      Else
+        Begin
+          encoding := false;
+          i := 0;
+          str(Riptrack, tmps);
+          If RipTrack<10 Then tmps := '0'+tmps;
+          If ToRemove[RipTrack] Then
+            Begin
               DeleteFile(outfolder+'/Track'+tmps+'.wav');
               DeleteFile(outfolder+'/Track'+tmps+'.inf');
               writeln('delete '+outfolder+'/Track'+tmps+'.wav');
-           end;
-        repeat inc(i) until (ToRip[i]=true) or (i>CDDBcon.NrTracks);
+            End;
+          Repeat
+            inc(i)
+          Until (ToRip[i]=true) Or (i>CDDBcon.NrTracks);
 
 
-        if i<=CDDBcon.NrTracks then begin
-           Trackgrid.Cells[2,i]:='0%';
-           ToRip[i]:=false;
-           ToRemove[RipTrack]:=false;
-           Trackgrid.Cells[2,RipTrack]:='100%';
-           RipTrack:=i;
-           str(i, tmps);
-           if i<10 then tmps:='0'+tmps;
-           if paranoia.Checked then
-              RipProcess.CommandLine:='/usr/bin/cdda2wav -paranoia -D'+CDDBcon.Device+' -t '+tmps+' '''+outfolder+'/Track'+tmps+'.wav'''
-              else
-              RipProcess.CommandLine:='/usr/bin/cdda2wav -D'+CDDBcon.Device+' -t '+tmps+' '''+outfolder+'/Track'+tmps+'.wav''';
-           RipProcess.Options:=[poUsePipes,poStderrToOutPut, poDefaultErrorMode];
-           Caption:='Ripping Track '+tmps+' ...';
-           writeln('Ripping Track '+tmps);
-           RipProcess.Execute;
-           Timer1.Enabled:=true;
-         end else begin
-           writeln('Finished all tracks');
-           Trackgrid.Cells[2,RipTrack]:='100%';
-           Caption:='CD Rip... < Finished >';
-           Trackgrid.Enabled:=true;
-           Timer1.Enabled:=false;
-           main.update_artist_view;
-           update_title_view;
-           ripping:=false;
-           encoding:=false;
-           ShowMessage('Ripping and encoding finished');
-         end;
-     end;
-   end;
-   If encoding and EncodeProcess.Running and ToEncode[RipTrack] then begin
+          If i<=CDDBcon.NrTracks Then
+            Begin
+              Trackgrid.Cells[2,i] := '0%';
+              ToRip[i] := false;
+              ToRemove[RipTrack] := false;
+              Trackgrid.Cells[2,RipTrack] := '100%';
+              RipTrack := i;
+              str(i, tmps);
+              If i<10 Then tmps := '0'+tmps;
+              If paranoia.Checked Then
+                RipProcess.CommandLine := '/usr/bin/cdda2wav -paranoia -D'+CDDBcon.Device+' -t '+
+                                          tmps+' '''+outfolder+'/Track'+tmps+'.wav'''
+              Else
+                RipProcess.CommandLine := '/usr/bin/cdda2wav -D'+CDDBcon.Device+' -t '+tmps+' '''+
+                                          outfolder+'/Track'+tmps+'.wav''';
+              RipProcess.Options := [poUsePipes,poStderrToOutPut, poDefaultErrorMode];
+              Caption := 'Ripping Track '+tmps+' ...';
+              writeln('Ripping Track '+tmps);
+              RipProcess.Execute;
+              Timer1.Enabled := true;
+            End
+          Else
+            Begin
+              writeln('Finished all tracks');
+              Trackgrid.Cells[2,RipTrack] := '100%';
+              Caption := 'CD Rip... < Finished >';
+              Trackgrid.Enabled := true;
+              Timer1.Enabled := false;
+              main.update_artist_view;
+              update_title_view;
+              ripping := false;
+              encoding := false;
+              ShowMessage('Ripping and encoding finished');
+            End;
+        End;
+    End;
+  If encoding And EncodeProcess.Running And ToEncode[RipTrack] Then
+    Begin
       Outputstream.Clear;
       Outputstream.SetSize(1024);
-      i:=(EncodeProcess.OutPut.Read(Outputstream.Memory^, 1024));
+      i := (EncodeProcess.OutPut.Read(Outputstream.Memory^, 1024));
       Outputstream.SetSize(i);
       //writeln(i);
-      if i>0 then begin
-         Outputstring.clear;
-         Outputstring.LoadFromStream(Outputstream);
-         tmps:=copy(Outputstring.Strings[Outputstring.Count-1], pos('%', Outputstring.Strings[Outputstring.Count-1])-2, 2);
-     //    writeln(tmps);
-         Trackgrid.Cells[2,EncodeTrack]:=tmps+'%';
-         Application.ProcessMessages;
-        //if Outputstring.Count>0 then for n:= 1 to Outputstring.Count-1 do {if pos('(==',Outputstring.Strings[n])>0 then }writeln(Outputstring.Strings[n]);
-       end;
-    end;
-    
-   If encoding and (EncodeProcess.Running=false) {and (ToEncode[RipTrack]=false)} then begin
-        ripping:=true;
-        encoding:=false;
-        ToEncode[RipTrack]:=false;
-        writeln('adding file');
-        MediaCollection.add(OutFileNames[EncodeTrack]);
-     end;
-end;
+      If i>0 Then
+        Begin
+          Outputstring.clear;
+          Outputstring.LoadFromStream(Outputstream);
+          tmps := copy(Outputstring.Strings[Outputstring.Count-1], pos('%', Outputstring.Strings[
+                  Outputstring.Count-1])-2, 2);
+          //    writeln(tmps);
+          Trackgrid.Cells[2,EncodeTrack] := tmps+'%';
+          Application.ProcessMessages;
 
-procedure Tcdrip.TrackgridHeaderClick(Sender: TObject; IsColumn: Boolean;
-  index: Integer);
-var row: integer;
-begin
-  if index = 2 then begin
-     for row:=1 to Trackgrid.RowCount-1 do if Trackgrid.Cells[2, row]='' then Trackgrid.Cells[2, row]:='x' else Trackgrid.Cells[2, row]:='';
-  end;
-end;
+//if Outputstring.Count>0 then for n:= 1 to Outputstring.Count-1 do {if pos('(==',Outputstring.Strings[n])>0 then }writeln(Outputstring.Strings[n]);
+        End;
+    End;
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  If encoding And (EncodeProcess.Running=false) {and (ToEncode[RipTrack]=false)} Then
+    Begin
+      ripping := true;
+      encoding := false;
+      ToEncode[RipTrack] := false;
+      writeln('adding file');
+      MediaCollection.add(OutFileNames[EncodeTrack]);
+    End;
+End;
 
-procedure Tcdrip.TrackgridMouseDown(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
+Procedure Tcdrip.TrackgridHeaderClick(Sender: TObject; IsColumn: Boolean;
+                                      index: Integer);
 
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure Tcdrip.TrackgridSelectCell(Sender: TObject; Col, Row: Integer;
-  var CanSelect: Boolean);
-begin
-  if col=2 then if Trackgrid.Cells[2, row]='' then Trackgrid.Cells[2, row]:='x' else Trackgrid.Cells[2, row]:='';
-end;
+Var row: integer;
+Begin
+  If index = 2 Then
+    Begin
+      For row:=1 To Trackgrid.RowCount-1 Do
+        If Trackgrid.Cells[2, row]='' Then Trackgrid.Cells[2, row] := 'x'
+        Else Trackgrid.Cells[2, row] := '';
+    End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tcdrip.encodecheckChange(Sender: TObject);
-begin
-    if EncodeCheck.Checked then begin
-     writetagscheck.Enabled:=true;
-     subfoldercheck.Enabled:=true;
-     bitratebox.enabled:=true;
-   end else begin
-     writetagscheck.Enabled:=false;
-     subfoldercheck.Enabled:=false;
-     bitratebox.enabled:=false;
-   end;
-end;
+Procedure Tcdrip.TrackgridMouseDown(Sender: TOBject; Button: TMouseButton;
+                                    Shift: TShiftState; X, Y: Integer);
+Begin
+
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure Tcdrip.startButClick(Sender: TObject);
-var row, i: integer;
-    tmps : string;
-begin
-  outfolder:=outputfolderbox.Items[outputfolderbox.ItemIndex];
-  if subfoldercheck.Checked then outfolder:=outfolder+DirectorySeparator+artistedit.Text;
-  if DirectoryExists(outfolder)=false then mkdir(outfolder);
-  for i:= 1 to CDDBcon.NrTracks do begin
-      if Trackgrid.Cells[2,i]='x' then ToRip[i]:=true;
-    end;
-  i:=0;
-  if encodecheck.Checked then ToEncode:=ToRip;
-  ToRemove:=ToRip;
-  repeat inc(i) until (ToRip[i]=true) or (i>CDDBcon.NrTracks);
-  if i<=CDDBcon.NrTracks then begin
-    if FileExists('/usr/bin/cdda2wav') then begin {NOT PORTABLE!!!}
-      Trackgrid.Enabled:=false;
-      Trackgrid.Cells[2,i]:='0%';
-      ToRip[i]:=false;
-      RipTrack:=i;
-      str(i, tmps);
-      if i<10 then tmps:='0'+tmps;
+Procedure Tcdrip.TrackgridSelectCell(Sender: TObject; Col, Row: Integer;
+                                     Var CanSelect: Boolean);
+Begin
+  If col=2 Then If Trackgrid.Cells[2, row]='' Then Trackgrid.Cells[2, row] := 'x'
+  Else Trackgrid.Cells[2, row] := '';
+End;
 
-      if paranoia.Checked then
-         RipProcess.CommandLine:='/usr/bin/cdda2wav -paranoia -D'+CDDBcon.Device+' -t '+tmps+' "'+outfolder+'/Track'+tmps+'.wav"'
-        else
-         RipProcess.CommandLine:='/usr/bin/cdda2wav -D'+CDDBcon.Device+' -t '+tmps+' "'+outfolder+'/Track'+tmps+'.wav"';
-      RipProcess.Options:=[poUsePipes, poStderrToOutPut, poDefaultErrorMode];
-      writeln('Ripping Track '+tmps);
-      Caption:='Ripping Track '+tmps+' ...';
-      RipProcess.Execute;
-      Timer1.Enabled:=true;
-      ripping:=true;
-     end else ShowMessage('ERROR: cdda2wav executable not found. Please install cdda2wav package first...');
-    end else if MessageDlg('No tracks selected. Rip complete disc?', mtWarning, mbOKCancel, 0)=mrOK then begin
-               for row:=1 to Trackgrid.RowCount-1 do if Trackgrid.Cells[2, row]='' then Trackgrid.Cells[2, row]:='x' else Trackgrid.Cells[2, row]:='';
-               startButClick(nil);
-             end;
-end;
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Procedure Tcdrip.encodecheckChange(Sender: TObject);
+Begin
+  If EncodeCheck.Checked Then
+    Begin
+      writetagscheck.Enabled := true;
+      subfoldercheck.Enabled := true;
+      bitratebox.enabled := true;
+    End
+  Else
+    Begin
+      writetagscheck.Enabled := false;
+      subfoldercheck.Enabled := false;
+      bitratebox.enabled := false;
+    End;
+End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Procedure Tcdrip.startButClick(Sender: TObject);
+
+Var row, i: integer;
+  tmps : string;
+Begin
+  outfolder := outputfolderbox.Items[outputfolderbox.ItemIndex];
+  If subfoldercheck.Checked Then outfolder := outfolder+DirectorySeparator+artistedit.Text;
+  If DirectoryExists(outfolder)=false Then mkdir(outfolder);
+  For i:= 1 To CDDBcon.NrTracks Do
+    Begin
+      If Trackgrid.Cells[2,i]='x' Then ToRip[i] := true;
+    End;
+  i := 0;
+  If encodecheck.Checked Then ToEncode := ToRip;
+  ToRemove := ToRip;
+  Repeat
+    inc(i)
+  Until (ToRip[i]=true) Or (i>CDDBcon.NrTracks);
+  If i<=CDDBcon.NrTracks Then
+    Begin
+      If FileExists('/usr/bin/cdda2wav') Then
+        Begin {NOT PORTABLE!!!}
+          Trackgrid.Enabled := false;
+          Trackgrid.Cells[2,i] := '0%';
+          ToRip[i] := false;
+          RipTrack := i;
+          str(i, tmps);
+          If i<10 Then tmps := '0'+tmps;
+
+          If paranoia.Checked Then
+            RipProcess.CommandLine := '/usr/bin/cdda2wav -paranoia -D'+CDDBcon.Device+' -t '+tmps+
+                                      ' "'+outfolder+'/Track'+tmps+'.wav"'
+          Else
+            RipProcess.CommandLine := '/usr/bin/cdda2wav -D'+CDDBcon.Device+' -t '+tmps+' "'+
+                                      outfolder+'/Track'+tmps+'.wav"';
+          RipProcess.Options := [poUsePipes, poStderrToOutPut, poDefaultErrorMode];
+          writeln('Ripping Track '+tmps);
+          Caption := 'Ripping Track '+tmps+' ...';
+          RipProcess.Execute;
+          Timer1.Enabled := true;
+          ripping := true;
+        End
+      Else ShowMessage(
+                    'ERROR: cdda2wav executable not found. Please install cdda2wav package first...'
+        );
+    End
+  Else If MessageDlg('No tracks selected. Rip complete disc?', mtWarning, mbOKCancel, 0)=mrOK Then
+         Begin
+           For row:=1 To Trackgrid.RowCount-1 Do
+             If Trackgrid.Cells[2, row]='' Then Trackgrid.Cells[2, row] := 'x'
+             Else Trackgrid.Cells[2, row] := '';
+           startButClick(Nil);
+         End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 initialization
   {$I cdrip.lrs}
 
-end.
-
+End.

@@ -1,3 +1,4 @@
+
 {
 Settings Dialog for Cactus Jukebox
 
@@ -15,50 +16,50 @@ This Software is published under the GPL
 }
 
 
-unit settings; 
+Unit settings;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, ComCtrls, CheckLst, config;
-  
+Uses 
+Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
+ExtCtrls, Buttons, ComCtrls, CheckLst, config;
+
 resourcestring
-  rsAutoloadLast = 'Autoload last library at startup';
-  rsScanForNewFi = 'Scan for new files in background  on startup';
-  rsLanguage = 'Language';
-  rsWhatToDoWhen = 'What to do when there is no ID3';
-  rsGuessTagFrom = 'Guess tag from filename';
-  rsMoveToSectio = 'Move to section %sUnknown%s';
-  rsID3Type = 'ID3 type';
-  rsID3v1Priorit = 'ID3v1 Priority';
-  rsID3v2Priorit = 'ID3v2 Priority';
-  rsGeneral = 'General';
-  rsPathToMp3pla = 'Path to mp3player mountpoint';
-  rsCreateSubfol = 'Create subfolders on upload';
-  rsPathsToAddit = 'Paths to additional application needed for Cactus Jukebox';
-  rsCdda2wavTool = 'Cdda2wav (tool to rip CDs)';
-  rsSave = 'Save';
-  rsCancel = 'Cancel';
-  rsMobileDevice = 'Mobile Device';
-  rsPaths = 'Paths';
-  rsLameNeededTo = 'lame (needed to encode mp3 files)';
-  rsEnableKDESer = 'Enable KDE Service Menu';
-  rsAudioOutput = 'Audio Output';
-  rsDownloadAlbu = 'Download album cover image from internet';
-  rsClearCache = 'Clear Cache';
-  rsAutomaticlyS = 'Automaticly start playing first song in playlist';
-  
-
-type
+rsAutoloadLast = 'Autoload last library at startup';
+rsScanForNewFi = 'Scan for new files in background  on startup';
+rsLanguage = 'Language';
+rsWhatToDoWhen = 'What to do when there is no ID3';
+rsGuessTagFrom = 'Guess tag from filename';
+rsMoveToSectio = 'Move to section %sUnknown%s';
+rsID3Type = 'ID3 type';
+rsID3v1Priorit = 'ID3v1 Priority';
+rsID3v2Priorit = 'ID3v2 Priority';
+rsGeneral = 'General';
+rsPathToMp3pla = 'Path to mp3player mountpoint';
+rsCreateSubfol = 'Create subfolders on upload';
+rsPathsToAddit = 'Paths to additional application needed for Cactus Jukebox';
+rsCdda2wavTool = 'Cdda2wav (tool to rip CDs)';
+rsSave = 'Save';
+rsCancel = 'Cancel';
+rsMobileDevice = 'Mobile Device';
+rsPaths = 'Paths';
+rsLameNeededTo = 'lame (needed to encode mp3 files)';
+rsEnableKDESer = 'Enable KDE Service Menu';
+rsAudioOutput = 'Audio Output';
+rsDownloadAlbu = 'Download album cover image from internet';
+rsClearCache = 'Clear Cache';
+rsAutomaticlyS = 'Automaticly start playing first song in playlist';
 
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Type 
+
+
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   { TSettings }
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  TSettings = class(TForm)
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  TSettings = Class(TForm)
     autoload1: TCheckBox;
     Button1: TButton;
     backscan: TCheckBox;
@@ -102,223 +103,258 @@ type
     v1_prio1: TRadioButton;
     v2_prio: TRadioButton;
     v2_prio1: TRadioButton;
-    procedure Button1Click(Sender: TObject);
-    procedure ClearCoverClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
-    procedure LanguageBoxChange(Sender: TObject);
-    procedure PageControl1Change(Sender: TObject);
-    procedure PluginListMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure cancelbutClick(Sender: TObject);
-    procedure kdeserviceboxChange(Sender: TObject);
-    procedure savebutClick(Sender: TObject);
-  private
+    Procedure Button1Click(Sender: TObject);
+    Procedure ClearCoverClick(Sender: TObject);
+    Procedure FormCreate(Sender: TObject);
+    Procedure FormDestroy(Sender: TObject);
+    Procedure LanguageBoxChange(Sender: TObject);
+    Procedure PageControl1Change(Sender: TObject);
+    Procedure PluginListMouseDown(Sender: TObject; Button: TMouseButton;
+                                  Shift: TShiftState; X, Y: Integer);
+    Procedure cancelbutClick(Sender: TObject);
+    Procedure kdeserviceboxChange(Sender: TObject);
+    Procedure savebutClick(Sender: TObject);
+    Private 
     { private declarations }
-    servicemenu_changed:boolean;
-  public
+    servicemenu_changed: boolean;
+    Public 
     { public declarations }
-  end; 
+  End;
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-var
+Var 
   setupwin: TSettings;
 
 
-implementation
-uses mainform, translations, functions, plugin, fmodplayer;
+  Implementation
+
+  Uses mainform, translations, functions, plugin, fmodplayer;
 
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 { TSettings }
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TSettings.savebutClick(Sender: TObject);
-var tmps:string;
-    i: integer;
-begin
+Procedure TSettings.savebutClick(Sender: TObject);
+
+Var tmps: string;
+  i: integer;
+Begin
   //   Main.mpg123:=mpg123pathedit1.text;
   //   Main.lame:=lamepathedit1.text;
-     CactusConfig.DAPPath:=IncludeTrailingPathDelimiter(playerpathedit1.Text);
-     CactusConfig.CDRomDevice:=CDRomEdit.Text;
+  CactusConfig.DAPPath := IncludeTrailingPathDelimiter(playerpathedit1.Text);
+  CactusConfig.CDRomDevice := CDRomEdit.Text;
 {$ifdef linux}
-     if servicemenu_changed then
-          if kdeservicebox.checked then begin
-                   if FileExists(CactusConfig.HomeDir+'/.kde/share/apps/konqueror/servicemenus/') then begin
-                         if FileCopy(CactusConfig.DataPrefix+'/tools/cactus_servicemenu.desktop', CactusConfig.HomeDir+'/.kde/share/apps/konqueror/servicemenus/cactus_servicemenu.desktop')
-                                  then CactusConfig.KDEServiceMenu:=true
-                                  else begin
-                                         CactusConfig.KDEServiceMenu:=false;
-                                         ShowMessage('ERROR: Couldn''t create service menu...');
-                                       end;
-                    end;
-                end else begin
-                   DeleteFile(CactusConfig.HomeDir+'/.kde/share/apps/konqueror/servicemenus/cactus_servicemenu.desktop');
-                   CactusConfig.KDEServiceMenu:=true;
-              end;
-     If AudioOut.ItemIndex=0 then CactusConfig.OutputAlsa:=true else CactusConfig.OutputAlsa:=false;
+  If servicemenu_changed Then
+    If kdeservicebox.checked Then
+      Begin
+        If FileExists(CactusConfig.HomeDir+'/.kde/share/apps/konqueror/servicemenus/') Then
+          Begin
+            If FileCopy(CactusConfig.DataPrefix+'/tools/cactus_servicemenu.desktop', CactusConfig.
+               HomeDir+'/.kde/share/apps/konqueror/servicemenus/cactus_servicemenu.desktop')
+              Then CactusConfig.KDEServiceMenu := true
+            Else
+              Begin
+                CactusConfig.KDEServiceMenu := false;
+                ShowMessage('ERROR: Couldn''t create service menu...');
+              End;
+          End;
+      End
+  Else
+    Begin
+      DeleteFile(CactusConfig.HomeDir+
+                 '/.kde/share/apps/konqueror/servicemenus/cactus_servicemenu.desktop');
+      CactusConfig.KDEServiceMenu := true;
+    End;
+  If AudioOut.ItemIndex=0 Then CactusConfig.OutputAlsa := true
+  Else CactusConfig.OutputAlsa := false;
 {$endif}
-     if guesstag1.checked then CactusConfig.GuessTag:=true else CactusConfig.GuessTag:=false;
-     if backscan.Checked then CactusConfig.background_scan:= true else CactusConfig.background_scan:=false;
-     if v2_prio.Checked then CactusConfig.id3v2_prio:=true else CactusConfig.id3v2_prio:=false;
-     if subfolders.checked then CactusConfig.mobile_subfolders:=true else CactusConfig.mobile_subfolders:=false;
-     if CoverDownload.Checked then CactusConfig.CoverDownload:=true else CactusConfig.CoverDownload:=false;
-     if AutoPlayBox.Checked then CactusConfig.AutostartPlay:=true else CactusConfig.AutostartPlay:=false;
-//     MediaCollection.guess_tag:=CactusConfig.GuessTag;
-     fmodplayer.player.oss:=not CactusConfig.OutputAlsa;
+  If guesstag1.checked Then CactusConfig.GuessTag := true
+  Else CactusConfig.GuessTag := false;
+  If backscan.Checked Then CactusConfig.background_scan := true
+  Else CactusConfig.background_scan := false;
+  If v2_prio.Checked Then CactusConfig.id3v2_prio := true
+  Else CactusConfig.id3v2_prio := false;
+  If subfolders.checked Then CactusConfig.mobile_subfolders := true
+  Else CactusConfig.mobile_subfolders := false;
+  If CoverDownload.Checked Then CactusConfig.CoverDownload := true
+  Else CactusConfig.CoverDownload := false;
+  If AutoPlayBox.Checked Then CactusConfig.AutostartPlay := true
+  Else CactusConfig.AutostartPlay := false;
+  //     MediaCollection.guess_tag:=CactusConfig.GuessTag;
+  fmodplayer.player.oss := Not CactusConfig.OutputAlsa;
 
-     CactusConfig.language:=LanguageBox.Items[LanguageBox.ItemIndex];
-     CactusConfig.FlushConfig;
-     
-     for i:=0 to PluginList.Count-1 do
-        if PluginList.Checked[i] then
-            CactusPlugins.Items[i].enabled:=true
-         else CactusPlugins.Items[i].enabled:=false;
+  CactusConfig.language := LanguageBox.Items[LanguageBox.ItemIndex];
+  CactusConfig.FlushConfig;
 
-     TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, '');
-     TranslateUnitResourceStrings('mp3', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, '');
-     close;
-end;
+  For i:=0 To PluginList.Count-1 Do
+    If PluginList.Checked[i] Then
+      CactusPlugins.Items[i].enabled := true
+    Else CactusPlugins.Items[i].enabled := false;
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure TSettings.cancelbutClick(Sender: TObject);
-begin
-     close;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure TSettings.kdeserviceboxChange(Sender: TObject);
-begin
-  servicemenu_changed:=true;
-end;
+  TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po',
+                               CactusConfig.language, '');
+  TranslateUnitResourceStrings('mp3', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig
+                               .language, '');
+  close;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TSettings.Button1Click(Sender: TObject);
-begin
-     if FileExists(CactusConfig.DAPPath) then Main.Selectdirectorydialog1.initialdir:=CactusConfig.DAPPath else Main.Selectdirectorydialog1.initialdir:='/';
-     Main.Selectdirectorydialog1.title:='Choose mp3 player directory...';
-     if Main.Selectdirectorydialog1.execute=true then begin
-                playerpathedit1.text:=IncludeTrailingPathDelimiter(Main.Selectdirectorydialog1.FileName);
-            end;
-end;
+Procedure TSettings.cancelbutClick(Sender: TObject);
+Begin
+  close;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TSettings.ClearCoverClick(Sender: TObject);
-begin
-  if DirectoryExists(CactusConfig.ConfigPrefix+DirectorySeparator+'covercache') then begin
-     if EraseDirectory(CactusConfig.ConfigPrefix+DirectorySeparator+'covercache') then
+Procedure TSettings.kdeserviceboxChange(Sender: TObject);
+Begin
+  servicemenu_changed := true;
+End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Procedure TSettings.Button1Click(Sender: TObject);
+Begin
+  If FileExists(CactusConfig.DAPPath) Then Main.Selectdirectorydialog1.initialdir := CactusConfig.
+                                                                                     DAPPath
+  Else Main.Selectdirectorydialog1.initialdir := '/';
+  Main.Selectdirectorydialog1.title := 'Choose mp3 player directory...';
+  If Main.Selectdirectorydialog1.execute=true Then
+    Begin
+      playerpathedit1.text := IncludeTrailingPathDelimiter(Main.Selectdirectorydialog1.FileName);
+    End;
+End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Procedure TSettings.ClearCoverClick(Sender: TObject);
+Begin
+  If DirectoryExists(CactusConfig.ConfigPrefix+DirectorySeparator+'covercache') Then
+    Begin
+      If EraseDirectory(CactusConfig.ConfigPrefix+DirectorySeparator+'covercache') Then
         writeln('Covercache has been cleared...')
-      else writeln('ERROR while clearing covercache...');
-   end;
-end;
+      Else writeln('ERROR while clearing covercache...');
+    End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TSettings.FormCreate(Sender: TObject);
-var srec: TSearchRec;
-    i: integer;
-begin
-   //Look for available translations and add them into the combobox
-   if FindFirst(IncludeTrailingPathDelimiter(CactusConfig.DataPrefix)+'languages'+DirectorySeparator+'*.mo', faAnyFile,srec)=0 then
-       begin
-          repeat begin
-               i:=LanguageBox.Items.Add(Copy(srec.Name, 8, length(srec.Name)-10));
-               if (CactusConfig.language=LanguageBox.Items[i]) or (copy(CactusConfig.language, 0, 2)=LanguageBox.Items[i]) then LanguageBox.ItemIndex:=i;
-           end;
-          until FindNext(srec)<>0;
-     end;
+Procedure TSettings.FormCreate(Sender: TObject);
+
+Var srec: TSearchRec;
+  i: integer;
+Begin
+  //Look for available translations and add them into the combobox
+  If FindFirst(IncludeTrailingPathDelimiter(CactusConfig.DataPrefix)+'languages'+DirectorySeparator+
+     '*.mo', faAnyFile,srec)=0 Then
+    Begin
+      Repeat
+        Begin
+          i := LanguageBox.Items.Add(Copy(srec.Name, 8, length(srec.Name)-10));
+          If (CactusConfig.language=LanguageBox.Items[i]) Or (copy(CactusConfig.language, 0, 2)=
+             LanguageBox.Items[i]) Then LanguageBox.ItemIndex := i;
+        End;
+      Until FindNext(srec)<>0;
+    End;
    {$ifdef win32}
-       label2.Hide;
-       CDRomEdit.Hide;;
+  label2.Hide;
+  CDRomEdit.Hide;;
    {$endif}
-   TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig.language, copy(CactusConfig.language, 0, 2));
-   autoload1.Caption:=rsAutoloadLast;
-   backscan.Caption:=rsScanForNewFi;
-   LLanguage.Caption:=rsLanguage;
-   GuessTagBox.Caption:=rsWhatToDoWhen;
-   guesstag1.Caption:=rsGuessTagFrom;
-   unknown1.Caption:=Format(rsMoveToSectio, ['"', '"']);
-   ID3typebox.Caption:=rsID3Type;
-   v1_prio.Caption:=rsID3v1Priorit;
-   v2_prio.Caption:=rsID3v2Priorit;
-   TabSheet1.Caption:=rsGeneral;
-   TabSheet2.Caption:=rsMobileDevice;
-   TabSheet3.Caption:=rsPaths;
-   LMountpoint.Caption:=rsPathToMp3pla;
-   subfolders.Caption:=rsCreateSubfol;
-   PathBox.Caption:=rsPathsToAddit;
-   Lcdda2wav.Caption:=rsCdda2wavTool;
-   llame.Caption:=rsLameNeededTo;
-   savebut.Caption:=rsSave;
-   cancelbut.Caption:=rsCancel;
-   kdeservicebox.Caption:=rsEnableKDESer;
-   LAudioOut.Caption:=rsAudioOutput;
-   CoverDownload.Caption:=rsDownloadAlbu;
-   ClearCover.Caption:=rsClearCache;
-   LLanguage.Caption:=rsLanguage;
-//   AutostartBox.Caption:=rsAutomaticlyS;
+  TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po',
+                               CactusConfig.language, copy(CactusConfig.language, 0, 2));
+  autoload1.Caption := rsAutoloadLast;
+  backscan.Caption := rsScanForNewFi;
+  LLanguage.Caption := rsLanguage;
+  GuessTagBox.Caption := rsWhatToDoWhen;
+  guesstag1.Caption := rsGuessTagFrom;
+  unknown1.Caption := Format(rsMoveToSectio, ['"', '"']);
+  ID3typebox.Caption := rsID3Type;
+  v1_prio.Caption := rsID3v1Priorit;
+  v2_prio.Caption := rsID3v2Priorit;
+  TabSheet1.Caption := rsGeneral;
+  TabSheet2.Caption := rsMobileDevice;
+  TabSheet3.Caption := rsPaths;
+  LMountpoint.Caption := rsPathToMp3pla;
+  subfolders.Caption := rsCreateSubfol;
+  PathBox.Caption := rsPathsToAddit;
+  Lcdda2wav.Caption := rsCdda2wavTool;
+  llame.Caption := rsLameNeededTo;
+  savebut.Caption := rsSave;
+  cancelbut.Caption := rsCancel;
+  kdeservicebox.Caption := rsEnableKDESer;
+  LAudioOut.Caption := rsAudioOutput;
+  CoverDownload.Caption := rsDownloadAlbu;
+  ClearCover.Caption := rsClearCache;
+  LLanguage.Caption := rsLanguage;
+  //   AutostartBox.Caption:=rsAutomaticlyS;
 
  {$ifdef linux}
-   kdeservicebox.Checked:=CactusConfig.KDEServiceMenu;
-   if CactusConfig.OutputAlsa then AudioOut.ItemIndex:=0 else AudioOut.ItemIndex:=1;
-   servicemenu_changed:=false;
-   kdeservicebox.Visible:=true;
+  kdeservicebox.Checked := CactusConfig.KDEServiceMenu;
+  If CactusConfig.OutputAlsa Then AudioOut.ItemIndex := 0
+  Else AudioOut.ItemIndex := 1;
+  servicemenu_changed := false;
+  kdeservicebox.Visible := true;
  {$else}
-   AudioOut.Visible:=false;
-   LAudioOut.Visible:=false;
-   kdeservicebox.Visible:=false;
+  AudioOut.Visible := false;
+  LAudioOut.Visible := false;
+  kdeservicebox.Visible := false;
  {$endif}
-   CoverDownload.Checked:=CactusConfig.CoverDownload;
+  CoverDownload.Checked := CactusConfig.CoverDownload;
 
-   playerpathedit1.text:=CactusConfig.DAPPath;
-   CDRomEdit.Text:=CactusConfig.CDRomDevice;
-   if CactusConfig.GuessTag then guesstag1.checked:=true else unknown1.checked:=true;
-   if CactusConfig.background_scan then backscan.checked:=true else backscan.checked:=false;
-   if CactusConfig.mobile_subfolders then subfolders.checked:=true else subfolders.checked:=false;
-   if CactusConfig.id3v2_prio then v2_prio.Checked:=true else v1_prio.checked:=true;
-   AutoPlayBox.Checked:=CactusConfig.AutostartPlay;
+  playerpathedit1.text := CactusConfig.DAPPath;
+  CDRomEdit.Text := CactusConfig.CDRomDevice;
+  If CactusConfig.GuessTag Then guesstag1.checked := true
+  Else unknown1.checked := true;
+  If CactusConfig.background_scan Then backscan.checked := true
+  Else backscan.checked := false;
+  If CactusConfig.mobile_subfolders Then subfolders.checked := true
+  Else subfolders.checked := false;
+  If CactusConfig.id3v2_prio Then v2_prio.Checked := true
+  Else v1_prio.checked := true;
+  AutoPlayBox.Checked := CactusConfig.AutostartPlay;
 
-   for i:=0 to CactusPlugins.Count-1 do begin
-          writeln(i);
-          PluginList.Items.Add(CactusPlugins.Items[i].Name);
-          PluginList.Checked[i]:=CactusPlugins.Items[i].enabled;
-       end;
+  For i:=0 To CactusPlugins.Count-1 Do
+    Begin
+      writeln(i);
+      PluginList.Items.Add(CactusPlugins.Items[i].Name);
+      PluginList.Checked[i] := CactusPlugins.Items[i].enabled;
+    End;
 
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure TSettings.FormDestroy(Sender: TObject);
-begin
-end;
-
-procedure TSettings.LanguageBoxChange(Sender: TObject);
-begin
-  ShowMessage('To show user interface with new selected language'+LineEnding+' you need to restart cactus Jukebox');
-end;
-
-procedure TSettings.PageControl1Change(Sender: TObject);
-begin
-
-end;
-
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TSettings.PluginListMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-var index: integer;
-begin
-  index:=PluginList.GetIndexAtY(Y);
+Procedure TSettings.FormDestroy(Sender: TObject);
+Begin
+End;
+
+Procedure TSettings.LanguageBoxChange(Sender: TObject);
+Begin
+  ShowMessage('To show user interface with new selected language'+LineEnding+
+              ' you need to restart cactus Jukebox');
+End;
+
+Procedure TSettings.PageControl1Change(Sender: TObject);
+Begin
+
+End;
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Procedure TSettings.PluginListMouseDown(Sender: TObject; Button: TMouseButton;
+                                        Shift: TShiftState; X, Y: Integer);
+
+Var index: integer;
+Begin
+  index := PluginList.GetIndexAtY(Y);
   PluginInfo.Clear;
-//  if index >= 0 then PluginInfo.Lines.Add(CactusPlugins.Items[index].Comment);
-end;
+  //  if index >= 0 then PluginInfo.Lines.Add(CactusPlugins.Items[index].Comment);
+End;
 
 
 
@@ -326,5 +362,4 @@ end;
 initialization
   {$I settings.lrs}
 
-end.
-
+End.

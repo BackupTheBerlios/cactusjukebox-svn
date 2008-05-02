@@ -1,3 +1,4 @@
+
 {
   Unit for showing DebugOutput
 
@@ -9,59 +10,64 @@
   (c)2007
 }
 
-unit debug;
+Unit debug;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  SysUtils;
+Uses 
+SysUtils;
 
-var CVerbosityLevel: Integer;   //Current verbosity level.
+Var CVerbosityLevel: Integer;
+  //Current verbosity level.
+
 
 { Verbosity 0     -> absolutely no output
   Verbosity 1     -> standard output
   Verbosity 1..9  -> more specific output }
 
-//DebugOut checks verbosity level and only outputs string s when it
-//fits debug level.
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function DebugOutLn(s: string; level: integer):boolean;
-function DebugOut(s: string; level: integer):boolean;
-function DebugOutLn(s: integer; level: integer):boolean;
-function DebugOut(s: integer; level: integer):boolean;
+  //DebugOut checks verbosity level and only outputs string s when it
+  //fits debug level.
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Function DebugOutLn(s: String; level: integer): boolean;
+Function DebugOut(s: String; level: integer): boolean;
+Function DebugOutLn(s: integer; level: integer): boolean;
+Function DebugOut(s: integer; level: integer): boolean;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-implementation
+Implementation
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function DebugOutLn(s: string; level: integer): boolean;
-begin
-  if (CVerbosityLevel>0) and (CVerbosityLevel>=level) then begin
-           writeln(s);
-        end;
-end;
+Function DebugOutLn(s: String; level: integer): boolean;
+Begin
+  If (CVerbosityLevel>0) And (CVerbosityLevel>=level) Then
+    Begin
+      writeln(s);
+    End;
+End;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function DebugOut(s: string; level: integer): boolean;
-begin
-  if (CVerbosityLevel>0) and (CVerbosityLevel>=level) then begin
-           write(s);
-        end;
-end;
+Function DebugOut(s: String; level: integer): boolean;
+Begin
+  If (CVerbosityLevel>0) And (CVerbosityLevel>=level) Then
+    Begin
+      write(s);
+    End;
+End;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function DebugOutLn(s: integer; level: integer): boolean;
-begin
-  if (CVerbosityLevel>0) and (CVerbosityLevel>=level) then begin
-           writeln(s);
-        end;
-end;
+Function DebugOutLn(s: integer; level: integer): boolean;
+Begin
+  If (CVerbosityLevel>0) And (CVerbosityLevel>=level) Then
+    Begin
+      writeln(s);
+    End;
+End;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function DebugOut(s: integer; level: integer): boolean;
-begin
-  if (CVerbosityLevel>0) and (CVerbosityLevel>=level) then begin
-           write(s);
-        end;
-end;
+Function DebugOut(s: integer; level: integer): boolean;
+Begin
+  If (CVerbosityLevel>0) And (CVerbosityLevel>=level) Then
+    Begin
+      write(s);
+    End;
+End;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-end.
-
+End.

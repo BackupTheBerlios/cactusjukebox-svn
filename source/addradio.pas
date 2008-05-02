@@ -1,18 +1,19 @@
-unit addradio; 
+
+Unit addradio;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Buttons, EditBtn, streamcol, mainform;
+Uses 
+Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
+Buttons, EditBtn, streamcol, mainform;
 
-type
+Type 
 
   { TaddRadioForm }
 
-  TaddRadioForm = class(TForm)
+  TaddRadioForm = Class(TForm)
     BitBtn1: TBitBtn;
     AdvancedBtn: TButton;
     PlaylistURLEdit: TEdit;
@@ -21,49 +22,53 @@ type
     Label1: TLabel;
     Label2: TLabel;
     StationName: TLabel;
-    procedure AdvancedBtnClick(Sender: TObject);
-    procedure BitBtn1Click(Sender: TObject);
-    procedure PlaylistURLEditClick(Sender: TObject);
-    procedure StreamUrlEditChange(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-  private
+    Procedure AdvancedBtnClick(Sender: TObject);
+    Procedure BitBtn1Click(Sender: TObject);
+    Procedure PlaylistURLEditClick(Sender: TObject);
+    Procedure StreamUrlEditChange(Sender: TObject);
+    Procedure FormCreate(Sender: TObject);
+    Private 
     { private declarations }
     FAdvanced: boolean;
-  public
+    Public 
     { public declarations }
-  end; 
+  End;
 
-var
+Var 
   addRadioForm: TaddRadioForm;
 
-implementation
+  Implementation
 
 { TaddRadioForm }
 
-procedure TaddRadioForm.StreamUrlEditChange(Sender: TObject);
-begin
+Procedure TaddRadioForm.StreamUrlEditChange(Sender: TObject);
+Begin
 
-end;
+End;
 
-procedure TaddRadioForm.FormCreate(Sender: TObject);
-begin
-  Height:=115;
-  FAdvanced:=false;
-  AdvancedBtnClick(nil);
-end;
+Procedure TaddRadioForm.FormCreate(Sender: TObject);
+Begin
+  Height := 115;
+  FAdvanced := false;
+  AdvancedBtnClick(Nil);
+End;
 
-procedure TaddRadioForm.AdvancedBtnClick(Sender: TObject);
-begin
-if FAdvanced=false then begin
-  FAdvanced:=true;
-  AdvancedBtn.Caption:='Reduced <<';
-  Height:=220;
-  StationName.Visible:=true;
-  Label2.Visible:=true;
-  StreamUrlEdit.Visible:=true;
-  StationNameEdit.Visible:=true;
-  PlaylistURLEdit.Enabled:=false;
- end else begin
+Procedure TaddRadioForm.AdvancedBtnClick(Sender: TObject);
+Begin
+  If FAdvanced=false Then
+    Begin
+      FAdvanced := true;
+      AdvancedBtn.Caption := 'Reduced <<';
+      Height := 220;
+      StationName.Visible := true;
+      Label2.Visible := true;
+      StreamUrlEdit.Visible := true;
+      StationNameEdit.Visible := true;
+      PlaylistURLEdit.Enabled := false;
+    End
+  Else
+    Begin
+
 {  FAdvanced:=false;
   AdvancedBtn.Caption:='Advanced >>';
   Height:=115;
@@ -72,29 +77,32 @@ if FAdvanced=false then begin
   StreamUrlEdit.Visible:=false;
   StationNameEdit.Visible:=false;
   PlaylistURLEdit.Enabled:=true;}
- end;
-end;
+    End;
+End;
 
-procedure TaddRadioForm.BitBtn1Click(Sender: TObject);
-var i: integer;
-begin
-  if FAdvanced then begin
-    i:=StreamCollection.add(StreamUrlEdit.Text, StationNameEdit.Text);
-    writeln(StreamUrlEdit.Text);
-  end else begin
+Procedure TaddRadioForm.BitBtn1Click(Sender: TObject);
 
-  end;
+Var i: integer;
+Begin
+  If FAdvanced Then
+    Begin
+      i := StreamCollection.add(StreamUrlEdit.Text, StationNameEdit.Text);
+      writeln(StreamUrlEdit.Text);
+    End
+  Else
+    Begin
+
+    End;
   Main.update_artist_view;
   close;
-end;
+End;
 
-procedure TaddRadioForm.PlaylistURLEditClick(Sender: TObject);
-begin
-  if PlaylistURLEdit.Enabled then PlaylistURLEdit.Text:='';
-end;
+Procedure TaddRadioForm.PlaylistURLEditClick(Sender: TObject);
+Begin
+  If PlaylistURLEdit.Enabled Then PlaylistURLEdit.Text := '';
+End;
 
 initialization
   {$I addradio.lrs}
 
-end.
-
+End.

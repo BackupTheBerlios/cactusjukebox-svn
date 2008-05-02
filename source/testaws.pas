@@ -1,13 +1,16 @@
-program testaws;
 
-uses aws;
+Program testaws;
 
-var TMPAWS: TAWSAccess;
+Uses aws;
 
-begin
- tmpaws:=tawsaccess.createRequest('pearl jam', ' vs');
- tmpaws.sendrequest;
- repeat until tmpaws.data_ready;
- tmpaws.albumcovertofile('test.jpg');
- repeat until tmpaws.data_ready;
-end.
+Var TMPAWS: TAWSAccess;
+
+Begin
+  tmpaws := tawsaccess.createRequest('pearl jam', ' vs');
+  tmpaws.sendrequest;
+  Repeat
+  Until tmpaws.data_ready;
+  tmpaws.albumcovertofile('test.jpg');
+  Repeat
+  Until tmpaws.data_ready;
+End.

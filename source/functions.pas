@@ -1,3 +1,4 @@
+
 { some helper functions/procedures
   written by Sebastian Kraft
   sebastian_kraft@gmx.de
@@ -7,328 +8,374 @@
   (c)2005-2007
 }
 
-unit functions;
+Unit functions;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-    Classes, SysUtils, crt, math, config;
-
-
+Uses 
+Classes, SysUtils, crt, math, config;
 
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-   function crc32(path: string):longint;
-   function crc32_math(path: string):int64;
-   function DirectoryIsEmpty(Directory: string): Boolean;
-   function EraseDirectory(Directory: string):Boolean; //delete directory and all subdirectories/files in it
-   function UTF8toLatin1(utfstring: ansistring): ansistring;
-   function Latin1toUTF8(latin1string: ansistring): ansistring;
-   function rmZeroChar(s: ansistring): ansistring;
-   function FileCopy(const FromFile, ToFile: string):boolean;
-   function FreeSpaceOnDAP:int64;
-   function ByteToFmtString(bytes: int64; d1, d2: byte): string; // converts i.e. 1024 to 1,0 KB
-                                                                 // d1, d2 sets amount of digits before and after ','
-   function SecondsToFmtStr(seconds: longint): string;       //converts integer to mm:ss time format
-   function MSecondsToFmtStr(MSeconds: longint): string;
- //  function CompareString(const s1, s2: string):byte;   // compare s1, s2 for sorting.   s1>s2 result=1,  abc > axc -> 1
-                                                                                    //   s1<s2 result=-1, xyz < abc -> -1
-                                                                                    //   s1=s2 result=0,  bhj = bhj -> 0
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Function crc32(path: String): longint;
+Function crc32_math(path: String): int64;
+Function DirectoryIsEmpty(Directory: String): Boolean;
+Function EraseDirectory(Directory: String): Boolean;
+//delete directory and all subdirectories/files in it
+Function UTF8toLatin1(utfstring: ansistring): ansistring;
+Function Latin1toUTF8(latin1string: ansistring): ansistring;
+Function rmZeroChar(s: ansistring): ansistring;
+Function FileCopy(Const FromFile, ToFile: String): boolean;
+Function FreeSpaceOnDAP: int64;
+Function ByteToFmtString(bytes: int64; d1, d2: byte): string;
+// converts i.e. 1024 to 1,0 KB
+// d1, d2 sets amount of digits before and after ','
+Function SecondsToFmtStr(seconds: longint): string;
+//converts integer to mm:ss time format
+Function MSecondsToFmtStr(MSeconds: longint): string;
 
+//  function CompareString(const s1, s2: string):byte;   // compare s1, s2 for sorting.   s1>s2 result=1,  abc > axc -> 1
+//   s1<s2 result=-1, xyz < abc -> -1
+//   s1=s2 result=0,  bhj = bhj -> 0
 
-implementation
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function crc32(path: string):longint;  //creates an very, very basic checksum to identify files
-var fhandle: THandle;
-    buf: array [0..63] of longint;
-    z:byte;
-    i, eofile: longint;
-    l: longint;
-begin
+
+Implementation
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Function crc32(path: String): longint;
+//creates an very, very basic checksum to identify files
+
+Var fhandle: THandle;
+  buf: array [0..63] Of longint;
+  z: byte;
+  i, eofile: longint;
+  l: longint;
+Begin
  {$Q-}
-     fhandle:=sysutils.fileopen(path, fmOpenRead);
-     l:=0;
-     i:=0;
-     z:=0;
-     eofile:=0;
-     while (eofile<>-1) and (i<256) do
-           begin
-                eofile:=FileRead(fhandle, buf, sizeof(buf));
-                if eofile <>-1 then for z:=0 to high(buf) do L:=l+buf[z];
-                inc(i);
-            end;
-     FileClose(fhandle);
-     result:= l;
+  fhandle := sysutils.fileopen(path, fmOpenRead);
+  l := 0;
+  i := 0;
+  z := 0;
+  eofile := 0;
+  While (eofile<>-1) And (i<256) Do
+    Begin
+      eofile := FileRead(fhandle, buf, sizeof(buf));
+      If eofile <>-1 Then For z:=0 To high(buf) Do
+                            L := l+buf[z];
+      inc(i);
+    End;
+  FileClose(fhandle);
+  result := l;
  {$Q+}
-end;
+End;
 
-function crc32_math(path: string):int64;  //creates an very, very basic checksum to identify files
-var fhandle: THandle;
-    buf: array [0..63] of int64;
-    z:byte;
-    i, eofile: longint;
-    l: int64;
-begin
-     fhandle:=sysutils.fileopen(path, fmOpenRead);
-     l:=0;
-     i:=0;
-     z:=0;
-     eofile:=0;
-     while (eofile<>-1) and (i<256) do
-           begin
-                eofile:=FileRead(fhandle, buf, high(buf));
-                l:=l+sumInt(buf);
-                inc(i);
-            end;
-     FileClose(fhandle);
-     result:= l;
+Function crc32_math(path: String): int64;
+//creates an very, very basic checksum to identify files
 
-end;
+Var fhandle: THandle;
+  buf: array [0..63] Of int64;
+  z: byte;
+  i, eofile: longint;
+  l: int64;
+Begin
+  fhandle := sysutils.fileopen(path, fmOpenRead);
+  l := 0;
+  i := 0;
+  z := 0;
+  eofile := 0;
+  While (eofile<>-1) And (i<256) Do
+    Begin
+      eofile := FileRead(fhandle, buf, high(buf));
+      l := l+sumInt(buf);
+      inc(i);
+    End;
+  FileClose(fhandle);
+  result := l;
 
+End;
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function EraseDirectory(Directory: string): Boolean;
-var Srec: TSearchRec;
-begin
-     result:=false;
-     if DirectoryExists(Directory)then begin
-        try
-          FindFirst(IncludeTrailingPathDelimiter(Directory) + '*', faAnyFile, Srec);
-          repeat begin
-               if (Srec.Name <> '.') and (Srec.Name <> '..') then
-                      DeleteFile(Directory+DirectorySeparator+Srec.Name);
-             end;
-          until FindNext(Srec)<>0;
-          FindClose(Srec);
-          result:=RemoveDir(Directory);
-        except
-          result:=false;
-        end;
-     end;
-
-end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function UTF8toLatin1(utfstring: ansistring): ansistring;
-var i:integer;
-    tmps: string;
-    utf16: boolean;
-begin
-  i:=0;
-  tmps:='';
-  utf16:=false;
-  
-  if length(utfstring)>0 then begin
-     repeat begin
+Function EraseDirectory(Directory: String): Boolean;
+
+Var Srec: TSearchRec;
+Begin
+  result := false;
+  If DirectoryExists(Directory)Then
+    Begin
+      Try
+        FindFirst(IncludeTrailingPathDelimiter(Directory) + '*', faAnyFile, Srec);
+        Repeat
+          Begin
+            If (Srec.Name <> '.') And (Srec.Name <> '..') Then
+              DeleteFile(Directory+DirectorySeparator+Srec.Name);
+          End;
+        Until FindNext(Srec)<>0;
+        FindClose(Srec);
+        result := RemoveDir(Directory);
+      Except
+        result := false;
+      End;
+    End;
+
+End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Function UTF8toLatin1(utfstring: ansistring): ansistring;
+
+Var i: integer;
+  tmps: string;
+  utf16: boolean;
+Begin
+  i := 0;
+  tmps := '';
+  utf16 := false;
+
+  If length(utfstring)>0 Then
+    Begin
+      Repeat
+        Begin
           inc(i);
-          case byte(utfstring[i]) of
-           $ff: if byte(utfstring[i+1])=$fe then utf16:=true;
-           $c3:  begin
-                       Delete(utfstring, i, 1);
-                       utfstring[i]:=char(byte(utfstring[i])+64);
-                     end;
-           $c2: begin
-                  Delete(utfstring, i, 1);
-                  dec(i);
-                end;
-          end;
-        end;
-      until (i>=length(utfstring)-1) or utf16;
+          Case byte(utfstring[i]) Of 
+            $ff: If byte(utfstring[i+1])=$fe Then utf16 := true;
+            $c3:
+                 Begin
+                   Delete(utfstring, i, 1);
+                   utfstring[i] := char(byte(utfstring[i])+64);
+                 End;
+            $c2:
+                 Begin
+                   Delete(utfstring, i, 1);
+                   dec(i);
+                 End;
+          End;
+        End;
+      Until (i>=length(utfstring)-1) Or utf16;
       //if utf16 detected
-      if utf16 then begin
-         i:=i+2;
-         writeln('utf16');
-         repeat begin
-               inc(i);
-               if byte(utfstring[i])<>0 then tmps:=tmps+utfstring[i];
-            end;
-         until (i>=length(utfstring));
-        end;
-   end;
-   
-   if not utf16 then result:=utfstring else Result:=tmps;
-end;
+      If utf16 Then
+        Begin
+          i := i+2;
+          writeln('utf16');
+          Repeat
+            Begin
+              inc(i);
+              If byte(utfstring[i])<>0 Then tmps := tmps+utfstring[i];
+            End;
+          Until (i>=length(utfstring));
+        End;
+    End;
+
+  If Not utf16 Then result := utfstring
+  Else Result := tmps;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function rmZeroChar(s: ansistring): ansistring;
-var i: integer;
-begin
-   i:=0;
-   if s<>'' then begin
-     repeat begin
-            inc(i);
-            if byte(s[i])=0 then begin
-               Delete(s, i, 1);
-               dec(i);
-             end;
-        end;
-     until i>=length(s)-1;
-    end;
-   Result:=s;
-end;
+Function rmZeroChar(s: ansistring): ansistring;
 
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function Latin1toUTF8(latin1string: ansistring): ansistring;
-var i:integer;
-    c: char;
-    tmps: string;
-    utf16: boolean;
-begin
-  i:=0;
-  utf16:=false;
-  if length(latin1string)>0 then begin
-     repeat begin
+Var i: integer;
+Begin
+  i := 0;
+  If s<>'' Then
+    Begin
+      Repeat
+        Begin
           inc(i);
-          case byte(latin1string[i]) of
-           $ff: if byte(latin1string[i+1])=$fe then utf16:=true;
-           $00..$1f: begin
+          If byte(s[i])=0 Then
+            Begin
+              Delete(s, i, 1);
+              dec(i);
+            End;
+        End;
+      Until i>=length(s)-1;
+    End;
+  Result := s;
+End;
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Function Latin1toUTF8(latin1string: ansistring): ansistring;
+
+Var i: integer;
+  c: char;
+  tmps: string;
+  utf16: boolean;
+Begin
+  i := 0;
+  utf16 := false;
+  If length(latin1string)>0 Then
+    Begin
+      Repeat
+        Begin
+          inc(i);
+          Case byte(latin1string[i]) Of 
+            $ff: If byte(latin1string[i+1])=$fe Then utf16 := true;
+            $00..$1f:
+                      Begin
                         Delete(latin1string, i, 1);
                         dec(i);
-                     end;
-           $c0..$fd: begin //c0..ff ist der gesamte wertebereich!!
-                        if (byte(latin1string[i])=$c3) and (byte(latin1string[i+1])<$C0) then inc(i)
-                          else begin
-                               latin1string[i]:=char(byte(latin1string[i])-64);
-                               insert(char($c3), latin1string, i);
-                               inc(i);
-                             end;
-                      end;
-      {     $a1..$bf:  begin
+                      End;
+            $c0..$fd:
+                      Begin
+                        //c0..ff ist der gesamte wertebereich!!
+                        If (byte(latin1string[i])=$c3) And (byte(latin1string[i+1])<$C0) Then inc(i)
+                        Else
+                          Begin
+                            latin1string[i] := char(byte(latin1string[i])-64);
+                            insert(char($c3), latin1string, i);
+                            inc(i);
+                          End;
+                      End;
+
+{     $a1..$bf:  begin
                         c:=latin1string[i];
                         insert(char($c2), latin1string, i);
 //                        utfstring[i]:=char(byte(utfstring[i])+64);
                         inc(i);
                       end;}
-          end;
-        end;
-      until (i>=length(latin1string)-1) or utf16;
+          End;
+        End;
+      Until (i>=length(latin1string)-1) Or utf16;
       //if utf16 detected
-      if utf16 then begin
-         //latin1string:=AnsiToUtf8(latin1string); may also work instead of following own utf16->utf8 routine
-         inc(i);
-         repeat begin
-               inc(i);
-               if byte(latin1string[i])>$1f then
-                    if byte(latin1string[i])<$c0 then
-                           tmps:=tmps+char(byte(latin1string[i]))
-                        else
-                           tmps:=tmps+char($c3)+char(byte(latin1string[i])-64);
-            end;
-         until (i>=length(latin1string));
-        end;
-   end;
-   if not utf16 then result:=latin1string else Result:=tmps;
-end;
+      If utf16 Then
+        Begin
+
+//latin1string:=AnsiToUtf8(latin1string); may also work instead of following own utf16->utf8 routine
+          inc(i);
+          Repeat
+            Begin
+              inc(i);
+              If byte(latin1string[i])>$1f Then
+                If byte(latin1string[i])<$c0 Then
+                  tmps := tmps+char(byte(latin1string[i]))
+              Else
+                tmps := tmps+char($c3)+char(byte(latin1string[i])-64);
+            End;
+          Until (i>=length(latin1string));
+        End;
+    End;
+  If Not utf16 Then result := latin1string
+  Else Result := tmps;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 {   Function to copy a file FromFile -> ToFile    , mainly used while upload to player device}
-function FileCopy(const FromFile, ToFile: string):boolean;
- var
+Function FileCopy(Const FromFile, ToFile: String): boolean;
+
+Var 
   FromF, ToF: file;
   NumRead, NumWritten: Word;
-  Buf: array[1..4096] of byte;
-begin
- try
-  AssignFile(FromF, FromFile);
-  Reset(FromF, 1);              { Record size = 1 }
-  AssignFile(ToF, ToFile);      { Open output file }
-  Rewrite(ToF, 1);              { Record size = 1 }
-  repeat
-    BlockRead(FromF, Buf, SizeOf(Buf), NumRead);
-    BlockWrite(ToF, Buf, NumRead, NumWritten);
-  until (NumRead = 0) or (NumWritten <> NumRead);
-  CloseFile(FromF);
-  CloseFile(ToF);
-  result:=true;
- except result:=false;
- end;
-end;
+  Buf: array[1..4096] Of byte;
+Begin
+  Try
+    AssignFile(FromF, FromFile);
+    Reset(FromF, 1);              { Record size = 1 }
+    AssignFile(ToF, ToFile);      { Open output file }
+    Rewrite(ToF, 1);              { Record size = 1 }
+    Repeat
+      BlockRead(FromF, Buf, SizeOf(Buf), NumRead);
+      BlockWrite(ToF, Buf, NumRead, NumWritten);
+    Until (NumRead = 0) Or (NumWritten <> NumRead);
+    CloseFile(FromF);
+    CloseFile(ToF);
+    result := true;
+  Except
+    result := false;
+  End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function FreeSpaceOnDAP: int64;
-var tmps: string;
-begin
-      tmps:=GetCurrentDir;                             // get free memory on player, format string
-      SetCurrentDir(CactusConfig.DAPPath);
-      result:=DiskFree(0);
-      SetCurrentDir(tmps);
-end;
+Function FreeSpaceOnDAP: int64;
+
+Var tmps: string;
+Begin
+  tmps := GetCurrentDir;
+  // get free memory on player, format string
+  SetCurrentDir(CactusConfig.DAPPath);
+  result := DiskFree(0);
+  SetCurrentDir(tmps);
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function ByteToFmtString(bytes: int64; d1, d2: byte): string;
-var r: real;
-    count: byte;
-    comma, prefix, s1, s2: string;
-begin
-     count:=0;
-     r:=bytes;
-     while (r>=power(10, d1)) do
-           begin
-               r:=r / 1024;
-               inc(count);
-           end;
+Function ByteToFmtString(bytes: int64; d1, d2: byte): string;
 
-     case count of
-        0: prefix:='Byte';
-        1: prefix:='KB';
-        2: prefix:='MB';
-        3: prefix:='GB';
-        4: prefix:='TB';
-        5: prefix:='PB';
-      end;
+Var r: real;
+  count: byte;
+  comma, prefix, s1, s2: string;
+Begin
+  count := 0;
+  r := bytes;
+  While (r>=power(10, d1)) Do
+    Begin
+      r := r / 1024;
+      inc(count);
+    End;
 
-     str(round (r*power(10, d2)) , s2);
+  Case count Of 
+    0: prefix := 'Byte';
+    1: prefix := 'KB';
+    2: prefix := 'MB';
+    3: prefix := 'GB';
+    4: prefix := 'TB';
+    5: prefix := 'PB';
+  End;
 
-     if r >= 1 then begin
-          s1:=copy(s2, 0, length(s2)-d2);
-          s2:=copy(s2, length(s2)-d2+1, d2);
-        end else s1:='0';
+  str(round (r*power(10, d2)) , s2);
 
-     if d2<>0 then comma:=',' else
-        begin
-          comma:='';
-          s2:='';
-         end;
-     result:=s1+comma+s2+' '+prefix;
-end;
+  If r >= 1 Then
+    Begin
+      s1 := copy(s2, 0, length(s2)-d2);
+      s2 := copy(s2, length(s2)-d2+1, d2);
+    End
+  Else s1 := '0';
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function SecondsToFmtStr(seconds: longint): string;
-var min, sec: longint;
-    s, s2: string;
-begin
-     min:=seconds div 60;
-     sec:=seconds mod 60;
-     str(min, s);
-     str(sec, s2);
-     if min<10 then s:='0'+s;
-     if sec<10 then s2:='0'+s2;
-     result:= s+':'+s2;
-end;
+  If d2<>0 Then comma := ','
+  Else
+    Begin
+      comma := '';
+      s2 := '';
+    End;
+  result := s1+comma+s2+' '+prefix;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function MSecondsToFmtStr(MSeconds: longint): string;
-begin
-  result:=SecondsToFmtStr(MSeconds div 1000);
-end;
+Function SecondsToFmtStr(seconds: longint): string;
+
+Var min, sec: longint;
+  s, s2: string;
+Begin
+  min := seconds Div 60;
+  sec := seconds Mod 60;
+  str(min, s);
+  str(sec, s2);
+  If min<10 Then s := '0'+s;
+  If sec<10 Then s2 := '0'+s2;
+  result := s+':'+s2;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Function MSecondsToFmtStr(MSeconds: longint): string;
+Begin
+  result := SecondsToFmtStr(MSeconds Div 1000);
+End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 {function CompareString(s1, s2: string): byte;
 var i:integer;
@@ -360,20 +407,20 @@ end;
  }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function DirectoryIsEmpty(Directory: string): Boolean;
-var
+Function DirectoryIsEmpty(Directory: String): Boolean;
+
+Var 
   SeR: TSearchRec;
   i: Integer;
-begin
+Begin
   Result := False;
   FindFirst(IncludeTrailingPathDelimiter(Directory) + '*', faAnyFile, SeR);
-  for i := 1 to 2 do
-    if (SeR.Name = '.') or (SeR.Name = '..') then
+  For i := 1 To 2 Do
+    If (SeR.Name = '.') Or (SeR.Name = '..') Then
       Result := FindNext(SeR) <> 0;
   FindClose(SeR);
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-end.
-
+End.

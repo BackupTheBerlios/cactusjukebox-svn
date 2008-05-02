@@ -1,54 +1,55 @@
-unit BigCoverImg;
+
+Unit BigCoverImg;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls;
+Uses 
+Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls;
 
-type
+Type 
 
   { TBigCoverImg }
 
-  TBigCoverImg = class(TForm)
+  TBigCoverImg = Class(TForm)
     Image1: TImage;
     BackImg: TImage;
-    procedure BackImgClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure Image1Click(Sender: TObject);
-  private
+    Procedure BackImgClick(Sender: TObject);
+    Procedure FormClose(Sender: TObject; Var CloseAction: TCloseAction);
+    Procedure Image1Click(Sender: TObject);
+    Private 
     { private declarations }
-  public
+    Public 
     { public declarations }
-  end; 
+  End;
 
-var
+Var 
   BigCoverImgForm: TBigCoverImg;
 
-implementation
-uses mainform;
+  Implementation
+
+  Uses mainform;
 { TBigCoverImg }
 
-procedure TBigCoverImg.Image1Click(Sender: TObject);
-begin
+Procedure TBigCoverImg.Image1Click(Sender: TObject);
+Begin
   close;
-end;
+End;
 
-procedure TBigCoverImg.BackImgClick(Sender: TObject);
-begin
- close;
-end;
+Procedure TBigCoverImg.BackImgClick(Sender: TObject);
+Begin
+  close;
+End;
 
-procedure TBigCoverImg.FormClose(Sender: TObject; var CloseAction: TCloseAction
-  );
-begin
-  main.Enabled:=true;
+Procedure TBigCoverImg.FormClose(Sender: TObject; Var CloseAction: TCloseAction
+);
+Begin
+  main.Enabled := true;
 
-end;
+End;
 
 initialization
   {$I bigcoverimg.lrs}
 
-end.
-
+End.

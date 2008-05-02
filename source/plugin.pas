@@ -1,28 +1,30 @@
-unit plugin;
+
+Unit plugin;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, plugintypes, dynlibs, settings, xmlcfg, fmodplayer, config, mediacol;
+Uses 
+Classes, SysUtils, plugintypes, dynlibs, settings, xmlcfg, fmodplayer, config, mediacol;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-type
+
+Type 
 
 { TPluginListItemClass }
-  TPluginListItemClass = class
-  private
+  TPluginListItemClass = Class
+    Private 
     FName, FLibName, FLibPath, FVersion, FComment, FAuthor: string;
     FPluginHandle: TCactusPlugInClass;
     FLibraryHandle: TLibHandle;
     FEnabled: Boolean;
     FPlayerObjectPointer: TFModPlayerClass;
-    procedure setEnabled( aValue: boolean);
-  public
+    Procedure setEnabled( aValue: boolean);
+    Public 
     constructor create;
     destructor destroy;
-    function ReadPlugin(pluginpath: string):boolean;
+    Function ReadPlugin(pluginpath: String): boolean;
     property Name: string read FName;
     property LibName: string read FLibName;
     property Version: string read FVersion;
@@ -33,262 +35,283 @@ type
     property enabled: boolean read FEnabled write setEnabled;
     property PlayerObjectPointer: TFModPlayerClass read FPlayerObjectPointer;
 
-    function loadPlugin: boolean;
-    function unloadPlugin: boolean;
-  end;
+    Function loadPlugin: boolean;
+    Function unloadPlugin: boolean;
+  End;
 { TPluginListItemClass }
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 { TPluginListClass }
-  TPluginListClass = class(Tlist)
-  private
-    function GetItems(index: integer):TPlugInListItemClass;
-    function ReadPluginConfig:boolean;
+  TPluginListClass = Class(Tlist)
+    Private 
+    Function GetItems(index: integer): TPlugInListItemClass;
+    Function ReadPluginConfig: boolean;
 
     FConfigPath: string;
     FConfigFile: TXMLConfig;
-  public
+    Public 
     constructor Create;
     destructor destroy;
-    function FlushPluginConfig:boolean;
-    function add(dllname: string):boolean;
-    procedure ScanPluginFolder;
-    procedure SendEvent(event: TCactusEvent);
+    Function FlushPluginConfig: boolean;
+    Function add(dllname: String): boolean;
+    Procedure ScanPluginFolder;
+    Procedure SendEvent(event: TCactusEvent);
     property Items[index: integer]: TPlugInListItemClass read GetItems;
     PluginFolder: string;
-    autoload: boolean;  //reload all previous loaded plugins if found during ScanPluginFolder
-  end;
+    autoload: boolean;
+    //reload all previous loaded plugins if found during ScanPluginFolder
+  End;
 { TPluginListClass }
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
 Var CactusPlugins: TPluginListClass;
 
 
-implementation
+  Implementation
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 { TPluginListClass }
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function TPluginListClass.GetItems(index: integer): TPlugInListItemClass;
-begin
-  result:=TPluginListItemClass(inherited items[index]);
-end;
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Function TPluginListClass.GetItems(index: integer): TPlugInListItemClass;
+Begin
+  result := TPluginListItemClass(Inherited items[index]);
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TPluginListClass.ReadPluginConfig: boolean;
-var i: integer;
-begin
-  for i:=0 to Count-1 do  begin
-        Items[i].Enabled:=FConfigFile.GetValue('Plugin/'+Items[i].LibName+'/Enabled', true);
-      end;
-end;
+Function TPluginListClass.ReadPluginConfig: boolean;
+
+Var i: integer;
+Begin
+  For i:=0 To Count-1 Do
+    Begin
+      Items[i].Enabled := FConfigFile.GetValue('Plugin/'+Items[i].LibName+'/Enabled', true);
+    End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TPluginListClass.FlushPluginConfig: boolean;
-var i:integer;
-begin
+Function TPluginListClass.FlushPluginConfig: boolean;
+
+Var i: integer;
+Begin
   writeln('pluginconfig');
-  for i:=0 to Count-1 do
-       if Items[i].FEnabled then begin
-             FConfigFile.SetValue('Plugin/'+Items[i].LibName+'/Enabled', true);
-          end else
-             FConfigFile.SetValue('Plugin/'+Items[i].LibName+'/Enabled', false);
+  For i:=0 To Count-1 Do
+    If Items[i].FEnabled Then
+      Begin
+        FConfigFile.SetValue('Plugin/'+Items[i].LibName+'/Enabled', true);
+      End
+    Else
+      FConfigFile.SetValue('Plugin/'+Items[i].LibName+'/Enabled', false);
   FConfigFile.Flush;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 constructor TPluginListClass.Create;
-begin
+Begin
   inherited create;
 
-  FConfigPath:=CactusConfig.DataPrefix+'plugins.cfg';
-  FConfigFile:=TXMLConfig.Create(nil);
-  FConfigFile.Filename:=FConfigPath;
+  FConfigPath := CactusConfig.DataPrefix+'plugins.cfg';
+  FConfigFile := TXMLConfig.Create(Nil);
+  FConfigFile.Filename := FConfigPath;
 
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 destructor TPluginListClass.destroy;
-var i: integer;
-begin
+
+Var i: integer;
+Begin
   FlushPluginConfig;
   FConfigFile.Free;
   writeln('free plugins');
-  for i:= 0 to Count-1 do Items[i].Free;
-end;
+  For i:= 0 To Count-1 Do
+    Items[i].Free;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TPluginListClass.add(dllname: string): boolean;
-var   listitem: TPluginListItemClass;
-begin
+Function TPluginListClass.add(dllname: String): boolean;
 
-   listitem:=TPluginListItemClass.Create;
+Var   listitem: TPluginListItemClass;
+Begin
 
-   if listitem.ReadPlugin(dllname) then
-       begin
-         Inherited add(listitem);
-         result:=true;
-       end
-       else begin
-         result:=false;
-         listitem.Free;
-    end;
-end;
+  listitem := TPluginListItemClass.Create;
+
+  If listitem.ReadPlugin(dllname) Then
+    Begin
+      Inherited add(listitem);
+      result := true;
+    End
+  Else
+    Begin
+      result := false;
+      listitem.Free;
+    End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TPluginListClass.ScanPluginFolder;
-var srchstring: string;
-    srchRec: TSearchRec;
-begin
+Procedure TPluginListClass.ScanPluginFolder;
 
- Clear;
+Var srchstring: string;
+  srchRec: TSearchRec;
+Begin
+
+  Clear;
  {$ifdef Linux}
-    srchstring:=PluginFolder+'lib*.so';
+  srchstring := PluginFolder+'lib*.so';
  {$endif}
  {$ifdef windows}
-    srchstring:=PluginFolder+'*.dll';
+  srchstring := PluginFolder+'*.dll';
  {$endif}
-  if FindFirst(srchstring, faAnyFile, srchRec) = 0 then begin
-    repeat
-       begin
+  If FindFirst(srchstring, faAnyFile, srchRec) = 0 Then
+    Begin
+      Repeat
+        Begin
           write('Reading '+PluginFolder+srchRec.Name+' ... ');
           add(PluginFolder+srchRec.Name);
           writeln('done');
-       end;
-    until FindNext(srchRec)<>0;
-    FindClose(srchRec);
-  end;
+        End;
+      Until FindNext(srchRec)<>0;
+      FindClose(srchRec);
+    End;
   ReadPluginConfig;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TPluginListClass.SendEvent(event: TCactusEvent);
-var i: integer;
-begin
+Procedure TPluginListClass.SendEvent(event: TCactusEvent);
+
+Var i: integer;
+Begin
   writelN('Sendevent');
 
-  for i:= 0 to Count-1 do if Items[i].enabled then Items[i].PluginHandle.EventHandler(event);
-end;
+  For i:= 0 To Count-1 Do
+    If Items[i].enabled Then Items[i].PluginHandle.EventHandler(event);
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TPluginListItemClass.setEnabled(aValue: boolean);
-begin
-  if (FEnabled=false) and (aValue=true) then loadPlugin else unloadPlugin;
-  FEnabled:=aValue;
+Procedure TPluginListItemClass.setEnabled(aValue: boolean);
+Begin
+  If (FEnabled=false) And (aValue=true) Then loadPlugin
+  Else unloadPlugin;
+  FEnabled := aValue;
 
-end;
+End;
 
 
 { TPluginListItemClass }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 constructor TPluginListItemClass.create;
-begin
-  FEnabled:=false;
-end;
+Begin
+  FEnabled := false;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 destructor TPluginListItemClass.destroy;
-begin
+Begin
   unloadPlugin;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TPluginListItemClass.ReadPlugin(pluginpath: string): boolean;
-var GetInfoProcAdress: TGetPluginInfoProc;
-    PluginInfo: TPluginInfoRec;
-begin
- try
-   if FileExists(pluginpath) then write('ok');
-   FLibraryHandle:=LoadLibrary(pluginpath);
- except;
-   result:=false;
-   exit;
- end;
+Function TPluginListItemClass.ReadPlugin(pluginpath: String): boolean;
 
- if FLibraryHandle=NilHandle then begin
+Var GetInfoProcAdress: TGetPluginInfoProc;
+  PluginInfo: TPluginInfoRec;
+Begin
+  Try
+    If FileExists(pluginpath) Then write('ok');
+    FLibraryHandle := LoadLibrary(pluginpath);
+  Except;
+    result := false;
+    exit;
+  End;
+
+  If FLibraryHandle=NilHandle Then
+    Begin
       write('failed...');
-      result:=false;
+      result := false;
       exit;
-    end;
+    End;
 
- try
-   GetInfoProcAdress:=TGetPluginInfoProc(GetProcAddress(FLibraryHandle, 'GetPluginInfo'));
+  Try
+    GetInfoProcAdress := TGetPluginInfoProc(GetProcAddress(FLibraryHandle, 'GetPluginInfo'));
 
-   if GetInfoProcAdress<>nil then
-         PluginInfo:=GetInfoProcAdress()
-      else begin
-             write('wrong plugin type...');
-             result:=false;
-             exit;
-         end;
+    If GetInfoProcAdress<>Nil Then
+      PluginInfo := GetInfoProcAdress()
+    Else
+      Begin
+        write('wrong plugin type...');
+        result := false;
+        exit;
+      End;
 
-   FName:=StrPas(PluginInfo.Name);
-   FLibName:=ExtractFileName(pluginpath);
-   FLibPath:=IncludeTrailingPathDelimiter(ExtractFileDir(pluginpath));
-   FAuthor:=StrPas(PluginInfo.Author);
-   FVersion:=StrPas(PluginInfo.Version);
-   FComment:=StrPas(PluginInfo.Comment);
-//   FPlayerObjectPointer:=player;
-   result:=true;
- //finally
-  except
-   if UnloadLibrary(FLibraryHandle)=true then write('succes') else write('failed');
- end;
+    FName := StrPas(PluginInfo.Name);
+    FLibName := ExtractFileName(pluginpath);
+    FLibPath := IncludeTrailingPathDelimiter(ExtractFileDir(pluginpath));
+    FAuthor := StrPas(PluginInfo.Author);
+    FVersion := StrPas(PluginInfo.Version);
+    FComment := StrPas(PluginInfo.Comment);
+    //   FPlayerObjectPointer:=player;
+    result := true;
+    //finally
+  Except
+    If UnloadLibrary(FLibraryHandle)=true Then write('succes')
+    Else write('failed');
+  End;
 
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-function TPluginListItemClass.loadPlugin: boolean;
-var LoadAddr: TLoadPlugIn;
-    SetObjectConAdrr: TSetObjectConnections;
-begin
- write('Loading plugin '+FLibName+'...');
- try
-   if FileExists(FLibPath+FLibName) then write(' ok ') else writeln(' error '+FLibPath+FLibName);
-   FLibraryHandle:=LoadLibrary(FLibPath+FLibName);
- except;
-   result:=false;
-   writeln('file not found');
-   exit;
- end;
-   LoadAddr:=nil;
- try
-   LoadAddr:=TLoadPlugIn(GetProcAddress(FLibraryHandle, 'LoadPlugin'));
-   LoadAddr(FPluginHandle);
-   SetObjectConAdrr:=TSetObjectConnections(GetProcAddress(FLibraryHandle, 'SetObjectConnections'));
-   writeln(fmodplayer.player.CurrentTrack);
-   SetObjectConAdrr(@Fmodplayer.player);
-
-   writeln('done');
- except
-   writeln('error loading object!');
- end;
-
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-function TPluginListItemClass.unloadPlugin: boolean;
-begin
+Function TPluginListItemClass.loadPlugin: boolean;
+
+Var LoadAddr: TLoadPlugIn;
+  SetObjectConAdrr: TSetObjectConnections;
+Begin
+  write('Loading plugin '+FLibName+'...');
+  Try
+    If FileExists(FLibPath+FLibName) Then write(' ok ')
+    Else writeln(' error '+FLibPath+FLibName);
+    FLibraryHandle := LoadLibrary(FLibPath+FLibName);
+  Except;
+    result := false;
+    writeln('file not found');
+    exit;
+  End;
+  LoadAddr := Nil;
+  Try
+    LoadAddr := TLoadPlugIn(GetProcAddress(FLibraryHandle, 'LoadPlugin'));
+    LoadAddr(FPluginHandle);
+    SetObjectConAdrr := TSetObjectConnections(GetProcAddress(FLibraryHandle, 'SetObjectConnections')
+                        );
+    writeln(fmodplayer.player.CurrentTrack);
+    SetObjectConAdrr(@Fmodplayer.player);
+
+    writeln('done');
+  Except
+    writeln('error loading object!');
+  End;
+
+End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Function TPluginListItemClass.unloadPlugin: boolean;
+Begin
   FPluginHandle.Free;
   UnloadLibrary(FLibraryHandle);
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-end.
-
+End.

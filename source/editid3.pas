@@ -1,4 +1,6 @@
-unit editid3;
+
+Unit editid3;
+
 
 {
 
@@ -16,24 +18,26 @@ This Software is published under the GPL
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
+Uses 
+Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
   {ExtCtrls,} Buttons, ComCtrls, lcltype, mediacol, ExtCtrls, skin, aws, streamcol;
 
 
-  const ALBUM_MODE = 1;
-  const ARTIST_MODE = 2;
-  const STREAM_MODE = 2;
+Const ALBUM_MODE = 1;
 
-type
+Const ARTIST_MODE = 2;
+
+Const STREAM_MODE = 2;
+
+Type 
   PLabel = ^TLabel;
   PEdit = ^TEdit;
 
   { TEditID3 }
 
-  TEditID3 = class(TForm)
+  TEditID3 = Class(TForm)
     albumedit1: TEdit;
     albumedit2: TEdit;
     albumedit3: TEdit;
@@ -103,248 +107,256 @@ type
     titleedit1: TEdit;
     yearEdit2: TEdit;
     yearEdit3: TEdit;
-    procedure Button1Click(Sender: TObject);
-    procedure btnResetClick(Sender: TObject);
-    procedure EditID3Close(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormCreate(Sender: TObject);
-    procedure FormHide(Sender: TObject);
-    procedure Label3Click(Sender: TObject);
-    procedure PicDownloadTimerStartTimer(Sender: TObject);
-    procedure PicDownloadTimerTimer(Sender: TObject);
-    procedure cancelbutClick(Sender: TObject);
-    procedure guessnameClick(Sender: TObject);
-    procedure pathedit1Change(Sender: TObject);
-    procedure savebutClick(Sender: TObject);
-    procedure yearEdit1Change(Sender: TObject);
-    procedure cmbYearChange(Sender: TObject);
-    procedure activateEMode(Sender: TObject);
-  private
+    Procedure Button1Click(Sender: TObject);
+    Procedure btnResetClick(Sender: TObject);
+    Procedure EditID3Close(Sender: TObject; Var CloseAction: TCloseAction);
+    Procedure FormCreate(Sender: TObject);
+    Procedure FormHide(Sender: TObject);
+    Procedure Label3Click(Sender: TObject);
+    Procedure PicDownloadTimerStartTimer(Sender: TObject);
+    Procedure PicDownloadTimerTimer(Sender: TObject);
+    Procedure cancelbutClick(Sender: TObject);
+    Procedure guessnameClick(Sender: TObject);
+    Procedure pathedit1Change(Sender: TObject);
+    Procedure savebutClick(Sender: TObject);
+    Procedure yearEdit1Change(Sender: TObject);
+    Procedure cmbYearChange(Sender: TObject);
+    Procedure activateEMode(Sender: TObject);
+    Private 
     { private declarations }
     artist_only, album_only: Boolean;
     timer_loop_count: integer;
     request_send: boolean;
     picrequest_send: boolean;
     awsclass: TAWSAccess;
-    bEModeActive: boolean;                        // Edit-mode specific variable
-    ptrControls: array of array of ^TControl;     // ..
-    procedure show_tags();
-    MedFileObj:TMediaFileClass;
+    bEModeActive: boolean;
+    // Edit-mode specific variable
+    ptrControls: array Of array Of ^TControl;
+    // ..
+    Procedure show_tags();
+    MedFileObj: TMediaFileClass;
     MedColObj: TMediaCollectionClass;
     StreamInfoObj: TStreamInfoItemClass;
-  public
+    Public 
     { public declarations }
     fileid: integer;
-    procedure display_window(MedFile:TMediaFileClass; intMode: Integer = 0);
-    procedure display_window(StreamInfo: TStreamInfoItemClass);
-  end; 
+    Procedure display_window(MedFile:TMediaFileClass; intMode: Integer = 0);
+    Procedure display_window(StreamInfo: TStreamInfoItemClass);
+  End;
 
-var
+Var 
   EditID3win: TEditID3;
 
-implementation
-uses mainform, lazjpg, config, functions;
+  Implementation
+
+  Uses mainform, lazjpg, config, functions;
 { TEditID3 }
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.savebutClick(Sender: TObject);
-var curartist, newart, oldart, oldalbum, newalbum, strNewYear, strNewComment: string;
-    z,n:integer;
-    bYearLongEnough: Boolean;
-    ptr: ^TLabel;
-    ptrLabels: Array of ^TLabel;
-    strChangedTo: Array of String;
-begin
+Procedure TEditID3.savebutClick(Sender: TObject);
+
+Var curartist, newart, oldart, oldalbum, newalbum, strNewYear, strNewComment: string;
+  z,n: integer;
+  bYearLongEnough: Boolean;
+  ptr: ^TLabel;
+  ptrLabels: Array Of ^TLabel;
+  strChangedTo: Array Of String;
+Begin
   // only save if s.th. has been changed
-  if bEModeActive = false
-  then
-  begin
-    EditID3win.Hide;
-    exit;
-  end;
+  If bEModeActive = false
+    Then
+    Begin
+      EditID3win.Hide;
+      exit;
+    End;
 
   // check if the file exists and is writable
-  if (FileGetAttr(MedFileObj.path)<>faReadOnly)
-  then
-  begin
-    // write changes (artist-mode)
-    if artist_only=true
-    then
-    begin
-      oldart:=lowercase(MedFileObj.artist);
-      newart:=artistedit1.text;
-      strNewComment := self.cmbComment.Caption;
+  If (FileGetAttr(MedFileObj.path)<>faReadOnly)
+    Then
+    Begin
+      // write changes (artist-mode)
+      If artist_only=true
+        Then
+        Begin
+          oldart := lowercase(MedFileObj.artist);
+          newart := artistedit1.text;
+          strNewComment := self.cmbComment.Caption;
 
-      strNewYear := self.cmbYear.Caption;
-      if Length(strNewYear) = 4 then
-        bYearLongEnough := true;
+          strNewYear := self.cmbYear.Caption;
+          If Length(strNewYear) = 4 Then
+            bYearLongEnough := true;
 
-      z:=MedColObj.getTracks(oldart, MedFileObj.index);
-      repeat begin
-          MedFileObj:=MedColObj.Items[z];
-          writeln('artist_mode: '+ artistedit1.Text +' #'+ IntToStr(z));    // DEBUG-INFO
-          MedFileObj.artist:=newart;
-          if bYearLongEnough then MedColObj.items[z].year := self.cmbYear.Caption;
-          MedFileObj.comment:= strNewComment;
+          z := MedColObj.getTracks(oldart, MedFileObj.index);
+          Repeat
+            Begin
+              MedFileObj := MedColObj.Items[z];
+              writeln('artist_mode: '+ artistedit1.Text +' #'+ IntToStr(z));
+              // DEBUG-INFO
+              MedFileObj.artist := newart;
+              If bYearLongEnough Then MedColObj.items[z].year := self.cmbYear.Caption;
+              MedFileObj.comment := strNewComment;
+              MedFileObj.write_tag;
+              z := MedColObj.getNext;
+            End;
+          Until z<0;
+
+        End
+        // write changes (album-mode)
+      Else If album_only=true
+             Then
+             Begin
+               curartist := lowercase(MedFileObj.artist);
+               oldalbum := lowercase(MedFileObj.album);
+               newalbum := albumedit1.text;
+               newart := artistedit1.text;
+               strNewComment := self.cmbComment.Caption;
+
+               strNewYear := self.cmbYear.Caption;
+               If Length(strNewYear) = 4 Then
+                 bYearLongEnough := true;
+
+               z := MedColObj.getTracks(curartist, oldalbum, MedFileObj.index);
+
+               Repeat
+                 Begin
+                   MedFileObj := MedColObj.items[z];
+                   MedFileObj.album := newalbum;
+                   MedFileObj.Artist := newart;
+                   If bYearLongEnough Then MedFileObj.year := self.cmbYear.Caption;
+                   MedFileObj.comment := strNewComment;
+                   MedFileObj.write_tag;
+                   z := MedColObj.getNext;
+                 End;
+               Until z<0;
+
+             End
+             // write changes (title-mode)
+      Else
+        Begin
+          MedFileObj.artist := artistedit1.text;
+          MedFileObj.title := titleedit1.text;
+          MedFileObj.album := albumedit1.text;
+          MedFileObj.year := yearedit1.text;
+          MedFileObj.comment := commentedit1.text;
+          MedFileObj.track := trackedit1.text;
+
           MedFileObj.write_tag;
-          z:=MedColObj.getNext;
-      end;
-      until z<0;
 
-    end
-    // write changes (album-mode)
-    else if album_only=true
-    then
-    begin
-      curartist:=lowercase(MedFileObj.artist);
-      oldalbum:=lowercase(MedFileObj.album);
-      newalbum:=albumedit1.text;
-      newart:=artistedit1.text;
-      strNewComment := self.cmbComment.Caption;
-
-      strNewYear := self.cmbYear.Caption;
-      if Length(strNewYear) = 4 then
-        bYearLongEnough := true;
-
-      z:=MedColObj.getTracks(curartist, oldalbum, MedFileObj.index);
-       
-      repeat begin
-            MedFileObj:= MedColObj.items[z];
-            MedFileObj.album:=newalbum;
-            MedFileObj.Artist:=newart;
-            if bYearLongEnough then MedFileObj.year := self.cmbYear.Caption;
-            MedFileObj.comment:= strNewComment;
-            MedFileObj.write_tag;
-            z:=MedColObj.getNext;
-      end;
-      until z<0;
-
-    end
-    // write changes (title-mode)
-    else
-    begin
-      MedFileObj.artist:=artistedit1.text;
-      MedFileObj.title:=titleedit1.text;
-      MedFileObj.album:=albumedit1.text;
-      MedFileObj.year:=yearedit1.text;
-      MedFileObj.comment:=commentedit1.text;
-      MedFileObj.track:=trackedit1.text;
-
-      MedFileObj.write_tag;
-
-      RenameFile(MedFileObj.path, editid3win.pathedit1.text);
-      MedFileObj.path:=editid3win.pathedit1.text;
-    end;
+          RenameFile(MedFileObj.path, editid3win.pathedit1.text);
+          MedFileObj.path := editid3win.pathedit1.text;
+        End;
 
 
-    if main.player_connected then PlayerCol.SaveToFile(CactusConfig.DAPPath+'cactuslib');
+      If main.player_connected Then PlayerCol.SaveToFile(CactusConfig.DAPPath+'cactuslib');
 
-    main.update_artist_view;
-    update_title_view;
-    main.update_playlist;
-  end
-  else
+      main.update_artist_view;
+      update_title_view;
+      main.update_playlist;
+    End
+  Else
     ShowMessage('Error: File(s) is/are read-only');
 
   EditID3win.Hide;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.cancelbutClick(Sender: TObject);
-begin
+Procedure TEditID3.cancelbutClick(Sender: TObject);
+Begin
   EditID3win.Hide;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.yearEdit1Change(Sender: TObject);
-begin
+Procedure TEditID3.yearEdit1Change(Sender: TObject);
+Begin
   // ensure only YYYY (years of four digits) are entered (if anything is entered)
-  if self.yearEdit1.Visible = true
-  then
-  begin
-    case Length(self.yearEdit1.Caption) of
-      0: self.savebut1.Enabled:= true;
-      4:
-      try
-        self.savebut1.Enabled:= true;
-        StrToInt(self.yearEdit1.Caption);
-      except
-        self.savebut1.Enabled:= false;
-      end;
-      otherwise self.savebut1.Enabled := false;
-    end;
-    activateEMode(Sender);
-  end;
-end;
+  If self.yearEdit1.Visible = true
+    Then
+    Begin
+      Case Length(self.yearEdit1.Caption) Of 
+        0: self.savebut1.Enabled := true;
+        4:
+           Try
+             self.savebut1.Enabled := true;
+             StrToInt(self.yearEdit1.Caption);
+           Except
+             self.savebut1.Enabled := false;
+           End;
+        otherwise self.savebut1.Enabled := false;
+      End;
+      activateEMode(Sender);
+    End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.cmbYearChange(Sender: TObject);
-begin
+Procedure TEditID3.cmbYearChange(Sender: TObject);
+Begin
   // ensure only YYYY (years of four digits) are entered (if anything is entered)
-  if self.cmbYear.Visible = true
-  then
-  begin
-    case Length(self.cmbYear.Caption) of
-      0: self.savebut1.Enabled:= true;
-      4:
-      try
-        self.savebut1.Enabled:= true;
-        StrToInt(self.cmbYear.Caption);
-      except
-        self.savebut1.Enabled:= false;
-      end;
-      otherwise self.savebut1.Enabled := false;
-    end;
-    activateEMode(Sender);
-  end;
-end;
+  If self.cmbYear.Visible = true
+    Then
+    Begin
+      Case Length(self.cmbYear.Caption) Of 
+        0: self.savebut1.Enabled := true;
+        4:
+           Try
+             self.savebut1.Enabled := true;
+             StrToInt(self.cmbYear.Caption);
+           Except
+             self.savebut1.Enabled := false;
+           End;
+        otherwise self.savebut1.Enabled := false;
+      End;
+      activateEMode(Sender);
+    End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.activateEMode(Sender: TObject);
-var
+Procedure TEditID3.activateEMode(Sender: TObject);
+
+Var 
   i, j: Integer;
   ptrLabel: ^TLabel;
   ptrEdit: ^TEdit;
-begin
+Begin
   // disable all labels
-  if self.bEModeActive = false
-  then
-  begin
-    for i := 0 to Length(ptrControls) -1 do
-    begin
-      ptrLabel := PLabel(ptrControls[i,0]);
-      ptrLabel^.Enabled := false;
-    end;
-    self.bEModeActive := true;
-    self.btnReset.Enabled := true;
-  end;
+  If self.bEModeActive = false
+    Then
+    Begin
+      For i := 0 To Length(ptrControls) -1 Do
+        Begin
+          ptrLabel := PLabel(ptrControls[i,0]);
+          ptrLabel^.Enabled := false;
+        End;
+      self.bEModeActive := true;
+      self.btnReset.Enabled := true;
+    End;
 
   // enable label if sender (a text-box) belongs to it
-  for i := 0 to Length(ptrControls) -1 do
-  begin
-    ptrLabel := PLabel(ptrControls[i,0]);
-    for j := 1 to Length(ptrControls[i]) -1 do
-    begin
-      ptrEdit := PEdit(ptrControls[i,j]);
-      if ptrEdit^ = Sender then ptrLabel^.Enabled := true;
-    end
-  end;
-end;
+  For i := 0 To Length(ptrControls) -1 Do
+    Begin
+      ptrLabel := PLabel(ptrControls[i,0]);
+      For j := 1 To Length(ptrControls[i]) -1 Do
+        Begin
+          ptrEdit := PEdit(ptrControls[i,j]);
+          If ptrEdit^ = Sender Then ptrLabel^.Enabled := true;
+        End
+    End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.FormHide(Sender: TObject);
-begin
-  Main.enabled:=true;
+Procedure TEditID3.FormHide(Sender: TObject);
+Begin
+  Main.enabled := true;
 
   // reset form components
   self.guessname1.Enabled := true;
   self.Button1.Enabled := true;
-  
+
   self.pathedit1.Caption := '';
   self.pathedit1.Enabled := true;
   self.artistedit1.Caption := '';
@@ -365,100 +377,105 @@ begin
   self.AlbumCoverImg.Canvas.Clear;
   self.AlbumCoverImg.Picture.Clear;
   self.PicDownloadTimer.Enabled := false;
-  
+
   self.cmbYear.Visible := false;
   self.yearEdit1.Visible := true;
-  self.cmbComment.Visible:= false;
-  self.commentedit1.Visible:= true;
-  
-  self.ShowInTaskBar:=stNever;
-end;
+  self.cmbComment.Visible := false;
+  self.commentedit1.Visible := true;
 
-procedure TEditID3.Label3Click(Sender: TObject);
-begin
+  self.ShowInTaskBar := stNever;
+End;
 
-end;
+Procedure TEditID3.Label3Click(Sender: TObject);
+Begin
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure TEditID3.PicDownloadTimerStartTimer(Sender: TObject);
-begin
-  timer_loop_count:=0;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.PicDownloadTimerTimer(Sender: TObject);
+Procedure TEditID3.PicDownloadTimerStartTimer(Sender: TObject);
+Begin
+  timer_loop_count := 0;
+End;
 
-begin
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Procedure TEditID3.PicDownloadTimerTimer(Sender: TObject);
+
+Begin
   inc(timer_loop_count);
-  if (timer_loop_count mod 8)=0 then AlbumCoverImg.Canvas.Clear else AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-  if (picrequest_send and awsclass.ImgNotFound) or (timer_loop_count>20) then begin
-     writeln('TIMEOUT while loading album cover image from Internet');
-     AlbumCoverImg.Canvas.Clear;
-     AlbumCoverImg.Canvas.TextOut(10,10, 'No cover found :(');
-     awsclass.free;
-     picrequest_send:=false;
-     PicDownloadTimer.Enabled:=false;
-    end;
-    
-  if (picrequest_send) and awsclass.data_ready then begin
-             writeln(MedFileObj.CoverPath);
-             AlbumCoverImg.Canvas.Clear;
-             try
-               AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
-             except writeln('EXCEPTION');
-             end;
-             awsclass.free;
-             picrequest_send:=false;
-             PicDownloadTimer.Enabled:=false;
-         end;
-end;
+  If (timer_loop_count Mod 8)=0 Then AlbumCoverImg.Canvas.Clear
+  Else AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
+  If (picrequest_send And awsclass.ImgNotFound) Or (timer_loop_count>20) Then
+    Begin
+      writeln('TIMEOUT while loading album cover image from Internet');
+      AlbumCoverImg.Canvas.Clear;
+      AlbumCoverImg.Canvas.TextOut(10,10, 'No cover found :(');
+      awsclass.free;
+      picrequest_send := false;
+      PicDownloadTimer.Enabled := false;
+    End;
+
+  If (picrequest_send) And awsclass.data_ready Then
+    Begin
+      writeln(MedFileObj.CoverPath);
+      AlbumCoverImg.Canvas.Clear;
+      Try
+        AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
+      Except
+        writeln('EXCEPTION');
+      End;
+      awsclass.free;
+      picrequest_send := false;
+      PicDownloadTimer.Enabled := false;
+    End;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.EditID3Close(Sender: TObject; var CloseAction: TCloseAction);
-begin
+Procedure TEditID3.EditID3Close(Sender: TObject; Var CloseAction: TCloseAction);
+Begin
   //    Filelogo.free;
   //    AlbumCoverImg.free;
-   //   PicDownloadTimer.Enabled:=false;
+  //   PicDownloadTimer.Enabled:=false;
   //    PicDownloadTimer.Free;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.FormCreate(Sender: TObject);
-var
+Procedure TEditID3.FormCreate(Sender: TObject);
+
+Var 
   i: integer;
-begin
+Begin
   // initialize index of labels and text boxes on form - used for edit-mode
   SetLength(ptrControls, 8);
-  for i := 0 to Length(ptrControls) -1 do
+  For i := 0 To Length(ptrControls) -1 Do
     SetLength(ptrControls[i], 2);
 
   ptrControls[0,0] := @self.lblPath;
   ptrControls[0,1] := @self.pathedit1;
-  
+
   ptrControls[1,0] := @self.lblArtist;
   ptrControls[1,1] := @self.artistedit1;
-  
+
   ptrControls[2,0] := @self.lblTitle;
   ptrControls[2,1] := @self.titleedit1;
-  
+
   ptrControls[3,0] := @self.lblAlbum;
   ptrControls[3,1] := @self.albumedit1;
-  
+
   ptrControls[4,0] := @self.lblTrack;
   ptrControls[4,1] := @self.trackedit1;
-  
+
   ptrControls[5,0] := @self.lblGenre;
   ptrControls[5,1] := @self.Edit2;
-  
+
   SetLength(ptrControls[6], 3);
   ptrControls[6,0] := @self.lblComment;
   ptrControls[6,1] := @self.commentedit1;
   ptrControls[6,2] := @self.cmbComment;
-  
+
   SetLength(ptrControls[7], 3);
   ptrControls[7,0] := @self.lblYear;
   ptrControls[7,1] := @self.yearEdit1;
@@ -467,313 +484,334 @@ begin
   // (FIXME) ressourcestring translations need to be added here
 
   Icon.LoadFromFile(CactusConfig.DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.show_tags();
-var
-  strYears: Array of String[4];
-  strComments: Array of String;
+Procedure TEditID3.show_tags();
+
+Var 
+  strYears: Array Of String[4];
+  strComments: Array Of String;
   bExists: Boolean;
   i, j: Integer;
   ptrLabel: ^TLabel;
-begin
+Begin
   // reset all labels indicating edit-mode and changes
-  for i := 0 to Length(ptrControls) -1 do
-  begin
-    ptrLabel := PLabel(ptrControls[i,0]);
-    ptrLabel^.Enabled := true;
-  end;
+  For i := 0 To Length(ptrControls) -1 Do
+    Begin
+      ptrLabel := PLabel(ptrControls[i,0]);
+      ptrLabel^.Enabled := true;
+    End;
 
   // display tags...
   self.artistedit1.Text := self.MedFileObj.artist;
 
   // artist and album(-mode) specific actions
-  if (artist_only = true) or (album_only = true)
-  then
-  begin
-    // collect all "years" set for files of the chosen artist/album
-    // and display them
-    SetLength(strYears, 0);
-    for i := 0 to self.MedColObj.ItemCount -1 do
-      if self.MedColObj.items[i].artist = self.MedFileObj.artist
-      then
-      begin
-        if album_only = true then
-          if self.MedColObj.items[i].album <> self.MedFileObj.album then continue;
-        // ensure "year" is added only once
-        bExists := false;
-        for j := 0 to Length(strYears) -1 do
-          if strYears[j] = self.MedColObj.items[i].year
-          then
-          begin
-            bExists := true;
-            break;
-          end;
-        if bExists = true then continue;
-        // add "year"
-        SetLength(strYears, Length(strYears) +1);
-        strYears[Length(strYears) -1] := self.MedColObj.items[i].year;
-      end;
-    // and display...
-    self.yearEdit1.Visible := false;
-    self.cmbYear.Visible := true;
-    self.cmbYear.Clear;
-    for i := 0 to Length(strYears) -1 do
-      self.cmbYear.Items.Add(strYears[i]);
+  If (artist_only = true) Or (album_only = true)
+    Then
+    Begin
+      // collect all "years" set for files of the chosen artist/album
+      // and display them
+      SetLength(strYears, 0);
+      For i := 0 To self.MedColObj.ItemCount -1 Do
+        If self.MedColObj.items[i].artist = self.MedFileObj.artist
+          Then
+          Begin
+            If album_only = true Then
+              If self.MedColObj.items[i].album <> self.MedFileObj.album Then continue;
+            // ensure "year" is added only once
+            bExists := false;
+            For j := 0 To Length(strYears) -1 Do
+              If strYears[j] = self.MedColObj.items[i].year
+                Then
+                Begin
+                  bExists := true;
+                  break;
+                End;
+            If bExists = true Then continue;
+            // add "year"
+            SetLength(strYears, Length(strYears) +1);
+            strYears[Length(strYears) -1] := self.MedColObj.items[i].year;
+          End;
+      // and display...
+      self.yearEdit1.Visible := false;
+      self.cmbYear.Visible := true;
+      self.cmbYear.Clear;
+      For i := 0 To Length(strYears) -1 Do
+        self.cmbYear.Items.Add(strYears[i]);
 
-    // collect all "comments" set for files of the chosen artist/album
-    // and display them
-    SetLength(strComments, 0);
-    for i := 1 to self.MedColObj.ItemCount-1 do
-      if self.MedColObj.items[i].artist = self.MedFileObj.artist
-      then
-      begin
-        if album_only = true then
-          if self.MedColObj.items[i].album <> self.MedFileObj.album then continue;
-        // ensure "comment" is added only once
-        bExists := false;
-        for j := 0 to Length(strComments) -1 do
-          if strComments[j] = self.MedColObj.items[i].comment
-          then
-          begin
-            bExists := true;
-            break;
-          end;
-        if bExists = true then continue;
-        // add "comment"
-        SetLength(strComments, Length(strComments) +1);
-        strComments[Length(strComments) -1] := self.MedColObj.items[i].comment;
-      end;
-    // and display...
-    self.commentedit1.Visible := false;
-    self.cmbComment.Visible := true;
-    self.cmbComment.Clear;
-    for i := 0 to Length(strComments) -1 do
-      self.cmbComment.Items.Add(strComments[i]);
+      // collect all "comments" set for files of the chosen artist/album
+      // and display them
+      SetLength(strComments, 0);
+      For i := 1 To self.MedColObj.ItemCount-1 Do
+        If self.MedColObj.items[i].artist = self.MedFileObj.artist
+          Then
+          Begin
+            If album_only = true Then
+              If self.MedColObj.items[i].album <> self.MedFileObj.album Then continue;
+            // ensure "comment" is added only once
+            bExists := false;
+            For j := 0 To Length(strComments) -1 Do
+              If strComments[j] = self.MedColObj.items[i].comment
+                Then
+                Begin
+                  bExists := true;
+                  break;
+                End;
+            If bExists = true Then continue;
+            // add "comment"
+            SetLength(strComments, Length(strComments) +1);
+            strComments[Length(strComments) -1] := self.MedColObj.items[i].comment;
+          End;
+      // and display...
+      self.commentedit1.Visible := false;
+      self.cmbComment.Visible := true;
+      self.cmbComment.Clear;
+      For i := 0 To Length(strComments) -1 Do
+        self.cmbComment.Items.Add(strComments[i]);
 
-    // album(-mode) specific actions
-    if album_only = true
-    then
-    begin
+      // album(-mode) specific actions
+      If album_only = true
+        Then
+        Begin
+          self.albumedit1.text := self.MedFileObj.album;
+          // select first entry from combobox as default for the album
+          If self.cmbYear.Items.Count > 0 Then self.cmbYear.ItemIndex := 0;
+          If self.cmbComment.Items.Count > 0 Then self.cmbComment.ItemIndex := 0;
+        End;
+    End
+    // title(-mode) specific actions
+  Else
+    Begin
+      self.pathedit1.text := self.MedFileObj.path;
+      self.titleedit1.text := self.MedFileObj.title;
       self.albumedit1.text := self.MedFileObj.album;
-      // select first entry from combobox as default for the album
-      if self.cmbYear.Items.Count > 0 then self.cmbYear.ItemIndex := 0;
-      if self.cmbComment.Items.Count > 0 then self.cmbComment.ItemIndex := 0;
-    end;
-  end
-  // title(-mode) specific actions
-  else
-  begin
-    self.pathedit1.text:=self.MedFileObj.path;
-    self.titleedit1.text:=self.MedFileObj.title;
-    self.albumedit1.text:=self.MedFileObj.album;
-    self.commentedit1.text:=self.MedFileObj.comment;
-    self.yearedit1.text:=self.MedFileObj.year;
-    self.trackedit1.text:=self.MedFileObj.track;
-  end;
-  
+      self.commentedit1.text := self.MedFileObj.comment;
+      self.yearedit1.text := self.MedFileObj.year;
+      self.trackedit1.text := self.MedFileObj.track;
+    End;
+
   self.btnReset.Enabled := false;
   self.bEModeActive := false;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.display_window(MedFile: TMediaFileClass; intMode: Integer);
-var s, tmps:string;
-    i: Integer;
-begin
+Procedure TEditID3.display_window(MedFile: TMediaFileClass; intMode: Integer);
+
+Var s, tmps: string;
+  i: Integer;
+Begin
   // set up gui elements
 
-  metacontrol.Pages[0].TabVisible:=true;
-  metacontrol.Pages[1].TabVisible:=true;
-  metacontrol.Pages[2].TabVisible:=false;
+  metacontrol.Pages[0].TabVisible := true;
+  metacontrol.Pages[1].TabVisible := true;
+  metacontrol.Pages[2].TabVisible := false;
 
-  metacontrol.ActivePage:=metacontrol.Pages[0];
+  metacontrol.ActivePage := metacontrol.Pages[0];
 
-  btnReset.Enabled:=true;
+  btnReset.Enabled := true;
 
-  self.MedFileObj:=MedFile;
-  self.MedColObj:=MedFileObj.Collection;
-  self.fileid:=0;
+  self.MedFileObj := MedFile;
+  self.MedColObj := MedFileObj.Collection;
+  self.fileid := 0;
 
   self.artist_only := false;
   self.album_only := false;
-  case intMode of
+  Case intMode Of 
     ALBUM_MODE: self.album_only := true;
     ARTIST_MODE: self.artist_only := true;
-  end;
+  End;
 
   // artist and album(-mode) specific actions
-  if (artist_only = true) or (album_only = true)
-  then
-  begin
-    self.guessname1.Enabled := false;
-    self.Button1.Enabled := false;
-    self.pathedit1.Enabled := false;
-    self.titleedit1.Enabled := false;
+  If (artist_only = true) Or (album_only = true)
+    Then
+    Begin
+      self.guessname1.Enabled := false;
+      self.Button1.Enabled := false;
+      self.pathedit1.Enabled := false;
+      self.titleedit1.Enabled := false;
 
-    self.indexlabel.Caption := 'File-Index: ' + IntToStr(MedFileObj.index);
+      self.indexlabel.Caption := 'File-Index: ' + IntToStr(MedFileObj.index);
 
-    // artist(-mode) specific actions
-    if artist_only = true
-    then
-      self.albumedit1.Enabled := false;
+      // artist(-mode) specific actions
+      If artist_only = true
+        Then
+        self.albumedit1.Enabled := false;
 
-    // album(-mode) specific actions
-    if album_only = true
-    then
-    begin
-      writeln('########AlbumCover');     // DEBUG-INFO
-      writeln('kkk');
-      if MedFileObj.album<>''
-      then
-      begin
-        MedFileObj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+MedFileObj.artist+'_'+MedFileObj.album+'.jpeg';
-        if FileExists(MedFileObj.CoverPath) then begin
-             try
-                 AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
-             except writeln('EXCEPTION');
-             end;
-          end
-        else
-        begin
-          if CactusConfig.CoverDownload
-          then
-          begin
-            awsclass:=TAWSAccess.CreateRequest(MedFileObj.artist, MedFileObj.album);
-            awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
-            picrequest_send:=true;
-            AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-            Application.ProcessMessages;
-            PicDownloadTimer.Enabled:=true;
-          end;
-        end;
-      end;
-    end;
-  end
-  // title(-mode) specific actions
-  else
-  begin
-    self.guessname1.Enabled:=true;
-    self.Button1.Enabled:=true;
+      // album(-mode) specific actions
+      If album_only = true
+        Then
+        Begin
+          writeln('########AlbumCover');
+          // DEBUG-INFO
+          writeln('kkk');
+          If MedFileObj.album<>''
+            Then
+            Begin
+              MedFileObj.CoverPath := CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+
+                                      DirectorySeparator+MedFileObj.artist+'_'+MedFileObj.album+
+                                      '.jpeg';
+              If FileExists(MedFileObj.CoverPath) Then
+                Begin
+                  Try
+                    AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
+                  Except
+                    writeln('EXCEPTION');
+                  End;
+                End
+              Else
+                Begin
+                  If CactusConfig.CoverDownload
+                    Then
+                    Begin
+                      awsclass := TAWSAccess.CreateRequest(MedFileObj.artist, MedFileObj.album);
+                      awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
+                      picrequest_send := true;
+                      AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
+                      Application.ProcessMessages;
+                      PicDownloadTimer.Enabled := true;
+                    End;
+                End;
+            End;
+        End;
+    End
+    // title(-mode) specific actions
+  Else
+    Begin
+      self.guessname1.Enabled := true;
+      self.Button1.Enabled := true;
 
-    mtype.caption:='Mediatype:  '+MedFileObj.filetype;
-    if MedFileObj.filetype='.mp3' then
-      Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'mp3_64.png');
-    if MedFileObj.filetype='.ogg' then
-      Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'ogg_64.png');
-    if MedFileObj.filetype='.wav' then
-      Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+'wav_64.png');
-    plength.caption:='Length:  '+MedFileObj.playtime;
+      mtype.caption := 'Mediatype:  '+MedFileObj.filetype;
+      If MedFileObj.filetype='.mp3' Then
+        Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+
+                                      DirectorySeparator+'mp3_64.png');
+      If MedFileObj.filetype='.ogg' Then
+        Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+
+                                      DirectorySeparator+'ogg_64.png');
+      If MedFileObj.filetype='.wav' Then
+        Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+
+                                      DirectorySeparator+'wav_64.png');
+      plength.caption := 'Length:  '+MedFileObj.playtime;
 
 
 
-    fsize.caption:='Size:  '+ByteToFmtString(MedFileObj.size, 2, 2);
-    srate.Caption := 'Samplerate:  ' + IntToStr(MedFileObj.samplerate) + ' Hz';
-    bitrate.Caption := 'Bitrate:  ' + IntToStr(MedFileObj.bitrate) + ' kbps';
-    idlabel.Caption := 'File-Id: ' + IntToStr(MedFileObj.id);
-    indexlabel.Caption := 'File-Index: ' + IntToStr(MedFileObj.index);
+      fsize.caption := 'Size:  '+ByteToFmtString(MedFileObj.size, 2, 2);
+      srate.Caption := 'Samplerate:  ' + IntToStr(MedFileObj.samplerate) + ' Hz';
+      bitrate.Caption := 'Bitrate:  ' + IntToStr(MedFileObj.bitrate) + ' kbps';
+      idlabel.Caption := 'File-Id: ' + IntToStr(MedFileObj.id);
+      indexlabel.Caption := 'File-Index: ' + IntToStr(MedFileObj.index);
 
-    writeln('########AlbumCover');     // DEBUG-INFO
-    if MedFileObj.album<>''
-    then
-    begin
-      MedFileObj.CoverPath:=CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+DirectorySeparator+MedFileObj.artist+'_'+MedFileObj.album+'.jpeg';
-      if FileExists(MedFileObj.CoverPath)
-      then begin
-       try
-           AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
-        except writeln('EXCEPTION');
-        end;
-      end else
-      begin
-        if CactusConfig.CoverDownload
-        then
-        begin
-          awsclass:=TAWSAccess.CreateRequest(MedFileObj.artist, MedFileObj.album);
-          awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
-          picrequest_send:=true;
-          AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-          PicDownloadTimer.Enabled:=true;
-          Application.ProcessMessages;
-        end;
-      end;
-    end;
-  end;
+      writeln('########AlbumCover');
+      // DEBUG-INFO
+      If MedFileObj.album<>''
+        Then
+        Begin
+          MedFileObj.CoverPath := CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+
+                                  DirectorySeparator+MedFileObj.artist+'_'+MedFileObj.album+'.jpeg';
+          If FileExists(MedFileObj.CoverPath)
+            Then
+            Begin
+              Try
+                AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
+              Except
+                writeln('EXCEPTION');
+              End;
+            End
+          Else
+            Begin
+              If CactusConfig.CoverDownload
+                Then
+                Begin
+                  awsclass := TAWSAccess.CreateRequest(MedFileObj.artist, MedFileObj.album);
+                  awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
+                  picrequest_send := true;
+                  AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
+                  PicDownloadTimer.Enabled := true;
+                  Application.ProcessMessages;
+                End;
+            End;
+        End;
+    End;
 
   show_tags();
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.display_window(StreamInfo: TStreamInfoItemClass);
+Procedure TEditID3.display_window(StreamInfo: TStreamInfoItemClass);
 
-begin
-  StreamInfoObj:=StreamInfo;
-  metacontrol.Pages[0].TabVisible:=false;
-  metacontrol.Pages[1].TabVisible:=false;
-  metacontrol.Pages[2].TabVisible:=true;
-  
-  metacontrol.ActivePage:=metacontrol.Pages[2];
+Begin
+  StreamInfoObj := StreamInfo;
+  metacontrol.Pages[0].TabVisible := false;
+  metacontrol.Pages[1].TabVisible := false;
+  metacontrol.Pages[2].TabVisible := true;
 
-  btnReset.Enabled:=true;
+  metacontrol.ActivePage := metacontrol.Pages[2];
 
-  NameEdit.Text:=StreamInfoObj.Name;
-  URLEdit.Text:=StreamInfoObj.URL;
-  DescEdit.Text:=StreamInfoObj.Description;
+  btnReset.Enabled := true;
 
-end;
+  NameEdit.Text := StreamInfoObj.Name;
+  URLEdit.Text := StreamInfoObj.URL;
+  DescEdit.Text := StreamInfoObj.Description;
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-procedure TEditID3.Button1Click(Sender: TObject);
-var s:string;
-begin
-  s:=extractfilepath(MedFileObj.path)+editid3win.artistedit1.text+' - '+editid3win.titleedit1.text+'.mp3';
-  EditID3win.pathedit1.text:=s;
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.btnResetClick(Sender: TObject);
-begin
+Procedure TEditID3.Button1Click(Sender: TObject);
+
+Var s: string;
+Begin
+  s := extractfilepath(MedFileObj.path)+editid3win.artistedit1.text+' - '+editid3win.titleedit1.text
+       +'.mp3';
+  EditID3win.pathedit1.text := s;
+End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Procedure TEditID3.btnResetClick(Sender: TObject);
+Begin
   show_tags();
-end;
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TEditID3.guessnameClick(Sender: TObject);
-var z:integer;
-    tmps: string;
-begin
-  tmps:=extractfilename(pathedit1.Text);
-  if ((tmps[1]<#60) and (tmps[2]<#60) and (tmps[4]=#45)) then begin
-                    trackedit1.text:=copy(tmps,1,2);
-                    delete(tmps, 1, 5);
-              end;
-  
-   z:=pos(' - ', tmps)+3;
-   if z<>3 then begin
-        titleedit1.text:=TrimRight(copy(tmps,z,length(tmps)-z-3));
-        artistedit1.text:=TrimRight(copy(tmps,1,z-3));
-      end else begin
-        artistedit1.text:='';
-        titleedit1.text:='';
-      end;
-    
-end;
+Procedure TEditID3.guessnameClick(Sender: TObject);
 
-procedure TEditID3.pathedit1Change(Sender: TObject);
-begin
+Var z: integer;
+  tmps: string;
+Begin
+  tmps := extractfilename(pathedit1.Text);
+  If ((tmps[1]<#60) And (tmps[2]<#60) And (tmps[4]=#45)) Then
+    Begin
+      trackedit1.text := copy(tmps,1,2);
+      delete(tmps, 1, 5);
+    End;
 
-end;
+  z := pos(' - ', tmps)+3;
+  If z<>3 Then
+    Begin
+      titleedit1.text := TrimRight(copy(tmps,z,length(tmps)-z-3));
+      artistedit1.text := TrimRight(copy(tmps,1,z-3));
+    End
+  Else
+    Begin
+      artistedit1.text := '';
+      titleedit1.text := '';
+    End;
+
+End;
+
+Procedure TEditID3.pathedit1Change(Sender: TObject);
+Begin
+
+End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 initialization
   {$I editid3.lrs}
 
-end.
-
+End.

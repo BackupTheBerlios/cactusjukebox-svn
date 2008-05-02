@@ -1,3 +1,4 @@
+
 {
 Minimized Player View for Cactus Jukebox
 
@@ -15,21 +16,21 @@ This Software is published under the GPL
 }
 
 
-unit player;
+Unit player;
 
 {$mode objfpc}{$H+}
 
-interface
+Interface
 
-uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  Buttons, fmodplayer, mainform, mediacol, {messages,} ComCtrls, Menus;
+Uses 
+Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+Buttons, fmodplayer, mainform, mediacol, {messages,} ComCtrls, Menus;
 
-type
+Type 
 
   { Tplaywin }
 
-  Tplaywin = class(TForm)
+  Tplaywin = Class(TForm)
     BackgroundImg: TImage;
     AlbumCoverImg: TImage;
     ViewImg: TImage;
@@ -52,96 +53,98 @@ type
     popup_open: TMenuItem;
     file_info: TMenuItem;
     PopupMenu1: TPopupMenu;
-    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
-    procedure FormDestroy(Sender: TObject);
-    procedure InfoImgClick(Sender: TObject);
-    procedure InfoImgMouseEnter(Sender: TObject);
-    procedure InfoImgMouseLeave(Sender: TObject);
-    procedure MenuItem1Click(Sender: TObject);
-    procedure MenuItem2Click(Sender: TObject);
-    procedure MenuItem3Click(Sender: TObject);
- //   procedure WMEraseBkgnd(var message:TWMEraseBkgnd); message  WM_ERASEBKGND;
-    procedure Image1Click(Sender: TObject);
-    procedure Image1Paint(Sender: TObject);
-    procedure MuteImgClick(Sender: TObject);
-    procedure MuteImgMouseEnter(Sender: TObject);
-    procedure NextImgClick(Sender: TObject);
-    procedure NextImgMouseDown(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure NextImgMouseEnter(Sender: TObject);
-    procedure NextImgMouseLeave(Sender: TObject);
-    procedure NextImgMouseUp(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure OpenImgClick(Sender: TObject);
-    procedure PauseImgClick(Sender: TObject);
-    procedure PauseImgMouseDown(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure PauseImgMouseEnter(Sender: TObject);
-    procedure PauseImgMouseLeave(Sender: TObject);
-    procedure PauseImgMouseUp(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure PlayImgClick(Sender: TObject);
-    procedure PlayImgMouseDown(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure PlayImgMouseEnter(Sender: TObject);
-    procedure PlayImgMouseLeave(Sender: TObject);
-    procedure PlayImgMouseUp(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure StopImgClick(Sender: TObject);
-    procedure StopImgMouseDown(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure StopImgMouseEnter(Sender: TObject);
-    procedure StopImgMouseLeave(Sender: TObject);
-    procedure StopImgMouseUp(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure ViewImgClick(Sender: TObject);
-    procedure ViewImgMouseEnter(Sender: TObject);
-    procedure ViewImgMouseLeave(Sender: TObject);
-    procedure backImgClick(Sender: TObject);
-    procedure backImgMouseDown(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure backImgMouseEnter(Sender: TObject);
-    procedure backImgMouseLeave(Sender: TObject);
-    procedure backImgMouseUp(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure r(Sender: TObject);
-    procedure MuteImgMouseLeave(Sender: TObject);
-    procedure OpenImgMouseEnter(Sender: TObject);
-    procedure OpenImgMouseLeave(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
-    procedure SpeedButton2Click(Sender: TObject);
-    procedure file_infoClick(Sender: TObject);
-    procedure openClick(Sender: TObject);
-    procedure pauseClick(Sender: TObject);
-    procedure playClick(Sender: TObject);
-    procedure playwinClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure playwinCreate(Sender: TObject);
-    procedure playwinKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
-      );
-    procedure playwinKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure prevClick(Sender: TObject);
-    procedure stopClick(Sender: TObject);
-    procedure toggle_viewClick(Sender: TObject);
-    procedure trackbarMouseDown(Sender: TOBject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-  private
+    Procedure FormCloseQuery(Sender: TObject; Var CanClose: boolean);
+    Procedure FormDestroy(Sender: TObject);
+    Procedure InfoImgClick(Sender: TObject);
+    Procedure InfoImgMouseEnter(Sender: TObject);
+    Procedure InfoImgMouseLeave(Sender: TObject);
+    Procedure MenuItem1Click(Sender: TObject);
+    Procedure MenuItem2Click(Sender: TObject);
+    Procedure MenuItem3Click(Sender: TObject);
+    //   procedure WMEraseBkgnd(var message:TWMEraseBkgnd); message  WM_ERASEBKGND;
+    Procedure Image1Click(Sender: TObject);
+    Procedure Image1Paint(Sender: TObject);
+    Procedure MuteImgClick(Sender: TObject);
+    Procedure MuteImgMouseEnter(Sender: TObject);
+    Procedure NextImgClick(Sender: TObject);
+    Procedure NextImgMouseDown(Sender: TOBject; Button: TMouseButton;
+                               Shift: TShiftState; X, Y: Integer);
+    Procedure NextImgMouseEnter(Sender: TObject);
+    Procedure NextImgMouseLeave(Sender: TObject);
+    Procedure NextImgMouseUp(Sender: TOBject; Button: TMouseButton;
+                             Shift: TShiftState; X, Y: Integer);
+    Procedure OpenImgClick(Sender: TObject);
+    Procedure PauseImgClick(Sender: TObject);
+    Procedure PauseImgMouseDown(Sender: TOBject; Button: TMouseButton;
+                                Shift: TShiftState; X, Y: Integer);
+    Procedure PauseImgMouseEnter(Sender: TObject);
+    Procedure PauseImgMouseLeave(Sender: TObject);
+    Procedure PauseImgMouseUp(Sender: TOBject; Button: TMouseButton;
+                              Shift: TShiftState; X, Y: Integer);
+    Procedure PlayImgClick(Sender: TObject);
+    Procedure PlayImgMouseDown(Sender: TOBject; Button: TMouseButton;
+                               Shift: TShiftState; X, Y: Integer);
+    Procedure PlayImgMouseEnter(Sender: TObject);
+    Procedure PlayImgMouseLeave(Sender: TObject);
+    Procedure PlayImgMouseUp(Sender: TOBject; Button: TMouseButton;
+                             Shift: TShiftState; X, Y: Integer);
+    Procedure StopImgClick(Sender: TObject);
+    Procedure StopImgMouseDown(Sender: TOBject; Button: TMouseButton;
+                               Shift: TShiftState; X, Y: Integer);
+    Procedure StopImgMouseEnter(Sender: TObject);
+    Procedure StopImgMouseLeave(Sender: TObject);
+    Procedure StopImgMouseUp(Sender: TOBject; Button: TMouseButton;
+                             Shift: TShiftState; X, Y: Integer);
+    Procedure ViewImgClick(Sender: TObject);
+    Procedure ViewImgMouseEnter(Sender: TObject);
+    Procedure ViewImgMouseLeave(Sender: TObject);
+    Procedure backImgClick(Sender: TObject);
+    Procedure backImgMouseDown(Sender: TOBject; Button: TMouseButton;
+                               Shift: TShiftState; X, Y: Integer);
+    Procedure backImgMouseEnter(Sender: TObject);
+    Procedure backImgMouseLeave(Sender: TObject);
+    Procedure backImgMouseUp(Sender: TOBject; Button: TMouseButton;
+                             Shift: TShiftState; X, Y: Integer);
+    Procedure r(Sender: TObject);
+    Procedure MuteImgMouseLeave(Sender: TObject);
+    Procedure OpenImgMouseEnter(Sender: TObject);
+    Procedure OpenImgMouseLeave(Sender: TObject);
+    Procedure SpeedButton1Click(Sender: TObject);
+    Procedure SpeedButton2Click(Sender: TObject);
+    Procedure file_infoClick(Sender: TObject);
+    Procedure openClick(Sender: TObject);
+    Procedure pauseClick(Sender: TObject);
+    Procedure playClick(Sender: TObject);
+    Procedure playwinClose(Sender: TObject; Var CloseAction: TCloseAction);
+    Procedure playwinCreate(Sender: TObject);
+    Procedure playwinKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState
+    );
+    Procedure playwinKeyUp(Sender: TObject; Var Key: Word; Shift: TShiftState);
+    Procedure prevClick(Sender: TObject);
+    Procedure stopClick(Sender: TObject);
+    Procedure toggle_viewClick(Sender: TObject);
+    Procedure trackbarMouseDown(Sender: TOBject; Button: TMouseButton;
+                                Shift: TShiftState; X, Y: Integer);
+    Private 
     { private declarations }
-    strg:boolean;
-  public
-    procedure draw_artist(a:string);
-    procedure draw_title(t:string);
-    
-    { public declarations }
-  end; 
+    strg: boolean;
+    Public 
+    Procedure draw_artist(a:String);
+    Procedure draw_title(t:String);
 
-var
+    { public declarations }
+  End;
+
+Var 
   playwin: Tplaywin;
 
-implementation
-uses skin;
+  Implementation
 
-var mp3obj: TMediaFileClass ;
-var tmpbmp: TBitmap;
+  Uses skin;
+
+Var mp3obj: TMediaFileClass ;
+
+Var tmpbmp: TBitmap;
 
 { Tplaywin }
 
@@ -150,276 +153,278 @@ begin
  message.result:=1;
 end;}
 
-procedure Tplaywin.MenuItem1Click(Sender: TObject);
-begin
+Procedure Tplaywin.MenuItem1Click(Sender: TObject);
+Begin
 
-end;
+End;
 
-procedure Tplaywin.FormDestroy(Sender: TObject);
-begin
+Procedure Tplaywin.FormDestroy(Sender: TObject);
+Begin
 
-end;
+End;
 
-procedure Tplaywin.InfoImgClick(Sender: TObject);
-begin
-  main.TrackInfoClick(nil);
-end;
+Procedure Tplaywin.InfoImgClick(Sender: TObject);
+Begin
+  main.TrackInfoClick(Nil);
+End;
 
-procedure Tplaywin.InfoImgMouseEnter(Sender: TObject);
-begin
-     InfoImg.Picture.LoadFromFile(SkinData.info.MouseOver);
-end;
+Procedure Tplaywin.InfoImgMouseEnter(Sender: TObject);
+Begin
+  InfoImg.Picture.LoadFromFile(SkinData.info.MouseOver);
+End;
 
-procedure Tplaywin.InfoImgMouseLeave(Sender: TObject);
-begin
-     InfoImg.Picture.LoadFromFile(SkinData.info.Img);
-end;
+Procedure Tplaywin.InfoImgMouseLeave(Sender: TObject);
+Begin
+  InfoImg.Picture.LoadFromFile(SkinData.info.Img);
+End;
 
-procedure Tplaywin.FormCloseQuery(Sender: TObject; var CanClose: boolean);
-begin
+Procedure Tplaywin.FormCloseQuery(Sender: TObject; Var CanClose: boolean);
+Begin
 
-end;
+End;
 
-procedure Tplaywin.MenuItem2Click(Sender: TObject);
-begin
-  main.MenuItem27Click(nil);
-end;
+Procedure Tplaywin.MenuItem2Click(Sender: TObject);
+Begin
+  main.MenuItem27Click(Nil);
+End;
 
-procedure Tplaywin.MenuItem3Click(Sender: TObject);
-begin
-  main.save_listClick(nil);
-end;
+Procedure Tplaywin.MenuItem3Click(Sender: TObject);
+Begin
+  main.save_listClick(Nil);
+End;
 
-procedure Tplaywin.Image1Click(Sender: TObject);
-begin
-end;
+Procedure Tplaywin.Image1Click(Sender: TObject);
+Begin
+End;
 
-procedure Tplaywin.Image1Paint(Sender: TObject);
-begin
+Procedure Tplaywin.Image1Paint(Sender: TObject);
+Begin
 
-end;
+End;
 
-procedure Tplaywin.MuteImgClick(Sender: TObject);
-begin
-  main.muteClick(nil);
-end;
+Procedure Tplaywin.MuteImgClick(Sender: TObject);
+Begin
+  main.muteClick(Nil);
+End;
 
-procedure Tplaywin.MuteImgMouseEnter(Sender: TObject);
-begin
-     MuteImg.Picture.LoadFromFile(SkinData.mute.MouseOver);
-end;
+Procedure Tplaywin.MuteImgMouseEnter(Sender: TObject);
+Begin
+  MuteImg.Picture.LoadFromFile(SkinData.mute.MouseOver);
+End;
 
-procedure Tplaywin.NextImgClick(Sender: TObject);
-begin
-  main.nextClick(nil);
-end;
+Procedure Tplaywin.NextImgClick(Sender: TObject);
+Begin
+  main.nextClick(Nil);
+End;
 
-procedure Tplaywin.NextImgMouseDown(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
+Procedure Tplaywin.NextImgMouseDown(Sender: TOBject; Button: TMouseButton;
+                                    Shift: TShiftState; X, Y: Integer);
+Begin
   NextImg.Picture.LoadFromFile(SkinData.Pnext.Clicked);
-end;
+End;
 
-procedure Tplaywin.NextImgMouseEnter(Sender: TObject);
-begin
+Procedure Tplaywin.NextImgMouseEnter(Sender: TObject);
+Begin
   NextImg.Picture.LoadFromFile(SkinData.Pnext.MouseOver);
-end;
+End;
 
-procedure Tplaywin.NextImgMouseLeave(Sender: TObject);
-begin
+Procedure Tplaywin.NextImgMouseLeave(Sender: TObject);
+Begin
   NextImg.Picture.LoadFromFile(SkinData.Pnext.Img);
-end;
+End;
 
-procedure Tplaywin.NextImgMouseUp(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
+Procedure Tplaywin.NextImgMouseUp(Sender: TOBject; Button: TMouseButton;
+                                  Shift: TShiftState; X, Y: Integer);
+Begin
   NextImg.Picture.LoadFromFile(SkinData.Pnext.MouseOver);
-end;
+End;
 
-procedure Tplaywin.OpenImgClick(Sender: TObject);
-begin
-  main.openfileClick(nil);
-end;
+Procedure Tplaywin.OpenImgClick(Sender: TObject);
+Begin
+  main.openfileClick(Nil);
+End;
 
-procedure Tplaywin.PauseImgClick(Sender: TObject);
-begin
-  main.pauseClick(nil);
-end;
+Procedure Tplaywin.PauseImgClick(Sender: TObject);
+Begin
+  main.pauseClick(Nil);
+End;
 
-procedure Tplaywin.PauseImgMouseDown(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
+Procedure Tplaywin.PauseImgMouseDown(Sender: TOBject; Button: TMouseButton;
+                                     Shift: TShiftState; X, Y: Integer);
+Begin
   PauseImg.Picture.LoadFromFile(SkinData.Ppause.Clicked);
-end;
+End;
 
-procedure Tplaywin.PauseImgMouseEnter(Sender: TObject);
-begin
+Procedure Tplaywin.PauseImgMouseEnter(Sender: TObject);
+Begin
   PauseImg.Picture.LoadFromFile(SkinData.Ppause.MouseOver);
-end;
+End;
 
-procedure Tplaywin.PauseImgMouseLeave(Sender: TObject);
-begin
+Procedure Tplaywin.PauseImgMouseLeave(Sender: TObject);
+Begin
   PauseImg.Picture.LoadFromFile(SkinData.Ppause.Img);
-end;
+End;
 
-procedure Tplaywin.PauseImgMouseUp(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
+Procedure Tplaywin.PauseImgMouseUp(Sender: TOBject; Button: TMouseButton;
+                                   Shift: TShiftState; X, Y: Integer);
+Begin
   PauseImg.Picture.LoadFromFile(SkinData.Ppause.MouseOver);
-end;
+End;
 
-procedure Tplaywin.PlayImgClick(Sender: TObject);
-begin
-  main.playClick(nil);
-end;
+Procedure Tplaywin.PlayImgClick(Sender: TObject);
+Begin
+  main.playClick(Nil);
+End;
 
-procedure Tplaywin.PlayImgMouseDown(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
+Procedure Tplaywin.PlayImgMouseDown(Sender: TOBject; Button: TMouseButton;
+                                    Shift: TShiftState; X, Y: Integer);
+Begin
   PlayImg.Picture.LoadFromFile(SkinData.Pplay.Clicked);
-end;
+End;
 
-procedure Tplaywin.PlayImgMouseEnter(Sender: TObject);
-begin
+Procedure Tplaywin.PlayImgMouseEnter(Sender: TObject);
+Begin
   PlayImg.Picture.LoadFromFile(SkinData.Pplay.MouseOver);
-end;
+End;
 
-procedure Tplaywin.PlayImgMouseLeave(Sender: TObject);
-begin
+Procedure Tplaywin.PlayImgMouseLeave(Sender: TObject);
+Begin
   PlayImg.Picture.LoadFromFile(SkinData.Pplay.Img);
-end;
+End;
 
-procedure Tplaywin.PlayImgMouseUp(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
+Procedure Tplaywin.PlayImgMouseUp(Sender: TOBject; Button: TMouseButton;
+                                  Shift: TShiftState; X, Y: Integer);
+Begin
   PlayImg.Picture.LoadFromFile(SkinData.Pplay.MouseOver);
-end;
+End;
 
-procedure Tplaywin.StopImgClick(Sender: TObject);
-begin
-  main.stopClick(nil);
-end;
+Procedure Tplaywin.StopImgClick(Sender: TObject);
+Begin
+  main.stopClick(Nil);
+End;
 
-procedure Tplaywin.StopImgMouseDown(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
+Procedure Tplaywin.StopImgMouseDown(Sender: TOBject; Button: TMouseButton;
+                                    Shift: TShiftState; X, Y: Integer);
+Begin
   StopImg.Picture.LoadFromFile(SkinData.Pstop.Clicked);
-end;
+End;
 
-procedure Tplaywin.StopImgMouseEnter(Sender: TObject);
-begin
+Procedure Tplaywin.StopImgMouseEnter(Sender: TObject);
+Begin
   StopImg.Picture.LoadFromFile(SkinData.Pstop.MouseOver);
-end;
+End;
 
-procedure Tplaywin.StopImgMouseLeave(Sender: TObject);
-begin
+Procedure Tplaywin.StopImgMouseLeave(Sender: TObject);
+Begin
   StopImg.Picture.LoadFromFile(SkinData.Pstop.Img);
-end;
+End;
 
-procedure Tplaywin.StopImgMouseUp(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
+Procedure Tplaywin.StopImgMouseUp(Sender: TOBject; Button: TMouseButton;
+                                  Shift: TShiftState; X, Y: Integer);
+Begin
   StopImg.Picture.LoadFromFile(SkinData.Pstop.MouseOver);
-end;
+End;
 
-procedure Tplaywin.ViewImgClick(Sender: TObject);
-begin
-  main.player_libClick(nil);
-end;
+Procedure Tplaywin.ViewImgClick(Sender: TObject);
+Begin
+  main.player_libClick(Nil);
+End;
 
-procedure Tplaywin.ViewImgMouseEnter(Sender: TObject);
-begin
-     ViewImg.Picture.LoadFromFile(SkinData.view.MouseOver);
-end;
+Procedure Tplaywin.ViewImgMouseEnter(Sender: TObject);
+Begin
+  ViewImg.Picture.LoadFromFile(SkinData.view.MouseOver);
+End;
 
-procedure Tplaywin.ViewImgMouseLeave(Sender: TObject);
-begin
-     ViewImg.Picture.LoadFromFile(SkinData.view.Img);
-end;
+Procedure Tplaywin.ViewImgMouseLeave(Sender: TObject);
+Begin
+  ViewImg.Picture.LoadFromFile(SkinData.view.Img);
+End;
 
-procedure Tplaywin.backImgClick(Sender: TObject);
-begin
-  main.prevClick(nil);
-end;
+Procedure Tplaywin.backImgClick(Sender: TObject);
+Begin
+  main.prevClick(Nil);
+End;
 
-procedure Tplaywin.backImgMouseDown(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
+Procedure Tplaywin.backImgMouseDown(Sender: TOBject; Button: TMouseButton;
+                                    Shift: TShiftState; X, Y: Integer);
+Begin
   backImg.Picture.LoadFromFile(SkinData.Pprevious.Clicked);
-end;
+End;
 
-procedure Tplaywin.backImgMouseEnter(Sender: TObject);
-begin
+Procedure Tplaywin.backImgMouseEnter(Sender: TObject);
+Begin
   backImg.Picture.LoadFromFile(SkinData.Pprevious.MouseOver);
-end;
+End;
 
-procedure Tplaywin.backImgMouseLeave(Sender: TObject);
-begin
+Procedure Tplaywin.backImgMouseLeave(Sender: TObject);
+Begin
   backImg.Picture.LoadFromFile(SkinData.Pprevious.Img);
-end;
+End;
 
-procedure Tplaywin.backImgMouseUp(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
+Procedure Tplaywin.backImgMouseUp(Sender: TOBject; Button: TMouseButton;
+                                  Shift: TShiftState; X, Y: Integer);
+Begin
   backImg.Picture.LoadFromFile(SkinData.Pprevious.MouseOver);
-end;
+End;
 
-procedure Tplaywin.r(Sender: TObject);
-begin
+Procedure Tplaywin.r(Sender: TObject);
+Begin
 
-end;
+End;
 
-procedure Tplaywin.MuteImgMouseLeave(Sender: TObject);
-begin
-     MuteImg.Picture.LoadFromFile(SkinData.mute.Img);
-end;
+Procedure Tplaywin.MuteImgMouseLeave(Sender: TObject);
+Begin
+  MuteImg.Picture.LoadFromFile(SkinData.mute.Img);
+End;
 
-procedure Tplaywin.OpenImgMouseEnter(Sender: TObject);
-begin
-     OpenImg.Picture.LoadFromFile(SkinData.open.MouseOver);
-end;
+Procedure Tplaywin.OpenImgMouseEnter(Sender: TObject);
+Begin
+  OpenImg.Picture.LoadFromFile(SkinData.open.MouseOver);
+End;
 
-procedure Tplaywin.OpenImgMouseLeave(Sender: TObject);
-begin
-     OpenImg.Picture.LoadFromFile(SkinData.open.Img);
-end;
+Procedure Tplaywin.OpenImgMouseLeave(Sender: TObject);
+Begin
+  OpenImg.Picture.LoadFromFile(SkinData.open.Img);
+End;
 
-procedure Tplaywin.SpeedButton1Click(Sender: TObject);
-begin
-  main.nextClick(nil);
-end;
+Procedure Tplaywin.SpeedButton1Click(Sender: TObject);
+Begin
+  main.nextClick(Nil);
+End;
 
-procedure Tplaywin.SpeedButton2Click(Sender: TObject);
-begin
+Procedure Tplaywin.SpeedButton2Click(Sender: TObject);
+Begin
 
-end;
+End;
 
-procedure Tplaywin.file_infoClick(Sender: TObject);
-begin
-     if (fmodplayer.player.CurrentTrack)>=0 then begin
-         main.playlist.selected:=main.playlist.Items[fmodplayer.player.CurrentTrack-1];
-         Main.MenuItem10Click(nil);
-       end;
-end;
+Procedure Tplaywin.file_infoClick(Sender: TObject);
+Begin
+  If (fmodplayer.player.CurrentTrack)>=0 Then
+    Begin
+      main.playlist.selected := main.playlist.Items[fmodplayer.player.CurrentTrack-1];
+      Main.MenuItem10Click(Nil);
+    End;
+End;
 
-procedure Tplaywin.openClick(Sender: TObject);
-begin
-  Main.openfileClick(nil);
-end;
+Procedure Tplaywin.openClick(Sender: TObject);
+Begin
+  Main.openfileClick(Nil);
+End;
 
-procedure Tplaywin.pauseClick(Sender: TObject);
-begin
-  main.pauseClick(nil);
+Procedure Tplaywin.pauseClick(Sender: TObject);
+Begin
+  main.pauseClick(Nil);
   BackgroundImg.Canvas.Refresh;
-end;
+End;
 
-procedure Tplaywin.playClick(Sender: TObject);
-begin
-  Main.playClick(nil);
-end;
+Procedure Tplaywin.playClick(Sender: TObject);
+Begin
+  Main.playClick(Nil);
+End;
 
-procedure Tplaywin.playwinClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
+Procedure Tplaywin.playwinClose(Sender: TObject; Var CloseAction: TCloseAction);
+Begin
+
 
 {  BackgroundImg.Free;
   timeimage.Free;
@@ -429,165 +434,171 @@ begin
   timeimage.Free;}
   AlbumCoverImg.Free;
 
-  if (main<>nil) and main.playermode then begin
-     main.Close;
-   end;
-end;
+  If (main<>Nil) And main.playermode Then
+    Begin
+      main.Close;
+    End;
+End;
 
-procedure Tplaywin.playwinCreate(Sender: TObject);
-begin
-with SkinData do begin
-     BackgroundImg.canvas.Font.Color:=CLRED;
-     
-     BackgroundImg.AutoSize:=true;
-     BackgroundImg.Picture.LoadFromFile(SkinData.Background.Img);
-     
-     ToolbarImg.Top:=Toolbar.y;
-     ToolbarImg.Left:=Toolbar.x;
-     ToolbarImg.Picture.LoadFromFile(SkinData.Toolbar.Img);
-     ToolbarImg.AutoSize:=true;
+Procedure Tplaywin.playwinCreate(Sender: TObject);
+Begin
+  With SkinData Do
+    Begin
+      BackgroundImg.canvas.Font.Color := CLRED;
 
-     TrackbarImg.Top:=Trackbar.y;
-     TrackbarImg.Left:=Trackbar.x;
-     TrackbarImg.Picture.LoadFromFile(SkinData.Trackbar.Img);
-     TrackbarImg.AutoSize:=true;
-     
-     TimeImg.Top:=Time.y;
-     TimeImg.Left:=Time.x;
-     TimeImg.Picture.LoadFromFile(SkinData.Time.Img);
-     TimeImg.AutoSize:=true;
-     
-     TitleImg.Top:=Title.y;
-     TitleImg.Left:=Title.x;
-     TitleImg.Picture.LoadFromFile(SkinData.Title.Img);
-     TitleImg.AutoSize:=true;
-     
-     AlbumCoverImg.top:=Title.y+3;
-     AlbumCoverImg.left:=Title.x+ TitleImg.Picture.Width-55;
-     AlbumCoverImg.Width:=TitleImg.Picture.Height-6;
-     AlbumCoverImg.Height:=TitleImg.Picture.Height-6;
-     AlbumCoverImg.Stretch:=true;
+      BackgroundImg.AutoSize := true;
+      BackgroundImg.Picture.LoadFromFile(SkinData.Background.Img);
 
-     textBackImg.Top:=TitleBack.y;
-     textBackImg.Left:=TitleBack.x;
-     textBackImg.Picture.LoadFromFile(SkinData.TitleBack.Img);
-     textBackImg.AutoSize:=true;
-     
-     MuteImg.Top:=mute.y;
-     MuteImg.Left:=mute.x;
-     MuteImg.Picture.LoadFromFile(SkinData.mute.Img);
-     MuteImg.AutoSize:=true;
+      ToolbarImg.Top := Toolbar.y;
+      ToolbarImg.Left := Toolbar.x;
+      ToolbarImg.Picture.LoadFromFile(SkinData.Toolbar.Img);
+      ToolbarImg.AutoSize := true;
 
-     ViewImg.Top:=view.y;
-     ViewImg.Left:=view.x;
-     ViewImg.Picture.LoadFromFile(SkinData.view.Img);
-     ViewImg.AutoSize:=true;
-     
-     OpenImg.Top:=Open.y;
-     OpenImg.Left:=open.x;
-     OpenImg.Picture.LoadFromFile(SkinData.open.Img);
-     OpenImg.AutoSize:=true;
-     
-     InfoImg.Top:=info.y;
-     InfoImg.Left:=info.x;
-     InfoImg.Picture.LoadFromFile(SkinData.info.Img);
-     InfoImg.AutoSize:=true;
-     
-     PlayImg.Top:=Pplay.y;
-     PlayImg.Left:=Pplay.x;
-     PlayImg.AutoSize:=true;
-     PlayImg.Picture.LoadFromFile(Pplay.Img);
+      TrackbarImg.Top := Trackbar.y;
+      TrackbarImg.Left := Trackbar.x;
+      TrackbarImg.Picture.LoadFromFile(SkinData.Trackbar.Img);
+      TrackbarImg.AutoSize := true;
 
-     PauseImg.Top:=Ppause.y;
-     PauseImg.Left:=Ppause.x;
-     PauseImg.AutoSize:=true;
-     PauseImg.Picture.LoadFromFile(Ppause.Img);
+      TimeImg.Top := Time.y;
+      TimeImg.Left := Time.x;
+      TimeImg.Picture.LoadFromFile(SkinData.Time.Img);
+      TimeImg.AutoSize := true;
 
-     StopImg.Top:=Pstop.y;
-     StopImg.Left:=Pstop.x;
-     StopImg.AutoSize:=true;
-     StopImg.Picture.LoadFromFile(PStop.Img);
+      TitleImg.Top := Title.y;
+      TitleImg.Left := Title.x;
+      TitleImg.Picture.LoadFromFile(SkinData.Title.Img);
+      TitleImg.AutoSize := true;
 
-     NextImg.Top:=Pnext.y;
-     NextImg.Left:=Pnext.x;
-     NextImg.AutoSize:=true;
-     NextImg.Picture.LoadFromFile(Pnext.Img);
+      AlbumCoverImg.top := Title.y+3;
+      AlbumCoverImg.left := Title.x+ TitleImg.Picture.Width-55;
+      AlbumCoverImg.Width := TitleImg.Picture.Height-6;
+      AlbumCoverImg.Height := TitleImg.Picture.Height-6;
+      AlbumCoverImg.Stretch := true;
 
-     backImg.Top:=Pprevious.y;
-     backImg.Left:=Pprevious.x;
-     backImg.AutoSize:=true;
-     backImg.Picture.LoadFromFile(Previous.Img);
-     
-     AutoSize:=true;
-     DoubleBuffered:=true;
-   end;
-end;
+      textBackImg.Top := TitleBack.y;
+      textBackImg.Left := TitleBack.x;
+      textBackImg.Picture.LoadFromFile(SkinData.TitleBack.Img);
+      textBackImg.AutoSize := true;
 
-procedure Tplaywin.playwinKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
+      MuteImg.Top := mute.y;
+      MuteImg.Left := mute.x;
+      MuteImg.Picture.LoadFromFile(SkinData.mute.Img);
+      MuteImg.AutoSize := true;
+
+      ViewImg.Top := view.y;
+      ViewImg.Left := view.x;
+      ViewImg.Picture.LoadFromFile(SkinData.view.Img);
+      ViewImg.AutoSize := true;
+
+      OpenImg.Top := Open.y;
+      OpenImg.Left := open.x;
+      OpenImg.Picture.LoadFromFile(SkinData.open.Img);
+      OpenImg.AutoSize := true;
+
+      InfoImg.Top := info.y;
+      InfoImg.Left := info.x;
+      InfoImg.Picture.LoadFromFile(SkinData.info.Img);
+      InfoImg.AutoSize := true;
+
+      PlayImg.Top := Pplay.y;
+      PlayImg.Left := Pplay.x;
+      PlayImg.AutoSize := true;
+      PlayImg.Picture.LoadFromFile(Pplay.Img);
+
+      PauseImg.Top := Ppause.y;
+      PauseImg.Left := Ppause.x;
+      PauseImg.AutoSize := true;
+      PauseImg.Picture.LoadFromFile(Ppause.Img);
+
+      StopImg.Top := Pstop.y;
+      StopImg.Left := Pstop.x;
+      StopImg.AutoSize := true;
+      StopImg.Picture.LoadFromFile(PStop.Img);
+
+      NextImg.Top := Pnext.y;
+      NextImg.Left := Pnext.x;
+      NextImg.AutoSize := true;
+      NextImg.Picture.LoadFromFile(Pnext.Img);
+
+      backImg.Top := Pprevious.y;
+      backImg.Left := Pprevious.x;
+      backImg.AutoSize := true;
+      backImg.Picture.LoadFromFile(Previous.Img);
+
+      AutoSize := true;
+      DoubleBuffered := true;
+    End;
+End;
+
+Procedure Tplaywin.playwinKeyDown(Sender: TObject; Var Key: Word;
+                                  Shift: TShiftState);
+Begin
   writeln(key);
-  if key=113 then Main.player_libClick(nil);
-  if key = 17 then strg:=true;
-  if (strg=true) and (key=78) then Main.nextClick(nil);
-  if (key=32) or ((strg=true) and (key=80)) then if fmodplayer.player.playing then pauseClick(nil) else Main.playClick(nil);
-  if (key=77) or ((strg=true) and (key=77)) then Main.muteClick(nil);
-  if (strg=true) and (key=66) then Main.prevClick(nil);
-end;
+  If key=113 Then Main.player_libClick(Nil);
+  If key = 17 Then strg := true;
+  If (strg=true) And (key=78) Then Main.nextClick(Nil);
+  If (key=32) Or ((strg=true) And (key=80)) Then If fmodplayer.player.playing Then pauseClick(Nil)
+  Else Main.playClick(Nil);
+  If (key=77) Or ((strg=true) And (key=77)) Then Main.muteClick(Nil);
+  If (strg=true) And (key=66) Then Main.prevClick(Nil);
+End;
 
-procedure Tplaywin.playwinKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if key=17 then strg:=false;
-end;
+Procedure Tplaywin.playwinKeyUp(Sender: TObject; Var Key: Word;
+                                Shift: TShiftState);
+Begin
+  If key=17 Then strg := false;
+End;
 
-procedure Tplaywin.prevClick(Sender: TObject);
-begin
-  main.prevClick(nil);
-end;
+Procedure Tplaywin.prevClick(Sender: TObject);
+Begin
+  main.prevClick(Nil);
+End;
 
-procedure Tplaywin.stopClick(Sender: TObject);
-begin
-  main.stopClick(nil);
+Procedure Tplaywin.stopClick(Sender: TObject);
+Begin
+  main.stopClick(Nil);
+
 {  playwin.titleimg1.Picture.LoadFromFile(SKIN_DIR+'title.bmp');
   playwin.titleimg2.Picture.LoadFromFile(SKIN_DIR+'title.bmp');
   playwin.trackbar.Picture.LoadFromFile(SKIN_DIR+'trackbar.bmp');
   playwin.timeimage.Picture.LoadFromFile(SKIN_DIR+'time.bmp');}
-end;
+End;
 
-procedure Tplaywin.toggle_viewClick(Sender: TObject);
-begin
-  main.player_libClick(nil);
-end;
+Procedure Tplaywin.toggle_viewClick(Sender: TObject);
+Begin
+  main.player_libClick(Nil);
+End;
 
-procedure Tplaywin.trackbarMouseDown(Sender: TOBject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-var spos,slength:integer;
-begin
-  slength:=fmodplayer.player.get_filelength;
-  spos:=(x*slength) div (200);
+Procedure Tplaywin.trackbarMouseDown(Sender: TOBject; Button: TMouseButton;
+                                     Shift: TShiftState; X, Y: Integer);
+
+Var spos,slength: integer;
+Begin
+  slength := fmodplayer.player.get_filelength;
+  spos := (x*slength) Div (200);
   fmodplayer.player.set_fileposition(spos);
 
-end;
+End;
 
-procedure Tplaywin.draw_artist(a: string);
-begin
-   {titleimg1.Picture.LoadFromFile(SKIN_DIR+'title.bmp');
+Procedure Tplaywin.draw_artist(a: String);
+Begin
+
+{titleimg1.Picture.LoadFromFile(SKIN_DIR+'title.bmp');
    titleimg1.canvas.Font.Color:=Clnavy;
    titleimg1.canvas.textout(5,5,a);}
 
-end;
+End;
 
-procedure Tplaywin.draw_title(t: string);
-begin
-   {titleimg2.Picture.LoadFromFile(SKIN_DIR+'title.bmp');
+Procedure Tplaywin.draw_title(t: String);
+Begin
+
+{titleimg2.Picture.LoadFromFile(SKIN_DIR+'title.bmp');
    titleimg2.canvas.Font.Color:=Clnavy;
    titleimg2.canvas.textout(5,5,t);}
-end;
+End;
 
 
 initialization
   {$I player.lrs}
 
-end.
-
+End.
