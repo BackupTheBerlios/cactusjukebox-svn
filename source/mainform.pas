@@ -1117,14 +1117,10 @@ Begin
   found := false;
   For i:= 0 To MediaCollection.ItemCount-1 Do
     Begin
-      If SrchTitleItem.checked Then If  pos(searchstring,lowercase(MediaCollection.items[i].title))<
-                                       >0 Then found := true;
-      If SrchArtItem.checked Then If  pos(searchstring,lowercase(MediaCollection.items[i].Artist))<>
-                                     0 Then found := true;
-      If SrchAlbumItem.checked Then If  pos(searchstring,lowercase(MediaCollection.items[i].album))<
-                                       >0 Then found := true;
-      If SrchFileItem.checked Then If  pos(searchstring,lowercase(extractfilename(MediaCollection.
-                                      items[i].path)))<>0 Then found := true;
+      If SrchTitleItem.checked Then If  pos(searchstring,lowercase(MediaCollection.items[i].title))<>0 Then found := true;
+      If SrchArtItem.checked Then If  pos(searchstring,lowercase(MediaCollection.items[i].Artist))<>0 Then found := true;
+      If SrchAlbumItem.checked Then If  pos(searchstring,lowercase(MediaCollection.items[i].album))<>0 Then found := true;
+      If SrchFileItem.checked Then If  pos(searchstring,lowercase(extractfilename(MediaCollection.items[i].path)))<>0 Then found := true;
       If found Then
         Begin
           found := false;
@@ -1338,8 +1334,7 @@ Var MedFileObj: TMediaFileClass;
   i: integer;
 Begin
   If TitleTree.Selected<>Nil Then
-    If MessageDlg('The selected file(s) will permanently be'+#10+#13+'removed from harddisk!'+#10+#
-       13+' Proceed?', mtWarning, mbOKCancel, 0)=mrOK Then
+    If MessageDlg('The selected file(s) will permanently be'+#10+#13+'removed from harddisk!'+#10+#13+' Proceed?', mtWarning, mbOKCancel, 0)=mrOK Then
       Begin
         MedFileObj := TMediaFileClass(TitleTree.Selected.Data);
         MedColObj := MedFileObj.collection;
@@ -2887,10 +2882,9 @@ Begin
     Begin
       MedFileObj := TMediaFileClass(Playlist.Selected.Data);
       editid3win.display_window(MedFileObj);
-      EditID3win.Show;
-      EditID3win.Visible := true;
-      EditID3win.BringToFront;
       enabled := false;
+      EditID3win.ShowModal;
+      Enabled:=true;
     End;
 
 End;
