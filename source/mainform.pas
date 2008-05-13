@@ -30,7 +30,7 @@ Uses
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
 ExtCtrls, ComCtrls, StdCtrls, Menus, fmodplayer,
 ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, plugin, plugintypes, debug, config,
-CheckLst, ButtonPanel;
+CheckLst, ButtonPanel, playlist, playerclass, mplayer;
 
 resourcestring
 rsQuit = 'Quit';
@@ -536,8 +536,6 @@ Begin
 End;
 
 Procedure TSyncThread.Execute;
-
-Var i: integer;
 Begin
   finished := false;
   DeleteTotal := DeleteList.Count;
@@ -842,7 +840,6 @@ End;
 Procedure TMain.playClick(Sender: TObject);
 
 Var err: integer;
-  i: integer;
 Begin
   If (Not fmodplayer.player.paused) Then
     Begin
@@ -901,10 +898,8 @@ Var spos, slength: real;
   r: real;
   x2: integer;
   fileobj: TMediaFileClass;
-  PlaylistItem: TPlaylistItemClass;
-
 Begin
-  Try
+ // Try
     If fmodplayer.player.PlaybackMode=STREAMING_MODE Then
       Begin
         If fmodplayer.player.Get_Stream_Status=STREAM_READY Then
@@ -913,23 +908,19 @@ Begin
           StatusBar1.Panels[0].Text := 'Buffering Stream...';
       End;
 
-    If (fmodplayer.player.playing) And (fmodplayer.player.PlaybackMode=FILE_MODE) Then
+    If (fmodplayer.player.playing) And (fmodplayer.player.PlaybackMode=FILE_MODE) and (Fmodplayer.player.paused=false) Then
       Begin
-        spos := 0;
-        slength := 0;
+
         playtime.text := fmodplayer.player.get_timestr;
         playwin.TimeImg.Picture.LoadFromFile(SkinData.Time.Img);
         playwin.TimeImg.Canvas.Font.Color := ClNavy;
         playwin.TimeImg.Canvas.TextOut(5,3, playtime.text);
 
-        spos := fmodplayer.player.get_fileposition;
-        slength := fmodplayer.player.get_filelength;
-        r := ((spos*100) / slength);
-        trackbar.position := round(r);
+        trackbar.position := fmodplayer.player.Get_FilePosition;
         x2 := (trackbar.position*2)-3;
         If x2<3 Then x2 := 3;
-        If (spos>=slength) {and (player.CurrentTrack<player.Playlist.ItemCount)} Then nextclick(Nil)
-        ;
+        If (trackbar.Position=100) {and (player.CurrentTrack<player.Playlist.ItemCount)} Then nextclick(Nil);
+
         If (CoverFound=false) And (LoopCount<20) Then
           Begin
             inc(LoopCount);
@@ -952,10 +943,10 @@ Begin
         Else If (LoopCount>=20) And (CoverFound=false) Then CoverImage.Picture.Clear;
       End
     Else {playtimer.Enabled:=false};
-  Except
+ { Except
     DebugOutLn('CAUGHT EXCEPTION IN PLAYTIMER!!!!', 3);
   End;
-
+                 }
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1061,9 +1052,8 @@ End;
 
 Procedure TMain.scanplayeritemClick(Sender: TObject);
 
-Var s, tmps: string;
+Var tmps: string;
   ScanCol: TMediaCollectionClass;
-  z, i: integer;
 Begin
   If FileExists(CactusConfig.DAPPath)=false Then
     Begin
@@ -1726,8 +1716,13 @@ Begin
   SrchArtItem.checked := true;
   playing := false;
 
-  fmodplayer.player := TFModPlayerClass.create;
-  fmodplayer.player.oss := Not CactusConfig.OutputAlsa;
+ // mplayerobj:=TMPlayerClass.create;
+  fmodplayer.player := TMPlayerClass.create;
+  
+//  fmodplayer.player.oss := Not CactusConfig.OutputAlsa;
+
+  if CactusConfig.OutputAlsa then fmodplayer.player.OutputMode:=ALSAOUT else
+              fmodplayer.player.OutputMode:=OSSOUT;
 
   player_connected := false;
   {$ifdef linux}
@@ -3786,15 +3781,11 @@ End;
 Procedure TMain.trackbarMouseUp(Sender: TOBject; Button: TMouseButton;
                                 Shift: TShiftState; X, Y: Integer);
 
-Var k, spos, slength: real;
+Var k: real;
   i: integer;
 Begin
-  If k>trackbar.Width Then k := trackbar.Width;
-  If k<0 Then k := 0;
   k := (x*100) / trackbar.Width;
-  slength := fmodplayer.player.get_filelength;
-  spos := round((k*slength) / (100));
-  i := round(spos);
+  i:=round(k);
   fmodplayer.player.set_fileposition(i);
   trackbar.Position := i;
   If fmodplayer.player.playing Then playtimer.enabled := true;

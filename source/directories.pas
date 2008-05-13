@@ -151,6 +151,7 @@ Var rescandir: string;
   listitem: TListitem;
   i, z, n: integer;
 Begin
+  Main.clearPlayerItemClick(nil);
   For n:= 0 To dirlistview.Items.Count-1 Do
     Begin
       If dirlistview.Selected[n] Then

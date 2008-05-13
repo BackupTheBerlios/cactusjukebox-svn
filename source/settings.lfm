@@ -7,7 +7,7 @@ object Settings: TSettings
   HorzScrollBar.Range = 440
   VertScrollBar.Page = 503
   VertScrollBar.Range = 481
-  ActiveControl = savebut
+  ActiveControl = PageControl1
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 'Settings...'
@@ -18,6 +18,7 @@ object Settings: TSettings
   OnDestroy = FormDestroy
   Position = poMainFormCenter
   ShowInTaskBar = stNever
+  LCLVersion = '0.9.25'
   object savebut: TButton
     Left = 56
     Height = 25
@@ -43,8 +44,8 @@ object Settings: TSettings
     Height = 421
     Top = 16
     Width = 432
-    ActivePage = TabSheet1
-    TabIndex = 0
+    ActivePage = AudioTab
+    TabIndex = 1
     TabOrder = 0
     OnChange = PageControl1Change
     OnPageChanged = PageControl1Change
@@ -58,14 +59,6 @@ object Settings: TSettings
         Top = 308
         Width = 56
         Caption = 'Language'
-        ParentColor = False
-      end
-      object LAudioOut: TLabel
-        Left = 54
-        Height = 20
-        Top = 345
-        Width = 74
-        Caption = 'Audio Output'
         ParentColor = False
       end
       object autoload1: TCheckBox
@@ -90,7 +83,7 @@ object Settings: TSettings
       end
       object LanguageBox: TComboBox
         Left = 158
-        Height = 21
+        Height = 27
         Top = 297
         Width = 100
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
@@ -114,7 +107,7 @@ object Settings: TSettings
       end
       object ClearCover: TButton
         Left = 310
-        Height = 27
+        Height = 33
         Top = 243
         Width = 87
         AutoSize = True
@@ -131,28 +124,66 @@ object Settings: TSettings
         Caption = 'Download album cover art form internet'
         TabOrder = 5
       end
-      object AudioOut: TComboBox
-        Left = 158
-        Height = 21
-        Top = 337
-        Width = 100
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-        ItemIndex = 0
-        Items.Strings = (
-          'Alsa'
-          'OSS'
-        )
-        MaxLength = 0
-        TabOrder = 6
-        Text = 'Alsa'
-      end
       object AutoPlayBox: TCheckBox
         Left = 38
         Height = 20
         Top = 87
         Width = 292
         Caption = 'Always start playing first song in empty playlist'
-        TabOrder = 7
+        TabOrder = 6
+      end
+    end
+    object AudioTab: TTabSheet
+      Caption = 'Audio'
+      ClientHeight = 394
+      ClientWidth = 428
+      object LAudioOut: TLabel
+        Left = 36
+        Height = 20
+        Top = 126
+        Width = 79
+        Caption = 'Audio System'
+        ParentColor = False
+        OnClick = LAudioOutClick
+      end
+      object LAudioBackend: TLabel
+        Left = 36
+        Height = 20
+        Top = 47
+        Width = 84
+        Caption = 'Audio Backend'
+        ParentColor = False
+      end
+      object AudioOut: TComboBox
+        Left = 142
+        Height = 27
+        Top = 119
+        Width = 100
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        Items.Strings = (
+          'Alsa'
+          'OSS'
+        )
+        MaxLength = 0
+        Style = csDropDownList
+        TabOrder = 0
+        Text = 'Alsa'
+      end
+      object AudioBackend: TComboBox
+        Left = 142
+        Height = 27
+        Top = 40
+        Width = 200
+        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemIndex = 0
+        Items.Strings = (
+          'MPlayer (experimental)'
+          'Fmod Library'
+        )
+        MaxLength = 0
+        Style = csDropDownList
+        TabOrder = 1
+        Text = 'MPlayer (experimental)'
       end
     end
     object TabSheet2: TTabSheet

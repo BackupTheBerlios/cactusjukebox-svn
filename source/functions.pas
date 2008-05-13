@@ -358,6 +358,7 @@ Function SecondsToFmtStr(seconds: longint): string;
 Var min, sec: longint;
   s, s2: string;
 Begin
+if seconds>0 then begin
   min := seconds Div 60;
   sec := seconds Mod 60;
   str(min, s);
@@ -365,13 +366,15 @@ Begin
   If min<10 Then s := '0'+s;
   If sec<10 Then s2 := '0'+s2;
   result := s+':'+s2;
+ end else Result:='00:00';
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Function MSecondsToFmtStr(MSeconds: longint): string;
 Begin
-  result := SecondsToFmtStr(MSeconds Div 1000);
+  if MSeconds>1000 then result := SecondsToFmtStr(MSeconds Div 1000)
+        else Result:='00:00';
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

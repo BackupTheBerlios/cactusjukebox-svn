@@ -24,7 +24,7 @@ Interface
 
 Uses 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-ExtCtrls, Buttons, ComCtrls, CheckLst, config;
+ExtCtrls, Buttons, ComCtrls, CheckLst, config,playerclass;
 
 resourcestring
 rsAutoloadLast = 'Autoload last library at startup';
@@ -60,16 +60,19 @@ Type
   { TSettings }
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   TSettings = Class(TForm)
+    AudioOut: TComboBox;
     autoload1: TCheckBox;
     Button1: TButton;
     backscan: TCheckBox;
     Button2: TButton;
     CDRomEdit: TEdit;
     AutoPlayBox: TCheckBox;
+    AudioBackend: TComboBox;
     Label2: TLabel;
+    LAudioBackend: TLabel;
+    LAudioOut: TLabel;
     PluginList: TCheckListBox;
     ClearCover: TButton;
-    AudioOut: TComboBox;
     CoverDownload: TCheckBox;
     guesstag1: TRadioButton;
     GuessTagBox: TGroupBox;
@@ -79,7 +82,6 @@ Type
     LanguageBox: TComboBox;
     Edit1: TEdit;
     Edit2: TEdit;
-    LAudioOut: TLabel;
     PluginInfo: TMemo;
     PathBox: TGroupBox;
     LLanguage: TLabel;
@@ -98,6 +100,7 @@ Type
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet5: TTabSheet;
+    AudioTab: TTabSheet;
     unknown1: TRadioButton;
     v1_prio: TRadioButton;
     v1_prio1: TRadioButton;
@@ -108,6 +111,7 @@ Type
     Procedure FormCreate(Sender: TObject);
     Procedure FormDestroy(Sender: TObject);
     Procedure LanguageBoxChange(Sender: TObject);
+    procedure LAudioOutClick(Sender: TObject);
     Procedure PageControl1Change(Sender: TObject);
     Procedure PluginListMouseDown(Sender: TObject; Button: TMouseButton;
                                   Shift: TShiftState; X, Y: Integer);
@@ -184,7 +188,11 @@ Begin
   If AutoPlayBox.Checked Then CactusConfig.AutostartPlay := true
   Else CactusConfig.AutostartPlay := false;
   //     MediaCollection.guess_tag:=CactusConfig.GuessTag;
-  fmodplayer.player.oss := Not CactusConfig.OutputAlsa;
+
+   if CactusConfig.OutputAlsa then fmodplayer.player.OutputMode:=ALSAOUT else
+              fmodplayer.player.OutputMode:=OSSOUT;
+
+//    fmodplayer.player.oss := Not CactusConfig.OutputAlsa;
 
   CactusConfig.language := LanguageBox.Items[LanguageBox.ItemIndex];
   CactusConfig.FlushConfig;
@@ -337,6 +345,11 @@ Begin
   ShowMessage('To show user interface with new selected language'+LineEnding+
               ' you need to restart cactus Jukebox');
 End;
+
+procedure TSettings.LAudioOutClick(Sender: TObject);
+begin
+
+end;
 
 Procedure TSettings.PageControl1Change(Sender: TObject);
 Begin
