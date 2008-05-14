@@ -6,7 +6,7 @@ Unit config;
 Interface
 
 Uses 
-Classes, SysUtils, xmlcfg, gettext;
+Classes, SysUtils, xmlcfg, gettext, playerclass;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     { TConfigObject }
@@ -18,7 +18,9 @@ Type
     Public 
     GuessTag, id3v2_prio: boolean;
     Mobile_Subfolders, background_scan, CoverDownload: boolean;
-    OutputAlsa, KDEServiceMenu: boolean;
+    KDEServiceMenu: boolean;
+    AudioSystem: TOutputMode;
+    AudioBackend: TAudioBackend;
 
     AutostartPlay: Boolean;
     language: string;
@@ -91,8 +93,10 @@ Begin
     CoverDownload := FConfigFile.GetValue('Networking/Album_Cover_Download/Enabled', false);
     CurrentSkin := FConfigFile.getValue('Skin/File', 'green.xml');
     KDEServiceMenu := FConfigFile.GetValue('KDE/servicemenu', false);
-    If FConfigFile.GetValue('Audio/Output', 'Alsa')='Alsa' Then OutputAlsa := true
-    Else OutputAlsa := false;
+    If FConfigFile.GetValue('Audio/Output', 'Alsa')='Alsa' Then AudioSystem:=ALSAOUT
+         Else AudioSystem:=OSSOUT;
+    If FConfigFile.GetValue('Audio/Backend', 'mplayer')='mplayer' Then AudioBackend:=MPLAYERBACK
+         Else AudioBackend:=FMODBACK;
 
     LastLib := FConfigFile.GetValue('Library/autoload','');
     StreamColPath := FConfigFile.GetValue('Library/StreamCollection','');
@@ -119,13 +123,21 @@ Begin
   Try
     FConfigFile.SetValue('Library/id3v2_prio',id3v2_prio);
     FConfigFile.SetValue('Mobile_Player/Mountpoint', DAPPath);
-    If OutputAlsa Then
+    If AudioSystem=ALSAOUT Then
       Begin
         FConfigFile.SetValue('Audio/Output', 'Alsa');
       End
     Else
       Begin
         FConfigFile.SetValue('Audio/Output', 'OSS');
+      End;
+    If AudioBackend=MPLAYERBACK Then
+      Begin
+        FConfigFile.SetValue('Audio/Backend', 'mplayer');
+      End
+    Else
+      Begin
+        FConfigFile.SetValue('Audio/Backend', 'fmod');
       End;
     FConfigFile.SetValue('Mobile_Player/Subfolders',mobile_subfolders);
     FConfigFile.SetValue('Networking/Album_Cover_Download/Enabled', CoverDownload);

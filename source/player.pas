@@ -24,7 +24,7 @@ Interface
 
 Uses 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-Buttons, fmodplayer, mainform, mediacol, {messages,} ComCtrls, Menus;
+Buttons, playerclass, mainform, mediacol, {messages,} ComCtrls, Menus;
 
 Type 
 
@@ -399,9 +399,9 @@ End;
 
 Procedure Tplaywin.file_infoClick(Sender: TObject);
 Begin
-  If (fmodplayer.player.CurrentTrack)>=0 Then
+  If (PlayerObj.CurrentTrack)>=0 Then
     Begin
-      main.playlist.selected := main.playlist.Items[fmodplayer.player.CurrentTrack-1];
+      main.playlist.selected := main.playlist.Items[PlayerObj.CurrentTrack-1];
       Main.MenuItem10Click(Nil);
     End;
 End;
@@ -537,7 +537,7 @@ Begin
   If key=113 Then Main.player_libClick(Nil);
   If key = 17 Then strg := true;
   If (strg=true) And (key=78) Then Main.nextClick(Nil);
-  If (key=32) Or ((strg=true) And (key=80)) Then If fmodplayer.player.playing Then pauseClick(Nil)
+  If (key=32) Or ((strg=true) And (key=80)) Then If PlayerObj.playing Then pauseClick(Nil)
   Else Main.playClick(Nil);
   If (key=77) Or ((strg=true) And (key=77)) Then Main.muteClick(Nil);
   If (strg=true) And (key=66) Then Main.prevClick(Nil);
@@ -574,9 +574,9 @@ Procedure Tplaywin.trackbarMouseDown(Sender: TOBject; Button: TMouseButton;
 
 Var spos,slength: integer;
 Begin
-  slength := fmodplayer.player.get_filelength;
+  slength := PlayerObj.get_filelength;
   spos := (x*slength) Div (200);
-  fmodplayer.player.set_fileposition(spos);
+  PlayerObj.set_fileposition(spos);
 
 End;
 

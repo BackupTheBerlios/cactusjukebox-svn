@@ -6,7 +6,7 @@ Unit mediacol;
 Interface
 
 Uses 
-Classes, SysUtils, config;
+Classes, SysUtils;
 
 
 
@@ -125,7 +125,7 @@ Type
 
       Implementation
 
-      Uses functions;
+      Uses functions, config;
 
 {$i cactus_const.inc}
 

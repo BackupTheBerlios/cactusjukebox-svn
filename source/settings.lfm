@@ -160,6 +160,7 @@ object Settings: TSettings
         Top = 119
         Width = 100
         AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
+        ItemIndex = 0
         Items.Strings = (
           'Alsa'
           'OSS'
@@ -181,6 +182,7 @@ object Settings: TSettings
           'Fmod Library'
         )
         MaxLength = 0
+        OnChange = AudioBackendChange
         Style = csDropDownList
         TabOrder = 1
         Text = 'MPlayer (experimental)'

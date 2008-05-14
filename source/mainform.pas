@@ -741,9 +741,9 @@ Begin
   writeln(y);
 
   newVolume := 100-((y*100) Div (Volumebar.Height));
-  fmodplayer.player.set_volume(newVolume);
+  PlayerObj.set_volume(newVolume);
   Volumebar.Position := newVolume;
-  DebugOutLn('volume set '+ IntToStr(fmodplayer.player.volume), 3);
+  DebugOutLn('volume set '+ IntToStr(PlayerObj.volume), 3);
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -792,12 +792,12 @@ Procedure TMain.nextClick(Sender: TObject);
 Var oldindex, err, i: integer;
 Begin
   playtimer.Enabled := false;
-  oldindex := fmodplayer.player.CurrentTrack;
-  If randomcheck.Checked=false Then err := fmodplayer.player.next_track
-  Else err := fmodplayer.player.play(fmodplayer.player.Playlist.RandomIndex);
+  oldindex := PlayerObj.CurrentTrack;
+  If randomcheck.Checked=false Then err := PlayerObj.next_track
+  Else err := PlayerObj.play(PlayerObj.Playlist.RandomIndex);
   If err=0 Then
     Begin
-      i := fmodplayer.player.CurrentTrack;
+      i := PlayerObj.CurrentTrack;
       If i >= 0 Then
         Begin
           If oldindex>=0 Then playlist.Items[oldindex].ImageIndex := -1;
@@ -818,11 +818,11 @@ Var err: byte;
   i, OldTrack: integer;
 Begin
   playtimer.Enabled := false;
-  OldTrack := fmodplayer.player.CurrentTrack;
-  err := fmodplayer.player.prev_track;
+  OldTrack := PlayerObj.CurrentTrack;
+  err := PlayerObj.prev_track;
   If (err=0) Then
     Begin
-      i := fmodplayer.player.CurrentTrack;
+      i := PlayerObj.CurrentTrack;
       If playlist.Items.Count>1 Then
         Begin
           If OldTrack>=0 Then playlist.Items[OldTrack].ImageIndex := -1;
@@ -841,17 +841,17 @@ Procedure TMain.playClick(Sender: TObject);
 
 Var err: integer;
 Begin
-  If (Not fmodplayer.player.paused) Then
+  If (Not PlayerObj.paused) Then
     Begin
       playtimer.Enabled := false;
       If (Playlist.items.count>0) And (Playlist.Selected=Nil)Then playitem := Playlist.Items[0]
       Else playitem := playlist.selected;
-      If (fmodplayer.player.playing) And (fmodplayer.player.Playlist.Count>0) And (fmodplayer.player
-         .CurrentTrack<fmodplayer.player.Playlist.Count) And (fmodplayer.player.CurrentTrack>=0)
-        Then playlist.Items[fmodplayer.player.CurrentTrack].ImageIndex := -1;;
+      If (PlayerObj.playing) And (PlayerObj.Playlist.Count>0) And (PlayerObj
+         .CurrentTrack<PlayerObj.Playlist.Count) And (PlayerObj.CurrentTrack>=0)
+        Then playlist.Items[PlayerObj.CurrentTrack].ImageIndex := -1;;
       If playitem<>Nil Then
         Begin
-          err := fmodplayer.player.play(playitem.Index);
+          err := PlayerObj.play(playitem.Index);
           If (err=0) Then
             Begin
               playtimer.enabled := true;
@@ -882,10 +882,10 @@ End;
 
 Procedure TMain.stopClick(Sender: TObject);
 Begin
-  If (fmodplayer.player.CurrentTrack>=0) And (fmodplayer.player.CurrentTrack<fmodplayer.player.
-     Playlist.ItemCount) Then playlist.Items[fmodplayer.player.CurrentTrack].ImageIndex := -1;
-  fmodplayer.player.stop;
-  fmodplayer.player.playlist.reset_random;
+  If (PlayerObj.CurrentTrack>=0) And (PlayerObj.CurrentTrack<PlayerObj.
+     Playlist.ItemCount) Then playlist.Items[PlayerObj.CurrentTrack].ImageIndex := -1;
+  PlayerObj.stop;
+  PlayerObj.playlist.reset_random;
   update_player_display;
   CactusPlugins.SendEvent(evnStopPlay);
 End;
@@ -900,23 +900,23 @@ Var spos, slength: real;
   fileobj: TMediaFileClass;
 Begin
  // Try
-    If fmodplayer.player.PlaybackMode=STREAMING_MODE Then
+    If PlayerObj.PlaybackMode=STREAMING_MODE Then
       Begin
-        If fmodplayer.player.Get_Stream_Status=STREAM_READY Then
+        If PlayerObj.Get_Stream_Status=STREAM_READY Then
           StatusBar1.Panels[0].Text := 'Stream Ready'
         Else
           StatusBar1.Panels[0].Text := 'Buffering Stream...';
       End;
 
-    If (fmodplayer.player.playing) And (fmodplayer.player.PlaybackMode=FILE_MODE) and (Fmodplayer.player.paused=false) Then
+    If (PlayerObj.playing) And (PlayerObj.PlaybackMode=FILE_MODE) and (PlayerObj.paused=false) Then
       Begin
 
-        playtime.text := fmodplayer.player.get_timestr;
+        playtime.text := PlayerObj.get_timestr;
         playwin.TimeImg.Picture.LoadFromFile(SkinData.Time.Img);
         playwin.TimeImg.Canvas.Font.Color := ClNavy;
         playwin.TimeImg.Canvas.TextOut(5,3, playtime.text);
 
-        trackbar.position := fmodplayer.player.Get_FilePosition;
+        trackbar.position := PlayerObj.Get_FilePosition;
         x2 := (trackbar.position*2)-3;
         If x2<3 Then x2 := 3;
         If (trackbar.Position=100) {and (player.CurrentTrack<player.Playlist.ItemCount)} Then nextclick(Nil);
@@ -926,7 +926,7 @@ Begin
             inc(LoopCount);
             If (assigned(awsclass)) And (awsclass.data_ready){  }Then
               Begin
-                fileobj := TMediaFileClass(playlist.Items[fmodplayer.player.CurrentTrack].Data);
+                fileobj := TMediaFileClass(playlist.Items[PlayerObj.CurrentTrack].Data);
                 If FileExists(fileobj.CoverPath) Then
                   Begin
                     Try
@@ -1032,7 +1032,7 @@ Begin
       If FileExists(SaveDialog1.FileName) Then
         If MessageDlg('File '+SaveDialog1.FileName+' alreday exists'+sLineBreak+sLineBreak+
            'Overwrite?', mtWarning, mbOKCancel, 0)=mrCancel Then exit;
-      fmodplayer.player.playlist.SaveToFile(Savedialog1.Filename);
+      PlayerObj.playlist.SaveToFile(Savedialog1.Filename);
     End;
 End;
 
@@ -1187,11 +1187,11 @@ Procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
                                   Shift: TShiftState; X, Y: Integer);
 Begin
 {$ifdef linux}
-  If fmodplayer.player.playing {and player.Playlist.Items[player.CurrentTrack].co} Then
+  If PlayerObj.playing {and player.Playlist.Items[player.CurrentTrack].co} Then
     Begin
 
       BigCoverImgForm := TBigCoverImg.Create(self);
-      BigCoverImgForm.Caption := fmodplayer.player.Playlist.Items[fmodplayer.player.CurrentTrack].
+      BigCoverImgForm.Caption := PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].
                                  Album;
       //BigCoverImgForm.AutoSize:=true;
 
@@ -1362,7 +1362,7 @@ End;
 
 Procedure TMain.MenuItem9Click(Sender: TObject);
 Begin
-  title_to_playlist_at(fmodplayer.player.CurrentTrack+1);
+  title_to_playlist_at(PlayerObj.CurrentTrack+1);
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1458,7 +1458,7 @@ Procedure TMain.PlaylistCustomDrawItem(Sender: TCustomListView;
 Begin
   // not working because font colors not implemented in Lazarus 0.9.23
 
-  If (fmodplayer.player.Playlist.Items[Item.Index].Played) And (fmodplayer.player.CurrentTrack<>Item
+  If (PlayerObj.Playlist.Items[Item.Index].Played) And (PlayerObj.CurrentTrack<>Item
      .Index) Then
     Sender.Canvas.Font.Color := clGrayText
   Else
@@ -1560,7 +1560,7 @@ End;
 Procedure TMain.MainClose(Sender: TObject; Var CloseAction: TCloseAction);
 Begin
   writeln('stop playing');
-  fmodplayer.player.stop;
+  PlayerObj.stop;
 
   CactusConfig.WHeight := Height;
   CactusConfig.WWidth := Width;
@@ -1588,7 +1588,7 @@ Begin
   playtimer.Enabled := false;
 
 
-  fmodplayer.player.free;
+  PlayerObj.free;
 
 
 {     skinmenuitems[1].free;
@@ -1716,13 +1716,16 @@ Begin
   SrchArtItem.checked := true;
   playing := false;
 
- // mplayerobj:=TMPlayerClass.create;
-  fmodplayer.player := TMPlayerClass.create;
-  
-//  fmodplayer.player.oss := Not CactusConfig.OutputAlsa;
+  if CactusConfig.AudioBackend=MPLAYERBACK then begin
+       PlayerObj:=TMPlayerClass.create;
+       DebugOutLn('MPlayer audio backend loaded', 2);
+      end
+      else begin
+        PlayerObj:=TFModPlayerClass.create;
+        DebugOutLn('FMOD audio backend loaded', 2);
+    end;
 
-  if CactusConfig.OutputAlsa then fmodplayer.player.OutputMode:=ALSAOUT else
-              fmodplayer.player.OutputMode:=OSSOUT;
+  PlayerObj.OutputMode:=CactusConfig.AudioSystem;
 
   player_connected := false;
   {$ifdef linux}
@@ -1832,33 +1835,23 @@ Var MedFileObj: TMediaFileClass;
   PPlaylistItem: PPlaylistItemClass;
   i: integer;
 Begin
-  If fmodplayer.player.playing Then
+  If PlayerObj.playing Then
     Begin
-      i := fmodplayer.player.CurrentTrack;
+      i := PlayerObj.CurrentTrack;
       //MedFileObj:=playlist.Items[player.CurrentTrack].Data;
 
-      If fmodplayer.player.Playlist.items[i].Artist<>'' Then current_title_edit.text := fmodplayer.
-                                                                                        player.
-                                                                                        Playlist.
-                                                                                        items[i].
-                                                                                        Artist
-      Else current_title_edit.text := ExtractFileName(fmodplayer.player.Playlist.items[i].path);
-      current_title_edit1.text := fmodplayer.player.Playlist.items[i].title;
+      If PlayerObj.Playlist.items[i].Artist<>'' Then
+               current_title_edit.text := PlayerObj.Playlist.items[i].Artist
+            Else current_title_edit.text := ExtractFileName(PlayerObj.Playlist.items[i].path);
+      current_title_edit1.text := PlayerObj.Playlist.items[i].title;
 
       playwin.TitleImg.Picture.LoadFromFile(SkinData.Title.Img);
       playwin.TitleImg.canvas.Font.Color := Clnavy;
 
-      If fmodplayer.player.Playlist.items[i].Artist<>'' Then playwin.TitleImg.canvas.textout(5,5,
-                                                                                          fmodplayer
-                                                                                             .player
-                                                                                             .
-                                                                                            Playlist
-                                                                                             .items[
-                                                                                             i].
-                                                                                             Artist)
-      Else playwin.TitleImg.canvas.textout(5,5,ExtractFileName(fmodplayer.player.Playlist.items[i].
-                                           path));
-      playwin.TitleImg.canvas.textout(5,25,fmodplayer.player.Playlist.items[i].title);
+      If PlayerObj.Playlist.items[i].Artist<>'' Then
+               playwin.TitleImg.canvas.textout(5,5,PlayerObj.Playlist.items[i].Artist)
+            Else playwin.TitleImg.canvas.textout(5,5,ExtractFileName(PlayerObj.Playlist.items[i].path));
+      playwin.TitleImg.canvas.textout(5,25,PlayerObj.Playlist.items[i].title);
     End
   Else
     Begin
@@ -1890,7 +1883,7 @@ Begin
         Begin
           z := MediaCollection.add(path);
         End;
-      fmodplayer.player.playlist.add(MediaCollection.items[z]);
+      PlayerObj.playlist.add(MediaCollection.items[z]);
       ListItem := Playlist.Items.Add;
       listitem.data := MediaCollection.items[z];
 
@@ -1898,8 +1891,8 @@ Begin
                                                                      +' - '+MediaCollection.items[z]
                                                                      .title
       Else ListItem.Caption := extractfilename(MediaCollection.items[z].path);
-      playlist.Column[0].Caption := 'Playlist                       ('+IntToStr(fmodplayer.player.
-                                    playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.
+      playlist.Column[0].Caption := 'Playlist                       ('+IntToStr(PlayerObj.
+                                    playlist.ItemCount)+' Files/ '+PlayerObj.Playlist.
                                     TotalPlayTimeStr +')';
       result := true;
       update_artist_view;
@@ -2240,13 +2233,13 @@ Begin
   If Opendialog.execute=true Then
     Begin
       playlist.Clear;
-      fmodplayer.player.Playlist.clear;
-      fmodplayer.player.Playlist.LoadFromFile(Opendialog.Filename);
-      For id:= 0 To fmodplayer.player.Playlist.Count-1 Do
+      PlayerObj.Playlist.clear;
+      PlayerObj.Playlist.LoadFromFile(Opendialog.Filename);
+      For id:= 0 To PlayerObj.Playlist.Count-1 Do
         Begin
           ListItem := Playlist.Items.Add;
-          listitem.Data := TMediaFileClass.create(fmodplayer.player.Playlist.Items[id].path, Nil);
-          ListItem.Caption := fmodplayer.player.Playlist.items[id].Artist+' - '+fmodplayer.player.
+          listitem.Data := TMediaFileClass.create(PlayerObj.Playlist.Items[id].path, Nil);
+          ListItem.Caption := PlayerObj.Playlist.items[id].Artist+' - '+PlayerObj.
                               Playlist.Items[id].Title;
         End;
     End;
@@ -2268,7 +2261,7 @@ Begin
       For i:= 0 To TitleTree.Items.Count-1 Do
         Begin
           MedFileObj := TMediaFileClass(TitleTree.Items[i].Data);
-          fmodplayer.player.playlist.add(MedFileObj);
+          PlayerObj.playlist.add(MedFileObj);
 
           ListItem := Playlist.Items.Add;
           listitem.data := MedFileObj;
@@ -2279,8 +2272,8 @@ Begin
             ListItem.Caption := extractfilename(MedFileObj.path);
         End;
     End;
-  playlist.Column[0].Caption := 'Playlist                       ('+IntToStr(fmodplayer.player.
-                                playlist.ItemCount)+' Files/ '+fmodplayer.player.Playlist.
+  playlist.Column[0].Caption := 'Playlist                       ('+IntToStr(PlayerObj.
+                                playlist.ItemCount)+' Files/ '+PlayerObj.Playlist.
                                 TotalPlayTimeStr +')';
 End;
 
@@ -2735,9 +2728,9 @@ End;
 
 Procedure TMain.TrackInfoClick(Sender: TObject);
 Begin
-  If (fmodplayer.player.CurrentTrack)>=0 Then
+  If (PlayerObj.CurrentTrack)>=0 Then
     Begin
-      playlist.selected := playlist.Items[fmodplayer.player.CurrentTrack];
+      playlist.selected := playlist.Items[PlayerObj.CurrentTrack];
       MenuItem10Click(Nil);
     End;
 End;
@@ -2893,7 +2886,7 @@ Begin
   Playlist.Items.Clear;
   writeln('clear');
   playlist.Column[0].Caption := rsPlaylist;
-  fmodplayer.player.playlist.clear;
+  PlayerObj.playlist.clear;
   Playlist.EndUpdate;
 End;
 
@@ -2925,8 +2918,8 @@ End;
 
 Procedure TMain.muteClick(Sender: TObject);
 Begin
-  fmodplayer.player.mute;
-  If fmodplayer.player.muted Then mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+
+  PlayerObj.mute;
+  If PlayerObj.muted Then mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+
                                                           'icon'+DirectorySeparator+'mute1.xpm')
   Else mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+
                                'mute2.xpm');
@@ -2984,7 +2977,7 @@ End;
 
 Procedure TMain.pauseClick(Sender: TObject);
 Begin
-  fmodplayer.player.pause;
+  PlayerObj.pause;
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3064,15 +3057,15 @@ Begin
             Begin
               ind := Targetitem.Index;
               Playlist.Items.InsertItem(tmpitem, ind+1);
-              fmodplayer.player.Playlist.insert(tmpitem.Index+1, MedFileObj);
+              PlayerObj.Playlist.insert(tmpitem.Index+1, MedFileObj);
             End
           Else
             Begin
               Playlist.Items.AddItem(tmpitem);
-              fmodplayer.player.playlist.add(MedFileObj);
+              PlayerObj.playlist.add(MedFileObj);
             End;
           sourceitem := Nil;
-          If Not fmodplayer.player.playing And (CactusConfig.AutostartPlay) And (Playlist.Items.
+          If Not PlayerObj.playing And (CactusConfig.AutostartPlay) And (Playlist.Items.
              Count=1) Then playClick(self);
         End;
 
@@ -3101,15 +3094,15 @@ Begin
                 Begin
                   Playlist.Items.InsertItem(tmpitem, Targetitem.Index+1);
                   sourceitem.Delete;
-                  If ind>tmpitem.Index-1 Then fmodplayer.player.Playlist.move(ind, tmpitem.Index)
-                  Else fmodplayer.player.Playlist.move(ind, tmpitem.Index-1);
+                  If ind>tmpitem.Index-1 Then PlayerObj.Playlist.move(ind, tmpitem.Index)
+                  Else PlayerObj.Playlist.move(ind, tmpitem.Index-1);
                   DebugOutLn('MOVE', 3)
                 End
               Else
                 Begin
                   Playlist.Items.AddItem(tmpitem);
                   sourceitem.Delete;
-                  fmodplayer.player.Playlist.move(ind, tmpitem.Index-1);
+                  PlayerObj.Playlist.move(ind, tmpitem.Index-1);
                   DebugOutLn('ADD', 3);
                 End;
             End;
@@ -3166,7 +3159,7 @@ Begin
             If ctrl_pressed Then
               Begin
                 tempitem := playlist.selected;
-                fmodplayer.player.playlist.move(i, i-1);
+                PlayerObj.playlist.move(i, i-1);
                 playlist.items[i] := playlist.items[i-1];
                 playlist.items[i-1] := tempitem;
                 Playlist.SetFocus;
@@ -3185,7 +3178,7 @@ Begin
              If ctrl_pressed Then
                Begin
                  tempitem := playlist.selected;
-                 fmodplayer.player.playlist.move(i,i+1);
+                 PlayerObj.playlist.move(i,i+1);
                  playlist.items[i] := playlist.items[i+1];
                  playlist.items[i+1] := tempitem;
                  Playlist.SetFocus;
@@ -3265,12 +3258,12 @@ Var MedFileObj: TMediaFileClass;
   PPlaylistItem: PPlaylistItemClass;
   i: integer;
 Begin
-  If fmodplayer.player.PlaybackMode=FILE_MODE Then
+  If PlayerObj.PlaybackMode=FILE_MODE Then
     Begin
       CoverFound := false;
       LoopCount := 0;
-      i := fmodplayer.player.CurrentTrack;
-      MedFileObj := TMediaFileClass(playlist.Items[fmodplayer.player.CurrentTrack].Data);
+      i := PlayerObj.CurrentTrack;
+      MedFileObj := TMediaFileClass(playlist.Items[PlayerObj.CurrentTrack].Data);
       If (MedFileObj.album<>'') Then
         Begin
           MedFileObj.CoverPath := CactusConfig.ConfigPrefix+DirectorySeparator+'covercache'+
@@ -3318,7 +3311,7 @@ Begin
         Begin
           StatusBar1.Panels[0].Text := 'Buffering stream...';
           StreamInfoObj := TStreamInfoItemClass(ArtistTree.Selected.Data);
-          writeln(fmodplayer.player.play(StreamInfoObj.URL));
+          writeln(PlayerObj.play(StreamInfoObj.URL));
           current_title_edit.Text := 'Playing radio stream...';
           current_title_edit1.Text := StreamInfoObj.Name;
           playtimer.Enabled := true;
@@ -3657,11 +3650,11 @@ Begin
   If playlist.selected<>Nil Then
     Begin
       i := playlist.selected.index;
-      fmodplayer.player.playlist.remove(i);
+      PlayerObj.playlist.remove(i);
       Playlist.Selected.delete;
-      s1 := IntToStr((fmodplayer.player.Playlist.TotalPlayTime Div 60) Mod 60 );
-      s2 := IntToStr((fmodplayer.player.Playlist.TotalPlayTime Div 60) Div 60 );
-      playlist.Column[0].Caption := rsPlaylist+'            ('+IntToStr(fmodplayer.player.Playlist.
+      s1 := IntToStr((PlayerObj.Playlist.TotalPlayTime Div 60) Mod 60 );
+      s2 := IntToStr((PlayerObj.Playlist.TotalPlayTime Div 60) Div 60 );
+      playlist.Column[0].Caption := rsPlaylist+'            ('+IntToStr(PlayerObj.Playlist.
                                     ItemCount)+' Files/ '+s2+'h '+s1+'min )';
       If (i>=1) And (i=playlist.items.count) Then dec(i);
       playlist.selected := playlist.items[i];
@@ -3672,8 +3665,8 @@ End;
 
 Procedure TMain.MenuItem22aClick(Sender: TObject);
 Begin
-  If fmodplayer.player.playing Then
-    artist_to_playlist_at(fmodplayer.player.CurrentTrack+1)
+  If PlayerObj.playing Then
+    artist_to_playlist_at(PlayerObj.CurrentTrack+1)
   Else artist_to_playlist;
 End;
 
@@ -3764,7 +3757,7 @@ End;
 
 Procedure TMain.toggle_playpause(Sender: TObject);
 Begin
-  If fmodplayer.player.playing Then pauseClick(Nil)
+  If PlayerObj.playing Then pauseClick(Nil)
   Else playClick(Nil);
 End;
 
@@ -3786,9 +3779,9 @@ Var k: real;
 Begin
   k := (x*100) / trackbar.Width;
   i:=round(k);
-  fmodplayer.player.set_fileposition(i);
+  PlayerObj.set_fileposition(i);
   trackbar.Position := i;
-  If fmodplayer.player.playing Then playtimer.enabled := true;
+  If PlayerObj.playing Then playtimer.enabled := true;
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3828,8 +3821,8 @@ End;
 
 Procedure TMain.volumebarChange(Sender: TObject);
 Begin
-  fmodplayer.player.set_volume((50-volumebar.Position)*2);
-  DebugOutLn('volume set '+ IntToStr(fmodplayer.player.volume), 3);
+  PlayerObj.set_volume((50-volumebar.Position)*2);
+  DebugOutLn('volume set '+ IntToStr(PlayerObj.volume), 3);
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3860,7 +3853,7 @@ Begin
         End;
       MedFileObj := TMediaFileClass(tsnode.data);
 
-      fmodplayer.player.playlist.Insert(index, MedFileObj);
+      PlayerObj.playlist.Insert(index, MedFileObj);
 
       ListItem := Main.Playlist.Items.Insert(index);
       listitem.data := MedFileObj;
@@ -3868,8 +3861,8 @@ Begin
       If MedFileObj.title<>'' Then ListItem.Caption := MedFileObj.Artist+' - '+MedFileObj.title
       Else ListItem.Caption := extractfilename(MedFileObj.path);
     End;
-  main.playlist.Column[0].Caption := rsPlaylist+'                       ('+IntToStr(fmodplayer.
-                                     player.playlist.ItemCount)+' Files/ '+fmodplayer.player.
+  main.playlist.Column[0].Caption := rsPlaylist+'                       ('+IntToStr(
+                                     PlayerObj.playlist.ItemCount)+' Files/ '+PlayerObj.
                                      Playlist.TotalPlayTimeStr +')';
 End;
 
@@ -3888,7 +3881,7 @@ Begin
     Begin
       MedFileObj := TMediaFileClass(tsnode.data);
 
-      fmodplayer.player.playlist.add(MedFileObj);
+      PlayerObj.playlist.add(MedFileObj);
 
       ListItem := Main.Playlist.Items.Add;
       listitem.data := MedFileObj;
@@ -3896,7 +3889,7 @@ Begin
       //     listitem.Focused:=true;
       If MedFileObj.title<>'' Then ListItem.Caption := MedFileObj.Artist+' - '+MedFileObj.title
       Else ListItem.Caption := extractfilename(MedFileObj.path);
-      If Not fmodplayer.player.playing And CactusConfig.AutostartPlay And (main.Playlist.Items.Count
+      If Not PlayerObj.playing And CactusConfig.AutostartPlay And (main.Playlist.Items.Count
          =1) Then
         Begin
           main.Playlist.Selected := Main.Playlist.Items[0];
@@ -3904,8 +3897,8 @@ Begin
           Main.playClick(main);
         End;
     End;
-  main.playlist.Column[0].Caption := rsPlaylist+'                       ('+IntToStr(fmodplayer.
-                                     player.playlist.ItemCount)+' Files/ '+fmodplayer.player.
+  main.playlist.Column[0].Caption := rsPlaylist+'                       ('+IntToStr(
+                                     PlayerObj.playlist.ItemCount)+' Files/ '+PlayerObj.
                                      Playlist.TotalPlayTimeStr +')';
 End;
 
@@ -3943,7 +3936,7 @@ Begin
           If (album_mode=false) Or ((album_mode=true) And (lowercase(MedColObj.items[z].album)=
              curalbum)) Then
             Begin
-              fmodplayer.player.playlist.insert(index, MedColObj.items[z]);
+              PlayerObj.playlist.insert(index, MedColObj.items[z]);
               ListItem := Main.Playlist.Items.Insert(index);
               inc(index);
               listitem.data := MedColObj.items[z];
@@ -3958,8 +3951,8 @@ Begin
       Until z<0;
       Listitem.MakeVisible(false);
     End;
-  main.playlist.Column[0].Caption := rsPlaylist+'            ('+IntToStr(fmodplayer.player.playlist.
-                                     ItemCount)+' Files/ '+fmodplayer.player.Playlist.
+  main.playlist.Column[0].Caption := rsPlaylist+'            ('+IntToStr(PlayerObj.playlist.
+                                     ItemCount)+' Files/ '+PlayerObj.Playlist.
                                      TotalPlayTimeStr+' )';
 End;
 
@@ -3992,7 +3985,7 @@ Begin
           If (album_mode=false) Or ((album_mode=true) And (lowercase(MedColObj.items[z].album)=
              curalbum)) Then
             Begin
-              fmodplayer.player.playlist.add(MedColObj.items[z]);
+              PlayerObj.playlist.add(MedColObj.items[z]);
               ListItem := Main.Playlist.Items.Add;
               listitem.data := MedColObj.items[z];
               // Listitem.Focused:=true;
@@ -4011,8 +4004,8 @@ Begin
           Main.playClick(main);
         End;
     End;
-  main.playlist.Column[0].Caption := rsplaylist+'            ('+IntToStr(fmodplayer.player.playlist.
-                                     ItemCount)+' Files/ '+fmodplayer.player.Playlist.
+  main.playlist.Column[0].Caption := rsplaylist+'            ('+IntToStr(PlayerObj.playlist.
+                                     ItemCount)+' Files/ '+PlayerObj.Playlist.
                                      TotalPlayTimeStr+' )';
 End;
 
@@ -4092,10 +4085,10 @@ Var    PPlaylistItem: PPlaylistItemClass;
   i: integer;
 Begin
 
-  For i:= 0 To fmodplayer.player.Playlist.ItemCount-1 Do
+  For i:= 0 To PlayerObj.Playlist.ItemCount-1 Do
     Begin
       MedfileObj := TMediaFileClass(playlist.Items[i].Data);
-      fmodplayer.player.Playlist.Items[i].update(MedfileObj);
+      PlayerObj.Playlist.Items[i].update(MedfileObj);
 
       If MedfileObj.title<>'' Then
         playlist.Items[i].caption := MedfileObj.Artist+' - '+MedfileObj.title
@@ -4119,8 +4112,8 @@ Begin
     Begin
       If TMediaFileClass(playlist.Items[i].Data).collection=PlayerCol Then
         Begin
-          fmodplayer.Player.playlist.remove(i);
-          If fmodplayer.player.Playlist.ItemCount<>0 Then Playlist.Items[i].Delete;
+          PlayerObj.playlist.remove(i);
+          If PlayerObj.Playlist.ItemCount<>0 Then Playlist.Items[i].Delete;
           dec(i);
         End;
       inc(i);

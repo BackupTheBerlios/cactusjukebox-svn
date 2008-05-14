@@ -6,7 +6,7 @@ Unit plugin;
 Interface
 
 Uses 
-Classes, SysUtils, plugintypes, dynlibs, settings, xmlcfg, fmodplayer, config, mediacol;
+Classes, SysUtils, plugintypes, dynlibs, settings, xmlcfg, playerclass, config, mediacol;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -19,7 +19,7 @@ Type
     FPluginHandle: TCactusPlugInClass;
     FLibraryHandle: TLibHandle;
     FEnabled: Boolean;
-    FPlayerObjectPointer: TFModPlayerClass;
+    FPlayerObjectPointer: TPlayerClass;
     Procedure setEnabled( aValue: boolean);
     Public 
     constructor create;
@@ -33,7 +33,7 @@ Type
     property PluginHandle: TCactusPlugInClass read FPluginHandle;
     property LibraryHandle: TLibHandle read FLibraryHandle;
     property enabled: boolean read FEnabled write setEnabled;
-    property PlayerObjectPointer: TFModPlayerClass read FPlayerObjectPointer;
+    property PlayerObjectPointer: TPlayerClass read FPlayerObjectPointer;
 
     Function loadPlugin: boolean;
     Function unloadPlugin: boolean;
@@ -294,8 +294,8 @@ Begin
     LoadAddr(FPluginHandle);
     SetObjectConAdrr := TSetObjectConnections(GetProcAddress(FLibraryHandle, 'SetObjectConnections')
                         );
-    writeln(fmodplayer.player.CurrentTrack);
-    SetObjectConAdrr(@Fmodplayer.player);
+    writeln(PlayerObj.CurrentTrack);
+    SetObjectConAdrr(@PlayerObj);
 
     writeln('done');
   Except

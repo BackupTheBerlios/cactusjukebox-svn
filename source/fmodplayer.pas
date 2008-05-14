@@ -67,8 +67,6 @@ TFModPlayerClass = class(TPlayerClass)
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-var player: TPlayerclass;
-
 implementation
 uses functions;
 var tmpp: PChar;

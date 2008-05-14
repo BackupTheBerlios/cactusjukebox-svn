@@ -106,6 +106,7 @@ Type
     v1_prio1: TRadioButton;
     v2_prio: TRadioButton;
     v2_prio1: TRadioButton;
+    procedure AudioBackendChange(Sender: TObject);
     Procedure Button1Click(Sender: TObject);
     Procedure ClearCoverClick(Sender: TObject);
     Procedure FormCreate(Sender: TObject);
@@ -172,8 +173,13 @@ Begin
                  '/.kde/share/apps/konqueror/servicemenus/cactus_servicemenu.desktop');
       CactusConfig.KDEServiceMenu := true;
     End;
-  If AudioOut.ItemIndex=0 Then CactusConfig.OutputAlsa := true
-  Else CactusConfig.OutputAlsa := false;
+  If AudioOut.ItemIndex=0 Then CactusConfig.AudioSystem := ALSAOUT
+       Else CactusConfig.AudioSystem := OSSOUT;
+  
+  PlayerObj.OutputMode:=CactusConfig.AudioSystem;
+  
+  if AudioBackend.ItemIndex=0 then CactusConfig.AudioBackend:=MPLAYERBACK
+      else CactusConfig.AudioBackend:=FMODBACK;
 {$endif}
   If guesstag1.checked Then CactusConfig.GuessTag := true
   Else CactusConfig.GuessTag := false;
@@ -188,11 +194,6 @@ Begin
   If AutoPlayBox.Checked Then CactusConfig.AutostartPlay := true
   Else CactusConfig.AutostartPlay := false;
   //     MediaCollection.guess_tag:=CactusConfig.GuessTag;
-
-   if CactusConfig.OutputAlsa then fmodplayer.player.OutputMode:=ALSAOUT else
-              fmodplayer.player.OutputMode:=OSSOUT;
-
-//    fmodplayer.player.oss := Not CactusConfig.OutputAlsa;
 
   CactusConfig.language := LanguageBox.Items[LanguageBox.ItemIndex];
   CactusConfig.FlushConfig;
@@ -236,6 +237,11 @@ Begin
       playerpathedit1.text := IncludeTrailingPathDelimiter(Main.Selectdirectorydialog1.FileName);
     End;
 End;
+
+procedure TSettings.AudioBackendChange(Sender: TObject);
+begin
+   ShowMessage('Please restart Cactus for audio backend change to take effect');
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -302,8 +308,10 @@ Begin
 
  {$ifdef linux}
   kdeservicebox.Checked := CactusConfig.KDEServiceMenu;
-  If CactusConfig.OutputAlsa Then AudioOut.ItemIndex := 0
-  Else AudioOut.ItemIndex := 1;
+  If CactusConfig.AudioSystem=ALSAOUT then AudioOut.ItemIndex := 0
+          Else AudioOut.ItemIndex := 1;
+  If CactusConfig.AudioBackend=MPLAYERBACK then AudioBackend.ItemIndex := 0
+          Else AudioBackend.ItemIndex := 1;
   servicemenu_changed := false;
   kdeservicebox.Visible := true;
  {$else}
