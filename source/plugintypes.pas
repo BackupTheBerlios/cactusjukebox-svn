@@ -5,7 +5,7 @@ unit plugintypes;
 interface
 
 uses
-  Classes, SysUtils, fmodplayer;
+  Classes, SysUtils;
 
 type
   TCactusEvent = (

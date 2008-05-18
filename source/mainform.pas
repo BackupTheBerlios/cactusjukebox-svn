@@ -28,7 +28,7 @@ Interface
 Uses 
 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
-ExtCtrls, ComCtrls, StdCtrls, Menus, fmodplayer,
+ExtCtrls, ComCtrls, StdCtrls, Menus,{$ifdef i386} fmodplayer,{$endif}
 ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, plugin, plugintypes, debug, config,
 CheckLst, ButtonPanel, playlist, playerclass, mplayer;
 
@@ -427,7 +427,7 @@ Type
     Procedure ScanSyncronize(dir:String);
     Procedure update_artist_view;
 
-    playing, player_connected, playermode: boolean;
+    player_connected, playermode: boolean;
     playpos: integer;
     playnode: TTreeNode;
     playitem: TListitem;
@@ -1711,11 +1711,9 @@ Begin
 
   oldSplitterWidth := CactusConfig.WSplitterWidth;
   SplitterResize := true;
-
   SrchTitleItem.checked := true;
   SrchArtItem.checked := true;
-  playing := false;
-
+{$ifdef CPU86}
   if CactusConfig.AudioBackend=MPLAYERBACK then begin
        PlayerObj:=TMPlayerClass.create;
        DebugOutLn('MPlayer audio backend loaded', 2);
@@ -1724,7 +1722,18 @@ Begin
         PlayerObj:=TFModPlayerClass.create;
         DebugOutLn('FMOD audio backend loaded', 2);
     end;
-
+{$endif}
+{$ifdef CPUX86_64}   // Fmod library is only available on 32bit systems. Always try to load mplayer instead
+  if CactusConfig.AudioBackend=MPLAYERBACK then begin
+       PlayerObj:=TMPlayerClass.create;
+       DebugOutLn('MPlayer audio backend loaded', 2);
+      end
+      else begin
+        PlayerObj:=TMPlayerClass.create;
+        DebugOutLn('WARNING: Fmod backend not available on 64bit systems. Trying to load mplayer backend instead', 0);
+    end;
+{$endif}
+writeln('xx');
   PlayerObj.OutputMode:=CactusConfig.AudioSystem;
 
   player_connected := false;

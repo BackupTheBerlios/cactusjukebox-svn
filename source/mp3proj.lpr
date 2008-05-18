@@ -22,7 +22,7 @@ uses
   Interfaces,SysUtils,
   Forms, status, settings, player, graphics, editid3, directories, skin,
   cdrip, mediacol, BigCoverImg, mainform, plugin, cddb,
-  debug, config, imagesforlazarus, addradio, streamcol, mplayer, playlist,
+  debug, config, imagesforlazarus, addradio, streamcol, playlist,
   playerclass;
 
 var

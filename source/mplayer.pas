@@ -88,13 +88,15 @@ begin
    repeat
      begin
         i:=pos(':', tmps);
+        if i=0 then i:=Length(tmps);
         tmppath:=IncludeTrailingPathDelimiter(copy(tmps,0,i-1))+MPLAYER_BINARY;
         if FileExists(tmppath) then FMplayerPath:=tmppath
                   else Delete(tmps, 1, i);
      end;
-   until (length(tmps)=0) or (FMplayerPath<>'');
+   until (length(tmps)<=1) or (FMplayerPath<>'');
    if FMplayerPath='' then begin
       writeln('FATAL: Mplayer executable not found. Make sure it is properly installed in binary path');
+      halt;
      end else DebugOutLn('Mplayer executable found in '+FMplayerPath, 2);
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

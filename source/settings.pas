@@ -135,7 +135,7 @@ Var
 
   Implementation
 
-  Uses mainform, translations, functions, plugin, fmodplayer;
+  Uses mainform, translations, functions, plugin;
 
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
