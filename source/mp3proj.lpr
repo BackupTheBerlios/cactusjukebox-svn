@@ -15,6 +15,15 @@ program mp3proj;
 
 {$mode objfpc}{$H+}
 
+{$ifdef CPU86}          //compile with fmod support enabled by default on i386
+    {$define fmod}
+{$endif}
+
+
+{$ifdef CPU86 and fmod}   //fmod needs libgcc to link correctly
+    {$linklib gcc}
+{$endif}
+
 uses
  {$ifdef linux}
    cthreads,
@@ -52,6 +61,8 @@ begin
         DebugOutLn('', 1);
         DebugOutLn(' Command line options:', 1);
         DebugOutLn('    -c      don''t load config file, overwrite with standard settings', 1);
+        DebugOutLn('    -m      MPLayer audio backend', 1);
+        DebugOutLn('    -f      LibFmod audio backend', 1);
         DebugOutLn('    -p      start in playermode', 1);
         DebugOutLn('', 1);
         DebugOutLn('    -h/--help  show this help', 1);
@@ -94,7 +105,7 @@ begin
   StreamCollection:=TStreamCollectionClass.create;
   SkinData:=TSkin.Create('default.xml', CactusConfig.DataPrefix);
 
-  for i:= 1 to paramcount do if (paramstr(i)<>'-c') and (paramstr(i)<>'-p') and (paramstr(i)<>'-h') and (paramstr(i)<>'--help') then begin
+  for i:= 1 to paramcount do if (paramstr(i)<>'-c') and (paramstr(i)<>'-p') and (paramstr(i)<>'-f') and (paramstr(i)<>'-m') and (paramstr(i)<>'-h') and (paramstr(i)<>'--help') then begin
         if FileExists(paramstr(i)) then begin
                                          CactusConfig.LoadOnStart:=paramstr(i);
                                       end
@@ -120,6 +131,13 @@ begin
       DebugOutLn('starting in player mode', 2);
      end;
 
+  for i:= 1 to paramcount do if paramstr(i)='-f' then begin
+      CactusConfig.AudioBackend:=FMODBACK;
+     end;
+     
+  for i:= 1 to paramcount do if paramstr(i)='-m' then begin
+      CactusConfig.AudioBackend:=MPLAYERBACK;
+     end;
 
   Register_skins;
   DebugOutLn('--> loading skin '+CactusConfig.DataPrefix+'skins/'+CactusConfig.CurrentSkin, 2);
