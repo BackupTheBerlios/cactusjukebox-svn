@@ -3,7 +3,7 @@ see INSTALL for install information.
 
 Requirements:
 	GTK1.x or GTK2
-	libfmod-3.75 (comes with cactus)
+	mplayer exe or libfmod-3.75 for playback
 	
 	cdda2wav (for CD ripping)
 	lame (mp3 encoding)

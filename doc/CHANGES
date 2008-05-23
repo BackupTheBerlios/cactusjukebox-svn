@@ -1,13 +1,15 @@
-
-Changes from 0.3.8.1 to 0.3.8.5
+Changes from 0.3.8.1 to 0.4
+	- MPlayer used for playback, 64bit compatibility
+	- Web radio streaming support	
+	- Drag'n'Drop implemented
 	- Internal Mediacollection structure changed
 		- faster querries
 		- faster reload
 		- albums sorted in alphabetical order
-	- Drag'n'Drop implemented
 	- Cover gets enlarged on click
 	- Brazilian translation added
 	- Windows port available
+
 
 Changes from 0.3.8 to 0.3.8.1
 	- Bugfix: Loading files directly form disk now working again

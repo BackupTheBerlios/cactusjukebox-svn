@@ -28,7 +28,7 @@ Interface
 Uses 
 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
-ExtCtrls, ComCtrls, StdCtrls, Menus,{$ifdef i386} fmodplayer,{$endif}
+ExtCtrls, ComCtrls, StdCtrls, Menus,{$ifdef CPU86} fmodplayer,{$endif}
 ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, plugin, plugintypes, debug, config,
 CheckLst, ButtonPanel, playlist, playerclass, mplayer;
 

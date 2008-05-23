@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="8"/>
+      <ActiveEditorIndexAtStart Value="5"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -40,7 +40,7 @@
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="111">
+    <Units Count="113">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -664,11 +664,10 @@
         <Filename Value="mainform.pas"/>
         <ComponentName Value="Main"/>
         <IsPartOfProject Value="True"/>
-        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="66" Y="1716"/>
-        <TopLine Value="1705"/>
+        <CursorPos X="48" Y="31"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="2"/>
         <UsageCount Value="173"/>
         <Bookmarks Count="3">
@@ -918,37 +917,22 @@
         <TopLine Value="1"/>
         <UsageCount Value="10"/>
       </Unit110>
+      <Unit111>
+        <Filename Value="../../lazarus-svn64/components/images/lazpng.pas"/>
+        <UnitName Value="LazPNG"/>
+        <CursorPos X="31" Y="24"/>
+        <TopLine Value="3"/>
+        <UsageCount Value="10"/>
+      </Unit111>
+      <Unit112>
+        <Filename Value="../../lazarus-svn64/components/images/registerimg4laz.pas"/>
+        <UnitName Value="RegisterImg4Laz"/>
+        <CursorPos X="24" Y="11"/>
+        <TopLine Value="1"/>
+        <UsageCount Value="10"/>
+      </Unit112>
     </Units>
-    <JumpHistory Count="7" HistoryIndex="6">
-      <Position1>
-        <Filename Value="config.pas"/>
-        <Caret Line="4" Column="39" TopLine="1"/>
-      </Position1>
-      <Position2>
-        <Filename Value="playerclass.pas"/>
-        <Caret Line="3" Column="23" TopLine="1"/>
-      </Position2>
-      <Position3>
-        <Filename Value="fmodplayer.pas"/>
-        <Caret Line="4" Column="55" TopLine="1"/>
-      </Position3>
-      <Position4>
-        <Filename Value="settings.pas"/>
-        <Caret Line="2" Column="14" TopLine="1"/>
-      </Position4>
-      <Position5>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="24" Column="23" TopLine="261"/>
-      </Position5>
-      <Position6>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="430" Column="52" TopLine="806"/>
-      </Position6>
-      <Position7>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1721" Column="14" TopLine="1695"/>
-      </Position7>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
