@@ -152,6 +152,7 @@ Type
 
     Var mp3search,dirsearch: TSearchrec;
       tmps: string;
+      fHandle: file Of byte;
     Begin
       dir := IncludeTrailingPathDelimiter(dir);
       writeln('scanning through:  '+dir);
@@ -164,7 +165,16 @@ Type
               syncronize(dir);
               If (tmps='.mp3') Or (tmps='.wav') Or (tmps='.ogg') Then
                 Begin
-                  add(dir+mp3search.name);
+                  // Files with bad filenames may suddenly vanish from samba
+                  // mounts when accessed. This will fiter them out.
+                  system.assign(fHandle, dir+mp3search.name);
+                  {$I-}
+                  reset(fHandle);
+                  close(fHandle);
+                  {$I+}
+                  if IOResult = 0
+                  then
+                    add(dir+mp3search.name);
                 End;
             End;
           Until FindNext(mp3search)<>0;

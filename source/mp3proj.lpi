@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="7"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -45,7 +45,7 @@
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="98" Y="108"/>
+        <CursorPos X="64" Y="103"/>
         <TopLine Value="74"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="200"/>
