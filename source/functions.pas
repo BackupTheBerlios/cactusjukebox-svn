@@ -54,7 +54,7 @@ Function crc32(path: String): longint;
 //creates an very, very basic checksum to identify files
 
 Var fhandle: THandle;
-  buf: array [0..63] Of longint;
+  buf: array [0..63] Of word;
   z: byte;
   i, eofile: longint;
   l: longint;
@@ -68,8 +68,9 @@ Begin
   While (eofile<>-1) And (i<256) Do
     Begin
       eofile := FileRead(fhandle, buf, sizeof(buf));
-      If eofile <>-1 Then For z:=0 To high(buf) Do
-                            L := l+buf[z];
+      If (eofile<>-1) Then For z:=0 To high(buf) Do begin
+                            L := L+buf[z];
+                        end;
       inc(i);
     End;
   FileClose(fhandle);

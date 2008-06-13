@@ -53,7 +53,7 @@ begin
   DebugOut('', 1);
 
   DebugOutLn('Cactus Jukebox v'+CACTUS_VERSION, 1);
-  DebugOutLn('written by Sebastian Kraft, (c) 2004-2007', 1);
+  DebugOutLn('written by Sebastian Kraft, (c) 2004-2008', 1);
   DebugOutLn('', 1);
   for i:= 1 to paramcount do if (paramstr(i)='-h') or (paramstr(i)='--help') or invalid_param then begin
 

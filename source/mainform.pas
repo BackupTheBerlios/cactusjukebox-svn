@@ -1646,7 +1646,7 @@ Begin
 
   Width := CactusConfig.WWidth;
   Height := CactusConfig.WHeight;
-
+  DebugOutLn('loading main form translations...', 5);
   TranslateUnitResourceStrings('mainform', CactusConfig.DataPrefix+'languages'+DirectorySeparator+
                                'cactus.%s.po', CactusConfig.language, copy(CactusConfig.language, 0,
                                2));
@@ -1753,8 +1753,12 @@ writeln('xx');
 {$ifdef win32}
   playtime.Font.Height := 10;
   playtime.Font.Size := 10;
-  //  Main.homedir:='C:\';
 {$endif win32}
+
+{$ifdef LCLGtk}
+  playtime.Font.Height := 13;
+  playtime.Font.Size := 13;
+{$endif}
 
 {$ifdef LCLGtk2}
   Main.Titletree.Columns[0].width := 20;

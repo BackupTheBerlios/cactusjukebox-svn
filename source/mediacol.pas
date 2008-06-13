@@ -187,11 +187,8 @@ Type
             Begin
               If (dirsearch.attr And FaDirectory)=FaDirectory Then
                 Begin
-                  If (dirsearch.name<>'..') And (dirsearch.name<>'.') Then Recursive_AddDir(
-                                                                        IncludeTrailingPathDelimiter
-                                                                                            (dir+
-                                                                                           dirsearch
-                                                                                            .name));
+                  If (dirsearch.name<>'..') And (dirsearch.name<>'.') Then
+                        Recursive_AddDir(IncludeTrailingPathDelimiter(dir+dirsearch.name));
                 End;
             End;
           Until FindNext(dirsearch)<>0;
@@ -412,12 +409,11 @@ Type
       MedFileObj := TMediaFileClass.create(path, self);
       If (SortedState) Then
         Begin
-          If MedFileObj.Artist<>'' Then
+          If (MedFileObj.Artist<>'') and (ItemCount>0) Then
             Begin
               While (i<ItemCount) And (CompareText(items[i].Artist, MedFileObj.Artist)<0) 
                 Do
                 inc(i);
-
               While (i<=ItemCount-1) And (CompareText(items[i].Artist, MedFileObj.Artist)=0) And
                     (CompareText(items[i].Title, MedFileObj.Title)<0) 
                 Do
