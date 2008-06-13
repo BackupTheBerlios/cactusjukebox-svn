@@ -78,6 +78,8 @@ Begin
  {$Q+}
 End;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 Function crc32_math(path: String): int64;
 //creates an very, very basic checksum to identify files
 
