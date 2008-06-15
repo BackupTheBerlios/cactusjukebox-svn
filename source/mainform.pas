@@ -28,7 +28,7 @@ Interface
 Uses 
 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
-ExtCtrls, ComCtrls, StdCtrls, Menus,{$ifdef CPU86} fmodplayer,{$endif}
+ExtCtrls, ComCtrls, StdCtrls, Menus,{$ifdef fmod} fmodplayer,{$endif}
 ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, plugin, plugintypes, debug, config,
 CheckLst, ButtonPanel, playlist, playerclass, mplayer;
 
@@ -564,6 +564,7 @@ Begin
         self.DeleteList.Delete(0);
         Synchronize(@SyncStatus);
     End;
+  DebugOutLn('copying files...', 6);
   While CopyList.Count>0 Do
     Begin
       OpSuccess := false;
@@ -1713,7 +1714,7 @@ Begin
   SplitterResize := true;
   SrchTitleItem.checked := true;
   SrchArtItem.checked := true;
-{$ifdef CPU86}
+{$ifdef fmod and CPU86}
   if CactusConfig.AudioBackend=MPLAYERBACK then begin
        PlayerObj:=TMPlayerClass.create;
        DebugOutLn('MPlayer audio backend loaded', 2);
@@ -1721,6 +1722,16 @@ Begin
       else begin
         PlayerObj:=TFModPlayerClass.create;
         DebugOutLn('FMOD audio backend loaded', 2);
+    end;
+{$endif}
+{$ifdef CPU86}
+  if CactusConfig.AudioBackend=MPLAYERBACK then begin
+       PlayerObj:=TMPlayerClass.create;
+       DebugOutLn('MPlayer audio backend loaded', 2);
+      end
+      else begin
+        PlayerObj:=TMPlayerClass.create;
+        DebugOutLn('WARNING: Cactus Jukebox has been compiled without fmod support. Trying to load mplayer backend instead', 0);
     end;
 {$endif}
 {$ifdef CPUX86_64}   // Fmod library is only available on 32bit systems. Always try to load mplayer instead
@@ -2010,8 +2021,9 @@ Begin
               With Main.ArtistTree.Items.Addchild(artnode, AlbumList[z]) Do
                 Begin
                   MakeVisible;
-                  ImageIndex := MediaCollection.Items[i].Action;
-                  SelectedIndex := MediaCollection.Items[i].Action;
+                  MedFileObj:=TMediaFileClass(AlbumList.Objects[z]);
+                  ImageIndex := MedFileObj.Action;
+                  SelectedIndex := MedFileObj.Action;
                   Data := AlbumList.Objects[z];
                 End;
             End;
@@ -2052,8 +2064,9 @@ Begin
               With Main.ArtistTree.Items.Addchild(artnode, AlbumList[z]) Do
                 Begin
                   MakeVisible;
-                  ImageIndex := PlayerCol.Items[i].Action;
-                  SelectedIndex := PlayerCol.Items[i].Action;
+                  MedFileObj:=TMediaFileClass(AlbumList.Objects[z]);
+                  ImageIndex := MedFileObj.Action;
+                  SelectedIndex := MedFileObj.Action;
                   Data := AlbumList.Objects[z];
                 End;
             End;
@@ -2820,7 +2833,8 @@ Begin
           // get free memory on player, format string
           DebugOut('loaded', 2);
           tmps := ByteToFmtString(FreeSpaceOnDAP, 3, 2);
-          StatusBar1.Panels[1].Text := 'Device connected     '+tmps+' Free';
+          writeln(FreeSpaceOnDAP);
+          StatusBar1.Panels[1].Text := 'Device connected     '+tmps+' free';
           If CactusConfig.background_scan Then
             Begin
               PlayerScanThread := TScanThread.Create(true);
@@ -3521,7 +3535,6 @@ Begin
     Begin
       MedFileObj := TMediaFileClass(tsnode.data);
       MedColObj := MedFileObj.collection;
-
       If tsnode.level=2 Then   //remove one album
         Begin
           i := PlayerCol.getTracks(MedFileObj.Artist, MedFileObj.Album);
@@ -3531,8 +3544,7 @@ Begin
                 Begin
                   PlayerCol.items[i].action := AREMOVE;
                   For z:= 0 To MediaCollection.ItemCount-1 Do
-                    If PlayerCol.items[i].id=MediaCollection.items[z].id Then MediaCollection.items[
-                      z].action := AREMOVE;
+                    If PlayerCol.items[i].id=MediaCollection.items[z].id Then MediaCollection.items[z].action := AREMOVE;
                   sizediff := sizediff + PlayerCol.items[i].size;
                 End;
               i := PlayerCol.getNext;
@@ -3558,7 +3570,7 @@ Begin
         End;
       update_artist_view;
       update_title_view;
-
+      
       tmps := ByteToFmtString(FreeSpaceOnDAP + sizediff, 3, 2);
       StatusBar1.Panels[1].Text := 'Device connected     '+tmps+' Free';
     End;

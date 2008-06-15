@@ -308,6 +308,8 @@ Begin
   // get free memory on player, format string
   SetCurrentDir(CactusConfig.DAPPath);
   result := DiskFree(0);
+  writeln('------>');
+  writeln(DiskFree(0));
   SetCurrentDir(tmps);
 End;
 
@@ -318,9 +320,12 @@ Function ByteToFmtString(bytes: int64; d1, d2: byte): string;
 Var r: real;
   count: byte;
   comma, prefix, s1, s2: string;
+  subzero:boolean;
 Begin
   count := 0;
-  r := bytes;
+  if bytes>=0 then subzero:=false else subzero:=true;
+  
+  r := abs(bytes);
   While (r>=power(10, d1)) Do
     Begin
       r := r / 1024;
@@ -351,7 +356,7 @@ Begin
       comma := '';
       s2 := '';
     End;
-  result := s1+comma+s2+' '+prefix;
+  if subzero=false then result := s1+comma+s2+' '+prefix else result := '- ' + s1+comma+s2+' '+prefix
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

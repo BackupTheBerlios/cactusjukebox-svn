@@ -582,7 +582,7 @@ Type
         End
       Else
         Begin
-          While (lowercase(Items[i].Artist)<>artist) And (i<Count) Do
+          While (i<Count) And (lowercase(Items[i].Artist)<>artist)  Do
             inc(i);
           If i<>Count Then FSrchPos := i
           Else FSrchPos := -1;
@@ -598,14 +598,18 @@ Type
 
     Var i: integer;
     Begin
+      album:=LowerCase(album);
+      artist:=LowerCase(artist);
+      FSrchArtist := artist;
+      FSrchAlbum := album;
       i := getTracks(artist, StartFrom);
       FSrchType := FTrackSrch_ArtistAlbum;
       While lowercase(items[i].Album)<>album Do
         inc(i);
-      FSrchArtist := artist;
-      FSrchAlbum := album;
+
       FSrchPos := i;
       Result := i;
+
     End;
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

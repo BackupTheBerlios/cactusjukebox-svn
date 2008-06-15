@@ -16,7 +16,7 @@ program mp3proj;
 {$mode objfpc}{$H+}
 
 {$ifdef CPU86}          //compile with fmod support enabled by default on i386
-    {$define fmod}
+   {$xxdefine fmod}
 {$endif}
 
 
