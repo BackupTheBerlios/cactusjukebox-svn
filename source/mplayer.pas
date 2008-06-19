@@ -30,8 +30,10 @@ type
 
      function Get_Stream_Status:TStreamStatus;override;
 
+     function Get_TrackLength:longint;override;
      function Get_Time:longint;override;
      function Get_TimeStr:string;override;
+     function Get_TimeRemainingStr: string; override;
 
      function Get_FilePosition:longint;override;
      function get_FileLength:longint;override;
@@ -64,15 +66,25 @@ const MPLAYER_BINARY='mplayer.exe';
 procedure TMPlayerClass.SendCommand(cmd: string);
 begin
    cmd:=cmd+LineEnding;
-   MPlayerProcess.Input.write(cmd[1], length(cmd));
+   try
+     if assigned(MPlayerProcess) then MPlayerProcess.Input.write(cmd[1], length(cmd));
+   except writeln('EXCEPTION sending command to mplayer');FPlaying:=false;FCurrentTrack:=-1;
+   end;
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function TMPlayerClass.GetProcessOutput: string;
 var AStringList: TStringList;
 begin
+      writeln('sendcommand');
    AStringList:=TStringList.Create;
-   AStringList.LoadFromStream(MPlayerProcess.Output);
-   Result:=AStringList.Strings[0];
+   try
+      writeln('sendcommand1');
+      if assigned(MPlayerProcess) then AStringList.LoadFromStream(MPlayerProcess.Output);
+      writeln('sendcommand2');
+      Result:=AStringList.Strings[0];
+      writeln(Result);
+   except writeln('EXCEPTION reading mplayer output');result:='';FPlaying:=false;FCurrentTrack:=-1;
+   end;
    AStringList.Free;
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -169,7 +181,9 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 procedure TMPlayerClass.stop;
 begin
+ writeln('stop');
  if FPlaying and Assigned(MPlayerProcess) then begin
+ writeln('stop2');
    SendCommand('quit');
    sleep(15);
    if MPlayerProcess.Running then begin
@@ -178,10 +192,12 @@ begin
          if MPlayerProcess.Terminate(0) then DebugOutLn('Mplayer stopped', 5)
                else DebugOutLn('FATAL Mplayer process zombified',0);
       end;
-   FCurrentTrack:=-1;
-   FPlaying:=false;
+ writeln('stop3');
    MPlayerProcess.Free;
  end;
+ writeln('stop4');
+ FCurrentTrack:=-1;
+ FPlaying:=false;
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function TMPlayerClass.next_track: byte;
@@ -215,6 +231,30 @@ function TMPlayerClass.Get_Stream_Status: TStreamStatus;
 begin
   Result:=STREAM_READY;  //Impossible to get stream status from mplayer :(
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function TMPlayerClass.Get_TrackLength:longint;
+var tmps: string;
+    i:integer;
+    time: real;
+begin
+ if FPlaying and Assigned(MPlayerProcess) and MPlayerProcess.Running then begin
+  repeat begin
+    SendCommand('get_time_length');
+    sleep(5);
+    tmps:=GetProcessOutput;
+   end;
+   until pos('LENGTH', tmps)>0;
+   i:=LastDelimiter('=', tmps);
+   if i > 0 then begin
+      time:= StrToFloat(Copy(tmps, i+1, Length(tmps)));
+      time:=time*1000;
+      result:=round(time);
+   end;
+ end;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function TMPlayerClass.Get_Time: longint;
 var tmps: string;
@@ -222,42 +262,59 @@ var tmps: string;
     time: real;
 begin
  if FPlaying and Assigned(MPlayerProcess) and MPlayerProcess.Running then begin
+  i:=0;
   repeat begin
     SendCommand('get_property time_pos');
     sleep(5);
+    writeln(i);
     tmps:=GetProcessOutput;
+    writeln('k');
+    inc(i);
    end;
-   until pos('time_pos', tmps)>0;
+   until (pos('time_pos', tmps)>0) or (i>=10);
+   writeln('gettime');
    i:=LastDelimiter('=', tmps);
    if i > 0 then begin
         time:= StrToFloat(Copy(tmps, i+1, Length(tmps)));
         time:=time*1000;
         result:=round(time);
-   end;
- end;
+   end else result:=-1;
+ end else result:=-1;
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function TMPlayerClass.Get_TimeStr: string;
 begin
   result:=MSecondsToFmtStr(Get_Time);
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function TMPlayerClass.Get_TimeRemainingStr: string;
+begin
+  result:= '-' + MSecondsToFmtStr(Get_TrackLength - Get_Time);
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function TMPlayerClass.Get_FilePosition: longint;
 var tmps: string;
     i:integer;
 begin
  if FPlaying and Assigned(MPlayerProcess) and MPlayerProcess.Running then begin
+
+  i:=0;
   repeat begin
     SendCommand('get_property percent_pos');
     sleep(5);
     tmps:=GetProcessOutput;
+    inc(i);
    end;
-   until pos('percent_pos', tmps)>0;
+   until (pos('percent_pos', tmps)>0) or (i>=10);
+   writeln('getpos');
    i:=LastDelimiter('=', tmps);
    if i > 0 then begin
-        result:=round(StrToFloat(Copy(tmps, i+1, Length(tmps)-i)));
-   end;
- end;
+           result:=round(StrToFloat(Copy(tmps, i+1, Length(tmps)-i)));
+       end else result:=-1;
+ end else result:=-1;
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function TMPlayerClass.get_FileLength: longint;
@@ -270,7 +327,7 @@ begin
    tmps:=GetProcessOutput;
    i:=LastDelimiter('=', tmps);
    if i > 0 then begin
-        result:=StrToInt(Copy(tmps, i+1, Length(tmps)-i));
+      result:= Trunc(StrToFloat(Copy(tmps, i+1, Length(tmps)-i)));
    end;
  end;
 end;

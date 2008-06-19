@@ -86,7 +86,7 @@
         <UnitName Value="editid3"/>
         <CursorPos X="33" Y="8"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -107,7 +107,7 @@
         <UnitName Value="status"/>
         <CursorPos X="83" Y="17"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="15"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit5>
@@ -128,7 +128,7 @@
         <UnitName Value="settings"/>
         <CursorPos X="56" Y="22"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit7>
@@ -170,7 +170,7 @@
         <UnitName Value="player"/>
         <CursorPos X="44" Y="5"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit12>
@@ -369,7 +369,7 @@
         <UnitName Value="skin"/>
         <CursorPos X="87" Y="7"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="14"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit39>
@@ -543,7 +543,7 @@
         <UnitName Value="functions"/>
         <CursorPos X="24" Y="312"/>
         <TopLine Value="284"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit63>
@@ -615,7 +615,7 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="82" Y="728"/>
         <TopLine Value="633"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
           <Item0 X="15" Y="384" ID="3"/>
@@ -637,7 +637,7 @@
         <UnitName Value="BigCoverImg"/>
         <CursorPos X="64" Y="43"/>
         <TopLine Value="19"/>
-        <UsageCount Value="188"/>
+        <UsageCount Value="192"/>
       </Unit75>
       <Unit76>
         <Filename Value="mainunit.pas"/>
@@ -669,14 +669,14 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="1" Y="1737"/>
-        <TopLine Value="1714"/>
+        <CursorPos X="52" Y="903"/>
+        <TopLine Value="896"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="178"/>
+        <UsageCount Value="182"/>
         <Bookmarks Count="3">
-          <Item0 X="11" Y="1219" ID="0"/>
-          <Item1 X="75" Y="3442" ID="1"/>
-          <Item2 X="28" Y="1706" ID="2"/>
+          <Item0 X="11" Y="1228" ID="0"/>
+          <Item1 X="75" Y="3451" ID="1"/>
+          <Item2 X="28" Y="1715" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit79>
@@ -728,8 +728,8 @@
         <UnitName Value="plugintypes"/>
         <CursorPos X="68" Y="6"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="12"/>
-        <UsageCount Value="158"/>
+        <EditorIndex Value="13"/>
+        <UsageCount Value="162"/>
         <Loaded Value="True"/>
       </Unit86>
       <Unit87>
@@ -752,8 +752,8 @@
         <UnitName Value="plugin"/>
         <CursorPos X="40" Y="7"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="11"/>
-        <UsageCount Value="148"/>
+        <EditorIndex Value="12"/>
+        <UsageCount Value="152"/>
         <Loaded Value="True"/>
       </Unit89>
       <Unit90>
@@ -781,7 +781,9 @@
         <Filename Value="mainform.lfm"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <UsageCount Value="7"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit93>
       <Unit94>
@@ -811,7 +813,7 @@
         <UnitName Value="debug"/>
         <CursorPos X="17" Y="30"/>
         <TopLine Value="33"/>
-        <UsageCount Value="99"/>
+        <UsageCount Value="103"/>
       </Unit97>
       <Unit98>
         <Filename Value="../../lazarus-svn/lcl/interfaces/gtk/interfaces.pp"/>
@@ -833,8 +835,8 @@
         <UnitName Value="config"/>
         <CursorPos X="33" Y="99"/>
         <TopLine Value="76"/>
-        <EditorIndex Value="8"/>
-        <UsageCount Value="93"/>
+        <EditorIndex Value="9"/>
+        <UsageCount Value="97"/>
         <Loaded Value="True"/>
       </Unit100>
       <Unit101>
@@ -853,7 +855,7 @@
         <UnitName Value="addradio"/>
         <CursorPos X="50" Y="64"/>
         <TopLine Value="23"/>
-        <UsageCount Value="67"/>
+        <UsageCount Value="71"/>
       </Unit102>
       <Unit103>
         <Filename Value="streamcol.pas"/>
@@ -887,10 +889,10 @@
         <Filename Value="mplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mplayer"/>
-        <CursorPos X="43" Y="94"/>
-        <TopLine Value="78"/>
-        <EditorIndex Value="7"/>
-        <UsageCount Value="51"/>
+        <CursorPos X="93" Y="69"/>
+        <TopLine Value="55"/>
+        <EditorIndex Value="8"/>
+        <UsageCount Value="55"/>
         <Loaded Value="True"/>
       </Unit107>
       <Unit108>
@@ -899,7 +901,7 @@
         <UnitName Value="playlist"/>
         <CursorPos X="27" Y="4"/>
         <TopLine Value="1"/>
-        <UsageCount Value="51"/>
+        <UsageCount Value="55"/>
       </Unit108>
       <Unit109>
         <Filename Value="playerclass.pas"/>
@@ -907,7 +909,7 @@
         <UnitName Value="playerclass"/>
         <CursorPos X="33" Y="16"/>
         <TopLine Value="1"/>
-        <UsageCount Value="50"/>
+        <UsageCount Value="54"/>
       </Unit109>
       <Unit110>
         <Filename Value="../../lazarus-svn/ide/startlazarus.lpr"/>
@@ -937,11 +939,15 @@
         <UsageCount Value="10"/>
       </Unit113>
     </Units>
-    <JumpHistory Count="1" HistoryIndex="0">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="31" Column="49" TopLine="1"/>
+        <Filename Value="mainform.lfm"/>
+        <Caret Line="10" Column="103" TopLine="1"/>
       </Position1>
+      <Position2>
+        <Filename Value="mainform.lfm"/>
+        <Caret Line="12" Column="102" TopLine="1"/>
+      </Position2>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

@@ -45,8 +45,10 @@ TFModPlayerClass = class(TPlayerClass)
      
      function Get_Stream_Status:TStreamStatus;override;
 
+     function Get_TrackLength:longint;override;
      function Get_Time:longint;override;
      function Get_TimeStr:string;override;
+     function Get_TimeRemainingStr: string; override;
 
      function Get_FilePosition:longint;override;
      function get_FileLength:longint;override;
@@ -280,6 +282,15 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+function TFModPlayerClass.Get_TrackLength:longint;
+begin
+  if (Soundhandle<>nil) and (FSOUND_Stream_GetOpenState(soundhandle)=0) then begin
+     result:=FSOUND_Stream_GetLengthMs(Soundhandle);
+   end;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 function TFModPlayerClass.get_time: longint;
 begin
   if (Soundhandle<>nil) and (FSOUND_Stream_GetOpenState(soundhandle)=0) then begin
@@ -293,6 +304,19 @@ function TFModPlayerClass.get_timestr:string;
 begin
   if (Soundhandle<>nil) and (FSOUND_Stream_GetOpenState(soundhandle)=0) then begin
      result:=MSecondsToFmtStr(FSOUND_Stream_GetTime(Soundhandle));
+   end;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function TFModPlayerClass.Get_TimeRemainingStr: string;
+begin
+  if (Soundhandle<>nil) and (FSOUND_Stream_GetOpenState(soundhandle)=0)
+  then
+  begin
+     result:= '-' + MSecondsToFmtStr(
+              FSOUND_Stream_GetLengthMs(Soundhandle) -
+              FSOUND_Stream_GetTime(Soundhandle));
    end;
 end;
 

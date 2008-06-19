@@ -40,8 +40,10 @@ TPlayerClass = class
 
      function Get_Stream_Status:TStreamStatus;virtual; abstract;
 
+     function Get_TrackLength:longint;virtual; abstract;  // Get track length in ms
      function Get_Time:longint;virtual; abstract;   // Get current time position in ms
      function Get_TimeStr:string;virtual; abstract; // Get current time position as a 00:00 formatted string
+     function Get_TimeRemainingStr:string;virtual; abstract; // Get time remaining as a -00:00 formated stting
 
      function Get_FilePosition:longint;virtual; abstract;   // Get current position in percent
      function get_FileLength:longint;virtual; abstract;    // Get current file size in bytes

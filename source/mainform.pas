@@ -100,11 +100,11 @@ Type
     NextButtonImg: TImage;
     Panel2: TPanel;
     Panel3: TPanel;
+    pnlPlaytime: TPanel;
     PauseButtonImg: TImage;
     PlayButtonImg: TImage;
     PlayerControlsPanel: TPanel;
     Playlist: TListView;
-    playtime: TEdit;
     PreviousButtonImg: TImage;
     randomcheck: TCheckBox;
     searchstr: TEdit;
@@ -261,6 +261,7 @@ Type
                                          Shift: TShiftState; X, Y: Integer);
     Procedure PlaylistCustomDrawItem(Sender: TCustomListView; Item: TListItem;
                                      State: TCustomDrawState; Var DefaultDraw: Boolean);
+    procedure pnlPlaytimeClick(Sender: TObject);
     Procedure SearchPanelClick(Sender: TObject);
     Procedure PlayerControlsPanelClick(Sender: TObject);
     Procedure PauseButtonImgClick(Sender: TObject);
@@ -419,6 +420,8 @@ Type
     DeviceMode, NetworkMode, LibraryMode: boolean;
     awsclass: TAWSAccess;
     ScanSyncCount: Integer;
+    
+    bPnlPlaytimeNegated: boolean;
 
     Public 
     Procedure update_playlist;
@@ -437,6 +440,7 @@ Type
     player_freespace, player_totalspace: longint;
 
     skinmenuitems: array[1..16] Of TMenuItem;
+
     { public declarations }
   End;
 
@@ -883,6 +887,7 @@ End;
 
 Procedure TMain.stopClick(Sender: TObject);
 Begin
+  playtimer.Enabled:=false;
   If (PlayerObj.CurrentTrack>=0) And (PlayerObj.CurrentTrack<PlayerObj.
      Playlist.ItemCount) Then playlist.Items[PlayerObj.CurrentTrack].ImageIndex := -1;
   PlayerObj.stop;
@@ -900,7 +905,8 @@ Var spos, slength: real;
   x2: integer;
   fileobj: TMediaFileClass;
 Begin
- // Try
+//  Try
+    if PlayerObj.playing=false then stopClick(nil);
     If PlayerObj.PlaybackMode=STREAMING_MODE Then
       Begin
         If PlayerObj.Get_Stream_Status=STREAM_READY Then
@@ -908,20 +914,27 @@ Begin
         Else
           StatusBar1.Panels[0].Text := 'Buffering Stream...';
       End;
-
+    writeln('ontimer');
     If (PlayerObj.playing) And (PlayerObj.PlaybackMode=FILE_MODE) and (PlayerObj.paused=false) Then
       Begin
+        writeln('player playing');
 
-        playtime.text := PlayerObj.get_timestr;
+         if not bPnlPlaytimeNegated then
+           pnlPlaytime.Caption:= PlayerObj.get_timestr
+         else
+           pnlPlaytime.Caption:= PlayerObj.Get_TimeRemainingStr;
         playwin.TimeImg.Picture.LoadFromFile(SkinData.Time.Img);
         playwin.TimeImg.Canvas.Font.Color := ClNavy;
-        playwin.TimeImg.Canvas.TextOut(5,3, playtime.text);
+        playwin.TimeImg.Canvas.TextOut(5,3, pnlPlaytime.Caption);
 
         trackbar.position := PlayerObj.Get_FilePosition;
         x2 := (trackbar.position*2)-3;
         If x2<3 Then x2 := 3;
-        If (trackbar.Position=100) {and (player.CurrentTrack<player.Playlist.ItemCount)} Then nextclick(Nil);
+        If (trackbar.Position=100) then
+             if (PlayerObj.CurrentTrack<PlayerObj.Playlist.ItemCount) Then nextclick(Nil)
+                    else stopClick(nil);
 
+        writeln(trackbar.Position);
         If (CoverFound=false) And (LoopCount<20) Then
           Begin
             inc(LoopCount);
@@ -946,8 +959,8 @@ Begin
     Else {playtimer.Enabled:=false};
  { Except
     DebugOutLn('CAUGHT EXCEPTION IN PLAYTIMER!!!!', 3);
-  End;
-                 }
+  End;}
+
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1467,6 +1480,12 @@ Begin
 
 End;
 
+procedure TMain.pnlPlaytimeClick(Sender: TObject);
+begin
+  bPnlPlaytimeNegated := not bPnlPlaytimeNegated;
+end;
+
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.SearchPanelClick(Sender: TObject);
@@ -1642,6 +1661,7 @@ Begin
   LibModeBtn.Down := true;
   DeviceModeBtn.Down := false;
   NetModeBtn.Down := false;
+  bPnlPlaytimeNegated := false;
 
   MediaCollection.syncronize := @ScanSyncronize;
 
@@ -1885,7 +1905,7 @@ Begin
       playwin.TimeImg.Canvas.Clear;
       current_title_edit.Text := '';
       current_title_edit1.Text := '';
-      playtime.Text := '00:00';
+      pnlPlaytime.Caption:= '00:00';
       trackbar.Position := 0;
     End;
 End;
@@ -1925,6 +1945,7 @@ Begin
   Else result := false;
   Application.ProcessMessages;
 End;
+
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
