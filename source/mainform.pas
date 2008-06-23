@@ -905,7 +905,7 @@ Var spos, slength: real;
   x2: integer;
   fileobj: TMediaFileClass;
 Begin
-//  Try
+  Try
     if PlayerObj.playing=false then stopClick(nil);
     If PlayerObj.PlaybackMode=STREAMING_MODE Then
       Begin
@@ -914,10 +914,10 @@ Begin
         Else
           StatusBar1.Panels[0].Text := 'Buffering Stream...';
       End;
-    writeln('ontimer');
+//    writeln('ontimer');
     If (PlayerObj.playing) And (PlayerObj.PlaybackMode=FILE_MODE) and (PlayerObj.paused=false) Then
       Begin
-        writeln('player playing');
+       // writeln('player playing');
 
          if not bPnlPlaytimeNegated then
            pnlPlaytime.Caption:= PlayerObj.get_timestr
@@ -934,7 +934,7 @@ Begin
              if (PlayerObj.CurrentTrack<PlayerObj.Playlist.ItemCount) Then nextclick(Nil)
                     else stopClick(nil);
 
-        writeln(trackbar.Position);
+        //writeln(trackbar.Position);
         If (CoverFound=false) And (LoopCount<20) Then
           Begin
             inc(LoopCount);
@@ -957,9 +957,9 @@ Begin
         Else If (LoopCount>=20) And (CoverFound=false) Then CoverImage.Picture.Clear;
       End
     Else {playtimer.Enabled:=false};
- { Except
+  Except
     DebugOutLn('CAUGHT EXCEPTION IN PLAYTIMER!!!!', 3);
-  End;}
+  End;
 
 End;
 

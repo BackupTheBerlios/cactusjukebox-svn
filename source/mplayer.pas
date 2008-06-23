@@ -17,6 +17,7 @@ type
      MPlayerProcess: TProcess;
      procedure SendCommand(cmd:string);
      function GetProcessOutput:string;
+     function GetMPlayerPlaying: boolean;
    Public
      constructor create; override;
      destructor destroy;
@@ -44,6 +45,8 @@ type
 
      procedure Mute;override;
      function Muted:boolean;override;
+     
+     property playing: boolean read GetMPlayerPlaying;
 
   end;
 
@@ -65,9 +68,12 @@ const MPLAYER_BINARY='mplayer.exe';
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 procedure TMPlayerClass.SendCommand(cmd: string);
 begin
+ //  writeln('sendcommand');
    cmd:=cmd+LineEnding;
    try
-     if assigned(MPlayerProcess) then MPlayerProcess.Input.write(cmd[1], length(cmd));
+  // writeln('sendcommand2');
+     if GetMPlayerPlaying then MPlayerProcess.Input.write(cmd[1], length(cmd));
+  // writeln('sendcommand3');
    except writeln('EXCEPTION sending command to mplayer');FPlaying:=false;FCurrentTrack:=-1;
    end;
 end;
@@ -75,18 +81,27 @@ end;
 function TMPlayerClass.GetProcessOutput: string;
 var AStringList: TStringList;
 begin
-      writeln('sendcommand');
+     // writeln('getoutput');
    AStringList:=TStringList.Create;
    try
-      writeln('sendcommand1');
-      if assigned(MPlayerProcess) then AStringList.LoadFromStream(MPlayerProcess.Output);
-      writeln('sendcommand2');
+      if GetMPlayerPlaying then AStringList.LoadFromStream(MPlayerProcess.Output);
       Result:=AStringList.Strings[0];
-      writeln(Result);
-   except writeln('EXCEPTION reading mplayer output');result:='';FPlaying:=false;FCurrentTrack:=-1;
+     // writeln(Result);
+   except
+      writeln('EXCEPTION reading mplayer output');result:='';FPlaying:=false;FCurrentTrack:=-1;
    end;
+   //writeln('endget');
    AStringList.Free;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function TMPlayerClass.GetMPlayerPlaying: boolean;
+begin
+  if assigned(MPlayerProcess)=false or (MPlayerProcess.Running=false) then FPlaying:=false;
+  Result:=FPlaying;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 constructor TMPlayerClass.create;
 var tmps, tmppath: string;
@@ -181,9 +196,9 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 procedure TMPlayerClass.stop;
 begin
- writeln('stop');
+ //writeln('stop');
  if FPlaying and Assigned(MPlayerProcess) then begin
- writeln('stop2');
+ //writeln('stop2');
    SendCommand('quit');
    sleep(15);
    if MPlayerProcess.Running then begin
@@ -192,10 +207,10 @@ begin
          if MPlayerProcess.Terminate(0) then DebugOutLn('Mplayer stopped', 5)
                else DebugOutLn('FATAL Mplayer process zombified',0);
       end;
- writeln('stop3');
+// writeln('stop3');
    MPlayerProcess.Free;
  end;
- writeln('stop4');
+// writeln('stop4');
  FCurrentTrack:=-1;
  FPlaying:=false;
 end;
@@ -261,18 +276,19 @@ var tmps: string;
     i:integer;
     time: real;
 begin
- if FPlaying and Assigned(MPlayerProcess) and MPlayerProcess.Running then begin
+ if GetMPlayerPlaying then begin
   i:=0;
   repeat begin
+ // writeln('bf');
     SendCommand('get_property time_pos');
     sleep(5);
-    writeln(i);
+  //  writeln(i);
     tmps:=GetProcessOutput;
-    writeln('k');
+  //  writeln('k');
     inc(i);
    end;
-   until (pos('time_pos', tmps)>0) or (i>=10);
-   writeln('gettime');
+   until (pos('time_pos', tmps)>0) or (i>=2);
+ //  writeln('gettime');
    i:=LastDelimiter('=', tmps);
    if i > 0 then begin
         time:= StrToFloat(Copy(tmps, i+1, Length(tmps)));
@@ -299,17 +315,17 @@ function TMPlayerClass.Get_FilePosition: longint;
 var tmps: string;
     i:integer;
 begin
- if FPlaying and Assigned(MPlayerProcess) and MPlayerProcess.Running then begin
-
+ if GetMPlayerPlaying then begin
   i:=0;
   repeat begin
     SendCommand('get_property percent_pos');
     sleep(5);
     tmps:=GetProcessOutput;
     inc(i);
+   // writeln('jj');
    end;
-   until (pos('percent_pos', tmps)>0) or (i>=10);
-   writeln('getpos');
+   until (pos('percent_pos', tmps)>0) or (i>=2);
+  // writeln('getpos');
    i:=LastDelimiter('=', tmps);
    if i > 0 then begin
            result:=round(StrToFloat(Copy(tmps, i+1, Length(tmps)-i)));
