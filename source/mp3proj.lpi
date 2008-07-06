@@ -40,7 +40,7 @@
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="114">
+    <Units Count="115">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -105,7 +105,7 @@
         <UnitName Value="status"/>
         <CursorPos X="83" Y="17"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit5>
@@ -126,7 +126,7 @@
         <UnitName Value="settings"/>
         <CursorPos X="56" Y="22"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit7>
@@ -363,7 +363,7 @@
         <UnitName Value="skin"/>
         <CursorPos X="87" Y="7"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit39>
@@ -537,7 +537,7 @@
         <UnitName Value="functions"/>
         <CursorPos X="24" Y="312"/>
         <TopLine Value="284"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit63>
@@ -609,7 +609,7 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="82" Y="728"/>
         <TopLine Value="633"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
           <Item0 X="15" Y="384" ID="3"/>
@@ -722,7 +722,7 @@
         <UnitName Value="plugintypes"/>
         <CursorPos X="68" Y="6"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <UsageCount Value="163"/>
         <Loaded Value="True"/>
       </Unit86>
@@ -746,7 +746,7 @@
         <UnitName Value="plugin"/>
         <CursorPos X="40" Y="7"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="153"/>
         <Loaded Value="True"/>
       </Unit89>
@@ -775,9 +775,7 @@
         <Filename Value="mainform.lfm"/>
         <CursorPos X="1" Y="1"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <SyntaxHighlighter Value="LFM"/>
       </Unit93>
       <Unit94>
@@ -882,8 +880,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="mplayer"/>
         <CursorPos X="55" Y="378"/>
-        <TopLine Value="361"/>
-        <EditorIndex Value="7"/>
+        <TopLine Value="359"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="56"/>
         <Loaded Value="True"/>
       </Unit107>
@@ -901,7 +899,7 @@
         <UnitName Value="playerclass"/>
         <CursorPos X="1" Y="62"/>
         <TopLine Value="25"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="55"/>
         <Loaded Value="True"/>
       </Unit109>
@@ -932,17 +930,15 @@
         <TopLine Value="191"/>
         <UsageCount Value="10"/>
       </Unit113>
+      <Unit114>
+        <Filename Value="../../lazarus-svn/components/images/lazpng.pas"/>
+        <UnitName Value="LazPNG"/>
+        <CursorPos X="20" Y="33"/>
+        <TopLine Value="11"/>
+        <UsageCount Value="10"/>
+      </Unit114>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
-      <Position1>
-        <Filename Value="mplayer.pas"/>
-        <Caret Line="99" Column="1" TopLine="57"/>
-      </Position1>
-      <Position2>
-        <Filename Value="mplayer.pas"/>
-        <Caret Line="90" Column="7" TopLine="71"/>
-      </Position2>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="5"/>
