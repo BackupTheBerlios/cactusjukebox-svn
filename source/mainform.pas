@@ -1585,6 +1585,7 @@ Begin
   CactusConfig.WHeight := Height;
   CactusConfig.WWidth := Width;
   CactusConfig.WSplitterWidth := Splitter1.Left;
+  CactusConfig.bDisplayPlayTimeNegated:= bPnlPlaytimeNegated;
   If (MediaCollection.ItemCount>1) Then
     Begin
       MediaCollection.SaveToFile(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'last.mlb');
@@ -1661,7 +1662,6 @@ Begin
   LibModeBtn.Down := true;
   DeviceModeBtn.Down := false;
   NetModeBtn.Down := false;
-  bPnlPlaytimeNegated := false;
 
   MediaCollection.syncronize := @ScanSyncronize;
 
@@ -1731,6 +1731,7 @@ Begin
   TitleTree.Column[5].Caption := rsLenght;
 
   oldSplitterWidth := CactusConfig.WSplitterWidth;
+  bPnlPlaytimeNegated := CactusConfig.bDisplayPlayTimeNegated;
   SplitterResize := true;
   SrchTitleItem.checked := true;
   SrchArtItem.checked := true;
@@ -2929,6 +2930,7 @@ End;
 
 Procedure TMain.clear_listClick(Sender: TObject);
 Begin
+  StopButtonImgClick(Sender);
   Playlist.BeginUpdate;
   writeln(Playlist.Items.Count);
   Playlist.Items.Clear;

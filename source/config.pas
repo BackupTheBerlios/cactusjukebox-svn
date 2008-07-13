@@ -33,7 +33,7 @@ Type
     DataPrefix, ConfigPrefix, LibraryPrefix, HomeDir: string;
     WWidth, WHeight, WSplitterWidth: Integer;
 
-    AlbumCoverFirsttime: boolean;
+    AlbumCoverFirsttime, bDisplayPlayTimeNegated: boolean;
 
     constructor create(ConfigFile:String);
     destructor destroy;
@@ -109,6 +109,7 @@ Begin
     WHeight := FConfigFile.GetValue('Userinterface/Window/Height', 680);
     WSplitterWidth := FConfigFile.GetValue('Userinterface/Window/SplitterWidth', 270);
     language := FConfigFile.GetValue('Userinterface/Language/Code', tmps1);
+    bDisplayPlayTimeNegated := FConfigFile.GetValue('Userinterface/DisplayPlayTimeNegated', false);
     CDRomDevice := FConfigFile.GetValue('Devices/CDROM/Name', '/dev/cdrom');
   Except
     result := false;
@@ -148,6 +149,7 @@ Begin
     FConfigFile.SetValue('Library/StreamCollection', StreamColPath);
     FConfigFile.SetValue('Skin/File', CurrentSkin);
     FConfigFile.SetValue('Userinterface/Language/Code', language);
+    FConfigFile.SetValue('Userinterface/DisplayPlayTimeNegated', bDisplayPlayTimeNegated);
     FConfigFile.SetValue('Playlist/Autoplay', AutostartPlay);
     FConfigFile.SetValue('Userinterface/Window/Width', WWidth);
     FConfigFile.SetValue('Userinterface/Window/Height', WHeight);
