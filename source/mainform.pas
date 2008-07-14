@@ -799,7 +799,7 @@ Begin
   playtimer.Enabled := false;
   oldindex := PlayerObj.CurrentTrack;
   If randomcheck.Checked=false Then err := PlayerObj.next_track
-  Else err := PlayerObj.play(PlayerObj.Playlist.RandomIndex);
+      Else err := PlayerObj.play(PlayerObj.Playlist.RandomIndex);
   If err=0 Then
     Begin
       i := PlayerObj.CurrentTrack;
@@ -850,20 +850,19 @@ Begin
     Begin
       playtimer.Enabled := false;
       If (Playlist.items.count>0) And (Playlist.Selected=Nil)Then playitem := Playlist.Items[0]
-      Else playitem := playlist.selected;
-      If (PlayerObj.playing) And (PlayerObj.Playlist.Count>0) And (PlayerObj
-         .CurrentTrack<PlayerObj.Playlist.Count) And (PlayerObj.CurrentTrack>=0)
-        Then playlist.Items[PlayerObj.CurrentTrack].ImageIndex := -1;;
+            Else playitem := playlist.selected;
+      If (PlayerObj.playing) And (PlayerObj.Playlist.Count>0) And (PlayerObj.CurrentTrack<PlayerObj.Playlist.Count) And (PlayerObj.CurrentTrack>=0)
+            Then playlist.Items[PlayerObj.CurrentTrack].ImageIndex := -1;;
       If playitem<>Nil Then
         Begin
           err := PlayerObj.play(playitem.Index);
           If (err=0) Then
             Begin
-              playtimer.enabled := true;
               playitem.ImageIndex := 0;
               playitem.MakeVisible(false);
               update_player_display;
               CactusPlugins.SendEvent(evnStartPlay);
+              playtimer.enabled := true;
             End
           Else
             Begin
@@ -903,10 +902,11 @@ Procedure TMain.playtimerTimer(Sender: TObject);
 Var spos, slength: real;
   r: real;
   x2: integer;
+  tmppos: integer;
   fileobj: TMediaFileClass;
 Begin
   Try
-    if PlayerObj.playing=false then stopClick(nil);
+   // if PlayerObj.playing=false then stopClick(nil);
     If PlayerObj.PlaybackMode=STREAMING_MODE Then
       Begin
         If PlayerObj.Get_Stream_Status=STREAM_READY Then
@@ -927,14 +927,17 @@ Begin
         playwin.TimeImg.Canvas.Font.Color := ClNavy;
         playwin.TimeImg.Canvas.TextOut(5,3, pnlPlaytime.Caption);
 
-        trackbar.position := PlayerObj.Get_FilePosition;
+        tmppos:= PlayerObj.Get_FilePosition;
+        trackbar.position:= tmppos;
+       // writeln(tmppos);
         x2 := (trackbar.position*2)-3;
         If x2<3 Then x2 := 3;
-        If (trackbar.Position=100) then
+        If (tmppos=100) or (tmppos=-1) then begin
+        //     writeln('nexttrack');
+             WriteLn(PlayerObj.CurrentTrack);
              if (PlayerObj.CurrentTrack<PlayerObj.Playlist.ItemCount) Then nextclick(Nil)
                     else stopClick(nil);
-
-        //writeln(trackbar.Position);
+           end;
         If (CoverFound=false) And (LoopCount<20) Then
           Begin
             inc(LoopCount);

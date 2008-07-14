@@ -74,7 +74,7 @@ begin
   // writeln('sendcommand2');
      if GetMPlayerPlaying then MPlayerProcess.Input.write(cmd[1], length(cmd));
   // writeln('sendcommand3');
-   except writeln('EXCEPTION sending command to mplayer');FPlaying:=false;FCurrentTrack:=-1;
+   except writeln('EXCEPTION sending command to mplayer');
    end;
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -88,7 +88,7 @@ begin
       Result:=AStringList.Strings[0];
      // writeln(Result);
    except
-      writeln('EXCEPTION reading mplayer output');result:='';FPlaying:=false;FCurrentTrack:=-1;
+      writeln('EXCEPTION reading mplayer output');result:='';
    end;
    //writeln('endget');
    AStringList.Free;
@@ -98,11 +98,11 @@ end;
 
 function TMPlayerClass.GetMPlayerPlaying: boolean;
 begin
-  if assigned(MPlayerProcess)=false or (MPlayerProcess.Running=false) then FPlaying:=false;
-  Result:=FPlaying;
+  if assigned(MPlayerProcess)=false or (MPlayerProcess.Running=false) then result:=false else result:=true;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 constructor TMPlayerClass.create;
 var tmps, tmppath: string;
     i: integer;
@@ -220,6 +220,7 @@ var r:byte;
 begin
   r:=127;
   if fplaying then begin
+    writeln('mnexttrack');
     if FCurrentTrack<Playlist.ItemCount-1 then begin
        r:=play(FCurrentTrack+1);
      end;
@@ -288,7 +289,7 @@ begin
     inc(i);
    end;
    until (pos('time_pos', tmps)>0) or (i>=2);
- //  writeln('gettime');
+  // writeln('gettime');
    i:=LastDelimiter('=', tmps);
    if i > 0 then begin
         time:= StrToFloat(Copy(tmps, i+1, Length(tmps)));
@@ -324,7 +325,7 @@ begin
     inc(i);
    // writeln('jj');
    end;
-   until (pos('percent_pos', tmps)>0) or (i>=2);
+   until (pos('percent_pos', tmps)>0) or (i>=3);
   // writeln('getpos');
    i:=LastDelimiter('=', tmps);
    if i > 0 then begin
