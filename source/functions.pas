@@ -37,6 +37,7 @@ Function ByteToFmtString(bytes: int64; d1, d2: byte): string;
 Function SecondsToFmtStr(seconds: longint): string;
 //converts integer to mm:ss time format
 Function MSecondsToFmtStr(MSeconds: longint): string;
+function MakeValidFilename(Filename: String): string;
 
 //  function CompareString(const s1, s2: string):byte;   // compare s1, s2 for sorting.   s1>s2 result=1,  abc > axc -> 1
 //   s1<s2 result=-1, xyz < abc -> -1
@@ -433,5 +434,19 @@ Begin
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function MakeValidFilename(Filename: String): string;
+var
+  I: integer;
+  { for long file names } // FIXME taken from code for win - list correct/complete??
+  LongForbiddenChars  : set of Char = ['<', '>', '|', '"', '\', '/', ':', '*', '?'];
+begin
+  for I := 1 to Length(Filename) do
+    if (Filename[I] in LongForbiddenChars) then
+      Filename[I] := ' ';
+  result := Filename;
+end;
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 End.

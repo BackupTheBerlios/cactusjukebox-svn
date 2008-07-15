@@ -42,6 +42,11 @@ Type
       Procedure Write_Tag;
       Procedure Read_Tag;
       Procedure assign(SourceObject: TMediaFileClass);
+      Function PathNameFromTag(var strFormat: string): Boolean;
+      Function PathNameFromTag_dryrun(var strFormat: string): string;
+      Function FullPathNameFromTag_dryrun(var strFormat: string): string;
+      Function move2path(strFilePath: string): Boolean;
+      Function LibraryPath(): string;
       Path: String;
       CoverPath: ansistring;
       Collection: TMediaCollectionClass;
@@ -1394,5 +1399,144 @@ Type
     End;
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Function TMediaFileClass.move2path(strFilePath: string): Boolean;
+var
+  i: integer;
+  strSrc, strDest, strTmp: string;
+begin
+  // has the folder changed?
+  strSrc := ExtractFilePath(Path);
+  strDest := ExtractFilePath(strFilePath);
+  if strSrc <> strDest then
+    if NOT DirectoryExists(strDest) then
+      ForceDirectories(strDest);
+
+  // does the target file alredy existe?
+  strDest := strFilePath;
+  if FileExists(strDest) then
+  begin
+    while strDest[Length(strDest)-1] <> '.' do
+      strDest := Copy(strDest, 1, Length(strDest)-1);
+    strDest := Copy(strDest, 1, Length(strDest)-2);
+    i := 2;
+    repeat
+    begin
+      strTmp := '(' + IntToStr(i) + ')' + Filetype;
+      i += 1;
+    end
+    until NOT FileExists(strDest + strTmp)
+  end;
+  strDest += strTmp;
+
+  // move the file
+  strSrc := Path;
+  RenameFile(strSrc, strDest);
+
+  // remove old folder and folders above if empty
+  strSrc := ExtractFilePath(Path);
+  while DirectoryIsEmpty(strSrc) do
+  begin
+    RemoveDir(strSrc);
+    i := LastDelimiter(PathDelim,ExcludeTrailingPathDelimiter(strSrc));
+    Delete(strSrc, i, Length(strSrc)-i+1);
+  end;
+
+  result := true; // FIXME write error detection needed
+
+  if result then
+    Path := strDest;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Function TMediaFileClass.PathNameFromTag_dryrun(var strFormat: string): string;
+var
+  strArtist, strAlbum, strTitle, strTrack, strYear: string;
+  strLeft, strRight, strMid: string;
+  chrLetter: char;
+  intPos, intPos2: integer;
+  bNonEmpty: Boolean;
+begin
+  // format string could be '%a/%a - %b - %n - %t'
+
+  // if existant, replace unwanted chars in tags
+  strArtist := MakeValidFilename(Artist);
+  strAlbum := MakeValidFilename(Album);
+  strTitle := MakeValidFilename(Title);
+  strTrack := MakeValidFilename(Track);
+  strYear := MakeValidFilename(Year);
+
+
+  result := strFormat;
+//  result := '%a/%a - %b%? - ?%n - %t%? in ?%y';
+
+  while (Pos('%?', result) >0) and (Pos('?%', result) >0) do
+  begin
+    intPos := Pos('%?', result);
+    intPos2 := Pos('?%', result);
+    if length(result) < intPos2+2 then break;
+    if intPos2 < intPos then break;  // FIXME  could be more elegant
+
+    strLeft := Copy(result, 1, intPos -1);
+    strRight := Copy(result, intPos2 +3, Length(result) - intPos2 +3);
+    strMid := Copy (result, intPos +2, Length(result) - intPos -1 -(Length(result) - intPos2) -1);
+    chrLetter := result[intPos2 +2];
+
+    bNonEmpty := false;
+    case chrLetter of
+      'a': if strArtist <> '' then bNonEmpty := true;
+      'b': if strAlbum <> '' then bNonEmpty := true;
+      't': if strTitle <> '' then bNonEmpty := true;
+      'n': if strTrack <> '' then bNonEmpty := true;
+      'y': if strYear <> '' then bNonEmpty := true;
+    end;
+
+    if bNonEmpty then
+      result := strLeft + strMid + '%' + chrLetter + strRight
+    else
+      result := strLeft + strRight;
+  end;
+
+  result := StringReplace(result, '%a', strArtist, [rfReplaceAll, rfIgnoreCase]);
+  result := StringReplace(result, '%b', strAlbum, [rfReplaceAll, rfIgnoreCase]);
+  result := StringReplace(result, '%t', strTitle, [rfReplaceAll, rfIgnoreCase]);
+  result := StringReplace(result, '%n', strTrack, [rfReplaceAll, rfIgnoreCase]);
+  result := StringReplace(result, '%y', strYear, [rfReplaceAll, rfIgnoreCase]);
+  result += FileType;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Function TMediaFileClass.FullPathNameFromTag_dryrun(var strFormat: string): string;
+begin
+  result := LibraryPath() + PathNameFromTag_dryrun(strFormat);
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Function TMediaFileClass.PathNameFromTag(var strFormat: string): Boolean;
+begin
+  result := move2path(FullPathNameFromTag_dryrun(strFormat));
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Function TMediaFileClass.LibraryPath(): string;
+var
+  i: integer;
+begin
+  result := '';
+  For i:= 0 To MediaCollection.dirlist.Count-1 Do
+    if Pos(Collection.dirlist[i], Path) > 0 then
+    begin
+      result := IncludeTrailingPathDelimiter(Collection.dirlist[i]);
+      break;
+    end;
+end;
+
 
   End.
