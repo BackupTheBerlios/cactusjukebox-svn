@@ -91,6 +91,8 @@ Type
     current_title_edit1: TEdit;
     filetypebox: TComboBox;
     MenuItem25: TMenuItem;
+    mnuCleanLib: TMenuItem;
+    space4: TMenuItem;
     MIremoveRadio: TMenuItem;
     MenuItem28: TMenuItem;
     MenuItem29: TMenuItem;
@@ -247,6 +249,7 @@ Type
     Procedure MenuItem7Click(Sender: TObject);
     Procedure MenuItem9Click(Sender: TObject);
     Procedure MIremoveRadioClick(Sender: TObject);
+    procedure mnuCleanLibClick(Sender: TObject);
     Procedure NetModeBtnClick(Sender: TObject);
     Procedure NextButtonImgClick(Sender: TObject);
     Procedure NextButtonImgMouseDown(Sender: TOBject; Button: TMouseButton;
@@ -509,7 +512,7 @@ Procedure title_to_playlist;
 Implementation
 
 Uses editid3, status, settings, player, directories, skin, cdrip, translations, bigcoverimg,
-streamcol, addradio;
+streamcol, addradio, CleanLibrary;
 
 {$i cactus_const.inc}
 
@@ -1396,6 +1399,19 @@ Begin
     End;
   update_artist_view;
 End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMain.mnuCleanLibClick(Sender: TObject);
+begin
+  FrmCleanLibrary := TFrmCleanLibrary.Create(Application);
+  Enabled := false;
+  FrmCleanLibrary.ShowModal;
+  FrmCleanLibrary.Free;
+  update_artist_view;
+  update_title_view;
+  Enabled := true;
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

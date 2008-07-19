@@ -822,6 +822,13 @@ object Main: TMain
       object space3: TMenuItem
         Caption = '-'
       end
+      object mnuCleanLib: TMenuItem
+        Caption = 'Clean up Library'
+        OnClick = mnuCleanLibClick
+      end
+      object space4: TMenuItem
+        Caption = '-'
+      end
       object MIlibinfo: TMenuItem
         Caption = 'Library Info'
         ImageIndex = 8

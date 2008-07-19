@@ -30,6 +30,8 @@ Type
     CurrentSkin, LastLib, StreamColPath, LoadOnStart: string;
     Lame, CDDA2wav: string;
 
+    strCleanLibNotToRemove: string;
+    
     DataPrefix, ConfigPrefix, LibraryPrefix, HomeDir: string;
     WWidth, WHeight, WSplitterWidth: Integer;
 
@@ -110,6 +112,7 @@ Begin
     WSplitterWidth := FConfigFile.GetValue('Userinterface/Window/SplitterWidth', 270);
     language := FConfigFile.GetValue('Userinterface/Language/Code', tmps1);
     bDisplayPlayTimeNegated := FConfigFile.GetValue('Userinterface/DisplayPlayTimeNegated', false);
+    strCleanLibNotToRemove := FConfigFile.GetValue('Userinterface/CleanLibrary/NotToRemove', 'wav mp3 ogg');
     CDRomDevice := FConfigFile.GetValue('Devices/CDROM/Name', '/dev/cdrom');
   Except
     result := false;
@@ -154,6 +157,7 @@ Begin
     FConfigFile.SetValue('Userinterface/Window/Width', WWidth);
     FConfigFile.SetValue('Userinterface/Window/Height', WHeight);
     FConfigFile.SetValue('Userinterface/Window/SplitterWidth', WSplitterWidth);
+    FConfigFile.SetValue('Userinterface/CleanLibrary/NotToRemove', strCleanLibNotToRemove);
     FConfigFile.SetValue('Devices/CDROM/Name', CDRomDevice);
 
     FConfigFile.Flush;

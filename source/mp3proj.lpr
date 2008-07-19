@@ -32,7 +32,7 @@ uses
   Forms, status, settings, player, graphics, editid3, directories, skin,
   cdrip, mediacol, BigCoverImg, mainform, plugin, cddb,
   debug, config, imagesforlazarus, addradio, streamcol, playlist,
-  playerclass;
+  playerclass, CleanLibrary;
 
 var
   s, loadfile: string;
@@ -166,6 +166,7 @@ begin
 
   DebugOutLn('##### Application running  #####', 2);
   Application.CreateForm(TaddRadioForm, addRadioForm);
+  Application.CreateForm(TFrmCleanLibrary, FrmCleanLibrary);
   Application.Run;
 end.
 
