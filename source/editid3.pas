@@ -22,7 +22,8 @@ Interface
 
 Uses 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  {ExtCtrls,} Buttons, ComCtrls, lcltype, mediacol, ExtCtrls, skin, aws, streamcol;
+  {ExtCtrls,} Buttons, ComCtrls, lcltype, mediacol, ExtCtrls, skin, aws, streamcol,
+  settings;
 
 
 Const ALBUM_MODE = 1;
@@ -45,12 +46,14 @@ Type
     artistedit2: TEdit;
     artistedit3: TEdit;
     Button1: TButton;
+    btnOptions: TButton;
     cancelbut1: TButton;
     cmbYear: TComboBox;
     cmbComment: TComboBox;
     commentedit1: TEdit;
     Edit1: TEdit;
     Edit3: TEdit;
+    GroupBox1: TGroupBox;
     NameEdit: TEdit;
     URLEdit: TEdit;
     guessname1: TButton;
@@ -107,6 +110,7 @@ Type
     titleedit1: TEdit;
     yearEdit2: TEdit;
     yearEdit3: TEdit;
+    procedure btnOptionsClick(Sender: TObject);
     Procedure Button1Click(Sender: TObject);
     Procedure btnResetClick(Sender: TObject);
     Procedure EditID3Close(Sender: TObject; Var CloseAction: TCloseAction);
@@ -624,12 +628,14 @@ Begin
     ARTIST_MODE: self.artist_only := true;
   End;
 
+  Button1.Hint := '( ' + CactusConfig.strTagToNameFormatString + ' )';
+  self.Button1.Enabled := true;
+
   // artist and album(-mode) specific actions
   If (artist_only = true) Or (album_only = true)
     Then
     Begin
       self.guessname1.Enabled := false;
-      self.Button1.Enabled := false;
       self.pathedit1.Enabled := false;
       self.titleedit1.Enabled := false;
 
@@ -681,7 +687,6 @@ Begin
   Else
     Begin
       self.guessname1.Enabled := true;
-      self.Button1.Enabled := true;
 
       mtype.caption := 'Mediatype:  '+MedFileObj.filetype;
       If MedFileObj.filetype='.mp3' Then
@@ -762,12 +767,85 @@ End;
 
 Procedure TEditID3.Button1Click(Sender: TObject);
 
-Var s: string;
+Var
+ //s: string;
+ z: integer;
+
 Begin
-  s := extractfilepath(MedFileObj.path)+editid3win.artistedit1.text+' - '+editid3win.titleedit1.text
-       +'.mp3';
-  EditID3win.pathedit1.text := s;
+  {
+        // write changes (artist-mode)
+      If artist_only=true
+        Then
+        Begin
+          oldart := lowercase(MedFileObj.artist);
+          newart := artistedit1.text;
+          strNewComment := self.cmbComment.Caption;
+
+          strNewYear := self.cmbYear.Caption;
+          If Length(strNewYear) = 4 Then
+            bYearLongEnough := true;
+
+          z := MedColObj.getTracks(oldart, MedFileObj.index);
+          Repeat
+            Begin
+              MedFileObj := MedColObj.Items[z];
+              writeln('artist_mode: '+ artistedit1.Text +' #'+ IntToStr(z));
+              // DEBUG-INFO
+              MedFileObj.artist := newart;
+              If bYearLongEnough Then MedColObj.items[z].year := self.cmbYear.Caption;
+              MedFileObj.comment := strNewComment;
+              MedFileObj.write_tag;
+              z := MedColObj.getNext;
+            End;
+          Until z<0;
+
+        End
+        // write changes (album-mode)
+}
+
+  if artist_only = true then     // title-mode
+  begin
+     z := MedColObj.getTracks(lowercase(MedFileObj.artist), MedFileObj.index);
+     repeat
+     begin
+       MedFileObj := MedColObj.items[z];
+       MedFileObj.PathNameFromTag(CactusConfig.strTagToNameFormatString);
+       z := MedColObj.getNext;
+     End;
+     Until z < 0;
+  end
+  else if album_only = true then    // album-mode
+  begin
+     z := MedColObj.getTracks(lowercase(MedFileObj.artist), lowercase(MedFileObj.album),
+                              MedFileObj.index);
+     repeat
+     begin
+       MedFileObj := MedColObj.items[z];
+       MedFileObj.PathNameFromTag(CactusConfig.strTagToNameFormatString);
+       z := MedColObj.getNext;
+     End;
+     Until z < 0;
+  end
+  else  // title-mode
+  begin
+    MedFileObj.PathNameFromTag(CactusConfig.strTagToNameFormatString);
+    EditID3win.pathedit1.text := MedFileObj.Path;
+  end;
+            
+
+//  EditID3win.pathedit1.text := s;
 End;
+
+procedure TEditID3.btnOptionsClick(Sender: TObject);
+Var
+  setupwin: TSettings;
+begin
+  Enabled := false;
+  setupwin := Tsettings.Create(Application);
+  setupwin.ShowModal(TSETTINGS_SELECT_ID3);
+  setupwin.Free;
+  Enabled := true;
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

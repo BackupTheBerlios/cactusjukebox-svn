@@ -1408,6 +1408,15 @@ var
   i: integer;
   strSrc, strDest, strTmp: string;
 begin
+  // did the filename change at all?
+  strSrc := Path;
+  strDest := strFilePath;
+  if strSrc = strDest then
+  begin
+    Result := true;
+    exit;
+  end;
+
   // has the folder changed?
   strSrc := ExtractFilePath(Path);
   strDest := ExtractFilePath(strFilePath);

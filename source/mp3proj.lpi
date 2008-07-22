@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="7"/>
+      <ActiveEditorIndexAtStart Value="6"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -82,11 +82,14 @@
         <Filename Value="editid3.pas"/>
         <ComponentName Value="EditID3"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="editid3.lrs"/>
         <UnitName Value="editid3"/>
-        <CursorPos X="33" Y="8"/>
-        <TopLine Value="1"/>
+        <CursorPos X="56" Y="44"/>
+        <TopLine Value="14"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="200"/>
+        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="repair.pas"/>
@@ -105,7 +108,7 @@
         <UnitName Value="status"/>
         <CursorPos X="83" Y="17"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="14"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit5>
@@ -122,11 +125,12 @@
         <Filename Value="settings.pas"/>
         <ComponentName Value="Settings"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="56" Y="22"/>
-        <TopLine Value="1"/>
-        <EditorIndex Value="5"/>
+        <CursorPos X="20" Y="75"/>
+        <TopLine Value="74"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit7>
@@ -169,7 +173,7 @@
         <UnitName Value="player"/>
         <CursorPos X="44" Y="5"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit12>
@@ -366,7 +370,7 @@
         <UnitName Value="skin"/>
         <CursorPos X="87" Y="7"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="13"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit39>
@@ -540,7 +544,7 @@
         <UnitName Value="functions"/>
         <CursorPos X="43" Y="41"/>
         <TopLine Value="25"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit63>
@@ -612,7 +616,7 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="82" Y="728"/>
         <TopLine Value="633"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
           <Item0 X="15" Y="384" ID="3"/>
@@ -725,7 +729,7 @@
         <UnitName Value="plugintypes"/>
         <CursorPos X="68" Y="6"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <UsageCount Value="164"/>
         <Loaded Value="True"/>
       </Unit86>
@@ -749,7 +753,7 @@
         <UnitName Value="plugin"/>
         <CursorPos X="40" Y="7"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="154"/>
         <Loaded Value="True"/>
       </Unit89>
@@ -884,7 +888,7 @@
         <UnitName Value="mplayer"/>
         <CursorPos X="5" Y="292"/>
         <TopLine Value="283"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit107>
@@ -902,7 +906,7 @@
         <UnitName Value="playerclass"/>
         <CursorPos X="1" Y="62"/>
         <TopLine Value="25"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="56"/>
         <Loaded Value="True"/>
       </Unit109>
@@ -945,12 +949,12 @@
         <UnitName Value="CleanLibrary"/>
         <CursorPos X="64" Y="293"/>
         <TopLine Value="277"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit115>
     </Units>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="8" HistoryIndex="7">
       <Position1>
         <Filename Value="mainform.pas"/>
         <Caret Line="939" Column="81" TopLine="902"/>
@@ -967,6 +971,22 @@
         <Filename Value="cleanlibrary.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
       </Position4>
+      <Position5>
+        <Filename Value="editid3.pas"/>
+        <Caret Line="25" Column="39" TopLine="1"/>
+      </Position5>
+      <Position6>
+        <Filename Value="editid3.pas"/>
+        <Caret Line="57" Column="20" TopLine="14"/>
+      </Position6>
+      <Position7>
+        <Filename Value="settings.pas"/>
+        <Caret Line="121" Column="44" TopLine="120"/>
+      </Position7>
+      <Position8>
+        <Filename Value="settings.pas"/>
+        <Caret Line="395" Column="68" TopLine="371"/>
+      </Position8>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

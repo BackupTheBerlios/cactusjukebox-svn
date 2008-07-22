@@ -29,6 +29,7 @@ Type
     DAPPath, CDRomDevice: string;
     CurrentSkin, LastLib, StreamColPath, LoadOnStart: string;
     Lame, CDDA2wav: string;
+    strTagToNameFormatString: string;
 
     strCleanLibNotToRemove: string;
     
@@ -107,6 +108,14 @@ Begin
     Lame := FConfigFile.GetValue('Lame/Path', '/usr/bin/lame');
     GetLanguageIDs(tmps1, tmps2);
 
+    {$ifdef linux}
+    strTagToNameFormatString := FConfigFile.GetValue('Library/TagToNameFormatString',
+                             '%a/%a - %b - %n - %t');
+    {$endif}{$ifdef win32}
+    strTagToNameFormatString := FConfigFile.GetValue('Library/TagToNameFormatString',
+                             '%a\%a - %b - %n - %t');
+    {$endif}
+
     WWidth := FConfigFile.GetValue('Userinterface/Window/Width', 854);
     WHeight := FConfigFile.GetValue('Userinterface/Window/Height', 680);
     WSplitterWidth := FConfigFile.GetValue('Userinterface/Window/SplitterWidth', 270);
@@ -150,6 +159,7 @@ Begin
     FConfigFile.SetValue('Library/background_scan', background_scan);
     FConfigFile.SetValue('Library/autoload', LastLib);
     FConfigFile.SetValue('Library/StreamCollection', StreamColPath);
+    FConfigFile.SetValue('Library/TagToNameFormatString', strTagToNameFormatString);
     FConfigFile.SetValue('Skin/File', CurrentSkin);
     FConfigFile.SetValue('Userinterface/Language/Code', language);
     FConfigFile.SetValue('Userinterface/DisplayPlayTimeNegated', bDisplayPlayTimeNegated);

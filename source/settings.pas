@@ -53,8 +53,11 @@ rsClearCache = 'Clear Cache';
 rsAutomaticlyS = 'Automaticly start playing first song in playlist';
 
 
-Type 
 
+const TSETTINGS_SELECT_NONE = 0;
+const TSETTINGS_SELECT_ID3 = 1;
+
+Type
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   { TSettings }
@@ -68,7 +71,12 @@ Type
     CDRomEdit: TEdit;
     AutoPlayBox: TCheckBox;
     AudioBackend: TComboBox;
+    Label4: TLabel;
+    Label6: TLabel;
+    txtFormatString: TEdit;
+    GroupBox1: TGroupBox;
     Label2: TLabel;
+    Label3: TLabel;
     LAudioBackend: TLabel;
     LAudioOut: TLabel;
     PluginList: TCheckListBox;
@@ -111,6 +119,7 @@ Type
     Procedure ClearCoverClick(Sender: TObject);
     Procedure FormCreate(Sender: TObject);
     Procedure FormDestroy(Sender: TObject);
+    procedure Label3Click(Sender: TObject);
     Procedure LanguageBoxChange(Sender: TObject);
     procedure LAudioOutClick(Sender: TObject);
     Procedure PageControl1Change(Sender: TObject);
@@ -119,10 +128,11 @@ Type
     Procedure cancelbutClick(Sender: TObject);
     Procedure kdeserviceboxChange(Sender: TObject);
     Procedure savebutClick(Sender: TObject);
+    function ShowModal(intActivePage: integer = TSETTINGS_SELECT_NONE): Integer;
     Private 
     { private declarations }
     servicemenu_changed: boolean;
-    Public 
+    Public
     { public declarations }
   End;
 
@@ -194,6 +204,7 @@ Begin
   If AutoPlayBox.Checked Then CactusConfig.AutostartPlay := true
   Else CactusConfig.AutostartPlay := false;
   //     MediaCollection.guess_tag:=CactusConfig.GuessTag;
+  CactusConfig.strTagToNameFormatString := txtFormatString.Text;
 
   CactusConfig.language := LanguageBox.Items[LanguageBox.ItemIndex];
   CactusConfig.FlushConfig;
@@ -209,6 +220,19 @@ Begin
                                .language, '');
   close;
 End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function TSettings.ShowModal(intActivePage: integer = TSETTINGS_SELECT_NONE): Integer;
+begin
+
+  case intActivePage of
+    TSETTINGS_SELECT_NONE: PageControl1.ActivePage := TabSheet1;
+    TSETTINGS_SELECT_ID3: PageControl1.ActivePage := TabSheet4;
+  end;
+
+  inherited ShowModal;
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -332,6 +356,7 @@ Begin
   If CactusConfig.id3v2_prio Then v2_prio.Checked := true
   Else v1_prio.checked := true;
   AutoPlayBox.Checked := CactusConfig.AutostartPlay;
+  txtFormatString.Text := CactusConfig.strTagToNameFormatString;
 
   For i:=0 To CactusPlugins.Count-1 Do
     Begin
@@ -339,7 +364,6 @@ Begin
       PluginList.Items.Add(CactusPlugins.Items[i].Name);
       PluginList.Checked[i] := CactusPlugins.Items[i].enabled;
     End;
-
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -347,6 +371,11 @@ End;
 Procedure TSettings.FormDestroy(Sender: TObject);
 Begin
 End;
+
+procedure TSettings.Label3Click(Sender: TObject);
+begin
+
+end;
 
 Procedure TSettings.LanguageBoxChange(Sender: TObject);
 Begin
