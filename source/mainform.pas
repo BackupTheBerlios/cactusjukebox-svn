@@ -977,7 +977,8 @@ Var curartist, curalbum: string;
   album_mode: boolean;
   MediaFileObj: TMediaFileClass;
   MediaColObj: TMediaCollectionClass;
-  z : integer;
+  z, intCount : integer;
+  intToRemove: array of integer;
   tsnode: TTreeNode;
 Begin
   tsnode := Main.ArtistTree.Selected;
@@ -993,8 +994,9 @@ Begin
           curartist := lowercase(MediaFileObj.Artist);
           curalbum := lowercase(MediaFileObj.album);
 
+          intCount := 0;
+          SetLength(intToRemove, 0);
           z := MediaColObj.getTracks(curartist, MediaFileObj.index);
-
           Repeat
             Begin
               If (album_mode=false) Or
@@ -1003,13 +1005,20 @@ Begin
                   If DeleteFile(MediaColObj.items[z].path) Then
                     Begin
                       DebugOutLn('deleted file from disk: '+MediaColObj.items[z].path, 2);
-                      MediaColObj.remove(z);
+                      // MediaColObj.remove(z);
+                      intCount += 1;
+                      SetLength(intToRemove, intCount);
+                      intToRemove[intCount -1] := z;
                     End
                   Else DebugOutLn('ERROR deleting file: '+MediaColObj.items[z].path, 2);
                 End;
               z := MediaColObj.getNext;
             End;
           Until (z=-1);
+          
+          for z := 1 to intCount do
+            MediaColObj.remove(intToRemove[z -1]);
+
           update_artist_view;
           update_title_view;
           MediaColObj.SaveToFile;
@@ -2005,14 +2014,10 @@ Begin
   DebugOut('## update artist view... ', 2);
   tsnode := ArtistTree.Selected;
   If (tsnode<>Nil) And (tsnode.level>0)  Then
-    Begin
-      MedFileObj := TMediaFileClass(tsnode.data);
-      curartist := lowercase(MedFileObj.Artist);
-    End
+    curartist := lowercase(tsnode.Text)
   Else
-    Begin
-      curartist := '';
-    End;
+    curartist := '';
+
   DebugOut(' clear tree...', 2);
   ArtistTree.Items.Clear;
 
