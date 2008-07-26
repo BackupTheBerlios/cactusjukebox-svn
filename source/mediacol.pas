@@ -901,7 +901,7 @@ Type
               End;
           End
         Else writeln(path+' -> no valid mpeg header found');
-
+      try
 {reading ID3-tags}
         fileseek(mp3filehandle,0,fsfrombeginning);
         fileread(mp3filehandle,buf,high(buf));
@@ -963,7 +963,9 @@ Type
             //   rmZeroChar(yearv2);
             If length(yearv2)>5 Then yearv2 := '';
           End;
+       except WriteLn(path+' -> exception while reading id3v2 tag... skipped!!'); end;
           {id3v1}
+       try
         fileseek(mp3filehandle,-128, fsfromend);
         fileread(mp3filehandle,buf,128);
         bufstr := '';
@@ -990,7 +992,7 @@ Type
                 Else track := '';
               End;
           End;
-
+      except WriteLn(path+' -> exception while reading id3v2 tag... skipped!!');  end;
         If ((artistv2<>'')) And (CactusConfig.id3v2_prio Or (artist='')) Then artist := TrimRight(
                                                                                         artistv2);
         If ((titlev2<>'')) And (CactusConfig.id3v2_prio Or (title=''))  Then title := TrimRight(
@@ -1012,7 +1014,7 @@ Type
         year := TrimRight(Year);
         fileclose(mp3filehandle);
       Except
-        writeln(path+' ->error opening file... skipped!!');
+        writeln(path+' ->error reading tag... skipped!!');
       End;
     End;
 
