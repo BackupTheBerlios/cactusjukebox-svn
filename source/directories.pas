@@ -77,8 +77,7 @@ End;
 
 Procedure Tdirwin.addClick(Sender: TObject);
 
-Var listitem: TListitem;
-  tmps: string;
+Var
   i: integer;
 Begin
   SelectDirectoryDialog1.InitialDir := CactusConfig.HomeDir;
@@ -117,8 +116,7 @@ End;
 Procedure Tdirwin.removeClick(Sender: TObject);
 
 Var removedir: string;
-  tmpc: char;
-  i, z, n: integer;
+  i: integer;
 Begin
 
   removedir := dirlistview.Items[dirlistview.ItemIndex];
@@ -148,10 +146,9 @@ End;
 Procedure Tdirwin.rescanClick(Sender: TObject);
 
 Var rescandir: string;
-  listitem: TListitem;
-  i, z, n: integer;
+  i, n: integer;
 Begin
-  Main.clearPlayerItemClick(nil);
+  Main.clear_listClick(nil);
   For n:= 0 To dirlistview.Items.Count-1 Do
     Begin
       If dirlistview.Selected[n] Then

@@ -246,9 +246,6 @@ End;
 Procedure Tskin.load_skin(skinfile: String);
 
 Var tmpstr: string;
-  i: byte;
-  menucolor, bgcolor, bordercolor: TColor;
-
 Begin
 
 {     bgcolor:=clBtnFace;

@@ -67,7 +67,7 @@ Type
 { TMediaCollectionClass }
 
     TMediaCollectionClass = Class(Tlist)
-      Private 
+     Private
       Function GetItems(index: integer): TMediaFileClass;
       Procedure Recursive_AddDir(dir: String);
       Procedure SetAutoEnum(Const AValue: boolean);
@@ -77,7 +77,7 @@ Type
       FSrchPos: Integer;
       FSrchArtist, FSrchAlbum: String;
       FSrchType: TSrchType;
-      Public 
+     Public
       constructor create;
       destructor destroy;
       Procedure Assign(SourceCol:TMediaCollectionClass);
@@ -147,7 +147,7 @@ Type
 
     Function TMediaCollectionClass.GetItems(index: integer): TMediaFileClass;
     Begin
-{  if (index>=0) and (index < Count) then }
+    if (index>=0) and (index < Count) then
       Result := (TMediaFileClass(Inherited Items [Index]));
     End;
 

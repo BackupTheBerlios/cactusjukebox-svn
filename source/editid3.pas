@@ -153,7 +153,7 @@ Var
 
   Implementation
 
-  Uses mainform, lazjpg, config, functions;
+  Uses mainform, config, functions;
 { TEditID3 }
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -161,11 +161,8 @@ Var
 Procedure TEditID3.savebutClick(Sender: TObject);
 
 Var curartist, newart, oldart, oldalbum, newalbum, strNewYear, strNewComment: string;
-  z,n: integer;
+  z: integer;
   bYearLongEnough: Boolean;
-  ptr: ^TLabel;
-  ptrLabels: Array Of ^TLabel;
-  strChangedTo: Array Of String;
 Begin
   // only save if s.th. has been changed
   If bEModeActive = false
@@ -603,9 +600,6 @@ End;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TEditID3.display_window(MedFile: TMediaFileClass; intMode: Integer);
-
-Var s, tmps: string;
-  i: Integer;
 Begin
   // set up gui elements
 

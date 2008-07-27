@@ -31,11 +31,10 @@ uses
   Interfaces,SysUtils,
   Forms, status, settings, player, graphics, editid3, directories, skin,
   cdrip, mediacol, BigCoverImg, mainform, plugin, cddb,
-  debug, config, imagesforlazarus, addradio, streamcol, playlist,
+  debug, config, imagesforlazarus, addradio, streamcol,
   playerclass, CleanLibrary;
 
 var
-  s, loadfile: string;
   invalid_param, skip_config: boolean;
   i:integer;
 

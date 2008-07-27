@@ -30,7 +30,7 @@ Uses
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
 ExtCtrls, ComCtrls, StdCtrls, Menus,{$ifdef fmod} fmodplayer,{$endif}
 ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, plugin, plugintypes, debug, config,
-CheckLst, ButtonPanel, playlist, playerclass, mplayer;
+playlist, playerclass, mplayer;
 
 resourcestring
 rsQuit = 'Quit';
@@ -977,8 +977,7 @@ Var curartist, curalbum: string;
   album_mode: boolean;
   MediaFileObj: TMediaFileClass;
   MediaColObj: TMediaCollectionClass;
-  z, intCount : integer;
-  intToRemove: array of integer;
+  z: integer;
   tsnode: TTreeNode;
 Begin
   tsnode := Main.ArtistTree.Selected;
@@ -994,8 +993,6 @@ Begin
           curartist := lowercase(MediaFileObj.Artist);
           curalbum := lowercase(MediaFileObj.album);
 
-          intCount := 0;
-          SetLength(intToRemove, 0);
           z := MediaColObj.getTracks(curartist, MediaFileObj.index);
           Repeat
             Begin
@@ -1003,22 +1000,23 @@ Begin
                  ((album_mode=true) And (lowercase(MediaColObj.items[z].album)=curalbum)) Then
                 Begin
                   If DeleteFile(MediaColObj.items[z].path) Then
-                    Begin
-                      DebugOutLn('deleted file from disk: '+MediaColObj.items[z].path, 2);
-                      // MediaColObj.remove(z);
-                      intCount += 1;
-                      SetLength(intToRemove, intCount);
-                      intToRemove[intCount -1] := z;
-                    End
-                  Else DebugOutLn('ERROR deleting file: '+MediaColObj.items[z].path, 2);
+                    DebugOutLn('deleted file from disk: '+MediaColObj.items[z].path, 2)
+                  Else
+                  begin
+                    DebugOutLn('ERROR deleting file: '+MediaColObj.items[z].path, 2);
+{$ifdef linux}
+                    DebugOutLn('  Note: If this file is located on a samba mount\n' +
+                               '  then this error may be a false positive due to\n' +
+                               '  some wired result of the system call.', 2);
+{$endif}
+                  end;
+                  if (FileExists(MediaColObj.items[z].path) = false) then
+                    MediaColObj.remove(z);
                 End;
               z := MediaColObj.getNext;
             End;
           Until (z=-1);
           
-          for z := 1 to intCount do
-            MediaColObj.remove(intToRemove[z -1]);
-
           update_artist_view;
           update_title_view;
           MediaColObj.SaveToFile;
@@ -1366,7 +1364,16 @@ Begin
           End
         Else
           Begin
-            If FileGetAttr(MedFileObj.path)=faReadOnly Then ShowMessage('File is read only!');
+            If FileGetAttr(MedFileObj.path)=faReadOnly Then
+            begin
+              {$ifdef linux} // the delete function sometimes returns wired results
+                             // when the file is located on a samba mount. thats why
+                             // we double check
+              If FileExists(MedFileObj.path) Then ShowMessage('File is read only!');
+              {$else}
+              ShowMessage('File is read only!');
+              {$endif}
+            end;
             If FileExists(MedFileObj.path)=false Then MedColObj.remove(i);
           End;
 
@@ -1678,8 +1685,7 @@ End;
 
 Procedure TMain.MainCreate(Sender: TObject);
 
-Var tmps1, tmps2: string;
-  listitem: TListitem;
+Var tmps1: string;
 Begin
   DebugOutLn('## Main.onCreate ##', 3);
   Caption := 'Cactus Jukebox '+CACTUS_VERSION;
@@ -1904,8 +1910,7 @@ End;
 
 Procedure TMain.update_player_display;
 
-Var MedFileObj: TMediaFileClass;
-  PPlaylistItem: PPlaylistItemClass;
+Var
   i: integer;
 Begin
   If PlayerObj.playing Then
@@ -1996,7 +2001,6 @@ Procedure TMain.update_artist_view;
 
 Var curartist: string;
   tsnode, artnode, TopNode: Ttreenode;
-  MedColObj: TMediaCollectionClass;
   AlbumList: TStringList;
   MedFileObj: TMediaFileClass;
   i, z: integer;
@@ -2172,7 +2176,7 @@ End;
 Procedure TMain.MenuItem14Click(Sender: TObject);
 
 Var tsitem: TListItem;
-  s, tmps : string;
+  tmps : string;
   MedFileObj: TMediaFileClass;
   i: integer;
 Begin
@@ -2294,7 +2298,7 @@ End;
 
 Procedure TMain.MenuItem27Click(Sender: TObject);
 
-Var id, i: longint;
+Var id: longint;
   listitem: TListitem;
   OpenDialog: TOpenDialog;
 Begin
@@ -2354,7 +2358,7 @@ End;
 Procedure TMain.MenuItem37Click(Sender: TObject);
 
 Var MedColObj: TMediaCollectionClass;
-  curartist, curalbum, s, tmps: string;
+  curartist, curalbum, tmps: string;
   MedFileObj: TMediaFileClass;
   i: integer;
   tsnode: TTreeNode;
@@ -2865,7 +2869,7 @@ End;
 
 Procedure TMain.checkmobileTimer(Sender: TObject);
 
-Var i,z: integer;
+Var
   PlayerScanThread: TScanThread;
   tmps: string;
 
@@ -3329,7 +3333,6 @@ End;
 Procedure TMain.playtimerStartTimer(Sender: TObject);
 
 Var MedFileObj: TMediaFileClass;
-  PPlaylistItem: PPlaylistItemClass;
   i: integer;
 Begin
   If PlayerObj.PlaybackMode=FILE_MODE Then
@@ -3572,7 +3575,7 @@ End;
 Procedure TMain.rm_artist_playeritemClick(Sender: TObject);
 
 Var MedColObj: TMediaCollectionClass;
-  curartist, curalbum, tmps: string;
+  tmps: string;
   MedFileObj: TMediaFileClass;
   i, z: integer;
   tsnode: TTreeNode;
@@ -3642,10 +3645,10 @@ End;
 
 Procedure TMain.syncplayeritem(Sender: TObject);
 
-Var res: boolean;
-  newfile, s: string;
+Var
+  newfile: string;
   n: integer;
-  ucount, rcount, ucount2, rcount2: integer;
+  ucount, rcount: integer;
   bytesneeded: int64;
 Begin
   If player_connected=false Then
@@ -3770,7 +3773,6 @@ Procedure TMain.MoveNode(TargetNode, SourceNode : TTreeNode);
 
 Var 
   nodeTmp : TTreeNode;
-  i : Integer;
 Begin
 
 {  with Selecttree do
@@ -3911,7 +3913,6 @@ End;
 Procedure title_to_playlist_at(index: integer);
 
 Var tsnode: TListitem;
-  MedColObj: TMediaCollectionClass;
   listitem: TListitem;
   MedFileObj: TMediaFileClass;
 Begin
@@ -3943,10 +3944,8 @@ End;
 Procedure title_to_playlist;
 
 Var tsnode: TListitem;
-  MedColObj: TMediaCollectionClass;
   listitem: TListitem;
   MedFileObj: TMediaFileClass;
-  z, i: integer;
 Begin
   tsnode := main.TitleTree.Selected;
   If (tsnode<>Nil) And (tsnode.ImageIndex<>4) Then
@@ -3978,13 +3977,13 @@ End;
 
 Procedure artist_to_playlist_at(index: integer);
 
-Var tempnode, tsnode: TTreeNode;
+Var tsnode: TTreeNode;
   curartist, curalbum: string;
   Listitem: TListitem;
   album_mode: boolean;
   MedColObj: TMediaCollectionClass;
   MedFileObj: TMediaFileClass;
-  z, i: integer;
+  z: integer;
 Begin
   tsnode := Main.ArtistTree.Selected;
   If main.Playlist.Items.Count=0 Then
@@ -4032,13 +4031,13 @@ End;
 
 Procedure artist_to_playlist;
 
-Var tempnode, tsnode: TTreeNode;
+Var tsnode: TTreeNode;
   curartist, curalbum: string;
   Listitem: TListitem;
   album_mode: boolean;
   MedColObj: TMediaCollectionClass;
   MedFileObj: TMediaFileClass;
-  z, i, oldcount: integer;
+  z, oldcount: integer;
 Begin
   tsnode := Main.ArtistTree.Selected;
   If (tsnode<>Nil) And (tsnode.Level>0) Then
@@ -4152,7 +4151,7 @@ End;
 
 Procedure TMain.update_playlist;
 
-Var    PPlaylistItem: PPlaylistItemClass;
+Var
   MedfileObj: TMediaFileClass;
   i: integer;
 Begin
@@ -4175,7 +4174,6 @@ End;
 Procedure TMain.disconnectDAP;
 
 Var i : integer;
-  PPlaylistItem: PPlaylistItemClass;
 Begin
   DebugOutLn('### Disconnect DAP ###', 2);
   Enabled := false;

@@ -140,7 +140,7 @@ End;
 Procedure Tcdrip.Button5Click(Sender: TObject);
 
 Var b, z: byte;
-  tmps, s, t1, t2: string;
+  tmps, t1, t2: string;
   ti1, ti2: integer;
 Begin
   Trackgrid.Clean([gzNormal, gzFixedCols]);
@@ -197,7 +197,7 @@ End;
 Procedure Tcdrip.FormCreate(Sender: TObject);
 
 Var b, z: byte;
-  tmps, s, t1, t2: string;
+  tmps, t1, t2: string;
   ti1, ti2, i: integer;
 Begin
   TranslateUnitResourceStrings('cdrip', cactusconfig.DataPrefix+'languages/cactus.%s.po',
@@ -283,15 +283,12 @@ End;
 
 Procedure Tcdrip.Timer1Timer(Sender: TObject);
 
-Var ListItem: TListItem;
+Var
   b: byte;
-  tmps, tmps2: string;
-  ledit: TEdit;
-  editRect: TRect;
+  tmps: string;
   ti1, ti2: integer;
   t1,t2: string;
-  buf: array[0..256] Of byte;
-  i, n: integer;
+  i: integer;
 Begin
 
   If (ripping=false) And (encoding=false) Then

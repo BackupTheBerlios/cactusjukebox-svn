@@ -142,10 +142,6 @@ Var
 
   Uses skin;
 
-Var mp3obj: TMediaFileClass ;
-
-Var tmpbmp: TBitmap;
-
 { Tplaywin }
 
 {procedure TPlaywin.WMEraseBkgnd(var message:TWMEraseBkgnd);

@@ -3,8 +3,6 @@ object dirwin: Tdirwin
   Height = 275
   Top = 271
   Width = 471
-  HorzScrollBar.Page = 470
-  VertScrollBar.Page = 274
   ActiveControl = add
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'Directories'

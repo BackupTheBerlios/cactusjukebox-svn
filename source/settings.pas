@@ -154,7 +154,7 @@ Var
 
 Procedure TSettings.savebutClick(Sender: TObject);
 
-Var tmps: string;
+Var
   i: integer;
 Begin
   //   Main.mpg123:=mpg123pathedit1.text;
