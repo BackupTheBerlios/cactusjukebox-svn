@@ -494,8 +494,9 @@ Type
         Begin
           Items[ind].free;
           inherited Delete(ind);
-          If (FSrchPos<=ind) And (FSrchAscending=False) Then dec(FSrchPos);
-          If (FSrchPos>ind) And (FSrchAscending) Then dec(FSrchPos);
+          dec(FSrchPos);
+{          If (FSrchPos<=ind) Then dec(FSrchPos);
+          If (FSrchPos>ind) And (FSrchAscending) Then dec(FSrchPos);}
           If AutoEnum Then enumerate(ind)
           Else FEnumerated := false;
         End;

@@ -4097,7 +4097,7 @@ Begin
 
   DebugOutLn('', 2);
   DebugOut('## update title view...', 2);
-
+  main.TitleTree.Selected:=nil;
   Main.TitleTree.Clear;
   Main.TitleTree.BeginUpdate;
   DebugOut(' cleared items... ', 2);
