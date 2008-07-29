@@ -1000,18 +1000,12 @@ Begin
                  ((album_mode=true) And (lowercase(MediaColObj.items[z].album)=curalbum)) Then
                 Begin
                   If DeleteFile(MediaColObj.items[z].path) Then
-                    DebugOutLn('deleted file from disk: '+MediaColObj.items[z].path, 2)
-                  Else
                   begin
-                    DebugOutLn('ERROR deleting file: '+MediaColObj.items[z].path, 2);
-{$ifdef linux}
-                    DebugOutLn('  Note: If this file is located on a samba mount\n' +
-                               '  then this error may be a false positive due to\n' +
-                               '  some wired result of the system call.', 2);
-{$endif}
-                  end;
-                  if (FileExists(MediaColObj.items[z].path) = false) then
+                    DebugOutLn('deleted file from disk: '+MediaColObj.items[z].path, 2);
                     MediaColObj.remove(z);
+                  end
+                  else
+                    DebugOutLn('ERROR deleting file: '+MediaColObj.items[z].path, 2);
                 End;
               z := MediaColObj.getNext;
             End;
@@ -1363,19 +1357,8 @@ Begin
             MedColObj.remove(i);
           End
         Else
-          Begin
             If FileGetAttr(MedFileObj.path)=faReadOnly Then
-            begin
-              {$ifdef linux} // the delete function sometimes returns wired results
-                             // when the file is located on a samba mount. thats why
-                             // we double check
-              If FileExists(MedFileObj.path) Then ShowMessage('File is read only!');
-              {$else}
               ShowMessage('File is read only!');
-              {$endif}
-            end;
-            If FileExists(MedFileObj.path)=false Then MedColObj.remove(i);
-          End;
 
         update_artist_view;
         update_title_view;
