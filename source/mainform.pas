@@ -932,11 +932,11 @@ Begin
 
         tmppos:= PlayerObj.Get_FilePosition;
         trackbar.position:= tmppos;
-       // writeln(tmppos);
+        writeln(tmppos);
         x2 := (trackbar.position*2)-3;
         If x2<3 Then x2 := 3;
         If (tmppos=100) or (tmppos=-1) then begin
-        //     writeln('nexttrack');
+             writeln('nexttrack');
              WriteLn(PlayerObj.CurrentTrack);
              if (PlayerObj.CurrentTrack<PlayerObj.Playlist.ItemCount) Then nextclick(Nil)
                     else stopClick(nil);

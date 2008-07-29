@@ -282,13 +282,13 @@ begin
   repeat begin
  // writeln('bf');
     SendCommand('get_property time_pos');
-    sleep(5);
+    sleep(8);
   //  writeln(i);
     tmps:=GetProcessOutput;
   //  writeln('k');
     inc(i);
    end;
-   until (pos('time_pos', tmps)>0) or (i>=2);
+   until (pos('time_pos', tmps)>0) or (i>=3);
   // writeln('gettime');
    i:=LastDelimiter('=', tmps);
    if i > 0 then begin
@@ -320,7 +320,7 @@ begin
   i:=0;
   repeat begin
     SendCommand('get_property percent_pos');
-    sleep(5);
+    sleep(8);
     tmps:=GetProcessOutput;
     inc(i);
    // writeln('jj');

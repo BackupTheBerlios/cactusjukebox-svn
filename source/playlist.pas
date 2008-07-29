@@ -138,14 +138,11 @@ begin
     begin
        inherited Move(dest, target);
 
-       if CurrentTrack=dest then begin
-           CurrentTrack:=target;
-         end
-        else if CurrentTrack=target then begin
-           CurrentTrack:=dest;
-         end;
-       if (CurrentTrack>dest) and (CurrentTrack<target) then dec(CurrentTrack);
-       if (CurrentTrack<dest) and (CurrentTrack>target) then inc(CurrentTrack);
+       if (CurrentTrack>dest) and (CurrentTrack<=target) then dec(CurrentTrack) else
+       if (CurrentTrack<dest) and (CurrentTrack>=target) then inc(CurrentTrack) else
+       if (CurrentTrack=dest) then CurrentTrack:=target;
+
+
     end;
 end;
 

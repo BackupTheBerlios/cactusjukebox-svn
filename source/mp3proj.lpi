@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="4"/>
+      <ActiveEditorIndexAtStart Value="8"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -367,7 +367,7 @@
         <UnitName Value="skin"/>
         <CursorPos X="92" Y="350"/>
         <TopLine Value="326"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit39>
@@ -667,8 +667,8 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="36" Y="4114"/>
-        <TopLine Value="4107"/>
+        <CursorPos X="3" Y="3083"/>
+        <TopLine Value="3136"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="185"/>
         <Bookmarks Count="3">
@@ -726,7 +726,7 @@
         <UnitName Value="plugintypes"/>
         <CursorPos X="68" Y="6"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="165"/>
         <Loaded Value="True"/>
       </Unit86>
@@ -750,7 +750,7 @@
         <UnitName Value="plugin"/>
         <CursorPos X="40" Y="7"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="155"/>
         <Loaded Value="True"/>
       </Unit89>
@@ -883,8 +883,8 @@
         <Filename Value="mplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mplayer"/>
-        <CursorPos X="5" Y="292"/>
-        <TopLine Value="307"/>
+        <CursorPos X="51" Y="322"/>
+        <TopLine Value="206"/>
         <EditorIndex Value="7"/>
         <UsageCount Value="58"/>
         <Loaded Value="True"/>
@@ -893,9 +893,11 @@
         <Filename Value="playlist.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="playlist"/>
-        <CursorPos X="27" Y="4"/>
-        <TopLine Value="1"/>
+        <CursorPos X="36" Y="143"/>
+        <TopLine Value="133"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="58"/>
+        <Loaded Value="True"/>
       </Unit108>
       <Unit109>
         <Filename Value="playerclass.pas"/>
@@ -903,7 +905,7 @@
         <UnitName Value="playerclass"/>
         <CursorPos X="1" Y="62"/>
         <TopLine Value="55"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit109>
@@ -949,7 +951,7 @@
         <UsageCount Value="10"/>
       </Unit115>
     </Units>
-    <JumpHistory Count="19" HistoryIndex="18">
+    <JumpHistory Count="21" HistoryIndex="20">
       <Position1>
         <Filename Value="mainform.pas"/>
         <Caret Line="939" Column="81" TopLine="902"/>
@@ -1026,6 +1028,14 @@
         <Filename Value="mainform.pas"/>
         <Caret Line="2910" Column="114" TopLine="2856"/>
       </Position19>
+      <Position20>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="4114" Column="36" TopLine="4107"/>
+      </Position20>
+      <Position21>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="939" Column="9" TopLine="903"/>
+      </Position21>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
