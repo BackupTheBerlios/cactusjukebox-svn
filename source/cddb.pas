@@ -161,6 +161,8 @@ begin
 
 
      if (ErrorCode=210) and (query_send) then begin
+        artist:='';
+        album:='';
         delete(s, 1, pos(#10, s));
         n:=0;
         i:=0;
@@ -175,7 +177,7 @@ begin
                   deleted:=true;
                 end;
 
-               if pos('DTITLE=', s)=1 then begin
+               if (pos('DTITLE=', s)=1) and (artist='') then begin
                   artist:=Copy(s, 8, pos(#10, s)-9);
                   artist:=Latin1toUTF8(artist);
                   delete(s, 1, pos(#10, s));

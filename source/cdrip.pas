@@ -350,18 +350,21 @@ Begin
           EncodeTrack := RipTrack;
           str(EncodeTrack, tmps);
           If EncodeTrack<10 Then tmps := '0'+tmps;
-          If FileNameType.ItemIndex=0 Then OutFileNames[EncodeTrack] := outfolder+'/'+tmps+' - '+
+          If FileNameType.ItemIndex=0 Then OutFileNames[EncodeTrack] := tmps+' - '+
                                                                         artistedit.Text+' - '+
                                                                         Trackgrid.Cells[1,
                                                                         EncodeTrack]+'.mp3';
-          If FileNameType.ItemIndex=1 Then OutFileNames[EncodeTrack] := outfolder+'/'+artistedit.
+          If FileNameType.ItemIndex=1 Then OutFileNames[EncodeTrack] := artistedit.
                                                                         Text+' - '+Trackgrid.Cells[1
                                                                         , EncodeTrack]+'.mp3';
-          If FileNameType.ItemIndex=2 Then OutFileNames[EncodeTrack] := outfolder+'/'+artistedit.
+          If FileNameType.ItemIndex=2 Then OutFileNames[EncodeTrack] := artistedit.
                                                                         Text+' - '+inttostr(
                                                                         EncodeTrack)+' - '+Trackgrid
                                                                         .Cells[1, EncodeTrack]+
                                                                         '.mp3';
+          OutFileNames[EncodeTrack] := StringReplace(OutFileNames[EncodeTrack], '/', '_', [rfReplaceAll]);
+          OutFileNames[EncodeTrack] := StringReplace(OutFileNames[EncodeTrack], '\', '_', [rfReplaceAll]);
+          OutFileNames[EncodeTrack] := IncludeTrailingPathDelimiter(outfolder)+OutFileNames[EncodeTrack];
           OutFileNames[EncodeTrack] := StringReplace(OutFileNames[EncodeTrack], #39, '', [
                                        rfReplaceAll]);
           writeln(OutFileNames[EncodeTrack]);
