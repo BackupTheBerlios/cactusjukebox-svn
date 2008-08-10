@@ -49,7 +49,7 @@ begin
   CVerbosityLevel:=1;
  {$endif}
 
-  DebugOut('', 1);
+  DebugOutLn('', 1);
 
   DebugOutLn('Cactus Jukebox v'+CACTUS_VERSION, 1);
   DebugOutLn('written by Sebastian Kraft, (c) 2004-2008', 1);
@@ -118,7 +118,7 @@ begin
   Application.CreateForm(TMain, Main);
   Application.CreateForm(Tplaywin, playwin);
   Application.CreateForm(TEditID3, editid3win);
-
+  EditID3win.Hide;
   invalid_param:=false;
 
   main.show;

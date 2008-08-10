@@ -1870,8 +1870,10 @@ writeln('xx');
     Begin
       LoadFile(CactusConfig.LoadOnStart);
     End;
+  DebugOutLn('main.create end', 5);
   update_artist_view;
-  update_title_view;
+  //update_title_view;
+  DebugOutLn('main.create end', 5);
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1990,11 +1992,9 @@ Var curartist: string;
   restoreEnabled: boolean;
 Begin
 
-  If Enabled Then restoreEnabled := true
-  Else restoreEnabled := false;
+  If Enabled Then restoreEnabled := true Else restoreEnabled := false;
   Enabled := false;
   StatusBar1.Panels[0].Text := 'Please wait... updating...';
-  Application.ProcessMessages;
 
   artisttree.beginupdate;
   DebugOutLn('', 2);
@@ -4081,8 +4081,16 @@ Begin
   DebugOutLn('', 2);
   DebugOut('## update title view...', 2);
   main.TitleTree.Selected:=nil;
+
   Main.TitleTree.Clear;
+{$ifndef LCLGtk2}
   Main.TitleTree.BeginUpdate;
+{$endif}
+
+{$ifdef LCLGtk2}
+  DebugOut(' <TODO: BeginUpdate/EndUpdate disabled in GTK2 due to some bugs in LCL> ', 2);
+{$endif}
+
   DebugOut(' cleared items... ', 2);
 
   If (tsnode<>Nil) And (tsnode.level>0) Then
@@ -4125,7 +4133,9 @@ Begin
     End;
 
   DebugOutLn(' finished title view ##', 2);
+{$ifndef LCLGtk2}
   Main.TitleTree.EndUpdate;
+{$endif}
   main.StatusBar1.Panels[0].Text := 'Ready.';
 
 End;
