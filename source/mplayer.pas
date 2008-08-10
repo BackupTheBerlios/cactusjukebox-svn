@@ -15,6 +15,7 @@ type
    Private
      FMPlayerPath: string;
      MPlayerProcess: TProcess;
+     FLastGet_Pos: integer;
      procedure SendCommand(cmd:string);
      function GetProcessOutput:string;
      function GetMPlayerPlaying: boolean;
@@ -148,7 +149,7 @@ if (index<Playlist.ItemCount) and (index>=0) and (FileExists(playlist.items[inde
   MPlayerProcess.CommandLine:=FMplayerPath+' '+MPOptions+' "'+playlist.items[index].path+'"';
 
   DebugOutLn(MPlayerProcess.CommandLine,5);
-
+  FLastGet_Pos:=0;
   MPlayerProcess.Options:= MPlayerProcess.Options + [poUsePipes];
   MPlayerProcess.Execute;
 
@@ -325,13 +326,15 @@ begin
     inc(i);
    // writeln('jj');
    end;
-   until (pos('percent_pos', tmps)>0) or (i>=3);
+   until (pos('percent_pos', tmps)>0) or (i>=5);
   // writeln('getpos');
    i:=LastDelimiter('=', tmps);
    if i > 0 then begin
-           result:=round(StrToFloat(Copy(tmps, i+1, Length(tmps)-i)));
+           FLastGet_Pos:=round(StrToFloat(Copy(tmps, i+1, Length(tmps)-i)));
+           result:=FLastGet_Pos;
        end else result:=-1;
  end else result:=-1;
+ if (result=-1) and (FLastGet_Pos>0) then Result:=100;
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function TMPlayerClass.get_FileLength: longint;
@@ -365,11 +368,11 @@ end;
 procedure TMPlayerClass.Set_Volume(vol: byte);
 var commandstr: string;
 begin
+ FVolume:=vol;
  if FPlaying and Assigned(MPlayerProcess) and MPlayerProcess.Running then begin
    if vol<0 then vol:=0;
    if vol>100 then vol:=100;
    commandstr:='set_property volume '+IntToStr(vol)+LineEnding;
-   FVolume:=vol;
    MPlayerProcess.Input.write(commandstr[1], length(commandstr));
  end;
 end;
