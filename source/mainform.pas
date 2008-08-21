@@ -265,6 +265,7 @@ Type
     Procedure PlaylistCustomDrawItem(Sender: TCustomListView; Item: TListItem;
                                      State: TCustomDrawState; Var DefaultDraw: Boolean);
     procedure pnlPlaytimeClick(Sender: TObject);
+    procedure randomcheckChange(Sender: TObject);
     Procedure SearchPanelClick(Sender: TObject);
     Procedure PlayerControlsPanelClick(Sender: TObject);
     Procedure PauseButtonImgClick(Sender: TObject);
@@ -1498,11 +1499,19 @@ Begin
 
 End;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMain.pnlPlaytimeClick(Sender: TObject);
 begin
   bPnlPlaytimeNegated := not bPnlPlaytimeNegated;
 end;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMain.randomcheckChange(Sender: TObject);
+begin
+  PlayerObj.Playlist.reset_random;
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

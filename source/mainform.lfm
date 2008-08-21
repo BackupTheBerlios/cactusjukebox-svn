@@ -374,6 +374,7 @@ object Main: TMain
           Top = 230
           Width = 69
           Caption = 'Random'
+          OnChange = randomcheckChange
           TabOrder = 3
         end
         object Volumebar: TProgressBar

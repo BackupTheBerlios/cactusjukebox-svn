@@ -156,6 +156,7 @@ if (index<Playlist.ItemCount) and (index>=0) and (FileExists(playlist.items[inde
   if MPlayerProcess.Running then begin
     FCurrentTrack:=index;
     FPlaying:=true;
+    Playlist.Items[index].Played:=true;
     Set_Volume(FVolume);
   end;
 end else DebugOutLn('File not found ->'+playlist.items[index].path,0);
