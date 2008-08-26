@@ -424,7 +424,7 @@ Type
     DeviceMode, NetworkMode, LibraryMode: boolean;
     awsclass: TAWSAccess;
     ScanSyncCount: Integer;
-    
+    FileOpneDialogPath: string;
     bPnlPlaytimeNegated: boolean;
 
     Public 
@@ -2307,8 +2307,10 @@ Begin
         Begin
           ListItem := Playlist.Items.Add;
           listitem.Data := TMediaFileClass.create(PlayerObj.Playlist.Items[id].path, Nil);
-          ListItem.Caption := PlayerObj.Playlist.items[id].Artist+' - '+PlayerObj.
-                              Playlist.Items[id].Title;
+          if (PlayerObj.Playlist.items[id].Artist<>'') or (PlayerObj.Playlist.items[id].Title<>'') then
+                ListItem.Caption := PlayerObj.Playlist.items[id].Artist+' - '+PlayerObj.Playlist.Items[id].Title
+              else
+                ListItem.Caption := ExtractFileName(PlayerObj.Playlist.items[id].Path);
         End;
     End;
   OpenDialog.Free;
@@ -3034,11 +3036,15 @@ Var OpenDialog: TOpenDialog;
 Begin
   OpenDialog := TOpenDialog.Create(self);
   OpenDialog.Filter := 'All supported audio|*.wav;*.mp3;*.ogg|MP3|*.mp3|OGG|*.ogg|WAV|*.wav';
-  OpenDialog.InitialDir := CactusConfig.HomeDir;
+  if FileOpneDialogPath<>''then
+    OpenDialog.InitialDir := FileOpneDialogPath
+   else
+    OpenDialog.InitialDir := CactusConfig.HomeDir;
   OpenDialog.FilterIndex := 1;
   If Opendialog.execute=true Then
     Begin
       LoadFile(Opendialog.Filename);
+      FileOpneDialogPath:=ExtractFilePath(OpenDialog.FileName);
     End;
   OpenDialog.Free;
 End;
