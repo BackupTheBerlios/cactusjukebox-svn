@@ -2,7 +2,7 @@
 {
 Settings Dialog for Cactus Jukebox
 
-written by Sebastian Kraft, <c> 2006
+written by Sebastian Kraft, <c> 2006-2008
 
 Contact the author at: sebastian_kraft@gmx.de
 
@@ -71,6 +71,7 @@ Type
     CDRomEdit: TEdit;
     AutoPlayBox: TCheckBox;
     AudioBackend: TComboBox;
+    StopOnClearBox: TCheckBox;
     Label4: TLabel;
     Label6: TLabel;
     txtFormatString: TEdit;
@@ -192,17 +193,18 @@ Begin
       else CactusConfig.AudioBackend:=FMODBACK;
 {$endif}
   If guesstag1.checked Then CactusConfig.GuessTag := true
-  Else CactusConfig.GuessTag := false;
+     Else CactusConfig.GuessTag := false;
   If backscan.Checked Then CactusConfig.background_scan := true
-  Else CactusConfig.background_scan := false;
+     Else CactusConfig.background_scan := false;
   If v2_prio.Checked Then CactusConfig.id3v2_prio := true
-  Else CactusConfig.id3v2_prio := false;
+     Else CactusConfig.id3v2_prio := false;
   If subfolders.checked Then CactusConfig.mobile_subfolders := true
-  Else CactusConfig.mobile_subfolders := false;
+     Else CactusConfig.mobile_subfolders := false;
   If CoverDownload.Checked Then CactusConfig.CoverDownload := true
-  Else CactusConfig.CoverDownload := false;
+     Else CactusConfig.CoverDownload := false;
   If AutoPlayBox.Checked Then CactusConfig.AutostartPlay := true
-  Else CactusConfig.AutostartPlay := false;
+     Else CactusConfig.AutostartPlay := false;
+  CactusConfig.StopOnClear:=StopOnClearBox.Checked;
   //     MediaCollection.guess_tag:=CactusConfig.GuessTag;
   CactusConfig.strTagToNameFormatString := txtFormatString.Text;
 
@@ -348,14 +350,15 @@ Begin
   playerpathedit1.text := CactusConfig.DAPPath;
   CDRomEdit.Text := CactusConfig.CDRomDevice;
   If CactusConfig.GuessTag Then guesstag1.checked := true
-  Else unknown1.checked := true;
+     Else unknown1.checked := true;
   If CactusConfig.background_scan Then backscan.checked := true
-  Else backscan.checked := false;
+     Else backscan.checked := false;
   If CactusConfig.mobile_subfolders Then subfolders.checked := true
-  Else subfolders.checked := false;
+     Else subfolders.checked := false;
   If CactusConfig.id3v2_prio Then v2_prio.Checked := true
-  Else v1_prio.checked := true;
+     Else v1_prio.checked := true;
   AutoPlayBox.Checked := CactusConfig.AutostartPlay;
+  StopOnClearBox.Checked:=CactusConfig.StopOnClear;
   txtFormatString.Text := CactusConfig.strTagToNameFormatString;
 
   For i:=0 To CactusPlugins.Count-1 Do

@@ -8,7 +8,7 @@
 
   This software is free under the GNU Public License
 
-  (c)2005-2006
+  (c)2005-2008
 }
 
 program mp3proj;
@@ -16,10 +16,10 @@ program mp3proj;
 {$mode objfpc}{$H+}
 
 {$ifdef CPU86}          //compile with fmod support enabled by default on i386
-   {$xxdefine fmod}
+   {$define fmod}
 {$endif}
 
-
+    {$define fmod}
 {$ifdef CPU86 and fmod}   //fmod needs libgcc to link correctly
     {$linklib gcc}
 {$endif}
@@ -54,7 +54,8 @@ begin
   DebugOutLn('Cactus Jukebox v'+CACTUS_VERSION, 1);
   DebugOutLn('written by Sebastian Kraft, (c) 2004-2008', 1);
   DebugOutLn('', 1);
-  for i:= 1 to paramcount do if (paramstr(i)='-h') or (paramstr(i)='--help') or invalid_param then begin
+
+  for i:= 1 to paramcount do if (paramstr(i)='-h') or (paramstr(i)='--help') then begin
 
         DebugOutLn('cactus_jukebox <OPTIONS> FILE', 1);
         DebugOutLn('', 1);
@@ -119,7 +120,6 @@ begin
   Application.CreateForm(Tplaywin, playwin);
   Application.CreateForm(TEditID3, editid3win);
   EditID3win.Hide;
-  invalid_param:=false;
 
   main.show;
   main.playermode:=false;

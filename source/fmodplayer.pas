@@ -7,7 +7,7 @@
 
   This software is free under the GNU Public License
 
-  (c)2005
+  (c)2005-2008
 }
 
 unit fmodplayer;
@@ -20,7 +20,7 @@ interface
 uses
   Classes, SysUtils,
   {$ifdef win32} fmoddyn, {$endif}
-  {$ifdef unix} fmod, {$endif}
+  {$ifdef unix} fmoddyn, {$endif}
   fmodtypes, mediacol, playlist, playerclass;
 
 type

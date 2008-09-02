@@ -1,4 +1,20 @@
 
+{
+Config Object for Cactus Jukebox
+
+written by Sebastian Kraft, <c> 2006-2008
+
+Contact the author at: sebastian_kraft@gmx.de
+
+This Software is published under the GPL
+
+
+
+
+
+
+}
+
 Unit config;
 
 {$mode objfpc}{$H+}
@@ -22,7 +38,7 @@ Type
     AudioSystem: TOutputMode;
     AudioBackend: TAudioBackend;
 
-    AutostartPlay: Boolean;
+    AutostartPlay, StopOnClear: Boolean;
     language: string;
     // country code, e.g. de -> germany
 
@@ -104,6 +120,7 @@ Begin
     LastLib := FConfigFile.GetValue('Library/autoload','');
     StreamColPath := FConfigFile.GetValue('Library/StreamCollection','');
     AutostartPlay := FConfigFile.GetValue('Playlist/Autoplay', true);
+    StopOnClear:= FConfigFile.GetValue('Playlist/StopOnClear', false);
 
     Lame := FConfigFile.GetValue('Lame/Path', '/usr/bin/lame');
     GetLanguageIDs(tmps1, tmps2);
@@ -164,6 +181,7 @@ Begin
     FConfigFile.SetValue('Userinterface/Language/Code', language);
     FConfigFile.SetValue('Userinterface/DisplayPlayTimeNegated', bDisplayPlayTimeNegated);
     FConfigFile.SetValue('Playlist/Autoplay', AutostartPlay);
+    FConfigFile.SetValue('Playlist/StopOnClear', StopOnClear);
     FConfigFile.SetValue('Userinterface/Window/Width', WWidth);
     FConfigFile.SetValue('Userinterface/Window/Height', WHeight);
     FConfigFile.SetValue('Userinterface/Window/SplitterWidth', WSplitterWidth);

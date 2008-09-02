@@ -1,11 +1,14 @@
 
-{ some helper functions/procedures
+{
+
+  some helper functions/procedures
+
   written by Sebastian Kraft
   sebastian_kraft@gmx.de
 
   This software is free under the GNU Public License
 
-  (c)2005-2007
+  (c)2005-2008
 }
 
 Unit functions;

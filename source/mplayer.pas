@@ -1,3 +1,20 @@
+
+{
+Mplayer backend for Cactus Jukebox
+
+written by Sebastian Kraft, <c> 2006-2008
+
+Contact the author at: sebastian_kraft@gmx.de
+
+This Software is published under the GPL
+
+
+
+
+
+
+}
+
 unit mplayer;
 
 {$mode objfpc}{$H+}

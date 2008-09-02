@@ -6,7 +6,7 @@ Unit editid3;
 
 Edit/show file info dialog for Cactus Jukebox
 
-written by Sebastian Kraft, <c> 2006
+written by Sebastian Kraft, <c> 2006-2008
 Contact the author at: sebastian_kraft@gmx.de
 This Software is published under the GPL
 

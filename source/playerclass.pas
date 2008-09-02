@@ -1,3 +1,20 @@
+
+{
+Parent class for all Cactus Jukebox player backends
+
+written by Sebastian Kraft, <c> 2006-2008
+
+Contact the author at: sebastian_kraft@gmx.de
+
+This Software is published under the GPL
+
+
+
+
+
+
+}
+
 unit playerclass;
 
 {$mode objfpc}{$H+}

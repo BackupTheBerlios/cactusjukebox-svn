@@ -3,7 +3,7 @@
 {
 Main unit for Cactus Jukebox
 
-written by Sebastian Kraft, <c> 2006
+written by Sebastian Kraft, <c> 2006-2008
 
 Contact the author at: sebastian_kraft@gmx.de
 
@@ -46,7 +46,7 @@ rsLoadLibrary = 'Load library';
 rsSaveLibrary = 'Save library';
 rsLibraryInfo = 'Library info';
 rsManageLibrar = 'Manage library...';
-rsRescanDirect = 'Rescan directories';
+// unused ? rsRescanDirect = 'Rescan directories';
 rsPlaylist = 'Playlist';
 rsPlay = 'Play';
 rsNext = 'Next';
@@ -182,7 +182,6 @@ Type
     player_lib: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem33: TMenuItem;
-    MIrescanlib: TMenuItem;
     space3: TMenuItem;
     MIlibinfo: TMenuItem;
     SaveDialog1: TSaveDialog;
@@ -385,7 +384,6 @@ Type
     Procedure playClick(Sender: TObject);
     Procedure playtimerTimer(Sender: TObject);
     Procedure removeselectClick(Sender: TObject);
-    Procedure rescanlibClick(Sender: TObject);
     Procedure save_listClick(Sender: TObject);
     Procedure savelibClick(Sender: TObject);
     Procedure scanplayeritemClick(Sender: TObject);
@@ -402,7 +400,6 @@ Type
     Procedure undoSyncItemClick(Sender: TObject);
     Procedure volumebarChange(Sender: TObject);
 
-    //procedure fileopen(path:string);
     Procedure loadskin(Sender: TObject);
     Procedure update_player_hdd_relations;
     Procedure VolumebarMouseDown(Sender: TObject; Button: TMouseButton;
@@ -937,12 +934,12 @@ Begin
         x2 := (trackbar.position*2)-3;
         If x2<3 Then x2 := 3;
         If (tmppos=100) then begin
-             writeln('nexttrack');
-             WriteLn(PlayerObj.CurrentTrack);
+            // writeln('nexttrack');
+            // WriteLn(PlayerObj.CurrentTrack);
              if (PlayerObj.CurrentTrack<PlayerObj.Playlist.ItemCount) Then nextclick(Nil)
                     else stopClick(nil);
            end;
-        If (CoverFound=false) And (LoopCount<20) Then
+        If CactusConfig.CoverDownload and (CoverFound=false) And (LoopCount<20) Then
           Begin
             inc(LoopCount);
             If (assigned(awsclass)) And (awsclass.data_ready){  }Then
@@ -1017,27 +1014,6 @@ Begin
           MediaColObj.SaveToFile;
         End;
     End;
-End;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Procedure TMain.rescanlibClick(Sender: TObject);
-Begin
-
-  If MessageDlg('Cactus will now look for new files...'+LineEnding+
-     'If new files or changes to files are not detected'+LineEnding+
-     'try Library/Manage Libray and click Rescan. ', mtWarning, mbOKCancel, 0)=mrOK Then
-    Begin
-      // stopClick(nil);
-      // clear_listClick(nil);
-      ScanThread := TScanThread.Create(true);
-
-      ScanThread.tmpcollection.Assign(MediaCollection);
-      //    ScanThread.PTargetCollection:=@MediaCollection;
-      DebugOutLn('scanning for new files...', 3);
-      ScanThread.Resume;
-    End;
-
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1715,7 +1691,6 @@ Begin
   MIsavelib.Caption := rsSaveLibrary;
   MIlibinfo.Caption := rsLibraryInfo;
   MIManagLib.Caption := rsManageLibrar;
-  MIrescanlib.Caption := rsRescanDirect;
 
   MIPlaylist.Caption := rsPlaylist;
   MIplay.Caption := rsPlay;
@@ -1761,26 +1736,24 @@ Begin
   SplitterResize := true;
   SrchTitleItem.checked := true;
   SrchArtItem.checked := true;
-{$ifdef fmod and CPU86}
-  if CactusConfig.AudioBackend=MPLAYERBACK then begin
-       PlayerObj:=TMPlayerClass.create;
-       DebugOutLn('MPlayer audio backend loaded', 2);
-      end
-      else begin
-        PlayerObj:=TFModPlayerClass.create;
-        DebugOutLn('FMOD audio backend loaded', 2);
-    end;
-{$endif}
 {$ifdef CPU86}
   if CactusConfig.AudioBackend=MPLAYERBACK then begin
        PlayerObj:=TMPlayerClass.create;
        DebugOutLn('MPlayer audio backend loaded', 2);
       end
       else begin
-        PlayerObj:=TMPlayerClass.create;
+      {$ifndef fmod}
         DebugOutLn('WARNING: Cactus Jukebox has been compiled without fmod support. Trying to load mplayer backend instead', 0);
+        PlayerObj:=TMPlayerClass.create;
+        DebugOutLn('FMOD audio backend loaded', 2);
+      {$endif}
+      {$ifdef fmod}
+        PlayerObj:=TFModPlayerClass.create;
+        DebugOutLn('FMOD audio backend loaded', 2);
+      {$endif}
     end;
 {$endif}
+
 {$ifdef CPUX86_64}   // Fmod library is only available on 32bit systems. Always try to load mplayer instead
   if CactusConfig.AudioBackend=MPLAYERBACK then begin
        PlayerObj:=TMPlayerClass.create;
@@ -2952,7 +2925,7 @@ End;
 
 Procedure TMain.clear_listClick(Sender: TObject);
 Begin
-  StopButtonImgClick(Sender);
+  if CactusConfig.StopOnClear then StopButtonImgClick(Sender);
   Playlist.BeginUpdate;
   writeln(Playlist.Items.Count);
   Playlist.Items.Clear;
