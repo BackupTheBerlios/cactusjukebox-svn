@@ -45,8 +45,8 @@
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="87" Y="120"/>
-        <TopLine Value="109"/>
+        <CursorPos X="49" Y="31"/>
+        <TopLine Value="46"/>
         <EditorIndex Value="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -126,7 +126,7 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="62" Y="18"/>
         <TopLine Value="1"/>
         <EditorIndex Value="3"/>
         <UsageCount Value="200"/>
@@ -756,8 +756,8 @@
       <Unit91>
         <Filename Value="fmodintf/fmoddyn.pas"/>
         <UnitName Value="fmoddyn"/>
-        <CursorPos X="101" Y="1050"/>
-        <TopLine Value="807"/>
+        <CursorPos X="3" Y="824"/>
+        <TopLine Value="797"/>
         <EditorIndex Value="10"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
@@ -959,7 +959,7 @@
         <SyntaxHighlighter Value="None"/>
       </Unit117>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="mainform.pas"/>
         <Caret Line="1803" Column="16" TopLine="1789"/>
@@ -1074,12 +1074,8 @@
       </Position28>
       <Position29>
         <Filename Value="mainform.pas"/>
-        <Caret Line="25" Column="9" TopLine="154"/>
-      </Position29>
-      <Position30>
-        <Filename Value="mainform.pas"/>
         <Caret Line="1750" Column="59" TopLine="1736"/>
-      </Position30>
+      </Position29>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
