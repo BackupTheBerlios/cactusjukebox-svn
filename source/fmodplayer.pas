@@ -30,11 +30,11 @@ type
 
 TFModPlayerClass = class(TPlayerClass)
    Private
-
      Soundhandle: PFSoundStream;
 
    Public
      destructor destroy;
+     constructor create; override;
 
      function play(index:integer):byte;override;
      function play(url: string):byte;override;
@@ -75,6 +75,7 @@ var tmpp: PChar;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
 destructor TFModPlayerClass.destroy;
 var i:integer;
 begin
@@ -82,6 +83,11 @@ begin
 
      Playlist.Free;
 
+end;
+
+constructor TFModPlayerClass.create;
+begin
+  inherited create;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -133,7 +139,7 @@ begin
             write(' start playing... ');
             FSOUND_Stream_Play (FSOUND_FREE,Soundhandle);      //   Start playing
             writeln(' ready... ');
-            FSOUND_SetVolume(0, volume);
+            FSOUND_SetVolume(0, FVolume);
             playlist.items[index].played:=true;
             fplaying:=true;
             result:=0;
@@ -324,7 +330,7 @@ end;
 
 function TFModPlayerClass.get_fileposition: longint;
 begin
-  get_fileposition:=FSOUND_Stream_GetPosition(Soundhandle) div FSOUND_Stream_GetLength(soundhandle);
+  result:=(FSOUND_Stream_GetPosition(Soundhandle)*100) div FSOUND_Stream_GetLength(soundhandle);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -361,9 +367,9 @@ procedure TFModPlayerClass.set_volume(vol: byte);
 {set volume from 0 to 100}
 var i:integer;
 begin
+  FVolume:=vol;
   i:=((vol*255) div 100);
-  FVolume:=i;
-  FSOUND_SetVolume(0, volume);
+  FSOUND_SetVolume(0, i);
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

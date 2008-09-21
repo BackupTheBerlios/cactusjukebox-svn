@@ -19,7 +19,6 @@ program mp3proj;
    {$define fmod}
 {$endif}
 
-    {$define fmod}
 {$ifdef CPU86 and fmod}   //fmod needs libgcc to link correctly
     {$linklib gcc}
 {$endif}
@@ -116,6 +115,13 @@ begin
                                    end;
      end;
 
+  for i:= 1 to paramcount do if paramstr(i)='-f' then begin
+      CactusConfig.AudioBackend:=FMODBACK;
+     end;
+
+  for i:= 1 to paramcount do if paramstr(i)='-m' then begin
+      CactusConfig.AudioBackend:=MPLAYERBACK;
+     end;
   Application.CreateForm(TMain, Main);
   Application.CreateForm(Tplaywin, playwin);
   Application.CreateForm(TEditID3, editid3win);
@@ -128,14 +134,6 @@ begin
       main.playermode:=true;
       main.hide;
       DebugOutLn('starting in player mode', 2);
-     end;
-
-  for i:= 1 to paramcount do if paramstr(i)='-f' then begin
-      CactusConfig.AudioBackend:=FMODBACK;
-     end;
-     
-  for i:= 1 to paramcount do if paramstr(i)='-m' then begin
-      CactusConfig.AudioBackend:=MPLAYERBACK;
      end;
 
   Register_skins;

@@ -20,7 +20,9 @@ Unit mainform;
 
 
 {$mode objfpc}{$H+}
-
+{$ifdef CPU86}          //compile with fmod support enabled by default on i386
+   {$define fmod}
+{$endif}
 
 Interface
 
@@ -398,7 +400,6 @@ Type
     Procedure trackbarMouseUp(Sender: TOBject; Button: TMouseButton;
                               Shift: TShiftState; X, Y: Integer);
     Procedure undoSyncItemClick(Sender: TObject);
-    Procedure volumebarChange(Sender: TObject);
 
     Procedure loadskin(Sender: TObject);
     Procedure update_player_hdd_relations;
@@ -1745,7 +1746,7 @@ Begin
       {$ifndef fmod}
         DebugOutLn('WARNING: Cactus Jukebox has been compiled without fmod support. Trying to load mplayer backend instead', 0);
         PlayerObj:=TMPlayerClass.create;
-        DebugOutLn('FMOD audio backend loaded', 2);
+        DebugOutLn('MPlayer audio backend loaded', 2);
       {$endif}
       {$ifdef fmod}
         PlayerObj:=TFModPlayerClass.create;
@@ -3860,14 +3861,6 @@ Begin
       tmps := ByteToFmtString(FreeSpaceOnDAP, 3, 2);
       StatusBar1.Panels[1].Text := 'Device connected     '+tmps+' Free';
     End;
-End;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Procedure TMain.volumebarChange(Sender: TObject);
-Begin
-  PlayerObj.set_volume((50-volumebar.Position)*2);
-  DebugOutLn('volume set '+ IntToStr(PlayerObj.volume), 3);
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
