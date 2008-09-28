@@ -41,7 +41,7 @@ var
   {$i cactus_const.inc}
 
 begin
-  Application.Title:='Cactus Jukebox v'+CACTUS_VERSION;
+  Application.Title:='cactus';
  {$ifdef CactusDebug}
   CVerbosityLevel:=9;
  {$else}
@@ -59,9 +59,9 @@ begin
         DebugOutLn('cactus_jukebox <OPTIONS> FILE', 1);
         DebugOutLn('', 1);
         DebugOutLn(' Command line options:', 1);
-        DebugOutLn('    -c      don''t load config file, overwrite with standard settings', 1);
+        DebugOutLn('    -c      skip config file, overwrite with standard settings', 1);
         DebugOutLn('    -m      MPLayer audio backend', 1);
-        DebugOutLn('    -f      LibFmod audio backend', 1);
+        {$ifdef fmod}DebugOutLn('    -f      LibFmod audio backend', 1);{$endif}
         DebugOutLn('    -p      start in playermode', 1);
         DebugOutLn('', 1);
         DebugOutLn('    -h/--help  show this help', 1);

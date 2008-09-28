@@ -12,6 +12,7 @@ object Settings: TSettings
   FormStyle = fsStayOnTop
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  ParentFont = False
   Position = poMainFormCenter
   ShowInTaskBar = stNever
   LCLVersion = '0.9.25'
@@ -40,8 +41,8 @@ object Settings: TSettings
     Height = 421
     Top = 16
     Width = 432
-    ActivePage = AudioTab
-    TabIndex = 1
+    ActivePage = TabSheet1
+    TabIndex = 0
     TabOrder = 0
     OnChange = PageControl1Change
     OnPageChanged = PageControl1Change
@@ -59,9 +60,9 @@ object Settings: TSettings
       end
       object autoload1: TCheckBox
         Left = 38
-        Height = 20
+        Height = 22
         Top = 18
-        Width = 196
+        Width = 198
         AllowGrayed = True
         Caption = 'Autoload last library at startup'
         Checked = True
@@ -70,9 +71,9 @@ object Settings: TSettings
       end
       object backscan: TCheckBox
         Left = 38
-        Height = 20
+        Height = 22
         Top = 43
-        Width = 358
+        Width = 360
         Caption = 'Scan for new files in background  on startup(experimental)'
         TabOrder = 1
         Visible = False
@@ -82,21 +83,19 @@ object Settings: TSettings
         Height = 27
         Top = 297
         Width = 100
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemIndex = 0
         Items.Strings = (
           'en_buildin'
         )
-        MaxLength = 0
         OnChange = LanguageBoxChange
         TabOrder = 2
         Text = 'en_buildin'
       end
       object kdeservicebox: TCheckBox
         Left = 38
-        Height = 20
+        Height = 22
         Top = 217
-        Width = 167
+        Width = 169
         Caption = 'enable KDE service menu'
         OnChange = kdeserviceboxChange
         TabOrder = 3
@@ -114,25 +113,25 @@ object Settings: TSettings
       end
       object CoverDownload: TCheckBox
         Left = 38
-        Height = 20
+        Height = 22
         Top = 249
-        Width = 250
+        Width = 252
         Caption = 'Download album cover art form internet'
         TabOrder = 5
       end
       object AutoPlayBox: TCheckBox
         Left = 38
-        Height = 20
+        Height = 22
         Top = 103
-        Width = 292
+        Width = 294
         Caption = 'Always start playing first song in empty playlist'
         TabOrder = 6
       end
       object StopOnClearBox: TCheckBox
         Left = 38
-        Height = 20
+        Height = 22
         Top = 135
-        Width = 239
+        Width = 241
         Caption = 'Stop playback when playlist is cleared'
         TabOrder = 7
       end
@@ -163,13 +162,11 @@ object Settings: TSettings
         Height = 27
         Top = 119
         Width = 100
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         ItemIndex = 0
         Items.Strings = (
           'Alsa'
           'OSS'
         )
-        MaxLength = 0
         Style = csDropDownList
         TabOrder = 0
         Text = 'Alsa'
@@ -179,12 +176,10 @@ object Settings: TSettings
         Height = 27
         Top = 40
         Width = 200
-        AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
         Items.Strings = (
           'MPlayer (recommendedl)'
           'Fmod Library (outdated)'
         )
-        MaxLength = 0
         OnChange = AudioBackendChange
         Style = csDropDownList
         TabOrder = 1
@@ -196,7 +191,7 @@ object Settings: TSettings
       ClientWidth = 428
       object LMountpoint: TLabel
         Left = 24
-        Height = 20
+        Height = 14
         Top = 26
         Width = 173
         Caption = 'Path to mp3player mountpoint'
@@ -222,9 +217,9 @@ object Settings: TSettings
       end
       object subfolders: TCheckBox
         Left = 24
-        Height = 20
+        Height = 22
         Top = 114
-        Width = 185
+        Width = 187
         Caption = 'Create subfolders on upload'
         TabOrder = 2
       end
@@ -276,14 +271,14 @@ object Settings: TSettings
       ClientWidth = 428
       object Label5: TLabel
         Left = 14
-        Height = 20
+        Height = 21
         Top = 51
-        Width = 287
+        Width = 288
         ParentColor = False
       end
       object Label2: TLabel
         Left = 46
-        Height = 20
+        Height = 14
         Top = 231
         Width = 127
         Caption = 'Default CDROM Device'
@@ -300,7 +295,7 @@ object Settings: TSettings
         TabOrder = 0
         object Llame: TLabel
           Left = 22
-          Height = 20
+          Height = 14
           Top = 87
           Width = 200
           Caption = 'lame (needed to encode mp3 files)'
@@ -308,7 +303,7 @@ object Settings: TSettings
         end
         object Lcdda2wav: TLabel
           Left = 22
-          Height = 20
+          Height = 14
           Top = 15
           Width = 153
           Caption = 'Cdda2wav (tool to rip CDs)'
@@ -399,18 +394,18 @@ object Settings: TSettings
         TabOrder = 0
         object v1_prio: TRadioButton
           Left = 70
-          Height = 20
+          Height = 22
           Top = 1
-          Width = 97
+          Width = 99
           AllowGrayed = True
           Caption = 'ID3v1 Priority'
           TabOrder = 0
         end
         object v2_prio: TRadioButton
           Left = 70
-          Height = 20
+          Height = 22
           Top = 25
-          Width = 97
+          Width = 99
           AllowGrayed = True
           Caption = 'ID3v2 Priority'
           Checked = True
@@ -430,18 +425,18 @@ object Settings: TSettings
         TabOrder = 1
         object unknown1: TRadioButton
           Left = 70
-          Height = 20
+          Height = 22
           Top = 31
-          Width = 176
+          Width = 178
           AllowGrayed = True
           Caption = 'Move to section "Unknown"'
           TabOrder = 0
         end
         object guesstag1: TRadioButton
           Left = 70
-          Height = 20
+          Height = 22
           Top = 1
-          Width = 165
+          Width = 167
           AllowGrayed = True
           Caption = 'Guess tag from filename'
           Checked = True

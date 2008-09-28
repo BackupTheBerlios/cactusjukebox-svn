@@ -51,10 +51,6 @@ mainform.rslibraryinfo='Library info'
 mainform.rsmanagelibrar='Manage library...'
 
 
-# hash value = 256974579
-mainform.rsrescandirect='Rescan directories'
-
-
 # hash value = 43005396
 mainform.rsplaylist='Playlist'
 
@@ -89,6 +85,10 @@ mainform.rsmobileplayer='Mobile player'
 
 # hash value = 3699060
 mainform.rsclearplaylist='Clear Playlist'
+
+
+# hash value = 181205379
+mainform.rsdevices='Devices'
 
 
 # hash value = 154945599

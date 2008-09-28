@@ -8,7 +8,7 @@
       <IconPath Value="./"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="10"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -45,9 +45,9 @@
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="49" Y="31"/>
-        <TopLine Value="46"/>
-        <EditorIndex Value="9"/>
+        <CursorPos X="31" Y="44"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -87,7 +87,7 @@
         <UnitName Value="editid3"/>
         <CursorPos X="42" Y="9"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -128,7 +128,7 @@
         <UnitName Value="settings"/>
         <CursorPos X="62" Y="18"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit7>
@@ -170,7 +170,7 @@
         <UnitName Value="player"/>
         <CursorPos X="34" Y="12"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit12>
@@ -201,7 +201,7 @@
         <UnitName Value="fmodplayer"/>
         <CursorPos X="77" Y="123"/>
         <TopLine Value="111"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit16>
@@ -550,9 +550,11 @@
       </Unit64>
       <Unit65>
         <Filename Value="cactus_const.inc"/>
-        <CursorPos X="7" Y="16"/>
+        <CursorPos X="7" Y="19"/>
         <TopLine Value="1"/>
+        <EditorIndex Value="1"/>
         <UsageCount Value="23"/>
+        <Loaded Value="True"/>
       </Unit65>
       <Unit66>
         <Filename Value="../lazarus-svn-clean/lcl/interfaces/gtk2/gtk2wscomctrls.pp"/>
@@ -609,7 +611,7 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="23" Y="3"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
           <Item0 X="15" Y="399" ID="3"/>
@@ -663,14 +665,14 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="13" Y="24"/>
-        <TopLine Value="28"/>
+        <CursorPos X="91" Y="2984"/>
+        <TopLine Value="2961"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="192"/>
+        <UsageCount Value="194"/>
         <Bookmarks Count="3">
-          <Item0 X="11" Y="1209" ID="0"/>
-          <Item1 X="75" Y="3443" ID="1"/>
-          <Item2 X="28" Y="1703" ID="2"/>
+          <Item0 X="11" Y="1213" ID="0"/>
+          <Item1 X="75" Y="3456" ID="1"/>
+          <Item2 X="28" Y="1735" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit79>
@@ -722,7 +724,7 @@
         <UnitName Value="plugintypes"/>
         <CursorPos X="68" Y="6"/>
         <TopLine Value="1"/>
-        <UsageCount Value="172"/>
+        <UsageCount Value="174"/>
       </Unit86>
       <Unit87>
         <Filename Value="kopeteaway.pas"/>
@@ -744,7 +746,7 @@
         <UnitName Value="plugin"/>
         <CursorPos X="40" Y="7"/>
         <TopLine Value="1"/>
-        <UsageCount Value="162"/>
+        <UsageCount Value="164"/>
       </Unit89>
       <Unit90>
         <Filename Value="../../lazarus-svn/lcl/interfaces/qt/qtwsextctrls.pp"/>
@@ -758,9 +760,7 @@
         <UnitName Value="fmoddyn"/>
         <CursorPos X="3" Y="824"/>
         <TopLine Value="797"/>
-        <EditorIndex Value="10"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit91>
       <Unit92>
         <Filename Value="Lazarus/ide/startlazarus.lpr"/>
@@ -803,7 +803,7 @@
         <UnitName Value="debug"/>
         <CursorPos X="17" Y="30"/>
         <TopLine Value="33"/>
-        <UsageCount Value="113"/>
+        <UsageCount Value="115"/>
       </Unit97>
       <Unit98>
         <Filename Value="../../lazarus-svn/lcl/interfaces/gtk/interfaces.pp"/>
@@ -825,8 +825,8 @@
         <UnitName Value="config"/>
         <CursorPos X="14" Y="3"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="4"/>
-        <UsageCount Value="107"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="109"/>
         <Loaded Value="True"/>
       </Unit100>
       <Unit101>
@@ -845,7 +845,7 @@
         <UnitName Value="addradio"/>
         <CursorPos X="50" Y="64"/>
         <TopLine Value="23"/>
-        <UsageCount Value="81"/>
+        <UsageCount Value="83"/>
       </Unit102>
       <Unit103>
         <Filename Value="streamcol.pas"/>
@@ -881,8 +881,8 @@
         <UnitName Value="mplayer"/>
         <CursorPos X="12" Y="128"/>
         <TopLine Value="17"/>
-        <EditorIndex Value="6"/>
-        <UsageCount Value="65"/>
+        <EditorIndex Value="7"/>
+        <UsageCount Value="67"/>
         <Loaded Value="True"/>
       </Unit107>
       <Unit108>
@@ -891,7 +891,7 @@
         <UnitName Value="playlist"/>
         <CursorPos X="9" Y="305"/>
         <TopLine Value="287"/>
-        <UsageCount Value="65"/>
+        <UsageCount Value="67"/>
       </Unit108>
       <Unit109>
         <Filename Value="playerclass.pas"/>
@@ -899,8 +899,8 @@
         <UnitName Value="playerclass"/>
         <CursorPos X="20" Y="108"/>
         <TopLine Value="19"/>
-        <EditorIndex Value="8"/>
-        <UsageCount Value="64"/>
+        <EditorIndex Value="9"/>
+        <UsageCount Value="66"/>
         <Loaded Value="True"/>
       </Unit109>
       <Unit110>
@@ -959,123 +959,115 @@
         <SyntaxHighlighter Value="None"/>
       </Unit117>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="27" HistoryIndex="26">
       <Position1>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1803" Column="16" TopLine="1789"/>
+        <Caret Line="1750" Column="59" TopLine="1736"/>
       </Position1>
       <Position2>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1932" Column="17" TopLine="1918"/>
+        <Caret Line="96" Column="27" TopLine="53"/>
       </Position2>
       <Position3>
         <Filename Value="mainform.pas"/>
-        <Caret Line="3348" Column="25" TopLine="3334"/>
+        <Caret Line="155" Column="31" TopLine="112"/>
       </Position3>
       <Position4>
         <Filename Value="mainform.pas"/>
-        <Caret Line="3359" Column="15" TopLine="3344"/>
+        <Caret Line="97" Column="27" TopLine="96"/>
       </Position4>
       <Position5>
         <Filename Value="mainform.pas"/>
-        <Caret Line="3366" Column="22" TopLine="3352"/>
+        <Caret Line="98" Column="27" TopLine="96"/>
       </Position5>
       <Position6>
         <Filename Value="mainform.pas"/>
-        <Caret Line="3409" Column="80" TopLine="3399"/>
+        <Caret Line="96" Column="27" TopLine="95"/>
       </Position6>
       <Position7>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1571" Column="12" TopLine="1569"/>
+        <Caret Line="97" Column="27" TopLine="95"/>
       </Position7>
       <Position8>
         <Filename Value="mainform.pas"/>
-        <Caret Line="849" Column="3" TopLine="849"/>
+        <Caret Line="98" Column="18" TopLine="95"/>
       </Position8>
       <Position9>
         <Filename Value="mainform.pas"/>
-        <Caret Line="3336" Column="3" TopLine="3322"/>
+        <Caret Line="2202" Column="1" TopLine="2201"/>
       </Position9>
       <Position10>
         <Filename Value="mainform.pas"/>
-        <Caret Line="3359" Column="13" TopLine="3299"/>
+        <Caret Line="261" Column="50" TopLine="260"/>
       </Position10>
       <Position11>
         <Filename Value="mainform.pas"/>
-        <Caret Line="208" Column="5" TopLine="200"/>
+        <Caret Line="1395" Column="36" TopLine="1375"/>
       </Position11>
       <Position12>
         <Filename Value="mainform.pas"/>
-        <Caret Line="6" Column="42" TopLine="1"/>
+        <Caret Line="280" Column="37" TopLine="279"/>
       </Position12>
       <Position13>
         <Filename Value="mainform.pas"/>
-        <Caret Line="49" Column="13" TopLine="48"/>
+        <Caret Line="1529" Column="3" TopLine="1527"/>
       </Position13>
       <Position14>
-        <Filename Value="fmodintf/fmoddyn.pas"/>
-        <Caret Line="571" Column="18" TopLine="556"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="1068" Column="3" TopLine="1063"/>
       </Position14>
       <Position15>
-        <Filename Value="fmodintf/fmoddyn.pas"/>
-        <Caret Line="591" Column="41" TopLine="577"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="3645" Column="3" TopLine="3637"/>
       </Position15>
       <Position16>
-        <Filename Value="fmodintf/fmoddyn.pas"/>
-        <Caret Line="751" Column="77" TopLine="728"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2903" Column="3" TopLine="2901"/>
       </Position16>
       <Position17>
-        <Filename Value="fmodintf/fmoddyn.pas"/>
-        <Caret Line="779" Column="84" TopLine="765"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="3859" Column="1" TopLine="3854"/>
       </Position17>
       <Position18>
-        <Filename Value="fmodintf/fmoddyn.pas"/>
-        <Caret Line="598" Column="2" TopLine="583"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="169" Column="27" TopLine="169"/>
       </Position18>
       <Position19>
-        <Filename Value="fmodintf/fmoddyn.pas"/>
-        <Caret Line="724" Column="86" TopLine="715"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="183" Column="25" TopLine="169"/>
       </Position19>
       <Position20>
         <Filename Value="mainform.pas"/>
-        <Caret Line="14" Column="42" TopLine="1"/>
+        <Caret Line="176" Column="27" TopLine="169"/>
       </Position20>
       <Position21>
         <Filename Value="mainform.pas"/>
-        <Caret Line="10" Column="90" TopLine="1"/>
+        <Caret Line="180" Column="25" TopLine="169"/>
       </Position21>
       <Position22>
         <Filename Value="mainform.pas"/>
-        <Caret Line="750" Column="23" TopLine="736"/>
+        <Caret Line="186" Column="27" TopLine="169"/>
       </Position22>
       <Position23>
         <Filename Value="mainform.pas"/>
-        <Caret Line="8" Column="92" TopLine="1"/>
+        <Caret Line="185" Column="30" TopLine="169"/>
       </Position23>
       <Position24>
-        <Filename Value="fmodplayer.pas"/>
-        <Caret Line="36" Column="20" TopLine="32"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="184" Column="27" TopLine="169"/>
       </Position24>
       <Position25>
-        <Filename Value="fmodplayer.pas"/>
-        <Caret Line="153" Column="40" TopLine="102"/>
+        <Filename Value="cactus_const.inc"/>
+        <Caret Line="16" Column="7" TopLine="1"/>
       </Position25>
       <Position26>
-        <Filename Value="fmodplayer.pas"/>
-        <Caret Line="33" Column="6" TopLine="19"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2049" Column="33" TopLine="2025"/>
       </Position26>
       <Position27>
         <Filename Value="mainform.pas"/>
-        <Caret Line="750" Column="23" TopLine="736"/>
+        <Caret Line="2986" Column="56" TopLine="2954"/>
       </Position27>
-      <Position28>
-        <Filename Value="fmodplayer.pas"/>
-        <Caret Line="32" Column="11" TopLine="19"/>
-      </Position28>
-      <Position29>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1750" Column="59" TopLine="1736"/>
-      </Position29>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -1102,7 +1094,6 @@
         <OverflowChecks Value="True"/>
         <StackChecks Value="True"/>
       </Checks>
-      <TargetProcessor Value="pentium"/>
       <Optimizations>
         <OptimizationLevel Value="0"/>
       </Optimizations>
@@ -1113,7 +1104,7 @@
       </Verbosity>
       <WriteFPCLogo Value="False"/>
       <CustomOptions Value="-dCactusDebug
-
+-FU../source
 "/>
       <CompilerPath Value="$(CompPath)"/>
       <CreateMakefileOnBuild Value="True"/>

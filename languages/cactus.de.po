@@ -61,10 +61,6 @@ msgstr "Info"
 msgid "Manage library..."
 msgstr "Verzeichnisse..."
 
-#: mainform:rsrescandirect
-msgid "Rescan directories"
-msgstr "Verzeichnisse erneut durchsuchen"
-
 #: mainform:rsplaylist
 msgid "Playlist"
 msgstr "Wiedergabeliste"
@@ -95,11 +91,15 @@ msgstr "Wiedergabeliste speichern..."
 
 #: mainform:rsmobileplayer
 msgid "Mobile player"
-msgstr "Mp3-Player"
+msgstr "MP3-Player"
 
 #: mainform:rsclearplaylist
 msgid "Clear Playlist"
 msgstr "Wiedergabeliste löschen"
+
+#: mainform:rsdevices
+msgid "Devices"
+msgstr "Geräte"
 
 #: mainform:rsdeviceinfo
 msgid "Device info"
@@ -317,3 +317,6 @@ msgstr "Cache leeren"
 #: settings:rsautomaticlys
 msgid "Automaticly start playing first song in playlist"
 msgstr "Ersten Titel in Playlist automatisch anspielen"
+
+#~ msgid "Rescan directories"
+#~ msgstr "Verzeichnisse erneut durchsuchen"

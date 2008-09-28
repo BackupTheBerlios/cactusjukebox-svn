@@ -58,6 +58,7 @@ rsLoadPlaylist = 'Load playlist';
 rsSavePlaylist = 'Save playlist';
 rsMobilePlayer = 'Mobile player';
 rsClearPlaylist = 'Clear Playlist';
+rsDevices = 'Devices';
 rsDeviceInfo = 'Device info';
 rsScanPlayer = 'Scan player';
 rsSync = 'Sync';
@@ -93,6 +94,17 @@ Type
     current_title_edit1: TEdit;
     filetypebox: TComboBox;
     MenuItem25: TMenuItem;
+    MenuItem27: TMenuItem;
+    MenuItem35: TMenuItem;
+    MIClearPlayer: TMenuItem;
+    MIUndoPlayer: TMenuItem;
+    MISyncPlayer: TMenuItem;
+    MIScanPlayer: TMenuItem;
+    MIDeviceInfo: TMenuItem;
+    MIMobilePlayer: TMenuItem;
+    MIRipAudio: TMenuItem;
+    MenuItem34: TMenuItem;
+    MIDevices: TMenuItem;
     mnuCleanLib: TMenuItem;
     space4: TMenuItem;
     MIremoveRadio: TMenuItem;
@@ -151,35 +163,25 @@ Type
     Splitter1: TSplitter;
     StatusBar1: TStatusBar;
     toplaylistitem: TMenuItem;
-    MIaudiocd: TMenuItem;
-    MIrip: TMenuItem;
     MImute: TMenuItem;
     skinmenu: TMenuItem;
     ImageList1: TImageList;
     MIManagLib: TMenuItem;
     MenuItem12: TMenuItem;
-    MImobile: TMenuItem;
     MenuItem14: TMenuItem;
     MenuItem16: TMenuItem;
     MenuItem17: TMenuItem;
     MenuItem18: TMenuItem;
-    MImobile_info: TMenuItem;
     MenuItem20: TMenuItem;
     MenuItem30: TMenuItem;
-    MIclear_mobile: TMenuItem;
     MIplay: TMenuItem;
     MInext: TMenuItem;
     MIprevious: TMenuItem;
     spacer41: TMenuItem;
-    MenuItem42: TMenuItem;
     MImanual: TMenuItem;
-    MIundosync: TMenuItem;
     rm_artist_playeritem: TMenuItem;
     MenuItem37: TMenuItem;
     MenuItem38: TMenuItem;
-    MIscan_mobile: TMenuItem;
-    MenuItem31: TMenuItem;
-    MIsync: TMenuItem;
     openfile: TMenuItem;
     player_lib: TMenuItem;
     MenuItem10: TMenuItem;
@@ -249,6 +251,7 @@ Type
     Procedure MenuItem6Click(Sender: TObject);
     Procedure MenuItem7Click(Sender: TObject);
     Procedure MenuItem9Click(Sender: TObject);
+    procedure MIDeviceInfoClick(Sender: TObject);
     Procedure MIremoveRadioClick(Sender: TObject);
     procedure mnuCleanLibClick(Sender: TObject);
     Procedure NetModeBtnClick(Sender: TObject);
@@ -267,6 +270,7 @@ Type
                                      State: TCustomDrawState; Var DefaultDraw: Boolean);
     procedure pnlPlaytimeClick(Sender: TObject);
     procedure randomcheckChange(Sender: TObject);
+    procedure scan(Sender: TObject);
     Procedure SearchPanelClick(Sender: TObject);
     Procedure PlayerControlsPanelClick(Sender: TObject);
     Procedure PauseButtonImgClick(Sender: TObject);
@@ -1362,6 +1366,29 @@ Begin
   title_to_playlist_at(PlayerObj.CurrentTrack+1);
 End;
 
+procedure TMain.MIDeviceInfoClick(Sender: TObject);
+
+Var z: int64;
+  s, tmps, used: string;
+  i: integer;
+Begin
+  If player_connected Then
+    Begin
+      z := 0;
+      For i:= 0 To PlayerCol.ItemCount-1 Do
+        z := z+PlayerCol.items[i].size;
+
+      used := ByteToFmtString(z, 4, 2);
+
+      tmps := ByteToFmtString(FreeSpaceOnDAP, 4 , 2);
+      str(PlayerCol.ItemCount-1, s);
+
+      ShowMessage(s+' Files on mobile player    '+#10+used+' of music'+#10+'Free Disk Space: '+tmps)
+      ;
+    End
+  Else ShowMessage(rsNotConnected);
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.MIremoveRadioClick(Sender: TObject);
@@ -1488,6 +1515,11 @@ end;
 procedure TMain.randomcheckChange(Sender: TObject);
 begin
   PlayerObj.Playlist.reset_random;
+end;
+
+procedure TMain.scan(Sender: TObject);
+begin
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1702,15 +1734,16 @@ Begin
   MIsave_list.Caption := rsSavePlaylist;
   MIclear_playlist.Caption := rsClearPlaylist;
 
-  MImobile.Caption := rsMobilePlayer;
-  MImobile_info.Caption := rsDeviceInfo;
-  MIscan_mobile.Caption := rsScanPlayer;
-  MIsync.Caption := rsSync;
-  MIclear_mobile.Caption := rsClearPlayer;
-  MIundosync.Caption := rsUndoSelectio;
+  MIDevices.Caption:=rsDevices;
 
-  MIaudiocd.Caption := rsAudioCD;
-  MIrip.Caption := rsRipEncode;
+  MIMobilePlayer.Caption := rsMobilePlayer;
+  MIDeviceInfo.Caption := rsDeviceInfo;
+  MIScanPlayer.Caption := rsScanPlayer;
+  MISyncPlayer.Caption := rsSync;
+  MIClearPlayer.Caption := rsClearPlayer;
+  MIUndoPlayer.Caption := rsUndoSelectio;
+
+  MIRipAudio.Caption := rsRipEncode;
 
   MIhelp.Caption := rsHelp;
   MIabout.Caption := rsAbout;
@@ -2012,8 +2045,8 @@ Begin
   If LibraryMode And (MediaCollection.Count>0) Then
     Begin
       TopNode := Main.ArtistTree.Items.Add(Nil, rsLibrary);
-      TopNode.ImageIndex := 6;
-      TopNode.SelectedIndex := 6;
+      TopNode.ImageIndex := 4;
+      TopNode.SelectedIndex := 4;
       TopNode.data := pointer(1);
 
       i := MediaCollection.getArtists;
@@ -2187,30 +2220,10 @@ Begin
     End;
 End;
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+procedure TMain.MenuItem19Click(Sender: TObject);
+begin
 
-Procedure TMain.MenuItem19Click(Sender: TObject);
-
-Var z: int64;
-  s, tmps, used: string;
-  i: integer;
-Begin
-  If player_connected Then
-    Begin
-      z := 0;
-      For i:= 0 To PlayerCol.ItemCount-1 Do
-        z := z+PlayerCol.items[i].size;
-
-      used := ByteToFmtString(z, 4, 2);
-
-      tmps := ByteToFmtString(FreeSpaceOnDAP, 4 , 2);
-      str(PlayerCol.ItemCount-1, s);
-
-      ShowMessage(s+' Files on mobile player    '+#10+used+' of music'+#10+'Free Disk Space: '+tmps)
-      ;
-    End
-  Else ShowMessage(rsNotConnected);
-End;
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -2966,9 +2979,9 @@ Procedure TMain.muteClick(Sender: TObject);
 Begin
   PlayerObj.mute;
   If PlayerObj.muted Then mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+
-                                                          'icon'+DirectorySeparator+'mute1.xpm')
-  Else mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+DirectorySeparator+
-                               'mute2.xpm');
+                                                          'icon'+DirectorySeparator+'mute2.png')
+  Else mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+
+                                                          'icon'+DirectorySeparator+'mute1.png')
 End;
 
 Procedure TMain.opendirClick(Sender: TObject);
@@ -3837,7 +3850,6 @@ Procedure TMain.undoSyncItemClick(Sender: TObject);
 Var tmps: string;
   i: integer;
 Begin
-  If player_connected Then
     Begin
       For i:= 1 To MediaCollection.ItemCount-1 Do
         Begin
