@@ -54,6 +54,8 @@ Type
 
     AlbumCoverFirsttime, bDisplayPlayTimeNegated: boolean;
 
+    MPlayerPath: string;
+
     constructor create(ConfigFile:String);
     destructor destroy;
 
@@ -112,11 +114,19 @@ Begin
     CoverDownload := FConfigFile.GetValue('Networking/Album_Cover_Download/Enabled', false);
     CurrentSkin := FConfigFile.getValue('Skin/File', 'green.xml');
     KDEServiceMenu := FConfigFile.GetValue('KDE/servicemenu', false);
+
+    {$ifdef linux}
     If FConfigFile.GetValue('Audio/Output', 'Alsa')='Alsa' Then AudioSystem:=ALSAOUT
          Else AudioSystem:=OSSOUT;
+    {$endif}{$ifdef win32}
+    If FConfigFile.GetValue('Audio/Output', 'Win32')='Win32' Then AudioSystem:=WIN32
+         Else AudioSystem:=DIRECTX;
+    {$endif}
+
     If FConfigFile.GetValue('Audio/Backend', 'mplayer')='mplayer' Then AudioBackend:=MPLAYERBACK
          Else AudioBackend:=FMODBACK;
 
+    MPlayerPath:=FConfigFile.GetValue('Audio/Backend/MPlayer/Path','');
     LastLib := FConfigFile.GetValue('Library/autoload','');
     StreamColPath := FConfigFile.GetValue('Library/StreamCollection','');
     AutostartPlay := FConfigFile.GetValue('Playlist/Autoplay', true);
@@ -153,14 +163,14 @@ Begin
   Try
     FConfigFile.SetValue('Library/id3v2_prio',id3v2_prio);
     FConfigFile.SetValue('Mobile_Player/Mountpoint', DAPPath);
-    If AudioSystem=ALSAOUT Then
-      Begin
-        FConfigFile.SetValue('Audio/Output', 'Alsa');
-      End
-    Else
-      Begin
-        FConfigFile.SetValue('Audio/Output', 'OSS');
-      End;
+
+    case AudioSystem of
+         ALSAOUT: FConfigFile.SetValue('Audio/Output', 'Alsa');
+         OSSOUT:FConfigFile.SetValue('Audio/Output', 'OSS');
+         DIRECTX:FConfigFile.SetValue('Audio/Output', 'DirectX');
+         WIN32:FConfigFile.SetValue('Audio/Output', 'Win32');
+    end;
+
     If AudioBackend=MPLAYERBACK Then
       Begin
         FConfigFile.SetValue('Audio/Backend', 'mplayer');
@@ -169,6 +179,7 @@ Begin
       Begin
         FConfigFile.SetValue('Audio/Backend', 'fmod');
       End;
+    FConfigFile.SetValue('Audio/Backend/MPlayer/Path',MPlayerPath);
     FConfigFile.SetValue('Mobile_Player/Subfolders',mobile_subfolders);
     FConfigFile.SetValue('Networking/Album_Cover_Download/Enabled', CoverDownload);
     FConfigFile.SetValue('Lame/Path', lame);

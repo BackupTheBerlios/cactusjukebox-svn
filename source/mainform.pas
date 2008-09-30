@@ -1687,6 +1687,7 @@ End;
 Procedure TMain.MainCreate(Sender: TObject);
 
 Var tmps1: string;
+    MPlayerExeDialog: TSelectDirectoryDialog;
 Begin
   DebugOutLn('## Main.onCreate ##', 3);
   Caption := 'Cactus Jukebox '+CACTUS_VERSION;
@@ -1798,7 +1799,22 @@ Begin
         DebugOutLn('WARNING: Fmod backend not available on 64bit systems. Trying to load mplayer backend instead', 0);
     end;
 {$endif}
-writeln('xx');
+
+  if (PlayerObj is TMPlayerClass) and ((PlayerObj as TMPlayerClass).MPlayerPath='') then begin
+       if CactusConfig.MPlayerPath='' then begin
+           ShowMessage('MPlayer executable not found! Please select MPlayer directory...');
+           MPlayerExeDialog:=TSelectDirectoryDialog.Create(self);
+           MPlayerExeDialog.Title:='Locate mplayer executable...';
+           if MPlayerExeDialog.Execute then begin
+                CactusConfig.MPlayerPath:=MPlayerExeDialog.FileName;
+             end;
+          end;
+       if (PlayerObj as TMPlayerClass).setMplayerBinaryDir(CactusConfig.MPlayerPath)=false then begin
+           ShowMessage('MPlayer executable not found in '+LineEnding+MPlayerExeDialog.FileName);
+           halt;
+          end;
+    end;
+
   PlayerObj.OutputMode:=CactusConfig.AudioSystem;
 
   player_connected := false;
@@ -1816,8 +1832,8 @@ writeln('xx');
 
 
 {$ifdef win32}
-  playtime.Font.Height := 10;
-  playtime.Font.Size := 10;
+  pnlPlaytime.Canvas.Font.Height := 10;
+  pnlPlaytime.Canvas.Font.Size := 10;
 {$endif win32}
 
 {$ifdef LCLGtk}

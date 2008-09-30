@@ -144,7 +144,7 @@ Begin
         If assigned(node) Then
           Begin
             FAlbumCoverURL := node.FirstChild.NodeValue;
-            WriteLn(FAlbumCoverURL);
+           // WriteLn(FAlbumCoverURL);
           End
         Else writeln('ERROR parsing xml file');
         node := XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('MediumImage')
@@ -249,7 +249,7 @@ Begin
 'http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&AWSAccessKeyId=%s&Operation=ItemSearch&Artist=%s&Keywords=%s&SearchIndex=Music&ResponseGroup=Medium'
          , [FAccessKey, FArtist, FAlbum]);
   url := AnsiReplaceStr(url, ' ', '%20');
-  writeln(url);
+ // writeln(url);
   FSavePath := savepath;
   HTTPThread := TNetworkThread.Create(true);
   HTTPThread.URL := url;

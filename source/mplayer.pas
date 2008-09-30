@@ -63,7 +63,10 @@ type
 
      procedure Mute;override;
      function Muted:boolean;override;
-     
+
+     function setMplayerBinaryDir(dir: string):boolean;
+
+     property MPlayerPath: string read FMPlayerPath;
      property playing: boolean read GetMPlayerPlaying;
 
   end;
@@ -87,7 +90,7 @@ const MPLAYER_BINARY='mplayer.exe';
 procedure TMPlayerClass.SendCommand(cmd: string);
 begin
  //  writeln('sendcommand');
-   cmd:=cmd+LineEnding;
+   cmd:=cmd+#10; //MPLayer always needs #10 as Lineending, no matter if win32 or linux
    try
   // writeln('sendcommand2');
      if GetMPlayerPlaying then MPlayerProcess.Input.write(cmd[1], length(cmd));
@@ -104,7 +107,7 @@ begin
    try
       if GetMPlayerPlaying then AStringList.LoadFromStream(MPlayerProcess.Output);
       Result:=AStringList.Strings[0];
-     // writeln(Result);
+   //   writeln(Result);
    except
       writeln('EXCEPTION reading mplayer output');result:='';
    end;
@@ -141,7 +144,6 @@ begin
    until (length(tmps)<=1) or (FMplayerPath<>'');
    if FMplayerPath='' then begin
       writeln('FATAL: Mplayer executable not found. Make sure it is properly installed in binary path');
-      halt;
      end else DebugOutLn('Mplayer executable found in '+FMplayerPath, 2);
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -161,13 +163,13 @@ if (index<Playlist.ItemCount) and (index>=0) and (FileExists(playlist.items[inde
   if OutputMode=OSSOUT then MPOptions:=MPOptions+' -ao oss';
   
   FPlaybackMode:=FILE_MODE;
-  DebugOutLn('playing  -> '+playlist.items[index].path, 1);
-  writeln(StringReplace(playlist.items[index].path, '''', '''''', [rfReplaceAll]));
+  //DebugOutLn('playing  -> '+playlist.items[index].path, 1);
+ // writeln(StringReplace(playlist.items[index].path, '''', '''''', [rfReplaceAll]));
   MPlayerProcess.CommandLine:=FMplayerPath+' '+MPOptions+' "'+playlist.items[index].path+'"';
 
-  DebugOutLn(MPlayerProcess.CommandLine,5);
+ // DebugOutLn(MPlayerProcess.CommandLine,5);
   FLastGet_Pos:=0;
-  MPlayerProcess.Options:= MPlayerProcess.Options + [poUsePipes];
+  MPlayerProcess.Options:= MPlayerProcess.Options + [poUsePipes, poDefaultErrorMode, poStderrToOutPut];
   MPlayerProcess.Execute;
 
   if MPlayerProcess.Running then begin
@@ -390,8 +392,8 @@ begin
  if FPlaying and Assigned(MPlayerProcess) and MPlayerProcess.Running then begin
    if vol<0 then vol:=0;
    if vol>100 then vol:=100;
-   commandstr:='set_property volume '+IntToStr(vol)+LineEnding;
-   MPlayerProcess.Input.write(commandstr[1], length(commandstr));
+   commandstr:='set_property volume '+IntToStr(vol)+'/1'+LineEnding;
+   //MPlayerProcess.Input.write(commandstr[1], length(commandstr));
  end;
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -421,6 +423,22 @@ begin
    end;
  end;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+function TMPlayerClass.setMplayerBinaryDir(dir: string): boolean;
+begin
+  dir:=IncludeTrailingPathDelimiter(dir);
+  if FileExists(dir+MPLAYER_BINARY) then begin
+      result:=true;
+      FMPlayerPath:=dir+MPLAYER_BINARY;
+      WriteLn('Manually set MPlayer path to '+FMPlayerPath);
+     end else begin
+      result:=false;
+      FMPlayerPath:='';
+   end;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 end.
 
