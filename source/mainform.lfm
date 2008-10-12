@@ -53,7 +53,7 @@ object Main: TMain
   ParentFont = False
   Position = poDefault
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.25'
+  LCLVersion = '0.9.27'
   object StatusBar1: TStatusBar
     Height = 17
     Top = 620
@@ -85,16 +85,16 @@ object Main: TMain
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 620
-    ClientWidth = 597
+    ClientHeight = 616
+    ClientWidth = 593
     ParentColor = False
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
-      Height = 203
+      Height = 199
       Top = 5
-      Width = 587
+      Width = 583
       Align = alTop
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Top = 5
@@ -129,7 +129,7 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 404
+          Width = 400
         end>
       PopupMenu = titlelistmenu
       ReadOnly = True
@@ -152,20 +152,20 @@ object Main: TMain
     object Splitter2: TSplitter
       Cursor = crVSplit
       Height = 10
-      Top = 208
-      Width = 597
+      Top = 204
+      Width = 593
       Align = alTop
       ResizeAnchor = akTop
     end
     object Panel3: TPanel
       Height = 402
-      Top = 218
-      Width = 597
+      Top = 214
+      Width = 593
       Align = alClient
       BevelOuter = bvNone
       Caption = 'Panel3'
-      ClientHeight = 402
-      ClientWidth = 597
+      ClientHeight = 398
+      ClientWidth = 589
       TabOrder = 2
       object PlayerControlsPanel: TPanel
         Left = 4
@@ -178,8 +178,8 @@ object Main: TMain
         BorderSpacing.Bottom = 20
         BorderSpacing.CellAlignHorizontal = ccaCenter
         BorderSpacing.CellAlignVertical = ccaCenter
-        ClientHeight = 263
-        ClientWidth = 224
+        ClientHeight = 259
+        ClientWidth = 220
         Font.Height = -9
         FullRepaint = False
         ParentColor = False
@@ -417,9 +417,9 @@ object Main: TMain
       end
       object Playlist: TListView
         Left = 240
-        Height = 320
+        Height = 316
         Top = 75
-        Width = 348
+        Width = 340
         Align = alCustom
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderWidth = 1
@@ -428,7 +428,7 @@ object Main: TMain
           item
             AutoSize = True
             Caption = 'Playlist'
-            Width = 330
+            Width = 322
           end>
         HideSelection = False
         PopupMenu = playlistmenu
@@ -451,8 +451,8 @@ object Main: TMain
         Height = 50
         Top = 11
         Width = 464
-        ClientHeight = 50
-        ClientWidth = 464
+        ClientHeight = 46
+        ClientWidth = 460
         PopupMenu = SearchMenu
         TabOrder = 2
         object filetypebox: TComboBox
@@ -468,6 +468,7 @@ object Main: TMain
             'ogg'
             'wav'
           )
+          MaxLength = -1
           OnChange = filetypeboxChange
           PopupMenu = SearchMenu
           Style = csDropDownList
@@ -499,7 +500,7 @@ object Main: TMain
       end
       object clear_list: TBitBtn
         AnchorSideBottom.Side = asrCenter
-        Left = 519
+        Left = 511
         Height = 32
         Hint = 'Clear Playlist'
         Top = 33
@@ -576,15 +577,15 @@ object Main: TMain
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 620
-    ClientWidth = 279
+    ClientHeight = 616
+    ClientWidth = 275
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
-      Left = 24
-      Height = 610
+      Left = 26
+      Height = 606
       Top = 5
-      Width = 252
+      Width = 246
       Align = alClient
       BorderSpacing.Top = 5
       BorderSpacing.Right = 3
@@ -618,12 +619,12 @@ object Main: TMain
       ExpandSignColor = clSkyBlue
     end
     object ArtistSrchField: TPanel
-      Left = 58
+      Left = 134
       Height = 64
-      Top = 529
+      Top = 542
       Width = 128
-      ClientHeight = 64
-      ClientWidth = 128
+      ClientHeight = 60
+      ClientWidth = 124
       TabOrder = 1
       Visible = False
       OnClick = ArtistSrchFieldClick
@@ -631,7 +632,7 @@ object Main: TMain
         Left = 80
         Height = 14
         Top = 18
-        Width = 42
+        Width = 41
         Caption = 'Search'
         ParentColor = False
       end
@@ -692,11 +693,10 @@ object Main: TMain
       end
     end
     object ToolBar1: TToolBar
-      Height = 615
+      Height = 611
       Top = 5
-      Width = 24
+      Width = 26
       Align = alLeft
-      AutoSize = True
       BorderSpacing.Top = 5
       ButtonHeight = 150
       Caption = 'ToolBar1'

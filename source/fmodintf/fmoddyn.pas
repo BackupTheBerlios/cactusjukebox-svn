@@ -534,7 +534,7 @@ implementation
 
 {$IFDEF LINUX}
 uses
-  Libc;
+  dl; //Libc;
 {$ENDIF}
 
 const

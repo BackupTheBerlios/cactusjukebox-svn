@@ -431,6 +431,7 @@ Begin
               ripping := false;
               encoding := false;
               ShowMessage('Ripping and encoding finished');
+              MediaCollection.SaveToFile;
             End;
         End;
     End;

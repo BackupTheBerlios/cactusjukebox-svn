@@ -393,7 +393,7 @@ begin
    if vol<0 then vol:=0;
    if vol>100 then vol:=100;
    commandstr:='set_property volume '+IntToStr(vol)+'/1'+LineEnding;
-   //MPlayerProcess.Input.write(commandstr[1], length(commandstr));
+   MPlayerProcess.Input.write(commandstr[1], length(commandstr));
  end;
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

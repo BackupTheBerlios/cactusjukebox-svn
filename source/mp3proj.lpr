@@ -20,7 +20,7 @@ program mp3proj;
 {$endif}
 
 {$ifdef CPU86 and fmod and linux}   //fmod needs libgcc to link correctly
-    {$xxxlinklib gcc}
+    {$linklib gcc}
 {$endif}
 
 uses
