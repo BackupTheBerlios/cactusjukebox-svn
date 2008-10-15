@@ -2992,12 +2992,21 @@ End;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.muteClick(Sender: TObject);
+var png: TPortableNetworkGraphic;
 Begin
+if PlayerObj.playing then begin
+
   PlayerObj.mute;
-  If PlayerObj.muted Then mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+
+
+  png:=TPortableNetworkGraphic.Create;
+  If PlayerObj.muted Then png.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+
                                                           'icon'+DirectorySeparator+'mute2.png')
-  Else mute.Glyph.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+
-                                                          'icon'+DirectorySeparator+'mute1.png')
+  Else png.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+
+                                                          'icon'+DirectorySeparator+'mute1.png');
+
+  mute.Glyph.assign(png);
+  png.Free;
+end;
 End;
 
 Procedure TMain.opendirClick(Sender: TObject);

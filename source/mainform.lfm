@@ -1,7 +1,7 @@
 object Main: TMain
-  Left = 243
+  Left = 129
   Height = 658
-  Top = 122
+  Top = 40
   Width = 884
   ActiveControl = ArtistTree
   Caption = 'titel'
@@ -85,16 +85,16 @@ object Main: TMain
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 616
-    ClientWidth = 593
+    ClientHeight = 641
+    ClientWidth = 597
     ParentColor = False
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
-      Height = 199
+      Height = 224
       Top = 5
-      Width = 583
+      Width = 587
       Align = alTop
       Anchors = [akTop, akLeft, akRight, akBottom]
       BorderSpacing.Top = 5
@@ -129,7 +129,7 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 400
+          Width = 404
         end>
       PopupMenu = titlelistmenu
       ReadOnly = True
@@ -152,20 +152,20 @@ object Main: TMain
     object Splitter2: TSplitter
       Cursor = crVSplit
       Height = 10
-      Top = 204
-      Width = 593
+      Top = 229
+      Width = 597
       Align = alTop
       ResizeAnchor = akTop
     end
     object Panel3: TPanel
       Height = 402
-      Top = 214
-      Width = 593
+      Top = 239
+      Width = 597
       Align = alClient
       BevelOuter = bvNone
       Caption = 'Panel3'
-      ClientHeight = 398
-      ClientWidth = 589
+      ClientHeight = 402
+      ClientWidth = 597
       TabOrder = 2
       object PlayerControlsPanel: TPanel
         Left = 4
@@ -178,8 +178,8 @@ object Main: TMain
         BorderSpacing.Bottom = 20
         BorderSpacing.CellAlignHorizontal = ccaCenter
         BorderSpacing.CellAlignVertical = ccaCenter
-        ClientHeight = 259
-        ClientWidth = 220
+        ClientHeight = 263
+        ClientWidth = 224
         Font.Height = -9
         FullRepaint = False
         ParentColor = False
@@ -192,7 +192,7 @@ object Main: TMain
           Left = 132
           Height = 22
           Hint = 'Mute'
-          Top = 200
+          Top = 198
           Width = 30
           Color = clBtnFace
           Flat = True
@@ -232,7 +232,7 @@ object Main: TMain
             000040801E000000000000000000000000000000000000000000000000000000
             0000000000000000000000000000000000000000000000000000
           }
-          NumGlyphs = 0
+          Transparent = False
           OnClick = muteClick
           ShowHint = True
           ParentShowHint = False
@@ -375,7 +375,7 @@ object Main: TMain
           Left = 135
           Height = 22
           Top = 230
-          Width = 75
+          Width = 63
           Caption = 'Random'
           OnChange = randomcheckChange
           TabOrder = 3
@@ -417,9 +417,9 @@ object Main: TMain
       end
       object Playlist: TListView
         Left = 240
-        Height = 316
+        Height = 320
         Top = 75
-        Width = 340
+        Width = 348
         Align = alCustom
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderWidth = 1
@@ -428,7 +428,7 @@ object Main: TMain
           item
             AutoSize = True
             Caption = 'Playlist'
-            Width = 322
+            Width = 330
           end>
         HideSelection = False
         PopupMenu = playlistmenu
@@ -451,8 +451,8 @@ object Main: TMain
         Height = 50
         Top = 11
         Width = 464
-        ClientHeight = 46
-        ClientWidth = 460
+        ClientHeight = 50
+        ClientWidth = 464
         PopupMenu = SearchMenu
         TabOrder = 2
         object filetypebox: TComboBox
@@ -468,7 +468,6 @@ object Main: TMain
             'ogg'
             'wav'
           )
-          MaxLength = -1
           OnChange = filetypeboxChange
           PopupMenu = SearchMenu
           Style = csDropDownList
@@ -500,7 +499,7 @@ object Main: TMain
       end
       object clear_list: TBitBtn
         AnchorSideBottom.Side = asrCenter
-        Left = 511
+        Left = 519
         Height = 32
         Hint = 'Clear Playlist'
         Top = 33
@@ -577,15 +576,15 @@ object Main: TMain
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 616
-    ClientWidth = 275
+    ClientHeight = 641
+    ClientWidth = 279
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 26
-      Height = 606
+      Height = 631
       Top = 5
-      Width = 246
+      Width = 250
       Align = alClient
       BorderSpacing.Top = 5
       BorderSpacing.Right = 3
@@ -693,7 +692,7 @@ object Main: TMain
       end
     end
     object ToolBar1: TToolBar
-      Height = 611
+      Height = 636
       Top = 5
       Width = 26
       Align = alLeft
