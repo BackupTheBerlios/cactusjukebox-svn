@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="6"/>
+      <ActiveEditorIndexAtStart Value="0"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -659,9 +659,10 @@
         <Filename Value="mainform.pas"/>
         <ComponentName Value="Main"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="41" Y="17"/>
         <TopLine Value="1"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="198"/>
@@ -877,7 +878,7 @@
         <Filename Value="mplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mplayer"/>
-        <CursorPos X="21" Y="181"/>
+        <CursorPos X="109" Y="187"/>
         <TopLine Value="154"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="71"/>

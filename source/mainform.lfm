@@ -1,7 +1,7 @@
 object Main: TMain
-  Left = 129
+  Left = 386
   Height = 658
-  Top = 40
+  Top = 222
   Width = 884
   ActiveControl = ArtistTree
   Caption = 'titel'
@@ -85,14 +85,14 @@ object Main: TMain
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 641
+    ClientHeight = 620
     ClientWidth = 597
     ParentColor = False
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
-      Height = 224
+      Height = 203
       Top = 5
       Width = 587
       Align = alTop
@@ -107,17 +107,17 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Artist'
-          Width = 40
+          Width = 38
         end      
         item
           AutoSize = True
           Caption = 'Title'
-          Width = 34
+          Width = 32
         end      
         item
           AutoSize = True
           Caption = 'Album'
-          Width = 45
+          Width = 43
         end      
         item
           AutoSize = True
@@ -129,7 +129,7 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 404
+          Width = 410
         end>
       PopupMenu = titlelistmenu
       ReadOnly = True
@@ -152,14 +152,14 @@ object Main: TMain
     object Splitter2: TSplitter
       Cursor = crVSplit
       Height = 10
-      Top = 229
+      Top = 208
       Width = 597
       Align = alTop
       ResizeAnchor = akTop
     end
     object Panel3: TPanel
       Height = 402
-      Top = 239
+      Top = 218
       Width = 597
       Align = alClient
       BevelOuter = bvNone
@@ -232,7 +232,7 @@ object Main: TMain
             000040801E000000000000000000000000000000000000000000000000000000
             0000000000000000000000000000000000000000000000000000
           }
-          Transparent = False
+          NumGlyphs = 0
           OnClick = muteClick
           ShowHint = True
           ParentShowHint = False
@@ -375,7 +375,7 @@ object Main: TMain
           Left = 135
           Height = 22
           Top = 230
-          Width = 63
+          Width = 75
           Caption = 'Random'
           OnChange = randomcheckChange
           TabOrder = 3
@@ -468,6 +468,7 @@ object Main: TMain
             'ogg'
             'wav'
           )
+          MaxLength = -1
           OnChange = filetypeboxChange
           PopupMenu = SearchMenu
           Style = csDropDownList
@@ -576,13 +577,13 @@ object Main: TMain
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 641
+    ClientHeight = 620
     ClientWidth = 279
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 26
-      Height = 631
+      Height = 610
       Top = 5
       Width = 250
       Align = alClient
@@ -692,7 +693,7 @@ object Main: TMain
       end
     end
     object ToolBar1: TToolBar
-      Height = 636
+      Height = 615
       Top = 5
       Width = 26
       Align = alLeft
