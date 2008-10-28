@@ -155,29 +155,32 @@ end;
 function TMPlayerClass.play(index: integer): byte;
 var MPOptions: String;
 begin
-if (index<Playlist.ItemCount) and (index>=0) and (FileExists(playlist.items[index].path)) then begin
-  if FPlaying then stop;
-  MPlayerProcess:=TProcess.Create(nil);
-  MPOptions:='-slave -quiet';
-  if OutputMode=ALSAOUT then MPOptions:=MPOptions+' -ao alsa';
-  if OutputMode=OSSOUT then MPOptions:=MPOptions+' -ao oss';
+if (index<Playlist.ItemCount) and (index>=0)  then begin
+  if (FileExists(playlist.items[index].path)) then begin
+    if FPlaying then stop;
+       MPlayerProcess:=TProcess.Create(nil);
+       MPOptions:='-slave -quiet';
+       if OutputMode=ALSAOUT then MPOptions:=MPOptions+' -ao alsa';
+       if OutputMode=OSSOUT then MPOptions:=MPOptions+' -ao oss';
   
-  FPlaybackMode:=FILE_MODE;
-  //DebugOutLn('playing  -> '+playlist.items[index].path, 1);
- // writeln(StringReplace(playlist.items[index].path, '''', '''''', [rfReplaceAll]));
-  MPlayerProcess.CommandLine:=FMplayerPath+' '+MPOptions+' "'+playlist.items[index].path+'"';
+       FPlaybackMode:=FILE_MODE;
+       //DebugOutLn('playing  -> '+playlist.items[index].path, 1);
+       // writeln(StringReplace(playlist.items[index].path, '''', '''''', [rfReplaceAll]));
+       MPlayerProcess.CommandLine:=FMplayerPath+' '+MPOptions+' "'+playlist.items[index].path+'"';
 
- // DebugOutLn(MPlayerProcess.CommandLine,5);
-  FLastGet_Pos:=0;
-  MPlayerProcess.Options:= MPlayerProcess.Options + [poUsePipes, poDefaultErrorMode, poStderrToOutPut];
-  MPlayerProcess.Execute;
+       // DebugOutLn(MPlayerProcess.CommandLine,5);
+       FLastGet_Pos:=0;
+       MPlayerProcess.Options:= MPlayerProcess.Options + [poUsePipes, poDefaultErrorMode, poStderrToOutPut];
+       MPlayerProcess.Execute;
 
-  if MPlayerProcess.Running then begin
-    FCurrentTrack:=index;
-    FPlaying:=true;
-    Playlist.Items[index].Played:=true;
-    Set_Volume(FVolume);
-  end;
+       if MPlayerProcess.Running then begin
+          FCurrentTrack:=index;
+          FPlaying:=true;
+          Playlist.Items[index].Played:=true;
+          Set_Volume(FVolume);
+          result:=0;
+       end;
+    end else result:=1;
 end else DebugOutLn('File not found ->'+playlist.items[index].path,0);
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

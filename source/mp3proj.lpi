@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="6"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -28,14 +28,14 @@
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item1>
       <Item2>
         <PackageName Value="imagesforlazarus"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FCL"/>
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
@@ -45,8 +45,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
         <CursorPos X="61" Y="166"/>
-        <TopLine Value="124"/>
-        <EditorIndex Value="12"/>
+        <TopLine Value="101"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -85,7 +85,7 @@
         <UnitName Value="editid3"/>
         <CursorPos X="42" Y="9"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="1"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -125,7 +125,7 @@
         <UnitName Value="settings"/>
         <CursorPos X="62" Y="18"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit7>
@@ -167,7 +167,7 @@
         <UnitName Value="player"/>
         <CursorPos X="34" Y="12"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit12>
@@ -196,9 +196,9 @@
         <Filename Value="fmodplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="fmodplayer"/>
-        <CursorPos X="77" Y="123"/>
-        <TopLine Value="111"/>
-        <EditorIndex Value="10"/>
+        <CursorPos X="1" Y="96"/>
+        <TopLine Value="87"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit16>
@@ -420,18 +420,14 @@
         <UnitName Value="cdrip"/>
         <CursorPos X="41" Y="434"/>
         <TopLine Value="403"/>
-        <EditorIndex Value="1"/>
         <UsageCount Value="200"/>
-        <Loaded Value="True"/>
       </Unit46>
       <Unit47>
         <Filename Value="cddb.pas"/>
         <UnitName Value="cddb"/>
         <CursorPos X="24" Y="26"/>
         <TopLine Value="121"/>
-        <EditorIndex Value="2"/>
         <UsageCount Value="96"/>
-        <Loaded Value="True"/>
       </Unit47>
       <Unit48>
         <Filename Value="lnet/ltcp/lclient.pas"/>
@@ -568,7 +564,7 @@
         <UnitName Value="aws"/>
         <CursorPos X="65" Y="244"/>
         <TopLine Value="217"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit67>
@@ -612,7 +608,7 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="7" Y="394"/>
         <TopLine Value="392"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
           <Item0 X="15" Y="399" ID="3"/>
@@ -663,16 +659,15 @@
         <Filename Value="mainform.pas"/>
         <ComponentName Value="Main"/>
         <IsPartOfProject Value="True"/>
-        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="5" Y="3009"/>
-        <TopLine Value="2991"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="0"/>
-        <UsageCount Value="199"/>
+        <UsageCount Value="198"/>
         <Bookmarks Count="3">
           <Item0 X="11" Y="1213" ID="0"/>
-          <Item1 X="75" Y="3479" ID="1"/>
+          <Item1 X="75" Y="3470" ID="1"/>
           <Item2 X="28" Y="1745" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
@@ -725,7 +720,7 @@
         <UnitName Value="plugintypes"/>
         <CursorPos X="68" Y="6"/>
         <TopLine Value="1"/>
-        <UsageCount Value="179"/>
+        <UsageCount Value="178"/>
       </Unit86>
       <Unit87>
         <Filename Value="kopeteaway.pas"/>
@@ -747,7 +742,7 @@
         <UnitName Value="plugin"/>
         <CursorPos X="40" Y="7"/>
         <TopLine Value="1"/>
-        <UsageCount Value="169"/>
+        <UsageCount Value="168"/>
       </Unit89>
       <Unit90>
         <Filename Value="../../lazarus-svn/lcl/interfaces/qt/qtwsextctrls.pp"/>
@@ -761,7 +756,7 @@
         <UnitName Value="fmoddyn"/>
         <CursorPos X="6" Y="537"/>
         <TopLine Value="515"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit91>
@@ -806,7 +801,7 @@
         <UnitName Value="debug"/>
         <CursorPos X="17" Y="30"/>
         <TopLine Value="33"/>
-        <UsageCount Value="120"/>
+        <UsageCount Value="119"/>
       </Unit97>
       <Unit98>
         <Filename Value="../../lazarus-svn/lcl/interfaces/gtk/interfaces.pp"/>
@@ -827,9 +822,9 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="config"/>
         <CursorPos X="66" Y="182"/>
-        <TopLine Value="158"/>
-        <EditorIndex Value="6"/>
-        <UsageCount Value="114"/>
+        <TopLine Value="153"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="113"/>
         <Loaded Value="True"/>
       </Unit100>
       <Unit101>
@@ -848,7 +843,7 @@
         <UnitName Value="addradio"/>
         <CursorPos X="50" Y="64"/>
         <TopLine Value="23"/>
-        <UsageCount Value="88"/>
+        <UsageCount Value="87"/>
       </Unit102>
       <Unit103>
         <Filename Value="streamcol.pas"/>
@@ -882,10 +877,10 @@
         <Filename Value="mplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mplayer"/>
-        <CursorPos X="4" Y="396"/>
-        <TopLine Value="30"/>
-        <EditorIndex Value="8"/>
-        <UsageCount Value="72"/>
+        <CursorPos X="21" Y="181"/>
+        <TopLine Value="154"/>
+        <EditorIndex Value="6"/>
+        <UsageCount Value="71"/>
         <Loaded Value="True"/>
       </Unit107>
       <Unit108>
@@ -894,7 +889,7 @@
         <UnitName Value="playlist"/>
         <CursorPos X="9" Y="305"/>
         <TopLine Value="287"/>
-        <UsageCount Value="72"/>
+        <UsageCount Value="71"/>
       </Unit108>
       <Unit109>
         <Filename Value="playerclass.pas"/>
@@ -902,8 +897,8 @@
         <UnitName Value="playerclass"/>
         <CursorPos X="45" Y="32"/>
         <TopLine Value="19"/>
-        <EditorIndex Value="11"/>
-        <UsageCount Value="71"/>
+        <EditorIndex Value="9"/>
+        <UsageCount Value="70"/>
         <Loaded Value="True"/>
       </Unit109>
       <Unit110>
@@ -962,128 +957,7 @@
         <SyntaxHighlighter Value="None"/>
       </Unit117>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
-      <Position1>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="8" Column="97" TopLine="1"/>
-      </Position1>
-      <Position2>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1892" Column="85" TopLine="1869"/>
-      </Position2>
-      <Position3>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2576" Column="37" TopLine="2553"/>
-      </Position3>
-      <Position4>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2581" Column="39" TopLine="2558"/>
-      </Position4>
-      <Position5>
-        <Filename Value="mplayer.pas"/>
-        <Caret Line="165" Column="4" TopLine="126"/>
-      </Position5>
-      <Position6>
-        <Filename Value="mp3proj.lpr"/>
-        <Caret Line="164" Column="24" TopLine="119"/>
-      </Position6>
-      <Position7>
-        <Filename Value="mp3proj.lpr"/>
-        <Caret Line="30" Column="3" TopLine="9"/>
-      </Position7>
-      <Position8>
-        <Filename Value="mp3proj.lpr"/>
-        <Caret Line="23" Column="7" TopLine="2"/>
-      </Position8>
-      <Position9>
-        <Filename Value="fmodintf/fmoddyn.pas"/>
-        <Caret Line="824" Column="3" TopLine="797"/>
-      </Position9>
-      <Position10>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="48" Column="105" TopLine="39"/>
-      </Position10>
-      <Position11>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="68" Column="19" TopLine="47"/>
-      </Position11>
-      <Position12>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="105" Column="10" TopLine="84"/>
-      </Position12>
-      <Position13>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="517" Column="65" TopLine="496"/>
-      </Position13>
-      <Position14>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1747" Column="30" TopLine="1726"/>
-      </Position14>
-      <Position15>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="256" Column="48" TopLine="255"/>
-      </Position15>
-      <Position16>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1414" Column="19" TopLine="289"/>
-      </Position16>
-      <Position17>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1802" Column="18" TopLine="1781"/>
-      </Position17>
-      <Position18>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1809" Column="62" TopLine="1788"/>
-      </Position18>
-      <Position19>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="2985" Column="13" TopLine="2964"/>
-      </Position19>
-      <Position20>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="3494" Column="17" TopLine="3473"/>
-      </Position20>
-      <Position21>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="16" Column="87" TopLine="1"/>
-      </Position21>
-      <Position22>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="523" Column="24" TopLine="502"/>
-      </Position22>
-      <Position23>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="6" Column="1" TopLine="1"/>
-      </Position23>
-      <Position24>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="523" Column="24" TopLine="502"/>
-      </Position24>
-      <Position25>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="302" Column="54" TopLine="289"/>
-      </Position25>
-      <Position26>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="549" Column="90" TopLine="543"/>
-      </Position26>
-      <Position27>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="3004" Column="12" TopLine="2994"/>
-      </Position27>
-      <Position28>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="3000" Column="97" TopLine="2987"/>
-      </Position28>
-      <Position29>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="3002" Column="91" TopLine="2980"/>
-      </Position29>
-      <Position30>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="3004" Column="25" TopLine="2990"/>
-      </Position30>
-    </JumpHistory>
+    <JumpHistory Count="0" HistoryIndex="-1"/>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="8"/>
