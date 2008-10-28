@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="0"/>
+      <ActiveEditorIndexAtStart Value="10"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -44,8 +44,8 @@
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="61" Y="166"/>
-        <TopLine Value="101"/>
+        <CursorPos X="1" Y="21"/>
+        <TopLine Value="1"/>
         <EditorIndex Value="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -81,6 +81,7 @@
         <Filename Value="editid3.pas"/>
         <ComponentName Value="EditID3"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="editid3.lrs"/>
         <UnitName Value="editid3"/>
         <CursorPos X="42" Y="9"/>
@@ -121,6 +122,7 @@
         <Filename Value="settings.pas"/>
         <ComponentName Value="Settings"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
         <CursorPos X="62" Y="18"/>
@@ -163,6 +165,7 @@
         <Filename Value="player.pas"/>
         <ComponentName Value="playwin"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="player.lrs"/>
         <UnitName Value="player"/>
         <CursorPos X="34" Y="12"/>
@@ -662,8 +665,8 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="41" Y="17"/>
-        <TopLine Value="1"/>
+        <CursorPos X="56" Y="118"/>
+        <TopLine Value="640"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="198"/>
         <Bookmarks Count="3">
@@ -958,7 +961,12 @@
         <SyntaxHighlighter Value="None"/>
       </Unit117>
     </Units>
-    <JumpHistory Count="0" HistoryIndex="-1"/>
+    <JumpHistory Count="1" HistoryIndex="0">
+      <Position1>
+        <Filename Value="mp3proj.lpr"/>
+        <Caret Line="166" Column="61" TopLine="101"/>
+      </Position1>
+    </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="8"/>

@@ -19,10 +19,6 @@ program mp3proj;
    {$define fmod}
 {$endif}
 
-{$ifdef CPU86 and fmod and linux}   //fmod needs libgcc to link correctly
-    {$linklib gcc}
-{$endif}
-
 uses
  {$ifdef linux}
    cthreads,
