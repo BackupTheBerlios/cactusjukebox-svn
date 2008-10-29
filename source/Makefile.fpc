@@ -1,0 +1,58 @@
+#
+#   Makefile.fpc for Cactus Jukebox for Free Pascal
+#
+
+[package]
+name=cactusjukebox
+version=0.4stable
+
+[require]
+
+[compiler]
+options=-gl -dLCL -dLCL$(LCL_PLATFORM) -o$(EXE_NAME)
+unitdir=$(LCL_DIR)/lcl/units/$(CPU_TARGET)-$(OS_TARGET) \
+	$(LCL_DIR)/lcl/units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM) \
+	$(LCL_DIR)/components/images/ \
+	$(LCL_DIR)/components/images/lib/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM) \
+	$(LCL_DIR)/packager/units/$(CPU_TARGET)-$(OS_TARGET) \
+	$(LNET_DIR) \
+	$(SYNAPSE_DIR) 
+
+unittargetdir=./
+targetdir=../
+
+
+
+[target]
+programs=mp3proj
+
+[clean]
+files=$(wildcard *$(OEXT)) $(wildcard *$(PPUEXT)) $(wildcard *$(RSTEXT))  $(wildcard *$(STATICLIBEXT))
+
+[prerules]
+#
+# 
+EXE_NAME=cactus_jukebox
+
+#
+# LCL Directory
+LCL_DIR=/home/daseeb/devel/lazarus-svn64
+LNET_DIR=/home/daseeb/devel/units/lnet-0.4.0/lib
+SYNAPSE_DIR=/home/daseeb/devel/units/synapse/source/lib
+
+#
+# LCL Platform
+ifndef LCL_PLATFORM
+ifneq ($(findstring $(OS_TARGET),win32 win64),)
+LCL_PLATFORM=win32
+else
+ifeq ($(OS_TARGET),darwin)
+LCL_PLATFORM=carbon
+else
+LCL_PLATFORM=gtk2
+endif
+endif
+endif
+export LCL_PLATFORM
+
+[rules]

@@ -1,0 +1,23 @@
+#
+#   Makefile.fpc for Cactus Jukebox for Free Pascal
+#
+
+[package]
+name=cactusjukebox
+version=0.4stable
+
+[require]
+
+[target]
+dirs=source
+
+[compiler]
+unitdir=$(LCL_DIRECTORY)/lcl/units/$(CPU_TARGET)-$(OS_TARGET) \
+	$(LCL_DIRECTORY)/lcl/units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM)
+
+[clean]
+files=$(wildcard source/*$(OEXT)) $(wildcard source/*$(PPUEXT)) $(wildcard source/*$(RSTEXT))  $(wildcard source/*$(STATICLIBEXT))
+
+
+
+[rules]
