@@ -87,7 +87,6 @@ object Main: TMain
     BevelOuter = bvNone
     ClientHeight = 620
     ClientWidth = 597
-    ParentColor = False
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
@@ -180,10 +179,6 @@ object Main: TMain
         BorderSpacing.CellAlignVertical = ccaCenter
         ClientHeight = 263
         ClientWidth = 224
-        Font.Height = -9
-        FullRepaint = False
-        ParentColor = False
-        ParentFont = False
         TabOrder = 0
         TabStop = True
         OnMouseDown = PlayerControlsPanelMouseDown
@@ -275,7 +270,7 @@ object Main: TMain
           Left = 156
           Height = 24
           Top = 13
-          Width = 32
+          Width = 41
           OnClick = StopButtonImgClick
           OnMouseDown = StopButtonImgMouseDown
           OnMouseEnter = StopButtonImgMouseEnter
@@ -286,7 +281,7 @@ object Main: TMain
           Left = 168
           Height = 24
           Top = 45
-          Width = 32
+          Width = 35
           OnClick = NextButtonImgClick
           OnMouseDown = NextButtonImgMouseDown
           OnMouseEnter = NextButtonImgMouseEnter
@@ -423,7 +418,6 @@ object Main: TMain
         Align = alCustom
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderWidth = 1
-        Color = clWhite
         Columns = <        
           item
             AutoSize = True
@@ -593,10 +587,6 @@ object Main: TMain
       BorderSpacing.InnerBorder = 20
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       BorderSpacing.CellAlignVertical = ccaLeftTop
-      BorderStyle = bsNone
-      BorderWidth = 1
-      Color = clBtnFace
-      Ctl3D = True
       DefaultItemHeight = 16
       DragMode = dmAutomatic
       ExpandSignType = tvestArrow
@@ -616,7 +606,6 @@ object Main: TMain
       OnSelectionChanged = ArtistTreeSelectionChanged
       OnStartDrag = ArtistTreeStartDrag
       Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips]
-      ExpandSignColor = clSkyBlue
     end
     object ArtistSrchField: TPanel
       Left = 134
@@ -708,6 +697,7 @@ object Main: TMain
       HotImages = SidebarImgList
       Images = SidebarImgList
       TabOrder = 2
+      Transparent = True
       object LibModeBtn: TToolButton
         Left = 1
         AutoSize = True
@@ -896,10 +886,12 @@ object Main: TMain
       end
       object mnuCleanLib: TMenuItem
         Caption = 'Clean up Library'
+        Visible = False
         OnClick = mnuCleanLibClick
       end
       object space4: TMenuItem
         Caption = '-'
+        Visible = False
       end
       object MIlibinfo: TMenuItem
         Caption = 'Library Info'
@@ -967,6 +959,42 @@ object Main: TMain
       Caption = 'Playlist'
       object MIplay: TMenuItem
         Caption = 'Play'
+        Bitmap.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000064000000640000000000000000000000000000003638
+          370082878500858A8800858A8800858A8800858A8800858A8800858A8800858A
+          8800858A8800858A8800858A8800828785003638370000000000000000008387
+          8500F0F0F000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+          FF00FFFFFF00FFFFFF00FEFEFE00EAECEB00838684000000000000000000858A
+          8800FFFFFF00FFFFFF00FFFFFF00FFFFFF00FBFBFB00BABABAFFCFCFCF00FAFB
+          FA00F8F9F900F7F8F800F7F9F800FEFEFE00858A8800000000000A191100738A
+          7F00F7FBF900FDFFFD00E0EEE800EDF5F100F2F2F200C1C1C1FF9B9B9BFFC4C5
+          C500F7F8F700F5F7F600F4F5F500FFFFFF00858A8800000000001B35280052A4
+          75FF52A475FF52A475FF52A475FFDBE8E100F3F4F400BCBCBCFFA8A8A8FF9B9B
+          9BFFC1C2C200F4F5F400F2F4F300FFFFFF00858A8800000000000A0E0C008390
+          8A00EEF7F100FEFEFE00FDFDFD00F9FAFA00ECECEC00B5B5B5FFA8A8A8FFA8A8
+          A8FF9C9C9CFFBEBFBE00F0F3F100FFFFFF00858A88000000000000000000858A
+          8800FFFFFF00FDFDFD00FBFCFB00FAFAFA00DBDBDB00AEAEAEFFA8A8A8FFA8A8
+          A8FFA8A8A8FF949494FF787878FF787878FF777878FF3232320008110C007F8A
+          8400D5E6DF00CEE0D500F9FAFA00DBE6E100E5E7E600ABABABFFAAAAAAFFAAAA
+          AAFFAAAAAAFF909090FF6E6E6EFF6E6E6EFF6E6E6EFF6E6E6EFF0206040057A9
+          7AFF57A97AFF57A97AFF57A97AFFD2E5DD00E4E5E400B6B6B6FFB6B6B6FFB6B6
+          B6FFB6B6B6FF959595FF767676FF767676FF767676FF6E6E6EFF080A0800858F
+          8C00DCEDE500F8F9F800F6F8F700E7EEEB00EBEDEC00C1C1C1FFC2C2C2FFC2C2
+          C2FFC2C2C2FFABABABFF7E7E7EFF7E7E7EFF7E7E7EFF717171FF00000000838A
+          8800FBFDFD00F0F3F300F2F4F300F1F3F200C9C9C900C9C9C9FFCECECEFFCECE
+          CEFFCECECEFFB3B3B3FF868686FF838383FF848484FF48484800142F2100858A
+          8800FBFDFD00CDDFD700CCDFD400C7D9D200DBDDDC00C7C7C7FFCECECEFFCECE
+          CEFFC0C0C0FF979897008D9190008B8F8D007E807F00000000001320190057A9
+          7AFF57A97AFF5CAE7FFF5CAE7FFFC3DACF00D9DCDA00C2C2C2FFCFCFCFFFBEBE
+          BEFFA4A4A400FDFDFD00CFCFCF00959997001A1B1A000000000021322B008599
+          8F00BBDCCB00C3DED100D5E7DE00DFE9E400E4E7E600B6B6B6FFB9B9B9FFD1D3
+          D100C3C4C400CFCFCF00A4A7A600323433000000000000000000000000008286
+          8400E9EBEA00FEFEFE00FFFFFF00FFFFFF00FFFFFF00B2B2B2FFC2C2C200FFFF
+          FF00BABABA00939594002F313000000000000000000000000000E01D45000000
+          0000400E6E000000000000000000000000000000000000000000858A8800858A
+          88007B7F7E001617170000000000000000000000000000000000
+        }
         ImageIndex = 0
         ShortCut = 16464
         OnClick = toggle_playpause
