@@ -9,7 +9,7 @@ version=0.4stable
 [require]
 
 [target]
-dirs=source
+#dirs=source
 
 [compiler]
 unitdir=$(LCL_DIRECTORY)/lcl/units/$(CPU_TARGET)-$(OS_TARGET) \
@@ -19,5 +19,102 @@ unitdir=$(LCL_DIRECTORY)/lcl/units/$(CPU_TARGET)-$(OS_TARGET) \
 files=$(wildcard source/*$(OEXT)) $(wildcard source/*$(PPUEXT)) $(wildcard source/*$(RSTEXT))  $(wildcard source/*$(STATICLIBEXT))
 
 
+[prerules]
+#
+# LCL Platform
+ifndef LCL_PLATFORM
+ifneq ($(findstring $(OS_TARGET),win32 win64),)
+LCL_PLATFORM=win32
+else
+ifeq ($(OS_TARGET),darwin)
+LCL_PLATFORM=carbon
+else
+LCL_PLATFORM=gtk2
+endif
+endif
+endif
+export LCL_PLATFORM
 
+# Build dir
+ifndef DEBSRCDIR
+DEBSRCDIR=packages/deb/$(LCL_PLATFORM)
+endif
+
+ifndef CACTUSVERSION)
+CACTUSVERSION=version
+endif
+
+ifndef ARCH
+ARCH=$(shell ./tools/get_architecture.sh)
+endif
+   
 [rules]
+
+clean:	debclean
+	$(MAKE) -C source clean
+
+all: 
+	$(MAKE) -C source
+
+alldeb:
+	$(MAKE) -C source deb
+
+debcheck:
+ifneq ($(DEBFPCVERSION),$(PACKAGE_VERSION))
+	@$(ECHO) "Debian version ($(DEBFPCVERSION)) is not correct, expect $(PACKAGE_VERSION)"
+	@exit 1
+endif
+
+debcopy: 
+	install -d $(DEBSRCDIR)/usr/bin
+	#mkdir release/deb/gtk2/usr/lib
+	#mkdir release/deb/gtk2/usr/lib/mime
+	#mkdir release/deb/gtk2/usr/lib/mime/packages
+	install -d $(DEBSRCDIR)/usr/share/cactusjukebox
+	install -d $(DEBSRCDIR)/usr/share/applications
+	install -d $(DEBSRCDIR)/usr/share/applications/kde
+
+	echo "Target architecture: $(ARCH)"
+
+	cp packages/DEBIAN_gtk2 $(DEBSRCDIR) -dr
+	mv $(DEBSRCDIR)/DEBIAN_$(LCL_PLATFORM) $(DEBSRCDIR)/DEBIAN
+	sed -e 's/Architecture:.*/Architecture: '$(ARCH)'/' -e 's/Version:.*/Version: '$(PACKAGE_VERSION)'/' $(DEBSRCDIR)/DEBIAN/control > $(DEBSRCDIR)/DEBIAN/control.amd64
+
+	mv $(DEBSRCDIR)/DEBIAN/control.amd64 $(DEBSRCDIR)/DEBIAN/control
+
+
+	strip cactus_jukebox
+
+	cp source/cactus_remote $(DEBSRCDIR)/usr/bin 
+	cp cactus_jukebox $(DEBSRCDIR)/usr/bin
+	cp source/cactus $(DEBSRCDIR)/usr/bin
+
+	cp languages -dr $(DEBSRCDIR)/usr/share/cactusjukebox
+
+	cp skins -dr $(DEBSRCDIR)/usr/share/cactusjukebox
+
+	cp icon -dr $(DEBSRCDIR)/usr/share/cactusjukebox
+
+	cp tools -dr $(DEBSRCDIR)/usr/share/cactusjukebox
+
+	cp doc -dr $(DEBSRCDIR)/usr/share/cactusjukebox
+
+	cp tools/cactusjukebox.desktop $(DEBSRCDIR)/usr/share/applications/
+	#cp tools/cactusjukebox release/deb/gtk2/usr/lib/mime/packages
+
+	#find $(DEBSRCDIR) -name 'CVS*' | xargs -n1 rm -rf
+	find $(DEBSRCDIR) -name '.svn' | xargs -n1 rm -rf
+
+	#cd $(DEBSRCDIR) ; dpkg-buildpackage -us -uc -B
+	# creating .deb
+	dpkg -b $(DEBSRCDIR) cactusjukebox-$(PACKAGE_VERSION)-$(LCL_PLATFORM).deb
+	#mv -v -t . $(DEBSRCDIR)/../*.{deb,dsc,changes,tar.gz}
+
+
+debclean: 
+	rm -drf $(DEBSRCDIR)
+
+deb: debclean alldeb debcopy clean
+	rm cactus_jukebox
+
+
