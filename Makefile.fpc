@@ -57,7 +57,7 @@ all:
 	$(MAKE) -C source
 
 alldeb:
-	$(MAKE) -C source deb
+	$(MAKE) -C source deb CactusRPM=1
 
 debcheck:
 ifneq ($(DEBFPCVERSION),$(PACKAGE_VERSION))
@@ -76,11 +76,11 @@ debcopy:
 
 	echo "Target architecture: $(ARCH)"
 
-	cp packages/DEBIAN_gtk2 $(DEBSRCDIR) -dr
+	cp packages/DEBIAN_$(LCL_PLATFORM) $(DEBSRCDIR) -dr
 	mv $(DEBSRCDIR)/DEBIAN_$(LCL_PLATFORM) $(DEBSRCDIR)/DEBIAN
-	sed -e 's/Architecture:.*/Architecture: '$(ARCH)'/' -e 's/Version:.*/Version: '$(CACTUS_VERSION)'/' $(DEBSRCDIR)/DEBIAN/control > $(DEBSRCDIR)/DEBIAN/control.amd64
+	sed -e 's/Architecture:.*/Architecture: '$(ARCH)'/' -e 's/Version:.*/Version: '$(CACTUS_VERSION)'/' $(DEBSRCDIR)/DEBIAN/control > $(DEBSRCDIR)/DEBIAN/control.$(ARCH)
 
-	mv $(DEBSRCDIR)/DEBIAN/control.amd64 $(DEBSRCDIR)/DEBIAN/control
+	mv $(DEBSRCDIR)/DEBIAN/control.$(ARCH) $(DEBSRCDIR)/DEBIAN/control
 
 
 	strip cactus_jukebox
@@ -112,7 +112,7 @@ debcopy:
 
 
 debclean: 
-	rm -drf $(DEBSRCDIR)
+	rm  $(DEBSRCDIR) -drf
 
 deb: debclean alldeb debcopy clean
 	rm cactus_jukebox

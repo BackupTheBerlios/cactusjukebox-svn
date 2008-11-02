@@ -55,8 +55,13 @@ endif
 endif
 export LCL_PLATFORM
 
+
+
 [rules]
 
+ifdef CactusRPM
+override COMPILER+=-dCactusRPM
+endif
+
 deb: all
-   override COMPILER+=-dCactusRPM
 
