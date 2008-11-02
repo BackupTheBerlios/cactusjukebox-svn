@@ -40,8 +40,8 @@ ifndef DEBSRCDIR
 DEBSRCDIR=packages/deb/$(LCL_PLATFORM)
 endif
 
-ifndef CACTUSVERSION)
-CACTUSVERSION=version
+ifndef CACTUS_VERSION
+CACTUS_VERSION=$(shell ./tools/get_cactus_version_string.sh)
 endif
 
 ifndef ARCH
@@ -78,7 +78,7 @@ debcopy:
 
 	cp packages/DEBIAN_gtk2 $(DEBSRCDIR) -dr
 	mv $(DEBSRCDIR)/DEBIAN_$(LCL_PLATFORM) $(DEBSRCDIR)/DEBIAN
-	sed -e 's/Architecture:.*/Architecture: '$(ARCH)'/' -e 's/Version:.*/Version: '$(PACKAGE_VERSION)'/' $(DEBSRCDIR)/DEBIAN/control > $(DEBSRCDIR)/DEBIAN/control.amd64
+	sed -e 's/Architecture:.*/Architecture: '$(ARCH)'/' -e 's/Version:.*/Version: '$(CACTUS_VERSION)'/' $(DEBSRCDIR)/DEBIAN/control > $(DEBSRCDIR)/DEBIAN/control.amd64
 
 	mv $(DEBSRCDIR)/DEBIAN/control.amd64 $(DEBSRCDIR)/DEBIAN/control
 
@@ -107,7 +107,7 @@ debcopy:
 
 	#cd $(DEBSRCDIR) ; dpkg-buildpackage -us -uc -B
 	# creating .deb
-	dpkg -b $(DEBSRCDIR) cactusjukebox-$(PACKAGE_VERSION)-$(LCL_PLATFORM).deb
+	dpkg -b $(DEBSRCDIR) cactusjukebox-$(CACTUS_VERSION)-$(LCL_PLATFORM).deb
 	#mv -v -t . $(DEBSRCDIR)/../*.{deb,dsc,changes,tar.gz}
 
 

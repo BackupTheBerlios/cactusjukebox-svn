@@ -9,7 +9,7 @@ version=0.4stable
 [require]
 
 [compiler]
-options=-gl -dLCL -dLCL$(LCL_PLATFORM) -o$(EXE_NAME) $(ADVOPT)
+options=-gl -dLCL -dLCL$(LCL_PLATFORM) -o$(EXE_NAME) 
 unitdir=$(LCL_DIR)/lcl/units/$(CPU_TARGET)-$(OS_TARGET) \
 	$(LCL_DIR)/lcl/units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM) \
 	$(LCL_DIR)/components/images/ \

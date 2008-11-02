@@ -1,4 +1,4 @@
-const CACTUS_VERSION = '0.4. stable';
+const CACTUS_VERSION = '0.4 stable';
 
 const OPEN_FILE  = 1;  //IPC commands
       ENQUEU_FILE  = 2;
