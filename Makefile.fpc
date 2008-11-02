@@ -40,6 +40,10 @@ ifndef DEBSRCDIR
 DEBSRCDIR=packages/deb/$(LCL_PLATFORM)
 endif
 
+ifndef ZIPSRCDIR
+ZIPSRCDIR=packages/zip/$(LCL_PLATFORM)
+endif
+
 ifndef CACTUS_VERSION
 CACTUS_VERSION=$(shell ./tools/get_cactus_version_string.sh)
 endif
@@ -50,7 +54,7 @@ endif
    
 [rules]
 
-clean:	debclean
+clean:	
 	$(MAKE) -C source clean
 
 all: 
@@ -107,14 +111,43 @@ debcopy:
 
 	#cd $(DEBSRCDIR) ; dpkg-buildpackage -us -uc -B
 	# creating .deb
-	dpkg -b $(DEBSRCDIR) cactusjukebox-$(CACTUS_VERSION)-$(LCL_PLATFORM).deb
+	dpkg -b $(DEBSRCDIR) cactusjukebox-$(CACTUS_VERSION)-$(LCL_PLATFORM)_$(ARCH).deb
 	#mv -v -t . $(DEBSRCDIR)/../*.{deb,dsc,changes,tar.gz}
 
 
-debclean: 
+debclean: clean
 	rm  $(DEBSRCDIR) -drf
 
-deb: debclean alldeb debcopy clean
+deb: debclean alldeb debcopy debclean
 	rm cactus_jukebox
 
+zipcopy:
+	install -d $(ZIPSRCDIR)
+	strip cactus_jukebox
 
+	cp source/cactus_remote $(ZIPSRCDIR)
+	cp cactus_jukebox $(ZIPSRCDIR)
+	cp source/cactus $(ZIPSRCDIR)
+
+	cp languages -dr $(ZIPSRCDIR)
+
+	cp skins -dr $(ZIPSRCDIR)
+
+	cp icon -dr $(ZIPSRCDIR)
+
+	cp tools -dr $(ZIPSRCDIR)
+
+	cp doc -dr $(ZIPSRCDIR)
+
+	find $(ZIPSRCDIR) -name '.svn' | xargs -n1 rm -rf
+
+
+	mv $(ZIPSRCDIR) packages/cactusjukebox-$(CACTUS_VERSION)-$(LCL_PLATFORM)
+	
+	tar -C packages -pczf cactusjukebox-$(CACTUS_VERSION)-$(LCL_PLATFORM)_$(ARCH).tar.gz cactusjukebox-$(CACTUS_VERSION)-$(LCL_PLATFORM)
+
+zipclean: clean
+	rm packages/cactusjukebox-$(CACTUS_VERSION)-$(LCL_PLATFORM) -dfr
+	rm $(ZIPSRCDIR) -dfr
+
+zip: zipclean all zipcopy zipclean
