@@ -56,12 +56,15 @@ endif
 
 clean:	
 	$(MAKE) -C source clean
+	$(MAKE) -C tools clean
 
 all: 
 	$(MAKE) -C source
+	$(MAKE) -C tools
 
 alldeb:
 	$(MAKE) -C source deb CactusRPM=1
+	$(MAKE) -C tools
 
 debcheck:
 ifneq ($(DEBFPCVERSION),$(PACKAGE_VERSION))
@@ -86,12 +89,13 @@ debcopy:
 
 	mv $(DEBSRCDIR)/DEBIAN/control.$(ARCH) $(DEBSRCDIR)/DEBIAN/control
 
+	mv tools/cactus_remote $(DEBSRCDIR)/usr/bin/ 
+	mv cactus_jukebox $(DEBSRCDIR)/usr/bin/
+	mv tools/cactus $(DEBSRCDIR)/usr/bin/
 
-	strip cactus_jukebox
-
-	cp source/cactus_remote $(DEBSRCDIR)/usr/bin 
-	cp cactus_jukebox $(DEBSRCDIR)/usr/bin
-	cp source/cactus $(DEBSRCDIR)/usr/bin
+	strip $(DEBSRCDIR)/usr/bin/cactus_jukebox
+	strip $(DEBSRCDIR)/usr/bin/cactus
+	strip $(DEBSRCDIR)/usr/bin/cactus_remote
 
 	cp languages -dr $(DEBSRCDIR)/usr/share/cactusjukebox
 
@@ -115,19 +119,22 @@ debcopy:
 	#mv -v -t . $(DEBSRCDIR)/../*.{deb,dsc,changes,tar.gz}
 
 
-debclean: clean
+debclean: 
 	rm  $(DEBSRCDIR) -drf
 
 deb: debclean alldeb debcopy debclean
-	rm cactus_jukebox
+	echo "done"
 
 zipcopy:
 	install -d $(ZIPSRCDIR)
-	strip cactus_jukebox
 
-	cp source/cactus_remote $(ZIPSRCDIR)
-	cp cactus_jukebox $(ZIPSRCDIR)
-	cp source/cactus $(ZIPSRCDIR)
+        mv tools/cactus_remote $(ZIPSRCDIR)
+        mv cactus_jukebox $(ZIPSRCDIR)
+        mv tools/cactus $(ZIPSRCDIR)
+
+        strip $(ZIPSRCDIR)/cactus_jukebox
+        strip $(ZIPSRCDIR)/cactus
+        strip $(ZIPSRCDIR)/cactus_remote
 
 	cp languages -dr $(ZIPSRCDIR)
 
@@ -151,3 +158,4 @@ zipclean: clean
 	rm $(ZIPSRCDIR) -dfr
 
 zip: zipclean all zipcopy zipclean
+	echo "done"

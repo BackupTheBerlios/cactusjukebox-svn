@@ -1,0 +1,29 @@
+#
+#   Makefile.fpc for Cactus Jukebox for Free Pascal
+#
+
+[package]
+name=cactusjukebox
+version=0.4stable
+
+[require]
+
+[compiler]
+options=-MObjFPC -gl 
+includedir=../source
+unittargetdir=./
+targetdir=./
+
+
+
+[target]
+programs=cactus cactus_remote
+
+[clean]
+files=$(wildcard *$(OEXT)) $(wildcard *$(PPUEXT)) $(wildcard *$(RSTEXT))  $(wildcard *$(STATICLIBEXT))
+
+[prerules]
+
+[rules]
+
+
