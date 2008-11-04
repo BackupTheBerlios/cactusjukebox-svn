@@ -9,14 +9,16 @@ version=0.4stable
 [require]
 
 [compiler]
-options=-gl -dLCL -dLCL$(LCL_PLATFORM) -o$(EXE_NAME) 
+options=-MObjFPC -gl -dLCL -dLCL$(LCL_PLATFORM) -o$(EXE_NAME) 
 unitdir=$(LCL_DIR)/lcl/units/$(CPU_TARGET)-$(OS_TARGET) \
 	$(LCL_DIR)/lcl/units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM) \
 	$(LCL_DIR)/components/images/ \
 	$(LCL_DIR)/components/images/lib/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM) \
 	$(LCL_DIR)/packager/units/$(CPU_TARGET)-$(OS_TARGET) \
 	$(LNET_DIR) \
-	$(SYNAPSE_DIR) 
+	$(SYNAPSE_DIR) \
+	fmodintf/
+
 
 unittargetdir=./
 targetdir=../
