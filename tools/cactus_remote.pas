@@ -96,7 +96,8 @@ begin
             if (ActionID=OPEN_FILE) or (ActionID=ENQUEU_FILE) or (ActionID=OPEN_AS_NEXT) then begin
 		writeln('   no instance of cactus jukebox found, trying to start one');
             	writeln;
-		exec('/home/daseeb/devel/cactusjukebox/cactus_jukebox','"'+Filename+'"');	
+		setCurrentDir(ExtractFilePath(Paramstr(0)));
+		exec('cactus_jukebox','"'+Filename+'"');	
 	    	//exec(WorkingDir+directoryseparator+'cactus_jukebox','"'+Filename+'"');	
 	      end;	
             free;
