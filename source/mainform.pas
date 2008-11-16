@@ -253,6 +253,7 @@ Type
     Procedure MenuItem9Click(Sender: TObject);
     procedure MIDeviceInfoClick(Sender: TObject);
     Procedure MIremoveRadioClick(Sender: TObject);
+    procedure MIRipAudioClick(Sender: TObject);
     procedure mnuCleanLibClick(Sender: TObject);
     Procedure NetModeBtnClick(Sender: TObject);
     Procedure NextButtonImgClick(Sender: TObject);
@@ -299,7 +300,6 @@ Type
     Procedure MenuItem2Click(Sender: TObject);
     Procedure MenuItem37Click(Sender: TObject);
     Procedure MenuItem43Click(Sender: TObject);
-    Procedure MenuItem46Click(Sender: TObject);
     Procedure Panel1Click(Sender: TObject);
     Procedure Panel1Resize(Sender: TObject);
     Procedure Panel4Click(Sender: TObject);
@@ -1404,6 +1404,15 @@ Begin
   update_artist_view;
 End;
 
+procedure TMain.MIRipAudioClick(Sender: TObject);
+begin
+  cdripwin := Tcdrip.Create(Application);
+  Enabled := false;
+  cdripwin.ShowModal;
+  cdripwin.Free;
+  Enabled := true;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.mnuCleanLibClick(Sender: TObject);
@@ -2434,16 +2443,6 @@ Begin
   {$endif}
 End;
 
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-Procedure TMain.MenuItem46Click(Sender: TObject);
-Begin
-  cdripwin := Tcdrip.Create(Application);
-  Enabled := false;
-  cdripwin.ShowModal;
-  cdripwin.Free;
-  Enabled := true;
-End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

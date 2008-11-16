@@ -7,7 +7,7 @@
       <MainUnit Value="0"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
-      <ActiveEditorIndexAtStart Value="10"/>
+      <ActiveEditorIndexAtStart Value="1"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
@@ -44,9 +44,9 @@
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="61" Y="166"/>
-        <TopLine Value="126"/>
-        <EditorIndex Value="10"/>
+        <CursorPos X="1" Y="127"/>
+        <TopLine Value="122"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -85,7 +85,7 @@
         <UnitName Value="editid3"/>
         <CursorPos X="42" Y="9"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -126,7 +126,7 @@
         <UnitName Value="settings"/>
         <CursorPos X="62" Y="18"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit7>
@@ -168,7 +168,7 @@
         <UnitName Value="player"/>
         <CursorPos X="34" Y="12"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit12>
@@ -199,7 +199,7 @@
         <UnitName Value="fmodplayer"/>
         <CursorPos X="1" Y="96"/>
         <TopLine Value="87"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit16>
@@ -565,7 +565,7 @@
         <UnitName Value="aws"/>
         <CursorPos X="65" Y="244"/>
         <TopLine Value="217"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit67>
@@ -609,7 +609,7 @@
         <UnitName Value="mediacol"/>
         <CursorPos X="7" Y="394"/>
         <TopLine Value="392"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
           <Item0 X="15" Y="399" ID="3"/>
@@ -663,14 +663,14 @@
         <ResourceBaseClass Value="Form"/>
         <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="28" Y="108"/>
-        <TopLine Value="108"/>
+        <CursorPos X="48" Y="302"/>
+        <TopLine Value="283"/>
         <EditorIndex Value="0"/>
         <UsageCount Value="202"/>
         <Bookmarks Count="3">
           <Item0 X="11" Y="1213" ID="0"/>
-          <Item1 X="75" Y="3470" ID="1"/>
-          <Item2 X="28" Y="1745" ID="2"/>
+          <Item1 X="75" Y="3469" ID="1"/>
+          <Item2 X="28" Y="1754" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit79>
@@ -758,7 +758,7 @@
         <UnitName Value="fmoddyn"/>
         <CursorPos X="6" Y="537"/>
         <TopLine Value="515"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit91>
@@ -825,7 +825,7 @@
         <UnitName Value="config"/>
         <CursorPos X="66" Y="182"/>
         <TopLine Value="153"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="119"/>
         <Loaded Value="True"/>
       </Unit100>
@@ -881,7 +881,7 @@
         <UnitName Value="mplayer"/>
         <CursorPos X="109" Y="187"/>
         <TopLine Value="154"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <UsageCount Value="77"/>
         <Loaded Value="True"/>
       </Unit107>
@@ -899,7 +899,7 @@
         <UnitName Value="playerclass"/>
         <CursorPos X="45" Y="32"/>
         <TopLine Value="19"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <UsageCount Value="76"/>
         <Loaded Value="True"/>
       </Unit109>
@@ -913,9 +913,11 @@
       <Unit111>
         <Filename Value="../../lazarus-svn64/components/images/lazpng.pas"/>
         <UnitName Value="LazPNG"/>
-        <CursorPos X="31" Y="24"/>
-        <TopLine Value="2"/>
-        <UsageCount Value="9"/>
+        <CursorPos X="29" Y="30"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit111>
       <Unit112>
         <Filename Value="../../lazarus-svn64/components/images/registerimg4laz.pas"/>
@@ -959,7 +961,7 @@
         <SyntaxHighlighter Value="None"/>
       </Unit117>
     </Units>
-    <JumpHistory Count="12" HistoryIndex="11">
+    <JumpHistory Count="18" HistoryIndex="17">
       <Position1>
         <Filename Value="mainform.pas"/>
         <Caret Line="17" Column="41" TopLine="1"/>
@@ -1008,6 +1010,30 @@
         <Filename Value="mainform.pas"/>
         <Caret Line="109" Column="20" TopLine="108"/>
       </Position12>
+      <Position13>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="256" Column="48" TopLine="255"/>
+      </Position13>
+      <Position14>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="1410" Column="3" TopLine="1348"/>
+      </Position14>
+      <Position15>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="2447" Column="1" TopLine="2427"/>
+      </Position15>
+      <Position16>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="1414" Column="19" TopLine="1408"/>
+      </Position16>
+      <Position17>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="9" Column="97" TopLine="1"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../../lazarus-svn64/components/images/lazpng.pas"/>
+        <Caret Line="24" Column="31" TopLine="1"/>
+      </Position18>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>

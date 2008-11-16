@@ -50,7 +50,6 @@ object Main: TMain
   OnClose = MainClose
   OnCreate = MainCreate
   OnResize = FormResize
-  ParentFont = False
   Position = poDefault
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
@@ -370,7 +369,7 @@ object Main: TMain
           Left = 135
           Height = 22
           Top = 230
-          Width = 75
+          Width = 70
           Caption = 'Random'
           OnChange = randomcheckChange
           TabOrder = 3
@@ -462,7 +461,6 @@ object Main: TMain
             'ogg'
             'wav'
           )
-          MaxLength = -1
           OnChange = filetypeboxChange
           PopupMenu = SearchMenu
           Style = csDropDownList
@@ -1037,6 +1035,7 @@ object Main: TMain
       Caption = 'Devices'
       object MIRipAudio: TMenuItem
         Caption = 'Rip Audio-CD'
+        OnClick = MIRipAudioClick
       end
       object MenuItem34: TMenuItem
         Caption = '-'
