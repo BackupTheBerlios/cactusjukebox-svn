@@ -43,6 +43,8 @@ Function MSecondsToFmtStr(MSeconds: longint): string;
 function MakeValidFilename(Filename: String): string;
 procedure BubbleSort(var Items: TStrings);
 
+function IntTodB(i, ref: longint):integer;
+
 //  function CompareString(const s1, s2: string):byte;   // compare s1, s2 for sorting.   s1>s2 result=1,  abc > axc -> 1
 //   s1<s2 result=-1, xyz < abc -> -1
 //   s1=s2 result=0,  bhj = bhj -> 0
@@ -473,6 +475,14 @@ begin
         done := false;
       end;
   until done;
+end;
+
+function IntTodB(i, ref: longint): integer;
+var dB: Real;
+begin
+  if i=0 then db:=0.001 else dB:=i;
+  dB:= 20*log10(dB/ref);
+  result:=round(dB);
 end;
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

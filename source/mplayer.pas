@@ -77,6 +77,8 @@ var mplayerobj: TMPlayerClass;
 
 implementation
 
+uses math; //used for logarithmic volume calculation
+
 {$ifdef linux}
 const MPLAYER_BINARY='mplayer';
 {$endif}
@@ -159,7 +161,7 @@ if (index<Playlist.ItemCount) and (index>=0)  then begin
   if (FileExists(playlist.items[index].path)) then begin
     if FPlaying then stop;
        MPlayerProcess:=TProcess.Create(nil);
-       MPOptions:='-slave -quiet';
+       MPOptions:='-slave -quiet -softvol -af volume='+IntToStr(IntTodB(FVolume, 100));  // -volume xx only supported with patched mplayer';
        if OutputMode=ALSAOUT then MPOptions:=MPOptions+' -ao alsa';
        if OutputMode=OSSOUT then MPOptions:=MPOptions+' -ao oss';
   
@@ -177,7 +179,6 @@ if (index<Playlist.ItemCount) and (index>=0)  then begin
           FCurrentTrack:=index;
           FPlaying:=true;
           Playlist.Items[index].Played:=true;
-          Set_Volume(FVolume);
           result:=0;
        end;
     end else result:=1;
@@ -186,10 +187,12 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function TMPlayerClass.play(url: string): byte;
 var MPOptions: String;
+    Vol: real;
 begin
   if FPlaying then stop;
   MPlayerProcess:=TProcess.Create(nil);
-  MPOptions:='-slave -quiet';
+
+  MPOptions:='-slave -quiet -softvol -af volume='+IntToStr(IntTodB(FVolume, 100));  // -volume xx only supported with patched mplayer
   if OutputMode=ALSAOUT then MPOptions:=MPOptions+' -ao alsa';
   if OutputMode=OSSOUT then MPOptions:=MPOptions+' -ao oss';
 
@@ -204,7 +207,7 @@ begin
 
   if MPlayerProcess.Running then begin
     FPlaying:=true;
-    Set_Volume(FVolume);
+    result:=0;
   end;
 end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

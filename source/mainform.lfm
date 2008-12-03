@@ -594,7 +594,6 @@ object Main: TMain
       ShowRoot = False
       TabOrder = 0
       OnClick = ArtistTreeClick
-      OnCollapsed = ArtistTreeCollapsed
       OnDblClick = ArtistTreeDblClick
       OnEndDrag = ArtistTreeEndDrag
       OnKeyUp = ArtistTreeKeyUp

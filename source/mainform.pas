@@ -225,7 +225,6 @@ Type
     Trackinfo: TSpeedButton;
     Volumebar: TProgressBar;
     Procedure ArtistTreeClick(Sender: TObject);
-    Procedure ArtistTreeCollapsed(Sender: TObject; Node: TTreeNode);
     Procedure ArtistTreeDblClick(Sender: TObject);
     Procedure ArtistTreeEndDrag(Sender, Target: TObject; X, Y: Integer);
     Procedure ArtistTreeKeyUp(Sender: TObject; Var Key: Word; Shift: TShiftState
@@ -1189,7 +1188,7 @@ End;
 Procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
                                   Shift: TShiftState; X, Y: Integer);
 Begin
-{$ifdef linux}
+{$ifdef linux}  //why only linux?
   If PlayerObj.playing {and player.Playlist.Items[player.CurrentTrack].co} Then
     Begin
 
@@ -3446,11 +3445,6 @@ Procedure TMain.ArtistTreeClick(Sender: TObject);
 Begin
   ArtistSrchField.Hide;
   // if ArtistTree.Selected<>nil then update_title_view;
-End;
-
-Procedure TMain.ArtistTreeCollapsed(Sender: TObject; Node: TTreeNode);
-Begin
-
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
