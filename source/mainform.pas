@@ -241,10 +241,8 @@ Type
                             Shift: TShiftState; X, Y: Integer);
     Procedure FormResize(Sender: TObject);
     Procedure LibModeBtnClick(Sender: TObject);
-    Procedure MenuItem13Click(Sender: TObject);
     Procedure MenuItem15Click(Sender: TObject);
     Procedure MenuItem25Click(Sender: TObject);
-    Procedure MenuItem28Click(Sender: TObject);
     Procedure MenuItem32Click(Sender: TObject);
     Procedure MenuItem6Click(Sender: TObject);
     Procedure MenuItem7Click(Sender: TObject);
@@ -261,10 +259,6 @@ Type
     Procedure NextButtonImgMouseLeave(Sender: TObject);
     Procedure NextButtonImgMouseUp(Sender: TOBject; Button: TMouseButton;
                                    Shift: TShiftState; X, Y: Integer);
-    Procedure PlayerControlsPanelMouseDown(Sender: TObject;
-                                           Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    Procedure PlayerControlsPanelMouseUp(Sender: TObject; Button: TMouseButton;
-                                         Shift: TShiftState; X, Y: Integer);
     Procedure PlaylistCustomDrawItem(Sender: TCustomListView; Item: TListItem;
                                      State: TCustomDrawState; Var DefaultDraw: Boolean);
     procedure pnlPlaytimeClick(Sender: TObject);
@@ -1179,30 +1173,25 @@ End;
 Procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
                                   Shift: TShiftState; X, Y: Integer);
 Begin
-{$ifdef linux}  //why only linux?
-  If PlayerObj.playing and (PlayerObj.CurrentTrack>=0) Then
+{$ifdef linux}  //TODO: check why large cover image is linux only?
+  If PlayerObj.playing and (PlayerObj.PlaybackMode=FILE_MODE) Then
     Begin
 
       BigCoverImgForm := TBigCoverImg.Create(self);
       BigCoverImgForm.Caption := PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].
                                  Album;
-      //BigCoverImgForm.AutoSize:=true;
 
       BigCoverImgForm.Image1.Picture.Assign(CoverImage.Picture);
       BigCoverImgForm.Image1.AutoSize := true;
 
-      //  BigCoverImgForm.BackImg.Canvas.Color:=clWhite;
       BigCoverImgForm.BackImg.AutoSize := true;
       BigCoverImgForm.Width := BigCoverImgForm.Image1.Width+32;
       BigCoverImgForm.Height := BigCoverImgForm.Image1.Height+32;
       BigCoverImgForm.BackImg.Canvas.FillRect(0,0, BigCoverImgForm.Width, BigCoverImgForm.Height);
 
-      //  BigCoverImgForm.BackImg.Canvas.Color:=clBlack;
       BigCoverImgForm.BackImg.Canvas.Rectangle(5,5, BigCoverImgForm.Width-10, BigCoverImgForm.Height
                                                -5);
 
-
-      // BigCoverImgForm.Image1.BringToFront;
       BigCoverImgForm.Image1.Top := 16;
       BigCoverImgForm.Image1.Left := 16;
 
@@ -1211,10 +1200,11 @@ Begin
       BigCoverImgForm.BorderStyle := bsDialog;
       BigCoverImgForm.ShowModal;
 
-      // Enabled:=false;
     End;
 {$endif}
 End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.DeviceModeBtnClick(Sender: TObject);
 Begin
@@ -1251,6 +1241,8 @@ Begin
   Panel1.Width := Width-oldSplitterWidth-8;
 End;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 Procedure TMain.LibModeBtnClick(Sender: TObject);
 Begin
   LibModeBtn.Down := true;
@@ -1269,10 +1261,7 @@ Begin
     End;
 End;
 
-Procedure TMain.MenuItem13Click(Sender: TObject);
-Begin
-
-End;
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.MenuItem15Click(Sender: TObject);
 
@@ -1286,16 +1275,15 @@ Begin
 
 End;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 Procedure TMain.MenuItem25Click(Sender: TObject);
 Begin
   addRadioForm := TaddRadioForm.Create(self);
   addRadioForm.ShowModal;
 End;
 
-Procedure TMain.MenuItem28Click(Sender: TObject);
-Begin
-
-End;
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.MenuItem32Click(Sender: TObject);
 Begin
@@ -1355,6 +1343,8 @@ Procedure TMain.MenuItem9Click(Sender: TObject);
 Begin
   title_to_playlist_at(PlayerObj.CurrentTrack+1);
 End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.MIDeviceInfoClick(Sender: TObject);
 
@@ -1475,18 +1465,7 @@ Begin
   NextButtonImg.Picture.LoadFromFile(SkinData.next.MouseOver);
 End;
 
-Procedure TMain.PlayerControlsPanelMouseDown(Sender: TObject;
-                                             Button: TMouseButton; Shift: TShiftState; X, Y: Integer
-);
-Begin
-
-End;
-
-Procedure TMain.PlayerControlsPanelMouseUp(Sender: TObject;
-                                           Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-Begin
-
-End;
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.PlaylistCustomDrawItem(Sender: TCustomListView;
                                        Item: TListItem; State: TCustomDrawState; Var DefaultDraw:
@@ -1614,7 +1593,6 @@ End;
 
 Procedure TMain.MainClose(Sender: TObject; Var CloseAction: TCloseAction);
 Begin
-  writeln('stop playing');
   PlayerObj.stop;
 
   CactusConfig.WHeight := Height;
@@ -1651,19 +1629,6 @@ Begin
 
 
   PlayerObj.free;
-
-
-{     skinmenuitems[1].free;
-     PlayButtonImg.free;
-     StopButtonImg.free;
-     NextButtonImg.free;
-     PreviousButtonImg.free;
-     PauseButtonImg.free;
-
-     timetmpbmp.free;
-     tempbitmap.Free;
-
-     ImageList1.Free;   }
   CoverImage.Free;
 
 

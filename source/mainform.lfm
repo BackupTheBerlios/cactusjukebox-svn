@@ -1,7 +1,7 @@
 object Main: TMain
-  Left = 386
+  Left = 280
   Height = 658
-  Top = 222
+  Top = 193
   Width = 884
   ActiveControl = ArtistTree
   Caption = 'titel'
@@ -180,8 +180,6 @@ object Main: TMain
         ClientWidth = 224
         TabOrder = 0
         TabStop = True
-        OnMouseDown = PlayerControlsPanelMouseDown
-        OnMouseUp = PlayerControlsPanelMouseUp
         object mute: TSpeedButton
           Left = 132
           Height = 22
@@ -1171,7 +1169,6 @@ object Main: TMain
     end
     object MenuItem13: TMenuItem
       Caption = '-'
-      OnClick = MenuItem13Click
     end
     object MenuItem9: TMenuItem
       Caption = '-> next in playlist'
@@ -2871,7 +2868,6 @@ object Main: TMain
     top = 528
     object MenuItem28: TMenuItem
       Caption = 'Play radio station'
-      OnClick = MenuItem28Click
     end
     object MenuItem32: TMenuItem
       Caption = 'Info/Edit'

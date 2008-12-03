@@ -223,9 +223,7 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 procedure TMPlayerClass.stop;
 begin
- //writeln('stop');
  if FPlaying and Assigned(MPlayerProcess) then begin
- //writeln('stop2');
    SendCommand('quit');
    sleep(15);
    if MPlayerProcess.Running then begin
@@ -234,10 +232,8 @@ begin
          if MPlayerProcess.Terminate(0) then DebugOutLn('Mplayer stopped', 5)
                else DebugOutLn('FATAL Mplayer process zombified',0);
       end;
-// writeln('stop3');
    MPlayerProcess.Free;
  end;
-// writeln('stop4');
  FCurrentTrack:=-1;
  FPlaying:=false;
 end;
@@ -299,6 +295,7 @@ begin
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 function TMPlayerClass.Get_Time: longint;
 var tmps: string;
     i:integer;
@@ -307,16 +304,12 @@ begin
  if GetMPlayerPlaying then begin
   i:=0;
   repeat begin
- // writeln('bf');
     SendCommand('get_property time_pos');
     sleep(8);
-  //  writeln(i);
     tmps:=GetProcessOutput;
-  //  writeln('k');
     inc(i);
    end;
    until (pos('time_pos', tmps)>0) or (i>=3);
-  // writeln('gettime');
    i:=LastDelimiter('=', tmps);
    if i > 0 then begin
         time:= StrToFloat(Copy(tmps, i+1, Length(tmps)));
@@ -325,7 +318,9 @@ begin
    end else result:=-1;
  end else result:=-1;
 end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 function TMPlayerClass.Get_TimeStr: string;
 begin
   result:=MSecondsToFmtStr(Get_Time);
@@ -377,11 +372,14 @@ begin
    end;
  end;
 end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMPlayerClass.Set_Time(ms: longint);
 begin
 
 end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 procedure TMPlayerClass.Set_FilePosition(fpos: longint);
 begin
@@ -390,7 +388,9 @@ begin
    sleep(20);
  end;
 end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMPlayerClass.Set_Volume(vol: byte);
 var commandstr: string;
 begin
@@ -402,7 +402,9 @@ begin
    MPlayerProcess.Input.write(commandstr[1], length(commandstr));
  end;
 end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMPlayerClass.Mute;
 var commandstr: string;
 begin
@@ -410,7 +412,9 @@ begin
    SendCommand('mute');
  end;
 end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 function TMPlayerClass.Muted: boolean;
 var tmps, s: string;
     i:integer;

@@ -22,32 +22,38 @@ Classes, SysUtils, crt, math, config;
 
 
 
-
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Function crc32(path: String): longint;
+
 Function crc32_math(path: String): int64;
+
 Function DirectoryIsEmpty(Directory: String): Boolean;
-Function EraseDirectory(Directory: String): Boolean;
-//delete directory and all subdirectories/files in it
+
+Function EraseDirectory(Directory: String): Boolean; //delete directory and all subdirectories/files in it
+
 Function UTF8toLatin1(utfstring: ansistring): ansistring;
+
 Function Latin1toUTF8(latin1string: ansistring): ansistring;
+
 Function rmZeroChar(s: ansistring): ansistring;
+
 Function FileCopy(Const FromFile, ToFile: String): boolean;
+
 Function FreeSpaceOnDAP: int64;
+
 Function ByteToFmtString(bytes: int64; d1, d2: byte): string;
 // converts i.e. 1024 to 1,0 KB
 // d1, d2 sets amount of digits before and after ','
-Function SecondsToFmtStr(seconds: longint): string;
-//converts integer to mm:ss time format
+
+Function SecondsToFmtStr(seconds: longint): string;//converts integer to mm:ss time format
+
 Function MSecondsToFmtStr(MSeconds: longint): string;
+
 function MakeValidFilename(Filename: String): string;
+
 procedure BubbleSort(var Items: TStrings);
 
 function IntTodB(i, ref: longint):integer;
-
-//  function CompareString(const s1, s2: string):byte;   // compare s1, s2 for sorting.   s1>s2 result=1,  abc > axc -> 1
-//   s1<s2 result=-1, xyz < abc -> -1
-//   s1=s2 result=0,  bhj = bhj -> 0
 
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -394,37 +400,6 @@ End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-{function CompareString(s1, s2: string): byte;
-var i:integer;
-begin
-   s1:=LowerCase(s1);
-   s2:=LowerCase(s2);
-   if s1=s2 then begin  //if both strings are equal, exit here
-       result:=0;
-       exit;
-     end;
-   i:=0;
-   repeat begin
-       if byte(s1[i])>byte(s2[i]) then begin
-               result:=-1;
-               exit;
-             end else begin
-               result:=1;
-               exit;
-          end;
-       inc(i);
-    end;
-    until (i=length(s1)) or (i=length(s2));
-
-    if length(s1)<length(s2) then
-          result:=1
-        else
-          result:=-1;
-end;
- }
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 Function DirectoryIsEmpty(Directory: String): Boolean;
 
 Var 
@@ -444,7 +419,7 @@ End;
 function MakeValidFilename(Filename: String): string;
 var
   I: integer;
-  { for long file names } // FIXME taken from code for win - list correct/complete??
+  { for long file names } // FIXME taken from code for win32 - list correct/complete??
   LongForbiddenChars  : set of Char = ['<', '>', '|', '"', '\', '/', ':', '*', '?'];
 begin
   for I := 1 to Length(Filename) do
@@ -476,6 +451,8 @@ begin
       end;
   until done;
 end;
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 function IntTodB(i, ref: longint): integer;
 var dB: Real;

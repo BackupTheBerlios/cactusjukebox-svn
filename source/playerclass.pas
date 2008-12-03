@@ -11,8 +11,6 @@ This Software is published under the GPL
 
 
 
-
-
 }
 
 unit playerclass;
