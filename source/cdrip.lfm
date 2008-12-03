@@ -3,9 +3,7 @@ object cdrip: Tcdrip
   Height = 547
   Top = 45
   Width = 540
-  HorzScrollBar.Page = 539
-  VertScrollBar.Page = 546
-  ActiveControl = startbtn
+  ActiveControl = artistedit
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Rip CD...'
@@ -16,6 +14,7 @@ object cdrip: Tcdrip
   OnCreate = FormCreate
   Position = poMainFormCenter
   ShowInTaskBar = stNever
+  LCLVersion = '0.9.27'
   object LArtist: TLabel
     Left = 24
     Height = 12
@@ -38,7 +37,7 @@ object cdrip: Tcdrip
   end
   object LNameScheme: TLabel
     Left = 40
-    Height = 20
+    Height = 14
     Top = 392
     Width = 133
     Caption = 'Outfile naming scheme'
@@ -76,15 +75,15 @@ object cdrip: Tcdrip
       Left = 208
       Height = 14
       Top = 16
-      Width = 62
+      Width = 74
       Caption = 'Bitrate kbit/s'
       ParentColor = False
     end
     object writetagscheck: TCheckBox
       Left = 56
-      Height = 13
+      Height = 22
       Top = 44
-      Width = 92
+      Width = 103
       Caption = 'Write ID3-Tags'
       Checked = True
       State = cbChecked
@@ -92,9 +91,9 @@ object cdrip: Tcdrip
     end
     object encodecheck: TCheckBox
       Left = 16
-      Height = 13
+      Height = 22
       Top = 16
-      Width = 92
+      Width = 109
       Caption = 'Encode to mp3'
       Checked = True
       OnChange = encodecheckChange
@@ -103,10 +102,9 @@ object cdrip: Tcdrip
     end
     object bitratebox: TComboBox
       Left = 289
-      Height = 21
+      Height = 27
       Top = 12
       Width = 63
-      AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
       ItemIndex = 2
       Items.Strings = (
         '64'
@@ -117,15 +115,14 @@ object cdrip: Tcdrip
         '256'
         '320'
       )
-      MaxLength = 0
       TabOrder = 2
       Text = '128'
     end
     object subfoldercheck: TCheckBox
       Left = 216
-      Height = 13
+      Height = 22
       Top = 45
-      Width = 122
+      Width = 154
       Caption = 'Create artist subfolder'
       Checked = True
       State = cbChecked
@@ -133,9 +130,9 @@ object cdrip: Tcdrip
     end
     object paranoia: TCheckBox
       Left = 16
-      Height = 13
+      Height = 22
       Top = 80
-      Width = 208
+      Width = 258
       Caption = 'Deep error eorrection (using libparanoia)'
       TabOrder = 4
       Visible = False
@@ -159,7 +156,7 @@ object cdrip: Tcdrip
   end
   object querrybtn: TButton
     Left = 384
-    Height = 27
+    Height = 33
     Top = 24
     Width = 90
     AutoSize = True
@@ -209,12 +206,13 @@ object cdrip: Tcdrip
         Width = 50
       end>
     DefaultColWidth = 20
+    ExtendedSelect = True
     FixedColor = clBtnFace
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goDrawFocusSelected, goColSizing, goEditing, goColSpanning, goSmoothScroll, goScrollKeepVisible]
+    ParentColor = False
     RowCount = 1
     ScrollBars = ssVertical
     TabOrder = 7
-    TabStop = True
     OnHeaderClick = TrackgridHeaderClick
     OnSelectCell = TrackgridSelectCell
   end
@@ -230,11 +228,9 @@ object cdrip: Tcdrip
   end
   object outputfolderbox: TComboBox
     Left = 24
-    Height = 21
+    Height = 27
     Top = 352
     Width = 344
-    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-    MaxLength = 0
     TabOrder = 9
     Text = 'outputfolderbox'
   end
@@ -249,27 +245,23 @@ object cdrip: Tcdrip
   end
   object drivebox: TComboBox
     Left = 424
-    Height = 21
+    Height = 27
     Top = 128
     Width = 96
-    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
-    MaxLength = 0
     TabOrder = 11
     Text = ' '
   end
   object FileNameType: TComboBox
     Left = 184
-    Height = 21
+    Height = 27
     Top = 384
     Width = 184
-    AutoCompleteText = [cbactEndOfLineComplete, cbactSearchAscending]
     ItemIndex = 0
     Items.Strings = (
       'Track - Artist - Title'
       'Artist - Title'
       'Artist -Track - Title'
     )
-    MaxLength = 0
     TabOrder = 12
     Text = 'Track - Artist - Title'
   end
@@ -280,7 +272,6 @@ object cdrip: Tcdrip
     left = 24
   end
   object SelectDirectoryDialog1: TSelectDirectoryDialog
-    Title = 'Verzeichnis auswählen'
     FilterIndex = 0
   end
 end

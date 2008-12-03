@@ -279,7 +279,7 @@ var s, tmps, fpath, fartist, ftitle:string;
     fileobj: TMediaFileClass;
     filehandle:text;
 begin
-
+ try
   system.assign(Filehandle,path);
   Reset(filehandle);
   readln(filehandle, tmps);
@@ -317,6 +317,10 @@ begin
      until eof(filehandle);
     end else writeln(path+' is not a valid m3u playlist');
     close(filehandle);
+    result:=0;
+   except
+    result:=1;
+   end;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -326,15 +330,20 @@ var i:integer;
     temps: string;
     filehandle:text;
 begin
-  system.assign(Filehandle,path);
-  Rewrite(filehandle);
-  writeln(Filehandle,'#EXTM3U');
-  for i:= 0 to Count-1 do begin
-          str(Items[i].LengthMS div 1000, temps);
-          writeln(filehandle,'#EXTINF:'+temps+','+Items[i].artist+' - '+Items[i].title);
-          writeln(filehandle, Items[i].path);
-      end;
-  close(filehandle);
+ try
+   system.assign(Filehandle,path);
+   Rewrite(filehandle);
+   writeln(Filehandle,'#EXTM3U');
+   for i:= 0 to Count-1 do begin
+           str(Items[i].LengthMS div 1000, temps);
+           writeln(filehandle,'#EXTINF:'+temps+','+Items[i].artist+' - '+Items[i].title);
+           writeln(filehandle, Items[i].path);
+       end;
+   close(filehandle);
+   result:=0;
+  except
+   result:=1;
+  end;
 end;
 
 

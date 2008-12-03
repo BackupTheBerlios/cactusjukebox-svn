@@ -38,7 +38,7 @@ Type
     AudioSystem: TOutputMode;
     AudioBackend: TAudioBackend;
 
-    AutostartPlay, StopOnClear: Boolean;
+    AutostartPlay, StopOnClear, LoadLastPlaylist: Boolean;
     language: string;
     // country code, e.g. de -> germany
 
@@ -131,6 +131,7 @@ Begin
     StreamColPath := FConfigFile.GetValue('Library/StreamCollection','');
     AutostartPlay := FConfigFile.GetValue('Playlist/Autoplay', true);
     StopOnClear:= FConfigFile.GetValue('Playlist/StopOnClear', false);
+    LoadLastPlaylist:=FConfigFile.getValue('Playlist/LoadPrevious', true);
 
     Lame := FConfigFile.GetValue('Lame/Path', '/usr/bin/lame');
     GetLanguageIDs(tmps1, tmps2);
@@ -193,6 +194,7 @@ Begin
     FConfigFile.SetValue('Userinterface/DisplayPlayTimeNegated', bDisplayPlayTimeNegated);
     FConfigFile.SetValue('Playlist/Autoplay', AutostartPlay);
     FConfigFile.SetValue('Playlist/StopOnClear', StopOnClear);
+    FConfigFile.SetValue('Playlist/LoadPrevious', LoadLastPlaylist);
     FConfigFile.SetValue('Userinterface/Window/Width', WWidth);
     FConfigFile.SetValue('Userinterface/Window/Height', WHeight);
     FConfigFile.SetValue('Userinterface/Window/SplitterWidth', WSplitterWidth);

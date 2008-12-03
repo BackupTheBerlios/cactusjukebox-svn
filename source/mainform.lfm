@@ -379,7 +379,6 @@ object Main: TMain
           Height = 57
           Top = 165
           Width = 12
-          Max = 100
           OnMouseUp = VolumebarMouseUp
           Orientation = pbVertical
           Position = 100
@@ -391,7 +390,6 @@ object Main: TMain
           Height = 10
           Top = 83
           Width = 176
-          Max = 100
           OnMouseUp = trackbarMouseUp
           Smooth = True
           TabOrder = 4
@@ -691,7 +689,6 @@ object Main: TMain
       EdgeBorders = [ebTop, ebRight]
       EdgeInner = esNone
       EdgeOuter = esNone
-      Flat = True
       HotImages = SidebarImgList
       Images = SidebarImgList
       TabOrder = 2
@@ -724,7 +721,8 @@ object Main: TMain
   end
   object playlistmenu: TPopupMenu
     Images = ImageList1
-    top = 400
+    left = 512
+    top = 592
     object MenuItem10: TMenuItem
       Caption = 'File info/edit'
       Bitmap.Data = {
@@ -1087,7 +1085,7 @@ object Main: TMain
   object titlelistmenu: TPopupMenu
     Images = ImageList1
     OnPopup = titlelistmenuPopup
-    top = 432
+    left = 784
     object MenuItem7: TMenuItem
       Caption = 'Listen track'
       Bitmap.Data = {
@@ -2848,8 +2846,8 @@ object Main: TMain
     }
   end
   object SearchMenu: TPopupMenu
-    left = 728
-    top = 320
+    left = 752
+    top = 240
     object SrchArtItem: TMenuItem
       Caption = 'Artist'
       Checked = True
@@ -2871,8 +2869,7 @@ object Main: TMain
   end
   object NetworktreePopup: TPopupMenu
     AutoPopup = False
-    left = 40
-    top = 448
+    top = 528
     object MenuItem28: TMenuItem
       Caption = 'Play radio station'
       OnClick = MenuItem28Click

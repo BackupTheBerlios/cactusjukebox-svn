@@ -27,7 +27,7 @@ Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
 ExtCtrls, Buttons, ComCtrls, CheckLst, config,playerclass;
 
 resourcestring
-rsAutoloadLast = 'Autoload last library at startup';
+rsAutoloadLast = 'Load last library at startup';
 rsScanForNewFi = 'Scan for new files in background  on startup';
 rsLanguage = 'Language';
 rsWhatToDoWhen = 'What to do when there is no ID3';
@@ -51,6 +51,7 @@ rsAudioOutput = 'Audio Output';
 rsDownloadAlbu = 'Download album cover image from internet';
 rsClearCache = 'Clear Cache';
 rsAutomaticlyS = 'Automaticly start playing first song in playlist';
+rsLoadLastPlay = 'Load last playlist on startup';
 
 
 
@@ -71,6 +72,7 @@ Type
     CDRomEdit: TEdit;
     AutoPlayBox: TCheckBox;
     AudioBackend: TComboBox;
+    LoadPlaylistBox: TCheckBox;
     StopOnClearBox: TCheckBox;
     Label4: TLabel;
     Label6: TLabel;
@@ -192,22 +194,17 @@ Begin
   if AudioBackend.ItemIndex=0 then CactusConfig.AudioBackend:=MPLAYERBACK
       else CactusConfig.AudioBackend:=FMODBACK;
 {$endif}
-  If guesstag1.checked Then CactusConfig.GuessTag := true
-     Else CactusConfig.GuessTag := false;
-  If backscan.Checked Then CactusConfig.background_scan := true
-     Else CactusConfig.background_scan := false;
-  If v2_prio.Checked Then CactusConfig.id3v2_prio := true
-     Else CactusConfig.id3v2_prio := false;
-  If subfolders.checked Then CactusConfig.mobile_subfolders := true
-     Else CactusConfig.mobile_subfolders := false;
-  If CoverDownload.Checked Then CactusConfig.CoverDownload := true
-     Else CactusConfig.CoverDownload := false;
-  If AutoPlayBox.Checked Then CactusConfig.AutostartPlay := true
-     Else CactusConfig.AutostartPlay := false;
-  CactusConfig.StopOnClear:=StopOnClearBox.Checked;
-  //     MediaCollection.guess_tag:=CactusConfig.GuessTag;
-  CactusConfig.strTagToNameFormatString := txtFormatString.Text;
 
+  CactusConfig.GuessTag := guesstag1.checked;
+  CactusConfig.background_scan := backscan.Checked;
+
+  CactusConfig.id3v2_prio := v2_prio.Checked;
+  CactusConfig.mobile_subfolders := subfolders.checked;
+  CactusConfig.CoverDownload := CoverDownload.Checked;
+  CactusConfig.AutostartPlay:=AutoPlayBox.Checked;
+  CactusConfig.StopOnClear:=StopOnClearBox.Checked;
+  CactusConfig.LoadLastPlaylist:=LoadPlaylistBox.Checked;
+  CactusConfig.strTagToNameFormatString := txtFormatString.Text;
   CactusConfig.language := LanguageBox.Items[LanguageBox.ItemIndex];
   CactusConfig.FlushConfig;
 
@@ -307,6 +304,7 @@ Begin
   TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po',
                                CactusConfig.language, copy(CactusConfig.language, 0, 2));
   autoload1.Caption := rsAutoloadLast;
+  LoadPlaylistBox.Caption:=rsLoadLastPlay;
   backscan.Caption := rsScanForNewFi;
   LLanguage.Caption := rsLanguage;
   GuessTagBox.Caption := rsWhatToDoWhen;
@@ -358,6 +356,8 @@ Begin
   If CactusConfig.id3v2_prio Then v2_prio.Checked := true
      Else v1_prio.checked := true;
   AutoPlayBox.Checked := CactusConfig.AutostartPlay;
+  LoadPlaylistBox.Checked:=CactusConfig.LoadLastPlaylist;
+
   StopOnClearBox.Checked:=CactusConfig.StopOnClear;
   txtFormatString.Text := CactusConfig.strTagToNameFormatString;
 

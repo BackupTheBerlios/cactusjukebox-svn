@@ -1631,6 +1631,12 @@ Begin
   CactusConfig.WWidth := Width;
   CactusConfig.WSplitterWidth := Splitter1.Left;
   CactusConfig.bDisplayPlayTimeNegated:= bPnlPlaytimeNegated;
+
+  if CactusConfig.LoadLastPlaylist and (PlayerObj.Playlist.Count>0) then begin
+       if PlayerObj.Playlist.SaveToFile(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'last.m3u')<>0 then
+             DebugOutLn('ERROR saving playlist', 2);
+     end else if PlayerObj.Playlist.Count=0 then DeleteFile(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'last.m3u');
+
   If (MediaCollection.ItemCount>1) Then
     Begin
       MediaCollection.SaveToFile(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'last.mlb');
@@ -1697,6 +1703,8 @@ Procedure TMain.MainCreate(Sender: TObject);
 
 Var tmps1: string;
     MPlayerExeDialog: TSelectDirectoryDialog;
+    id: longint;
+    listitem: TListItem;
 Begin
   DebugOutLn('## Main.onCreate ##', 3);
   Caption := 'Cactus Jukebox '+CACTUS_VERSION;
@@ -1891,8 +1899,26 @@ Begin
         Begin
           writeln('Error loading stream collection');
         End;
-
     End;
+
+  If CactusConfig.LoadLastPlaylist then begin
+       if FileExists(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'last.m3u') then
+          Begin
+            if PlayerObj.Playlist.LoadFromFile(CactusConfig.ConfigPrefix+'lib'+DirectorySeparator+'last.m3u')<>0 then
+                DebugOutLn('ERROR loading last playlist',2);
+            For id:= 0 To PlayerObj.Playlist.Count-1 Do
+               Begin
+                  ListItem := Playlist.Items.Add;
+                  listitem.Data := TMediaFileClass.create(PlayerObj.Playlist.Items[id].path, Nil);
+                  if (PlayerObj.Playlist.items[id].Artist<>'') or (PlayerObj.Playlist.items[id].Title<>'') then
+                       ListItem.Caption := PlayerObj.Playlist.items[id].Artist+' - '+PlayerObj.Playlist.Items[id].Title
+                     else
+                       ListItem.Caption := ExtractFileName(PlayerObj.Playlist.items[id].Path);
+               End;
+            if Playlist.Items.Count>0 then Playlist.Selected:=Playlist.Items[0];
+          end;
+      end;
+
   If CactusConfig.AlbumCoverFirsttime Then
     Begin
       tmps1 := 'Cactus Jukebox can download album cover art from internet and show it on playback'
@@ -2324,6 +2350,7 @@ Begin
               else
                 ListItem.Caption := ExtractFileName(PlayerObj.Playlist.items[id].Path);
         End;
+      if Playlist.Items.Count>0 then Playlist.Selected:=Playlist.Items[0];
     End;
   OpenDialog.Free;
 End;

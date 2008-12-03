@@ -287,7 +287,7 @@ Var
   b: byte;
   tmps: string;
   ti1, ti2: integer;
-  t1,t2: string;
+  t1,t2, EncPercent: string;
   i: integer;
 Begin
 
@@ -335,11 +335,13 @@ Begin
         Begin
           Outputstring.clear;
           Outputstring.LoadFromStream(Outputstream);
-          tmps := copy(Outputstring.Strings[Outputstring.Count-1], pos('%', Outputstring.Strings[
-                  Outputstring.Count-1])-3, 3);
-          Trackgrid.Cells[2,RipTrack] := tmps+'%';
+          for i:=0 to Outputstring.Count-1 do begin
+              tmps := copy(Outputstring.Strings[i], pos('%', Outputstring.Strings[i])-3, 3);
+              if tmps<>'' then EncPercent:=tmps;
+          end;
 
-// Uncomment for Debug if Outputstring.Count>0 then for n:= 1 to Outputstring.Count-1 do {if pos('(==',Outputstring.Strings[n])>0 then }writeln(Outputstring.Strings[n]);
+          Trackgrid.Cells[2,RipTrack] := EncPercent+'%';
+
         End;
     End;
   If (ripping) And (RipProcess.Running=false) Then
@@ -424,7 +426,7 @@ Begin
               writeln('Finished all tracks');
               Trackgrid.Cells[2,RipTrack] := '100%';
               Caption := 'CD Rip... < Finished >';
-              Trackgrid.Enabled := true;
+              Trackgrid.Options:= Trackgrid.Options + [goEditing];
               Timer1.Enabled := false;
               main.update_artist_view;
               update_title_view;
@@ -441,18 +443,17 @@ Begin
       Outputstream.SetSize(1024);
       i := (EncodeProcess.OutPut.Read(Outputstream.Memory^, 1024));
       Outputstream.SetSize(i);
-      //writeln(i);
       If i>0 Then
         Begin
           Outputstring.clear;
           Outputstring.LoadFromStream(Outputstream);
-          tmps := copy(Outputstring.Strings[Outputstring.Count-1], pos('%', Outputstring.Strings[
-                  Outputstring.Count-1])-2, 2);
-          //    writeln(tmps);
-          Trackgrid.Cells[2,EncodeTrack] := tmps+'%';
+          for i:=0 to Outputstring.Count-1 do begin
+              tmps := copy(Outputstring.Strings[i], pos('%', Outputstring.Strings[i])-2, 2);
+              if tmps<>'' then EncPercent:=tmps;
+          end;
+          writeln(EncPercent);
+          Trackgrid.Cells[2,EncodeTrack] := EncPercent+'%';
           Application.ProcessMessages;
-
-//if Outputstring.Count>0 then for n:= 1 to Outputstring.Count-1 do {if pos('(==',Outputstring.Strings[n])>0 then }writeln(Outputstring.Strings[n]);
         End;
     End;
 
@@ -538,7 +539,8 @@ Begin
     Begin
       If FileExists('/usr/bin/cdda2wav') Then
         Begin {NOT PORTABLE!!!}
-          Trackgrid.Enabled := false;
+          Trackgrid.Options:= Trackgrid.Options - [goEditing];
+         // Trackgrid.Enabled := false;
           Trackgrid.Cells[2,i] := '0%';
           ToRip[i] := false;
           RipTrack := i;
