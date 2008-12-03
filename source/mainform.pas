@@ -234,7 +234,6 @@ Type
     Procedure ArtistTreeSelectionChanged(Sender: TObject);
     Procedure ArtistTreeStartDrag(Sender: TObject; Var DragObject: TDragObject);
     Procedure Button1Click(Sender: TObject);
-    Procedure ButtonPanel1Click(Sender: TObject);
     Procedure CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
                                 Shift: TShiftState; X, Y: Integer);
     Procedure DeviceModeBtnClick(Sender: TObject);
@@ -406,8 +405,6 @@ Type
 
     Procedure loadskin(Sender: TObject);
     Procedure update_player_hdd_relations;
-    Procedure VolumebarMouseDown(Sender: TObject; Button: TMouseButton;
-                                 Shift: TShiftState; X, Y: Integer);
     Procedure VolumebarMouseUp(Sender: TObject; Button: TMouseButton;
                                Shift: TShiftState; X, Y: Integer);
     Private 
@@ -735,11 +732,7 @@ Begin
   Playercol.SaveToFile(CactusConfig.DAPPath+'cactuslib');
 End;
 
-Procedure TMain.VolumebarMouseDown(Sender: TObject; Button: TMouseButton;
-                                   Shift: TShiftState; X, Y: Integer);
-Begin
-
-End;
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.VolumebarMouseUp(Sender: TObject; Button: TMouseButton;
                                  Shift: TShiftState; X, Y: Integer);
@@ -1167,20 +1160,18 @@ Begin
   If Not NetworkMode Then update_title_view;
 End;
 
-Procedure TMain.ArtistTreeStartDrag(Sender: TObject; Var DragObject: TDragObject
-);
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Procedure TMain.ArtistTreeStartDrag(Sender: TObject; Var DragObject: TDragObject);
 Begin
   artist_drag := true;
 End;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 Procedure TMain.Button1Click(Sender: TObject);
 Begin
   TitleTree.Clear;
-End;
-
-Procedure TMain.ButtonPanel1Click(Sender: TObject);
-Begin
-
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1189,7 +1180,7 @@ Procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
                                   Shift: TShiftState; X, Y: Integer);
 Begin
 {$ifdef linux}  //why only linux?
-  If PlayerObj.playing {and player.Playlist.Items[player.CurrentTrack].co} Then
+  If PlayerObj.playing and (PlayerObj.CurrentTrack>=0) Then
     Begin
 
       BigCoverImgForm := TBigCoverImg.Create(self);
