@@ -90,7 +90,7 @@ object Main: TMain
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
-      Height = 203
+      Height = 222
       Top = 5
       Width = 587
       Align = alTop
@@ -125,9 +125,19 @@ object Main: TMain
         end      
         item
           AutoSize = True
+          Caption = 'Genre'
+          Width = 43
+        end      
+        item
+          AutoSize = True
+          Caption = 'Filename'
+          Visible = False
+        end      
+        item
+          AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 410
+          Width = 367
         end>
       PopupMenu = titlelistmenu
       ReadOnly = True
@@ -150,19 +160,19 @@ object Main: TMain
     object Splitter2: TSplitter
       Cursor = crVSplit
       Height = 10
-      Top = 208
+      Top = 227
       Width = 597
       Align = alTop
       ResizeAnchor = akTop
     end
     object Panel3: TPanel
-      Height = 402
-      Top = 218
+      Height = 383
+      Top = 237
       Width = 597
       Align = alClient
       BevelOuter = bvNone
       Caption = 'Panel3'
-      ClientHeight = 402
+      ClientHeight = 383
       ClientWidth = 597
       TabOrder = 2
       object PlayerControlsPanel: TPanel
@@ -343,23 +353,22 @@ object Main: TMain
           ParentShowHint = False
         end
         object current_title_edit: TEdit
-          Cursor = crArrow
+          Cursor = crNo
           Left = 12
           Height = 23
-          Top = 101
+          Top = 99
           Width = 200
           Color = clBtnFace
           ReadOnly = True
           TabOrder = 0
         end
         object current_title_edit1: TEdit
-          Cursor = crArrow
+          Cursor = crNo
           Left = 12
           Height = 24
           Top = 131
           Width = 200
           Color = clBtnFace
-          DragMode = dmAutomatic
           ReadOnly = True
           TabOrder = 1
         end
@@ -407,7 +416,7 @@ object Main: TMain
       end
       object Playlist: TListView
         Left = 240
-        Height = 320
+        Height = 301
         Top = 75
         Width = 348
         Align = alCustom
@@ -1273,6 +1282,33 @@ object Main: TMain
     end
     object MenuItem17: TMenuItem
       Caption = '-'
+    end
+    object MTitleView: TMenuItem
+      Caption = 'View'
+      object MIViewArtist: TMenuItem
+        Caption = 'Artist'
+        OnClick = MIViewArtistClick
+      end
+      object MIViewTitle: TMenuItem
+        Caption = 'Title'
+        OnClick = MIViewTitleClick
+      end
+      object MIViewAlbum: TMenuItem
+        Caption = 'Album'
+        OnClick = MIViewAlbumClick
+      end
+      object MIViewTrack: TMenuItem
+        Caption = 'Track'
+        OnClick = MIViewTrackClick
+      end
+      object MIViewGenre: TMenuItem
+        Caption = 'Genre'
+        OnClick = MIViewGenreClick
+      end
+      object MIViewFilename: TMenuItem
+        Caption = 'Filename'
+        OnClick = MIViewFilenameClick
+      end
     end
     object MenuItem18: TMenuItem
       Caption = 'Advanced'
@@ -2856,6 +2892,7 @@ object Main: TMain
     end
     object SrchAlbumItem: TMenuItem
       Caption = 'Album'
+      Checked = True
       OnClick = SrchAlbumItemClick
     end
     object SrchFileItem: TMenuItem

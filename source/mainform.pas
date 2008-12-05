@@ -95,6 +95,13 @@ Type
     filetypebox: TComboBox;
     MenuItem25: TMenuItem;
     MenuItem27: TMenuItem;
+    MIViewArtist: TMenuItem;
+    MIViewTitle: TMenuItem;
+    MIViewAlbum: TMenuItem;
+    MIViewTrack: TMenuItem;
+    MIViewGenre: TMenuItem;
+    MIViewFilename: TMenuItem;
+    MTitleView: TMenuItem;
     MenuItem35: TMenuItem;
     MIClearPlayer: TMenuItem;
     MIUndoPlayer: TMenuItem;
@@ -243,6 +250,8 @@ Type
     Procedure LibModeBtnClick(Sender: TObject);
     Procedure MenuItem15Click(Sender: TObject);
     Procedure MenuItem25Click(Sender: TObject);
+    procedure MIViewAlbumClick(Sender: TObject);
+    procedure MIViewArtistClick(Sender: TObject);
     Procedure MenuItem32Click(Sender: TObject);
     Procedure MenuItem6Click(Sender: TObject);
     Procedure MenuItem7Click(Sender: TObject);
@@ -250,6 +259,10 @@ Type
     procedure MIDeviceInfoClick(Sender: TObject);
     Procedure MIremoveRadioClick(Sender: TObject);
     procedure MIRipAudioClick(Sender: TObject);
+    procedure MIViewFilenameClick(Sender: TObject);
+    procedure MIViewGenreClick(Sender: TObject);
+    procedure MIViewTitleClick(Sender: TObject);
+    procedure MIViewTrackClick(Sender: TObject);
     procedure mnuCleanLibClick(Sender: TObject);
     Procedure NetModeBtnClick(Sender: TObject);
     Procedure NextButtonImgClick(Sender: TObject);
@@ -1283,6 +1296,18 @@ Begin
   addRadioForm.ShowModal;
 End;
 
+procedure TMain.MIViewAlbumClick(Sender: TObject);
+begin
+  MIViewAlbum.Checked := not MIViewAlbum.Checked;
+end;
+
+procedure TMain.MIViewArtistClick(Sender: TObject);
+begin
+  MIViewArtist.Checked := not MIViewArtist.Checked;
+  CactusConfig.TLShowArtist:= MIViewArtist.Checked;
+  TitleTree.Column[1].Visible := CactusConfig.TLShowArtist;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.MenuItem32Click(Sender: TObject);
@@ -1384,6 +1409,8 @@ Begin
   update_artist_view;
 End;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMain.MIRipAudioClick(Sender: TObject);
 begin
   cdripwin := Tcdrip.Create(Application);
@@ -1391,6 +1418,42 @@ begin
   cdripwin.ShowModal;
   cdripwin.Free;
   Enabled := true;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMain.MIViewFilenameClick(Sender: TObject);
+begin
+  MIViewFilename.Checked := not MIViewFilename.Checked;
+  CactusConfig.TLShowFilename:= MIViewFilename.Checked;
+  TitleTree.Column[6].Visible := CactusConfig.TLShowFilename;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMain.MIViewGenreClick(Sender: TObject);
+begin
+  MIViewGenre.Checked := not MIViewGenre.Checked;
+  CactusConfig.TLShowGenre:=MIViewGenre.Checked;
+  TitleTree.Column[5].Visible := CactusConfig.TLShowGenre;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMain.MIViewTitleClick(Sender: TObject);
+begin
+  MIViewTitle.Checked := not MIViewTitle.Checked;
+  CactusConfig.TLShowTitle:= MIViewTitle.Checked;
+  TitleTree.Column[2].Visible := CactusConfig.TLShowTitle;
+end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMain.MIViewTrackClick(Sender: TObject);
+begin
+  MIViewTrack.Checked := not MIViewTrack.Checked;
+  CactusConfig.TLShowTrack:= MIViewTrack.Checked;
+  TitleTree.Column[4].Visible := CactusConfig.TLShowTrack;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1736,7 +1799,24 @@ Begin
   TitleTree.Column[2].Caption := rsTitle;
   TitleTree.Column[3].Caption := rsAlbum;
   TitleTree.Column[4].Caption := rsTrack;
-  TitleTree.Column[5].Caption := rsLenght;
+
+  TitleTree.Column[7].Caption := rsLenght;
+
+  TitleTree.Column[1].Visible := CactusConfig.TLShowArtist;
+  TitleTree.Column[2].Visible := CactusConfig.TLShowTitle;
+  TitleTree.Column[3].Visible := CactusConfig.TLShowAlbum;
+  TitleTree.Column[4].Visible := CactusConfig.TLShowTrack;
+  TitleTree.Column[5].Visible := CactusConfig.TLShowGenre;
+  TitleTree.Column[6].Visible := CactusConfig.TLShowFilename;
+  TitleTree.Column[7].Visible := true;
+
+  MIViewFilename.Checked:=CactusConfig.TLShowFilename;
+  MIViewGenre.Checked:=CactusConfig.TLShowGenre;
+  MIViewTrack.Checked:=CactusConfig.TLShowTrack;
+  MIViewAlbum.Checked:=CactusConfig.TLShowAlbum;
+  MIViewTitle.Checked:=CactusConfig.TLShowTitle;
+  MIViewArtist.Checked:=CactusConfig.TLShowArtist;
+
 
   oldSplitterWidth := CactusConfig.WSplitterWidth;
   bPnlPlaytimeNegated := CactusConfig.bDisplayPlayTimeNegated;
@@ -3433,7 +3513,7 @@ Begin
                    artistsearch.Text := c;
                    artistsearch.SetFocus;
                    artistsearch.SelStart := 1;
-                   //                artistsearch.SelLength:=0;
+                   artistsearch.SelLength:=0;
 
                  End;
                i := 0;
@@ -4118,6 +4198,8 @@ Begin
               ListItem.SubItems.Add ((MedColObj.items[i].title));
               ListItem.SubItems.Add ((MedColObj.items[i].album));
               ListItem.SubItems.Add (MedColObj.items[i].track);
+              ListItem.SubItems.Add (ID3Genre[MedColObj.items[i].GenreID]);
+              ListItem.SubItems.Add(ExtractFileName(MedColObj.items[i].Path));
               ListItem.SubItems.Add(MedColObj.items[i].playtime);
 
             End;

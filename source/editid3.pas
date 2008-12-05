@@ -50,6 +50,7 @@ Type
     cancelbut1: TButton;
     cmbYear: TComboBox;
     cmbComment: TComboBox;
+    GenreBox: TComboBox;
     commentedit1: TEdit;
     Edit1: TEdit;
     Edit3: TEdit;
@@ -95,7 +96,6 @@ Type
     trackedit1: TEdit;
     trackedit2: TEdit;
     yearEdit1: TEdit;
-    Edit2: TEdit;
     lblArtist: TLabel;
     lblTitle: TLabel;
     lblAlbum: TLabel;
@@ -110,6 +110,7 @@ Type
     titleedit1: TEdit;
     yearEdit2: TEdit;
     yearEdit3: TEdit;
+    procedure ac(Sender: TObject);
     procedure btnOptionsClick(Sender: TObject);
     Procedure Button1Click(Sender: TObject);
     Procedure btnResetClick(Sender: TObject);
@@ -134,6 +135,9 @@ Type
     picrequest_send: boolean;
     awsclass: TAWSAccess;
     bEModeActive: boolean;
+
+    GenreIDtoCBIndex: array[0..255, 0..255] of integer;  //used to translate genre id to checkbox item index
+
     // Edit-mode specific variable
     ptrControls: array Of array Of ^TControl;
     // ..
@@ -195,6 +199,7 @@ Begin
               writeln('artist_mode: '+ artistedit1.Text +' #'+ IntToStr(z));
               // DEBUG-INFO
               MedFileObj.artist := newart;
+              MedFileObj.GenreID:= GenreIDtoCBIndex[0, GenreBox.ItemIndex];
               If bYearLongEnough Then MedColObj.items[z].year := self.cmbYear.Caption;
               MedFileObj.comment := strNewComment;
               MedFileObj.write_tag;
@@ -226,6 +231,7 @@ Begin
                    MedFileObj.Artist := newart;
                    If bYearLongEnough Then MedFileObj.year := self.cmbYear.Caption;
                    MedFileObj.comment := strNewComment;
+                   MedFileObj.GenreID:= GenreIDtoCBIndex[0, GenreBox.ItemIndex];
                    MedFileObj.write_tag;
                    z := MedColObj.getNext;
                  End;
@@ -241,6 +247,7 @@ Begin
           MedFileObj.year := yearedit1.text;
           MedFileObj.comment := commentedit1.text;
           MedFileObj.track := trackedit1.text;
+          MedFileObj.GenreID:= GenreIDtoCBIndex[0, GenreBox.ItemIndex];
 
           MedFileObj.write_tag;
 
@@ -370,8 +377,6 @@ Begin
   self.trackedit1.Enabled := true;
   self.yearEdit1.Caption := '';
   self.yearEdit1.Enabled := true;
-  self.Edit2.Caption := '';
-  self.Edit2.Enabled := true;
   self.commentedit1.Caption := '';
   self.commentedit1.Enabled := true;
 
@@ -448,6 +453,7 @@ Procedure TEditID3.FormCreate(Sender: TObject);
 
 Var 
   i: integer;
+  GenreList: TStringlist;
 Begin
   // initialize index of labels and text boxes on form - used for edit-mode
   SetLength(ptrControls, 8);
@@ -470,7 +476,7 @@ Begin
   ptrControls[4,1] := @self.trackedit1;
 
   ptrControls[5,0] := @self.lblGenre;
-  ptrControls[5,1] := @self.Edit2;
+  ptrControls[5,1] := @self.GenreBox;
 
   SetLength(ptrControls[6], 3);
   ptrControls[6,0] := @self.lblComment;
@@ -485,6 +491,21 @@ Begin
   // (FIXME) ressourcestring translations need to be added here
 
   Icon.LoadFromFile(CactusConfig.DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
+
+  GenreList:=TStringList.Create;
+  for i:= 0 to high(ID3Genre) do begin
+      GenreList.Add(ID3Genre[i]);
+      GenreList.Objects[i]:=tobject(pointer(i));
+  end;
+  GenreList.Sorted:=true;
+
+  for i:= 0 to high(ID3Genre) do begin
+      GenreIDtoCBIndex[0,i]:=integer(GenreList.Objects[i]);
+      GenreIDtoCBIndex[integer(GenreList.Objects[i]),0]:=i;
+      GenreBox.Items.Add(GenreList[i]);
+  end;
+
+
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -499,6 +520,7 @@ Var
   ptrLabel: ^TLabel;
 Begin
   // reset all labels indicating edit-mode and changes
+  GenreBox.ItemIndex:=-1;
   For i := 0 To Length(ptrControls) -1 Do
     Begin
       ptrLabel := PLabel(ptrControls[i,0]);
@@ -591,6 +613,7 @@ Begin
       self.commentedit1.text := self.MedFileObj.comment;
       self.yearedit1.text := self.MedFileObj.year;
       self.trackedit1.text := self.MedFileObj.track;
+      GenreBox.ItemIndex:=GenreIDtoCBIndex[MedFileObj.GenreID, 0];
     End;
 
   self.btnReset.Enabled := false;
@@ -839,6 +862,11 @@ begin
   setupwin.ShowModal(TSETTINGS_SELECT_ID3);
   setupwin.Free;
   Enabled := true;
+end;
+
+procedure TEditID3.ac(Sender: TObject);
+begin
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

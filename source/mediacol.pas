@@ -24,6 +24,34 @@ Uses
 Classes, SysUtils;
 
 
+Const ID3Genre: array[0..147] of string[32] = ('', 'Classic Rock', 'Country', 'Dance', 'Disco', 'Funk', 'Grunge',
+       'Hip-Hop', 'Jazz', 'Metal', 'New Age', 'Oldies', 'Other', 'Pop', 'R&B',
+       'Rap', 'Reggae', 'Rock', 'Techno', 'Industrial', 'Alternative', 'Ska',
+       'Death Metal', 'Pranks', 'Soundtrack', 'Euro-Techno', 'Ambient', 'Trip-Hop',
+       'Vocal', 'Jazz&Funk', 'Fusion', 'Trance', 'Classical', 'Instrumental',
+       'Acid', 'House', 'Game', 'Sound Clip', 'Gospel', 'Noise', 'Alternative Rock',
+       'Bass', 'Soul', 'Punk', 'Space', 'Meditative', 'Instrumental Pop',
+       'Instrumental Rock', 'Ethnic', 'Gothic', 'Darkwave', 'Techno-Industrial',
+       'Electronic', 'Pop-Folk', 'Eurodance', 'Dream', 'Southern Rock', 'Comedy',
+       'Cult', 'Gangsta', 'Top 40', 'Christian Rap', 'Pop/Funk', 'Jungle',
+       'Native US', 'Cabaret', 'New Wave', 'Psychedelic', 'Rave', 'Showtunes',
+       'Trailer', 'Lo-Fi', 'Tribal', 'Acid Punk', 'Acid Jazz', 'Polka', 'Retro',
+       'Musical', 'Rock & Roll', 'Hard Rock', 'Folk', 'Folk-Rock', 'National Folk',
+       'Swing', 'Fast Fusion', 'Bebob', 'Latin', 'Revival', 'Celtic', 'Bluegrass',
+       'Avantgarde', 'Gothic Rock', 'Progressive Rock', 'Psychedelic Rock',
+       'Symphonic Rock', 'Slow Rock', 'Big Band', 'Chorus', 'Easy Listening',
+       'Acoustic', 'Humour', 'Speech', 'Chanson', 'Opera', 'Chamber Music',
+       'Sonata', 'Symphony', 'Booty Bass', 'Primus', 'Porn Groove', 'Satire',
+       'Slow Jam', 'Club', 'Tango', 'Samba', 'Folklore', 'Ballad', 'Power Ballad',
+       'Rhythmic Soul', 'Freestyle', 'Duet', 'Punk Rock', 'Drum Solo', 'A capella',
+       'Euro-House', 'Dance Hall', 'Goa', 'Drum’n’Bass', 'Club-House', 'Hardcore',
+       'Terror', 'Indie', 'BritPop', 'Negerpunk', 'Polsk Punk', 'Beat',
+       'Christian Gangsta', 'Heavy Metal', 'Black Metal', 'Crossover',
+       'Contemporary Christian', 'Christian Rock', 'Merengue', 'Salsa',
+       'Thrash Metal', 'Anime', 'JPop', 'SynthPop');
+
+
+
 
 Type 
   // PMediaCollectionClass = ^TMediaCollectionClass;
@@ -70,6 +98,7 @@ Type
       property Title: string read FTitle write SetTitle;
       property StreamUrl: string read FStreamUrl write SetStreamUrl;
       Comment: ansistring;
+      GenreID: Byte;
       Year, Track, Filetype: string[4];
       Size: int64;
       ID, Bitrate, Samplerate, Playlength, Action: longint;
@@ -309,6 +338,7 @@ Type
             readln(lfile, MedFileObj.bitrate);
             readln(lfile, MedFileObj.samplerate);
             readln(lfile, MedFileObj.playlength);
+            readln(lfile, MedFileObj.GenreID);
             readln(lfile, MedFileObj.playtime);
             add(MedFileObj);
           End;
@@ -373,6 +403,7 @@ Type
             writeln(lfile,items[i].bitrate);
             writeln(lfile,items[i].samplerate);
             writeln(lfile,items[i].playlength);
+            writeln(lfile,items[i].GenreID);
             writeln(lfile,items[i].playtime);
           End;
         close(lfile);
@@ -999,6 +1030,9 @@ Type
             artist := Latin1toUTF8(copy(bufstr,tagpos+30,30));
             album := Latin1toUTF8(copy(bufstr,tagpos+60,30));
             year := copy(bufstr,tagpos+90,4);
+            GenreID := buf[tagpos+124];
+            if GenreID>high(ID3Genre) then GenreID:=0;
+
             If buf[125]<>0 Then                             {check for id3v1.1}
               comment := Latin1toUTF8(copy(bufstr,tagpos+94,30))
             Else

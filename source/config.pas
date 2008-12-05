@@ -39,9 +39,7 @@ Type
     AudioBackend: TAudioBackend;
 
     AutostartPlay, StopOnClear, LoadLastPlaylist: Boolean;
-    language: string;
-    // country code, e.g. de -> germany
-
+    language: string;    // country code, e.g. de -> germany
     DAPPath, CDRomDevice: string;
     CurrentSkin, LastLib, StreamColPath, LoadOnStart: string;
     Lame, CDDA2wav: string;
@@ -55,6 +53,9 @@ Type
     AlbumCoverFirsttime, bDisplayPlayTimeNegated: boolean;
 
     MPlayerPath: string;
+
+    //Columns to show in titelview
+    TLShowArtist, TLShowTitle, TLShowAlbum, TLShowGenre, TLShowTrack, TLShowFilename: boolean;
 
     constructor create(ConfigFile:String);
     destructor destroy;
@@ -150,6 +151,14 @@ Begin
     language := FConfigFile.GetValue('Userinterface/Language/Code', tmps1);
     bDisplayPlayTimeNegated := FConfigFile.GetValue('Userinterface/DisplayPlayTimeNegated', false);
     strCleanLibNotToRemove := FConfigFile.GetValue('Userinterface/CleanLibrary/NotToRemove', 'wav mp3 ogg');
+
+    TLShowArtist:= FConfigFile.getValue('Userinterface/Titlelistcolumns/Artist', true);
+    TLShowAlbum:= FConfigFile.getValue('Userinterface/Titlelistcolumns/Album', true);
+    TLShowTitle:= FConfigFile.getValue('Userinterface/Titlelistcolumns/Title', true);
+    TLShowTrack:= FConfigFile.getValue('Userinterface/Titlelistcolumns/Track', true);
+    TLShowGenre:= FConfigFile.getValue('Userinterface/Titlelistcolumns/Genre', false);
+    TLShowFilename:= FConfigFile.getValue('Userinterface/Titlelistcolumns/Filename', false);
+
     CDRomDevice := FConfigFile.GetValue('Devices/CDROM/Name', '/dev/cdrom');
   Except
     result := false;
@@ -199,6 +208,13 @@ Begin
     FConfigFile.SetValue('Userinterface/Window/Height', WHeight);
     FConfigFile.SetValue('Userinterface/Window/SplitterWidth', WSplitterWidth);
     FConfigFile.SetValue('Userinterface/CleanLibrary/NotToRemove', strCleanLibNotToRemove);
+    FConfigFile.SetValue('Userinterface/Titlelistcolumns/Artist', TLShowArtist);
+    FConfigFile.SetValue('Userinterface/Titlelistcolumns/Album', TLShowAlbum);
+    FConfigFile.SetValue('Userinterface/Titlelistcolumns/Title', TLShowTitle);
+    FConfigFile.SetValue('Userinterface/Titlelistcolumns/Track', TLShowTrack);
+    FConfigFile.SetValue('Userinterface/Titlelistcolumns/Genre', TLShowGenre);
+    FConfigFile.SetValue('Userinterface/Titlelistcolumns/Filename', TLShowFilename);
+
     FConfigFile.SetValue('Devices/CDROM/Name', CDRomDevice);
 
     FConfigFile.Flush;
