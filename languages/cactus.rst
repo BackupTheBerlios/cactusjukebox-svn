@@ -211,8 +211,8 @@ cdrip.rscrsubfolders='Create artist subfolders'
 cdrip.rsoutfilenamin='Outfile naming scheme'
 
 
-# hash value = 248856224
-settings.rsautoloadlast='Autoload last library at startup'
+# hash value = 38156832
+settings.rsautoloadlast='Load last library at startup'
 
 
 # hash value = 38301824
@@ -306,4 +306,8 @@ settings.rsclearcache='Clear Cache'
 
 # hash value = 166301700
 settings.rsautomaticlys='Automaticly start playing first song in playlist'+
+
+
+# hash value = 43962272
+settings.rsloadlastplay='Load last playlist on startup'
 
