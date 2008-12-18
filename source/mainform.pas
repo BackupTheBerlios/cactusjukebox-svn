@@ -230,6 +230,7 @@ Type
     seldirdialog: TSelectDirectoryDialog;
     trackbar: TProgressBar;
     Trackinfo: TSpeedButton;
+    TrayIcon1: TTrayIcon;
     Volumebar: TProgressBar;
     Procedure ArtistTreeClick(Sender: TObject);
     Procedure ArtistTreeDblClick(Sender: TObject);
@@ -408,6 +409,8 @@ Type
                                 Shift: TShiftState; X, Y: Integer);
     Procedure trackbarMouseUp(Sender: TOBject; Button: TMouseButton;
                               Shift: TShiftState; X, Y: Integer);
+    procedure TrayIcon1MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
     Procedure undoSyncItemClick(Sender: TObject);
 
     Procedure loadskin(Sender: TObject);
@@ -2752,42 +2755,40 @@ Procedure TMain.TitleTreeColumnClick(Sender: TObject; Column: TListColumn);
 
 Var sl: TstringList;
   //used for sorting
-  counter, SubItemsColumnCount, IndexOfCurrentColumn: integer;
+  counter, ListitemCount, SubItemsColumnCount, IndexOfCurrentColumn, i: integer;
 Begin
   sl := TStringList.Create;
   Try
     IndexOfCurrentColumn := column.index;
+    writeln(IndexOfCurrentColumn);
 
-    If IndexOfCurrentColumn = 0 Then
-      Begin
-        For counter := 0 To titletree.items.count -1 Do
-          Begin
-            sl. AddObject(titletree.Items[counter].Caption,titletree.items[counter]);
-          End;
-        sl.sort;
-      End
-    Else
-      Begin
-        For counter := 0 To titletree.items.count -1 Do
+  If IndexOfCurrentColumn <> 0 Then
+     Begin
+        ListitemCount:=TitleTree.Items.Count;
+        For counter := 0 To ListitemCount-1 Do
           Begin
             SubItemsColumnCount := titletree.items[counter].subitems.Count;
-            If (SubItemsColumnCount >= IndexOfCurrentColumn) Then
-              sl.AddObject(titletree.items[counter].SubItems[IndexOfCurrentColumn-1],titletree.items
-                           [counter])
-            Else
-              sl.AddObject('',titletree.items[counter]);
+            sl.AddObject(titletree.items[counter].SubItems[IndexOfCurrentColumn-1], titletree.items[counter])
           End;
+     //   for i:= 0 to sl.Count-1 do writeln(sl[i]);
         If IndexOfCurrentColumn<>4 Then sl.sort
-        Else sl.CustomSort(@NumericCompare);
-      End;
-    For counter := 0 To titletree.items.count -1 Do
-      Begin
-        titletree.items[counter] := TListItem(sl. Objects[counter]);
-      End;
+            Else sl.CustomSort(@NumericCompare);
+    //    TitleTree.BeginUpdate;
+//        TitleTree.Clear;
+//        TitleTree.Items.
+        For counter := 0 To ListitemCount-1 Do
+            Begin
+               titletree.items[counter]:=(TListItem(sl.Objects[counter]));
+     //          writeln(sl[counter]);
+            End;
+  //      TitleTree.EndUpdate;
+     End;
   Finally
     sl.free;
   End;
 End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.TitleTreeDragOver(Sender, Source: TObject; X, Y: Integer;
                                   State: TDragState; Var Accept: Boolean);
@@ -2802,6 +2803,8 @@ Begin
 {$endif}
   Accept := false;
 End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.TitleTreeEndDrag(Sender, Target: TObject; X, Y: Integer);
 Begin
@@ -3924,6 +3927,12 @@ Begin
   If PlayerObj.playing Then playtimer.enabled := true;
 End;
 
+procedure TMain.TrayIcon1MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  TrayIcon1.ShowBalloonHint;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.undoSyncItemClick(Sender: TObject);
@@ -4195,10 +4204,10 @@ Begin
                 ListItem.SubItems.Add((MedColObj.items[i].Artist))
               Else ListItem.SubItems.Add(extractfilename(MedColObj.items[i].path));
 
-              ListItem.SubItems.Add ((MedColObj.items[i].title));
-              ListItem.SubItems.Add ((MedColObj.items[i].album));
-              ListItem.SubItems.Add (MedColObj.items[i].track);
-              ListItem.SubItems.Add (ID3Genre[MedColObj.items[i].GenreID]);
+              ListItem.SubItems.Add((MedColObj.items[i].title));
+              ListItem.SubItems.Add((MedColObj.items[i].album));
+              ListItem.SubItems.Add(MedColObj.items[i].track);
+              ListItem.SubItems.Add(ID3Genre[MedColObj.items[i].GenreID]);
               ListItem.SubItems.Add(ExtractFileName(MedColObj.items[i].Path));
               ListItem.SubItems.Add(MedColObj.items[i].playtime);
 
