@@ -715,6 +715,12 @@ Begin
       If MedFileObj.filetype='.wav' Then
         Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+
                                       DirectorySeparator+'wav_64.png');
+      If MedFileObj.filetype='.wma' Then
+        Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+
+                                      DirectorySeparator+'wma_64.png');
+      If (MedFileObj.filetype='.flac') or (MedFileObj.filetype='.fla') Then
+        Filelogo.Picture.LoadFromFile(SkinData.DefaultPath+DirectorySeparator+'icon'+
+                                      DirectorySeparator+'flac_64.png');
       plength.caption := 'Length:  '+MedFileObj.playtime;
 
 

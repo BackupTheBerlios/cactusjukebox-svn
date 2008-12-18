@@ -150,7 +150,7 @@ Begin
     WSplitterWidth := FConfigFile.GetValue('Userinterface/Window/SplitterWidth', 270);
     language := FConfigFile.GetValue('Userinterface/Language/Code', tmps1);
     bDisplayPlayTimeNegated := FConfigFile.GetValue('Userinterface/DisplayPlayTimeNegated', false);
-    strCleanLibNotToRemove := FConfigFile.GetValue('Userinterface/CleanLibrary/NotToRemove', 'wav mp3 ogg');
+    strCleanLibNotToRemove := FConfigFile.GetValue('Userinterface/CleanLibrary/NotToRemove', 'wav mp3 ogg wma fla flac');
 
     TLShowArtist:= FConfigFile.getValue('Userinterface/Titlelistcolumns/Artist', true);
     TLShowAlbum:= FConfigFile.getValue('Userinterface/Titlelistcolumns/Album', true);
