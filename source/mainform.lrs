@@ -1,3 +1,5 @@
+{ Das ist eine automatisch erzeugte Lazarus-Ressourcendatei }
+
 LazarusResources.Add('TMain','FORMDATA',[
   'TPF0'#5'TMain'#4'Main'#4'Left'#3'i'#1#6'Height'#3#146#2#3'Top'#2'j'#5'Width'
   +#3't'#3#13'ActiveControl'#7#10'ArtistTree'#7'Caption'#6#5'titel'#12'ClientHe'

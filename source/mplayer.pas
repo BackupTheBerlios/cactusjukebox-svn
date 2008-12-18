@@ -172,7 +172,7 @@ if (index<Playlist.ItemCount) and (index>=0)  then begin
 
        // DebugOutLn(MPlayerProcess.CommandLine,5);
        FLastGet_Pos:=0;
-       MPlayerProcess.Options:= MPlayerProcess.Options + [poUsePipes, poDefaultErrorMode, poStderrToOutPut];
+       MPlayerProcess.Options:= MPlayerProcess.Options + [poUsePipes, poDefaultErrorMode, poStderrToOutPut, poNoConsole];
        MPlayerProcess.Execute;
 
        if MPlayerProcess.Running then begin

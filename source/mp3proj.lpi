@@ -181,7 +181,7 @@
       <Filename Value="../cactus_jukebox"/>
     </Target>
     <SearchPaths>
-      <OtherUnitFiles Value="fmodintf/;/home/daseeb/devel/units/lnet-0.4.0/lib/;/home/daseeb/devel/units/synapse/source/lib/;C:/FPC/lnet/lib/;C:/FPC/lnet/lib/sys/;C:/FPC/synapse/source/lib/"/>
+      <OtherUnitFiles Value="fmodintf/;tagreader/;/home/daseeb/devel/units/lnet-0.4.0/lib/;/home/daseeb/devel/units/synapse/source/lib/;C:/FPC/lnet/lib/;C:/FPC/lnet/lib/sys/;C:/FPC/synapse/source/lib/"/>
       <UnitOutputDirectory Value="../source"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>

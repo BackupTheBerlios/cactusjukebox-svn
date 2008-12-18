@@ -2382,7 +2382,7 @@ Begin
         Main.playClick(main);
       End;
       inc(i);
-  until i > 50;
+  until (i > 50) or (i >= MediaCollection.count);
   main.playlist.Column[0].Caption := rsplaylist+'            ('+IntToStr(PlayerObj.playlist.
                                      ItemCount)+' Files/ '+PlayerObj.Playlist.
                                      TotalPlayTimeStr+' )';

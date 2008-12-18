@@ -21,7 +21,9 @@ Unit mediacol;
 Interface
 
 Uses 
-Classes, SysUtils;
+Classes, SysUtils,
+//Tagreader:
+WMAfile, OggVorbis, FLACfile;
 
 
 Const ID3Genre: array[0..147] of string[32] = ('', 'Classic Rock', 'Country', 'Dance', 'Disco', 'Funk', 'Grunge',
@@ -68,6 +70,8 @@ Type
     TMediaFileClass = Class
       Private 
       Procedure read_tag_ogg;
+      Procedure read_tag_flac;
+      Procedure read_tag_wma;
       Procedure read_tag_wave;
       Procedure read_tag_mp3;
       Procedure SetArtist(aValue: String);
@@ -99,7 +103,8 @@ Type
       property StreamUrl: string read FStreamUrl write SetStreamUrl;
       Comment: ansistring;
       GenreID: Byte;
-      Year, Track, Filetype: string[4];
+      Year, Track: string[4];
+      Filetype: string[5];
       Size: int64;
       ID, Bitrate, Samplerate, Playlength, Action: longint;
       Playtime: string;
@@ -212,7 +217,8 @@ Type
             Begin
               tmps := lowercase(ExtractFileExt(mp3search.name));
               syncronize(dir);
-              If (tmps='.mp3') Or (tmps='.wav') Or (tmps='.ogg') Then
+              If (tmps='.mp3') Or (tmps='.wav') Or (tmps='.ogg') Or (tmps='.wma')
+              Or (tmps='.flac') Or (tmps='.fla') Then
                 Begin
                   // Files with bad filenames may suddenly vanish from samba
                   // mounts when accessed. This will fiter them out.
@@ -808,28 +814,84 @@ Type
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 { TMediaFileClass }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // ogg-Support changed by monta
     Procedure TMediaFileClass.read_tag_ogg;
-
-    Var z: integer;
-      tmps: String;
+    Var OGGFile: TOggVorbis;
     Begin
-      tmps := extractFileName(path);
-      z := pos(' - ', tmps)+3;
-      If z<>3 Then
-        Begin
-          title := copy(tmps,z,length(tmps)-z-3);
-          artist := copy(tmps,1,z-3);
-          album := '';
-        End
-      Else
-        Begin
-          artist := '';
-          title := '';
-          album := '';
-        End;
-      artist := TrimRight(artist);
-      title := TrimRight(title);
-      album := TrimRight(Album);
+      OGGFile := TOggVorbis.Create;
+      try
+      if FileExists(Path) then
+      begin
+        OGGFile.ReadFromFile(Path);
+        artist := UTF8Encode(OGGFile.Artist);
+        title := UTF8Encode(OGGFile.Title);
+        album := UTF8Encode(OGGFile.Album);
+        Bitrate := OGGFile.BitRate;
+        Year := OGGFile.Date;
+        Samplerate := OGGFile.SampleRate;
+        Comment := OGGFile.Comment;
+        Track := IntToStr(OGGFile.Track);
+        Playlength := round(OGGFile.Duration);
+        Playtime := SecondsToFmtStr(Playlength);
+        GenreID := StrToIntDef(OGGFile.Genre, 0);
+      end;
+      finally
+        OGGFile.Free;
+      end;
+    End;
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // flac-Support added by monta
+    Procedure TMediaFileClass.read_tag_flac;
+    Var FLACFile: TFLACfile;
+    Begin
+      FLACfile := TFLACfile.Create;
+      try
+      if FileExists(Path) then
+      begin
+        FLACFile.ReadFromFile(Path);
+        artist := UTF8Encode(FLACFile.Artist);
+        title := UTF8Encode(FLACFile.Title);
+        album := UTF8Encode(FLACFile.Album);
+        Bitrate := FLACFile.BitRate;
+        Year := FLACFile.Year;
+        Samplerate := FLACFile.SampleRate;
+        Comment := FLACFile.Comment;
+        Track := FLACFile.TrackString;
+        Playlength := round(FLACFile.Duration);
+        Playtime := SecondsToFmtStr(Playlength);
+        GenreID := StrToIntDef(FLACFile.Genre, 0);
+      end;
+      finally
+        FLACFile.Free;
+      end;
+    End;
+
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // wma-Support added by monta
+    Procedure TMediaFileClass.read_tag_wma;
+    Var WMAFile: TWMAfile;
+    Begin
+      WMAFile := TWMAfile.Create;
+      try
+      if FileExists(Path) then
+      begin
+        WMAFile.ReadFromFile(Path);
+        artist := UTF8Encode(WMAFile.Artist);
+        title := UTF8Encode(WMAFile.Title);
+        album := UTF8Encode(WMAFile.Album);
+        Bitrate := WMAFile.BitRate;
+        Year := WMAFile.Year;
+        Samplerate := WMAFile.SampleRate;
+        Comment := WMAFile.Comment;
+        Track := IntToStr(WMAFile.Track);
+        Playlength := round(WMAFile.Duration);
+        Playtime := SecondsToFmtStr(Playlength);
+        GenreID := StrToIntDef(WMAFile.Genre, 0);
+      end;
+      finally
+        WMAFile.Free;
+      end;
     End;
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1441,6 +1503,8 @@ Type
       If filetype='.wav' Then read_tag_wave;
       If filetype='.ogg' Then read_tag_ogg;
       If filetype='.mp3' Then read_tag_mp3;
+      If filetype='.wma' Then read_tag_wma;
+      If (filetype='.flac') or (filetype='.fla') Then read_tag_flac;
     End;
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
