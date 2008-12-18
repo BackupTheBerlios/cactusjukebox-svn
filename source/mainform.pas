@@ -58,6 +58,7 @@ rsLoadPlaylist = 'Load playlist';
 rsSavePlaylist = 'Save playlist';
 rsMobilePlayer = 'Mobile player';
 rsClearPlaylist = 'Clear Playlist';
+rsRandomPlaylist = 'Random Playlist';
 rsDevices = 'Devices';
 rsDeviceInfo = 'Device info';
 rsScanPlayer = 'Scan player';
@@ -95,6 +96,7 @@ Type
     filetypebox: TComboBox;
     MenuItem25: TMenuItem;
     MenuItem27: TMenuItem;
+    MIrandom_playlist: TMenuItem;
     MIViewArtist: TMenuItem;
     MIViewTitle: TMenuItem;
     MIViewAlbum: TMenuItem;
@@ -251,6 +253,7 @@ Type
     Procedure LibModeBtnClick(Sender: TObject);
     Procedure MenuItem15Click(Sender: TObject);
     Procedure MenuItem25Click(Sender: TObject);
+    procedure MIrandom_playlistClick(Sender: TObject);
     procedure MIViewAlbumClick(Sender: TObject);
     procedure MIViewArtistClick(Sender: TObject);
     Procedure MenuItem32Click(Sender: TObject);
@@ -1772,6 +1775,7 @@ Begin
   MIload_list.Caption := rsLoadPlaylist;
   MIsave_list.Caption := rsSavePlaylist;
   MIclear_playlist.Caption := rsClearPlaylist;
+  MIrandom_playlist.Caption := rsRandomPlaylist;
 
   MIDevices.Caption:=rsDevices;
 
@@ -2350,6 +2354,39 @@ Begin
       StatusBar1.Panels[1].Text := 'Device connected     '+tmps+' Free';
     End;
 End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//Random Paylist with 50 tracks by monta
+
+procedure TMain.MIrandom_playlistClick(Sender: TObject);
+  Var listitem: TListitem;
+  MedFileObj: TMediaFileClass;
+  i: integer;
+Begin
+  if MediaCollection.Count < 2 then exit;
+  Randomize;
+  i := 1;
+  repeat
+    MedFileObj := MediaCollection.Items[Random(MediaCollection.Count)];
+    PlayerObj.playlist.add(MedFileObj);
+    ListItem := Main.Playlist.Items.Add;
+    listitem.data := MedFileObj;
+    listitem.MakeVisible(false);
+    If MedFileObj.title<>'' Then ListItem.Caption := MedFileObj.Artist+' - '+MedFileObj.title
+    Else ListItem.Caption := extractfilename(MedFileObj.path);
+    If Not PlayerObj.playing And CactusConfig.AutostartPlay And (main.Playlist.Items.Count
+       =1) Then
+      Begin
+        main.Playlist.Selected := Main.Playlist.Items[0];
+        DebugOutLn(Main.Playlist.Selected.Caption, 3);
+        Main.playClick(main);
+      End;
+      inc(i);
+  until i > 50;
+  main.playlist.Column[0].Caption := rsplaylist+'            ('+IntToStr(PlayerObj.playlist.
+                                     ItemCount)+' Files/ '+PlayerObj.Playlist.
+                                     TotalPlayTimeStr+' )';
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -3111,7 +3148,7 @@ Procedure TMain.openfileClick(Sender: TObject);
 Var OpenDialog: TOpenDialog;
 Begin
   OpenDialog := TOpenDialog.Create(self);
-  OpenDialog.Filter := 'All supported audio|*.wav;*.mp3;*.ogg|MP3|*.mp3|OGG|*.ogg|WAV|*.wav';
+  OpenDialog.Filter := 'All supported audio|*.wav;*.mp3;*.ogg;*.wma;*.flac;*.fla|MP3|*.mp3|OGG|*.ogg|WAV|*.wav|WMA|*.wma|FLAC|*.flac;*.fla';
   if FileOpneDialogPath<>''then
     OpenDialog.InitialDir := FileOpneDialogPath
    else

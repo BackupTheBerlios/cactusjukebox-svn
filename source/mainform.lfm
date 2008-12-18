@@ -960,6 +960,7 @@ object Main: TMain
             'mp3'
             'ogg'
             'wav'
+            'wma'
           )
           OnChange = filetypeboxChange
           PopupMenu = SearchMenu
@@ -1528,6 +1529,10 @@ object Main: TMain
       object MIclear_playlist: TMenuItem
         Caption = 'Clear Playlist'
         OnClick = clear_listClick
+      end
+      object MIrandom_playlist: TMenuItem
+        Caption = 'Random Playlist'
+        OnClick = MIrandom_playlistClick
       end
     end
     object MIDevices: TMenuItem
