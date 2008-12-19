@@ -453,10 +453,6 @@ begin
   Source.Read( Data[ 0 ], iSize );
   FVendor := StrPas(PChar(Data));//String( Data );
 
-  writeln('1', StrPas(PChar(Data)));
-  writeln('2',Pchar(@Data));
-  writeln('3',Pchar(@Data[0]));
-
   Source.Read( iCount, SizeOf( iCount ) ); //fieldcount
 
   FExists := ( iCount > 0 );
@@ -466,7 +462,7 @@ begin
       Source.Read(iSize, SizeOf(iSize));
       SetLength(Data , iSize );
       Source.Read(Data[0], iSize );
-      sField := {Copy(}StrPas(PChar(Data));//, 0, iSize);
+      sField := Copy(StrPas(PChar(Data)), 0, iSize);
 
       if not bSetTagFields then Continue; // if we don't want to re asign fields we skip
       
