@@ -5,7 +5,7 @@ library kopeteaway;
 
 
 uses
-  Classes, SysUtils, plugintypes, dos, fmodplayer;
+  Classes, SysUtils, plugintypes, unix;
 
 type
 
@@ -21,7 +21,7 @@ type
     function GetComment: pchar; override; stdcall;
 
     procedure Execute; override; stdcall;
-    function EventHandler(Event: TCactusEvent): BOOLEAN;
+    function EventHandler(Event: TCactusEvent; msg: PChar): BOOLEAN;
         override; stdcall;
   end;
 
@@ -31,10 +31,7 @@ CONST PluginInfo: TPluginInforec = (
 	Name: 'Kopete Away Message Plugin';
 	Author: 'Sebastian Kraft';
 	Version: '0.1';
-	Comment: 'This plugin automaticly puts the name of the currently played track'
-                   +' into your Kopete away message'+LineEnding
-                   +'(for example "listening to: Great band - Wonderful Song)';
-	);
+	Comment: 'This plugin ');
 
 
 
@@ -60,7 +57,7 @@ end;
 
 function TKopeteAwayMsgPlugin.GetComment: Pchar;stdcall;
 begin
-     result:='This plugin automaticly puts the name of the currently played track'
+    result:='This plugin automaticly puts the name of the currently played track'
                    +' into your Kopete away message'+LineEnding
                    +'(for example "listening to: Great band - Wonderful Song)';
 end;
@@ -69,20 +66,23 @@ procedure TKopeteAwayMsgPlugin.Execute;stdcall;
 begin
 end;
 
-function TKopeteAwayMsgPlugin.EventHandler(Event: TCactusEvent; Data: Pointer): boolean;stdcall;
-var datastr: string;
+function TKopeteAwayMsgPlugin.EventHandler(Event: TCactusEvent; msg: PChar): boolean;stdcall;
+var tmps: string;
 begin
-   writeln('event received');
-   datastr:=tfmodplayerclass(data).currentTrack;
-   writeln(datastr);
+//  writeln('event received');
+   //datastr:=tfmodplayerclass(data).currentTrack;
+   //writeln(datastr);
+   tmps:='Now Playing: '+StrPas(msg);
+   tmps:=StringReplace(tmps, ' ', '\ ', [rfReplaceAll]);
+  // tmps:=tmps;
    case Event of
      evnStartPlay: begin
-	   exec('/usr/bin/dcop', 'kopete KopeteIface setAway "away"');
-           writeln('KOpete send away');
+	   shell('/usr/bin/dbus-send --type=method_call --dest=org.kde.kopete /Kopete org.kde.Kopete.setOnlineStatus :Away :'+tmps);
+           //writeln(lo(dosexitcode));
          end;
      evnStopPlay: begin
-	   exec('/usr/bin/dcop', 'kopete KopeteIface setAvailable');
-           writeln('KOpete send aail');
+	   shell('/usr/bin/dbus-send --type=method_call --dest=org.kde.kopete /Kopete org.kde.Kopete.setOnlineStatus :Online string:');
+           //writeln(lo(dosexitcode));
 	 end;
    end;
 end;
@@ -111,4 +111,3 @@ exports  LoadPlugin;
 
 begin
 end.
-
