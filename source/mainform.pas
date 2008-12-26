@@ -320,8 +320,6 @@ Type
     Procedure PreviousButtonImgMouseLeave(Sender: TObject);
     Procedure PreviousButtonImgMouseUp(Sender: TOBject; Button: TMouseButton;
                                        Shift: TShiftState; X, Y: Integer);
-    Procedure searchstrChange(Sender: TObject);
-    Procedure searchstrEditingDone(Sender: TObject);
     Procedure SettingsItemClick(Sender: TObject);
     Procedure SimpleIPCServer1Message(Sender: TObject);
     Procedure SpeedButton1Click(Sender: TObject);
@@ -820,6 +818,7 @@ Begin
           playlist.Items[i].ImageIndex := 0;
           playlist.Items[i].MakeVisible(false);
           playtimer.Enabled := true;
+          CactusPlugins.SendEvent(evnStartPlay, PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].artist+' - '+PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].title);
         End;
     End
   Else stopClick(Nil);
@@ -844,6 +843,7 @@ Begin
           If OldTrack>=0 Then playlist.Items[OldTrack].ImageIndex := -1;
           playlist.Items[i].ImageIndex := 0;
           playlist.Items[i].MakeVisible(false);
+          CactusPlugins.SendEvent(evnStartPlay, PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].artist+' - '+PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].title);
         End;
       playtimer.Enabled := true;
     End
@@ -872,7 +872,7 @@ Begin
               playitem.ImageIndex := 0;
               playitem.MakeVisible(false);
               update_player_display;
-              CactusPlugins.SendEvent(evnStartPlay);
+              CactusPlugins.SendEvent(evnStartPlay, PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].artist+' - '+PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].title);
               playtimer.enabled := true;
             End
           Else
@@ -903,7 +903,7 @@ Begin
   PlayerObj.stop;
   PlayerObj.playlist.reset_random;
   update_player_display;
-  CactusPlugins.SendEvent(evnStopPlay);
+  CactusPlugins.SendEvent(evnStopPlay, '');
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1302,10 +1302,14 @@ Begin
   addRadioForm.ShowModal;
 End;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMain.MIViewAlbumClick(Sender: TObject);
 begin
   MIViewAlbum.Checked := not MIViewAlbum.Checked;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.MIViewArtistClick(Sender: TObject);
 begin
@@ -2394,7 +2398,7 @@ Procedure TMain.MenuItem26Click(Sender: TObject);
 Begin
 
   ShowMessage('Cactus Jukebox'+LineEnding+'version'+CACTUS_VERSION+LineEnding+
-              'written by Sebastian Kraft '+LineEnding+LineEnding+'(c) 2005-2007'+LineEnding+
+              'written by Sebastian Kraft '+LineEnding+LineEnding+'(c) 2005-2009'+LineEnding+
               'http://cactus.hey-you-freaks.de     ');
 
 End;
@@ -2529,7 +2533,7 @@ Begin
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+//Open manual/homepage in browser
 Procedure TMain.MenuItem43Click(Sender: TObject);
 Begin
   {$ifdef linux}
@@ -2540,7 +2544,7 @@ Begin
                               'http://cactus.hey-you-freaks.de/index.php?page=manual');
   If Dosexitcode<>0 Then Showmessage('The manual can be found at http://cactus.hey-you-freaks.de');
   {$endif}
-  {$ifdef win32}
+  {$ifdef win32} //TODO: Open manual in Browser on win32
   Showmessage('The manual can be found at http://cactus.hey-you-freaks.de');
   {$endif}
 End;
@@ -2558,7 +2562,7 @@ End;
 Procedure TMain.Panel1Resize(Sender: TObject);
 Begin
   // Splitter1.Left:=oldSplitterWidth;
-{$ifdef win32}
+{$ifdef win32}  //TODO: check column autosize on win32
 
   Playlist.Columns[0].width := Playlist.Width;
   Titletree.Columns[5].width := 45;
@@ -2621,15 +2625,7 @@ Begin
   PreviousButtonImg.Picture.LoadFromFile(SkinData.previous.MouseOver);
 End;
 
-Procedure TMain.searchstrChange(Sender: TObject);
-Begin
-
-End;
-
-Procedure TMain.searchstrEditingDone(Sender: TObject);
-Begin
-
-End;
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.SettingsItemClick(Sender: TObject);
 Begin

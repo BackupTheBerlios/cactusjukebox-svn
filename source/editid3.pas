@@ -23,7 +23,7 @@ Interface
 Uses 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
   {ExtCtrls,} Buttons, ComCtrls, lcltype, mediacol, ExtCtrls, skin, aws, streamcol,
-  settings;
+  settings, debug;
 
 
 Const ALBUM_MODE = 1;
@@ -117,17 +117,15 @@ Type
     Procedure EditID3Close(Sender: TObject; Var CloseAction: TCloseAction);
     Procedure FormCreate(Sender: TObject);
     Procedure FormHide(Sender: TObject);
-    Procedure Label3Click(Sender: TObject);
     Procedure PicDownloadTimerStartTimer(Sender: TObject);
     Procedure PicDownloadTimerTimer(Sender: TObject);
     Procedure cancelbutClick(Sender: TObject);
     Procedure guessnameClick(Sender: TObject);
-    Procedure pathedit1Change(Sender: TObject);
     Procedure savebutClick(Sender: TObject);
     Procedure yearEdit1Change(Sender: TObject);
     Procedure cmbYearChange(Sender: TObject);
     Procedure activateEMode(Sender: TObject);
-    Private 
+  Private
     { private declarations }
     artist_only, album_only: Boolean;
     timer_loop_count: integer;
@@ -145,7 +143,7 @@ Type
     MedFileObj: TMediaFileClass;
     MedColObj: TMediaCollectionClass;
     StreamInfoObj: TStreamInfoItemClass;
-    Public 
+  Public
     { public declarations }
     fileid: integer;
     Procedure display_window(MedFile:TMediaFileClass; intMode: Integer = 0);
@@ -196,8 +194,7 @@ Begin
           Repeat
             Begin
               MedFileObj := MedColObj.Items[z];
-              writeln('artist_mode: '+ artistedit1.Text +' #'+ IntToStr(z));
-              // DEBUG-INFO
+              DebugOutLn('artist_mode: '+ artistedit1.Text +' #'+ IntToStr(z),3);
               MedFileObj.artist := newart;
               MedFileObj.GenreID:= GenreIDtoCBIndex[0, GenreBox.ItemIndex];
               If bYearLongEnough Then MedColObj.items[z].year := self.cmbYear.Caption;
@@ -331,7 +328,7 @@ Var
   ptrEdit: ^TEdit;
 Begin
   // disable all labels
-  If self.bEModeActive = false
+  If bEModeActive = false
     Then
     Begin
       For i := 0 To Length(ptrControls) -1 Do
@@ -339,8 +336,8 @@ Begin
           ptrLabel := PLabel(ptrControls[i,0]);
           ptrLabel^.Enabled := false;
         End;
-      self.bEModeActive := true;
-      self.btnReset.Enabled := true;
+      bEModeActive := true;
+      btnReset.Enabled := true;
     End;
 
   // enable label if sender (a text-box) belongs to it
@@ -359,8 +356,6 @@ End;
 
 Procedure TEditID3.FormHide(Sender: TObject);
 Begin
-  Main.enabled := true;
-
   // reset form components
   self.guessname1.Enabled := true;
   self.Button1.Enabled := true;
@@ -389,12 +384,7 @@ Begin
   self.cmbComment.Visible := false;
   self.commentedit1.Visible := true;
 
-  self.ShowInTaskBar := stNever;
-End;
-
-Procedure TEditID3.Label3Click(Sender: TObject);
-Begin
-
+ // self.ShowInTaskBar := stNever;
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -414,7 +404,7 @@ Begin
   Else AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
   If (picrequest_send And awsclass.ImgNotFound) Or (timer_loop_count>20) Then
     Begin
-      writeln('TIMEOUT while loading album cover image from Internet');
+      DebugOutLn('TIMEOUT while loading album cover image from Internet', 2);
       AlbumCoverImg.Canvas.Clear;
       AlbumCoverImg.Canvas.TextOut(10,10, 'No cover found :(');
       awsclass.free;
@@ -429,7 +419,7 @@ Begin
       Try
         AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
       Except
-        writeln('EXCEPTION');
+        DebugOutLn('EXCEPTION', 1);
       End;
       awsclass.free;
       picrequest_send := false;
@@ -489,6 +479,7 @@ Begin
   ptrControls[7,2] := @self.cmbYear;
 
   // (FIXME) ressourcestring translations need to be added here
+  //TODO: translation for editid3 window
 
   Icon.LoadFromFile(CactusConfig.DataPrefix+'icon'+DirectorySeparator+'cactus-icon.ico');
 
@@ -528,7 +519,7 @@ Begin
     End;
 
   // display tags...
-  self.artistedit1.Text := self.MedFileObj.artist;
+  artistedit1.Text := MedFileObj.artist;
 
   // artist and album(-mode) specific actions
   If (artist_only = true) Or (album_only = true)
@@ -537,16 +528,16 @@ Begin
       // collect all "years" set for files of the chosen artist/album
       // and display them
       SetLength(strYears, 0);
-      For i := 0 To self.MedColObj.ItemCount -1 Do
-        If self.MedColObj.items[i].artist = self.MedFileObj.artist
+      For i := 0 To MedColObj.ItemCount -1 Do
+        If MedColObj.items[i].artist = MedFileObj.artist
           Then
           Begin
             If album_only = true Then
-              If self.MedColObj.items[i].album <> self.MedFileObj.album Then continue;
+              If MedColObj.items[i].album <> MedFileObj.album Then continue;
             // ensure "year" is added only once
             bExists := false;
             For j := 0 To Length(strYears) -1 Do
-              If strYears[j] = self.MedColObj.items[i].year
+              If strYears[j] = MedColObj.items[i].year
                 Then
                 Begin
                   bExists := true;
@@ -555,28 +546,29 @@ Begin
             If bExists = true Then continue;
             // add "year"
             SetLength(strYears, Length(strYears) +1);
-            strYears[Length(strYears) -1] := self.MedColObj.items[i].year;
+            strYears[Length(strYears) -1] := MedColObj.items[i].year;
           End;
       // and display...
-      self.yearEdit1.Visible := false;
-      self.cmbYear.Visible := true;
-      self.cmbYear.Clear;
+
+      yearEdit1.Visible := false;
+      cmbYear.Visible := true;
+      cmbYear.Clear;
       For i := 0 To Length(strYears) -1 Do
-        self.cmbYear.Items.Add(strYears[i]);
+        cmbYear.Items.Add(strYears[i]);
 
       // collect all "comments" set for files of the chosen artist/album
       // and display them
       SetLength(strComments, 0);
       For i := 1 To self.MedColObj.ItemCount-1 Do
-        If self.MedColObj.items[i].artist = self.MedFileObj.artist
+        If MedColObj.items[i].artist = MedFileObj.artist
           Then
           Begin
             If album_only = true Then
-              If self.MedColObj.items[i].album <> self.MedFileObj.album Then continue;
+              If MedColObj.items[i].album <> self.MedFileObj.album Then continue;
             // ensure "comment" is added only once
             bExists := false;
             For j := 0 To Length(strComments) -1 Do
-              If strComments[j] = self.MedColObj.items[i].comment
+              If strComments[j] = MedColObj.items[i].comment
                 Then
                 Begin
                   bExists := true;
@@ -585,39 +577,39 @@ Begin
             If bExists = true Then continue;
             // add "comment"
             SetLength(strComments, Length(strComments) +1);
-            strComments[Length(strComments) -1] := self.MedColObj.items[i].comment;
+            strComments[Length(strComments) -1] := MedColObj.items[i].comment;
           End;
       // and display...
-      self.commentedit1.Visible := false;
-      self.cmbComment.Visible := true;
-      self.cmbComment.Clear;
+      commentedit1.Visible := false;
+      cmbComment.Visible := true;
+      cmbComment.Clear;
       For i := 0 To Length(strComments) -1 Do
-        self.cmbComment.Items.Add(strComments[i]);
+        cmbComment.Items.Add(strComments[i]);
 
       // album(-mode) specific actions
       If album_only = true
         Then
         Begin
-          self.albumedit1.text := self.MedFileObj.album;
+          albumedit1.text := MedFileObj.album;
           // select first entry from combobox as default for the album
-          If self.cmbYear.Items.Count > 0 Then self.cmbYear.ItemIndex := 0;
-          If self.cmbComment.Items.Count > 0 Then self.cmbComment.ItemIndex := 0;
+          If cmbYear.Items.Count > 0 Then cmbYear.ItemIndex := 0;
+          If cmbComment.Items.Count > 0 Then cmbComment.ItemIndex := 0;
         End;
     End
     // title(-mode) specific actions
   Else
     Begin
-      self.pathedit1.text := self.MedFileObj.path;
-      self.titleedit1.text := self.MedFileObj.title;
-      self.albumedit1.text := self.MedFileObj.album;
-      self.commentedit1.text := self.MedFileObj.comment;
-      self.yearedit1.text := self.MedFileObj.year;
-      self.trackedit1.text := self.MedFileObj.track;
+      pathedit1.text := MedFileObj.path;
+      titleedit1.text := MedFileObj.title;
+      albumedit1.text := MedFileObj.album;
+      commentedit1.text := MedFileObj.comment;
+      yearedit1.text := MedFileObj.year;
+      trackedit1.text := MedFileObj.track;
       GenreBox.ItemIndex:=GenreIDtoCBIndex[MedFileObj.GenreID, 0];
     End;
 
-  self.btnReset.Enabled := false;
-  self.bEModeActive := false;
+  btnReset.Enabled := false;
+  bEModeActive := false;
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -634,9 +626,9 @@ Begin
 
   btnReset.Enabled := true;
 
-  self.MedFileObj := MedFile;
-  self.MedColObj := MedFileObj.Collection;
-  self.fileid := 0;
+  MedFileObj := MedFile;
+  MedColObj := MedFileObj.Collection;
+  fileid := 0;
 
   self.artist_only := false;
   self.album_only := false;
@@ -646,7 +638,7 @@ Begin
   End;
 
   Button1.Hint := '( ' + CactusConfig.strTagToNameFormatString + ' )';
-  self.Button1.Enabled := true;
+  Button1.Enabled := true;
 
   // artist and album(-mode) specific actions
   If (artist_only = true) Or (album_only = true)
@@ -907,11 +899,6 @@ Begin
       artistedit1.text := '';
       titleedit1.text := '';
     End;
-
-End;
-
-Procedure TEditID3.pathedit1Change(Sender: TObject);
-Begin
 
 End;
 

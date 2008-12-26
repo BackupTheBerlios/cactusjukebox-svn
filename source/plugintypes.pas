@@ -30,7 +30,7 @@ type
 
     procedure Execute; virtual; stdcall; abstract;
 
-    function EventHandler(Event: TCactusEvent): boolean;
+    function EventHandler(Event: TCactusEvent; msg: PChar): boolean;
         virtual; stdcall; abstract;
 
   end;

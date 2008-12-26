@@ -27,7 +27,7 @@ uses
   Forms, status, settings, player, graphics, editid3, directories, skin,
   cdrip, mediacol, BigCoverImg, mainform, plugin, cddb,
   debug, config, imagesforlazarus, addradio, streamcol,
-  playerclass, CleanLibrary;
+  playerclass, CleanLibrary, plugininterfaces;
 
 var
   invalid_param, skip_config: boolean;
@@ -154,7 +154,7 @@ begin
   CactusPlugins:=TPluginListClass.Create;
   CactusPlugins.PluginFolder:=CactusConfig.DataPrefix+'plugins'+DirectorySeparator;
 //  CactusPlugins.autoload:=true;
-//  CactusPlugins.ScanPluginFolder;
+  CactusPlugins.ScanPluginFolder;
   DebugOut(CactusPlugins.Count, 5);DebugOutLn(' plugins found', 5);
 
   DebugOutLn('##### Application running  #####', 2);

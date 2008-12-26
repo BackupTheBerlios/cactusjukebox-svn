@@ -44,19 +44,19 @@ Type
 
 { TPluginListClass }
   TPluginListClass = Class(Tlist)
-    Private 
+   Private
     Function GetItems(index: integer): TPlugInListItemClass;
     Function ReadPluginConfig: boolean;
 
     FConfigPath: string;
     FConfigFile: TXMLConfig;
-    Public 
+   Public
     constructor Create;
     destructor destroy;
     Function FlushPluginConfig: boolean;
     Function add(dllname: String): boolean;
     Procedure ScanPluginFolder;
-    Procedure SendEvent(event: TCactusEvent);
+    Procedure SendEvent(event: TCactusEvent; msg: string);
     property Items[index: integer]: TPlugInListItemClass read GetItems;
     PluginFolder: string;
     autoload: boolean;
@@ -98,7 +98,7 @@ Function TPluginListClass.FlushPluginConfig: boolean;
 
 Var i: integer;
 Begin
-  writeln('pluginconfig');
+  //writeln('pluginconfig');
   For i:=0 To Count-1 Do
     If Items[i].FEnabled Then
       Begin
@@ -186,14 +186,19 @@ End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Procedure TPluginListClass.SendEvent(event: TCactusEvent);
+Procedure TPluginListClass.SendEvent(event: TCactusEvent; msg: string);
 
 Var i: integer;
+    p: PChar;
 Begin
   writelN('Sendevent');
 
+  p:=StrAlloc(length(msg)+1);
+  StrPCopy(p, msg);
+
   For i:= 0 To Count-1 Do
-    If Items[i].enabled Then Items[i].PluginHandle.EventHandler(event);
+    If Items[i].enabled Then Items[i].PluginHandle.EventHandler(event, p);
+    writeln('end');
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -229,10 +234,12 @@ Var GetInfoProcAdress: TGetPluginInfoProc;
   PluginInfo: TPluginInfoRec;
 Begin
   Try
-    If FileExists(pluginpath) Then write('ok');
+    If FileExists(pluginpath) Then write('ok ');
+  //   FLibraryHandle := LoadLibrary('/usr/lib/libzip.so.1.0.0');
     FLibraryHandle := LoadLibrary(pluginpath);
   Except;
     result := false;
+    writeln('eeeeee');
     exit;
   End;
 
@@ -261,7 +268,6 @@ Begin
     FAuthor := StrPas(PluginInfo.Author);
     FVersion := StrPas(PluginInfo.Version);
     FComment := StrPas(PluginInfo.Comment);
-    //   FPlayerObjectPointer:=player;
     result := true;
     //finally
   Except
@@ -292,10 +298,10 @@ Begin
   Try
     LoadAddr := TLoadPlugIn(GetProcAddress(FLibraryHandle, 'LoadPlugin'));
     LoadAddr(FPluginHandle);
-    SetObjectConAdrr := TSetObjectConnections(GetProcAddress(FLibraryHandle, 'SetObjectConnections')
-                        );
-    writeln(PlayerObj.CurrentTrack);
-    SetObjectConAdrr(@PlayerObj);
+   // SetObjectConAdrr := TSetObjectConnections(GetProcAddress(FLibraryHandle, 'SetObjectConnections')
+                        //);
+   // writeln(PlayerObj.CurrentTrack);
+   // SetObjectConAdrr(@PlayerObj);
 
     writeln('done');
   Except

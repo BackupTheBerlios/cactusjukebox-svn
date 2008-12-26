@@ -24,8 +24,8 @@ object EditID3: TEditID3
     Height = 368
     Top = 8
     Width = 375
-    ActivePage = metatab
-    TabIndex = 0
+    ActivePage = StreamTab
+    TabIndex = 2
     TabOrder = 0
     object metatab: TTabSheet
       Caption = 'Meta-Info'
@@ -314,9 +314,9 @@ object EditID3: TEditID3
       ClientWidth = 373
       object Label1: TLabel
         Left = 26
-        Height = 19
+        Height = 14
         Top = 15
-        Width = 40
+        Width = 34
         Caption = 'Name'
         Color = clBackground
         ParentColor = False
@@ -324,9 +324,9 @@ object EditID3: TEditID3
       end
       object Label2: TLabel
         Left = 26
-        Height = 19
+        Height = 14
         Top = 79
-        Width = 78
+        Width = 68
         Caption = 'Stream URL'
         Color = clBackground
         ParentColor = False
@@ -334,14 +334,13 @@ object EditID3: TEditID3
       end
       object Label3: TLabel
         Left = 26
-        Height = 19
+        Height = 14
         Top = 143
-        Width = 73
+        Width = 65
         Caption = 'Description'
         Color = clBackground
         ParentColor = False
         Transparent = False
-        OnClick = Label3Click
       end
       object NameEdit: TEdit
         Left = 46

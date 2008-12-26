@@ -1,7 +1,7 @@
 object Main: TMain
-  Left = 361
+  Left = 129
   Height = 658
-  Top = 106
+  Top = 79
   Width = 884
   ActiveControl = ArtistTree
   Caption = 'titel'
