@@ -42,7 +42,7 @@
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="23">
+    <Units Count="24">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -172,6 +172,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="plugininterfaces"/>
       </Unit22>
+      <Unit23>
+        <Filename Value="streamcol.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="streamcol"/>
+      </Unit23>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

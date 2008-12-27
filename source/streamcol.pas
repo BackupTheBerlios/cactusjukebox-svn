@@ -117,8 +117,10 @@ Begin
         i := add(tmps2, tmps1);
         ReadLn(sfile, TStreamInfoItemClass(Objects[i]).Description);
       End;
+    result:=true;
   Except
     writeln('ERROR reading stream collection');
+    result:=false;
   End;
 End;
 
