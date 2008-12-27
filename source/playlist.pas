@@ -5,7 +5,7 @@ unit playlist;
 interface
 
 uses
-  Classes, SysUtils, mediacol;
+  Classes, SysUtils, mediacol, debug;
 
 
 { TPlaylistitemClass }
@@ -292,9 +292,6 @@ begin
 
         val(s,LengthS);
 
-
-
-
         pos1:=pos2+1;
         pos2:=pos(' - ',tmps);
 
@@ -309,13 +306,9 @@ begin
         Items[i].Path:=fpath;
         Items[i].LengthMS:=lengthS*1000;
 
-{        writeln('###'                DEBUG
-        writeln(PFileObj^.artist);
-        writeln(PFileObj^.title);
-        writeln(PFileObj^.path);}
       end;
      until eof(filehandle);
-    end else writeln(path+' is not a valid m3u playlist');
+    end else debugoutln(path+' is not a valid m3u playlist',4);
     close(filehandle);
     result:=0;
    except

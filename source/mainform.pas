@@ -16,6 +16,8 @@ This Software is published under the GPL
 
 }
 
+//TODO: Check if position icon in playlist works after loading playlist from file
+
 Unit mainform;
 
 
@@ -870,6 +872,7 @@ Begin
           If (err=0) Then
             Begin
               playitem.ImageIndex := 0;
+              writeln(playitem.index);
               playitem.MakeVisible(false);
               update_player_display;
               CactusPlugins.SendEvent(evnStartPlay, PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].artist+' - '+PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].title);
@@ -2419,17 +2422,23 @@ Begin
     Begin
       playlist.Clear;
       PlayerObj.Playlist.clear;
-      PlayerObj.Playlist.LoadFromFile(Opendialog.Filename);
-      For id:= 0 To PlayerObj.Playlist.Count-1 Do
-        Begin
-          ListItem := Playlist.Items.Add;
-          listitem.Data := TMediaFileClass.create(PlayerObj.Playlist.Items[id].path, Nil);
-          if (PlayerObj.Playlist.items[id].Artist<>'') or (PlayerObj.Playlist.items[id].Title<>'') then
-                ListItem.Caption := PlayerObj.Playlist.items[id].Artist+' - '+PlayerObj.Playlist.Items[id].Title
-              else
-                ListItem.Caption := ExtractFileName(PlayerObj.Playlist.items[id].Path);
-        End;
-      if Playlist.Items.Count>0 then Playlist.Selected:=Playlist.Items[0];
+      DebugOut('Loading playlist from -> '+Opendialog.Filename+' ... ', 2);
+      if PlayerObj.Playlist.LoadFromFile(Opendialog.Filename)=0 then begin
+         DebugOutLn('done', 2);
+         DebugOut('Adding items... ', 4);
+         For id:= 0 To PlayerObj.Playlist.Count-1 Do
+             Begin
+                  ListItem := Playlist.Items.Add;
+                  listitem.ImageIndex:=-1;
+                  listitem.Data := TMediaFileClass.create(PlayerObj.Playlist.Items[id].path, Nil);
+                  if (PlayerObj.Playlist.items[id].Artist<>'') or (PlayerObj.Playlist.items[id].Title<>'') then
+                     ListItem.Caption := PlayerObj.Playlist.items[id].Artist+' - '+PlayerObj.Playlist.Items[id].Title
+                   else
+                      ListItem.Caption := ExtractFileName(PlayerObj.Playlist.items[id].Path);
+            End;
+         DebugOutLn('done', 4);
+         if Playlist.Items.Count>0 then Playlist.Selected:=Playlist.Items[0];
+       end else ShowMessage('ERROR loading Playlist');
     End;
   OpenDialog.Free;
 End;

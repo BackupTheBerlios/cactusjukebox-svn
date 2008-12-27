@@ -23,7 +23,7 @@ Interface
 Uses 
 Classes, SysUtils,
 //Tagreader:
-WMAfile, OggVorbis, FLACfile;
+WMAfile, OggVorbis, FLACfile, debug, lconvencoding;
 
 
 Const ID3Genre: array[0..147] of string[32] = ('', 'Classic Rock', 'Country', 'Dance', 'Disco', 'Funk', 'Grunge',
@@ -1010,13 +1010,14 @@ Type
               End;
           End
         Else writeln(path+' -> no valid mpeg header found');
+
       try
 {reading ID3-tags}
         fileseek(mp3filehandle,0,fsfrombeginning);
         fileread(mp3filehandle,buf,high(buf));
         bufstr := '';
         For i:= 1 To high(buf) Do
-          If {(buf[i]<>0) and }(buf[i]<>10) Then bufstr := bufstr+char(buf[i])
+          If (buf[i]<>0) and (buf[i]<>10) Then bufstr := bufstr+char(buf[i])
           Else bufstr := bufstr+' ';
         // filter #10 and 0, replace by ' '
   {id3v2}
@@ -1027,7 +1028,6 @@ Type
         yearv2 := '';
         If pos('ID3',bufstr)<> 0 Then
           Begin
-
             i := pos('TPE1',bufstr);
             If i<> 0 Then artistv2 := copy(bufstr,i+11,buf[i+7]-1);
             i := pos('TP1',bufstr);
@@ -1038,7 +1038,6 @@ Type
 
             i := pos('TT2',bufstr);
             If i<> 0 Then titlev2 := copy(bufstr,i+7,buf[i+5]-1);
-
             i := pos('TRCK',bufstr);
             If i<> 0 Then trackv2 := copy(bufstr,i+11,buf[i+7]-1);
 
@@ -1049,7 +1048,6 @@ Type
 
             i := pos('TAL',bufstr);
             If i<> 0 Then albumv2 := copy(bufstr,i+7,buf[i+5]-1);
-
             i := pos('TALB',bufstr);
             If i<> 0 Then albumv2 := copy(bufstr,i+11,buf[i+7]-1);
 
@@ -1058,28 +1056,21 @@ Type
 
             i := pos('TYER',bufstr);
             If i<> 0 Then yearv2 := copy(bufstr,i+11,buf[i+7]-1);
-
-{             artistv2:=rmZeroChar(artistv2);
-             titlev2:=rmZeroChar(titlev2);
-             albumv2:=rmZeroChar(albumv2);     }
-
             artistv2 := Latin1toUTF8(artistv2);
             titlev2 := Latin1toUTF8(titlev2);
             albumv2 := Latin1toUTF8(albumv2);
             yearv2 := Latin1toUTF8(yearv2);
-            trackv2 := Latin1toUTF8(trackv2)
-            ;
-            //   rmZeroChar(yearv2);
+            trackv2 := Latin1toUTF8(trackv2);
             If length(yearv2)>5 Then yearv2 := '';
           End;
        except WriteLn(path+' -> exception while reading id3v2 tag... skipped!!'); end;
-          {id3v1}
+    {id3v1}
        try
         fileseek(mp3filehandle,-128, fsfromend);
         fileread(mp3filehandle,buf,128);
         bufstr := '';
-        For i:= 1 To 128 Do
-          bufstr := bufstr+char(buf[i]);
+        For i:= 1 To 128 Do bufstr := bufstr+char(buf[i]);
+
         For i:= 1 To 128 Do
           Begin
             b := byte(bufstr[i]);
@@ -1092,9 +1083,9 @@ Type
             artist := Latin1toUTF8(copy(bufstr,tagpos+30,30));
             album := Latin1toUTF8(copy(bufstr,tagpos+60,30));
             year := copy(bufstr,tagpos+90,4);
+
             GenreID := buf[tagpos+124];
             if GenreID>high(ID3Genre) then GenreID:=0;
-
             If buf[125]<>0 Then                             {check for id3v1.1}
               comment := Latin1toUTF8(copy(bufstr,tagpos+94,30))
             Else
@@ -1103,8 +1094,8 @@ Type
                 If (buf[tagpos+123])<>0 Then track := IntToStr(buf[tagpos+123])
                 Else track := '';
               End;
-          End;
-      except WriteLn(path+' -> exception while reading id3v2 tag... skipped!!');  end;
+          End else writeln('no tag');
+      except WriteLn(path+' -> exception while reading id3v1 tag... skipped!!');  end;
         If ((artistv2<>'')) And (CactusConfig.id3v2_prio Or (artist='')) Then artist := TrimRight(
                                                                                         artistv2);
         If ((titlev2<>'')) And (CactusConfig.id3v2_prio Or (title=''))  Then title := TrimRight(
@@ -1139,7 +1130,7 @@ Type
       i := index;
       start := index;
       FArtist := aValue;
-      If Collection.sorted Then
+      If (Collection<>nil) and Collection.sorted Then
         Begin
           If (i<Collection.Count-1) And (CompareText(FArtist, Collection.Items[i+1].Artist)>0) Then
             Begin
@@ -1193,7 +1184,7 @@ Type
       FTitle := aValue;
       i := index;
       start := index;
-      If Collection.sorted Then
+      If (Collection<>nil) and Collection.sorted Then
         Begin
           writeln(i);
           If (i<Collection.Count-1) And (CompareText(FTitle, Collection.Items[i+1].Title)>0)
@@ -1241,21 +1232,20 @@ Type
       action := ANOTHING;
       If pos(URLID, filepath)=0 Then FMediaType := MTStream
       Else FMediaType := MTAudioFile;
-
       Filemode := 0;
-      //   try
-      system.assign(tmpfile, path);
-      //Open file temporaly to get some information about it
-      reset(tmpfile);
-      size := filesize(tmpfile);
-      //get filesize
-      ID := crc32(path);
-      // calc unique file ID
-      filetype := lowercase(ExtractFileExt(filepath));
-      close(tmpfile);
-      //   except writeln('ERROR reading file '+filepath);end;
+      try
+         system.assign(tmpfile, path);
+         //Open file temporaly to get some information about it
+         reset(tmpfile);
+         size := filesize(tmpfile);
+         //get filesize
+         ID := crc32(path);
+         // calc unique file ID
+         filetype := lowercase(ExtractFileExt(filepath));
+         close(tmpfile);
+      except debugoutln('ERROR reading file '+filepath,2);
+      end;
       Filemode := 2;
-
       read_tag;
       //finally read tag information
     End;
