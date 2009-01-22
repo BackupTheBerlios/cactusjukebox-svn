@@ -2,11 +2,8 @@
 <CONFIG>
   <ProjectOptions>
     <PathDelim Value="/"/>
-    <Version Value="7"/>
+    <Version Value="6"/>
     <General>
-      <Flags>
-        <LRSInOutputDirectory Value="False"/>
-      </Flags>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
       <TargetFileExt Value=""/>
@@ -53,12 +50,14 @@
         <ComponentName Value="EditID3"/>
         <IsPartOfProject Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <ResourceFilename Value="editid3.lrs"/>
         <UnitName Value="editid3"/>
       </Unit1>
       <Unit2>
         <Filename Value="status.pas"/>
         <ComponentName Value="Status"/>
         <IsPartOfProject Value="True"/>
+        <ResourceFilename Value="status.lrs"/>
         <UnitName Value="status"/>
       </Unit2>
       <Unit3>
@@ -66,12 +65,14 @@
         <ComponentName Value="Settings"/>
         <IsPartOfProject Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <ResourceFilename Value="settings.lrs"/>
         <UnitName Value="settings"/>
       </Unit3>
       <Unit4>
         <Filename Value="player.pas"/>
         <ComponentName Value="playwin"/>
         <IsPartOfProject Value="True"/>
+        <ResourceFilename Value="player.lrs"/>
         <UnitName Value="player"/>
       </Unit4>
       <Unit5>
@@ -83,6 +84,7 @@
         <Filename Value="directories.pas"/>
         <ComponentName Value="dirwin"/>
         <IsPartOfProject Value="True"/>
+        <ResourceFilename Value="directories.lrs"/>
         <UnitName Value="directories"/>
       </Unit6>
       <Unit7>
@@ -95,6 +97,7 @@
         <ComponentName Value="cdrip"/>
         <IsPartOfProject Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <ResourceFilename Value="cdrip.lrs"/>
         <UnitName Value="cdrip"/>
       </Unit8>
       <Unit9>
@@ -116,6 +119,7 @@
         <Filename Value="bigcoverimg.pas"/>
         <ComponentName Value="BigCoverImg"/>
         <IsPartOfProject Value="True"/>
+        <ResourceFilename Value="bigcoverimg.lrs"/>
         <UnitName Value="BigCoverImg"/>
       </Unit12>
       <Unit13>
@@ -123,6 +127,7 @@
         <ComponentName Value="Main"/>
         <IsPartOfProject Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <ResourceFilename Value="mainform.lrs"/>
         <UnitName Value="mainform"/>
       </Unit13>
       <Unit14>
@@ -150,6 +155,7 @@
         <ComponentName Value="addRadioForm"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
+        <ResourceFilename Value="addradio.lrs"/>
         <UnitName Value="addradio"/>
       </Unit18>
       <Unit19>

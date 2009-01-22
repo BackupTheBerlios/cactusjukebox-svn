@@ -206,10 +206,7 @@ object cdrip: Tcdrip
         Width = 50
       end>
     DefaultColWidth = 20
-    ExtendedSelect = True
-    FixedColor = clBtnFace
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goDrawFocusSelected, goColSizing, goEditing, goColSpanning, goSmoothScroll, goScrollKeepVisible]
-    ParentColor = False
     RowCount = 1
     ScrollBars = ssVertical
     TabOrder = 7

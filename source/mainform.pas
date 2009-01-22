@@ -1161,8 +1161,6 @@ Procedure TMain.EditID3itemClick(Sender: TObject);
 
 Var tsitem: TListitem;
 Begin
-  Main.enabled := false;
-
   tsitem := TitleTree.Selected;
 
   editid3win.display_window(TMediaFileClass(tsitem.data));
@@ -3666,7 +3664,6 @@ Var MedFileObj: TMediaFileClass;
 Begin
   If ArtistTree.Selected<>Nil Then
     Begin
-      Enabled := false;
       tsnode := ArtistTree.Selected;
       MedFileObj := TMediaFileClass(tsnode.data);
       If tsnode.level= 1 Then
