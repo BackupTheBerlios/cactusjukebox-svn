@@ -871,7 +871,10 @@ Begin
           err := PlayerObj.play(playitem.Index);
           If (err=0) Then
             Begin
+              Playlist.BeginUpdate;
               playitem.ImageIndex := 0;
+              Playlist.EndUpdate;
+              writeln(playitem.ImageIndex);
               writeln(playitem.index);
               playitem.MakeVisible(false);
               update_player_display;
@@ -1901,8 +1904,8 @@ Begin
 {$endif win32}
 
 {$ifdef LCLGtk}
-  playtime.Font.Height := 13;
-  playtime.Font.Size := 13;
+  pnlplaytime.Font.Height := 13;
+  pnlplaytime.Font.Size := 13;
 {$endif}
 
 {$ifdef LCLGtk2}
@@ -2821,7 +2824,7 @@ Begin
                titletree.items[counter]:=(TListItem(sl.Objects[counter]));
      //          writeln(sl[counter]);
             End;
-  //      TitleTree.EndUpdate;
+      //  TitleTree.EndUpdate;
      End;
   Finally
     sl.free;
@@ -3966,6 +3969,8 @@ Begin
   If PlayerObj.playing Then playtimer.enabled := true;
 End;
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 procedure TMain.TrayIcon1MouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
@@ -4255,7 +4260,7 @@ Begin
         End;
       Until (i<0);
     End;
-
+  if CactusConfig.SortAlbumByTrack and album_mode then main.TitleTreeColumnClick(main, main.TitleTree.Column[4]);
   DebugOutLn(' finished title view ##', 2);
 {$ifndef LCLGtk2}
   Main.TitleTree.EndUpdate;

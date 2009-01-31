@@ -47,12 +47,12 @@ object Settings: TSettings
     OnPageChanged = PageControl1Change
     object TabSheet1: TTabSheet
       Caption = 'General'
-      ClientHeight = 398
-      ClientWidth = 430
+      ClientHeight = 394
+      ClientWidth = 428
       object LLanguage: TLabel
         Left = 54
         Height = 14
-        Top = 308
+        Top = 338
         Width = 56
         Caption = 'Language'
         ParentColor = False
@@ -80,7 +80,7 @@ object Settings: TSettings
       object LanguageBox: TComboBox
         Left = 158
         Height = 27
-        Top = 297
+        Top = 327
         Width = 100
         ItemIndex = 0
         Items.Strings = (
@@ -93,7 +93,7 @@ object Settings: TSettings
       object kdeservicebox: TCheckBox
         Left = 38
         Height = 22
-        Top = 217
+        Top = 247
         Width = 169
         Caption = 'enable KDE service menu'
         OnChange = kdeserviceboxChange
@@ -102,7 +102,7 @@ object Settings: TSettings
       object ClearCover: TButton
         Left = 310
         Height = 33
-        Top = 243
+        Top = 273
         Width = 87
         AutoSize = True
         BorderSpacing.InnerBorder = 4
@@ -113,7 +113,7 @@ object Settings: TSettings
       object CoverDownload: TCheckBox
         Left = 38
         Height = 22
-        Top = 249
+        Top = 279
         Width = 252
         Caption = 'Download album cover art form internet'
         TabOrder = 5
@@ -121,7 +121,7 @@ object Settings: TSettings
       object AutoPlayBox: TCheckBox
         Left = 38
         Height = 22
-        Top = 122
+        Top = 111
         Width = 294
         Caption = 'Always start playing first song in empty playlist'
         TabOrder = 6
@@ -129,24 +129,32 @@ object Settings: TSettings
       object StopOnClearBox: TCheckBox
         Left = 38
         Height = 22
-        Top = 154
+        Top = 135
         Width = 241
         Caption = 'Stop playback when playlist is cleared'
         TabOrder = 7
       end
       object LoadPlaylistBox: TCheckBox
         Left = 38
-        Height = 23
+        Height = 22
         Top = 42
-        Width = 90
+        Width = 183
         Caption = 'Load last playlist on startup'
         TabOrder = 8
+      end
+      object SortAlbumBox: TCheckBox
+        Left = 38
+        Height = 22
+        Top = 183
+        Width = 222
+        Caption = 'Sort album by track instead of title'
+        TabOrder = 9
       end
     end
     object AudioTab: TTabSheet
       Caption = 'Audio'
-      ClientHeight = 398
-      ClientWidth = 430
+      ClientHeight = 394
+      ClientWidth = 428
       object LAudioOut: TLabel
         Left = 36
         Height = 14
@@ -194,8 +202,8 @@ object Settings: TSettings
     end
     object TabSheet2: TTabSheet
       Caption = 'Mobile Device'
-      ClientHeight = 398
-      ClientWidth = 430
+      ClientHeight = 394
+      ClientWidth = 428
       object LMountpoint: TLabel
         Left = 24
         Height = 14
@@ -233,8 +241,8 @@ object Settings: TSettings
     end
     object TabSheet5: TTabSheet
       Caption = 'Plugins'
-      ClientHeight = 398
-      ClientWidth = 430
+      ClientHeight = 394
+      ClientWidth = 428
       object Label1: TLabel
         Left = 14
         Height = 14
@@ -274,8 +282,8 @@ object Settings: TSettings
     end
     object TabSheet3: TTabSheet
       Caption = 'Paths'
-      ClientHeight = 398
-      ClientWidth = 430
+      ClientHeight = 394
+      ClientWidth = 428
       object Label5: TLabel
         Left = 14
         Height = 21
@@ -344,8 +352,8 @@ object Settings: TSettings
     end
     object TabSheet4: TTabSheet
       Caption = 'ID3v2/v1'
-      ClientHeight = 398
-      ClientWidth = 430
+      ClientHeight = 394
+      ClientWidth = 428
       object GroupBox1: TGroupBox
         Left = 38
         Height = 116

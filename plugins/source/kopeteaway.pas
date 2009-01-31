@@ -72,9 +72,11 @@ begin
 //  writeln('event received');
    //datastr:=tfmodplayerclass(data).currentTrack;
    //writeln(datastr);
+   
    tmps:='Now Playing: '+StrPas(msg);
    tmps:=StringReplace(tmps, ' ', '\ ', [rfReplaceAll]);
-  // tmps:=tmps;
+   tmps:=StringReplace(tmps, '''', '\''', [rfReplaceAll]);  
+// tmps:=tmps;
    case Event of
      evnStartPlay: begin
 	   shell('/usr/bin/dbus-send --type=method_call --dest=org.kde.kopete /Kopete org.kde.Kopete.setOnlineStatus :Away :'+tmps);

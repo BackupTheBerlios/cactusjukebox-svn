@@ -56,6 +56,7 @@ Type
 
     //Columns to show in titelview
     TLShowArtist, TLShowTitle, TLShowAlbum, TLShowGenre, TLShowTrack, TLShowFilename: boolean;
+    SortAlbumByTrack: boolean;
 
     constructor create(ConfigFile:String);
     destructor destroy;
@@ -133,6 +134,7 @@ Begin
     AutostartPlay := FConfigFile.GetValue('Playlist/Autoplay', true);
     StopOnClear:= FConfigFile.GetValue('Playlist/StopOnClear', false);
     LoadLastPlaylist:=FConfigFile.getValue('Playlist/LoadPrevious', true);
+    SortAlbumByTrack:=FConfigFile.getValue('Library/SortAlbumByTrack', false);
 
     Lame := FConfigFile.GetValue('Lame/Path', '/usr/bin/lame');
     GetLanguageIDs(tmps1, tmps2);
@@ -158,6 +160,8 @@ Begin
     TLShowTrack:= FConfigFile.getValue('Userinterface/Titlelistcolumns/Track', true);
     TLShowGenre:= FConfigFile.getValue('Userinterface/Titlelistcolumns/Genre', false);
     TLShowFilename:= FConfigFile.getValue('Userinterface/Titlelistcolumns/Filename', false);
+
+    SortAlbumByTrack:=FConfigFile.getValue('Userinterface/SortAlbumByTrack', false);
 
     CDRomDevice := FConfigFile.GetValue('Devices/CDROM/Name', '/dev/cdrom');
   Except
@@ -214,6 +218,7 @@ Begin
     FConfigFile.SetValue('Userinterface/Titlelistcolumns/Track', TLShowTrack);
     FConfigFile.SetValue('Userinterface/Titlelistcolumns/Genre', TLShowGenre);
     FConfigFile.SetValue('Userinterface/Titlelistcolumns/Filename', TLShowFilename);
+    FConfigFile.SetValue('Userinterface/SortAlbumByTrack', SortAlbumByTrack);
 
     FConfigFile.SetValue('Devices/CDROM/Name', CDRomDevice);
 

@@ -72,6 +72,7 @@ Type
     CDRomEdit: TEdit;
     AutoPlayBox: TCheckBox;
     AudioBackend: TComboBox;
+    SortAlbumBox: TCheckBox;
     LoadPlaylistBox: TCheckBox;
     StopOnClearBox: TCheckBox;
     Label4: TLabel;
@@ -207,6 +208,8 @@ Begin
   CactusConfig.strTagToNameFormatString := txtFormatString.Text;
   CactusConfig.language := LanguageBox.Items[LanguageBox.ItemIndex];
   CactusConfig.FlushConfig;
+
+  CactusConfig.SortAlbumByTrack:=SortAlbumBox.Checked;
 
   For i:=0 To PluginList.Count-1 Do
     If PluginList.Checked[i] Then
@@ -360,6 +363,8 @@ Begin
 
   StopOnClearBox.Checked:=CactusConfig.StopOnClear;
   txtFormatString.Text := CactusConfig.strTagToNameFormatString;
+
+  SortAlbumBox.Checked:=CactusConfig.SortAlbumByTrack;
 
   For i:=0 To CactusPlugins.Count-1 Do
     Begin

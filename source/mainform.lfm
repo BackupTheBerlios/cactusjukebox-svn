@@ -1,12 +1,12 @@
 object Main: TMain
   Left = 129
-  Height = 658
+  Height = 666
   Top = 79
-  Width = 884
+  Width = 832
   ActiveControl = ArtistTree
   Caption = 'titel'
-  ClientHeight = 637
-  ClientWidth = 884
+  ClientHeight = 643
+  ClientWidth = 832
   Icon.Data = {
     3E42000000000100010040400000010020002842000016000000280000004000
     0000800000000100200000000000004000006400000064000000000000000000
@@ -549,8 +549,8 @@ object Main: TMain
   LCLVersion = '0.9.27'
   object StatusBar1: TStatusBar
     Height = 17
-    Top = 620
-    Width = 884
+    Top = 626
+    Width = 832
     Panels = <    
       item
         Text = 'Cactus Jukebox'
@@ -562,8 +562,8 @@ object Main: TMain
     SimplePanel = False
   end
   object Splitter1: TSplitter
-    Left = 279
-    Height = 620
+    Left = 227
+    Height = 626
     Width = 8
     Align = alRight
     AutoSnap = False
@@ -573,18 +573,18 @@ object Main: TMain
     ResizeAnchor = akRight
   end
   object Panel1: TPanel
-    Left = 287
-    Height = 620
+    Left = 235
+    Height = 626
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 620
+    ClientHeight = 626
     ClientWidth = 597
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
-      Height = 222
+      Height = 228
       Top = 5
       Width = 587
       Align = alTop
@@ -599,17 +599,17 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Artist'
-          Width = 38
+          Width = 40
         end      
         item
           AutoSize = True
           Caption = 'Title'
-          Width = 32
+          Width = 34
         end      
         item
           AutoSize = True
           Caption = 'Album'
-          Width = 43
+          Width = 45
         end      
         item
           AutoSize = True
@@ -620,7 +620,7 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Genre'
-          Width = 43
+          Width = 45
         end      
         item
           AutoSize = True
@@ -632,7 +632,7 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 367
+          Width = 359
         end>
       PopupMenu = titlelistmenu
       ReadOnly = True
@@ -655,14 +655,14 @@ object Main: TMain
     object Splitter2: TSplitter
       Cursor = crVSplit
       Height = 10
-      Top = 227
+      Top = 233
       Width = 597
       Align = alTop
       ResizeAnchor = akTop
     end
     object Panel3: TPanel
       Height = 383
-      Top = 237
+      Top = 243
       Width = 597
       Align = alClient
       BevelOuter = bvNone
@@ -910,7 +910,7 @@ object Main: TMain
         end
       end
       object Playlist: TListView
-        Left = 240
+        Left = 237
         Height = 301
         Top = 75
         Width = 348
@@ -924,9 +924,11 @@ object Main: TMain
             Width = 330
           end>
         HideSelection = False
+        LargeImages = ImageList1
         PopupMenu = playlistmenu
         ReadOnly = True
         SmallImages = ImageList1
+        StateImages = ImageList1
         TabOrder = 1
         ToolTips = False
         ViewStyle = vsReport
@@ -1065,20 +1067,20 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
-    Height = 620
-    Width = 279
+    Height = 626
+    Width = 227
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 620
-    ClientWidth = 279
+    ClientHeight = 626
+    ClientWidth = 227
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 26
-      Height = 610
+      Height = 616
       Top = 5
-      Width = 250
+      Width = 198
       Align = alClient
       BorderSpacing.Top = 5
       BorderSpacing.Right = 3
@@ -1110,8 +1112,8 @@ object Main: TMain
       Height = 64
       Top = 542
       Width = 128
-      ClientHeight = 60
-      ClientWidth = 124
+      ClientHeight = 64
+      ClientWidth = 128
       TabOrder = 1
       Visible = False
       OnClick = ArtistSrchFieldClick
@@ -1180,7 +1182,7 @@ object Main: TMain
       end
     end
     object ToolBar1: TToolBar
-      Height = 615
+      Height = 621
       Top = 5
       Width = 26
       Align = alLeft
