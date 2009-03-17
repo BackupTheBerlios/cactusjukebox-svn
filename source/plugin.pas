@@ -20,6 +20,7 @@ Type
     FLibraryHandle: TLibHandle;
     FEnabled: Boolean;
     FPlayerObjectPointer: TPlayerClass;
+    FEventHandler: TPluginEventHandlerProc;
     Procedure setEnabled( aValue: boolean);
     Public 
     constructor create;
@@ -32,6 +33,7 @@ Type
     property Comment: string read FComment;
     property PluginHandle: TCactusPlugInClass read FPluginHandle;
     property LibraryHandle: TLibHandle read FLibraryHandle;
+    property EventHandler: TPluginEventHandlerProc read FEventHandler;
     property enabled: boolean read FEnabled write setEnabled;
     property PlayerObjectPointer: TPlayerClass read FPlayerObjectPointer;
 
@@ -196,8 +198,10 @@ Begin
   p:=StrAlloc(length(msg)+1);
   StrPCopy(p, msg);
 
-  For i:= 0 To Count-1 Do
-    If Items[i].enabled Then Items[i].PluginHandle.EventHandler(event, p);
+  For i:= 0 To Count-1 Do begin
+    writeln(i);
+    If Items[i].enabled Then Items[i].EventHandler(event, p);
+   end;
     writeln('end');
 End;
 
@@ -205,8 +209,8 @@ End;
 
 Procedure TPluginListItemClass.setEnabled(aValue: boolean);
 Begin
-  If (FEnabled=false) And (aValue=true) Then loadPlugin
-  Else unloadPlugin;
+  If (FEnabled=false) And (aValue=true) Then loadPlugin;
+  if (FEnabled=true) And (aValue=false) then unloadPlugin;
   FEnabled := aValue;
 
 End;
@@ -235,7 +239,6 @@ Var GetInfoProcAdress: TGetPluginInfoProc;
 Begin
   Try
     If FileExists(pluginpath) Then write('ok ');
-  //   FLibraryHandle := LoadLibrary('/usr/lib/libzip.so.1.0.0');
     FLibraryHandle := LoadLibrary(pluginpath);
   Except;
     result := false;
@@ -297,13 +300,16 @@ Begin
   LoadAddr := Nil;
   Try
     LoadAddr := TLoadPlugIn(GetProcAddress(FLibraryHandle, 'LoadPlugin'));
-    LoadAddr(FPluginHandle);
+    if LoadAddr(FPluginHandle) then writeln('done')
+    else writeln('ERROR loading plugin');
+    FEventHandler:= TPluginEventHandlerProc(GetProcAddress(FLibraryHandle, 'EventHandler'));
+
+
    // SetObjectConAdrr := TSetObjectConnections(GetProcAddress(FLibraryHandle, 'SetObjectConnections')
                         //);
    // writeln(PlayerObj.CurrentTrack);
    // SetObjectConAdrr(@PlayerObj);
 
-    writeln('done');
   Except
     writeln('error loading object!');
   End;

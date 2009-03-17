@@ -32,7 +32,7 @@ Classes, SysUtils, xmlcfg, gettext, playerclass;
 Type 
   TConfigObject = Class
     Public 
-    GuessTag, id3v2_prio: boolean;
+    GuessTag, GuessAllTags, id3v2_prio: boolean;
     Mobile_Subfolders, background_scan, CoverDownload: boolean;
     KDEServiceMenu: boolean;
     AudioSystem: TOutputMode;
@@ -51,12 +51,15 @@ Type
     WWidth, WHeight, WSplitterWidth: Integer;
 
     AlbumCoverFirsttime, bDisplayPlayTimeNegated: boolean;
+    CoverSize:string;
 
     MPlayerPath: string;
 
     //Columns to show in titelview
     TLShowArtist, TLShowTitle, TLShowAlbum, TLShowGenre, TLShowTrack, TLShowFilename: boolean;
     SortAlbumByTrack: boolean;
+
+    PluginsEnabled: boolean;
 
     constructor create(ConfigFile:String);
     destructor destroy;
@@ -106,6 +109,7 @@ Begin
 
   Try
     GuessTag := FConfigFile.GetValue('Library/GuessTags', false);
+    GuessAllTags := FConfigFile.GetValue('Library/GuessAllTags', false);
     Mobile_Subfolders := FConfigFile.GetValue('Mobile_Player/Subfolders', true);
     id3v2_prio := FConfigFile.GetValue('Library/id3v2_prio', true);
     //    background_scan:=FConfigFile.GetValue('Library/background_scan', false);
@@ -114,6 +118,8 @@ Begin
     If FConfigFile.GetValue('Networking/Album_Cover_Download/Enabled','')='' Then
       AlbumCoverFirsttime := true;
     CoverDownload := FConfigFile.GetValue('Networking/Album_Cover_Download/Enabled', false);
+    CoverSize := FConfigFile.GetValue('Networking/Album_Cover_Download/ImageSize', 'small');
+
     CurrentSkin := FConfigFile.getValue('Skin/File', 'green.xml');
     KDEServiceMenu := FConfigFile.GetValue('KDE/servicemenu', false);
 
@@ -164,6 +170,8 @@ Begin
     SortAlbumByTrack:=FConfigFile.getValue('Userinterface/SortAlbumByTrack', false);
 
     CDRomDevice := FConfigFile.GetValue('Devices/CDROM/Name', '/dev/cdrom');
+
+    PluginsEnabled:= FConfigFile.GetValue('Plugins/Enabled', false);
   Except
     result := false;
   End;
@@ -196,8 +204,10 @@ Begin
     FConfigFile.SetValue('Audio/Backend/MPlayer/Path',MPlayerPath);
     FConfigFile.SetValue('Mobile_Player/Subfolders',mobile_subfolders);
     FConfigFile.SetValue('Networking/Album_Cover_Download/Enabled', CoverDownload);
+    FConfigFile.SetValue('Networking/Album_Cover_Download/ImageSize', CoverSize);
     FConfigFile.SetValue('Lame/Path', lame);
     FConfigFile.SetValue('Library/GuessTags', guesstag);
+    FConfigFile.SetValue('Library/GuessAllTags', GuessAllTags);
     FConfigFile.SetValue('Library/background_scan', background_scan);
     FConfigFile.SetValue('Library/autoload', LastLib);
     FConfigFile.SetValue('Library/StreamCollection', StreamColPath);
@@ -221,6 +231,8 @@ Begin
     FConfigFile.SetValue('Userinterface/SortAlbumByTrack', SortAlbumByTrack);
 
     FConfigFile.SetValue('Devices/CDROM/Name', CDRomDevice);
+
+    FConfigFile.SetValue('Plugins/Enabled', PluginsEnabled);
 
     FConfigFile.Flush;
   Except

@@ -41,7 +41,7 @@
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="24">
+    <Units Count="26">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -82,6 +82,7 @@
         <Filename Value="directories.pas"/>
         <ComponentName Value="dirwin"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="directories"/>
       </Unit6>
       <Unit7>
@@ -115,6 +116,7 @@
         <Filename Value="bigcoverimg.pas"/>
         <ComponentName Value="BigCoverImg"/>
         <IsPartOfProject Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="BigCoverImg"/>
       </Unit12>
       <Unit13>
@@ -176,6 +178,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="streamcol"/>
       </Unit23>
+      <Unit24>
+        <Filename Value="tagreader/mp3file.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="mp3file"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="tagreader/guesstag.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="guesstag"/>
+      </Unit25>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -201,6 +213,7 @@
         <OverflowChecks Value="True"/>
         <StackChecks Value="True"/>
       </Checks>
+      <VerifyObjMethodCallValidity Value="True"/>
       <Optimizations>
         <OptimizationLevel Value="0"/>
       </Optimizations>

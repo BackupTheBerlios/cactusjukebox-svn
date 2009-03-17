@@ -40,8 +40,8 @@ object Settings: TSettings
     Height = 421
     Top = 16
     Width = 432
-    ActivePage = TabSheet1
-    TabIndex = 0
+    ActivePage = TabSheet4
+    TabIndex = 5
     TabOrder = 0
     OnChange = PageControl1Change
     OnPageChanged = PageControl1Change
@@ -52,7 +52,7 @@ object Settings: TSettings
       object LLanguage: TLabel
         Left = 54
         Height = 14
-        Top = 338
+        Top = 353
         Width = 56
         Caption = 'Language'
         ParentColor = False
@@ -60,7 +60,7 @@ object Settings: TSettings
       object autoload1: TCheckBox
         Left = 38
         Height = 22
-        Top = 18
+        Top = 31
         Width = 176
         AllowGrayed = True
         Caption = 'Load last library at startup'
@@ -71,7 +71,7 @@ object Settings: TSettings
       object backscan: TCheckBox
         Left = 38
         Height = 22
-        Top = 74
+        Top = 103
         Width = 360
         Caption = 'Scan for new files in background  on startup(experimental)'
         TabOrder = 1
@@ -80,7 +80,7 @@ object Settings: TSettings
       object LanguageBox: TComboBox
         Left = 158
         Height = 27
-        Top = 327
+        Top = 346
         Width = 100
         ItemIndex = 0
         Items.Strings = (
@@ -93,62 +93,43 @@ object Settings: TSettings
       object kdeservicebox: TCheckBox
         Left = 38
         Height = 22
-        Top = 247
+        Top = 279
         Width = 169
         Caption = 'enable KDE service menu'
         OnChange = kdeserviceboxChange
         TabOrder = 3
       end
-      object ClearCover: TButton
-        Left = 310
-        Height = 33
-        Top = 273
-        Width = 87
-        AutoSize = True
-        BorderSpacing.InnerBorder = 4
-        Caption = 'Clear cache'
-        OnClick = ClearCoverClick
-        TabOrder = 4
-      end
-      object CoverDownload: TCheckBox
-        Left = 38
-        Height = 22
-        Top = 279
-        Width = 252
-        Caption = 'Download album cover art form internet'
-        TabOrder = 5
-      end
       object AutoPlayBox: TCheckBox
         Left = 38
         Height = 22
-        Top = 111
+        Top = 143
         Width = 294
         Caption = 'Always start playing first song in empty playlist'
-        TabOrder = 6
+        TabOrder = 4
       end
       object StopOnClearBox: TCheckBox
         Left = 38
         Height = 22
-        Top = 135
+        Top = 167
         Width = 241
         Caption = 'Stop playback when playlist is cleared'
-        TabOrder = 7
+        TabOrder = 5
       end
       object LoadPlaylistBox: TCheckBox
         Left = 38
         Height = 22
-        Top = 42
+        Top = 55
         Width = 183
         Caption = 'Load last playlist on startup'
-        TabOrder = 8
+        TabOrder = 6
       end
       object SortAlbumBox: TCheckBox
         Left = 38
         Height = 22
-        Top = 183
-        Width = 222
-        Caption = 'Sort album by track instead of title'
-        TabOrder = 9
+        Top = 223
+        Width = 229
+        Caption = 'Sort albums by track instead of title'
+        TabOrder = 7
       end
     end
     object AudioTab: TTabSheet
@@ -246,15 +227,15 @@ object Settings: TSettings
       object Label1: TLabel
         Left = 14
         Height = 14
-        Top = 273
+        Top = 303
         Width = 104
         Caption = 'Plugin information'
         ParentColor = False
       end
       object PluginList: TCheckListBox
         Left = 14
-        Height = 240
-        Top = 17
+        Height = 232
+        Top = 55
         Width = 240
         ExtendedSelect = False
         OnMouseDown = PluginListMouseDown
@@ -263,8 +244,8 @@ object Settings: TSettings
       end
       object PluginInfo: TMemo
         Left = 14
-        Height = 82
-        Top = 289
+        Height = 66
+        Top = 319
         Width = 392
         ReadOnly = True
         ScrollBars = ssAutoVertical
@@ -273,11 +254,20 @@ object Settings: TSettings
       object Button2: TButton
         Left = 302
         Height = 25
-        Top = 25
+        Top = 55
         Width = 75
         BorderSpacing.InnerBorder = 4
         Caption = 'Setup'
         TabOrder = 2
+      end
+      object EnablePluginsBox: TCheckBox
+        Left = 14
+        Height = 22
+        Top = 15
+        Width = 107
+        Caption = 'Enable plugins'
+        OnClick = EnablePluginsBoxClick
+        TabOrder = 3
       end
     end
     object TabSheet3: TTabSheet
@@ -286,9 +276,9 @@ object Settings: TSettings
       ClientWidth = 428
       object Label5: TLabel
         Left = 14
-        Height = 21
+        Height = 25
         Top = 51
-        Width = 288
+        Width = 292
         ParentColor = False
       end
       object Label2: TLabel
@@ -305,7 +295,7 @@ object Settings: TSettings
         Top = 19
         Width = 392
         Caption = 'Paths to additional application needed for Cactus Jukebox'
-        ClientHeight = 157
+        ClientHeight = 168
         ClientWidth = 388
         TabOrder = 0
         object Llame: TLabel
@@ -351,17 +341,17 @@ object Settings: TSettings
       end
     end
     object TabSheet4: TTabSheet
-      Caption = 'ID3v2/v1'
+      Caption = 'Metatags'
       ClientHeight = 394
       ClientWidth = 428
       object GroupBox1: TGroupBox
-        Left = 38
+        Left = 22
         Height = 116
-        Top = 231
-        Width = 336
+        Top = 247
+        Width = 376
         Caption = 'File name format string'
-        ClientHeight = 101
-        ClientWidth = 332
+        ClientHeight = 112
+        ClientWidth = 372
         TabOrder = 2
         object Label3: TLabel
           Left = 11
@@ -398,28 +388,28 @@ object Settings: TSettings
         end
       end
       object ID3typebox: TGroupBox
-        Left = 38
-        Height = 88
-        Top = 111
-        Width = 336
-        Caption = 'ID3 type'
-        ClientHeight = 73
-        ClientWidth = 332
-        ParentCtl3D = False
+        Left = 22
+        Height = 48
+        Top = 167
+        Width = 376
+        Caption = 'Mpeg3 ID3 type'
+        ClientHeight = 33
+        ClientWidth = 372
         TabOrder = 0
         object v1_prio: TRadioButton
-          Left = 70
+          Left = 78
           Height = 22
-          Top = 1
+          Top = 5
           Width = 99
           AllowGrayed = True
           Caption = 'ID3v1 Priority'
           TabOrder = 0
+          TabStop = False
         end
         object v2_prio: TRadioButton
-          Left = 70
+          Left = 214
           Height = 22
-          Top = 25
+          Top = 5
           Width = 99
           AllowGrayed = True
           Caption = 'ID3v2 Priority'
@@ -429,35 +419,97 @@ object Settings: TSettings
         end
       end
       object GuessTagBox: TGroupBox
-        Left = 38
-        Height = 80
-        Top = 15
-        Width = 336
-        Caption = 'What to do when there is no ID3'
-        ClientHeight = 65
-        ClientWidth = 332
-        ParentCtl3D = False
+        Left = 22
+        Height = 120
+        Top = 23
+        Width = 376
+        Caption = 'Incomplete metadata handling'
+        ClientHeight = 105
+        ClientWidth = 372
         TabOrder = 1
+        object Label7: TLabel
+          Tag = 8
+          Left = 30
+          Height = 14
+          Top = 11
+          Width = 164
+          Caption = 'When artist name is missing'
+          ParentColor = False
+        end
         object unknown1: TRadioButton
-          Left = 70
+          Left = 62
           Height = 22
-          Top = 31
+          Top = 27
           Width = 178
           AllowGrayed = True
           Caption = 'Move to section "Unknown"'
           TabOrder = 0
+          TabStop = False
         end
         object guesstag1: TRadioButton
-          Left = 70
+          Left = 62
           Height = 22
-          Top = 1
-          Width = 167
+          Top = 51
+          Width = 236
           AllowGrayed = True
-          Caption = 'Guess tag from filename'
+          Caption = 'Guess artist from file or folder name'
           Checked = True
           State = cbChecked
           TabOrder = 1
         end
+        object CheckBox1: TCheckBox
+          Left = 118
+          Height = 22
+          Top = 75
+          Width = 156
+          Caption = 'Guess all missing tags'
+          OnChange = CheckBox1Change
+          TabOrder = 2
+        end
+      end
+    end
+    object TabSheet6: TTabSheet
+      Caption = 'Album Art'
+      ClientHeight = 394
+      ClientWidth = 428
+      object Label8: TLabel
+        Left = 70
+        Height = 14
+        Top = 87
+        Width = 120
+        Caption = 'Preferred image size'
+        ParentColor = False
+      end
+      object ClearCover: TButton
+        Left = 310
+        Height = 33
+        Top = 31
+        Width = 87
+        AutoSize = True
+        BorderSpacing.InnerBorder = 4
+        Caption = 'Clear cache'
+        OnClick = ClearCoverClick
+        TabOrder = 0
+      end
+      object CoverDownload: TCheckBox
+        Left = 22
+        Height = 22
+        Top = 39
+        Width = 252
+        Caption = 'Download album cover art form internet'
+        TabOrder = 1
+      end
+      object AlbumCoverSizeBox: TComboBox
+        Left = 206
+        Height = 27
+        Top = 79
+        Width = 120
+        Items.Strings = (
+          'medium'
+          'large'
+        )
+        Style = csDropDownList
+        TabOrder = 2
       end
     end
   end

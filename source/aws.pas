@@ -22,6 +22,7 @@ Classes, SysUtils, HTTPSend, FPImage, xmlread, dom, strutils, fpreadjpeg, fpwrit
 
 Type 
 
+TCoverSize = (AWSLargeImage, AWSMediumImage);
 { TScanThread }
 
    { TNetworkThread }
@@ -74,6 +75,7 @@ Type
     Procedure LoadAlbumCover;
     Procedure SaveAlbumCover(savepath: String);
     Procedure AlbumCoverToFile(savepath: String);
+    CoverSize: TCoverSize;
     //Do everything in one procedure. Send request, download and save it
   End;
 
@@ -85,6 +87,7 @@ Type
 
   constructor TAWSAccess.CreateRequest(artist, album: String);
 Begin
+  CoverSize:=AWSMediumImage;
   FAlbum := UTF8toLatin1(album);
   FArtist := UTF8toLatin1(artist);
   HTTPRecData := TMemoryStream.Create;
@@ -105,6 +108,7 @@ Procedure TAWSAccess.ReceiveData;
 
 Var    node: TDOMNode;
   artistok, albumok: boolean;
+  ImgString: string;
 Begin
   Try
     XMLResult := TXMLDocument.Create;
@@ -139,7 +143,11 @@ Begin
     If albumok And artistok Then
       Begin
         writeln('reading image information');
-        node := XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('MediumImage')
+        case CoverSize of
+             AWSLargeImage: ImgString:='LargeImage';
+             AWSMediumImage: ImgString:='MediumImage';
+          end;
+        node := XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode(ImgString)
                 .FindNode('URL');
         If assigned(node) Then
           Begin
@@ -147,7 +155,7 @@ Begin
            // WriteLn(FAlbumCoverURL);
           End
         Else writeln('ERROR parsing xml file');
-        node := XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('MediumImage')
+        node := XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode(ImgString)
                 .FindNode('Height');
         If assigned(node) Then
           Begin
@@ -155,7 +163,7 @@ Begin
             WriteLn(FImgH);
           End
         Else writeln('ERROR parsing xml file');
-        node := XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode('MediumImage')
+        node := XMLResult.DocumentElement.FindNode('Items').FindNode('Item').FindNode(ImgString)
                 .FindNode('Width');
         If assigned(node) Then
           Begin

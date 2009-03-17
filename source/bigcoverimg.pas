@@ -46,7 +46,7 @@ Procedure TBigCoverImg.FormClose(Sender: TObject; Var CloseAction: TCloseAction
 );
 Begin
   main.Enabled := true;
-
+  Image1.Free;
 End;
 
 initialization

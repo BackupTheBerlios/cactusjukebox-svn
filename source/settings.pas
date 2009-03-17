@@ -30,7 +30,7 @@ resourcestring
 rsAutoloadLast = 'Load last library at startup';
 rsScanForNewFi = 'Scan for new files in background  on startup';
 rsLanguage = 'Language';
-rsWhatToDoWhen = 'What to do when there is no ID3';
+
 rsGuessTagFrom = 'Guess tag from filename';
 rsMoveToSectio = 'Move to section %sUnknown%s';
 rsID3Type = 'ID3 type';
@@ -72,11 +72,19 @@ Type
     CDRomEdit: TEdit;
     AutoPlayBox: TCheckBox;
     AudioBackend: TComboBox;
+    CheckBox1: TCheckBox;
+    ClearCover: TButton;
+    AlbumCoverSizeBox: TComboBox;
+    CoverDownload: TCheckBox;
+    EnablePluginsBox: TCheckBox;
+    Label7: TLabel;
+    Label8: TLabel;
     SortAlbumBox: TCheckBox;
     LoadPlaylistBox: TCheckBox;
     StopOnClearBox: TCheckBox;
     Label4: TLabel;
     Label6: TLabel;
+    TabSheet6: TTabSheet;
     txtFormatString: TEdit;
     GroupBox1: TGroupBox;
     Label2: TLabel;
@@ -84,8 +92,6 @@ Type
     LAudioBackend: TLabel;
     LAudioOut: TLabel;
     PluginList: TCheckListBox;
-    ClearCover: TButton;
-    CoverDownload: TCheckBox;
     guesstag1: TRadioButton;
     GuessTagBox: TGroupBox;
     ID3typebox: TGroupBox;
@@ -118,9 +124,12 @@ Type
     v1_prio1: TRadioButton;
     v2_prio: TRadioButton;
     v2_prio1: TRadioButton;
+    procedure AlbumCoverSizeBoxChange(Sender: TObject);
     procedure AudioBackendChange(Sender: TObject);
     Procedure Button1Click(Sender: TObject);
+    procedure CheckBox1Change(Sender: TObject);
     Procedure ClearCoverClick(Sender: TObject);
+    procedure EnablePluginsBoxClick(Sender: TObject);
     Procedure FormCreate(Sender: TObject);
     Procedure FormDestroy(Sender: TObject);
     procedure Label3Click(Sender: TObject);
@@ -201,7 +210,11 @@ Begin
 
   CactusConfig.id3v2_prio := v2_prio.Checked;
   CactusConfig.mobile_subfolders := subfolders.checked;
+
   CactusConfig.CoverDownload := CoverDownload.Checked;
+  if AlbumCoverSizeBox.ItemIndex=0 then CactusConfig.CoverSize:='medium'
+       else CactusConfig.CoverSize:='large';
+
   CactusConfig.AutostartPlay:=AutoPlayBox.Checked;
   CactusConfig.StopOnClear:=StopOnClearBox.Checked;
   CactusConfig.LoadLastPlaylist:=LoadPlaylistBox.Checked;
@@ -210,6 +223,8 @@ Begin
   CactusConfig.FlushConfig;
 
   CactusConfig.SortAlbumByTrack:=SortAlbumBox.Checked;
+
+  CactusConfig.PluginsEnabled:=EnablePluginsBox.Checked;
 
   For i:=0 To PluginList.Count-1 Do
     If PluginList.Checked[i] Then
@@ -264,9 +279,19 @@ Begin
     End;
 End;
 
+procedure TSettings.CheckBox1Change(Sender: TObject);
+begin
+
+end;
+
 procedure TSettings.AudioBackendChange(Sender: TObject);
 begin
    ShowMessage('Please restart Cactus for audio backend change to take effect');
+end;
+
+procedure TSettings.AlbumCoverSizeBoxChange(Sender: TObject);
+begin
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -280,6 +305,23 @@ Begin
       Else writeln('ERROR while clearing covercache...');
     End;
 End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TSettings.EnablePluginsBoxClick(Sender: TObject);
+begin
+  If EnablePluginsBox.Checked then begin
+       PluginList.Enabled:=true;
+       PluginInfo.Enabled:=true;
+       Label1.Enabled:=true;
+  end else begin
+       PluginList.Enabled:=false;
+       PluginInfo.Enabled:=false;
+       Label1.Enabled:=false;
+  end;
+ // ShowMessage('You have to restart Cactus Jukebox for changes to take effect!!');
+ //TDOD: Add warning that plugins are enabled/disabled only after restart
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -310,7 +352,6 @@ Begin
   LoadPlaylistBox.Caption:=rsLoadLastPlay;
   backscan.Caption := rsScanForNewFi;
   LLanguage.Caption := rsLanguage;
-  GuessTagBox.Caption := rsWhatToDoWhen;
   guesstag1.Caption := rsGuessTagFrom;
   unknown1.Caption := Format(rsMoveToSectio, ['"', '"']);
   ID3typebox.Caption := rsID3Type;
@@ -347,6 +388,8 @@ Begin
   kdeservicebox.Visible := false;
  {$endif}
   CoverDownload.Checked := CactusConfig.CoverDownload;
+  if CactusConfig.CoverSize='large' then AlbumCoverSizeBox.ItemIndex:=1
+        else AlbumCoverSizeBox.ItemIndex:=0;
 
   playerpathedit1.text := CactusConfig.DAPPath;
   CDRomEdit.Text := CactusConfig.CDRomDevice;
@@ -365,6 +408,18 @@ Begin
   txtFormatString.Text := CactusConfig.strTagToNameFormatString;
 
   SortAlbumBox.Checked:=CactusConfig.SortAlbumByTrack;
+
+  EnablePluginsBox.Checked:=CactusConfig.PluginsEnabled;
+  If EnablePluginsBox.Checked then begin
+       PluginList.Enabled:=true;
+       PluginInfo.Enabled:=true;
+       Label1.Enabled:=true;
+  end else begin
+       PluginList.Enabled:=false;
+       PluginInfo.Enabled:=false;
+       Label1.Enabled:=false;
+  end;
+
 
   For i:=0 To CactusPlugins.Count-1 Do
     Begin

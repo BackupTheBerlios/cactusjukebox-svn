@@ -1,12 +1,12 @@
 object Main: TMain
-  Left = 129
-  Height = 666
-  Top = 79
-  Width = 832
-  ActiveControl = ArtistTree
+  Left = 393
+  Height = 695
+  Top = 137
+  Width = 834
+  ActiveControl = Panel4
   Caption = 'titel'
-  ClientHeight = 643
-  ClientWidth = 832
+  ClientHeight = 672
+  ClientWidth = 834
   Icon.Data = {
     3E42000000000100010040400000010020002842000016000000280000004000
     0000800000000100200000000000004000006400000064000000000000000000
@@ -549,8 +549,8 @@ object Main: TMain
   LCLVersion = '0.9.27'
   object StatusBar1: TStatusBar
     Height = 17
-    Top = 626
-    Width = 832
+    Top = 655
+    Width = 834
     Panels = <    
       item
         Text = 'Cactus Jukebox'
@@ -562,8 +562,8 @@ object Main: TMain
     SimplePanel = False
   end
   object Splitter1: TSplitter
-    Left = 227
-    Height = 626
+    Left = 229
+    Height = 655
     Width = 8
     Align = alRight
     AutoSnap = False
@@ -573,18 +573,18 @@ object Main: TMain
     ResizeAnchor = akRight
   end
   object Panel1: TPanel
-    Left = 235
-    Height = 626
+    Left = 237
+    Height = 655
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 626
+    ClientHeight = 655
     ClientWidth = 597
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
-      Height = 228
+      Height = 257
       Top = 5
       Width = 587
       Align = alTop
@@ -632,8 +632,9 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 359
+          Width = 357
         end>
+      ParentColor = False
       PopupMenu = titlelistmenu
       ReadOnly = True
       RowSelect = True
@@ -655,18 +656,17 @@ object Main: TMain
     object Splitter2: TSplitter
       Cursor = crVSplit
       Height = 10
-      Top = 233
+      Top = 262
       Width = 597
       Align = alTop
       ResizeAnchor = akTop
     end
     object Panel3: TPanel
       Height = 383
-      Top = 243
+      Top = 272
       Width = 597
       Align = alClient
       BevelOuter = bvNone
-      Caption = 'Panel3'
       ClientHeight = 383
       ClientWidth = 597
       TabOrder = 2
@@ -921,10 +921,11 @@ object Main: TMain
           item
             AutoSize = True
             Caption = 'Playlist'
-            Width = 330
+            Width = 328
           end>
         HideSelection = False
         LargeImages = ImageList1
+        ParentColor = False
         PopupMenu = playlistmenu
         ReadOnly = True
         SmallImages = ImageList1
@@ -939,6 +940,7 @@ object Main: TMain
         OnKeyDown = PlaylistKeyDown
         OnKeyUp = PlaylistKeyUp
         OnMouseDown = PlaylistMouseDown
+        OnSelectItem = playlistSelectItem
         OnStartDrag = PlaylistStartDrag
       end
       object Panel2: TPanel
@@ -1067,20 +1069,20 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
-    Height = 626
-    Width = 227
+    Height = 655
+    Width = 229
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 626
-    ClientWidth = 227
+    ClientHeight = 655
+    ClientWidth = 229
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 26
-      Height = 616
+      Height = 645
       Top = 5
-      Width = 198
+      Width = 200
       Align = alClient
       BorderSpacing.Top = 5
       BorderSpacing.Right = 3
@@ -1108,9 +1110,9 @@ object Main: TMain
       Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips]
     end
     object ArtistSrchField: TPanel
-      Left = 134
+      Left = 88
       Height = 64
-      Top = 542
+      Top = 568
       Width = 128
       ClientHeight = 64
       ClientWidth = 128
@@ -1182,7 +1184,7 @@ object Main: TMain
       end
     end
     object ToolBar1: TToolBar
-      Height = 621
+      Height = 650
       Top = 5
       Width = 26
       Align = alLeft
@@ -2240,6 +2242,7 @@ object Main: TMain
   object checkmobile: TTimer
     Enabled = False
     OnTimer = checkmobileTimer
+    OnStartTimer = checkmobileStartTimer
     top = 264
   end
   object SimpleIPCServer1: TSimpleIPCServer
@@ -3423,53 +3426,5 @@ object Main: TMain
       Caption = 'Remove radio station'
       OnClick = MIremoveRadioClick
     end
-  end
-  object TrayIcon1: TTrayIcon
-    BalloonFlags = bfInfo
-    BalloonHint = 'Now Playing xyz'
-    BalloonTitle = 'Cactus Jukebox'
-    Icon.Data = {
-      7E04000000000100010010100000010020006804000016000000280000001000
-      0000200000000100200000000000000000000000000000000000000000000000
-      00000000000000000000ABEDEA00A9EBE70EA7E9E52DA5E8E451A3E7E370A2E6
-      E281A2E6E281A3E7E370A4E8E450A7E9E52EA9EBE70FABEDE901000000000000
-      000099FFFF00A9EBE711A6E8E558A1E6E2B09DE3DFE499E1DCF896DFDBFD94DE
-      D9FD94DED9FD96DFDAFD99E1DCF89CE3DFE5A1E6E1B3A5E8E45DA9EBE714A1F3
-      F300AAEBE713A5E8E4799EE4E0E193DBD2FD88D1C3FD84D0C2FD81CEC2FD83D3
-      CDFD84D4CFFD87D6D1FD8BD8D3FD8FD5D0FD97E0DBFD9EE4E0E4A4E8E47FAAEB
-      E716A8EAE637A2E6E2B59AE2DDFD6EC088FE58AB84FF61B88AFF61BC70FF5EAD
-      7BFE65B78FFE68B993FE6EA68BFE7F8086FF85AAADFE9AE1DDFDA1E6E2BBA8EA
-      E63CA9EBE721A3E7E3969CE3DFF36FC088FE2D7DB2FF1E6BA1FF4C968AFF52A9
-      47FF5EC554FF5CC852FF55C14DFF6B986EFF848791FF9CE1DDF5A3E7E39CA9EB
-      E726ACECE901A8EAE62DA3E7E38F6FC081E63080B3FF1F73ADFF4F9379FF4F96
-      44FF64C259FF55AC4BFF49A141FF5FB962FD98D6D3E1A3E7E394A8EAE632ABED
-      E8020000000000000000A9EBE70249983A684FA1A4FF4392B5FF4C9063FF5DA2
-      50FF5DA451FF539C49FF499641FF55B24EE3A7E9E533AAECE70BA1F3E4000000
-      000000000000000000000000000042832F3054B047FF5DB750FF68BC58FF7ED0
-      6EFF66AA59FF5BA150FF519F48FF4CA241E10000001400000000000000000000
-      000000000000000000000000000042842F365DC353FF72D064FF7FD26FFF8EDB
-      7BFF89D577FF7ED46EFF69C95DFF4B9E41DF0000002400000000000000000000
-      000000000000000000000000000042842F3360C457FF8FE5D3FF90E6D7FF89DD
-      D0FF7FD4C4FF7BD7C3FF74D4A0FF49973FDF0000002500000000000000000000
-      000000000000000000000000000041832F2660C555FF9AEDF1FF90E2E7FF5E9A
-      9CFF539091FF5DACAAFF72D5C5FF54AE47C70000000000000000000000000000
-      000000000000000000000000000041812E0E58B74CFD8FE5D5FF81CACFFF5992
-      94FF4F8989FF57A09FFF71D5C6FF55B248B60000000000000000000000000000
-      000000000000000000000000000041812E0053B047DD84DFB7FF8AD9DEFF5F9B
-      9DFF549191FF67BDBBFF70D4BDFF52AF45A30000000000000000000000000000
-      0000000000000000000000000000000000004FA941936DCE83FF92E6ECFF87DE
-      E1FF7CD6D7FF77D9D8FF6CD1A0FF479839720000000000000000000000000000
-      0000000000000000000000000000000000004388311F55B749EB63C768FF6ED0
-      7EFF6ED07EFF63C76BFF53B549F342842F170000000000000000000000000000
-      000000000000000000000000000000000000000000004285301F4EA33F8D54B2
-      47DB52AF46F750AE44CB4792363F000000000000000000000000000000000000
-      0000FFFF0000FFFF0000FFFF0000F1EF0000F0070000F01F0000F01F0000F01F
-      0000F01F0000F01F0000F01F0000F81F0000F81F0000F81F0000FC3F0000FFFF
-      0000
-    }
-    Hint = 'klklkl'
-    Visible = True
-    OnMouseMove = TrayIcon1MouseMove
-    top = 416
   end
 end

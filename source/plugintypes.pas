@@ -37,6 +37,7 @@ type
 { TCactusPlugInClass }
 
   TLoadPlugIn = function(var CactusPlugIn: TCactusPlugInClass): Boolean;
+  TPluginEventHandlerProc = function (Event: TCactusEvent; msg: PChar): boolean;
   TGetPluginInfoProc = function : TPluginInfoRec;
   TSetObjectConnections =  procedure (PlayerObj:pointer);
 

@@ -23,7 +23,7 @@ Interface
 Uses 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
   {ExtCtrls,} Buttons, ComCtrls, lcltype, mediacol, ExtCtrls, skin, aws, streamcol,
-  settings, debug;
+  settings, debug, mp3file;
 
 
 Const ALBUM_MODE = 1;
@@ -45,8 +45,8 @@ Type
     artistedit1: TEdit;
     artistedit2: TEdit;
     artistedit3: TEdit;
-    Button1: TButton;
     btnOptions: TButton;
+    Button1: TButton;
     cancelbut1: TButton;
     cmbYear: TComboBox;
     cmbComment: TComboBox;
@@ -117,6 +117,7 @@ Type
     Procedure EditID3Close(Sender: TObject; Var CloseAction: TCloseAction);
     Procedure FormCreate(Sender: TObject);
     Procedure FormHide(Sender: TObject);
+    procedure metacontrolChange(Sender: TObject);
     Procedure PicDownloadTimerStartTimer(Sender: TObject);
     Procedure PicDownloadTimerTimer(Sender: TObject);
     Procedure cancelbutClick(Sender: TObject);
@@ -196,7 +197,7 @@ Begin
               MedFileObj := MedColObj.Items[z];
               DebugOutLn('artist_mode: '+ artistedit1.Text +' #'+ IntToStr(z),3);
               MedFileObj.artist := newart;
-              MedFileObj.GenreID:= GenreIDtoCBIndex[0, GenreBox.ItemIndex];
+              if GenreBox.ItemIndex>=0 then MedFileObj.GenreID:= GenreIDtoCBIndex[0, GenreBox.ItemIndex];
               If bYearLongEnough Then MedColObj.items[z].year := self.cmbYear.Caption;
               MedFileObj.comment := strNewComment;
               MedFileObj.write_tag;
@@ -228,7 +229,7 @@ Begin
                    MedFileObj.Artist := newart;
                    If bYearLongEnough Then MedFileObj.year := self.cmbYear.Caption;
                    MedFileObj.comment := strNewComment;
-                   MedFileObj.GenreID:= GenreIDtoCBIndex[0, GenreBox.ItemIndex];
+                   if GenreBox.ItemIndex>=0 then MedFileObj.GenreID:= GenreIDtoCBIndex[0, GenreBox.ItemIndex];
                    MedFileObj.write_tag;
                    z := MedColObj.getNext;
                  End;
@@ -244,7 +245,7 @@ Begin
           MedFileObj.year := yearedit1.text;
           MedFileObj.comment := commentedit1.text;
           MedFileObj.track := trackedit1.text;
-          MedFileObj.GenreID:= GenreIDtoCBIndex[0, GenreBox.ItemIndex];
+          if GenreBox.ItemIndex>=0 then MedFileObj.GenreID:= GenreIDtoCBIndex[0, GenreBox.ItemIndex];
 
           MedFileObj.write_tag;
 
@@ -386,6 +387,11 @@ Begin
 
  // self.ShowInTaskBar := stNever;
 End;
+
+procedure TEditID3.metacontrolChange(Sender: TObject);
+begin
+
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -600,6 +606,7 @@ Begin
   Else
     Begin
       pathedit1.text := MedFileObj.path;
+      //TODO: scroll TEdit to end of path
       titleedit1.text := MedFileObj.title;
       albumedit1.text := MedFileObj.album;
       commentedit1.text := MedFileObj.comment;
@@ -682,6 +689,8 @@ Begin
                     Then
                     Begin
                       awsclass := TAWSAccess.CreateRequest(MedFileObj.artist, MedFileObj.album);
+                      if CactusConfig.CoverSize='large' then awsclass.CoverSize:=AWSLargeImage
+                            else awsclass.CoverSize:=AWSMediumImage;
                       awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
                       picrequest_send := true;
                       AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
@@ -745,6 +754,8 @@ Begin
                 Then
                 Begin
                   awsclass := TAWSAccess.CreateRequest(MedFileObj.artist, MedFileObj.album);
+                  if CactusConfig.CoverSize='large' then awsclass.CoverSize:=AWSLargeImage
+                            else awsclass.CoverSize:=AWSMediumImage;
                   awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
                   picrequest_send := true;
                   AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
@@ -845,6 +856,7 @@ Begin
   begin
     MedFileObj.PathNameFromTag(CactusConfig.strTagToNameFormatString);
     EditID3win.pathedit1.text := MedFileObj.Path;
+
   end;
             
 

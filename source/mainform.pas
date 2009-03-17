@@ -34,7 +34,7 @@ Uses
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
 ExtCtrls, ComCtrls, StdCtrls, Menus,{$ifdef fmod} fmodplayer,{$endif}
 ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, plugin, plugintypes, debug, config,
-playlist, playerclass, mplayer;
+playlist, playerclass, mplayer, mp3file;
 
 resourcestring
 rsQuit = 'Quit';
@@ -234,7 +234,6 @@ Type
     seldirdialog: TSelectDirectoryDialog;
     trackbar: TProgressBar;
     Trackinfo: TSpeedButton;
-    TrayIcon1: TTrayIcon;
     Volumebar: TProgressBar;
     Procedure ArtistTreeClick(Sender: TObject);
     Procedure ArtistTreeDblClick(Sender: TObject);
@@ -246,6 +245,7 @@ Type
     Procedure ArtistTreeSelectionChanged(Sender: TObject);
     Procedure ArtistTreeStartDrag(Sender: TObject; Var DragObject: TDragObject);
     Procedure Button1Click(Sender: TObject);
+    procedure checkmobileStartTimer(Sender: TObject);
     Procedure CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
                                 Shift: TShiftState; X, Y: Integer);
     Procedure DeviceModeBtnClick(Sender: TObject);
@@ -412,8 +412,6 @@ Type
                                 Shift: TShiftState; X, Y: Integer);
     Procedure trackbarMouseUp(Sender: TOBject; Button: TMouseButton;
                               Shift: TShiftState; X, Y: Integer);
-    procedure TrayIcon1MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
     Procedure undoSyncItemClick(Sender: TObject);
 
     Procedure loadskin(Sender: TObject);
@@ -785,7 +783,9 @@ Begin
   Selectdirectorydialog1.title := 'Add Directory...';
   If Selectdirectorydialog1.execute=true Then
     Begin
+      DebugOutLn('clear old collection', 7);
       MediaCollection.clear;
+      DebugOutLn('lll', 7);
       update_artist_view;
       update_title_view;
       Application.ProcessMessages;
@@ -1191,38 +1191,48 @@ Begin
   TitleTree.Clear;
 End;
 
+procedure TMain.checkmobileStartTimer(Sender: TObject);
+begin
+
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
                                   Shift: TShiftState; X, Y: Integer);
+var medFileObj: TMediaFileClass;
 Begin
 {$ifdef linux}  //TODO: check why large cover image is linux only?
-  If PlayerObj.playing and (PlayerObj.PlaybackMode=FILE_MODE) Then
+  If PlayerObj.playing and (PlayerObj.PlaybackMode=FILE_MODE) and (PlayerObj.CurrentTrack>=0) Then
     Begin
+    writeln('LL');
+      MedFileObj := TMediaFileClass(playlist.Items[PlayerObj.CurrentTrack].Data);
+      If (MedFileObj.CoverPath<>'') and FileExists(MedFileObj.CoverPath) then begin
 
-      BigCoverImgForm := TBigCoverImg.Create(self);
-      BigCoverImgForm.Caption := PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].
-                                 Album;
+            BigCoverImgForm := TBigCoverImg.Create(self);
+            BigCoverImgForm.Caption := PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].Album;
 
-      BigCoverImgForm.Image1.Picture.Assign(CoverImage.Picture);
-      BigCoverImgForm.Image1.AutoSize := true;
+            BigCoverImgForm.Image1.Picture.LoadFromFile(MedFileObj.CoverPath);
+            BigCoverImgForm.Width := BigCoverImgForm.Image1.Picture.Width+32;
+            BigCoverImgForm.Height := BigCoverImgForm.Image1.Picture.Height+32;
 
-      BigCoverImgForm.BackImg.AutoSize := true;
-      BigCoverImgForm.Width := BigCoverImgForm.Image1.Width+32;
-      BigCoverImgForm.Height := BigCoverImgForm.Image1.Height+32;
-      BigCoverImgForm.BackImg.Canvas.FillRect(0,0, BigCoverImgForm.Width, BigCoverImgForm.Height);
+            BigCoverImgForm.Image1.AutoSize := true;
+            BigCoverImgForm.BackImg.Width := BigCoverImgForm.Image1.Picture.Width+32;
+            BigCoverImgForm.BackImg.Height := BigCoverImgForm.Image1.Picture.Height+32;
 
-      BigCoverImgForm.BackImg.Canvas.Rectangle(5,5, BigCoverImgForm.Width-10, BigCoverImgForm.Height
-                                               -5);
+            BigCoverImgForm.BackImg.Canvas.FillRect(0,0, BigCoverImgForm.Width, BigCoverImgForm.Height);
 
-      BigCoverImgForm.Image1.Top := 16;
-      BigCoverImgForm.Image1.Left := 16;
+            BigCoverImgForm.BackImg.Canvas.Rectangle(8, 8, BigCoverImgForm.Width-8, BigCoverImgForm.Height-8);
 
-      BigCoverImgForm.Left := x+Panel1.Left+self.Left+20;
-      BigCoverImgForm.Top := y+Panel1.height+self.top- 220;
-      BigCoverImgForm.BorderStyle := bsDialog;
-      BigCoverImgForm.ShowModal;
+            BigCoverImgForm.Image1.Top := 16;
+            BigCoverImgForm.Image1.Left := 16;
 
+            BigCoverImgForm.Left := x+Panel1.Left+self.Left;
+            BigCoverImgForm.Top := y+Panel1.height+self.top- 220;
+            BigCoverImgForm.BorderStyle := bsDialog;
+
+            BigCoverImgForm.ShowModal;
+        end;
     End;
 {$endif}
 End;
@@ -1326,12 +1336,10 @@ end;
 
 Procedure TMain.MenuItem32Click(Sender: TObject);
 Begin
-  Enabled := false;
-
   If (ArtistTree.Selected<>Nil) And (ArtistTree.Selected.Level>0) Then
     Begin
       editid3win.display_window(TStreamInfoItemClass(ArtistTree.Selected.Data));
-      EditID3win.Show;
+      EditID3win.ShowModal;
     End;
 End;
 
@@ -1671,7 +1679,7 @@ End;
 Procedure TMain.MainClose(Sender: TObject; Var CloseAction: TCloseAction);
 Begin
   PlayerObj.stop;
-
+  if CactusConfig.PluginsEnabled then CactusPlugins.SendEvent(evnStopPlay, 'ps');
   CactusConfig.WHeight := Height;
   CactusConfig.WWidth := Width;
   CactusConfig.WSplitterWidth := Splitter1.Left;
@@ -2087,41 +2095,55 @@ End;
 
 Procedure TMain.ScanSyncronize(dir: String);
 Begin
-  StatusBar1.Panels[0].Text := 'scanning trough:  '+dir;
-  Application.ProcessMessages;
   inc(ScanSyncCount);
-  If ScanSyncCount>50 Then
+
+  If ScanSyncCount>=500 Then
     Begin
       update_artist_view;
       ScanSyncCount := 0;
     End;
+
+  if (ScanSyncCount mod 50)= 0 then begin
+      StatusBar1.Panels[0].Text := 'scanning trough:  '+dir;
+      Application.ProcessMessages;
+   end;
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.update_artist_view;
-
-Var curartist: string;
+// TODO: rewrite method to reselect artist
+Var curartist, curalbum: string;
   tsnode, artnode, TopNode: Ttreenode;
   AlbumList: TStringList;
   MedFileObj: TMediaFileClass;
   i, z: integer;
-  restoreEnabled: boolean;
+  restoreEnabled, album_selected: boolean;
 Begin
 
   If Enabled Then restoreEnabled := true Else restoreEnabled := false;
   Enabled := false;
   StatusBar1.Panels[0].Text := 'Please wait... updating...';
-
-  artisttree.beginupdate;
+  ArtistTree.OnSelectionChanged:=nil;  //Disable event while working on selection in artisttree!!
   DebugOutLn('', 2);
   DebugOut('## update artist view... ', 2);
   tsnode := ArtistTree.Selected;
-  If (tsnode<>Nil) And (tsnode.level>0)  Then
-    curartist := lowercase(tsnode.Text)
+  If (tsnode<>Nil) Then begin
+    if tsnode.Level=1 then begin
+         curartist := lowercase(tsnode.Text);
+         curalbum := '';
+         album_selected:=false;
+       end;
+    if tsnode.Level=2 then begin
+         curartist := lowercase(tsnode.Parent.Text);
+         curalbum := lowercase(tsnode.Text);
+        // writeln(curalbum);
+         album_selected:=true;
+       end;
+   end
   Else
     curartist := '';
-
+  artisttree.beginupdate;
   DebugOut(' clear tree...', 2);
   ArtistTree.Items.Clear;
 
@@ -2163,6 +2185,7 @@ Begin
               ImageIndex := MediaCollection.Items[i].Action;
               SelectedIndex := MediaCollection.Items[i].Action;
               Data := MediaCollection.items[i];
+              Expanded:=false;
             End;
           AlbumList := MediaCollection.getAlbums(MediaCollection.Items[i].Artist, i);
           For z:=0 To AlbumList.Count-1 Do
@@ -2227,12 +2250,29 @@ Begin
       // finally free AlbumList
       AlbumList.Free;
     End;
+  ArtistTree.EndUpdate;
   DebugOut(' reselecting last item ', 2);
   // Reselect last selected item if possible
   i := 0;
   If ArtistTree.Items.Count>0 Then ArtistTree.Selected := ArtistTree.Items[0];
-  If (curartist<>'') And (ArtistTree.Items.Count>0) Then
+  If ((curalbum<>'') or (curartist<>'')) And (ArtistTree.Items.Count>0) Then
     Begin
+      Repeat  //try to keep old album
+        Begin
+          MedFileObj := TMediaFileClass(ArtistTree.items[i].data);
+          inc(i);
+        End;
+      Until ((lowercase(artisttree.items[i].text)=curalbum) And (ArtistTree.Items[i].Level=2))
+            Or (i>=artisttree.items.count-1);
+
+      If lowercase(artisttree.items[i].text)=curalbum Then
+        Begin
+          artisttree.selected := main.artisttree.items[i];
+        End
+
+      Else if (curartist<>'') And (ArtistTree.Items.Count>0) then
+      begin //Select artist if album not possible
+      i:=0;
       Repeat
         Begin
           MedFileObj := TMediaFileClass(ArtistTree.items[i].data);
@@ -2240,21 +2280,29 @@ Begin
         End;
       Until ((lowercase(artisttree.items[i].text)=curartist) And (ArtistTree.Items[i].Level=1))
             Or (i>=artisttree.items.count-1);
+       writeln(curartist);
+       writeln(artisttree.items[i].text);
       If lowercase(artisttree.items[i].text)=curartist Then
         Begin
           artisttree.selected := main.artisttree.items[i];
-          If i >=10 Then
-            ArtistTree.TopItem := artisttree.items[i-10].Parent
-          Else
-            ArtistTree.TopItem := artisttree.items[0];
-        End
-      Else
-        artisttree.selected := artisttree.items[1];
-    End;
+        End;
+      End;
 
-  ArtistTree.EndUpdate;
+     if ArtistTree.Selected.AbsoluteIndex<ArtistTree.Items.Count-10 then
+        begin
+          ArtistTree.Items[ArtistTree.Selected.AbsoluteIndex+9].MakeVisible;
+          if ArtistTree.Items[ArtistTree.Selected.AbsoluteIndex+9].Level>1 then
+                ArtistTree.Items[ArtistTree.Selected.AbsoluteIndex+9].Parent.Expanded:=false;
+        end
+        else begin
+          ArtistTree.Items[ArtistTree.Items.Count-1].MakeVisible;
+          if ArtistTree.Items[ArtistTree.Items.Count-1].Level>1 then
+                ArtistTree.Items[ArtistTree.Items.Count-1].Parent.Expanded:=false;
+        end;
+   End;
+  ArtistTree.OnSelectionChanged:=@ArtistTreeSelectionChanged;  //Reenable event!!
+
   DebugOutLn(' finished artistview ##', 2);
-
   StatusBar1.Panels[0].Text := 'Ready.';
   Enabled := restoreEnabled;
 
@@ -3468,6 +3516,8 @@ Begin
               If  (CactusConfig.CoverDownload) Then
                 Begin
                   awsclass := TAWSAccess.CreateRequest(MedFileObj.Artist, MedFileObj.album);
+                  if CactusConfig.CoverSize='large' then awsclass.CoverSize:=AWSLargeImage
+                        else awsclass.CoverSize:=AWSMediumImage;
                   awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
                 End;
             End
@@ -3567,8 +3617,21 @@ Begin
                  inc(i)
                Until ((pos(lowercase(artistsearch.Text), lowercase(ArtistTree.Items[i].Text))=1) And
                      (ArtistTree.Items[i].Level=1)) Or (i>=ArtistTree.Items.Count-1);
-               ArtistTree.Selected := ArtistTree.Items[i];
-             End;
+               if ArtistTree.Items[i].Level>0 then begin
+                  ArtistTree.Selected := ArtistTree.Items[i];
+                  if ArtistTree.Selected.AbsoluteIndex<ArtistTree.Items.Count-10 then
+                     begin
+                          ArtistTree.Items[ArtistTree.Selected.AbsoluteIndex+9].MakeVisible;
+                          if ArtistTree.Items[ArtistTree.Selected.AbsoluteIndex+9].Level>1 then
+                                ArtistTree.Items[ArtistTree.Selected.AbsoluteIndex+9].Parent.Expanded:=false;
+                     end
+                     else begin
+                          ArtistTree.Items[ArtistTree.Items.Count-1].MakeVisible;
+                          if ArtistTree.Items[ArtistTree.Items.Count-1].Level>1 then
+                                ArtistTree.Items[ArtistTree.Items.Count-1].Parent.Expanded:=false;
+                     end;
+                 End;
+            End;
   End;
 End;
 
@@ -3971,14 +4034,6 @@ End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-procedure TMain.TrayIcon1MouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  TrayIcon1.ShowBalloonHint;
-end;
-
-//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 Procedure TMain.undoSyncItemClick(Sender: TObject);
 
 Var tmps: string;
@@ -4149,6 +4204,7 @@ Var tsnode: TTreeNode;
   MedFileObj: TMediaFileClass;
   z, oldcount: integer;
 Begin
+  //TODO: add album to playlist sorted by TRACK
   tsnode := Main.ArtistTree.Selected;
   If (tsnode<>Nil) And (tsnode.Level>0) Then
     Begin
