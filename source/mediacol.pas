@@ -954,8 +954,7 @@ Procedure TMediaFileClass.Read_Tag;
 var TagFromName: TTagFromFilename;
 Begin
   If filetype='.wav' Then read_tag_wave;
-  //TODO: Reenable OGG support, currently reading corrupt ogg files crashes cactus
-  //If filetype='.ogg' Then read_tag_ogg;
+  If filetype='.ogg' Then read_tag_ogg;
   If filetype='.mp3' Then read_tag_mp3;
   If filetype='.wma' Then read_tag_wma;
   If (filetype='.flac') or (filetype='.fla') Then read_tag_flac;
