@@ -61,6 +61,7 @@
 {                                                                             }
 { --------------------------------------------------------------------------- }
 { Adapted to Lazarus by monta 2008                                            }
+{ 17.03.2009 Fixed Arithmetic overflow with ugly Tags                         }
 { *************************************************************************** }
 
 unit OggVorbis;
@@ -152,7 +153,7 @@ const
   { Names of supported comment fields }
   VORBIS_FIELD: array [1..VORBIS_FIELD_COUNT] of string =
     ('TITLE', 'ARTIST', 'ALBUM', 'TRACKNUMBER', 'DATE', 'GENRE', 'COMMENT',
-    'PERFORMER', 'DESCRIPTION');
+    'PERFORMER', 'DESCRIPTION');//, 'UNSYNCHRONISED_LYRICS');
 
   { CRC table for checksum calculating }
   CRC_TABLE: array [0..$FF] of Cardinal = (
@@ -377,7 +378,11 @@ begin
     FillChar(Data, SizeOf(Data), 0);
     Source.Read(Size, SizeOf(Size));
     Position := Source.Position;
-    if Size > SizeOf(Data) then Source.Read(Data, SizeOf(Data))
+    if Size > SizeOf(Data) then
+    begin
+      //Source.Read(Data, SizeOf(Data));
+      Break; //Prevent Crash with destructed tags
+    end
     else Source.Read(Data, Size);
     { Set Vorbis tag item }
     SetTagItem(Trim(Data), Info);
