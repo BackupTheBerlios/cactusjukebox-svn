@@ -20,7 +20,7 @@ Interface
 Uses 
 Classes, SysUtils,
 //Tagreader:
-WMAfile, OggVorbis, ID3v2, FLACfile, mp3file, debug, lconvencoding, guesstag;
+WMAfile, OggVorbis, FLACfile, mp3file, debug, lconvencoding, guesstag;
 
 Type
   // PMediaCollectionClass = ^TMediaCollectionClass;
