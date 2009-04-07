@@ -1161,13 +1161,13 @@ End;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.EditID3itemClick(Sender: TObject);
-
 Var tsitem: TListitem;
 Begin
   tsitem := TitleTree.Selected;
-
-  editid3win.display_window(TMediaFileClass(tsitem.data));
-  EditID3win.ShowModal;
+  if tsitem<>nil then begin
+     editid3win.display_window(TMediaFileClass(tsitem.data));
+     EditID3win.ShowModal;
+   end;
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
