@@ -1,8 +1,8 @@
 object EditID3: TEditID3
   Left = 383
-  Height = 425
+  Height = 420
   Top = 258
-  Width = 420
+  Width = 419
   HorzScrollBar.Page = 395
   HorzScrollBar.Range = 383
   VertScrollBar.Page = 441
@@ -11,8 +11,8 @@ object EditID3: TEditID3
   AutoScroll = False
   BorderStyle = bsDialog
   Caption = 'Edit ID3 Tag'
-  ClientHeight = 425
-  ClientWidth = 420
+  ClientHeight = 420
+  ClientWidth = 419
   OnClose = EditID3Close
   OnCreate = FormCreate
   OnHide = FormHide
@@ -23,7 +23,7 @@ object EditID3: TEditID3
     Left = 8
     Height = 368
     Top = 8
-    Width = 399
+    Width = 398
     ActivePage = metatab
     Anchors = [akTop, akLeft, akRight]
     TabIndex = 0
@@ -32,8 +32,8 @@ object EditID3: TEditID3
     OnPageChanged = metacontrolChange
     object metatab: TTabSheet
       Caption = 'Meta-Info'
-      ClientHeight = 341
-      ClientWidth = 395
+      ClientHeight = 345
+      ClientWidth = 396
       object lblYear: TLabel
         Left = 118
         Height = 14
@@ -146,7 +146,7 @@ object EditID3: TEditID3
         Left = 66
         Height = 23
         Top = 114
-        Width = 318
+        Width = 319
         Anchors = [akTop, akLeft, akRight]
         OnChange = activateEMode
         TabOrder = 1
@@ -155,7 +155,7 @@ object EditID3: TEditID3
         Left = 67
         Height = 23
         Top = 146
-        Width = 317
+        Width = 318
         Anchors = [akTop, akLeft, akRight]
         OnChange = activateEMode
         TabOrder = 2
@@ -164,7 +164,7 @@ object EditID3: TEditID3
         Left = 67
         Height = 23
         Top = 178
-        Width = 318
+        Width = 319
         Anchors = [akTop, akLeft, akRight]
         OnChange = activateEMode
         TabOrder = 3
@@ -189,7 +189,7 @@ object EditID3: TEditID3
         Left = 15
         Height = 23
         Top = 82
-        Width = 370
+        Width = 371
         Anchors = [akTop, akLeft, akRight]
         OnChange = activateEMode
         TabOrder = 0
@@ -251,8 +251,8 @@ object EditID3: TEditID3
     end
     object fileinfo: TTabSheet
       Caption = 'File-Info'
-      ClientHeight = 341
-      ClientWidth = 395
+      ClientHeight = 345
+      ClientWidth = 397
       object mtype: TLabel
         Left = 40
         Height = 20
@@ -318,8 +318,8 @@ object EditID3: TEditID3
     end
     object StreamTab: TTabSheet
       Caption = 'Stream-Info'
-      ClientHeight = 341
-      ClientWidth = 395
+      ClientHeight = 345
+      ClientWidth = 397
       object Label1: TLabel
         Left = 26
         Height = 14

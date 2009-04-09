@@ -52,6 +52,10 @@ rsDownloadAlbu = 'Download album cover image from internet';
 rsClearCache = 'Clear Cache';
 rsAutomaticlyS = 'Automaticly start playing first song in playlist';
 rsLoadLastPlay = 'Load last playlist on startup';
+rsAlwaysStartP = 'Always start playing first song in empty playlist';
+rsStopPlayback = 'Stop playback when playlist is cleared';
+rsSortAlbumsBy = 'Sort albums by track instead of title';
+rsEnablePlugin = 'Enable plugins';
 
 
 
@@ -72,7 +76,7 @@ Type
     CDRomEdit: TEdit;
     AutoPlayBox: TCheckBox;
     AudioBackend: TComboBox;
-    CheckBox1: TCheckBox;
+    MarkGuessBox: TCheckBox;
     ClearCover: TButton;
     AlbumCoverSizeBox: TComboBox;
     CoverDownload: TCheckBox;
@@ -124,18 +128,13 @@ Type
     v1_prio1: TRadioButton;
     v2_prio: TRadioButton;
     v2_prio1: TRadioButton;
-    procedure AlbumCoverSizeBoxChange(Sender: TObject);
     procedure AudioBackendChange(Sender: TObject);
     Procedure Button1Click(Sender: TObject);
-    procedure CheckBox1Change(Sender: TObject);
     Procedure ClearCoverClick(Sender: TObject);
     procedure EnablePluginsBoxClick(Sender: TObject);
     Procedure FormCreate(Sender: TObject);
-    Procedure FormDestroy(Sender: TObject);
-    procedure Label3Click(Sender: TObject);
+    procedure guesstag1Change(Sender: TObject);
     Procedure LanguageBoxChange(Sender: TObject);
-    procedure LAudioOutClick(Sender: TObject);
-    Procedure PageControl1Change(Sender: TObject);
     Procedure PluginListMouseDown(Sender: TObject; Button: TMouseButton;
                                   Shift: TShiftState; X, Y: Integer);
     Procedure cancelbutClick(Sender: TObject);
@@ -206,6 +205,7 @@ Begin
 {$endif}
 
   CactusConfig.GuessTag := guesstag1.checked;
+  CactusConfig.MarkGuessedTags:= MarkGuessBox.Checked;
   CactusConfig.background_scan := backscan.Checked;
 
   CactusConfig.id3v2_prio := v2_prio.Checked;
@@ -251,6 +251,7 @@ begin
   inherited ShowModal;
 end;
 
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TSettings.cancelbutClick(Sender: TObject);
@@ -279,19 +280,9 @@ Begin
     End;
 End;
 
-procedure TSettings.CheckBox1Change(Sender: TObject);
-begin
-
-end;
-
 procedure TSettings.AudioBackendChange(Sender: TObject);
 begin
    ShowMessage('Please restart Cactus for audio backend change to take effect');
-end;
-
-procedure TSettings.AlbumCoverSizeBoxChange(Sender: TObject);
-begin
-
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -372,6 +363,14 @@ Begin
   CoverDownload.Caption := rsDownloadAlbu;
   ClearCover.Caption := rsClearCache;
   LLanguage.Caption := rsLanguage;
+  AutoPlayBox.Caption:= rsAlwaysStartP;
+  StopOnClearBox.Caption:= rsStopPlayback;
+  SortAlbumBox.Caption:= rsSortAlbumsBy;
+  EnablePluginsBox.Caption:= rsEnablePlugin;
+
+
+
+
   //   AutostartBox.Caption:=rsAutomaticlyS;
 
  {$ifdef linux}
@@ -393,8 +392,15 @@ Begin
 
   playerpathedit1.text := CactusConfig.DAPPath;
   CDRomEdit.Text := CactusConfig.CDRomDevice;
-  If CactusConfig.GuessTag Then guesstag1.checked := true
-     Else unknown1.checked := true;
+  If CactusConfig.GuessTag Then begin
+        guesstag1.checked := true;
+        MarkGuessBox.Enabled:=true;
+     end
+     Else begin
+        unknown1.checked := true;
+        MarkGuessBox.Enabled:=false;
+     end;
+  MarkGuessBox.Checked:=CactusConfig.MarkGuessedTags;
   If CactusConfig.background_scan Then backscan.checked := true
      Else backscan.checked := false;
   If CactusConfig.mobile_subfolders Then subfolders.checked := true
@@ -431,14 +437,13 @@ End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Procedure TSettings.FormDestroy(Sender: TObject);
-Begin
-End;
-
-procedure TSettings.Label3Click(Sender: TObject);
+procedure TSettings.guesstag1Change(Sender: TObject);
 begin
-
+     if guesstag1.Checked then MarkGuessBox.Enabled:=true
+            else MarkGuessBox.Enabled:=false;
 end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TSettings.LanguageBoxChange(Sender: TObject);
 Begin
@@ -446,22 +451,10 @@ Begin
               ' you need to restart cactus Jukebox');
 End;
 
-procedure TSettings.LAudioOutClick(Sender: TObject);
-begin
-
-end;
-
-Procedure TSettings.PageControl1Change(Sender: TObject);
-Begin
-
-End;
-
-
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TSettings.PluginListMouseDown(Sender: TObject; Button: TMouseButton;
                                         Shift: TShiftState; X, Y: Integer);
-
 Var index: integer;
 Begin
   index := PluginList.GetIndexAtY(Y);

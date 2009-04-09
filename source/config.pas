@@ -32,7 +32,7 @@ Classes, SysUtils, xmlcfg, gettext, playerclass;
 Type 
   TConfigObject = Class
     Public 
-    GuessTag, GuessAllTags, id3v2_prio: boolean;
+    GuessTag, MarkGuessedTags, id3v2_prio: boolean;
     Mobile_Subfolders, background_scan, CoverDownload: boolean;
     KDEServiceMenu: boolean;
     AudioSystem: TOutputMode;
@@ -109,7 +109,7 @@ Begin
 
   Try
     GuessTag := FConfigFile.GetValue('Library/GuessTags', false);
-    GuessAllTags := FConfigFile.GetValue('Library/GuessAllTags', false);
+    MarkGuessedTags := FConfigFile.GetValue('Library/MarkGuessedTags', true);
     Mobile_Subfolders := FConfigFile.GetValue('Mobile_Player/Subfolders', true);
     id3v2_prio := FConfigFile.GetValue('Library/id3v2_prio', true);
     //    background_scan:=FConfigFile.GetValue('Library/background_scan', false);
@@ -207,7 +207,7 @@ Begin
     FConfigFile.SetValue('Networking/Album_Cover_Download/ImageSize', CoverSize);
     FConfigFile.SetValue('Lame/Path', lame);
     FConfigFile.SetValue('Library/GuessTags', guesstag);
-    FConfigFile.SetValue('Library/GuessAllTags', GuessAllTags);
+    FConfigFile.SetValue('Library/MarkGuessedTags', MarkGuessedTags);
     FConfigFile.SetValue('Library/background_scan', background_scan);
     FConfigFile.SetValue('Library/autoload', LastLib);
     FConfigFile.SetValue('Library/StreamCollection', StreamColPath);

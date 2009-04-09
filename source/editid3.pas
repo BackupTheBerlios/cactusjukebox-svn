@@ -388,6 +388,7 @@ Begin
  // self.ShowInTaskBar := stNever;
 End;
 
+
 procedure TEditID3.metacontrolChange(Sender: TObject);
 begin
 
