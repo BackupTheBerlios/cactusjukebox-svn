@@ -87,6 +87,10 @@ mainform.rsmobileplayer='Mobile player'
 mainform.rsclearplaylist='Clear Playlist'
 
 
+# hash value = 104570196
+mainform.rsrandomplaylist='Random Playlist'
+
+
 # hash value = 181205379
 mainform.rsdevices='Devices'
 
@@ -223,10 +227,6 @@ settings.rsscanfornewfi='Scan for new files in background  on startup'
 settings.rslanguage='Language'
 
 
-# hash value = 160774163
-settings.rswhattodowhen='What to do when there is no ID3'
-
-
 # hash value = 149648693
 settings.rsguesstagfrom='Guess tag from filename'
 
@@ -310,4 +310,21 @@ settings.rsautomaticlys='Automaticly start playing first song in playlist'+
 
 # hash value = 43962272
 settings.rsloadlastplay='Load last playlist on startup'
+
+
+# hash value = 141599956
+settings.rsalwaysstartp='Always start playing first song in empty playlis'+
+'t'
+
+
+# hash value = 18931188
+settings.rsstopplayback='Stop playback when playlist is cleared'
+
+
+# hash value = 174068981
+settings.rssortalbumsby='Sort albums by track instead of title'
+
+
+# hash value = 54722019
+settings.rsenableplugin='Enable plugins'
 

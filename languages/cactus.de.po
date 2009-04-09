@@ -97,6 +97,11 @@ msgstr "MP3-Player"
 msgid "Clear Playlist"
 msgstr "Wiedergabeliste löschen"
 
+#: mainform:rsrandomplaylist
+#, fuzzy
+msgid "Random Playlist"
+msgstr "Wiedergabeliste laden..."
+
 #: mainform:rsdevices
 msgid "Devices"
 msgstr "Geräte"
@@ -222,7 +227,8 @@ msgid "Outfile naming scheme"
 msgstr "Dateinamenvergabe"
 
 #: settings:rsautoloadlast
-msgid "Autoload last library at startup"
+#, fuzzy
+msgid "Load last library at startup"
 msgstr "Bibliothek beim Start automatisch laden"
 
 #: settings:rsscanfornewfi
@@ -232,10 +238,6 @@ msgstr "Beim Start Bibliothek im Hintergrund aktualisieren(experimentell)"
 #: settings:rslanguage
 msgid "Language"
 msgstr "Sprache"
-
-#: settings:rswhattodowhen
-msgid "What to do when there is no ID3"
-msgstr "Wenn kein ID3-Tag gefunden wurde..."
 
 #: settings:rsguesstagfrom
 msgid "Guess tag from filename"
@@ -317,6 +319,31 @@ msgstr "Cache leeren"
 #: settings:rsautomaticlys
 msgid "Automaticly start playing first song in playlist"
 msgstr "Ersten Titel in Playlist automatisch anspielen"
+
+#: settings:rsloadlastplay
+#, fuzzy
+msgid "Load last playlist on startup"
+msgstr "Bibliothek beim Start automatisch laden"
+
+#: settings:rsalwaysstartp
+#, fuzzy
+msgid "Always start playing first song in empty playlist"
+msgstr "Neuer Titel in leerer Playlist automatisch anspielen"
+
+#: settings:rsstopplayback
+msgid "Stop playback when playlist is cleared"
+msgstr "Beim Löschen der Playlist abspielen stoppen."
+
+#: settings:rssortalbumsby
+msgid "Sort albums by track instead of title"
+msgstr "Alben nach Track anstatt nach Titel sortieren"
+
+#: settings:rsenableplugin
+msgid "Enable plugins"
+msgstr "Plugins aktivieren"
+
+#~ msgid "What to do when there is no ID3"
+#~ msgstr "Wenn kein ID3-Tag gefunden wurde..."
 
 #~ msgid "Rescan directories"
 #~ msgstr "Verzeichnisse erneut durchsuchen"

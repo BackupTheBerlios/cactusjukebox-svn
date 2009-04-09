@@ -1,4 +1,0 @@
-#!/bin/bash
-
-msgfmt cactus.pt_BR.po -o cactus.pt_BR.mo
-
