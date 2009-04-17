@@ -1,11 +1,11 @@
 object Main: TMain
-  Left = 393
+  Left = 179
   Height = 695
-  Top = 137
+  Top = 21
   Width = 834
   ActiveControl = Panel4
   Caption = 'titel'
-  ClientHeight = 672
+  ClientHeight = 674
   ClientWidth = 834
   Icon.Data = {
     3E42000000000100010040400000010020002842000016000000280000004000
@@ -549,7 +549,7 @@ object Main: TMain
   LCLVersion = '0.9.27'
   object StatusBar1: TStatusBar
     Height = 17
-    Top = 655
+    Top = 657
     Width = 834
     Panels = <    
       item
@@ -563,7 +563,7 @@ object Main: TMain
   end
   object Splitter1: TSplitter
     Left = 229
-    Height = 655
+    Height = 657
     Width = 8
     Align = alRight
     AutoSnap = False
@@ -574,17 +574,17 @@ object Main: TMain
   end
   object Panel1: TPanel
     Left = 237
-    Height = 655
+    Height = 657
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 655
+    ClientHeight = 657
     ClientWidth = 597
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
-      Height = 257
+      Height = 259
       Top = 5
       Width = 587
       Align = alTop
@@ -599,17 +599,17 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Artist'
-          Width = 40
+          Width = 38
         end      
         item
           AutoSize = True
           Caption = 'Title'
-          Width = 34
+          Width = 32
         end      
         item
           AutoSize = True
           Caption = 'Album'
-          Width = 45
+          Width = 43
         end      
         item
           AutoSize = True
@@ -620,7 +620,7 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Genre'
-          Width = 45
+          Width = 43
         end      
         item
           AutoSize = True
@@ -632,9 +632,8 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 357
+          Width = 365
         end>
-      ParentColor = False
       PopupMenu = titlelistmenu
       ReadOnly = True
       RowSelect = True
@@ -649,21 +648,20 @@ object Main: TMain
       OnDragOver = TitleTreeDragOver
       OnEndDrag = TitleTreeEndDrag
       OnMouseDown = TitleTreeMouseDown
-      OnMouseUp = TitleTreeMouseUp
       OnSelectItem = TitleTreeSelectItem
       OnStartDrag = TitleTreeStartDrag
     end
     object Splitter2: TSplitter
       Cursor = crVSplit
       Height = 10
-      Top = 262
+      Top = 264
       Width = 597
       Align = alTop
       ResizeAnchor = akTop
     end
     object Panel3: TPanel
       Height = 383
-      Top = 272
+      Top = 274
       Width = 597
       Align = alClient
       BevelOuter = bvNone
@@ -925,7 +923,6 @@ object Main: TMain
           end>
         HideSelection = False
         LargeImages = ImageList1
-        ParentColor = False
         PopupMenu = playlistmenu
         ReadOnly = True
         SmallImages = ImageList1
@@ -1069,18 +1066,18 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
-    Height = 655
+    Height = 657
     Width = 229
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 655
+    ClientHeight = 657
     ClientWidth = 229
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 26
-      Height = 645
+      Height = 647
       Top = 5
       Width = 200
       Align = alClient
@@ -1184,7 +1181,7 @@ object Main: TMain
       end
     end
     object ToolBar1: TToolBar
-      Height = 650
+      Height = 652
       Top = 5
       Width = 26
       Align = alLeft

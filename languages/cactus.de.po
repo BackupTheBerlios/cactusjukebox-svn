@@ -321,9 +321,8 @@ msgid "Automaticly start playing first song in playlist"
 msgstr "Ersten Titel in Playlist automatisch anspielen"
 
 #: settings:rsloadlastplay
-#, fuzzy
 msgid "Load last playlist on startup"
-msgstr "Bibliothek beim Start automatisch laden"
+msgstr "Letzte Playlist beim Start automatisch laden"
 
 #: settings:rsalwaysstartp
 #, fuzzy

@@ -347,8 +347,6 @@ Type
     Procedure TitleTreeEndDrag(Sender, Target: TObject; X, Y: Integer);
     Procedure TitleTreeMouseDown(Sender: TOBject; Button: TMouseButton;
                                  Shift: TShiftState; X, Y: Integer);
-    Procedure TitleTreeMouseUp(Sender: TObject; Button: TMouseButton;
-                               Shift: TShiftState; X, Y: Integer);
     Procedure TitleTreeSelectItem(Sender: TObject; Item: TListItem;
                                   Selected: Boolean);
     Procedure TitleTreeStartDrag(Sender: TObject; Var DragObject: TDragObject);
@@ -2909,6 +2907,10 @@ Procedure TMain.TitleTreeMouseDown(Sender: TOBject; Button: TMouseButton;
 Begin
   // ensure that the popup menu is only opened when an item is selected
   // the menu is reanabled in TMain.TitleTreeSelectItem
+
+  writeln('titletree mouse down');
+
+  //TODO check titlelist popupmenu on win32
   {$ifdef win32}
   If (Button = mbRight) And (TitleTree.Selected <> Nil) Then
     TitleTree.PopupMenu.PopUp(self.Left+Panel1.Left+TitleTree.left+X, self.top+Panel1.Top+TitleTree.
@@ -2930,20 +2932,17 @@ Begin
     End;
 End;
 
-Procedure TMain.TitleTreeMouseUp(Sender: TObject; Button: TMouseButton;
-                                 Shift: TShiftState; X, Y: Integer);
-Begin
-
-End;
-
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.TitleTreeSelectItem(Sender: TObject; Item: TListItem;
                                     Selected: Boolean);
 Begin
   // reanable the popupmenu in case ist was disabled in TMain.TitleTreeMouseDown
+  writeln('titletree select item');
   TitleTree.PopupMenu.AutoPopup := true;
 End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.TitleTreeStartDrag(Sender: TObject; Var DragObject: TDragObject
 );
@@ -3965,6 +3964,7 @@ Procedure TMain.titlelistmenuPopup(Sender: TObject);
 
 Var MedFileObj: TMediaFileClass;
 Begin
+  writeln('titletree popupmenu');
   If TitleTree.Selected<>Nil Then
     Begin
       MedFileObj := TMediaFileClass(TitleTree.Selected.Data);
@@ -4068,9 +4068,9 @@ End;
 
 Procedure TMain.TitleTreeDblClick(Sender: TObject);
 Begin
-  Application.ProcessMessages;
+  //Application.ProcessMessages;
   title_to_playlist;
-  Application.ProcessMessages;
+  //Application.ProcessMessages;
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -4272,6 +4272,7 @@ Begin
 
 {$ifdef LCLGtk2}
   DebugOut(' <TODO: BeginUpdate/EndUpdate disabled in GTK2 due to some bugs in LCL> ', 2);
+  //TODO: BeginUpdate/EndUpdate disabled in GTK2 due to some bugs in LCL
 {$endif}
 
   DebugOut(' cleared items... ', 2);

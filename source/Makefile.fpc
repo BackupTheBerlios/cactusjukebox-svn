@@ -38,7 +38,8 @@ EXE_NAME=cactus_jukebox
 
 #
 # LCL Directory
-LCL_DIR=/home/daseeb/devel/lazarus-svn64
+#LCL_DIR=/home/daseeb/devel/lazarus-svn64
+LCL_DIR=$(LCL_DIRECTORY)
 LNET_DIR=/home/daseeb/devel/units/lnet-0.4.0/lib
 SYNAPSE_DIR=/home/daseeb/devel/units/synapse/source/lib
 
