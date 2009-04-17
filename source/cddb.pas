@@ -29,12 +29,14 @@ TCddbObject = class
      DriveCount, NrTracks: byte;
      Device: string;
      ErrorCode: Integer;
+     Data: TStringList;
      TOCEntries: array[1..99] of TTocEntry;
      DiscID: integer;
-     query_send, data_ready:boolean;
+     query_send, data_ready, receiving_data:boolean;
     function connect(server:string; port: word):boolean;
     procedure callevents;
     procedure query(drive, server:string; port: word);
+    procedure Parsedata;
     function ReadTOC(drive:string):boolean;
     constructor create;
     destructor destroy;
@@ -44,6 +46,7 @@ TCddbObject = class
     procedure OnErrorProc(const msg: string; asocket: TLSocket);
     procedure OnDisconnectProc(asocket: TLSocket);
     procedure OnConnectProc(asocket: TLSocket);
+    orphantext: string;
     Connection: TLTcp;
     FServer, FUser, FSoftware, FVersion, FHostname: string;
     FPort: word;
@@ -55,6 +58,7 @@ TCddbObject = class
 implementation
 
 uses functions;
+
 
 type
 
@@ -107,21 +111,23 @@ end;
 
 procedure TCddbObject.OnReceiveProc(asocket: TLSocket);
 var  s, s1, s2, tmp: string;
-     i,n: byte;
      deleted: boolean;
      posi: integer;
+     Errorcode2: integer;
 begin
      ErrorCode:=0;
      s:='';
      asocket.GetMessage(s);
+     writeln('Socket message length: ', Length(s));
      if s<>'' then begin
         if length(s)>3 then begin
              posi:=pos(#13, s);
              s1:=Copy(s, 1, 3);
              if (posi<>0) then s2:=Copy(s, posi+2, 3);
              try
-               ErrorCode:=StrToInt(s1);
-               Errorcode:=StrToInt(s2);
+               TryStrToInt(s1, ErrorCode);
+               TryStrToInt(s2, ErrorCode2);
+               if Errorcode2 > 0 then Errorcode := Errorcode2;
               except
               end;
            end;
@@ -153,76 +159,45 @@ begin
       end;
 
 
-    if (ErrorCode=200) and (query_send=false) then begin
+    if (ErrorCode=200) and (not query_send) then begin
         Connection.SendMessage('cddb query '+QueryString+#10+#13);
         writeln('cddb query '+QueryString);
         query_send:=true;
        end;
 
 
-     if (ErrorCode=210) and (query_send) then begin
+    if (ErrorCode=210) and (query_send) then begin
         artist:='';
         album:='';
         delete(s, 1, pos(#10, s));
-        n:=0;
-        i:=0;
-        repeat begin
-               deleted:=false;
-               if pos('#', s)=1 then begin
-                  delete(s, 1, pos(#10, s));
-                  deleted:=true;
-                 end;
-               if pos('DISCID=', s)=1 then begin
-                  delete(s, 1, pos(#10, s));
-                  deleted:=true;
-                end;
-
-               if (pos('DTITLE=', s)=1) and (artist='') then begin
-                  artist:=Copy(s, 8, pos(#10, s)-9);
-                  artist:=Latin1toUTF8(artist);
-                  delete(s, 1, pos(#10, s));
-                  deleted:=true;
-                end;
-
-               if pos('TTITLE', s)=1 then begin
-                  inc(i);
-                  title[i]:=Copy(s, pos('=', s)+1, pos(#10, s)-pos('=', s)-2);
-                  title[i]:=Latin1toUTF8(title[i]);
-                  delete(s, 1, pos(#10, s));
-                  writeln('title ---> ',title[i]);
-                  deleted:=true;
-                 end;
-                 
-               if (pos('EXTD=', s)=1) and (pos('YEAR:', s)<>0) then begin
-                  year:=Copy(s, pos('YEAR:', s)+6, 4);
-                  delete(s, 1, pos(#10, s));
-                  deleted:=true;
-                end;
-                
-               if (pos('EXTD=', s)=1) then begin
-                  delete(s, 1, pos(#10, s));
-                  deleted:=true;
-                end;
-                
-               if (pos('PLAYORDER', s)=1)then begin
-                  delete(s, 1, pos(#10, s));
-                  deleted:=true;
-                end;
-                
-               if (pos('EXTT', s)=1)then begin
-                  delete(s, 1, pos(#10, s));
-                  deleted:=true;
-                end;
-               if not deleted then delete(s, 1, pos(#10, s));
-               inc(n);
-         end;
-        until (length(s)<5) or (n>200);
-        album:=copy(artist, pos(' / ', artist)+3, length(artist)-pos(' / ', artist)+3);
-        delete(artist, pos(' / ', artist), length(artist)-pos(' / ', artist)+1);
-        album:=Latin1toUTF8(album);
-        data_ready:=true;
-        writeln('CDDB data ready...');
+        receiving_data := true;
+        Data.Clear;
+        orphantext := '';
        end;
+
+     if receiving_data then
+        begin
+         Data.Text := Data.Text + orphantext + s;
+         if not (s[Length(s)] in [#10,#13]) then
+            begin
+              orphantext := Data[Data.Count-1];
+              Data.Delete(Data.Count-1);
+            end;
+ //        writeln(' v v v v v v v v v v v v v v v');
+ //        writeln(Data.Text);
+ //        writeln(' ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^');
+         if Data[Data.Count-1]= '.' then   //  End of data (".") in Count-1
+            begin
+              Parsedata;
+              album:=copy(artist, pos(' / ', artist)+3, length(artist)-pos(' / ', artist)+3);
+              delete(artist, pos(' / ', artist), length(artist)-pos(' / ', artist)+1);
+              album:=Latin1toUTF8(album);
+              data_ready:=true;
+              receiving_data := false;
+              writeln('CDDB data ready...');
+            end;
+        end;
+
      s:='';
      s1:='';
      tmp:=''
@@ -281,6 +256,71 @@ end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+procedure TCddbObject.Parsedata;
+   var
+     c: integer;
+     s: string;
+     i: integer;
+   begin
+
+    // TODO: initialize year, genre, artist, album, and title[n] to ''
+     for c := 0 to Data.Count-1 do
+         begin
+           s := Data[c];
+          { deleted:=false;
+           if pos('#', s)=1 then begin
+              delete(s, 1, pos(#10, s));
+              deleted:=true;
+             end;
+           if pos('DISCID=', s)=1 then begin
+              delete(s, 1, pos(#10, s));
+              deleted:=true;
+            end;      }
+
+           if (pos('DTITLE=', s)=1) and (artist='') then begin
+              artist:=Copy(s, 8, MaxInt);
+              artist:=Latin1toUTF8(artist);
+              delete(s, 1, pos(#10, s));
+              //deleted:=true;
+            end;
+           if pos('TTITLE', s)=1 then begin
+              TryStrToInt(Copy(s,7, Pos('=',s)-7 ), i);
+              inc(i);
+              title[i]:=Copy(s, pos('=', s)+1, MaxInt);
+              title[i]:=Latin1toUTF8(title[i]);
+              delete(s, 1, pos(#10, s));
+              if i>8 then
+                 writeln('title ---> ',title[i]);
+             // deleted:=true;
+             end;
+
+           if (pos('EXTD=', s)=1) and (pos('YEAR:', s)<>0) then begin
+              year:=Copy(s, pos('YEAR:', s)+6, 4);
+{              delete(s, 1, pos(#10, s));
+              deleted:=true;     }
+            end;
+
+         {  if (pos('EXTD=', s)=1) then begin
+              delete(s, 1, pos(#10, s));
+              deleted:=true;
+            end;
+
+           if (pos('PLAYORDER', s)=1)then begin
+              delete(s, 1, pos(#10, s));
+              deleted:=true;
+            end;
+
+           if (pos('EXTT', s)=1)then begin
+              delete(s, 1, pos(#10, s));
+              deleted:=true;
+            end;            }
+        {   if not deleted then delete(s, 1, pos(#10, s));}
+
+         end;
+   end;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 function TCddbObject.ReadTOC(drive: string):boolean;
 begin
     NrTracks:=0;
@@ -305,7 +345,9 @@ begin
      Connection.OnReceive:=@OnReceiveProc;
      Connection.OnDisconnect:=@OnDisconnectProc;
      Connection.OnError:=@OnErrorProc;
+     Data := TStringList.Create;
      data_ready:=false;
+     receiving_data := false;
      FUser:='cddbuser';
      FSoftware:='cddbobject';
      FVersion:='v0.1';
@@ -331,6 +373,7 @@ end;
 destructor TCddbObject.destroy;
 begin
   Connection.destroy;
+  Data.Destroy;
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
