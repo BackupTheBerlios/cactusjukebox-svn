@@ -37,9 +37,9 @@ object cdrip: Tcdrip
   end
   object LNameScheme: TLabel
     Left = 40
-    Height = 14
+    Height = 17
     Top = 392
-    Width = 133
+    Width = 168
     Caption = 'Outfile naming scheme'
     ParentColor = False
   end
@@ -73,17 +73,17 @@ object cdrip: Tcdrip
     TabOrder = 2
     object Label1: TLabel
       Left = 208
-      Height = 14
+      Height = 17
       Top = 16
-      Width = 74
+      Width = 91
       Caption = 'Bitrate kbit/s'
       ParentColor = False
     end
     object writetagscheck: TCheckBox
       Left = 56
-      Height = 22
+      Height = 24
       Top = 44
-      Width = 103
+      Width = 132
       Caption = 'Write ID3-Tags'
       Checked = True
       State = cbChecked
@@ -91,9 +91,9 @@ object cdrip: Tcdrip
     end
     object encodecheck: TCheckBox
       Left = 16
-      Height = 22
+      Height = 24
       Top = 16
-      Width = 109
+      Width = 135
       Caption = 'Encode to mp3'
       Checked = True
       OnChange = encodecheckChange
@@ -120,9 +120,9 @@ object cdrip: Tcdrip
     end
     object subfoldercheck: TCheckBox
       Left = 216
-      Height = 22
+      Height = 24
       Top = 45
-      Width = 154
+      Width = 184
       Caption = 'Create artist subfolder'
       Checked = True
       State = cbChecked
@@ -130,9 +130,9 @@ object cdrip: Tcdrip
     end
     object paranoia: TCheckBox
       Left = 16
-      Height = 22
+      Height = 24
       Top = 80
-      Width = 258
+      Width = 314
       Caption = 'Deep error eorrection (using libparanoia)'
       TabOrder = 4
       Visible = False
@@ -156,9 +156,9 @@ object cdrip: Tcdrip
   end
   object querrybtn: TButton
     Left = 384
-    Height = 33
+    Height = 38
     Top = 24
-    Width = 90
+    Width = 110
     AutoSize = True
     BorderSpacing.InnerBorder = 4
     Caption = 'Query CDDB'
@@ -231,13 +231,14 @@ object cdrip: Tcdrip
     TabOrder = 9
     Text = 'outputfolderbox'
   end
-  object Button6: TButton
+  object browsedirectorybtn: TButton
     Left = 378
     Height = 25
     Top = 352
     Width = 22
     BorderSpacing.InnerBorder = 4
     Caption = '...'
+    OnClick = browsedirectorybtnClick
     TabOrder = 10
   end
   object drivebox: TComboBox

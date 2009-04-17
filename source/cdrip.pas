@@ -12,7 +12,7 @@ StdCtrls, Buttons, ExtCtrls, cddb, dos, Grids, DBCtrls, process;
 
 resourcestring
 rsEncodeToMp3 = 'Encode to mp3';
-rsQuerryCDDB = 'Querry CDDB';
+rsQuerryCDDB = 'Query CDDB';
 rsLoad = 'Load';
 rsEject = 'Eject';
 rsStart = 'Start';
@@ -35,7 +35,7 @@ Type
     querrybtn: TButton;
     ejectbtn: TButton;
     loadbtn: TButton;
-    Button6: TButton;
+    browsedirectorybtn: TButton;
     encodecheck: TCheckBox;
     writetagscheck: TCheckBox;
     artistedit: TEdit;
@@ -54,6 +54,7 @@ Type
     Procedure Button2Click(Sender: TObject);
     Procedure Button4Click(Sender: TObject);
     Procedure Button5Click(Sender: TObject);
+    procedure browsedirectorybtnClick(Sender: TObject);
     Procedure CheckBox1Change(Sender: TObject);
     Procedure FormClose(Sender: TObject; Var CloseAction: TCloseAction);
     Procedure FormCreate(Sender: TObject);
@@ -169,6 +170,16 @@ Begin
     End;
   Timer1.Enabled := true;
 End;
+
+procedure Tcdrip.browsedirectorybtnClick(Sender: TObject);
+begin
+  if DirectoryExists(outputfolderbox.Text) then SelectDirectoryDialog1.FileName := outputfolderbox.Text;
+  if SelectDirectoryDialog1.Execute Then
+     begin
+       if outputfolderbox.Items.IndexOf(SelectDirectoryDialog1.FileName) < 0 then outputfolderbox.Items.Insert(0, SelectDirectoryDialog1.FileName);
+       outputfolderbox.ItemIndex := outputfolderbox.Items.IndexOf(SelectDirectoryDialog1.FileName);
+     end;
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -530,8 +541,11 @@ Begin
       If Trackgrid.Cells[2,i]='x' Then ToRip[i] := true;
     End;
   i := 0;
-  If encodecheck.Checked Then ToEncode := ToRip;
-  ToRemove := ToRip;
+  If encodecheck.Checked Then
+     begin
+       ToEncode := ToRip;
+       ToRemove := ToRip;
+     end;
   Repeat
     inc(i)
   Until (ToRip[i]=true) Or (i>CDDBcon.NrTracks);
