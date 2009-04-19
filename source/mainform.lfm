@@ -5,7 +5,7 @@ object Main: TMain
   Width = 834
   ActiveControl = Panel4
   Caption = 'titel'
-  ClientHeight = 674
+  ClientHeight = 672
   ClientWidth = 834
   Icon.Data = {
     3E42000000000100010040400000010020002842000016000000280000004000
@@ -548,8 +548,9 @@ object Main: TMain
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
   object StatusBar1: TStatusBar
+    Left = 0
     Height = 17
-    Top = 657
+    Top = 655
     Width = 834
     Panels = <    
       item
@@ -563,7 +564,8 @@ object Main: TMain
   end
   object Splitter1: TSplitter
     Left = 229
-    Height = 657
+    Height = 655
+    Top = 0
     Width = 8
     Align = alRight
     AutoSnap = False
@@ -574,17 +576,19 @@ object Main: TMain
   end
   object Panel1: TPanel
     Left = 237
-    Height = 657
+    Height = 655
+    Top = 0
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 657
+    ClientHeight = 655
     ClientWidth = 597
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
-      Height = 259
+      Left = 0
+      Height = 257
       Top = 5
       Width = 587
       Align = alTop
@@ -599,17 +603,17 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Artist'
-          Width = 38
+          Width = 40
         end      
         item
           AutoSize = True
           Caption = 'Title'
-          Width = 32
+          Width = 34
         end      
         item
           AutoSize = True
           Caption = 'Album'
-          Width = 43
+          Width = 45
         end      
         item
           AutoSize = True
@@ -620,7 +624,7 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Genre'
-          Width = 43
+          Width = 45
         end      
         item
           AutoSize = True
@@ -632,7 +636,7 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 365
+          Width = 357
         end>
       PopupMenu = titlelistmenu
       ReadOnly = True
@@ -653,15 +657,17 @@ object Main: TMain
     end
     object Splitter2: TSplitter
       Cursor = crVSplit
+      Left = 0
       Height = 10
-      Top = 264
+      Top = 262
       Width = 597
       Align = alTop
       ResizeAnchor = akTop
     end
     object Panel3: TPanel
+      Left = 0
       Height = 383
-      Top = 274
+      Top = 272
       Width = 597
       Align = alClient
       BevelOuter = bvNone
@@ -954,6 +960,8 @@ object Main: TMain
           Height = 27
           Top = 14
           Width = 90
+          AutoComplete = False
+          ItemHeight = 0
           ItemIndex = 0
           Items.Strings = (
             'all types'
@@ -963,6 +971,7 @@ object Main: TMain
             'wav'
             'wma'
           )
+          ItemWidth = 0
           OnChange = filetypeboxChange
           PopupMenu = SearchMenu
           Style = csDropDownList
@@ -1066,18 +1075,20 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
-    Height = 657
+    Left = 0
+    Height = 655
+    Top = 0
     Width = 229
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 657
+    ClientHeight = 655
     ClientWidth = 229
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 26
-      Height = 647
+      Height = 645
       Top = 5
       Width = 200
       Align = alClient
@@ -1181,7 +1192,8 @@ object Main: TMain
       end
     end
     object ToolBar1: TToolBar
-      Height = 652
+      Left = 0
+      Height = 650
       Top = 5
       Width = 26
       Align = alLeft
@@ -1198,6 +1210,7 @@ object Main: TMain
       Transparent = True
       object LibModeBtn: TToolButton
         Left = 1
+        Top = 0
         AutoSize = True
         Caption = 'Library'
         ImageIndex = 0
@@ -2243,6 +2256,8 @@ object Main: TMain
     top = 264
   end
   object SimpleIPCServer1: TSimpleIPCServer
+    Active = False
+    Global = False
     OnMessage = SimpleIPCServer1Message
     top = 368
   end

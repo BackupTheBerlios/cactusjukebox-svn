@@ -1076,12 +1076,16 @@ Begin
   If FileExists(CactusConfig.DAPPath) Then
     Begin
       checkmobile.Enabled := false;
+      writeln('ooo');
       disconnectDAP;
+      writeln('aa');
       ScanCol := TMediaCollectionClass.create;
       ScanCol.syncronize := @ScanSyncronize;
       Enabled := false;
+      writeln('ll');
       ScanCol.PathFmt := FRelative;
       ScanCol.savepath := CactusConfig.DAPPath+'cactuslib';
+      writeln('dd');
       ScanCol.add_directory(CactusConfig.DAPPath);
       ScanCol.SaveToFile;
       ScanCol.Free;
@@ -4354,6 +4358,7 @@ Procedure TMain.disconnectDAP;
 
 Var i : integer;
 Begin
+ if player_connected then begin
   DebugOutLn('### Disconnect DAP ###', 2);
   Enabled := false;
   i := 0;
@@ -4375,6 +4380,7 @@ Begin
   Enabled := true;
   update_artist_view;
   update_title_view;
+ end;
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
