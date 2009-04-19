@@ -4,7 +4,7 @@
 
 [package]
 name=cactusjukebox
-version=0.4stable
+version=0.4.1stable
 
 [require]
 

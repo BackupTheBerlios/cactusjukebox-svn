@@ -17,8 +17,8 @@ unitdir=$(LCL_DIR)/lcl/units/$(CPU_TARGET)-$(OS_TARGET) \
 	$(LCL_DIR)/packager/units/$(CPU_TARGET)-$(OS_TARGET) \
 	$(LNET_DIR) \
 	$(SYNAPSE_DIR) \
-	fmodintf/
-
+	fmodintf/ \
+	tagreader/
 
 unittargetdir=./
 targetdir=../

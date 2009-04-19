@@ -15,7 +15,7 @@
       <AutoIncrementBuild Value="True"/>
       <CurrentMajorRevNr Value="3"/>
       <CurrentMinorRevNr Value="5"/>
-      <CurrentBuildNr Value="38"/>
+      <CurrentBuildNr Value="40"/>
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
