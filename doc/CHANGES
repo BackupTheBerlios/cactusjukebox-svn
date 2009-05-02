@@ -1,3 +1,10 @@
+Changes from 0.4 to 0.4.1
+	- Support for OGG, WMA and FLAC adden (thanks Monta!)
+	- Meta tag reader improvements, faster indexing
+	- CD Ripper improvements
+	- Languages and updated translations
+	- And more...
+
 Changes from 0.3.8.1 to 0.4
 	- MPlayer used for playback, 64bit compatibility
 	- Web radio streaming support	
