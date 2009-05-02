@@ -98,9 +98,8 @@ msgid "Clear Playlist"
 msgstr "Wiedergabeliste löschen"
 
 #: mainform:rsrandomplaylist
-#, fuzzy
 msgid "Random Playlist"
-msgstr "Wiedergabeliste laden..."
+msgstr "Zufällige Wiedergabeliste"
 
 #: mainform:rsdevices
 msgid "Devices"
