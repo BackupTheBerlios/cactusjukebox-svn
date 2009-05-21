@@ -1,22 +1,23 @@
 object BigCoverImg: TBigCoverImg
-  Left = 307
-  Height = 367
-  Top = 284
-  Width = 408
+  Left = 132
+  Height = 688
+  Top = 174
+  Width = 952
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Album Cover Art'
-  ClientHeight = 367
-  ClientWidth = 408
+  ClientHeight = 688
+  ClientWidth = 952
   Color = clWhite
-  FormStyle = fsStayOnTop
   OnClose = FormClose
-  Position = poDefault
-  ShowInTaskBar = stNever
+  Position = poDefaultPosOnly
+  ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
   object BackImg: TImage
-    Height = 367
-    Width = 408
+    Left = 0
+    Height = 688
+    Top = 0
+    Width = 952
     Anchors = [akTop, akLeft, akRight, akBottom]
     OnClick = BackImgClick
   end

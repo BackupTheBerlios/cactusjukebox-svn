@@ -1204,10 +1204,10 @@ Procedure TMain.CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
                                   Shift: TShiftState; X, Y: Integer);
 var medFileObj: TMediaFileClass;
 Begin
-{$ifdef linux}  //TODO: check why large cover image is linux only?
+  //TODO: check why large cover image is linux only?
   If PlayerObj.playing and (PlayerObj.PlaybackMode=FILE_MODE) and (PlayerObj.CurrentTrack>=0) Then
     Begin
-    writeln('LL');
+
       MedFileObj := TMediaFileClass(playlist.Items[PlayerObj.CurrentTrack].Data);
       If (MedFileObj.CoverPath<>'') and FileExists(MedFileObj.CoverPath) then begin
 
@@ -1229,14 +1229,22 @@ Begin
             BigCoverImgForm.Image1.Top := 16;
             BigCoverImgForm.Image1.Left := 16;
 
+
+
+
             BigCoverImgForm.Left := x+Panel1.Left+self.Left;
             BigCoverImgForm.Top := y+Panel1.height+self.top- 220;
-            BigCoverImgForm.BorderStyle := bsDialog;
 
+
+            {$ifdef win32 or win64}
+                        BigCoverImgForm.Position:= poScreenCenter;
+            {$endif}
+            BigCoverImgForm.BorderStyle := bsDialog;
             BigCoverImgForm.ShowModal;
+
         end;
     End;
-{$endif}
+
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -2620,6 +2628,7 @@ End;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.Panel1Resize(Sender: TObject);
+var i: integer;
 Begin
   // Splitter1.Left:=oldSplitterWidth;
 {$ifdef win32}  //TODO: check column autosize on win32
@@ -2628,7 +2637,8 @@ Begin
   Titletree.Columns[5].width := 45;
   Titletree.Columns[4].width := 45;
   Titletree.Columns[3].width := 110;
-  Titletree.Columns[2].width := TitleTree.Width-45-45-110-140-16-15;
+  i:= TitleTree.Width-45-45-110-140-16-15;
+  if i>0 then Titletree.Columns[2].width := i;
   Titletree.Columns[1].width := 140;
   Titletree.Columns[0].width := 16;
 {$endif}
