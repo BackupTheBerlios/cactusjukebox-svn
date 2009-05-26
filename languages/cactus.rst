@@ -183,8 +183,8 @@ mainform.rstrack='Track'
 cdrip.rsencodetomp3='Encode to mp3'
 
 
-# hash value = 166511634
-cdrip.rsquerrycddb='Querry CDDB'
+# hash value = 162657090
+cdrip.rsquerrycddb='Query CDDB'
 
 
 # hash value = 341364
