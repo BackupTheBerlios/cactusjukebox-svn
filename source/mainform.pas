@@ -33,8 +33,8 @@ Uses
 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
 ExtCtrls, ComCtrls, StdCtrls, Menus,{$ifdef fmod} fmodplayer,{$endif}
-ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, plugin, plugintypes, debug, config,
-playlist, playerclass, mplayer, mp3file;
+ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, debug, config,
+playlist, playerclass, mplayer, mp3file, LMessages;
 
 resourcestring
 rsQuit = 'Quit';
@@ -96,8 +96,16 @@ Type
     current_title_edit: TEdit;
     current_title_edit1: TEdit;
     filetypebox: TComboBox;
+    ImageListNormal: TImageList;
+    ImageListHot: TImageList;
+    ImageListDis: TImageList;
     MenuItem25: TMenuItem;
     MenuItem27: TMenuItem;
+    itemTrayExit: TMenuItem;
+    itemTrayPlay: TMenuItem;
+    itemTrayStop: TMenuItem;
+    itemTrayNext: TMenuItem;
+    itemTrayPrev: TMenuItem;
     MIrandom_playlist: TMenuItem;
     MIViewArtist: TMenuItem;
     MIViewTitle: TMenuItem;
@@ -117,6 +125,7 @@ Type
     MenuItem34: TMenuItem;
     MIDevices: TMenuItem;
     mnuCleanLib: TMenuItem;
+    PopupMenuTray: TPopupMenu;
     space4: TMenuItem;
     MIremoveRadio: TMenuItem;
     MenuItem28: TMenuItem;
@@ -234,6 +243,7 @@ Type
     seldirdialog: TSelectDirectoryDialog;
     trackbar: TProgressBar;
     Trackinfo: TSpeedButton;
+    TrayIcon: TTrayIcon;
     Volumebar: TProgressBar;
     Procedure ArtistTreeClick(Sender: TObject);
     Procedure ArtistTreeDblClick(Sender: TObject);
@@ -249,9 +259,12 @@ Type
     Procedure CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
                                 Shift: TShiftState; X, Y: Integer);
     Procedure DeviceModeBtnClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     Procedure FormMouseDown(Sender: TOBject; Button: TMouseButton;
                             Shift: TShiftState; X, Y: Integer);
     Procedure FormResize(Sender: TObject);
+    procedure itemTrayExitClick(Sender: TObject);
+    procedure itemTrayPlayClick(Sender: TObject);
     Procedure LibModeBtnClick(Sender: TObject);
     Procedure MenuItem15Click(Sender: TObject);
     Procedure MenuItem25Click(Sender: TObject);
@@ -281,6 +294,7 @@ Type
     Procedure PlaylistCustomDrawItem(Sender: TCustomListView; Item: TListItem;
                                      State: TCustomDrawState; Var DefaultDraw: Boolean);
     procedure pnlPlaytimeClick(Sender: TObject);
+    procedure PopupMenuTrayPopup(Sender: TObject);
     procedure randomcheckChange(Sender: TObject);
     procedure scan(Sender: TObject);
     Procedure SearchPanelClick(Sender: TObject);
@@ -410,6 +424,7 @@ Type
                                 Shift: TShiftState; X, Y: Integer);
     Procedure trackbarMouseUp(Sender: TOBject; Button: TMouseButton;
                               Shift: TShiftState; X, Y: Integer);
+    procedure TrayIconDblClick(Sender: TObject);
     Procedure undoSyncItemClick(Sender: TObject);
 
     Procedure loadskin(Sender: TObject);
@@ -433,6 +448,8 @@ Type
     ScanSyncCount: Integer;
     FileOpneDialogPath: string;
     bPnlPlaytimeNegated: boolean;
+    oldWindowState :TWindowState;
+    fromTrayDBLClick :Boolean;
 
     Public 
     Procedure update_playlist;
@@ -453,6 +470,7 @@ Type
     skinmenuitems: array[1..16] Of TMenuItem;
 
     { public declarations }
+    procedure WMSize(var Message: TLMSize); message LM_Size;
   End;
 
 
@@ -520,7 +538,7 @@ Procedure title_to_playlist;
 Implementation
 
 Uses editid3, status, settings, player, directories, skin, cdrip, translations, bigcoverimg,
-streamcol, addradio, CleanLibrary;
+streamcol, addradio, CleanLibrary, global_vars, cj_pluginslist, cj_interfaces_impl, LCLType;
 
 {$i cactus_const.inc}
 
@@ -818,7 +836,7 @@ Begin
           playlist.Items[i].ImageIndex := 0;
           playlist.Items[i].MakeVisible(false);
           playtimer.Enabled := true;
-          CactusPlugins.SendEvent(evnStartPlay, PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].artist+' - '+PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].title);
+          //CactusPlugins.SendEvent(evnStartPlay, PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].artist+' - '+PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].title);
         End;
     End
   Else stopClick(Nil);
@@ -843,7 +861,7 @@ Begin
           If OldTrack>=0 Then playlist.Items[OldTrack].ImageIndex := -1;
           playlist.Items[i].ImageIndex := 0;
           playlist.Items[i].MakeVisible(false);
-          CactusPlugins.SendEvent(evnStartPlay, PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].artist+' - '+PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].title);
+          //CactusPlugins.SendEvent(evnStartPlay, PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].artist+' - '+PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].title);
         End;
       playtimer.Enabled := true;
     End
@@ -876,7 +894,7 @@ Begin
               writeln(playitem.index);
               playitem.MakeVisible(false);
               update_player_display;
-              CactusPlugins.SendEvent(evnStartPlay, PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].artist+' - '+PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].title);
+              //CactusPlugins.SendEvent(evnStartPlay, PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].artist+' - '+PlayerObj.Playlist.Items[PlayerObj.CurrentTrack].title);
               playtimer.enabled := true;
             End
           Else
@@ -907,7 +925,7 @@ Begin
   PlayerObj.stop;
   PlayerObj.playlist.reset_random;
   update_player_display;
-  CactusPlugins.SendEvent(evnStopPlay, '');
+  //CactusPlugins.SendEvent(evnStopPlay, '');
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -1267,6 +1285,7 @@ Begin
     End;
 End;
 
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.FormMouseDown(Sender: TOBject; Button: TMouseButton;
@@ -1283,6 +1302,48 @@ Begin
   Panel4.Width := oldSplitterWidth;
   Panel1.Width := Width-oldSplitterWidth-8;
 End;
+
+procedure TMain.WMSize(var Message: TLMSize);
+begin
+  if not (csDesigning in ComponentState) then
+  begin
+       case (Message.SizeType and not SIZE_SourceIsInterface) of
+       SIZEICONIC:begin
+                       if not(fromTrayDBLClick) then
+                       begin
+                            Visible :=False;
+                            exit;
+                       end;
+                       fromTrayDBLClick :=False;
+                  end;
+       end;
+  end;
+  inherited WMSize(Message);
+end;
+
+
+procedure TMain.TrayIconDblClick(Sender: TObject);
+begin
+     if not(Self.Visible) then
+     begin
+          //Avoid handling on OnWindowStateChange
+          Self.fromTrayDBLClick :=True;
+//          Self.WindowState:=oldWindowState;
+          Self.Visible:=True;
+     end;
+end;
+
+procedure TMain.itemTrayExitClick(Sender: TObject);
+begin
+     Close;
+end;
+
+procedure TMain.itemTrayPlayClick(Sender: TObject);
+begin
+     if (PlayerObj.playing)
+     then pauseClick(nil)
+     else playClick(nil);
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -1583,6 +1644,19 @@ begin
   bPnlPlaytimeNegated := not bPnlPlaytimeNegated;
 end;
 
+procedure TMain.PopupMenuTrayPopup(Sender: TObject);
+begin
+     if (PlayerObj.playing) and (not(PlayerObj.paused))
+     then begin
+               itemTrayPlay.Caption:='Pause';
+               itemTrayPlay.ImageIndex:=2;
+          end
+     else begin
+               itemTrayPlay.Caption:='Play';
+               itemTrayPlay.ImageIndex:=1;
+          end;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TMain.randomcheckChange(Sender: TObject);
@@ -1689,7 +1763,7 @@ End;
 Procedure TMain.MainClose(Sender: TObject; Var CloseAction: TCloseAction);
 Begin
   PlayerObj.stop;
-  if CactusConfig.PluginsEnabled then CactusPlugins.SendEvent(evnStopPlay, 'ps');
+//  if CactusConfig.PluginsEnabled then CactusPlugins.SendEvent(evnStopPlay, 'ps');
   CactusConfig.WHeight := Height;
   CactusConfig.WWidth := Width;
   CactusConfig.WSplitterWidth := Splitter1.Left;
@@ -1739,13 +1813,25 @@ Begin
     DebugOutLn('ERROR: Exception while shutting down IPC server', 2);
   End;
   writeln('end.');
-  CactusPlugins.FlushPluginConfig;
-  CactusPlugins.Free;
+  //CactusPlugins.FlushPluginConfig;
+  //CactusPlugins.Free;
   If CactusConfig.FlushConfig Then DebugOutLn('Config succesfully written to disk', 3)
   Else DebugOutLn('ERROR: writing config to disk', 3);
   CactusConfig.Free;
   Application.Terminate;
 End;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+procedure TMain.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+begin
+     CanClose :=PluginsList.CanClose;
+     if CanClose then
+     begin
+          PluginsList.Free;
+          CJ_Interface.Free;
+     end;
+end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -2009,6 +2095,18 @@ Begin
   update_artist_view;
   //update_title_view;
   DebugOutLn('main.create end', 5);
+
+  Self.fromTrayDBLClick :=False;
+  oldWindowState :=Self.WindowState;
+  //Build of Interfaces and Plugins List (may be moved....)
+  AppTrayIcon :=Self.TrayIcon;
+  ImageListNormal :=Self.ImageListNormal;
+  ImageListHot :=Self.ImageListHot;
+  ImageListDis :=Self.ImageListDis;
+  MenuOwner :=Self;
+  CJ_Interface :=TCJ_Interface_Impl.Create;
+  PluginsList :=TCJ_PluginsList.Create;
+  PluginsList.LoadFromINI;
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

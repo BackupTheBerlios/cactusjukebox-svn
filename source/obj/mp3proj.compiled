@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Compiler Value="/usr/bin/fpc" Date="1242098177"/>
+  <Params Value=" -MObjFPC -Si -CirotR -gl -vewnhi -Fu/home/maxm/Programming/Lazarus/Projects/cactusjukebox/source/fmodintf/ -Fu/home/maxm/Programming/Lazarus/Projects/cactusjukebox/source/tagreader/ -Fu/home/maxm/Programming/Lazarus/Packages/lnet/lib/ -Fu/home/maxm/Programming/Lazarus/Packages/synapse/ -Fu/home/maxm/Programming/Lazarus/Projects/cactusjukebox/source/source/obj/ -Fu/home/maxm/Programming/Lazarus/Projects/cactusjukebox/source/plugin/sdk/ -Fu/home/maxm/Programming/Lazarus/Projects/cactusjukebox/source/plugin/impl/ -Fu/home/maxm/.lazarus/lib/ImagesForLazarus/x86_64-linux/ -Fu/usr/lib64/lazarus/lcl/units/x86_64-linux/ -Fu/usr/lib64/lazarus/lcl/units/x86_64-linux/gtk2/ -Fu/usr/lib64/lazarus/packager/units/x86_64-linux/ -Fu/home/maxm/Programming/Lazarus/Projects/cactusjukebox/source/ -Fu. -FU/home/maxm/Programming/Lazarus/Projects/cactusjukebox/source/obj/ -FE../ -ocactus_jukebox -dCactusDebug -dLCL -dLCLgtk2 mp3proj.lpr"/>
+</CONFIG>

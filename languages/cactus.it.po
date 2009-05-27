@@ -5,329 +5,329 @@ msgstr ""
 
 #: mainform:rsquit
 msgid "Quit"
-msgstr ""
+msgstr "Esci"
 
 #: mainform:rsfile
 msgid "File"
-msgstr ""
+msgstr "File"
 
 #: mainform:rsopenfile
 msgid "Open File..."
-msgstr ""
+msgstr "Apri File..."
 
 #: mainform:rsopendirector
 msgid "Open Directory..."
-msgstr ""
+msgstr "Apri Cartella..."
 
 #: mainform:rsplayeronly
 msgid "Player only"
-msgstr ""
+msgstr "Player solo"
 
 #: mainform:rschooseskin
 msgid "Choose Skin..."
-msgstr ""
+msgstr "Scegli Skin..."
 
 #: mainform:rssettings
 msgid "Settings..."
-msgstr ""
+msgstr "Impostazioni"
 
 #: mainform:rslibrary
 msgid "Library"
-msgstr ""
+msgstr "Libreria"
 
 #: mainform:rsnewlibrary
 msgid "New library"
-msgstr ""
+msgstr "Nuova libreria"
 
 #: mainform:rsloadlibrary
 msgid "Load library"
-msgstr ""
+msgstr "Leggi libreria"
 
 #: mainform:rssavelibrary
 msgid "Save library"
-msgstr ""
+msgstr "Salva libreria"
 
 #: mainform:rslibraryinfo
 msgid "Library info"
-msgstr ""
+msgstr "Informazioni libreria"
 
 #: mainform:rsmanagelibrar
 msgid "Manage library..."
-msgstr ""
+msgstr "Gestisci libreria"
 
 #: mainform:rsplaylist
 msgid "Playlist"
-msgstr ""
+msgstr "Playlist"
 
 #: mainform:rsplay
 msgid "Play"
-msgstr ""
+msgstr "Play"
 
 #: mainform:rsnext
 msgid "Next"
-msgstr ""
+msgstr "Successiva"
 
 #: mainform:rsprevious
 msgid "Previous"
-msgstr ""
+msgstr "Precedente"
 
 #: mainform:rsmute
 msgid "Mute"
-msgstr ""
+msgstr "Muto"
 
 #: mainform:rsloadplaylist
 msgid "Load playlist"
-msgstr ""
+msgstr "Leggi playlist"
 
 #: mainform:rssaveplaylist
 msgid "Save playlist"
-msgstr ""
+msgstr "Salva playlist"
 
 #: mainform:rsmobileplayer
 msgid "Mobile player"
-msgstr ""
+msgstr "Lettore mobile"
 
 #: mainform:rsclearplaylist
 msgid "Clear Playlist"
-msgstr ""
+msgstr "Svuota Playlist"
 
 #: mainform:rsrandomplaylist
 msgid "Random Playlist"
-msgstr ""
+msgstr "Playlist Casuale"
 
 #: mainform:rsdevices
 msgid "Devices"
-msgstr ""
+msgstr "Dispositivi"
 
 #: mainform:rsdeviceinfo
 msgid "Device info"
-msgstr ""
+msgstr "Informazioni Dispositivo"
 
 #: mainform:rsscanplayer
 msgid "Scan player"
-msgstr ""
+msgstr "Scansiona lettore"
 
 #: mainform:rssync
 msgid "Sync"
-msgstr ""
+msgstr "Sincronizza"
 
 #: mainform:rsclearplayer
 msgid "Clear player"
-msgstr ""
+msgstr "Svuota lettore"
 
 #: mainform:rsundoselectio
 msgid "Undo selection"
-msgstr ""
+msgstr "Annulla selezione"
 
 #: mainform:rsaudiocd
 msgid "Audio CD"
-msgstr ""
+msgstr "CD Audio"
 
 #: mainform:rsripencode
 msgid "Rip / Encode..."
-msgstr ""
+msgstr "Rip / Codifica..."
 
 #: mainform:rshelp
 msgid "Help"
-msgstr ""
+msgstr "Aiuto"
 
 #: mainform:rsabout
 msgid "About..."
-msgstr ""
+msgstr "Informazioni su..."
 
 #: mainform:rsmanual
 msgid "Manual..."
-msgstr ""
+msgstr "Manuale..."
 
 #: mainform:rsclear
 msgid "Clear"
-msgstr ""
+msgstr "Svuota"
 
 #: mainform:rssearch
 msgid "Search"
-msgstr ""
+msgstr "Cerca"
 
 #: mainform:rsalbum
 msgid "Album"
-msgstr ""
+msgstr "Album"
 
 #: mainform:rsfilename
 msgid "Filename"
-msgstr ""
+msgstr "Nome File"
 
 #: mainform:rsartist
 msgid "Artist"
-msgstr ""
+msgstr "Artista"
 
 #: mainform:rstitle
 msgid "Title"
-msgstr ""
+msgstr "Titolo"
 
 #: mainform:rsrandom
 msgid "Random"
-msgstr ""
+msgstr "Casuale"
 
 #: mainform:rsnotconnected
 msgid "Device not Connected"
-msgstr ""
+msgstr "Dispositivo non Connesso"
 
 #: mainform:rsok
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: mainform:rslenght
 msgid "Length"
-msgstr ""
+msgstr "Durata"
 
 #: mainform:rstrack
 msgid "Track"
-msgstr ""
+msgstr "Traccia"
 
 #: cdrip:rsencodetomp3
 msgid "Encode to mp3"
-msgstr ""
+msgstr "Codifica in mp3"
 
 #: cdrip:rsquerrycddb
 msgid "Query CDDB"
-msgstr ""
+msgstr "Interroga CDDB"
 
 #: cdrip:rsload
 msgid "Load"
-msgstr ""
+msgstr "Leggi"
 
 #: cdrip:rseject
 msgid "Eject"
-msgstr ""
+msgstr "Espelli"
 
 #: cdrip:rsstart
 msgid "Start"
-msgstr ""
+msgstr "Avvia"
 
 #: cdrip:rsback
 msgid "Back"
-msgstr ""
+msgstr "Indietro"
 
 #: cdrip:rssetid3tag
 msgid "Write ID3-Tags"
-msgstr ""
+msgstr "Scrivi gli ID3-Tags"
 
 #: cdrip:rscrsubfolders
 msgid "Create artist subfolders"
-msgstr ""
+msgstr "Crea sottocartelle degli artisti"
 
 #: cdrip:rsoutfilenamin
 msgid "Outfile naming scheme"
-msgstr ""
+msgstr "Outfile naming scheme"
 
 #: settings:rsautoloadlast
 msgid "Load last library at startup"
-msgstr ""
+msgstr "Leggi l'ultima libreria all'avvio"
 
 #: settings:rsscanfornewfi
 msgid "Scan for new files in background  on startup"
-msgstr ""
+msgstr "Scansiona per nuovi files in background all'avvio"
 
 #: settings:rslanguage
 msgid "Language"
-msgstr ""
+msgstr "Linguaggio"
 
 #: settings:rsguesstagfrom
 msgid "Guess tag from filename"
-msgstr ""
+msgstr "Supponi i tag dal nome del file"
 
 #: settings:rsmovetosectio
 msgid "Move to section %sUnknown%s"
-msgstr ""
+msgstr "Muovi alla sezione %sUnknown%s"
 
 #: settings:rsid3type
 msgid "ID3 type"
-msgstr ""
+msgstr "ID3 tipo"
 
 #: settings:rsid3v1priorit
 msgid "ID3v1 Priority"
-msgstr ""
+msgstr "ID3v1 Priorità"
 
 #: settings:rsid3v2priorit
 msgid "ID3v2 Priority"
-msgstr ""
+msgstr "ID3v2 Priorità"
 
 #: settings:rsgeneral
 msgid "General"
-msgstr ""
+msgstr "Generale"
 
 #: settings:rspathtomp3pla
 msgid "Path to mp3player mountpoint"
-msgstr ""
+msgstr "Path al mountpoint del lettore mp3"
 
 #: settings:rscreatesubfol
 msgid "Create subfolders on upload"
-msgstr ""
+msgstr "Crea sottocartelle durante il caricamento"
 
 #: settings:rspathstoaddit
 msgid "Paths to additional application needed for Cactus Jukebox"
-msgstr ""
+msgstr "Path delle applicazioni necessarie a Cactus Jukebox"
 
 #: settings:rscdda2wavtool
 msgid "Cdda2wav (tool to rip CDs)"
-msgstr ""
+msgstr "Cdda2wav (utility per il rip dei CD)"
 
 #: settings:rssave
 msgid "Save"
-msgstr ""
+msgstr "Salva"
 
 #: settings:rscancel
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #: settings:rsmobiledevice
 msgid "Mobile Device"
-msgstr ""
+msgstr "Dispositivo Mobile"
 
 #: settings:rspaths
 msgid "Paths"
-msgstr ""
+msgstr "Cartelle"
 
 #: settings:rslameneededto
 msgid "lame (needed to encode mp3 files)"
-msgstr ""
+msgstr "lame (necessario per codificare i file mp3)"
 
 #: settings:rsenablekdeser
 msgid "Enable KDE Service Menu"
-msgstr ""
+msgstr "Abilita il Menù di Servizio KDE"
 
 #: settings:rsaudiooutput
 msgid "Audio Output"
-msgstr ""
+msgstr "Uscita Audio"
 
 #: settings:rsdownloadalbu
 msgid "Download album cover image from internet"
-msgstr ""
+msgstr "Scarica le copertine degli album da internet"
 
 #: settings:rsclearcache
 msgid "Clear Cache"
-msgstr ""
+msgstr "Svuota i file temporanei"
 
 #: settings:rsautomaticlys
 msgid "Automaticly start playing first song in playlist"
-msgstr ""
+msgstr "Avvia automaticamente la prima canzone nella playlist"
 
 #: settings:rsloadlastplay
 msgid "Load last playlist on startup"
-msgstr ""
+msgstr "Leggi l'ultima playlist all'avvio"
 
 #: settings:rsalwaysstartp
 msgid "Always start playing first song in empty playlist"
-msgstr ""
+msgstr "Avvia sempre la prima canzone nelle playlist vuote"
 
 #: settings:rsstopplayback
 msgid "Stop playback when playlist is cleared"
-msgstr ""
+msgstr "Ferma l'esecuzione quando la playlist è svuotata"
 
 #: settings:rssortalbumsby
 msgid "Sort albums by track instead of title"
-msgstr ""
+msgstr "Ordina gli album per traccia anzichè per titolo"
 
 #: settings:rsenableplugin
 msgid "Enable plugins"
-msgstr ""
+msgstr "Abilita i plugins"
 
