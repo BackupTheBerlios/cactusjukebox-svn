@@ -3020,7 +3020,13 @@ Begin
   // ensure that the popup menu is only opened when an item is selected
   // the menu is reanabled in TMain.TitleTreeSelectItem
 
-  writeln('titletree mouse down');
+  {$ifdef  LCLQT} //TODO: QT interface doesn't set selected item
+       TitleTree.Selected:= TitleTree.GetItemAt(x, y);
+  {$endif}
+
+  {$ifdef  LCLGtk2} //TODO: GTK2 interface doe snot selcte item on right click
+        If (Button = mbRight) then TitleTree.Selected := TitleTree.GetItemAt(x, y-20);
+  {$endif}
 
   //TODO check titlelist popupmenu on win32
   {$ifdef win32}
@@ -3035,11 +3041,11 @@ Begin
   If Button = mbLeft Then
     Begin { only drag if left button pressed }
       sourceitem := Nil;
-         {$ifdef  LCLGtk2}
-      sourceitem := TitleTree.GetItemAt(x, y-20);
-         {$else}
-      sourceitem := TitleTree.GetItemAt(x, y);
-         {$endif}
+      {$ifdef  LCLGtk2} //TODO: Getitematxy is shifted down 20px in GTK2
+           sourceitem := TitleTree.GetItemAt(x, y-20);
+      {$else}
+           sourceitem := TitleTree.GetItemAt(x, y);
+      {$endif}
       If sourceitem<>Nil Then TitleTree.BeginDrag(false, 10);
     End;
 End;
@@ -3050,7 +3056,6 @@ Procedure TMain.TitleTreeSelectItem(Sender: TObject; Item: TListItem;
                                     Selected: Boolean);
 Begin
   // reanable the popupmenu in case ist was disabled in TMain.TitleTreeMouseDown
-  writeln('titletree select item');
   TitleTree.PopupMenu.AutoPopup := true;
 End;
 
