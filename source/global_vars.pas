@@ -13,7 +13,7 @@
 //
 //******************************************************************************
 unit global_vars;
-
+{$mode delphi}{$H+}
 interface
 
 uses Controls, menus, ExtCtrls;
@@ -22,7 +22,7 @@ Const
      INI_PLUGINS ='plugins.ini';
 
 Var
-   AppMainMenu          :TPopupMenu =Nil;
+   AppMainMenu          :TMainMenu =Nil;
    AppTrayIcon          :TTrayIcon =Nil;
    ImageListNormal      :TImageList;
    ImageListHot         :TImageList;

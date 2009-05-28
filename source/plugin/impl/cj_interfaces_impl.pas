@@ -3,7 +3,6 @@
 //***                                                                        ***
 //***  (c) 2006-2009                                                         ***
 //***                                                                        ***
-//***  Sebastian Kraft, sebastian_kraft@gmx.de                               ***
 //***  Massimo Magnano, maxm.dev@gmail.com                                   ***
 //***                                                                        ***
 //******************************************************************************
@@ -18,12 +17,16 @@ unit cj_interfaces_impl;
 {$mode delphi}{$H+}
 interface
 
-uses cj_interfaces, Classes, Controls;
+uses cj_interfaces, Classes, Controls, menus, MGSignals, Messages;
 
 type
-    TCJ_PluginsMenu_Impl = class(TCJ_PluginsMenu)
+
+    { TCJ_Menu_Impl }
+
+    TCJ_Menu_Impl = class(TCJ_Menu)
     private
        procedure MenuItemClick(Sender :TObject);
+       function FindItem(MenuItem :TCJ_MenuItem):TMenuItem;
     public
        function Add(Parent :TCJ_MenuItem;
                     Caption :PChar; OnClick :TCJ_MenuItemClick) :TCJ_MenuItem; override;
@@ -64,14 +67,36 @@ type
        procedure PlaySound(Sound :PChar); override;
     end;
 
-    
+    { TCJ_Signals_Impl }
+
+    TCJ_Signals_Impl = class(TCJ_Signals)
+    private
+       rSignals :TMGSignals;
+    public
+       procedure Connect(ClassMethod :TCJ_SignalMethod; MessageID :Integer); override;
+       procedure ConnectAsync(ClassMethod :TCJ_SignalMethod; MessageID :Integer); override;
+       procedure Disconnect(ClassMethod :TCJ_SignalMethod; MessageID :Integer); override; overload;
+       procedure Disconnect(ClassPointer :TObject); override; overload;
+       function Signal(MessageID :Cardinal; WParam, LParam :Integer; var Handled :Boolean) :Integer; override; overload;
+       function Signal(var Message: TMessage) :Boolean; override; overload;
+       procedure SignalAsync(MessageID :Cardinal; WParam, LParam :Integer); override; overload;
+       procedure SignalAsync(var Message: TMessage); override; overload;
+
+       constructor Create;
+       destructor Destroy; override;
+    end;
+
+    { TCJ_Interface_Impl }
+
     TCJ_Interface_Impl = class(TCJ_Interface)
     private
-       rPluginsMenu :TCJ_PluginsMenu_Impl;
-       rTrayIcon    :TCJ_TrayIcon_Impl;
+       rMenu     :TCJ_Menu_Impl;
+       rTrayIcon :TCJ_TrayIcon_Impl;
+       rSignals  :TCJ_Signals;
     public
-       function GetPluginsMenu : TCJ_PluginsMenu; override;
+       function GetMenu : TCJ_Menu; override;
        function GetTrayIcon : TCJ_TrayIcon; override;
+       function GetSignals : TCJ_Signals; override;
        function GetOption(OptionCategoryID :Integer; OptionID :Integer;
                           Buffer :Pointer):Integer; override;
 
@@ -86,7 +111,7 @@ Var
 
 implementation
 
-uses SysUtils, menus, global_vars;
+uses SysUtils, global_vars;
 
 type
     PMethod =^TMethod;
@@ -99,11 +124,11 @@ type
 
 
 //==============================================================================
-//  TCJ_PluginsMenu_Impl = class(TCJ_PluginsMenu)
-// Implementazione dell' Interfaccia al Menu dei Plugins
+//  TCJ_Menu_Impl = class(TCJ_PluginsMenu)
+// Implementazione dell' Interfaccia al Menu
 //==============================================================================
 
-procedure TCJ_PluginsMenu_Impl.MenuItemClick(Sender :TObject);
+procedure TCJ_Menu_Impl.MenuItemClick(Sender :TObject);
 Var
    PluginMethod :TCJ_MenuItemClick;
 
@@ -111,9 +136,6 @@ begin
   try
      if (Sender is TMyMenuItem) then
      begin
-          //TMethod(PluginMethod).Data :=PMethod(TMenuItem(Sender).Tag)^.Data;
-          //TMethod(PluginMethod).Code :=PMethod(TMenuItem(Sender).Tag)^.Code;
-          //if Assigned(PluginMethod)
           if Assigned(TMyMenuItem(Sender).pluginOnClick)
           then TMyMenuItem(Sender).pluginOnClick(TMyMenuItem(Sender).Command);
      end;
@@ -121,82 +143,112 @@ begin
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.Add(Parent :TCJ_MenuItem;
+function TCJ_Menu_Impl.FindItem(MenuItem: TCJ_MenuItem): TMenuItem;
+begin
+     Result :=TMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     if (Result=Nil)
+     then Result :=TMenuItem(AppTrayIcon.PopUpMenu.FindItem(MenuItem, fkCommand));
+end;
+
+
+
+function TCJ_Menu_Impl.Add(Parent :TCJ_MenuItem;
                     Caption :PChar; OnClick :TCJ_MenuItemClick) :TCJ_MenuItem;
 Var
    NewItem        :TMyMenuItem;
    ParentMenuItem :TMenuItem;
    xCaption       :String;
    itemMethod     :PMethod;
+   iMenu          :Integer;
+   addOnTop       :Boolean;
 
 begin
-  Result :=CJ_MENUITEM_NULL;
+  Result :=CJ_MENU_NULL;
   try
-     if (AppMainMenu<>Nil) then
-     begin
-          if (Parent<>CJ_MENUITEM_MAIN)
-          then begin
-                    ParentMenuItem :=TMenuItem(AppMainMenu.FindItem(Parent, fkCommand));
-                    if (ParentMenuItem=Nil)
-                    then Exit;
+     if (Parent>0)
+     then begin //an user MenuItem Command ID is specified as Parent, find
+               ParentMenuItem :=Self.FindItem(Parent);
+               if (ParentMenuItem=Nil)
+               then Exit;
+               if not(ParentMenuItem is TMyMenuItem)
+               then Exit; //an internal Command Id is specified, exit
+          end
+     else begin //Menu IDs
+               iMenu := (abs(Parent) and $FF00);
+               case iMenu of
+               CJ_MAINMENU_ROOT :begin
+                                       iMenu :=(abs(Parent) and $FF)-1;
+                                       if (iMenu>0)
+                                       then ParentMenuItem :=AppMainMenu.Items[iMenu]
+                                       else ParentMenuItem :=AppMainMenu.Items;
+
+                                       addOnTop :=False;
+                                  end;
+               CJ_TRAYMENU_ROOT :begin
+                                       iMenu :=(abs(Parent) and $FF)-1;
+                                       if (iMenu>0)
+                                       then ParentMenuItem :=AppTrayicon.PopUpMenu.Items[iMenu]
+                                       else ParentMenuItem :=AppTrayicon.PopUpMenu.Items;
+                                       addOnTop :=True;
+                                  end;
                end;
+          end;
 
-          NewItem :=TMyMenuItem.Create(MenuOwner);
-          xCaption :=Copy(Caption, 1, Length(Caption));
-          NewItem.Caption :=xCaption;
-          NewItem.OnClick :=MenuItemClick;
+     NewItem :=TMyMenuItem.Create(MenuOwner);
+     xCaption :=Copy(Caption, 1, Length(Caption));
+     NewItem.Caption :=xCaption;
+     NewItem.OnClick :=MenuItemClick;
 
-//          GetMem(itemMethod, sizeof(TMethod));
-//          itemMethod^ :=TMethod(OnClick);
-//          NewItem.Tag := Integer(itemMethod);
-          NewItem.pluginOnClick :=OnClick;
+     NewItem.pluginOnClick :=OnClick;
 
-          if (Parent=CJ_MENUITEM_MAIN)
-          then AppMainmenu.Items.Insert(0, NewItem)
-          else ParentMenuItem.Add(NewItem);
+     if addOnTop
+     then ParentMenuItem.Insert(0, NewItem)
+     else ParentMenuItem.Add(NewItem);
 
-          Result :=NewItem.Command;
-     end;
+     ParentMenuItem.Visible :=(ParentMenuItem.Count>0);
+     Result :=NewItem.Command;
   except
-     On E:Exception do Result :=CJ_MENUITEM_NULL;
+     On E:Exception do Result :=CJ_MENU_NULL;
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.AddSeparator(Parent :TCJ_MenuItem) :TCJ_MenuItem;
+function TCJ_Menu_Impl.AddSeparator(Parent :TCJ_MenuItem) :TCJ_MenuItem;
 begin
      Result :=Add(Parent, '-', Nil);
 end;
 
-function TCJ_PluginsMenu_Impl.Remove(MenuItem :TCJ_MenuItem) :Boolean;
+function TCJ_Menu_Impl.Remove(MenuItem :TCJ_MenuItem) :Boolean;
 Var
-   curItem,
+   ParentMenuItem,
    toDelMenuItem :TMenuItem;
    i             :Integer;
 
 begin
   Result :=False;
   try
-     toDelMenuItem :=TMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toDelMenuItem :=Self.FindItem(MenuItem);
      if (toDelMenuItem=Nil)
      then Exit;
 
      //Avoid delete of our Menu Item....
-     i :=AppMainMenu.Items.Count-1;
-     repeat
-           curItem :=TMenuItem(AppMainMenu.Items[i]);
-           if (curItem=toDelMenuItem)
-           then Exit;
-           Dec(i);
-     Until (curItem=PluginsSeparatorItem) or (i=0);
+     if not(toDelMenuItem is TMyMenuItem)
+     then Exit; //an internal Command Id is specified, exit
 
-     AppMainMenu.Items.Remove(toDelMenuItem);
+     ParentMenuItem :=toDelMenuItem.Parent;
+     if (ParentMenuItem<>Nil)
+     then begin
+               ParentMenuItem.Remove(toDelMenuItem);
+
+               ParentMenuItem.Visible :=(ParentMenuItem.Count>0);
+          end;
+
      Result :=True;
   except
      On E:Exception do Result :=False;
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.SetCaption(MenuItem :TCJ_MenuItem;
+function TCJ_Menu_Impl.SetCaption(MenuItem :TCJ_MenuItem;
                            NewCaption :PChar):PChar;
 Var
    toChangeMenuItem :TMyMenuItem;
@@ -205,7 +257,7 @@ Var
 begin
   Result :=Nil;
   try
-     toChangeMenuItem :=TMyMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toChangeMenuItem :=TMyMenuItem(Self.FindItem(MenuItem));
      if (toChangeMenuItem<>Nil) then
      begin
           xCaption :=Copy(NewCaption, 1, Length(NewCaption));
@@ -216,14 +268,14 @@ begin
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.SetEnabled(MenuItem :TCJ_MenuItem; Value :Boolean):Boolean;
+function TCJ_Menu_Impl.SetEnabled(MenuItem :TCJ_MenuItem; Value :Boolean):Boolean;
 Var
    toChangeMenuItem :TMyMenuItem;
 
 begin
   Result :=False;
   try
-     toChangeMenuItem :=TMyMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toChangeMenuItem :=TMyMenuItem(Self.FindItem(MenuItem));
      if (toChangeMenuItem<>Nil) then
      begin
           Result :=toChangeMenuItem.Enabled;
@@ -234,14 +286,14 @@ begin
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.SetChecked(MenuItem :TCJ_MenuItem; Value :Boolean):Boolean;
+function TCJ_Menu_Impl.SetChecked(MenuItem :TCJ_MenuItem; Value :Boolean):Boolean;
 Var
    toChangeMenuItem :TMyMenuItem;
 
 begin
   Result :=False;
   try
-     toChangeMenuItem :=TMyMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toChangeMenuItem :=TMyMenuItem(Self.FindItem(MenuItem));
      if (toChangeMenuItem<>Nil) then
      begin
           Result :=toChangeMenuItem.Checked;
@@ -253,7 +305,7 @@ begin
 end;
 
 
-function TCJ_PluginsMenu_Impl.SetIcon(MenuItem :TCJ_MenuItem;
+function TCJ_Menu_Impl.SetIcon(MenuItem :TCJ_MenuItem;
                               State, NewIcon :Integer):Integer;
 Var
    toChangeMenuItem :TMyMenuItem;
@@ -261,7 +313,7 @@ Var
 begin
   Result :=-1;
   try
-     toChangeMenuItem :=TMyMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toChangeMenuItem :=TMyMenuItem(Self.FindItem(MenuItem));
      if (toChangeMenuItem<>Nil) then
      begin
      {
@@ -294,7 +346,7 @@ begin
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.SetOnClick(MenuItem :TCJ_MenuItem;
+function TCJ_Menu_Impl.SetOnClick(MenuItem :TCJ_MenuItem;
                            NewOnClick :TCJ_MenuItemClick):TCJ_MenuItemClick;
 Var
    toChangeMenuItem :TMyMenuItem;
@@ -303,13 +355,9 @@ Var
 begin
   Result :=Nil;
   try
-     toChangeMenuItem :=TMyMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toChangeMenuItem :=TMyMenuItem(Self.FindItem(MenuItem));
      if (toChangeMenuItem<>Nil) then
      begin
-//          TMethod(PluginMethod).Data :=PMethod(toChangeMenuItem.Tag)^.Data;
-//          TMethod(PluginMethod).Code :=PMethod(toChangeMenuItem.Tag)^.Code;
-//          Result :=PluginMethod;
-//          PMethod(toChangeMenuItem.Tag)^ := TMethod(NewOnClick);
             Result := toChangeMenuItem.pluginOnClick;
             toChangeMenuItem.pluginOnClick := NewOnClick;
      end;
@@ -318,14 +366,14 @@ begin
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.GetCount(MenuItem :TCJ_MenuItem) :Integer; 
+function TCJ_Menu_Impl.GetCount(MenuItem :TCJ_MenuItem) :Integer;
 Var
    toChangeMenuItem :TMyMenuItem;
 
 begin
   Result :=-1;
   try
-     toChangeMenuItem :=TMyMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toChangeMenuItem :=TMyMenuItem(Self.FindItem(MenuItem));
      if (toChangeMenuItem<>Nil) then
      begin
           Result :=toChangeMenuItem.Count;
@@ -335,15 +383,15 @@ begin
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.GetItem(MenuItem :TCJ_MenuItem; Index :Integer) :TCJ_MenuItem;
+function TCJ_Menu_Impl.GetItem(MenuItem :TCJ_MenuItem; Index :Integer) :TCJ_MenuItem;
 Var
    theParentMenuItem,
    toGetMenuItem      :TMenuItem;
 
 begin
-  Result :=CJ_MENUITEM_NULL;
+  Result :=CJ_MENU_NULL;
   try
-     theParentMenuItem :=TMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     theParentMenuItem :=Self.FindItem(MenuItem);
      if (theParentMenuItem<>Nil) then
      begin
           toGetMenuItem :=TMenuItem(theParentMenuItem.Items[Index]);
@@ -351,18 +399,18 @@ begin
           then Result :=toGetMenuItem.Command;
      end;
   except
-     On E:Exception do Result :=CJ_MENUITEM_NULL;
+     On E:Exception do Result :=CJ_MENU_NULL;
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.GetCaption(MenuItem :TCJ_MenuItem; Buffer :PChar) :Integer;
+function TCJ_Menu_Impl.GetCaption(MenuItem :TCJ_MenuItem; Buffer :PChar) :Integer;
 Var
    toChangeMenuItem :TMyMenuItem;
 
 begin
   Result :=0;
   try
-     toChangeMenuItem :=TMyMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toChangeMenuItem :=TMyMenuItem(Self.FindItem(MenuItem));
      if (toChangeMenuItem<>Nil) then
      begin
           Result :=Length(toChangeMenuItem.Caption)+1;
@@ -374,14 +422,14 @@ begin
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.GetEnabled(MenuItem :TCJ_MenuItem) :Boolean;
+function TCJ_Menu_Impl.GetEnabled(MenuItem :TCJ_MenuItem) :Boolean;
 Var
    toChangeMenuItem :TMyMenuItem;
 
 begin
   Result :=False;
   try
-     toChangeMenuItem :=TMyMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toChangeMenuItem :=TMyMenuItem(Self.FindItem(MenuItem));
      if (toChangeMenuItem<>Nil) then
      begin
           Result :=toChangeMenuItem.Enabled;
@@ -391,14 +439,14 @@ begin
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.GetChecked(MenuItem :TCJ_MenuItem) :Boolean;
+function TCJ_Menu_Impl.GetChecked(MenuItem :TCJ_MenuItem) :Boolean;
 Var
    toChangeMenuItem :TMyMenuItem;
 
 begin
   Result :=False;
   try
-     toChangeMenuItem :=TMyMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toChangeMenuItem :=TMyMenuItem(Self.FindItem(MenuItem));
      if (toChangeMenuItem<>Nil) then
      begin
           Result :=toChangeMenuItem.Checked;
@@ -409,14 +457,14 @@ begin
 end;
 
 
-function TCJ_PluginsMenu_Impl.GetIcon(MenuItem :TCJ_MenuItem; State :Integer):Integer;
+function TCJ_Menu_Impl.GetIcon(MenuItem :TCJ_MenuItem; State :Integer):Integer;
 Var
    toChangeMenuItem :TMyMenuItem;
 
 begin
   Result :=-1;
   try
-     toChangeMenuItem :=TMyMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toChangeMenuItem :=TMyMenuItem(Self.FindItem(MenuItem));
      if (toChangeMenuItem<>Nil) then
      begin
        {   Case State of
@@ -433,7 +481,7 @@ begin
   end;
 end;
 
-function TCJ_PluginsMenu_Impl.GetOnClick(MenuItem :TCJ_MenuItem):TCJ_MenuItemClick;
+function TCJ_Menu_Impl.GetOnClick(MenuItem :TCJ_MenuItem):TCJ_MenuItemClick;
 Var
    toChangeMenuItem :TMyMenuItem;
    PluginMethod     :TCJ_MenuItemClick;
@@ -441,12 +489,9 @@ Var
 begin
   Result :=Nil;
   try
-     toChangeMenuItem :=TMyMenuItem(AppMainMenu.FindItem(MenuItem, fkCommand));
+     toChangeMenuItem :=TMyMenuItem(Self.FindItem(MenuItem));
      if (toChangeMenuItem<>Nil) then
      begin
-         // TMethod(PluginMethod).Data :=Pointer(toChangeMenuItem.Tag);
-         // TMethod(PluginMethod).Code :=Pointer(toChangeMenuItem.Tag2);
-         // Result :=PluginMethod;
          Result :=toChangeMenuItem.pluginOnClick;
      end;
   except
@@ -471,7 +516,7 @@ begin
      if (AImageList=-1)
      then AImageList :=global_vars.ImageListNormal.Handle;
 
-(*     TTrayNotifications.ShowNotification(-1, 'Green Tree',
+(*     TTrayNotifications.ShowNotification(-1, 'Cactus Jukebox',
                                          Icon, Msg, Sound,
                                          AImageList,
                                          NotificationTitleMouseUp, Nil);
@@ -485,7 +530,7 @@ end;
 procedure TCJ_TrayIcon_Impl.NotificationTitleMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
 begin
-     //AppTrayIcon.RunTNAPopup;
+     //AppTrayIcon.Popup;
 end;
 
 
@@ -495,14 +540,19 @@ end;
 // Implementazione dell'interfaccia al Programma
 //==============================================================================
 
-function TCJ_Interface_Impl.GetPluginsMenu : TCJ_PluginsMenu;
+function TCJ_Interface_Impl.GetMenu : TCJ_Menu;
 begin
-     Result :=rPluginsMenu;
+     Result :=rMenu;
 end;
 
 function TCJ_Interface_Impl.GetTrayIcon : TCJ_TrayIcon;
 begin
      Result :=rTrayIcon;
+end;
+
+function TCJ_Interface_Impl.GetSignals: TCJ_Signals;
+begin
+     Result:=rSignals;
 end;
 
 function TCJ_Interface_Impl.GetOption(OptionCategoryID :Integer; OptionID :Integer;
@@ -532,17 +582,79 @@ end;
 constructor TCJ_Interface_Impl.Create;
 begin
      inherited Create;
-     rPluginsMenu :=TCJ_PluginsMenu_Impl.Create;
+     rMenu :=TCJ_Menu_Impl.Create;
      rTrayIcon :=TCJ_TrayIcon_Impl.Create;
+     rSignals :=TCJ_Signals_Impl.Create;
 end;
 
 destructor TCJ_Interface_Impl.Destroy;
 begin
-     rPluginsMenu.Free;
-     rPluginsMenu :=Nil;
+     rMenu.Free;
+     rMenu :=Nil;
      rTrayIcon.Free;
      rTrayIcon :=Nil;
 end;
 
+
+{ TCJ_Signals_Impl }
+
+procedure TCJ_Signals_Impl.Connect(ClassMethod: TCJ_SignalMethod;
+  MessageID: Integer);
+begin
+  rSignals.Connect(ClassMethod, MessageID);
+end;
+
+procedure TCJ_Signals_Impl.ConnectAsync(ClassMethod: TCJ_SignalMethod;
+  MessageID: Integer);
+begin
+  //rSignals.ConnectAsync(ClassMethod, MessageID);
+end;
+
+procedure TCJ_Signals_Impl.Disconnect(ClassMethod: TCJ_SignalMethod;
+  MessageID: Integer);
+begin
+  rSignals.Disconnect(ClassMethod, MessageID);
+end;
+
+procedure TCJ_Signals_Impl.Disconnect(ClassPointer: TObject);
+begin
+  rSignals.Disconnect(ClassPointer);
+end;
+
+function TCJ_Signals_Impl.Signal(MessageID: Cardinal; WParam, LParam: Integer;
+  var Handled: Boolean): Integer;
+begin
+  Result:=rSignals.Signal(MessageID, WParam, LParam, Handled);
+end;
+
+function TCJ_Signals_Impl.Signal(var Message: TMessage): Boolean;
+begin
+  Result:=rSignals.Signal(Message);
+end;
+
+procedure TCJ_Signals_Impl.SignalAsync(MessageID: Cardinal; WParam,
+  LParam: Integer);
+begin
+  //rSignals.SignalAsync(MessageID, WParam, LParam);
+end;
+
+procedure TCJ_Signals_Impl.SignalAsync(var Message: TMessage);
+begin
+  //rSignals.SignalAsync(Message);
+end;
+
+
+constructor TCJ_Signals_Impl.Create;
+begin
+     inherited Create;
+     rSignals :=TMGSignals.Create;
+end;
+
+destructor TCJ_Signals_Impl.Destroy;
+begin
+     rSignals.Free;
+     rSignals :=Nil;
+     inherited Destroy;
+end;
 
 end.

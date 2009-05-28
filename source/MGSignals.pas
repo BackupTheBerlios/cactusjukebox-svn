@@ -14,9 +14,11 @@
 //                to registered classes.
 //
 //******************************************************************************
+//   WARNING -TO TEST IN ExtFind  (compare of method is different under Lazarus?)
 
 unit MGSignals;
 {$mode delphi}{$H+}
+
 interface
 uses MGTree16, MGList,
      {$ifdef WINDOWS}
@@ -58,8 +60,8 @@ Type
        procedure MainWndProc(var Message: TMessage);
        procedure WndProc(var Message: TMessage); virtual;
     public
-       constructor Create; reintroduce; overload;
-       {$ifdef WINDOWS}
+       constructor Create; reintroduce;
+       {$ifdef WINDOWS} overload;
        constructor Create(HandleClassName, HandleWindowName :String); overload;
        {$endif}
        destructor Destroy; override;
@@ -128,10 +130,33 @@ function TSignalMethodsList.ExtFind(AMethod :TSignalMethod) : Pointer;
 Var
    auxPointer :PSignalMethod;
 
+   function _CompBySignalMethod(xTag :Integer; ptData1, ptData2 :Pointer) :Boolean;
+   Var
+      m1,
+      m2 :TMethod;
+      a,b,
+      a2,b2 :Pointer;
+
+   begin
+           m1 :=TMethod(ptData1^);
+           m2 :=TMethod(ptData2^);
+           a :=TMethod(m1).Data;
+           b :=TMethod(m1).Code;
+           a2 :=TMethod(m2).Data;
+           b2 :=TMethod(m2).Code;
+
+           Result := (TMethod(m1).Data = TMethod(m2).Data) and //Stessa Classe (Instanza)
+               (TMethod(m1).Code = TMethod(m2).Code);     //Stesso Metodo
+               //(@m1 = @m2); dovrebbe essere così, ma un metodo di due classi
+                              //dello stesso tipo viene sempre considerato uguale...
+
+   end;
+
+
 begin
      GetMem(auxPointer, sizeOf(TSignalMethod));
-     auxPointer^ :=AMethod;
-     Result :=ExtFind(auxPointer, 0, CompBySignalMethod);
+     TSignalMethod(auxPointer^) :=AMethod;
+     Result :=ExtFind(auxPointer, 0, @_CompBySignalMethod);
      FreeMem(auxPointer);
 end;
 

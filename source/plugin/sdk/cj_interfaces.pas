@@ -1,7 +1,7 @@
 //******************************************************************************
 //***                     Cactus Jukebox                                     ***
 //***                                                                        ***
-//***        (c) Massimo Magnano 2002-2005                                   ***
+//***        (c) Massimo Magnano 2002-2009                                   ***
 //***                                                                        ***
 //***                                                                        ***
 //******************************************************************************
@@ -14,6 +14,8 @@ unit cj_interfaces;
 {$mode delphi}{$H+}
 interface
 
+uses Messages;
+
 const
      //Icon States
      STATE_NORMAL      = 0;
@@ -25,9 +27,16 @@ const
      //Options Categories
      OPT_CAT_LANGUAGE  = 1;
 
-     //MenuItem IDs
-     CJ_MENUITEM_MAIN  = -1;
-     CJ_MENUITEM_NULL  = -2;
+     //Menu IDs
+     CJ_MENU_NULL          = $0000;
+     CJ_MAINMENU_ROOT      = $0100;
+     CJ_MAINMENU_FILE      = (CJ_MAINMENU_ROOT or $01);
+     CJ_MAINMENU_LIBRARY   = (CJ_MAINMENU_ROOT or $02);
+     CJ_MAINMENU_PLAYLIST  = (CJ_MAINMENU_ROOT or $03);
+     CJ_MAINMENU_DEVICES   = (CJ_MAINMENU_ROOT or $04);
+     CJ_MAINMENU_PLUGINS   = (CJ_MAINMENU_ROOT or $05);
+     CJ_MAINMENU_HELP      = (CJ_MAINMENU_ROOT or $06);
+     CJ_TRAYMENU_ROOT      = $0200;
 
      MSG_ICON_IMGLIST = -1;  // MSG_ICON_IMGLIST-MyIndex -> MyIndex in ADefImageList
 
@@ -46,7 +55,7 @@ type
     //    nella classe astratta devono essere dichiarati sempre per ultimi, mentre
     //    nell' implementazione posso avere qualunque ordine.
     //    Evidentemente la ricerca nella VT della classe di un metodo non viene fatta per nome ma per posizione.
-    TCJ_PluginsMenu = class
+    TCJ_Menu = class
     public
        function Add(Parent :TCJ_MenuItem;
                     Caption :PChar; OnClick :TCJ_MenuItemClick) :TCJ_MenuItem; virtual; abstract;
@@ -82,10 +91,27 @@ type
        procedure PlaySound(Sound :PChar); virtual; abstract;
     end;
 
+    TCJ_SignalMethod = function (var Message: TMessage):Boolean of object;
+
+    { TCJ_Signals }
+
+    TCJ_Signals = class
+    public
+       procedure Connect(ClassMethod :TCJ_SignalMethod; MessageID :Integer); virtual; abstract;
+       procedure ConnectAsync(ClassMethod :TCJ_SignalMethod; MessageID :Integer); virtual; abstract;
+       procedure Disconnect(ClassMethod :TCJ_SignalMethod; MessageID :Integer); virtual; overload; abstract;
+       procedure Disconnect(ClassPointer :TObject); virtual; overload; abstract;
+       function Signal(MessageID :Cardinal; WParam, LParam :Integer; var Handled :Boolean) :Integer; virtual; overload; abstract;
+       function Signal(var Message: TMessage) :Boolean; virtual; overload; abstract;
+       procedure SignalAsync(MessageID :Cardinal; WParam, LParam :Integer); virtual; overload; abstract;
+       procedure SignalAsync(var Message: TMessage); virtual; overload; abstract;
+    end;
+
     TCJ_Interface = class
     public
-       function GetPluginsMenu : TCJ_PluginsMenu; virtual; abstract;
+       function GetMenu : TCJ_Menu; virtual; abstract;
        function GetTrayIcon : TCJ_TrayIcon; virtual; abstract;
+       function GetSignals : TCJ_Signals; virtual; abstract;
        function GetOption(OptionCategoryID :Integer; OptionID :Integer;
                           Buffer :Pointer):Integer; virtual; abstract;
     end;

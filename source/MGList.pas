@@ -13,6 +13,7 @@
 
 unit MGList;
 {$mode delphi}{$H+}
+
 interface
 
 Type
@@ -126,9 +127,13 @@ Type
 
 function _localToObj_Compare(xTag :Integer; ptData1, ptData2 :Pointer) :Boolean;
 begin
+//   try
      Result := PLocalToObjData_Compare(xTag).Func(
                                      PLocalToObjData_Compare(xTag).Tag,
                                      ptData1, ptData2);
+(*   except
+     Result :=False;
+   end;*)
 end;
 
 procedure _localToObj_Walk(xTag :Integer; ptData :Pointer);

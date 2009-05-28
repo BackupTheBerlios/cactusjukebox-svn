@@ -1,5 +1,4 @@
 TO-DO
-       Messages to plugins using MGSignals
        Possibility for plugins to register an interface something like
             procedure RegisterInterface(Name:String; InterfacePointer);
        and to get it like
@@ -8,5 +7,7 @@ TO-DO
 TO-DO :  cj_interfaces_impl
  Porting of function TCJ_PluginsMenu_Impl.SetIcon(MenuItem :TCJ_MenuItem;
                         State, NewIcon :Integer):Integer; override;
-  TEST , explecially PMethod stored as Tag in MenuItem
+
+MGSignals : reintroduce in Lazarus ???.
+            Two times the same function for the same Message do an exception
 

@@ -21,6 +21,7 @@ This Software is published under the GPL
 Unit mainform;
 
 
+//{$mode delphi}{$H+}
 {$mode objfpc}{$H+}
 {$ifdef CPU86}          //compile with fmod support enabled by default on i386
    {$define fmod}
@@ -34,7 +35,7 @@ Uses
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
 ExtCtrls, ComCtrls, StdCtrls, Menus,{$ifdef fmod} fmodplayer,{$endif}
 ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, debug, config,
-playlist, playerclass, mplayer, mp3file, LMessages;
+playlist, playerclass, mplayer, mp3file, Messages, LMessages, cj_interfaces;
 
 resourcestring
 rsQuit = 'Quit';
@@ -91,6 +92,8 @@ Type
   TMain = Class(TForm)
     ArtistTree: TTreeView;
     artistsearch: TEdit;
+    Button1: TButton;
+    Button2: TButton;
     clear_list: TBitBtn;
     CoverImage: TImage;
     current_title_edit: TEdit;
@@ -106,6 +109,7 @@ Type
     itemTrayStop: TMenuItem;
     itemTrayNext: TMenuItem;
     itemTrayPrev: TMenuItem;
+    itemPlugins: TMenuItem;
     MIrandom_playlist: TMenuItem;
     MIViewArtist: TMenuItem;
     MIViewTitle: TMenuItem;
@@ -255,6 +259,7 @@ Type
     Procedure ArtistTreeSelectionChanged(Sender: TObject);
     Procedure ArtistTreeStartDrag(Sender: TObject; Var DragObject: TDragObject);
     Procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
     procedure checkmobileStartTimer(Sender: TObject);
     Procedure CoverImageMouseUp(Sender: TObject; Button: TMouseButton;
                                 Shift: TShiftState; X, Y: Integer);
@@ -354,6 +359,7 @@ Type
     Procedure StopButtonImgMouseLeave(Sender: TObject);
     Procedure StopButtonImgMouseUp(Sender: TOBject; Button: TMouseButton;
                                    Shift: TShiftState; X, Y: Integer);
+    procedure TestPlugin1(Sender: TObject);
     Procedure TitleTreeClick(Sender: TObject);
     Procedure TitleTreeColumnClick(Sender: TObject; Column: TListColumn);
     Procedure TitleTreeDragOver(Sender, Source: TObject; X, Y: Integer;
@@ -471,6 +477,13 @@ Type
 
     { public declarations }
     procedure WMSize(var Message: TLMSize); message LM_Size;
+
+    //Test Plugins....cut in future
+    procedure SayHello(Sender :TCJ_MenuItem);
+    function SayMsgHello(var Message: TMessage):Boolean;
+    function SayMsgHello2(var Message: TMessage):Boolean;
+
+    TestPluginI :TCJ_MenuItem;
   End;
 
 
@@ -1211,6 +1224,7 @@ Begin
   TitleTree.Clear;
 End;
 
+
 procedure TMain.checkmobileStartTimer(Sender: TObject);
 begin
 
@@ -1312,6 +1326,7 @@ begin
                        if not(fromTrayDBLClick) then
                        begin
                             Visible :=False;
+                            oldWindowState :=Self.WindowState;
                             exit;
                        end;
                        fromTrayDBLClick :=False;
@@ -1321,7 +1336,6 @@ begin
   inherited WMSize(Message);
 end;
 
-
 procedure TMain.TrayIconDblClick(Sender: TObject);
 begin
      if not(Self.Visible) then
@@ -1330,6 +1344,7 @@ begin
           Self.fromTrayDBLClick :=True;
 //          Self.WindowState:=oldWindowState;
           Self.Visible:=True;
+          Self.BringToFront;
      end;
 end;
 
@@ -2105,6 +2120,9 @@ Begin
   ImageListDis :=Self.ImageListDis;
   MenuOwner :=Self;
   CJ_Interface :=TCJ_Interface_Impl.Create;
+  global_vars.AppMainMenu :=Self.Mainmenu1;
+  global_vars.AppTrayIcon :=Self.TrayIcon;
+  global_vars.ImageListNormal :=Self.ImageListNormal;
   PluginsList :=TCJ_PluginsList.Create;
   PluginsList.LoadFromINI;
 End;
@@ -2928,6 +2946,7 @@ Begin
   StopButtonImg.Picture.LoadFromFile(SkinData.stop.MouseOver);
 End;
 
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 Procedure TMain.TitleTreeClick(Sender: TObject);
@@ -3182,7 +3201,7 @@ End;
 Procedure TMain.clearPlayerItemClick(Sender: TObject);
 Begin
 
-{if player_connected then begin
+(*if player_connected then begin
     res:=MessageDlg('All music files on the player will definitely be removed!!'+#10+#13+' Continue?', mtWarning, mbOKCancel, 0);
     if res=mrOK then begin
       err:=true
@@ -3199,7 +3218,7 @@ If err=false Then ShowMessage('Error while deleting one or more files.'+#10+#13+
 End;
 
 End
-Else ShowMessage(rsNotConnected);}
+Else ShowMessage(rsNotConnected);*)
 ShowMessage('Not implemented yet!');
 End;
 
@@ -4537,6 +4556,47 @@ End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
+procedure TMain.TestPlugin1(Sender: TObject);
+var
+   tt :TCJ_Signals;
+begin
+     //TestPluginI :=CJ_Interface.GetMenu.Add(-CJ_MAINMENU_PLUGINS, 'Hello World...', @SayHello);
+     //TestPluginI :=CJ_Interface.GetMenu.Add(-CJ_MAINMENU_ROOT, 'Hello World...', @SayHello);
+     TestPluginI :=CJ_Interface.GetMenu.Add(-CJ_TRAYMENU_ROOT, 'Hello World...', @SayHello);
+     tt :=CJ_Interface.GetSignals;
+     if tt<>nil then
+     begin
+          tt.Connect(@SayMsgHello, 1);
+          tt.Connect(@SayMsgHello2, 1);
+         // tt.Connect(@SayMsgHello, 1);  //May be not inserted in the List (compare of method is different under Lazarus?) ....
+     end;
+end;
+procedure TMain.SayHello(Sender: TCJ_MenuItem);
+begin
+     Dialogs.MessageDlg('Plugins', 'Hello World Click', mtInformation, [mbOk], 0);
+     CJ_Interface.GetMenu.Remove(TestPluginI);
+end;
+
+function TMain.SayMsgHello(var Message: TMessage): Boolean;
+begin
+     Dialogs.MessageDlg('Plugins', 'Hello World From Messages...'+#13#10+IntToStr(Message.WParam)+' '+IntToStr(Message.LParam), mtInformation, [mbOk], 0);
+     Result :=True;
+end;
+
+function TMain.SayMsgHello2(var Message: TMessage): Boolean;
+begin
+     Dialogs.MessageDlg('Plugins', 'Hello World 2 From Messages...'+#13#10+IntToStr(Message.WParam)+' '+IntToStr(Message.LParam), mtInformation, [mbOk], 0);
+     Result :=True;
+end;
+
+procedure TMain.Button2Click(Sender: TObject);
+Var
+   msgHandled :Boolean;
+
+begin
+     CJ_Interface.GetSignals.Signal(1, 24, 50, msgHandled);
+end;
 
 initialization
   {$I mainform.lrs}

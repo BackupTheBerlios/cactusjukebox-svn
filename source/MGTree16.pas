@@ -6,12 +6,15 @@
 
 
       Implementazione di un albero per la memorizzazione di 2^32 Dati a 32 Bit.
-  Nel caso peggiore si hanno 16 scrorrimenti dei nodi per la ricerca di un dato
+  Nel caso peggiore si hanno 16 passi tra i nodi per la ricerca di un dato
 
+      Implementation of a tree to store 2^32 Data of 32 Bit.
+  In the worst case you have 16 walk on the nodes for data research
 ******************************************************************************)
 
 
 unit MGTree16;
+{$mode delphi}{$H+}
 
 interface
 
