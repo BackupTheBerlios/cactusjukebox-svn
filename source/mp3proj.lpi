@@ -10,12 +10,13 @@
       <MainUnit Value="0"/>
       <TargetFileExt Value=""/>
       <Title Value="cactus"/>
+      <UseXPManifest Value="True"/>
     </General>
     <VersionInfo>
       <AutoIncrementBuild Value="True"/>
       <CurrentMajorRevNr Value="3"/>
       <CurrentMinorRevNr Value="5"/>
-      <CurrentBuildNr Value="79"/>
+      <CurrentBuildNr Value="234"/>
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
@@ -42,7 +43,7 @@
         <MinVersion Major="1" Valid="True"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="26">
+    <Units Count="32">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -128,67 +129,96 @@
         <UnitName Value="mainform"/>
       </Unit13>
       <Unit14>
-        <Filename Value="plugintypes.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="plugintypes"/>
-      </Unit14>
-      <Unit15>
-        <Filename Value="plugin.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="plugin"/>
-      </Unit15>
-      <Unit16>
         <Filename Value="debug.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="debug"/>
-      </Unit16>
-      <Unit17>
+      </Unit14>
+      <Unit15>
         <Filename Value="config.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="config"/>
-      </Unit17>
-      <Unit18>
+      </Unit15>
+      <Unit16>
         <Filename Value="addradio.pas"/>
         <ComponentName Value="addRadioForm"/>
         <HasResources Value="True"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="addradio"/>
-      </Unit18>
-      <Unit19>
+      </Unit16>
+      <Unit17>
         <Filename Value="mplayer.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mplayer"/>
-      </Unit19>
-      <Unit20>
+      </Unit17>
+      <Unit18>
         <Filename Value="playlist.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="playlist"/>
-      </Unit20>
-      <Unit21>
+      </Unit18>
+      <Unit19>
         <Filename Value="playerclass.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="playerclass"/>
-      </Unit21>
-      <Unit22>
-        <Filename Value="plugininterfaces.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="plugininterfaces"/>
-      </Unit22>
-      <Unit23>
+      </Unit19>
+      <Unit20>
         <Filename Value="streamcol.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="streamcol"/>
-      </Unit23>
-      <Unit24>
+      </Unit20>
+      <Unit21>
         <Filename Value="tagreader/mp3file.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3file"/>
-      </Unit24>
-      <Unit25>
+      </Unit21>
+      <Unit22>
         <Filename Value="tagreader/guesstag.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="guesstag"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="plugin/sdk/cj_interfaces.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="cj_interfaces"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="plugin/sdk/cj_plugin.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="cj_plugin"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="plugin/impl/cj_interfaces_impl.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="cj_interfaces_impl"/>
       </Unit25>
+      <Unit26>
+        <Filename Value="plugin/impl/cj_pluginslist.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="cj_pluginslist"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="MGList.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="MGList"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="MGSignals.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="MGSignals"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="MGTree16.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="MGTree16"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="global_vars.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="global_vars"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="plugin/TO-DO.txt"/>
+        <IsPartOfProject Value="True"/>
+      </Unit31>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -197,8 +227,8 @@
       <Filename Value="../cactus_jukebox"/>
     </Target>
     <SearchPaths>
-      <OtherUnitFiles Value="fmodintf/;tagreader/;/home/daseeb/devel/units/lnet-0.4.0/lib/;/home/daseeb/devel/units/synapse/source/lib/;C:/FPC/lnet/lib/;C:/FPC/lnet/lib/sys/;C:/FPC/synapse/source/lib/"/>
-      <UnitOutputDirectory Value="../source"/>
+      <OtherUnitFiles Value="fmodintf/;tagreader/;/home/maxm/Programming/Lazarus/Packages/lnet/lib/;/home/maxm/Programming/Lazarus/Packages/synapse/;source/obj/;plugin/sdk/;plugin/impl/"/>
+      <UnitOutputDirectory Value="../source/obj"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
     <Parsing>
@@ -225,7 +255,6 @@
       </Verbosity>
       <WriteFPCLogo Value="False"/>
       <CustomOptions Value="-dCactusDebug
--FU../source
 "/>
       <CompilerPath Value="$(CompPath)"/>
       <CreateMakefileOnBuild Value="True"/>

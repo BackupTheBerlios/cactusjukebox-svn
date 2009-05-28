@@ -16,9 +16,9 @@ object Settings: TSettings
   LCLVersion = '0.9.27'
   object savebut: TButton
     Left = 112
-    Height = 33
-    Top = 473
-    Width = 52
+    Height = 34
+    Top = 472
+    Width = 45
     Anchors = [akLeft, akBottom]
     AutoSize = True
     BorderSpacing.InnerBorder = 4
@@ -28,9 +28,9 @@ object Settings: TSettings
   end
   object cancelbut: TButton
     Left = 272
-    Height = 33
-    Top = 473
-    Width = 62
+    Height = 34
+    Top = 472
+    Width = 57
     Anchors = [akLeft, akBottom]
     AutoSize = True
     BorderSpacing.InnerBorder = 4
@@ -49,21 +49,21 @@ object Settings: TSettings
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'General'
-      ClientHeight = 409
-      ClientWidth = 459
+      ClientHeight = 411
+      ClientWidth = 463
       object LLanguage: TLabel
         Left = 54
-        Height = 16
+        Height = 15
         Top = 353
-        Width = 56
+        Width = 57
         Caption = 'Language'
         ParentColor = False
       end
       object autoload1: TCheckBox
         Left = 38
-        Height = 23
+        Height = 21
         Top = 31
-        Width = 179
+        Width = 164
         AllowGrayed = True
         Caption = 'Load last library at startup'
         Checked = True
@@ -72,73 +72,75 @@ object Settings: TSettings
       end
       object backscan: TCheckBox
         Left = 38
-        Height = 23
+        Height = 21
         Top = 103
-        Width = 363
+        Width = 341
         Caption = 'Scan for new files in background  on startup(experimental)'
         TabOrder = 1
         Visible = False
       end
       object LanguageBox: TComboBox
         Left = 158
-        Height = 24
+        Height = 23
         Top = 346
         Width = 100
+        AutoComplete = False
         ItemHeight = 0
         ItemIndex = 0
         Items.Strings = (
           'en_buildin'
         )
+        ItemWidth = 0
         OnChange = LanguageBoxChange
         TabOrder = 2
         Text = 'en_buildin'
       end
       object kdeservicebox: TCheckBox
         Left = 38
-        Height = 23
+        Height = 21
         Top = 279
-        Width = 172
+        Width = 166
         Caption = 'enable KDE service menu'
         OnChange = kdeserviceboxChange
         TabOrder = 3
       end
       object AutoPlayBox: TCheckBox
         Left = 38
-        Height = 23
+        Height = 21
         Top = 143
-        Width = 297
+        Width = 274
         Caption = 'Always start playing first song in empty playlist'
         TabOrder = 4
       end
       object StopOnClearBox: TCheckBox
         Left = 38
-        Height = 23
+        Height = 21
         Top = 167
-        Width = 244
+        Width = 230
         Caption = 'Stop playback when playlist is cleared'
         TabOrder = 5
       end
       object LoadPlaylistBox: TCheckBox
         Left = 38
-        Height = 23
+        Height = 21
         Top = 55
-        Width = 186
+        Width = 173
         Caption = 'Load last playlist on startup'
         TabOrder = 6
       end
       object SortAlbumBox: TCheckBox
         Left = 38
-        Height = 23
+        Height = 21
         Top = 223
-        Width = 232
+        Width = 213
         Caption = 'Sort albums by track instead of title'
         TabOrder = 7
       end
     end
     object AudioTab: TTabSheet
       Caption = 'Audio'
-      ClientHeight = 389
-      ClientWidth = 435
+      ClientHeight = 411
+      ClientWidth = 463
       object LAudioOut: TLabel
         Left = 36
         Height = 16
@@ -160,12 +162,14 @@ object Settings: TSettings
         Height = 24
         Top = 119
         Width = 100
+        AutoComplete = False
         ItemHeight = 0
         ItemIndex = 0
         Items.Strings = (
           'Alsa'
           'OSS'
         )
+        ItemWidth = 0
         Style = csDropDownList
         TabOrder = 0
         Text = 'Alsa'
@@ -175,12 +179,14 @@ object Settings: TSettings
         Height = 24
         Top = 40
         Width = 200
+        AutoComplete = False
         ItemHeight = 0
         ItemIndex = 0
         Items.Strings = (
           'MPlayer (recommended)'
           'Fmod Library (outdated)'
         )
+        ItemWidth = 0
         OnChange = AudioBackendChange
         Style = csDropDownList
         TabOrder = 1
@@ -189,8 +195,8 @@ object Settings: TSettings
     end
     object TabSheet2: TTabSheet
       Caption = 'Mobile Device'
-      ClientHeight = 389
-      ClientWidth = 435
+      ClientHeight = 411
+      ClientWidth = 463
       object LMountpoint: TLabel
         Left = 24
         Height = 16
@@ -228,8 +234,8 @@ object Settings: TSettings
     end
     object TabSheet5: TTabSheet
       Caption = 'Plugins'
-      ClientHeight = 389
-      ClientWidth = 435
+      ClientHeight = 411
+      ClientWidth = 463
       object Label1: TLabel
         Left = 14
         Height = 16
@@ -247,6 +253,7 @@ object Settings: TSettings
         ItemHeight = 0
         OnMouseDown = PluginListMouseDown
         TabOrder = 0
+        TopIndex = -1
       end
       object PluginInfo: TMemo
         Left = 14
@@ -278,8 +285,8 @@ object Settings: TSettings
     end
     object TabSheet3: TTabSheet
       Caption = 'Paths'
-      ClientHeight = 389
-      ClientWidth = 435
+      ClientHeight = 411
+      ClientWidth = 463
       object Label5: TLabel
         Left = 14
         Height = 16
@@ -299,11 +306,11 @@ object Settings: TSettings
         Left = 14
         Height = 172
         Top = 19
-        Width = 397
+        Width = 425
         Anchors = [akTop, akLeft, akRight]
         Caption = 'Paths to additional application needed for Cactus Jukebox'
-        ClientHeight = 150
-        ClientWidth = 387
+        ClientHeight = 156
+        ClientWidth = 421
         TabOrder = 0
         object Llame: TLabel
           Left = 22
@@ -325,7 +332,7 @@ object Settings: TSettings
           Left = 38
           Height = 24
           Top = 111
-          Width = 319
+          Width = 353
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 0
           Text = 'default'
@@ -334,7 +341,7 @@ object Settings: TSettings
           Left = 38
           Height = 24
           Top = 39
-          Width = 319
+          Width = 353
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 1
           Text = 'default'
@@ -351,17 +358,17 @@ object Settings: TSettings
     end
     object TabSheet4: TTabSheet
       Caption = 'Metatags'
-      ClientHeight = 389
-      ClientWidth = 435
+      ClientHeight = 411
+      ClientWidth = 463
       object GroupBox1: TGroupBox
         Left = 22
         Height = 116
         Top = 247
-        Width = 381
+        Width = 409
         Anchors = [akTop, akLeft, akRight]
         Caption = 'File name format string'
-        ClientHeight = 94
-        ClientWidth = 371
+        ClientHeight = 100
+        ClientWidth = 405
         TabOrder = 2
         object Label3: TLabel
           Left = 11
@@ -400,11 +407,11 @@ object Settings: TSettings
         Left = 22
         Height = 48
         Top = 167
-        Width = 381
+        Width = 409
         Anchors = [akTop, akLeft, akRight]
         Caption = 'Mpeg3 ID3 type'
-        ClientHeight = 26
-        ClientWidth = 371
+        ClientHeight = 32
+        ClientWidth = 405
         TabOrder = 0
         object v1_prio: TRadioButton
           Left = 78
@@ -432,11 +439,11 @@ object Settings: TSettings
         Left = 22
         Height = 115
         Top = 23
-        Width = 381
+        Width = 409
         Anchors = [akTop, akLeft, akRight]
         Caption = 'Incomplete metadata handling'
-        ClientHeight = 93
-        ClientWidth = 371
+        ClientHeight = 99
+        ClientWidth = 405
         TabOrder = 1
         object Label7: TLabel
           Tag = 8
@@ -481,8 +488,8 @@ object Settings: TSettings
     end
     object TabSheet6: TTabSheet
       Caption = 'Album Art'
-      ClientHeight = 391
-      ClientWidth = 560
+      ClientHeight = 411
+      ClientWidth = 463
       object Label8: TLabel
         Left = 70
         Height = 16
@@ -515,12 +522,14 @@ object Settings: TSettings
         Height = 24
         Top = 79
         Width = 120
+        AutoComplete = False
         ItemHeight = 0
         ItemIndex = 0
         Items.Strings = (
           'medium'
           'large'
         )
+        ItemWidth = 0
         Style = csDropDownList
         TabOrder = 2
         Text = 'medium'

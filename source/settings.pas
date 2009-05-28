@@ -157,7 +157,7 @@ Var
 
   Implementation
 
-  Uses mainform, translations, functions, plugin;
+  Uses mainform, translations, functions{, plugin};
 
 
   //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -226,11 +226,12 @@ Begin
 
   CactusConfig.PluginsEnabled:=EnablePluginsBox.Checked;
 
+  (*
   For i:=0 To PluginList.Count-1 Do
     If PluginList.Checked[i] Then
       CactusPlugins.Items[i].enabled := true
     Else CactusPlugins.Items[i].enabled := false;
-
+  *)
   TranslateUnitResourceStrings('settings', CactusConfig.DataPrefix+'languages/cactus.%s.po',
                                CactusConfig.language, '');
   TranslateUnitResourceStrings('mp3', CactusConfig.DataPrefix+'languages/cactus.%s.po', CactusConfig
@@ -426,13 +427,14 @@ Begin
        Label1.Enabled:=false;
   end;
 
-
+  (*
   For i:=0 To CactusPlugins.Count-1 Do
     Begin
       writeln(i);
       PluginList.Items.Add(CactusPlugins.Items[i].Name);
       PluginList.Checked[i] := CactusPlugins.Items[i].enabled;
     End;
+    *)
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

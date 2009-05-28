@@ -25,7 +25,7 @@ uses
  {$endif}
   Interfaces,SysUtils,
   Forms, status, settings, player, graphics, editid3, directories, skin,
-  cdrip, mediacol, BigCoverImg, mainform, plugin, cddb,
+  cdrip, mediacol, BigCoverImg, mainform, cddb,
   debug, config, {imagesforlazarus,} addradio, streamcol,
   playerclass, CleanLibrary{, plugininterfaces}, guesstag;
 
@@ -149,6 +149,7 @@ begin
   main.Height:=CactusConfig.WHeight;
   {$endif}
 
+  (*
 // Search for Plugins, create Pluginlist
   DebugOutLn('##### searching plugins  #####', 2);
   CactusPlugins:=TPluginListClass.Create;
@@ -156,7 +157,7 @@ begin
 //  CactusPlugins.autoload:=true;
   If CactusConfig.PluginsEnabled then CactusPlugins.ScanPluginFolder;
   DebugOut(CactusPlugins.Count, 5);DebugOutLn(' plugins found', 5);
-
+  *)
   DebugOutLn('##### Application running  #####', 2);
   Application.CreateForm(TaddRadioForm, addRadioForm);
   Application.CreateForm(TFrmCleanLibrary, FrmCleanLibrary);

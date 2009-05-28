@@ -7,9 +7,9 @@
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="mp3proj"/>
-        <CursorPos X="1" Y="85"/>
-        <TopLine Value="71"/>
-        <EditorIndex Value="12"/>
+        <CursorPos X="5" Y="160"/>
+        <TopLine Value="113"/>
+        <EditorIndex Value="13"/>
         <UsageCount Value="41"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -34,7 +34,11 @@
         <IsPartOfProject Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="settings"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="1"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="41"/>
+        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="player.pas"/>
@@ -179,7 +183,7 @@
         <UnitName Value="cj_interfaces"/>
         <CursorPos X="113" Y="48"/>
         <TopLine Value="33"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="16"/>
         <UsageCount Value="40"/>
         <Loaded Value="True"/>
       </Unit23>
@@ -197,8 +201,8 @@
         <Filename Value="plugin/impl/cj_interfaces_impl.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="cj_interfaces_impl"/>
-        <CursorPos X="37" Y="10"/>
-        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <TopLine Value="69"/>
         <EditorIndex Value="10"/>
         <UsageCount Value="40"/>
         <Loaded Value="True"/>
@@ -207,9 +211,9 @@
         <Filename Value="plugin/impl/cj_pluginslist.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="cj_pluginslist"/>
-        <CursorPos X="1" Y="60"/>
+        <CursorPos X="40" Y="56"/>
         <TopLine Value="46"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <UsageCount Value="40"/>
         <Loaded Value="True"/>
       </Unit26>
@@ -246,8 +250,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="global_vars"/>
         <CursorPos X="1" Y="51"/>
-        <TopLine Value="22"/>
-        <EditorIndex Value="13"/>
+        <TopLine Value="11"/>
+        <EditorIndex Value="14"/>
         <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit30>
@@ -256,7 +260,7 @@
         <IsPartOfProject Value="True"/>
         <CursorPos X="1" Y="6"/>
         <TopLine Value="1"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="17"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
         <SyntaxHighlighter Value="None"/>
@@ -306,7 +310,7 @@
         <UnitName Value="objpas"/>
         <CursorPos X="24" Y="195"/>
         <TopLine Value="181"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="15"/>
         <UsageCount Value="16"/>
         <Loaded Value="True"/>
       </Unit38>
@@ -386,125 +390,129 @@
       </Unit48>
     </Units>
     <General>
-      <ActiveEditorIndexAtStart Value="11"/>
+      <ActiveEditorIndexAtStart Value="13"/>
     </General>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1667" Column="1" TopLine="1653"/>
+        <Caret Line="2910" Column="3" TopLine="2908"/>
       </Position1>
       <Position2>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1661" Column="1" TopLine="1647"/>
+        <Caret Line="923" Column="17" TopLine="903"/>
       </Position2>
       <Position3>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1663" Column="1" TopLine="1649"/>
+        <Caret Line="827" Column="3" TopLine="823"/>
       </Position3>
       <Position4>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1661" Column="53" TopLine="1649"/>
+        <Caret Line="1357" Column="13" TopLine="1353"/>
       </Position4>
       <Position5>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1350" Column="1" TopLine="1336"/>
+        <Caret Line="879" Column="3" TopLine="839"/>
       </Position5>
       <Position6>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1840" Column="1" TopLine="1826"/>
+        <Filename Value="global_vars.pas"/>
+        <Caret Line="51" Column="1" TopLine="25"/>
       </Position6>
       <Position7>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1661" Column="57" TopLine="1647"/>
+        <Filename Value="plugin/impl/cj_pluginslist.pas"/>
+        <Caret Line="140" Column="1" TopLine="126"/>
       </Position7>
       <Position8>
         <Filename Value="mainform.pas"/>
-        <Caret Line="2910" Column="3" TopLine="2908"/>
+        <Caret Line="879" Column="1" TopLine="757"/>
       </Position8>
       <Position9>
         <Filename Value="mainform.pas"/>
-        <Caret Line="923" Column="17" TopLine="903"/>
+        <Caret Line="1339" Column="1" TopLine="1325"/>
       </Position9>
       <Position10>
         <Filename Value="mainform.pas"/>
-        <Caret Line="827" Column="3" TopLine="823"/>
+        <Caret Line="879" Column="22" TopLine="865"/>
       </Position10>
       <Position11>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1357" Column="13" TopLine="1353"/>
+        <Caret Line="915" Column="1" TopLine="901"/>
       </Position11>
       <Position12>
         <Filename Value="mainform.pas"/>
-        <Caret Line="879" Column="3" TopLine="839"/>
+        <Caret Line="923" Column="1" TopLine="909"/>
       </Position12>
       <Position13>
-        <Filename Value="global_vars.pas"/>
-        <Caret Line="51" Column="1" TopLine="25"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="879" Column="2" TopLine="865"/>
       </Position13>
       <Position14>
-        <Filename Value="plugin/impl/cj_pluginslist.pas"/>
-        <Caret Line="140" Column="1" TopLine="126"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="881" Column="1" TopLine="867"/>
       </Position14>
       <Position15>
         <Filename Value="mainform.pas"/>
-        <Caret Line="879" Column="1" TopLine="757"/>
+        <Caret Line="882" Column="1" TopLine="868"/>
       </Position15>
       <Position16>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1339" Column="1" TopLine="1325"/>
+        <Caret Line="1350" Column="1" TopLine="1336"/>
       </Position16>
       <Position17>
         <Filename Value="mainform.pas"/>
-        <Caret Line="879" Column="22" TopLine="865"/>
+        <Caret Line="1840" Column="1" TopLine="1826"/>
       </Position17>
       <Position18>
         <Filename Value="mainform.pas"/>
-        <Caret Line="915" Column="1" TopLine="901"/>
+        <Caret Line="1325" Column="23" TopLine="1307"/>
       </Position18>
       <Position19>
         <Filename Value="mainform.pas"/>
-        <Caret Line="923" Column="1" TopLine="909"/>
+        <Caret Line="1324" Column="1" TopLine="1319"/>
       </Position19>
       <Position20>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="879" Column="2" TopLine="865"/>
+        <Filename Value="global_vars.pas"/>
+        <Caret Line="51" Column="1" TopLine="25"/>
       </Position20>
       <Position21>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="881" Column="1" TopLine="867"/>
+        <Filename Value="plugin/impl/cj_pluginslist.pas"/>
+        <Caret Line="140" Column="1" TopLine="126"/>
       </Position21>
       <Position22>
         <Filename Value="mainform.pas"/>
-        <Caret Line="882" Column="1" TopLine="868"/>
+        <Caret Line="1828" Column="1" TopLine="1814"/>
       </Position22>
       <Position23>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1350" Column="1" TopLine="1336"/>
+        <Filename Value="plugin/impl/cj_interfaces_impl.pas"/>
+        <Caret Line="10" Column="37" TopLine="1"/>
       </Position23>
       <Position24>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1840" Column="1" TopLine="1826"/>
+        <Filename Value="plugin/impl/cj_interfaces_impl.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position24>
       <Position25>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1325" Column="23" TopLine="1307"/>
+        <Filename Value="settings.pas"/>
+        <Caret Line="160" Column="51" TopLine="218"/>
       </Position25>
       <Position26>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1324" Column="1" TopLine="1319"/>
+        <Filename Value="settings.pas"/>
+        <Caret Line="234" Column="5" TopLine="215"/>
       </Position26>
       <Position27>
-        <Filename Value="global_vars.pas"/>
-        <Caret Line="51" Column="1" TopLine="25"/>
+        <Filename Value="settings.pas"/>
+        <Caret Line="437" Column="7" TopLine="417"/>
       </Position27>
       <Position28>
-        <Filename Value="plugin/impl/cj_pluginslist.pas"/>
-        <Caret Line="140" Column="1" TopLine="126"/>
+        <Filename Value="settings.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position28>
       <Position29>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="1828" Column="1" TopLine="1814"/>
+        <Filename Value="mp3proj.lpr"/>
+        <Caret Line="85" Column="1" TopLine="71"/>
       </Position29>
+      <Position30>
+        <Filename Value="mp3proj.lpr"/>
+        <Caret Line="28" Column="43" TopLine="19"/>
+      </Position30>
     </JumpHistory>
   </ProjectSession>
   <Debugging>
