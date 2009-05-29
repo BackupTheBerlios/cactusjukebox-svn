@@ -3044,7 +3044,7 @@ Begin
   {$endif}
 
   {$ifdef  LCLGtk2} //TODO: GTK2 interface doe snot selcte item on right click
-        If (Button = mbRight) then TitleTree.Selected := TitleTree.GetItemAt(x, y-20);
+        If (Button = mbRight) then TitleTree.Selected := TitleTree.GetItemAt(x, y);
   {$endif}
 
   //TODO check titlelist popupmenu on win32
@@ -3060,11 +3060,7 @@ Begin
   If Button = mbLeft Then
     Begin { only drag if left button pressed }
       sourceitem := Nil;
-      {$ifdef  LCLGtk2} //TODO: Getitematxy is shifted down 20px in GTK2
-           sourceitem := TitleTree.GetItemAt(x, y-20);
-      {$else}
-           sourceitem := TitleTree.GetItemAt(x, y);
-      {$endif}
+      sourceitem := TitleTree.GetItemAt(x, y);
       If sourceitem<>Nil Then TitleTree.BeginDrag(false, 10);
     End;
 End;

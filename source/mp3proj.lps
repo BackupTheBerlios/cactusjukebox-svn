@@ -81,7 +81,7 @@
         <Filename Value="aws.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="aws"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="52" Y="24"/>
         <TopLine Value="1"/>
         <UsageCount Value="58"/>
       </Unit10>
@@ -105,8 +105,8 @@
         <IsPartOfProject Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="mainform"/>
-        <CursorPos X="54" Y="4577"/>
-        <TopLine Value="4567"/>
+        <CursorPos X="1" Y="3064"/>
+        <TopLine Value="3033"/>
         <EditorIndex Value="5"/>
         <UsageCount Value="58"/>
         <Loaded Value="True"/>
@@ -203,7 +203,7 @@
         <Filename Value="plugin/impl/cj_pluginslist.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="cj_pluginslist"/>
-        <CursorPos X="1" Y="139"/>
+        <CursorPos X="59" Y="129"/>
         <TopLine Value="125"/>
         <EditorIndex Value="6"/>
         <UsageCount Value="57"/>
@@ -281,92 +281,92 @@
         <UsageCount Value="18"/>
       </Unit34>
       <Unit35>
-        <Filename Value="../../../../../../../usr/share/fpcsrc/rtl/inc/objpash.inc"/>
+        <Filename Value="../../../../../usr/share/fpcsrc/rtl/inc/objpash.inc"/>
         <CursorPos X="8" Y="142"/>
         <TopLine Value="1"/>
         <UsageCount Value="11"/>
       </Unit35>
       <Unit36>
-        <Filename Value="../../../../../../../usr/lib64/lazarus/lcl/menus.pp"/>
+        <Filename Value="../../../../../usr/lib64/lazarus/lcl/menus.pp"/>
         <UnitName Value="Menus"/>
         <CursorPos X="29" Y="279"/>
         <TopLine Value="258"/>
         <UsageCount Value="11"/>
       </Unit36>
       <Unit37>
-        <Filename Value="../../../../../../../usr/lib64/lazarus/lcl/include/menu.inc"/>
+        <Filename Value="../../../../../usr/lib64/lazarus/lcl/include/menu.inc"/>
         <CursorPos X="26" Y="188"/>
         <TopLine Value="175"/>
         <UsageCount Value="11"/>
       </Unit37>
       <Unit38>
-        <Filename Value="../../../../../../../usr/share/fpcsrc/rtl/objpas/objpas.pp"/>
+        <Filename Value="../../../../../usr/share/fpcsrc/rtl/objpas/objpas.pp"/>
         <UnitName Value="objpas"/>
         <CursorPos X="24" Y="195"/>
         <TopLine Value="181"/>
         <UsageCount Value="15"/>
       </Unit38>
       <Unit39>
-        <Filename Value="../../../../../../../usr/lib64/lazarus/lcl/extctrls.pp"/>
+        <Filename Value="../../../../../usr/lib64/lazarus/lcl/extctrls.pp"/>
         <UnitName Value="ExtCtrls"/>
         <CursorPos X="14" Y="24"/>
         <TopLine Value="1"/>
         <UsageCount Value="8"/>
       </Unit39>
       <Unit40>
-        <Filename Value="../../../../../../../usr/share/fpcsrc/rtl/inc/systemh.inc"/>
+        <Filename Value="../../../../../usr/share/fpcsrc/rtl/inc/systemh.inc"/>
         <CursorPos X="16" Y="787"/>
         <TopLine Value="773"/>
         <UsageCount Value="8"/>
       </Unit40>
       <Unit41>
-        <Filename Value="../../../../../../../usr/share/fpcsrc/rtl/linux/system.pp"/>
+        <Filename Value="../../../../../usr/share/fpcsrc/rtl/linux/system.pp"/>
         <UnitName Value="System"/>
         <CursorPos X="24" Y="136"/>
         <TopLine Value="127"/>
         <UsageCount Value="8"/>
       </Unit41>
       <Unit42>
-        <Filename Value="../../../../../../../usr/lib64/lazarus/lcl/forms.pp"/>
+        <Filename Value="../../../../../usr/lib64/lazarus/lcl/forms.pp"/>
         <UnitName Value="Forms"/>
         <CursorPos X="61" Y="459"/>
         <TopLine Value="445"/>
         <UsageCount Value="13"/>
       </Unit42>
       <Unit43>
-        <Filename Value="../../../../../../../usr/lib64/lazarus/lcl/include/customform.inc"/>
+        <Filename Value="../../../../../usr/lib64/lazarus/lcl/include/customform.inc"/>
         <CursorPos X="29" Y="548"/>
         <TopLine Value="548"/>
         <UsageCount Value="12"/>
       </Unit43>
       <Unit44>
-        <Filename Value="../../../../../../../usr/lib64/lazarus/lcl/include/winapih.inc"/>
+        <Filename Value="../../../../../usr/lib64/lazarus/lcl/include/winapih.inc"/>
         <CursorPos X="10" Y="238"/>
         <TopLine Value="224"/>
         <UsageCount Value="9"/>
       </Unit44>
       <Unit45>
-        <Filename Value="../../../../../../../usr/lib64/lazarus/lcl/include/winapi.inc"/>
+        <Filename Value="../../../../../usr/lib64/lazarus/lcl/include/winapi.inc"/>
         <CursorPos X="3" Y="865"/>
         <TopLine Value="863"/>
         <UsageCount Value="9"/>
       </Unit45>
       <Unit46>
-        <Filename Value="../../../../../../../usr/lib64/lazarus/lcl/lmessages.pp"/>
+        <Filename Value="../../../../../usr/lib64/lazarus/lcl/lmessages.pp"/>
         <UnitName Value="LMessages"/>
         <CursorPos X="28" Y="32"/>
         <TopLine Value="32"/>
         <UsageCount Value="12"/>
       </Unit46>
       <Unit47>
-        <Filename Value="../../../../../../../usr/lib64/lazarus/lcl/nonwin32/messages.pp"/>
+        <Filename Value="../../../../../usr/lib64/lazarus/lcl/nonwin32/messages.pp"/>
         <UnitName Value="Messages"/>
         <CursorPos X="30" Y="35"/>
         <TopLine Value="21"/>
         <UsageCount Value="9"/>
       </Unit47>
       <Unit48>
-        <Filename Value="../../../../../../../usr/lib64/lazarus/lcl/lcltype.pp"/>
+        <Filename Value="../../../../../usr/lib64/lazarus/lcl/lcltype.pp"/>
         <UnitName Value="LCLType"/>
         <CursorPos X="25" Y="743"/>
         <TopLine Value="730"/>
@@ -379,123 +379,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="MGSignals.pas"/>
-        <Caret Line="109" Column="1" TopLine="95"/>
+        <Caret Line="156" Column="1" TopLine="142"/>
       </Position1>
       <Position2>
         <Filename Value="MGSignals.pas"/>
-        <Caret Line="156" Column="1" TopLine="142"/>
+        <Caret Line="140" Column="1" TopLine="126"/>
       </Position2>
       <Position3>
-        <Filename Value="MGSignals.pas"/>
-        <Caret Line="140" Column="1" TopLine="126"/>
-      </Position3>
-      <Position4>
         <Filename Value="plugin/impl/cj_interfaces_impl.pas"/>
         <Caret Line="604" Column="1" TopLine="590"/>
+      </Position3>
+      <Position4>
+        <Filename Value="MGSignals.pas"/>
+        <Caret Line="285" Column="1" TopLine="271"/>
       </Position4>
       <Position5>
         <Filename Value="MGSignals.pas"/>
-        <Caret Line="285" Column="1" TopLine="271"/>
+        <Caret Line="288" Column="1" TopLine="274"/>
       </Position5>
       <Position6>
         <Filename Value="MGSignals.pas"/>
-        <Caret Line="288" Column="1" TopLine="274"/>
+        <Caret Line="109" Column="1" TopLine="95"/>
       </Position6>
       <Position7>
         <Filename Value="MGSignals.pas"/>
-        <Caret Line="109" Column="1" TopLine="95"/>
+        <Caret Line="156" Column="1" TopLine="142"/>
       </Position7>
       <Position8>
         <Filename Value="MGSignals.pas"/>
-        <Caret Line="156" Column="1" TopLine="142"/>
+        <Caret Line="140" Column="1" TopLine="126"/>
       </Position8>
       <Position9>
-        <Filename Value="MGSignals.pas"/>
-        <Caret Line="140" Column="1" TopLine="126"/>
+        <Filename Value="plugin/impl/cj_interfaces_impl.pas"/>
+        <Caret Line="555" Column="5" TopLine="541"/>
       </Position9>
       <Position10>
         <Filename Value="plugin/impl/cj_interfaces_impl.pas"/>
-        <Caret Line="555" Column="5" TopLine="541"/>
+        <Caret Line="556" Column="1" TopLine="542"/>
       </Position10>
       <Position11>
-        <Filename Value="plugin/impl/cj_interfaces_impl.pas"/>
-        <Caret Line="556" Column="1" TopLine="542"/>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="4583" Column="1" TopLine="4569"/>
       </Position11>
       <Position12>
         <Filename Value="mainform.pas"/>
-        <Caret Line="4583" Column="1" TopLine="4569"/>
+        <Caret Line="4584" Column="3" TopLine="4570"/>
       </Position12>
       <Position13>
         <Filename Value="mainform.pas"/>
-        <Caret Line="4584" Column="3" TopLine="4570"/>
+        <Caret Line="4582" Column="1" TopLine="4568"/>
       </Position13>
       <Position14>
         <Filename Value="mainform.pas"/>
-        <Caret Line="4582" Column="1" TopLine="4568"/>
+        <Caret Line="4585" Column="1" TopLine="4571"/>
       </Position14>
       <Position15>
         <Filename Value="mainform.pas"/>
-        <Caret Line="4585" Column="1" TopLine="4571"/>
+        <Caret Line="4589" Column="1" TopLine="4575"/>
       </Position15>
       <Position16>
         <Filename Value="mainform.pas"/>
-        <Caret Line="4589" Column="1" TopLine="4575"/>
+        <Caret Line="4583" Column="1" TopLine="4569"/>
       </Position16>
       <Position17>
-        <Filename Value="mainform.pas"/>
-        <Caret Line="4583" Column="1" TopLine="4569"/>
-      </Position17>
-      <Position18>
         <Filename Value="plugin/impl/cj_interfaces_impl.pas"/>
         <Caret Line="136" Column="1" TopLine="122"/>
-      </Position18>
-      <Position19>
+      </Position17>
+      <Position18>
         <Filename Value="MGSignals.pas"/>
         <Caret Line="158" Column="1" TopLine="127"/>
+      </Position18>
+      <Position19>
+        <Filename Value="mainform.pas"/>
+        <Caret Line="25" Column="1" TopLine="1"/>
       </Position19>
       <Position20>
         <Filename Value="mainform.pas"/>
-        <Caret Line="25" Column="1" TopLine="1"/>
+        <Caret Line="611" Column="22" TopLine="590"/>
       </Position20>
       <Position21>
         <Filename Value="mainform.pas"/>
-        <Caret Line="611" Column="22" TopLine="590"/>
+        <Caret Line="623" Column="20" TopLine="602"/>
       </Position21>
       <Position22>
         <Filename Value="mainform.pas"/>
-        <Caret Line="623" Column="20" TopLine="602"/>
+        <Caret Line="627" Column="16" TopLine="606"/>
       </Position22>
       <Position23>
         <Filename Value="mainform.pas"/>
-        <Caret Line="627" Column="16" TopLine="606"/>
+        <Caret Line="712" Column="16" TopLine="691"/>
       </Position23>
       <Position24>
         <Filename Value="mainform.pas"/>
-        <Caret Line="712" Column="16" TopLine="691"/>
+        <Caret Line="715" Column="16" TopLine="694"/>
       </Position24>
       <Position25>
         <Filename Value="mainform.pas"/>
-        <Caret Line="715" Column="16" TopLine="694"/>
+        <Caret Line="1114" Column="30" TopLine="1093"/>
       </Position25>
       <Position26>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1114" Column="30" TopLine="1093"/>
+        <Caret Line="1870" Column="34" TopLine="1849"/>
       </Position26>
       <Position27>
         <Filename Value="mainform.pas"/>
-        <Caret Line="1870" Column="34" TopLine="1849"/>
+        <Caret Line="2038" Column="26" TopLine="2017"/>
       </Position27>
       <Position28>
         <Filename Value="mainform.pas"/>
-        <Caret Line="2038" Column="26" TopLine="2017"/>
+        <Caret Line="2429" Column="35" TopLine="2408"/>
       </Position28>
       <Position29>
         <Filename Value="mainform.pas"/>
-        <Caret Line="2429" Column="35" TopLine="2408"/>
+        <Caret Line="4566" Column="83" TopLine="4545"/>
       </Position29>
       <Position30>
         <Filename Value="mainform.pas"/>
-        <Caret Line="4566" Column="83" TopLine="4545"/>
+        <Caret Line="7" Column="113" TopLine="1"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
@@ -531,11 +531,11 @@
       </Item7>
       <Item8>
         <Source Value="mainform.pas"/>
-        <Line Value="4577"/>
+        <Line Value="4573"/>
       </Item8>
       <Item9>
         <Source Value="mainform.pas"/>
-        <Line Value="4583"/>
+        <Line Value="4579"/>
       </Item9>
       <Item10>
         <Source Value="MGSignals.pas"/>
@@ -551,7 +551,7 @@
       </Item12>
       <Item13>
         <Source Value="mainform.pas"/>
-        <Line Value="4567"/>
+        <Line Value="4563"/>
       </Item13>
       <Item14>
         <Source Value="MGSignals.pas"/>
@@ -563,7 +563,7 @@
       </Item15>
       <Item16>
         <Source Value="mainform.pas"/>
-        <Line Value="4589"/>
+        <Line Value="4585"/>
       </Item16>
       <Item17>
         <Source Value="MGSignals.pas"/>

@@ -16,7 +16,7 @@
       <AutoIncrementBuild Value="True"/>
       <CurrentMajorRevNr Value="3"/>
       <CurrentMinorRevNr Value="5"/>
-      <CurrentBuildNr Value="378"/>
+      <CurrentBuildNr Value="383"/>
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
@@ -227,7 +227,7 @@
       <Filename Value="../cactus_jukebox"/>
     </Target>
     <SearchPaths>
-      <OtherUnitFiles Value="fmodintf/;tagreader/;/home/maxm/Programming/Lazarus/Packages/lnet/lib/;/home/maxm/Programming/Lazarus/Packages/synapse/;source/obj/;plugin/sdk/;plugin/impl/"/>
+      <OtherUnitFiles Value="fmodintf/;/home/daseeb/devel/units/lnet-0.4.0/lib/;/home/daseeb/devel/units/lnet-0.4.0/lib/sys/;/home/daseeb/devel/units/synapse/source/lib/;tagreader/;/home/maxm/Programming/Lazarus/Packages/lnet/lib/;/home/maxm/Programming/Lazarus/Packages/synapse/;source/obj/;plugin/sdk/;plugin/impl/"/>
       <UnitOutputDirectory Value="../source/obj"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
