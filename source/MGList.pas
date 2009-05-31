@@ -25,10 +25,12 @@ Type
   end;
 
   //I Tag sono necessari xche' Non posso leggere le variabili che stanno nello Stack
-  //quindi devo passare le variabile necessarie alle funzioni locali così
-  TLocalCompareFunction = function (Tag :Integer; ptData1, ptData2 :Pointer) :Boolean;
+  //quindi devo passare le variabile necessarie alle funzioni locali di compare così
+  //EN the Tags are needed because i cannot read variables from the Stack
+  //so i must pass the variables that i need in the local compare function int this way
+  TLocalCompareFunction = function (Tag :Pointer; ptData1, ptData2 :Pointer) :Boolean;
   TLocalWalkFunction = procedure (Tag :Integer; ptData :Pointer);
-  TObjCompareFunction = function (Tag :Integer; ptData1, ptData2 :Pointer) :Boolean of object;
+  TObjCompareFunction = function (Tag :Pointer; ptData1, ptData2 :Pointer) :Boolean of object;
   PObjCompareFunction = ^TObjCompareFunction;
   TObjWalkFunction = procedure (Tag :Integer; ptData :Pointer) of object;
 
@@ -42,9 +44,9 @@ Type
 
         function Get(Index: Integer): Pointer;
         function InternalDelete(Item :PDataExt) :PDataExt; overload;
-        function InternalFind(pData :Pointer; ATag :Integer; CompareFunction : TLocalCompareFunction=nil) :PDataExt; virtual;
-        function PutInRightPosition(newElem :PDataExt; ATag :Integer; CompareFunction : TLocalCompareFunction=nil) :Integer; overload; virtual;
-        function PutInRightPosition(newElem :PDataExt; ATag :Integer; CompareFunction : TObjCompareFunction) :Integer; overload; virtual;
+        function InternalFind(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=nil) :PDataExt; virtual;
+        function PutInRightPosition(newElem :PDataExt; ATag :Pointer; CompareFunction : TLocalCompareFunction=nil) :Integer; overload; virtual;
+        function PutInRightPosition(newElem :PDataExt; ATag :Pointer; CompareFunction : TObjCompareFunction) :Integer; overload; virtual;
         function allocData :Pointer; virtual;
         procedure deallocData(pData :Pointer); virtual;
         function RefreshOK(pData :Pointer) : Boolean; virtual;
@@ -52,22 +54,22 @@ Type
         constructor Create; virtual;
         destructor Destroy; override;
 
-        function Find(pData :Pointer; ATag :Integer; CompareFunction : TLocalCompareFunction=nil): Integer; overload;
-        function Find(pData :Pointer; ATag :Integer; CompareFunction : TObjCompareFunction): Integer; overload;
+        function Find(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=nil): Integer; overload;
+        function Find(pData :Pointer; ATag :Pointer; CompareFunction : TObjCompareFunction): Integer; overload;
         function Find(const Args: array of Variant): Pointer; overload; virtual;
-        function ExtFind(pData :Pointer; ATag :Integer; CompareFunction : TLocalCompareFunction=nil): Pointer; overload;
-        function ExtFind(pData :Pointer; ATag :Integer; CompareFunction : TObjCompareFunction): Pointer; overload;
+        function ExtFind(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=nil): Pointer; overload;
+        function ExtFind(pData :Pointer; ATag :Pointer; CompareFunction : TObjCompareFunction): Pointer; overload;
         procedure Walk(ATag :Integer; WalkFunction : TLocalWalkFunction); overload;
         procedure Walk(ATag :Integer; WalkFunction : TObjWalkFunction); overload;
         procedure WalkAndRefresh(ATag :Integer; WalkFunction : TLocalWalkFunction); overload;
         procedure WalkAndRefresh(ATag :Integer; WalkFunction : TObjWalkFunction); overload;
 
         function Add :Pointer; overload;
-        function Insert(pData :Pointer; ATag :Integer; CompareFunction : TLocalCompareFunction=nil) :Integer; overload;
-        function Insert(pData :Pointer; ATag :Integer; CompareFunction : TObjCompareFunction) :Integer; overload;
+        function Insert(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=nil) :Integer; overload;
+        function Insert(pData :Pointer; ATag :Pointer; CompareFunction : TObjCompareFunction) :Integer; overload;
         function Delete(Index :Integer) :Boolean; overload;
-        function Delete(pData :Pointer; ATag :Integer; CompareFunction : TLocalCompareFunction=Nil) :Boolean; overload;
-        function Delete(pData :Pointer; ATag :Integer; CompareFunction : TObjCompareFunction) :Boolean; overload;
+        function Delete(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=Nil) :Boolean; overload;
+        function Delete(pData :Pointer; ATag :Pointer; CompareFunction : TObjCompareFunction) :Boolean; overload;
         procedure Exchange(pData1, pData2 :Pointer); overload; virtual;
 
         procedure Clear;
@@ -113,7 +115,7 @@ implementation
 
 Type
     TLocalToObjData_Compare = record
-        Tag  :Integer;
+        Tag  :Pointer;
         Func :TObjCompareFunction;
     end;
     PLocalToObjData_Compare = ^TLocalToObjData_Compare;
@@ -125,7 +127,7 @@ Type
     PLocalToObjData_Walk = ^TLocalToObjData_Walk;
 
 
-function _localToObj_Compare(xTag :Integer; ptData1, ptData2 :Pointer) :Boolean;
+function _localToObj_Compare(xTag :Pointer; ptData1, ptData2 :Pointer) :Boolean;
 begin
 //   try
      Result := PLocalToObjData_Compare(xTag).Func(
@@ -141,7 +143,7 @@ begin
      PLocalToObjData_Walk(xTag).Func(PLocalToObjData_Walk(xTag).Tag, ptData);
 end;
 
-function AllocData_Compare(Tag :Integer; Func :TObjCompareFunction) :PLocalToObjData_Compare;
+function AllocData_Compare(Tag :Pointer; Func :TObjCompareFunction) :PLocalToObjData_Compare;
 begin
      GetMem(Result, sizeOf(TLocalToObjData_Compare));
      Result^.Tag :=Tag;
@@ -155,7 +157,7 @@ begin
      Result^.Func :=Func;
 end;
 
-function CompByData(xTag :Integer; ptData1, ptData2 :Pointer) :Boolean;
+function CompByData(xTag :Pointer; ptData1, ptData2 :Pointer) :Boolean;
 begin
      Result := (ptData1 = ptData2);
 end;
@@ -287,7 +289,7 @@ begin
      end;
 end;
 
-function TMGList.Find(pData :Pointer; ATag :Integer; CompareFunction : TLocalCompareFunction=nil): Integer;
+function TMGList.Find(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=nil): Integer;
 var
    i :Integer;
    Found :Boolean;
@@ -313,13 +315,13 @@ begin
             end;
 end;
 
-function TMGList.Find(pData :Pointer; ATag :Integer; CompareFunction : TObjCompareFunction): Integer;
+function TMGList.Find(pData :Pointer; ATag :Pointer; CompareFunction : TObjCompareFunction): Integer;
 Var
   auxPointer :PLocalToObjData_Compare;
 
 begin
      auxPointer :=AllocData_Compare(ATag, CompareFunction);
-     Result := Find(pData, Integer(auxPointer), _LocalToObj_Compare);
+     Result := Find(pData, auxPointer, _LocalToObj_Compare);
      FreeMem(auxPointer);
 end;
 
@@ -328,7 +330,7 @@ begin
      Result :=Nil;
 end;
 
-function TMGList.ExtFind(pData :Pointer; ATag :Integer; CompareFunction : TLocalCompareFunction=nil): Pointer;
+function TMGList.ExtFind(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=nil): Pointer;
 var
    Found  :Boolean;
    pIndex :PDataExt;
@@ -350,13 +352,13 @@ begin
 end;
 
 
-function TMGList.ExtFind(pData :Pointer; ATag :Integer; CompareFunction : TObjCompareFunction): Pointer;
+function TMGList.ExtFind(pData :Pointer; ATag :Pointer; CompareFunction : TObjCompareFunction): Pointer;
 Var
   auxPointer :PLocalToObjData_Compare;
 
 begin
      auxPointer :=AllocData_Compare(ATag, CompareFunction);
-     Result := ExtFind(pData, Integer(auxPointer), _LocalToObj_Compare);
+     Result := ExtFind(pData, auxPointer, _LocalToObj_Compare);
      FreeMem(auxPointer);
 end;
 
@@ -438,7 +440,7 @@ begin
    Result := newElem^.Data;
 end;
 
-function TMGList.PutInRightPosition(newElem :PDataExt; ATag :Integer; CompareFunction : TLocalCompareFunction) :Integer;
+function TMGList.PutInRightPosition(newElem :PDataExt; ATag :Pointer; CompareFunction : TLocalCompareFunction) :Integer;
 var
    Found   :Boolean;
    pIndex  :PDataExt;
@@ -477,17 +479,17 @@ begin
           end;
 end;
 
-function TMGList.PutInRightPosition(newElem :PDataExt; ATag :Integer; CompareFunction : TObjCompareFunction) :Integer;
+function TMGList.PutInRightPosition(newElem :PDataExt; ATag :Pointer; CompareFunction : TObjCompareFunction) :Integer;
 Var
   auxPointer :PLocalToObjData_Compare;
 
 begin
      auxPointer :=AllocData_Compare(ATag, CompareFunction);
-     Result := PutInRightPosition(newElem, Integer(auxPointer), _LocalToObj_Compare);
+     Result := PutInRightPosition(newElem, auxPointer, _LocalToObj_Compare);
      FreeMem(auxPointer);
 end;
 
-function TMGList.Insert(pData :Pointer; ATag :Integer; CompareFunction : TLocalCompareFunction=Nil) :Integer;
+function TMGList.Insert(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=Nil) :Integer;
 var
    newElem :PDataExt;
    
@@ -503,13 +505,13 @@ begin
    Inc(rCount);
 end;
 
-function TMGList.Insert(pData :Pointer; ATag :Integer; CompareFunction : TObjCompareFunction) :Integer;
+function TMGList.Insert(pData :Pointer; ATag :Pointer; CompareFunction : TObjCompareFunction) :Integer;
 Var
   auxPointer :PLocalToObjData_Compare;
 
 begin
      auxPointer :=AllocData_Compare(ATag, CompareFunction);
-     Result := Insert(pData, Integer(auxPointer), _LocalToObj_Compare);
+     Result := Insert(pData, auxPointer, _LocalToObj_Compare);
      FreeMem(auxPointer);
 end;
 
@@ -535,7 +537,7 @@ begin
      end;
 end;
 
-function TMGList.Delete(pData :Pointer; ATag :Integer; CompareFunction : TLocalCompareFunction=Nil) :Boolean;
+function TMGList.Delete(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=Nil) :Boolean;
 Var
    toDel :PDataExt;
 
@@ -549,13 +551,13 @@ begin
      then InternalDelete(toDel);
 end;
 
-function TMGList.Delete(pData :Pointer; ATag :Integer; CompareFunction : TObjCompareFunction) :Boolean;
+function TMGList.Delete(pData :Pointer; ATag :Pointer; CompareFunction : TObjCompareFunction) :Boolean;
 Var
   auxPointer :PLocalToObjData_Compare;
 
 begin
      auxPointer :=AllocData_Compare(ATag, CompareFunction);
-     Result := Delete(pData, Integer(auxPointer), _LocalToObj_Compare);
+     Result := Delete(pData, auxPointer, _LocalToObj_Compare);
      FreeMem(auxPointer);
 end;
 
@@ -613,7 +615,7 @@ begin
 end;
 
 
-function TMGList.InternalFind(pData :Pointer; ATag :Integer; CompareFunction : TLocalCompareFunction=nil) :PDataExt;
+function TMGList.InternalFind(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=nil) :PDataExt;
 var
    Found  :Boolean;
    pIndex :PDataExt;

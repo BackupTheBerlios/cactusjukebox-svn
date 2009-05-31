@@ -36,7 +36,7 @@ Type
     protected
         function allocData :Pointer; override;
         procedure deallocData(pData :Pointer); override;
-        function CompBySignalMethod(xTag :Integer; ptData1, ptData2 :Pointer) :Boolean;
+        function CompBySignalMethod(xTag :Pointer; ptData1, ptData2 :Pointer) :Boolean;
     public
         function Add(AMethod :TSignalMethod) :PSignalMethod; overload;
         function Find(AMethod :TSignalMethod) : Integer; overload;
@@ -90,19 +90,29 @@ begin
      FreeMem(pData, sizeOf(TSignalMethod));
 end;
 
-function TSignalMethodsList.CompBySignalMethod(xTag :Integer; ptData1, ptData2 :Pointer) :Boolean;
+function TSignalMethodsList.CompBySignalMethod(xTag :Pointer; ptData1, ptData2 :Pointer) :Boolean;
 Var
    m1,
    m2 :TSignalMethod;
+   Message1: TMessage;
 
 begin
      m1 :=PSignalMethod(ptData1)^;
      m2 :=PSignalMethod(ptData2)^;
-     Result := (TMethod(m1).Data = TMethod(m2).Data) and //Stessa Classe (Instanza)
-               (TMethod(m1).Code = TMethod(m2).Code);     //Stesso Metodo
-               //(@m1 = @m2); dovrebbe essere così, ma un metodo di due classi
-                              //dello stesso tipo viene sempre considerato uguale...
 
+     Result := (TMethod(m1).Data = TMethod(m2).Data) and //Stessa Classe (Instanza) Same Instance
+               (TMethod(m1).Code = TMethod(m2).Code);     //Stesso Metodo           Same Method
+
+
+               //(@m1 = @m2); dovrebbe essere così, ma un metodo di due classi
+               //dello stesso tipo viene sempre considerato uguale...
+               //EN
+               //(@m1 = @m2); should be so, but a method of the same class type
+               //is always considered the same...
+               //esempio (example):
+               //     Classe1, Classe2 :TForm;
+               //  Classe1.func = Classe2.func  because
+               //    TForm.func = TForm.func    but Classe1 is not the same of Class2
 end;
 
 function TSignalMethodsList.Add(AMethod :TSignalMethod) :PSignalMethod;
@@ -130,33 +140,10 @@ function TSignalMethodsList.ExtFind(AMethod :TSignalMethod) : Pointer;
 Var
    auxPointer :PSignalMethod;
 
-   function _CompBySignalMethod(xTag :Integer; ptData1, ptData2 :Pointer) :Boolean;
-   Var
-      m1,
-      m2 :TMethod;
-      a,b,
-      a2,b2 :Pointer;
-
-   begin
-           m1 :=TMethod(ptData1^);
-           m2 :=TMethod(ptData2^);
-           a :=TMethod(m1).Data;
-           b :=TMethod(m1).Code;
-           a2 :=TMethod(m2).Data;
-           b2 :=TMethod(m2).Code;
-
-           Result := (TMethod(m1).Data = TMethod(m2).Data) and //Stessa Classe (Instanza)
-               (TMethod(m1).Code = TMethod(m2).Code);     //Stesso Metodo
-               //(@m1 = @m2); dovrebbe essere così, ma un metodo di due classi
-                              //dello stesso tipo viene sempre considerato uguale...
-
-   end;
-
-
 begin
      GetMem(auxPointer, sizeOf(TSignalMethod));
-     TSignalMethod(auxPointer^) :=AMethod;
-     Result :=ExtFind(auxPointer, 0, @_CompBySignalMethod);
+     auxPointer^ :=AMethod;
+     Result :=ExtFind(auxPointer, 0, CompBySignalMethod);
      FreeMem(auxPointer);
 end;
 
