@@ -4565,7 +4565,7 @@ begin
      begin
           tt.Connect(@SayMsgHello, 1);
           tt.Connect(@SayMsgHello2, 1);
-         // tt.Connect(@SayMsgHello, 1);  //May be not inserted in the List (compare of method is different under Lazarus?) ....
+          tt.Connect(@SayMsgHello, 1); //Test for no insertion of this....
      end;
 end;
 procedure TMain.SayHello(Sender: TCJ_MenuItem);
