@@ -3585,6 +3585,15 @@ Var tempitem: TListItem;
 Begin
   // ensure that the popup menu is only opened when an item is selected
   // the menu is reanabled in TMain.playlistSelectItem
+
+  {$ifdef  LCLQT} //TODO: QT interface doesn't set selected item
+       Playlist;.Selected:= Playlist.GetItemAt(x, y);
+  {$endif}
+
+  {$ifdef  LCLGtk2} //TODO: GTK2 interface doe snot selcte item on right click
+        If (Button = mbRight) then Playlist.Selected := Playlist.GetItemAt(x, y);
+  {$endif}
+
   {$ifdef win32}
   If (Button = mbRight) And (Playlist.Selected <> Nil) Then
     Playlist.PopupMenu.PopUp(self.Left+panel4.Width+Panel3.Left+Playlist.left+X+10, self.top+Panel3.
@@ -3597,11 +3606,7 @@ Begin
   If Button = mbLeft Then
     Begin { only drag if left button pressed }
       sourceitem := Nil;
-         {$ifdef  LCLGtk2}
-      sourceitem := Playlist.GetItemAt(x, y-20);
-         {$else}
       sourceitem := Playlist.GetItemAt(x, y);
-         {$endif}
       If sourceitem<>Nil Then Playlist.BeginDrag(false, 10);
     End;
 
