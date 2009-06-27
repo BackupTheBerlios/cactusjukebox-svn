@@ -245,7 +245,7 @@ Type
     Selectdirectorydialog1: TSELECTDIRECTORYDIALOG;
     playtimer: TTimer;
     seldirdialog: TSelectDirectoryDialog;
-    trackbar: TProgressBar;
+    trackbar: TTrackBar;
     Trackinfo: TSpeedButton;
     TrayIcon: TTrayIcon;
     Volumebar: TProgressBar;
@@ -3587,7 +3587,7 @@ Begin
   // the menu is reanabled in TMain.playlistSelectItem
 
   {$ifdef  LCLQT} //TODO: QT interface doesn't set selected item
-       Playlist;.Selected:= Playlist.GetItemAt(x, y);
+       Playlist.Selected:= Playlist.GetItemAt(x, y);
   {$endif}
 
   {$ifdef  LCLGtk2} //TODO: GTK2 interface doe snot selcte item on right click
