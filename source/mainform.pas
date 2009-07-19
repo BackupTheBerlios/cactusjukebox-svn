@@ -98,39 +98,63 @@ Type
     CoverImage: TImage;
     current_title_edit: TEdit;
     current_title_edit1: TEdit;
+    FileItem: TMenuItem;
     filetypebox: TComboBox;
     ImageListNormal: TImageList;
     ImageListHot: TImageList;
     ImageListDis: TImageList;
+    itemPlugins: TMenuItem;
+    Mainmenu1: TMainMenu;
+    MenuItem12: TMenuItem;
+    Menuitem21: TMenuItem;
+    Menuitem24: TMenuItem;
     MenuItem25: TMenuItem;
-    MenuItem27: TMenuItem;
     itemTrayExit: TMenuItem;
     itemTrayPlay: TMenuItem;
     itemTrayStop: TMenuItem;
     itemTrayNext: TMenuItem;
     itemTrayPrev: TMenuItem;
-    itemPlugins: TMenuItem;
+    MenuItem27: TMenuItem;
+    MenuItem34: TMenuItem;
+    MenuItem35: TMenuItem;
+    MIabout: TMenuItem;
+    MIClearPlayer: TMenuItem;
+    MIclear_playlist: TMenuItem;
+    MIDeviceInfo: TMenuItem;
+    MIDevices: TMenuItem;
+    MIhelp: TMenuItem;
+    MIlibinfo: TMenuItem;
+    MIlibrary: TMenuItem;
+    MIloadlib: TMenuItem;
+    MIload_list: TMenuItem;
+    MIManagLib: TMenuItem;
+    MImanual: TMenuItem;
+    MIMobilePlayer: TMenuItem;
+    MImute: TMenuItem;
+    MInewlib: TMenuItem;
+    MInext: TMenuItem;
+    MIplay: TMenuItem;
+    MIPlaylist: TMenuItem;
+    MIprevious: TMenuItem;
     MIrandom_playlist: TMenuItem;
+    MIRipAudio: TMenuItem;
+    MIsavelib: TMenuItem;
+    MIsave_list: TMenuItem;
+    MIScanPlayer: TMenuItem;
+    MISyncPlayer: TMenuItem;
+    MIUndoPlayer: TMenuItem;
     MIViewArtist: TMenuItem;
     MIViewTitle: TMenuItem;
     MIViewAlbum: TMenuItem;
     MIViewTrack: TMenuItem;
     MIViewGenre: TMenuItem;
     MIViewFilename: TMenuItem;
-    MTitleView: TMenuItem;
-    MenuItem35: TMenuItem;
-    MIClearPlayer: TMenuItem;
-    MIUndoPlayer: TMenuItem;
-    MISyncPlayer: TMenuItem;
-    MIScanPlayer: TMenuItem;
-    MIDeviceInfo: TMenuItem;
-    MIMobilePlayer: TMenuItem;
-    MIRipAudio: TMenuItem;
-    MenuItem34: TMenuItem;
-    MIDevices: TMenuItem;
     mnuCleanLib: TMenuItem;
+    MTitleView: TMenuItem;
+    opendir: TMenuItem;
+    openfile: TMenuItem;
+    player_lib: TMenuItem;
     PopupMenuTray: TPopupMenu;
-    space4: TMenuItem;
     MIremoveRadio: TMenuItem;
     MenuItem28: TMenuItem;
     MenuItem29: TMenuItem;
@@ -146,8 +170,18 @@ Type
     PlayerControlsPanel: TPanel;
     Playlist: TListView;
     PreviousButtonImg: TImage;
+    QuitItem: TMenuItem;
     randomcheck: TCheckBox;
+    RemoveItem: TMenuItem;
+    removselectItem: TMenuItem;
     searchstr: TEdit;
+    SettingsItem: TMenuItem;
+    skinmenu: TMenuItem;
+    space3: TMenuItem;
+    space4: TMenuItem;
+    spacer15: TMenuItem;
+    spacer29: TMenuItem;
+    spacer41: TMenuItem;
     Splitter2: TSplitter;
     SrchFileItem: TMenuItem;
     SrchArtItem: TMenuItem;
@@ -162,7 +196,6 @@ Type
     MenuItem23: TMenuItem;
     MenuItem7: TMenuItem;
     MenuItem9: TMenuItem;
-    opendir: TMenuItem;
     MenuItem6: TMenuItem;
     srch_button: TButton;
     StopButtonImg: TImage;
@@ -178,68 +211,35 @@ Type
     SpeedButton1: TSpeedButton;
     TitleTree: TListView;
     MenuItem11: TMenuItem;
-    spacer15: TMenuItem;
     Panel1: TPanel;
-    SettingsItem: TMenuItem;
     Menuitem26: TMenuItem;
-    MIload_list: TMenuItem;
     MenuItem3: TMenuItem;
     Splitter1: TSplitter;
     StatusBar1: TStatusBar;
     toplaylistitem: TMenuItem;
-    MImute: TMenuItem;
-    skinmenu: TMenuItem;
     ImageList1: TImageList;
-    MIManagLib: TMenuItem;
-    MenuItem12: TMenuItem;
     MenuItem14: TMenuItem;
     MenuItem16: TMenuItem;
     MenuItem17: TMenuItem;
     MenuItem18: TMenuItem;
     MenuItem20: TMenuItem;
     MenuItem30: TMenuItem;
-    MIplay: TMenuItem;
-    MInext: TMenuItem;
-    MIprevious: TMenuItem;
-    spacer41: TMenuItem;
-    MImanual: TMenuItem;
     rm_artist_playeritem: TMenuItem;
     MenuItem37: TMenuItem;
     MenuItem38: TMenuItem;
-    openfile: TMenuItem;
-    player_lib: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem33: TMenuItem;
-    space3: TMenuItem;
-    MIlibinfo: TMenuItem;
     SaveDialog1: TSaveDialog;
     checkmobile: TTimer;
     space11: TMenuItem;
-    MIabout: TMenuItem;
     Menuitem27a: TMenuItem;
-    MIsave_list: TMenuItem;
-    spacer29: TMenuItem;
     space1: TMenuItem;
-    MIclear_playlist: TMenuItem;
-    FileItem: TMenuItem;
     artisttreemenu: TPopupMenu;
-    QuitItem: TMenuItem;
     TEditID3item: TMenuItem;
-    Mainmenu1: TMAINMENU;
     Menuitem1: TMENUITEM;
-    MInewlib: TMENUITEM;
-    MIsavelib: TMENUITEM;
-    MIloadlib: TMENUITEM;
-    Menuitem21: TMENUITEM;
-    removselectItem: TMENUITEM;
-    RemoveItem: TMENUITEM;
-    Menuitem24: TMENUITEM;
     Menuitem4: TMENUITEM;
     Menuitem5: TMENUITEM;
-    MIlibrary: TMENUITEM;
-    MIhelp: TMENUITEM;
     Menuitem8: TMENUITEM;
-    MIPlaylist: TMENUITEM;
     playlistmenu: TPOPUPMENU;
     titlelistmenu: TPOPUPMENU;
     Selectdirectorydialog1: TSELECTDIRECTORYDIALOG;
@@ -360,6 +360,7 @@ Type
     Procedure StopButtonImgMouseUp(Sender: TOBject; Button: TMouseButton;
                                    Shift: TShiftState; X, Y: Integer);
     procedure TestPlugin1(Sender: TObject);
+
     Procedure TitleTreeClick(Sender: TObject);
     Procedure TitleTreeColumnClick(Sender: TObject; Column: TListColumn);
     Procedure TitleTreeDragOver(Sender, Source: TObject; X, Y: Integer;
@@ -846,6 +847,7 @@ Begin
       If i >= 0 Then
         Begin
           If oldindex>=0 Then playlist.Items[oldindex].ImageIndex := -1;
+          writeln(oldindex);
           playlist.Items[i].ImageIndex := 0;
           playlist.Items[i].MakeVisible(false);
           playtimer.Enabled := true;
@@ -3397,22 +3399,17 @@ Begin
     Begin
       DebugOutLn('ondragdrop', 3);
       Targetitem := Nil;
- {$ifdef  LCLGtk2}
-      //workaround gtk2 bug.... getitem is 20px wrong
-      If Playlist.Items.Count>0 Then Targetitem := Playlist.GetItemAt(x, y-20)
-      Else Targetitem := playlist.GetItemAt(x,y);
- {$else}
+
       Try
         If Playlist.Items.Count>0 Then Targetitem := Playlist.GetItemAt(x, y);
       Except
         Targetitem := Nil;
       End;
- {$endif}
-      DebugOutLn('mmm', 5);
+
       If Playlist.Items.Count=0 Then Targetitem := Nil;
       If Targetitem<>Nil Then DebugOutLn(Targetitem.Index, 3)
       Else DebugOutLn('TARGET NIL', 3);
-      DebugOutLn('mmm', 5);
+
       If title_drag  Then
         Begin
           title_drag := false;
@@ -4573,6 +4570,8 @@ begin
           tt.Connect(@SayMsgHello, 1); //Test for no insertion of this....
      end;
 end;
+
+
 procedure TMain.SayHello(Sender: TCJ_MenuItem);
 begin
      Dialogs.MessageDlg('Plugins', 'Hello World Click', mtInformation, [mbOk], 0);

@@ -133,16 +133,24 @@ end;
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TPlaylistClass.move(dest, target: integer);
+var current_track_tmp: integer;
 begin
   if (dest < ItemCount) and (target < ItemCount) and (dest >= 0) and (target >= 0 ) then
     begin
        inherited Move(dest, target);
+       current_track_tmp:= CurrentTrack;
+       if (CurrentTrack>dest) and (CurrentTrack<=target+1) then dec(current_track_tmp);
 
-       if (CurrentTrack>dest) and (CurrentTrack<=target) then dec(CurrentTrack) else
-       if (CurrentTrack<dest) and (CurrentTrack>=target) then inc(CurrentTrack) else
-       if (CurrentTrack=dest) then CurrentTrack:=target;
+       if (CurrentTrack<dest) and (CurrentTrack>=target-1) then inc(current_track_tmp);
 
+       if (CurrentTrack=dest) then begin
+             if dest<target then current_track_tmp:=target+1 else current_track_tmp:=target;
+       end;
+       write('dest');writeln(dest);
+       write('target');writeln(target);
+       CurrentTrack:=current_track_tmp;
 
+       writeln(CurrentTrack);
     end;
 end;
 
@@ -204,6 +212,7 @@ begin
 
      Items[index].ID:=MedFileObj.ID;
      Items[index].LengthMS:=MedFileObj.Playlength;
+     if index<CurrentTrack then inc(CurrentTrack);
 
 end;
 

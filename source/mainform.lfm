@@ -1,11 +1,11 @@
 object Main: TMain
-  Left = 376
+  Left = 267
   Height = 755
-  Top = 73
+  Top = 78
   Width = 893
   ActiveControl = Panel4
   Caption = 'titel'
-  ClientHeight = 732
+  ClientHeight = 733
   ClientWidth = 893
   Icon.Data = {
     3E42000000000100010040400000010020002842000016000000280000004000
@@ -548,9 +548,8 @@ object Main: TMain
   ShowInTaskBar = stAlways
   LCLVersion = '0.9.27'
   object StatusBar1: TStatusBar
-    Left = 0
-    Height = 20
-    Top = 712
+    Height = 18
+    Top = 715
     Width = 893
     Panels = <    
       item
@@ -564,8 +563,7 @@ object Main: TMain
   end
   object Splitter1: TSplitter
     Left = 288
-    Height = 712
-    Top = 0
+    Height = 715
     Width = 8
     Align = alRight
     AutoSnap = False
@@ -576,19 +574,17 @@ object Main: TMain
   end
   object Panel1: TPanel
     Left = 296
-    Height = 712
-    Top = 0
+    Height = 715
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 712
+    ClientHeight = 715
     ClientWidth = 597
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
-      Left = 0
-      Height = 284
+      Height = 287
       Top = 5
       Width = 587
       Align = alTop
@@ -603,17 +599,17 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Artist'
-          Width = 38
+          Width = 40
         end      
         item
           AutoSize = True
           Caption = 'Title'
-          Width = 32
+          Width = 34
         end      
         item
           AutoSize = True
           Caption = 'Album'
-          Width = 43
+          Width = 45
         end      
         item
           AutoSize = True
@@ -624,7 +620,7 @@ object Main: TMain
         item
           AutoSize = True
           Caption = 'Genre'
-          Width = 43
+          Width = 45
         end      
         item
           AutoSize = True
@@ -636,7 +632,7 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 379
+          Width = 356
         end>
       PopupMenu = titlelistmenu
       ReadOnly = True
@@ -657,17 +653,15 @@ object Main: TMain
     end
     object Splitter2: TSplitter
       Cursor = crVSplit
-      Left = 0
       Height = 10
-      Top = 289
+      Top = 292
       Width = 597
       Align = alTop
       ResizeAnchor = akTop
     end
     object Panel3: TPanel
-      Left = 0
       Height = 413
-      Top = 299
+      Top = 302
       Width = 597
       Align = alClient
       BevelOuter = bvNone
@@ -871,9 +865,9 @@ object Main: TMain
         end
         object randomcheck: TCheckBox
           Left = 135
-          Height = 23
+          Height = 21
           Top = 250
-          Width = 73
+          Width = 69
           Caption = 'Random'
           OnChange = randomcheckChange
           TabOrder = 3
@@ -907,7 +901,6 @@ object Main: TMain
           Top = 75
           Width = 190
           Max = 100
-          Position = 0
           TickStyle = tsNone
           OnMouseDown = trackbarMouseDown
           OnMouseUp = trackbarMouseUp
@@ -926,13 +919,12 @@ object Main: TMain
           item
             AutoSize = True
             Caption = 'Playlist'
-            Width = 342
+            Width = 327
           end>
-        LargeImages = ImageList1
         PopupMenu = playlistmenu
         ReadOnly = True
+        RowSelect = True
         SmallImages = ImageList1
-        StateImages = ImageList1
         TabOrder = 1
         ToolTips = False
         ViewStyle = vsReport
@@ -957,10 +949,9 @@ object Main: TMain
         TabOrder = 2
         object filetypebox: TComboBox
           Left = 360
-          Height = 24
+          Height = 28
           Top = 14
           Width = 90
-          ItemHeight = 0
           ItemIndex = 0
           Items.Strings = (
             'all types'
@@ -1020,11 +1011,11 @@ object Main: TMain
       end
       object clear_list: TBitBtn
         AnchorSideBottom.Side = asrCenter
-        Left = 514
+        Left = 517
         Height = 34
         Hint = 'Clear Playlist'
         Top = 33
-        Width = 70
+        Width = 67
         Anchors = [akTop, akRight]
         AutoSize = True
         Caption = 'Clear'
@@ -1092,20 +1083,18 @@ object Main: TMain
     end
   end
   object Panel4: TPanel
-    Left = 0
-    Height = 712
-    Top = 0
+    Height = 715
     Width = 288
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 712
+    ClientHeight = 715
     ClientWidth = 288
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 26
-      Height = 702
+      Height = 705
       Top = 5
       Width = 259
       Align = alClient
@@ -1115,7 +1104,7 @@ object Main: TMain
       BorderSpacing.InnerBorder = 20
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       BorderSpacing.CellAlignVertical = ccaLeftTop
-      DefaultItemHeight = 17
+      DefaultItemHeight = 16
       DragMode = dmAutomatic
       ExpandSignType = tvestArrow
       Images = ImageList1
@@ -1135,9 +1124,9 @@ object Main: TMain
       Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips]
     end
     object ArtistSrchField: TPanel
-      Left = 88
+      Left = 152
       Height = 64
-      Top = 568
+      Top = 640
       Width = 128
       ClientHeight = 64
       ClientWidth = 128
@@ -1145,9 +1134,9 @@ object Main: TMain
       Visible = False
       OnClick = ArtistSrchFieldClick
       object Label2: TLabel
-        Left = 80
+        Left = 77
         Height = 15
-        Top = 18
+        Top = 8
         Width = 41
         Caption = 'Search'
         ParentColor = False
@@ -1209,8 +1198,7 @@ object Main: TMain
       end
     end
     object ToolBar1: TToolBar
-      Left = 0
-      Height = 707
+      Height = 710
       Top = 5
       Width = 26
       Align = alLeft
@@ -1227,7 +1215,6 @@ object Main: TMain
       Transparent = True
       object LibModeBtn: TToolButton
         Left = 1
-        Top = 0
         AutoSize = True
         Caption = 'Library'
         ImageIndex = 0
@@ -2277,8 +2264,6 @@ object Main: TMain
     top = 264
   end
   object SimpleIPCServer1: TSimpleIPCServer
-    Active = False
-    Global = False
     OnMessage = SimpleIPCServer1Message
     top = 368
   end
@@ -3501,7 +3486,6 @@ object Main: TMain
       50FF000000000000000000000000000000000000000000000000000000000000
       0000
     }
-    Visible = True
     OnDblClick = TrayIconDblClick
     left = 360
     top = 368
