@@ -37,7 +37,6 @@ Type
     KDEServiceMenu: boolean;
     AudioSystem: TOutputMode;
     AudioBackend: TAudioBackend;
-
     AutostartPlay, StopOnClear, LoadLastPlaylist: Boolean;
     language: string;    // country code, e.g. de -> germany
     DAPPath, CDRomDevice: string;
@@ -54,6 +53,8 @@ Type
     CoverSize:string;
 
     MPlayerPath: string;
+    MPlayerConfigFile: string;
+    MPlayerUseExternalConfig: boolean;
 
     //Columns to show in titelview
     TLShowArtist, TLShowTitle, TLShowAlbum, TLShowGenre, TLShowTrack, TLShowFilename: boolean;
@@ -135,6 +136,7 @@ Begin
          Else AudioBackend:=FMODBACK;
 
     MPlayerPath:=FConfigFile.GetValue('Audio/Backend/MPlayer/Path','');
+    MPlayerUseExternalConfig:=FConfigFile.GetValue('Audio/Backend/MPlayer/UseExternalConfig',false);
     LastLib := FConfigFile.GetValue('Library/autoload','');
     StreamColPath := FConfigFile.GetValue('Library/StreamCollection','');
     AutostartPlay := FConfigFile.GetValue('Playlist/Autoplay', true);
@@ -202,6 +204,8 @@ Begin
         FConfigFile.SetValue('Audio/Backend', 'fmod');
       End;
     FConfigFile.SetValue('Audio/Backend/MPlayer/Path',MPlayerPath);
+    FConfigFile.SetValue('Audio/Backend/MPlayer/UseExternalConfig',MPlayerUseExternalConfig);
+   // FConfigFile.SetValue('Audio/Backend/MPlayer/ConfigFile',MPlayerConfigFile);
     FConfigFile.SetValue('Mobile_Player/Subfolders',mobile_subfolders);
     FConfigFile.SetValue('Networking/Album_Cover_Download/Enabled', CoverDownload);
     FConfigFile.SetValue('Networking/Album_Cover_Download/ImageSize', CoverSize);

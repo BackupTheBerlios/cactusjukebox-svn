@@ -105,6 +105,8 @@ debcopy:
 
 	cp tools -dr $(DEBSRCDIR)/usr/share/cactusjukebox
 
+	cp mplayer.cfg $(DEBSRCDIR)/usr/share/cactusjukebox
+
 	cp doc -dr $(DEBSRCDIR)/usr/share/cactusjukebox
 
 	cp tools/cactusjukebox.desktop $(DEBSRCDIR)/usr/share/applications/
@@ -143,6 +145,8 @@ zipcopy:
 	cp icon -dr $(ZIPSRCDIR)
 
 	cp tools -dr $(ZIPSRCDIR)
+
+	cp mplayer.cfg $(ZIPSRCDIR)
 
 	cp doc -dr $(ZIPSRCDIR)
 

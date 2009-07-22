@@ -1987,6 +1987,13 @@ Begin
         DebugOutLn('WARNING: Fmod backend not available on 64bit systems. Trying to load mplayer backend instead', 0);
     end;
 {$endif}
+  if (PlayerObj is TMPlayerClass) then begin
+         (PlayerObj as TMPlayerClass).UseExternalConfig:=CactusConfig.MPlayerUseExternalConfig;
+         if FileExists(IncludeTrailingPathDelimiter(CactusConfig.DataPrefix)+'mplayer.cfg') then
+            (PlayerObj as TMPlayerClass).ExternalConfigFile:=IncludeTrailingPathDelimiter(CactusConfig.DataPrefix)+'mplayer.cfg';
+         if FileExists(IncludeTrailingPathDelimiter(CactusConfig.ConfigPrefix)+'mplayer.cfg') then
+            (PlayerObj as TMPlayerClass).ExternalConfigFile:=IncludeTrailingPathDelimiter(CactusConfig.ConfigPrefix)+'mplayer.cfg';
+  end;
 
   if (PlayerObj is TMPlayerClass) and ((PlayerObj as TMPlayerClass).MPlayerPath='') then begin
        if CactusConfig.MPlayerPath='' then begin

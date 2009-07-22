@@ -339,7 +339,7 @@ Begin
     writeln('lib seems corupted');
     write('exception at entry ');
     writeln(i);
-    witeln('line: ');writeln(linecount);
+    write('line: ');writeln(linecount);
     result := false;
   End;
 End;

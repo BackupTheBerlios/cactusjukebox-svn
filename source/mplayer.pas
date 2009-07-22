@@ -68,7 +68,8 @@ type
 
      property MPlayerPath: string read FMPlayerPath;
      property playing: boolean read GetMPlayerPlaying;
-
+     ExternalConfigFile: string;
+     UseExternalConfig: boolean;
   end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -161,16 +162,21 @@ if (index<Playlist.ItemCount) and (index>=0)  then begin
   if (FileExists(playlist.items[index].path)) then begin
     if FPlaying then stop;
        MPlayerProcess:=TProcess.Create(nil);
-       MPOptions:='-slave -quiet -softvol -af volume='+IntToStr(IntTodB(FVolume, 100));  // -volume xx only supported with patched mplayer';
-       if OutputMode=ALSAOUT then MPOptions:=MPOptions+' -ao alsa';
-       if OutputMode=OSSOUT then MPOptions:=MPOptions+' -ao oss';
-  
+
+       if not UseExternalConfig then begin
+           MPOptions:='-slave -quiet -softvol';
+           if OutputMode=ALSAOUT then MPOptions:=MPOptions+' -ao alsa';
+           if OutputMode=OSSOUT then MPOptions:=MPOptions+' -ao oss';
+       end else MPOptions:='-include '+ExternalConfigFile;
+
+       MPOptions:=MPOptions + ' -af volume=' + IntToStr(IntTodB(FVolume, 100));// -volume xx only supported with patched mplayer';
+
        FPlaybackMode:=FILE_MODE;
        //DebugOutLn('playing  -> '+playlist.items[index].path, 1);
        // writeln(StringReplace(playlist.items[index].path, '''', '''''', [rfReplaceAll]));
        MPlayerProcess.CommandLine:=FMplayerPath+' '+MPOptions+' "'+playlist.items[index].path+'"';
 
-       // DebugOutLn(MPlayerProcess.CommandLine,5);
+       DebugOutLn(MPlayerProcess.CommandLine,5);
        FLastGet_Pos:=0;
        MPlayerProcess.Options:= MPlayerProcess.Options + [poUsePipes, poDefaultErrorMode, poStderrToOutPut, poNoConsole];
        MPlayerProcess.Execute;

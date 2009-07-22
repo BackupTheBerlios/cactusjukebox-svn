@@ -24,7 +24,7 @@ Interface
 
 Uses 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-ExtCtrls, Buttons, ComCtrls, CheckLst, config,playerclass;
+ExtCtrls, Buttons, ComCtrls, CheckLst, config, playerclass, mplayer;
 
 resourcestring
 rsAutoloadLast = 'Load last library at startup';
@@ -76,6 +76,8 @@ Type
     CDRomEdit: TEdit;
     AutoPlayBox: TCheckBox;
     AudioBackend: TComboBox;
+    UseExternalCfgCheckBox: TCheckBox;
+    Label9: TLabel;
     MarkGuessBox: TCheckBox;
     ClearCover: TButton;
     AlbumCoverSizeBox: TComboBox;
@@ -83,6 +85,8 @@ Type
     EnablePluginsBox: TCheckBox;
     Label7: TLabel;
     Label8: TLabel;
+    CmdlineMemo: TMemo;
+    EditCmdlinePanel: TPanel;
     SortAlbumBox: TCheckBox;
     LoadPlaylistBox: TCheckBox;
     StopOnClearBox: TCheckBox;
@@ -131,9 +135,11 @@ Type
     procedure AudioBackendChange(Sender: TObject);
     Procedure Button1Click(Sender: TObject);
     Procedure ClearCoverClick(Sender: TObject);
+    procedure UseExternalCfgCheckBoxChange(Sender: TObject);
     procedure EnablePluginsBoxClick(Sender: TObject);
     Procedure FormCreate(Sender: TObject);
     procedure guesstag1Change(Sender: TObject);
+    procedure Label9Click(Sender: TObject);
     Procedure LanguageBoxChange(Sender: TObject);
     Procedure PluginListMouseDown(Sender: TObject; Button: TMouseButton;
                                   Shift: TShiftState; X, Y: Integer);
@@ -203,6 +209,12 @@ Begin
   if AudioBackend.ItemIndex=0 then CactusConfig.AudioBackend:=MPLAYERBACK
       else CactusConfig.AudioBackend:=FMODBACK;
 {$endif}
+  CactusConfig.MPlayerUseExternalConfig:=UseExternalCfgCheckBox.Checked;
+  if (PlayerObj is TMPlayerClass) then begin
+         (PlayerObj as TMPlayerClass).UseExternalConfig:=CactusConfig.MPlayerUseExternalConfig;
+         if (PlayerObj as TMPlayerClass).UseExternalConfig then
+            CmdlineMemo.Lines.SaveToFile((PlayerObj as TMPlayerClass).ExternalConfigFile);
+  end;
 
   CactusConfig.GuessTag := guesstag1.checked;
   CactusConfig.MarkGuessedTags:= MarkGuessBox.Checked;
@@ -298,6 +310,11 @@ Begin
     End;
 End;
 
+procedure TSettings.UseExternalCfgCheckBoxChange(Sender: TObject);
+begin
+  CmdlineMemo.Enabled:=UseExternalCfgCheckBox.Checked;
+end;
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 procedure TSettings.EnablePluginsBoxClick(Sender: TObject);
@@ -378,8 +395,16 @@ Begin
   kdeservicebox.Checked := CactusConfig.KDEServiceMenu;
   If CactusConfig.AudioSystem=ALSAOUT then AudioOut.ItemIndex := 0
           Else AudioOut.ItemIndex := 1;
-  If CactusConfig.AudioBackend=MPLAYERBACK then AudioBackend.ItemIndex := 0
-          Else AudioBackend.ItemIndex := 1;
+  If CactusConfig.AudioBackend=MPLAYERBACK then begin
+     AudioBackend.ItemIndex := 0;
+     EditCmdlinePanel.Visible:=true;
+     UseExternalCfgCheckBox.Checked:=CactusConfig.MPlayerUseExternalConfig;
+     CmdlineMemo.Enabled:=CactusConfig.MPlayerUseExternalConfig;
+     CmdlineMemo.Lines.LoadFromFile((PlayerObj as TMPlayerClass).ExternalConfigFile);
+  end Else begin
+      AudioBackend.ItemIndex := 1;
+      EditCmdlinePanel.Visible:=False;
+  end;
   servicemenu_changed := false;
   kdeservicebox.Visible := true;
  {$else}
@@ -443,6 +468,11 @@ procedure TSettings.guesstag1Change(Sender: TObject);
 begin
      if guesstag1.Checked then MarkGuessBox.Enabled:=true
             else MarkGuessBox.Enabled:=false;
+end;
+
+procedure TSettings.Label9Click(Sender: TObject);
+begin
+
 end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
