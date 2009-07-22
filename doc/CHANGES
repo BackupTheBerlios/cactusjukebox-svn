@@ -1,3 +1,11 @@
+Changes from 0.4.1 to 0.4.2
+	- MPlayer engine can now use its own config file. Makes it 
+	  possible to access MPlayer functions like EQ, select soundcard, ...
+	- Several fixes concerning th eplaylist(Drag'n'drop, popupmenu,...)
+	- Fixed a bug causing high cpu load during playback
+	- New/Updated translations: spanish, french, ...
+
+
 Changes from 0.4 to 0.4.1
 	- Support for OGG, WMA and FLAC adden (thanks Monta!)
 	- Meta tag reader improvements, faster indexing
