@@ -222,7 +222,10 @@ Begin
     For i:= 1 To 128 Do
       Begin
         b := byte(bufstr[i]);
-        If (b=0) Then bufstr[i] := #32;
+        If (b<32) Then bufstr[i] := #32;
+        //TODO: This also replaces line breaks!!
+        //      Done here because line breaks in tags collapse cactus database
+        //      file which uses a fixed linecount for one entry
       End;
     tagpos := pos('TAG',bufstr)+3;
     If tagpos<>3 Then

@@ -257,6 +257,7 @@ End;
 Function TMediaCollectionClass.LoadFromFile(path: String): boolean;
 
 Var i: integer;
+  linecount: longint;
   lfile: textfile;
   RPath, tmps: String;
   NumEntries: Integer;
@@ -265,6 +266,7 @@ Var i: integer;
 Begin
   savepath := path;
   sortState := FSorted;
+  linecount:=0;
   Try
     system.assign(lfile,path);
     reset(lfile);
@@ -288,27 +290,43 @@ Begin
     If PathFmt = FRelative Then RPath := IncludeTrailingPathDelimiter(DirList[0])
     Else RPath := '';
     readln(lfile);
+      linecount:=5;
     fsorted := false;
     For i:= 0 To  NumEntries-1 Do
       Begin
         MedFileObj := TMediaFileClass.create(self);
         MedFileObj.action := ANOTHING;
         readln(lfile, MedFileObj.path);
+        inc(linecount);
         If PathFmt = FRelative Then MedFileObj.Path := RPath+MedFileObj.Path;
         readln(lfile, MedFileObj.id);
+        inc(linecount);
         readln(lfile, MedFileObj.artist);
+        inc(linecount);
         readln(lfile, MedFileObj.album);
+        inc(linecount);
         readln(lfile, MedFileObj.title);
+        inc(linecount);
         readln(lfile, MedFileObj.year);
+        inc(linecount);
         readln(lfile, MedFileObj.comment);
+        inc(linecount);
         readln(lfile, MedFileObj.track);
+        inc(linecount);
         readln(lfile, MedFileObj.size);
+        inc(linecount);
         readln(lfile, MedFileObj.filetype);
+        inc(linecount);
         readln(lfile, MedFileObj.bitrate);
+        inc(linecount);
         readln(lfile, MedFileObj.samplerate);
+        inc(linecount);
         readln(lfile, MedFileObj.playlength);
+        inc(linecount);
         readln(lfile, MedFileObj.GenreID);
+        inc(linecount);
         readln(lfile, MedFileObj.playtime);
+        inc(linecount);
         add(MedFileObj);
       End;
     fsorted := sortState;
@@ -321,6 +339,7 @@ Begin
     writeln('lib seems corupted');
     write('exception at entry ');
     writeln(i);
+    witeln('line: ');writeln(linecount);
     result := false;
   End;
 End;
@@ -471,20 +490,26 @@ Begin
   i := 0;
   If SortedState Then
     Begin
-      If MedFileObj.Artist<>'' Then
-        Begin
-          While (i<ItemCount) And (CompareText(items[i].Artist, MedFileObj.Artist)<0)
-            Do
-            inc(i);
+      try
+        If MedFileObj.Artist<>'' Then
+          Begin
+            While (i<ItemCount) And (CompareText(items[i].Artist, MedFileObj.Artist)<0)
+              Do
+              inc(i);
 
-          While (i<=ItemCount-1) And (CompareText(items[i].Artist, MedFileObj.Artist)=0) And
-                (CompareText(items[i].Title, MedFileObj.Title)<0)
-            Do
-            inc(i);
-        End;
-      inherited Insert(i, MedFileObj);
-      If AutoEnum Then enumerate(i)
-      Else FEnumerated := false;
+            While (i<=ItemCount-1) And (CompareText(items[i].Artist, MedFileObj.Artist)=0) And
+                  (CompareText(items[i].Title, MedFileObj.Title)<0)
+              Do
+              inc(i);
+          End;
+        inherited Insert(i, MedFileObj);
+        If AutoEnum Then enumerate(i)
+        Else FEnumerated := false;
+
+      except
+        writeln('exception sorting object in library');
+        writeln(MedFileObj.Path);
+      end;
     End
   Else
     Begin
