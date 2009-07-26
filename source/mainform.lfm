@@ -1,7 +1,7 @@
 object Main: TMain
-  Left = 1322
+  Left = 168
   Height = 720
-  Top = 264
+  Top = 162
   Width = 893
   ActiveControl = Panel4
   Caption = 'titel'
