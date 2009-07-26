@@ -4,7 +4,7 @@
 
 [package]
 name=cactusjukebox
-version=0.4.1stable
+version=$(shell ./tools/get_cactus_version_string.sh source/cactus_const.inc)
 
 [require]
 
@@ -45,7 +45,7 @@ ZIPSRCDIR=packages/zip/$(LCL_PLATFORM)
 endif
 
 ifndef CACTUS_VERSION
-CACTUS_VERSION=$(shell ./tools/get_cactus_version_string.sh)
+CACTUS_VERSION=$(shell ./tools/get_cactus_version_string.sh source/cactus_const.inc)
 endif
 
 ifndef ARCH

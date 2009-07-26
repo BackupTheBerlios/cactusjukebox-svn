@@ -4,7 +4,7 @@
 
 [package]
 name=cactusjukebox
-version=0.4stable
+version=$(shell ./get_cactus_version_string.sh ../source/cactus_const.inc)
 
 [require]
 

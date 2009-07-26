@@ -4,23 +4,24 @@
 
 [package]
 name=cactusjukebox
-version=0.4stable
+version=$(shell ../tools/get_cactus_version_string.sh cactus_const.inc)
 
 [require]
 
 [compiler]
-options=-MObjFPC -gl -dLCL -dLCL$(LCL_PLATFORM) -o$(EXE_NAME) 
+options=-MObjFPC -gl -dLCL -dLCL$(LCL_PLATFORM) -o$(EXE_NAME)
 unitdir=$(LCL_DIR)/lcl/units/$(CPU_TARGET)-$(OS_TARGET) \
 	$(LCL_DIR)/lcl/units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM) \
 	$(LCL_DIR)/components/images/ \
 	$(LCL_DIR)/components/images/lib/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM) \
 	$(LCL_DIR)/packager/units/$(CPU_TARGET)-$(OS_TARGET) \
-	$(LNET_DIR) \
-	$(SYNAPSE_DIR) \
 	fmodintf/ \
-	tagreader/
+	tagreader/ \
+	plugin/sdk/ \
+	plugin/impl/
 
-unittargetdir=./
+
+unittargetdir=obj/
 targetdir=../
 
 
@@ -29,7 +30,7 @@ targetdir=../
 programs=mp3proj
 
 [clean]
-files=$(wildcard *$(OEXT)) $(wildcard *$(PPUEXT)) $(wildcard *$(RSTEXT))  $(wildcard *$(STATICLIBEXT))
+files=$(wildcard obj/*$(OEXT)) $(wildcard obj/*$(PPUEXT)) $(wildcard obj/*$(RSTEXT))  $(wildcard obj/*$(STATICLIBEXT))
 
 [prerules]
 #
@@ -40,8 +41,6 @@ EXE_NAME=cactus_jukebox
 # LCL Directory
 #LCL_DIR=/home/daseeb/devel/lazarus-svn64
 LCL_DIR=$(LCL_DIRECTORY)
-LNET_DIR=/home/daseeb/devel/units/lnet-0.4.0/lib
-SYNAPSE_DIR=/home/daseeb/devel/units/synapse/source/lib
 
 #
 # LCL Platform
