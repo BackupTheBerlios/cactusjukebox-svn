@@ -16,13 +16,21 @@
 //******************************************************************************
 //   WARNING -TO TEST IN ExtFind  (compare of method is different under Lazarus?)
 
+
+/////////////////////////////////////////////////////////////
+//SK: I commented out reference to missing ObjectInstance unit 
+//TODO: Check reference to unit ObjectInstances
+//
+///////////////////////////////////////////////////////////
+
+
 unit MGSignals;
 {$mode delphi}{$H+}
 
 interface
 uses MGTree16, MGList,
      {$ifdef WINDOWS}
-      Windows, ObjectInstance,
+      Windows, {ObjectInstance,}
      {$endif}
      Messages, Forms;
 
@@ -217,7 +225,7 @@ end;
 constructor TMGSignals.Create(HandleClassName, HandleWindowName :String);
 begin
      Create;
-     rHandle := ObjectInstance.AllocateHWnd(MainWndProc, HandleClassName, HandleWindowName);
+ //    rHandle := ObjectInstance.AllocateHWnd(MainWndProc, HandleClassName, HandleWindowName);
 end;
 {$endif}
 
@@ -230,8 +238,8 @@ end;
 destructor TMGSignals.Destroy;
 begin
 {$ifdef WINDOWS}
-     if (rHandle<>0)
-     then ObjectInstance.DeallocateHWnd(rHandle);
+//     if (rHandle<>0)
+//     then ObjectInstance.DeallocateHWnd(rHandle);
 {$endif}
 
      rClients.Clear(0, FreeLists);
