@@ -169,7 +169,7 @@ if (index<Playlist.ItemCount) and (index>=0)  then begin
            if OutputMode=OSSOUT then MPOptions:=MPOptions+' -ao oss';
        end else MPOptions:='-include '+ExternalConfigFile;
 
-       MPOptions:=MPOptions + ' -af volume=' + IntToStr(IntTodB(FVolume, 100));// -volume xx only supported with patched mplayer';
+       MPOptions:=MPOptions + ' -af volume=' + IntToStr(IntTodB(FVolume, 100));// -volume xx only supported with patched mplayer;
 
        FPlaybackMode:=FILE_MODE;
        //DebugOutLn('playing  -> '+playlist.items[index].path, 1);

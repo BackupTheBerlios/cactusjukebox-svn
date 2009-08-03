@@ -5,7 +5,7 @@ object Main: TMain
   Width = 893
   ActiveControl = Panel4
   Caption = 'titel'
-  ClientHeight = 699
+  ClientHeight = 698
   ClientWidth = 893
   Icon.Data = {
     3E42000000000100010040400000010020002842000016000000280000004000
@@ -549,8 +549,8 @@ object Main: TMain
   LCLVersion = '0.9.27'
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 20
-    Top = 679
+    Height = 18
+    Top = 680
     Width = 893
     Panels = <    
       item
@@ -564,7 +564,7 @@ object Main: TMain
   end
   object Splitter1: TSplitter
     Left = 288
-    Height = 679
+    Height = 680
     Top = 0
     Width = 8
     Align = alRight
@@ -576,19 +576,19 @@ object Main: TMain
   end
   object Panel1: TPanel
     Left = 296
-    Height = 679
+    Height = 680
     Top = 0
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 679
+    ClientHeight = 680
     ClientWidth = 597
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
       Left = 0
-      Height = 246
+      Height = 247
       Top = 5
       Width = 587
       Align = alTop
@@ -636,7 +636,7 @@ object Main: TMain
           AutoSize = True
           Caption = 'Length'
           MaxWidth = 60
-          Width = 371
+          Width = 356
         end>
       PopupMenu = titlelistmenu
       ReadOnly = True
@@ -659,7 +659,7 @@ object Main: TMain
       Cursor = crVSplit
       Left = 0
       Height = 10
-      Top = 251
+      Top = 252
       Width = 597
       Align = alTop
       ResizeAnchor = akTop
@@ -667,7 +667,7 @@ object Main: TMain
     object Panel3: TPanel
       Left = 0
       Height = 418
-      Top = 261
+      Top = 262
       Width = 597
       Align = alClient
       BevelOuter = bvNone
@@ -871,9 +871,9 @@ object Main: TMain
         end
         object randomcheck: TCheckBox
           Left = 135
-          Height = 23
+          Height = 21
           Top = 250
-          Width = 73
+          Width = 69
           Caption = 'Random'
           OnChange = randomcheckChange
           TabOrder = 3
@@ -926,7 +926,7 @@ object Main: TMain
           item
             AutoSize = True
             Caption = 'Playlist'
-            Width = 342
+            Width = 327
           end>
         PopupMenu = playlistmenu
         ReadOnly = True
@@ -956,7 +956,7 @@ object Main: TMain
         TabOrder = 2
         object filetypebox: TComboBox
           Left = 360
-          Height = 24
+          Height = 28
           Top = 14
           Width = 90
           ItemHeight = 0
@@ -1019,11 +1019,11 @@ object Main: TMain
       end
       object clear_list: TBitBtn
         AnchorSideBottom.Side = asrCenter
-        Left = 514
+        Left = 517
         Height = 34
         Hint = 'Clear Playlist'
         Top = 33
-        Width = 70
+        Width = 67
         Anchors = [akTop, akRight]
         AutoSize = True
         Caption = 'Clear'
@@ -1092,19 +1092,19 @@ object Main: TMain
   end
   object Panel4: TPanel
     Left = 0
-    Height = 679
+    Height = 680
     Top = 0
     Width = 288
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 679
+    ClientHeight = 680
     ClientWidth = 288
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 26
-      Height = 669
+      Height = 670
       Top = 5
       Width = 259
       Align = alClient
@@ -1114,7 +1114,7 @@ object Main: TMain
       BorderSpacing.InnerBorder = 20
       BorderSpacing.CellAlignHorizontal = ccaLeftTop
       BorderSpacing.CellAlignVertical = ccaLeftTop
-      DefaultItemHeight = 17
+      DefaultItemHeight = 16
       DragMode = dmAutomatic
       ExpandSignType = tvestArrow
       Images = ImageList1
@@ -1209,7 +1209,7 @@ object Main: TMain
     end
     object ToolBar1: TToolBar
       Left = 0
-      Height = 674
+      Height = 675
       Top = 5
       Width = 26
       Align = alLeft

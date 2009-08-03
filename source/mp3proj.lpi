@@ -16,7 +16,7 @@
       <AutoIncrementBuild Value="True"/>
       <CurrentMajorRevNr Value="3"/>
       <CurrentMinorRevNr Value="5"/>
-      <CurrentBuildNr Value="510"/>
+      <CurrentBuildNr Value="604"/>
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
@@ -102,9 +102,9 @@
         <UnitName Value="functions"/>
       </Unit9>
       <Unit10>
-        <Filename Value="aws.pas"/>
+        <Filename Value="last_fm.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="aws"/>
+        <UnitName Value="last_fm"/>
       </Unit10>
       <Unit11>
         <Filename Value="mediacol.pas"/>
@@ -226,6 +226,7 @@
     <SearchPaths>
       <OtherUnitFiles Value="fmodintf/;tagreader/;plugin/sdk/;plugin/impl/"/>
       <UnitOutputDirectory Value="../source/obj"/>
+      <SrcPath Value="/home/daseeb/devel/units/synapse/source/lib/"/>
       <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
     <Parsing>
@@ -254,7 +255,6 @@
       <CustomOptions Value="-dCactusDebug
 "/>
       <CompilerPath Value="$(CompPath)"/>
-      <CreateMakefileOnBuild Value="True"/>
     </Other>
   </CompilerOptions>
 </CONFIG>

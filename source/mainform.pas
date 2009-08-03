@@ -34,7 +34,7 @@ Uses
 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, Buttons,
 ExtCtrls, ComCtrls, StdCtrls, Menus,{$ifdef fmod} fmodplayer,{$endif}
-ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, aws, debug, config,
+ActnList, mediacol, dos, SimpleIPC, functions, EditBtn, last_fm, debug, config,
 playlist, playerclass, mplayer, mp3file, Messages, LMessages, cj_interfaces;
 
 resourcestring
@@ -451,7 +451,7 @@ Type
     sourceitem: TListItem;
     CoverFound, title_drag, playlist_drag, artist_drag: Boolean;
     DeviceMode, NetworkMode, LibraryMode: boolean;
-    awsclass: TAWSAccess;
+    LastFMAPI: TLastfmAPIObject;
     ScanSyncCount: Integer;
     FileOpneDialogPath: string;
     bPnlPlaytimeNegated: boolean;
@@ -989,7 +989,7 @@ Begin
         If CactusConfig.CoverDownload and (CoverFound=false) And (LoopCount<20) Then
           Begin
             inc(LoopCount);
-            If (assigned(awsclass)) And (awsclass.data_ready){  }Then
+            If (assigned(LastFMAPI)) And (LastFMAPI.data_ready) Then
               Begin
                 fileobj := TMediaFileClass(playlist.Items[PlayerObj.CurrentTrack].Data);
                 If FileExists(fileobj.CoverPath) Then
@@ -1002,7 +1002,7 @@ Begin
                     End;
                   End;
                 CoverFound := true;
-                FreeAndNil(awsclass);
+                FreeAndNil(LastFMAPI);
               End;
           End
         Else If (LoopCount>=20) And (CoverFound=false) Then CoverImage.Picture.Clear;
@@ -3655,10 +3655,10 @@ Begin
               CoverImage.Picture.Clear;
               If  (CactusConfig.CoverDownload) Then
                 Begin
-                  awsclass := TAWSAccess.CreateRequest(MedFileObj.Artist, MedFileObj.album);
-                  if CactusConfig.CoverSize='large' then awsclass.CoverSize:=AWSLargeImage
-                        else awsclass.CoverSize:=AWSMediumImage;
-                  awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
+                  LastFMAPI := TLastfmAPIObject.Create;
+                  if CactusConfig.CoverSize='large' then LastFMAPI.CoverSize:=ExtralargeImage
+                            else LastFMAPI.CoverSize:=LargeImage;
+                  LastFMAPI.album_downloadCover(MedFileObj.Artist, MedFileObj.Album, MedFileObj.CoverPath);
                 End;
             End
           Else

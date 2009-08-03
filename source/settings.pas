@@ -76,6 +76,9 @@ Type
     CDRomEdit: TEdit;
     AutoPlayBox: TCheckBox;
     AudioBackend: TComboBox;
+    Image1: TImage;
+    Label10: TLabel;
+    Label11: TLabel;
     UseExternalCfgCheckBox: TCheckBox;
     Label9: TLabel;
     MarkGuessBox: TCheckBox;
@@ -135,6 +138,7 @@ Type
     procedure AudioBackendChange(Sender: TObject);
     Procedure Button1Click(Sender: TObject);
     Procedure ClearCoverClick(Sender: TObject);
+    procedure StaticText1Click(Sender: TObject);
     procedure UseExternalCfgCheckBoxChange(Sender: TObject);
     procedure EnablePluginsBoxClick(Sender: TObject);
     Procedure FormCreate(Sender: TObject);
@@ -309,6 +313,11 @@ Begin
       Else writeln('ERROR while clearing covercache...');
     End;
 End;
+
+procedure TSettings.StaticText1Click(Sender: TObject);
+begin
+
+end;
 
 procedure TSettings.UseExternalCfgCheckBoxChange(Sender: TObject);
 begin

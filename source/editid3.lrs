@@ -54,20 +54,20 @@ LazarusResources.Add('TEditID3','FORMDATA',[
   +'ight'#0#8'OnChange'#7#13'activateEMode'#8'TabOrder'#2#0#0#0#5'TEdit'#10'tra'
   +'ckedit1'#4'Left'#2'B'#6'Height'#2#24#3'Top'#3#210#0#5'Width'#2'#'#9'MaxLeng'
   +'th'#2#4#8'OnChange'#7#13'activateEMode'#8'TabOrder'#2#4#0#0#7'TButton'#10'g'
-  +'uessname1'#4'Left'#3#22#1#6'Height'#2#26#3'Top'#2#31#5'Width'#2'b'#8'AutoSi'
+  +'uessname1'#4'Left'#3#22#1#6'Height'#2#28#3'Top'#2#31#5'Width'#2'd'#8'AutoSi'
   +'ze'#9#20'BorderSpacing.Around'#2#4#7'Caption'#6#13'Tag from name'#7'OnClick'
   +#7#14'guessnameClick'#8'TabOrder'#2#7#0#0#9'TComboBox'#7'cmbYear'#4'Left'#3
-  +#151#0#6'Height'#2#27#3'Top'#3#210#0#5'Width'#2'@'#10'ItemHeight'#2#0#9'MaxL'
+  +#151#0#6'Height'#2#24#3'Top'#3#210#0#5'Width'#2'@'#10'ItemHeight'#2#0#9'MaxL'
   +'ength'#2#4#8'OnChange'#7#13'cmbYearChange'#6'Sorted'#9#8'TabOrder'#2#8#4'Te'
   +'xt'#6#4'cmbY'#7'Visible'#8#0#0#9'TComboBox'#10'cmbComment'#4'Left'#2#19#6'H'
-  +'eight'#2#27#3'Top'#3'*'#1#5'Width'#3#196#0#10'ItemHeight'#2#0#8'OnChange'#7
+  +'eight'#2#24#3'Top'#3'*'#1#5'Width'#3#196#0#10'ItemHeight'#2#0#8'OnChange'#7
   +#13'activateEMode'#6'Sorted'#9#8'TabOrder'#2#9#4'Text'#6#10'cmbComment'#7'Vi'
-  +'sible'#8#0#0#9'TComboBox'#8'GenreBox'#4'Left'#2'C'#6'Height'#2#27#3'Top'#3
+  +'sible'#8#0#0#9'TComboBox'#8'GenreBox'#4'Left'#2'C'#6'Height'#2#24#3'Top'#3
   +#244#0#5'Width'#3#150#0#12'AutoComplete'#9#16'AutoCompleteText'#11#12'cbactE'
   +'nabled'#22'cbactEndOfLineComplete'#20'cbactSearchAscending'#0#10'ItemHeight'
   ,#2#0#8'OnChange'#7#13'activateEMode'#6'Sorted'#9#8'TabOrder'#2#11#0#0#0#9'TT'
-  +'abSheet'#8'fileinfo'#7'Caption'#6#9'File-Info'#12'ClientHeight'#3'T'#1#11'C'
-  +'lientWidth'#3#138#1#0#6'TLabel'#5'mtype'#4'Left'#2'('#6'Height'#2#20#3'Top'
+  +'abSheet'#8'fileinfo'#7'Caption'#6#9'File-Info'#12'ClientHeight'#3'v'#1#11'C'
+  +'lientWidth'#3#151#1#0#6'TLabel'#5'mtype'#4'Left'#2'('#6'Height'#2#20#3'Top'
   +#2'"'#5'Width'#2'>'#7'Caption'#6#10'Mediatype:'#11'ParentColor'#8#0#0#6'TLab'
   +'el'#7'bitrate'#4'Left'#2'('#6'Height'#2#20#3'Top'#2'r'#5'Width'#2'Q'#7'Capt'
   +'ion'#6#14'Bitrate: 0kbps'#11'ParentColor'#8#0#0#6'TLabel'#5'fsize'#4'Left'#2
@@ -81,7 +81,7 @@ LazarusResources.Add('TEditID3','FORMDATA',[
   +'op'#3#194#0#5'Width'#2'5'#7'Caption'#6#10'FileIndex:'#11'ParentColor'#8#0#0
   +#6'TImage'#8'Filelogo'#4'Left'#3#230#0#6'Height'#2'd'#3'Top'#2'"'#5'Width'#2
   +'d'#0#0#0#9'TTabSheet'#9'StreamTab'#7'Caption'#6#11'Stream-Info'#12'ClientHe'
-  +'ight'#3'T'#1#11'ClientWidth'#3#138#1#0#6'TLabel'#6'Label1'#4'Left'#2#26#6'H'
+  +'ight'#3'v'#1#11'ClientWidth'#3#151#1#0#6'TLabel'#6'Label1'#4'Left'#2#26#6'H'
   +'eight'#2#14#3'Top'#2#15#5'Width'#2'"'#7'Caption'#6#4'Name'#5'Color'#7#12'cl'
   +'Background'#11'ParentColor'#8#11'Transparent'#8#0#0#6'TLabel'#6'Label2'#4'L'
   +'eft'#2#26#6'Height'#2#14#3'Top'#2'O'#5'Width'#2'D'#7'Caption'#6#10'Stream U'

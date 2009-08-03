@@ -208,9 +208,9 @@ object EditID3: TEditID3
       end
       object guessname1: TButton
         Left = 278
-        Height = 26
+        Height = 28
         Top = 31
-        Width = 98
+        Width = 100
         AutoSize = True
         BorderSpacing.Around = 4
         Caption = 'Tag from name'
@@ -219,7 +219,7 @@ object EditID3: TEditID3
       end
       object cmbYear: TComboBox
         Left = 151
-        Height = 27
+        Height = 24
         Top = 210
         Width = 64
         ItemHeight = 0
@@ -232,7 +232,7 @@ object EditID3: TEditID3
       end
       object cmbComment: TComboBox
         Left = 19
-        Height = 27
+        Height = 24
         Top = 298
         Width = 196
         ItemHeight = 0
@@ -244,7 +244,7 @@ object EditID3: TEditID3
       end
       object GenreBox: TComboBox
         Left = 67
-        Height = 27
+        Height = 24
         Top = 244
         Width = 150
         AutoComplete = True
@@ -257,8 +257,8 @@ object EditID3: TEditID3
     end
     object fileinfo: TTabSheet
       Caption = 'File-Info'
-      ClientHeight = 340
-      ClientWidth = 394
+      ClientHeight = 374
+      ClientWidth = 407
       object mtype: TLabel
         Left = 40
         Height = 20
@@ -324,8 +324,8 @@ object EditID3: TEditID3
     end
     object StreamTab: TTabSheet
       Caption = 'Stream-Info'
-      ClientHeight = 340
-      ClientWidth = 394
+      ClientHeight = 374
+      ClientWidth = 407
       object Label1: TLabel
         Left = 26
         Height = 14

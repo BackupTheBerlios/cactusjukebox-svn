@@ -22,7 +22,7 @@ Interface
 
 Uses 
 Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  {ExtCtrls,} Buttons, ComCtrls, lcltype, mediacol, ExtCtrls, skin, aws, streamcol,
+  {ExtCtrls,} Buttons, ComCtrls, lcltype, mediacol, ExtCtrls, skin, last_fm, streamcol,
   settings, debug, mp3file;
 
 
@@ -132,7 +132,7 @@ Type
     timer_loop_count: integer;
     request_send: boolean;
     picrequest_send: boolean;
-    awsclass: TAWSAccess;
+    LastFMAPI: TLastfmAPIObject;
     bEModeActive: boolean;
 
     GenreIDtoCBIndex: array[0..255, 0..255] of integer;  //used to translate genre id to checkbox item index
@@ -409,17 +409,17 @@ Begin
   inc(timer_loop_count);
   If (timer_loop_count Mod 8)=0 Then AlbumCoverImg.Canvas.Clear
   Else AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-  If (picrequest_send And awsclass.ImgNotFound) Or (timer_loop_count>20) Then
+  If (timer_loop_count>20) Then
     Begin
       DebugOutLn('TIMEOUT while loading album cover image from Internet', 2);
       AlbumCoverImg.Canvas.Clear;
       AlbumCoverImg.Canvas.TextOut(10,10, 'No cover found :(');
-      awsclass.free;
+      LastFMAPI.free;
       picrequest_send := false;
       PicDownloadTimer.Enabled := false;
     End;
 
-  If (picrequest_send) And awsclass.data_ready Then
+  If (picrequest_send) And LastFMAPI.data_ready Then
     Begin
       writeln(MedFileObj.CoverPath);
       AlbumCoverImg.Canvas.Clear;
@@ -428,7 +428,7 @@ Begin
       Except
         DebugOutLn('EXCEPTION', 1);
       End;
-      awsclass.free;
+      LastFMAPI.free;
       picrequest_send := false;
       PicDownloadTimer.Enabled := false;
     End;
@@ -667,9 +667,7 @@ Begin
       If album_only = true
         Then
         Begin
-          writeln('########AlbumCover');
-          // DEBUG-INFO
-          writeln('kkk');
+          DebugOutLn('########AlbumCover', 5);
           If MedFileObj.album<>''
             Then
             Begin
@@ -681,7 +679,7 @@ Begin
                   Try
                     AlbumCoverImg.Picture.LoadFromFile(MedFileObj.CoverPath);
                   Except
-                    writeln('EXCEPTION');
+                    writeln('EXCEPTION loading cover file from '+MedFileObj.CoverPath);
                   End;
                 End
               Else
@@ -689,14 +687,14 @@ Begin
                   If CactusConfig.CoverDownload
                     Then
                     Begin
-                      awsclass := TAWSAccess.CreateRequest(MedFileObj.artist, MedFileObj.album);
-                      if CactusConfig.CoverSize='large' then awsclass.CoverSize:=AWSLargeImage
-                            else awsclass.CoverSize:=AWSMediumImage;
-                      awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
+                      LastFMAPI := TLastfmAPIObject.Create;
+                      if CactusConfig.CoverSize='large' then LastFMAPI.CoverSize:=ExtralargeImage
+                            else LastFMAPI.CoverSize:=LargeImage;
+                      LastFMAPI.album_downloadCover(MedFileObj.artist, MedFileObj.album, MedFileObj.CoverPath);
                       picrequest_send := true;
                       AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
-                      Application.ProcessMessages;
                       PicDownloadTimer.Enabled := true;
+                      Application.ProcessMessages;
                     End;
                 End;
             End;
@@ -754,10 +752,10 @@ Begin
               If CactusConfig.CoverDownload
                 Then
                 Begin
-                  awsclass := TAWSAccess.CreateRequest(MedFileObj.artist, MedFileObj.album);
-                  if CactusConfig.CoverSize='large' then awsclass.CoverSize:=AWSLargeImage
-                            else awsclass.CoverSize:=AWSMediumImage;
-                  awsclass.AlbumCoverToFile(MedFileObj.CoverPath);
+                  LastFMAPI := TLastfmAPIObject.Create;
+                  if CactusConfig.CoverSize='large' then LastFMAPI.CoverSize:=ExtralargeImage
+                            else LastFMAPI.CoverSize:=LargeImage;
+                  LastFMAPI.album_downloadCover(MedFileObj.artist, MedFileObj.album, MedFileObj.CoverPath);
                   picrequest_send := true;
                   AlbumCoverImg.Canvas.TextOut(10,10, 'Loading...');
                   PicDownloadTimer.Enabled := true;
