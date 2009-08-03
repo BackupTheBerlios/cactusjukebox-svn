@@ -550,7 +550,7 @@ object Main: TMain
   object StatusBar1: TStatusBar
     Left = 0
     Height = 18
-    Top = 680
+    Top = 702
     Width = 893
     Panels = <    
       item
@@ -564,7 +564,7 @@ object Main: TMain
   end
   object Splitter1: TSplitter
     Left = 288
-    Height = 680
+    Height = 702
     Top = 0
     Width = 8
     Align = alRight
@@ -576,19 +576,19 @@ object Main: TMain
   end
   object Panel1: TPanel
     Left = 296
-    Height = 680
+    Height = 702
     Top = 0
     Width = 597
     Align = alRight
     BevelOuter = bvNone
-    ClientHeight = 680
+    ClientHeight = 702
     ClientWidth = 597
     TabOrder = 0
     OnClick = Panel1Click
     OnResize = Panel1Resize
     object TitleTree: TListView
       Left = 0
-      Height = 247
+      Height = 256
       Top = 5
       Width = 587
       Align = alTop
@@ -659,19 +659,19 @@ object Main: TMain
       Cursor = crVSplit
       Left = 0
       Height = 10
-      Top = 252
+      Top = 261
       Width = 597
       Align = alTop
       ResizeAnchor = akTop
     end
     object Panel3: TPanel
       Left = 0
-      Height = 418
-      Top = 262
+      Height = 431
+      Top = 271
       Width = 597
       Align = alClient
       BevelOuter = bvNone
-      ClientHeight = 418
+      ClientHeight = 431
       ClientWidth = 597
       TabOrder = 2
       object PlayerControlsPanel: TPanel
@@ -916,7 +916,7 @@ object Main: TMain
       end
       object Playlist: TListView
         Left = 237
-        Height = 336
+        Height = 349
         Top = 75
         Width = 348
         Align = alCustom
@@ -1092,19 +1092,19 @@ object Main: TMain
   end
   object Panel4: TPanel
     Left = 0
-    Height = 680
+    Height = 702
     Top = 0
     Width = 288
     Align = alClient
     BorderSpacing.InnerBorder = 30
     BevelOuter = bvNone
-    ClientHeight = 680
+    ClientHeight = 702
     ClientWidth = 288
     TabOrder = 1
     OnClick = Panel4Click
     object ArtistTree: TTreeView
       Left = 26
-      Height = 670
+      Height = 692
       Top = 5
       Width = 259
       Align = alClient
@@ -1209,7 +1209,7 @@ object Main: TMain
     end
     object ToolBar1: TToolBar
       Left = 0
-      Height = 675
+      Height = 697
       Top = 5
       Width = 26
       Align = alLeft

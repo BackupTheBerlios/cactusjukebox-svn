@@ -4209,9 +4209,9 @@ End;
 
 Procedure TMain.TitleTreeDblClick(Sender: TObject);
 Begin
-  //Application.ProcessMessages;
+  Application.ProcessMessages;
   title_to_playlist;
-  //Application.ProcessMessages;
+  Application.ProcessMessages;
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -4254,8 +4254,10 @@ Var tsnode: TListitem;
   MedFileObj: TMediaFileClass;
 Begin
   tsnode := main.TitleTree.Selected;
+  DebugOutLn('title to playlist', 5);
   If (tsnode<>Nil) And (tsnode.ImageIndex<>4) Then
     Begin
+      DebugOutLn('title to playlist2', 5);
       MedFileObj := TMediaFileClass(tsnode.data);
 
       PlayerObj.playlist.add(MedFileObj);
@@ -4269,6 +4271,7 @@ Begin
       If Not PlayerObj.playing And CactusConfig.AutostartPlay And (main.Playlist.Items.Count
          =1) Then
         Begin
+          DebugOutLn('title to playlist3', 5);
           main.Playlist.Selected := Main.Playlist.Items[0];
           DebugOutLn(Main.Playlist.Selected.Caption, 3);
           Main.playClick(main);
