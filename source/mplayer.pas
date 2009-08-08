@@ -169,7 +169,7 @@ if (index<Playlist.ItemCount) and (index>=0)  then begin
            if OutputMode=OSSOUT then MPOptions:=MPOptions+' -ao oss';
        end else MPOptions:='-include '+ExternalConfigFile;
 
-       MPOptions:=MPOptions + ' -af volume=' + IntToStr(IntTodB(FVolume, 100));// -volume xx only supported with patched mplayer;
+       MPOptions:=' -af volume=' + IntToStr(IntTodB(FVolume, 100)) +' '+ MPOptions;// -volume xx only supported with patched mplayer;
 
        FPlaybackMode:=FILE_MODE;
        //DebugOutLn('playing  -> '+playlist.items[index].path, 1);
@@ -197,10 +197,13 @@ var MPOptions: String;
 begin
   if FPlaying then stop;
   MPlayerProcess:=TProcess.Create(nil);
+  if not UseExternalConfig then begin
+           MPOptions:='-slave -quiet -softvol';
+           if OutputMode=ALSAOUT then MPOptions:=MPOptions+' -ao alsa';
+           if OutputMode=OSSOUT then MPOptions:=MPOptions+' -ao oss';
+  end else MPOptions:='-include '+ExternalConfigFile;
 
-  MPOptions:='-slave -quiet -softvol -af volume='+IntToStr(IntTodB(FVolume, 100));  // -volume xx only supported with patched mplayer
-  if OutputMode=ALSAOUT then MPOptions:=MPOptions+' -ao alsa';
-  if OutputMode=OSSOUT then MPOptions:=MPOptions+' -ao oss';
+  MPOptions:='-af volume=' + IntToStr(IntTodB(FVolume, 100)) +' '+ MPOptions;// -volume xx only supported with patched mplayer;
 
   FPlaybackMode:=STREAMING_MODE;
   DebugOutLn('playing  -> '+url, 1);

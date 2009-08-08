@@ -1,9 +1,11 @@
 Changes from 0.4.1 to 0.4.2
+	- Last.fm is now used for album cover art download
 	- MPlayer engine can now use its own config file. Makes it 
 	  possible to access MPlayer functions like EQ, select soundcard, ...
-	- Several fixes concerning th eplaylist(Drag'n'drop, popupmenu,...)
+	- Several fixes concerning the playlist(Drag'n'drop, popupmenu,...)
 	- Fixed a bug causing high cpu load during playback
 	- New/Updated translations: spanish, french, ...
+
 
 
 Changes from 0.4 to 0.4.1
@@ -25,11 +27,9 @@ Changes from 0.3.8.1 to 0.4
 	- Brazilian translation added
 	- Windows port available
 
-
 Changes from 0.3.8 to 0.3.8.1
 	- Bugfix: Loading files directly form disk now working again
 	- Hungarian translation added
-
 
 Changes from 0.3 to 0.3.8
 	- Audio CD ripping facility
@@ -47,7 +47,6 @@ Changes from 0.3 to 0.3.8
 	- again: improved handling of non standard tags and files
 	- minor bugfixes
 	- internal code cleanups. SVN repository is available for developers now
-
 
 Changes from 0.2.4 to 0.3
 	- synchronize music with mobile devices/players
