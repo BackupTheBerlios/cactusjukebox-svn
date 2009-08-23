@@ -268,6 +268,7 @@ Type
     Procedure FormMouseDown(Sender: TOBject; Button: TMouseButton;
                             Shift: TShiftState; X, Y: Integer);
     Procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure itemTrayExitClick(Sender: TObject);
     procedure itemTrayPlayClick(Sender: TObject);
     Procedure LibModeBtnClick(Sender: TObject);
@@ -1318,6 +1319,11 @@ Begin
   Panel4.Width := oldSplitterWidth;
   Panel1.Width := Width-oldSplitterWidth-8;
 End;
+
+procedure TMain.FormShow(Sender: TObject);
+begin
+     Self.TrayIcon.Show();
+end;
 
 procedure TMain.WMSize(var Message: TLMSize);
 begin
