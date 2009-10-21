@@ -1,7 +1,7 @@
 object dirwin: Tdirwin
   Left = 350
   Height = 275
-  Top = 271
+  Top = 291
   Width = 471
   ActiveControl = add
   BorderIcons = [biSystemMenu, biMinimize]
@@ -12,7 +12,7 @@ object dirwin: Tdirwin
   OnCreate = FormCreate
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '0.9.25'
+  LCLVersion = '0.9.29'
   object add: TButton
     Left = 383
     Height = 25
@@ -74,9 +74,9 @@ object dirwin: Tdirwin
     Top = 8
     Width = 364
     Anchors = [akTop, akLeft, akRight, akBottom]
+    ItemHeight = 0
     OnClick = dirlistviewClick
     TabOrder = 5
-    TopIndex = -1
   end
   object SelectDirectoryDialog1: TSelectDirectoryDialog
     Title = 'Select Directory'

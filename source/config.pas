@@ -75,7 +75,7 @@ Type
 
 Var   CactusConfig: TConfigObject;
 
-Const configname = 'cactus.cfg';
+Const CONFIGNAME = 'cactus.cfg';
 
 
   Implementation

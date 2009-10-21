@@ -17,29 +17,96 @@
 //   WARNING -TO TEST IN ExtFind  (compare of method is different under Lazarus?)
 
 
-/////////////////////////////////////////////////////////////
-//SK: I commented out reference to missing ObjectInstance unit 
-//TODO: Check reference to unit ObjectInstances
-//
-///////////////////////////////////////////////////////////
-
-
 unit MGSignals;
 {$mode delphi}{$H+}
 
 interface
 uses MGTree16, MGList,
      {$ifdef WINDOWS}
-      Windows, {ObjectInstance,}
+      Windows,
      {$endif}
-     Messages, Forms;
+     Messages, Forms, Classes;
 
 Type
-    TSignalMethod = function (var Message: TMessage):Boolean of object;
+    TSignalMethod = function (var aMessage: TMessage):Boolean of object;
     //necessario xchè TSignalMethod è una coppia di puntatori...
     //necessary because TSignalMethod is a pair of pointers
     PSignalMethod =^TSignalMethod;
 
+    { TMGSignalsManager }
+
+    TMGSignalsManager = class
+    protected
+       rClients : TMGTree16;
+
+       procedure FreeClassOnList(Tag :Integer; wMessageID :Integer; wMessageList :TObject);
+       procedure FreeLists(Tag :Integer; wMessageID :Integer; wMessageList :TObject);
+    public
+       constructor Create;
+       destructor Destroy; override;
+       procedure Connect(ClassMethod :TSignalMethod; MessageID :Integer);
+       procedure Disconnect(ClassMethod :TSignalMethod; MessageID :Integer); overload;
+       procedure Disconnect(ClassPointer :TObject); overload;
+       function Signal(MessageID :Cardinal; WParam, LParam :Integer; var Handled :Boolean) :Integer; overload;
+       function Signal(var aMessage: TMessage) :Boolean; overload;
+    end;
+
+    { TMessagesList }
+
+    PMessage =^TMessage;
+
+    TMessagesList = class (TMGList)
+    protected
+        function allocData :Pointer; override;
+        procedure deallocData(pData :Pointer); override;
+    public
+        function Add(aMessage :TMessage) :PMessage; overload;
+    end;
+
+    { TSignalsAsyncThread }
+
+    TSignalsAsyncThread = class(TThread)
+    private
+       curMsg :PMessage;
+    protected
+       msgSignals : TMGSignalsManager;
+       msgList    : TMessagesList;
+
+       procedure _Signal;
+       procedure Execute; override;
+    public
+       constructor Create;
+       destructor Destroy; override;
+       procedure Connect(ClassMethod :TSignalMethod; MessageID :Integer; Priority :Integer=0);  //Priority for future use
+       procedure Disconnect(ClassMethod :TSignalMethod; MessageID :Integer); overload;
+       procedure Disconnect(ClassPointer :TObject); overload;
+       procedure Signal(MessageID :Cardinal; WParam, LParam :Integer); overload;
+       procedure Signal(aMessage: TMessage); overload;
+    end;
+
+    { TMGSignals }
+
+    TMGSignals = class
+    protected
+       signals_async :TSignalsAsyncThread;
+       signals_sync  :TMGSignalsManager;
+
+    public
+       constructor Create;
+       destructor Destroy; override;
+       procedure Connect(ClassMethod :TSignalMethod; MessageID :Integer);
+       procedure Disconnect(ClassMethod :TSignalMethod; MessageID :Integer); overload;
+       procedure Disconnect(ClassPointer :TObject); overload;
+       procedure ConnectAsync(ClassMethod :TSignalMethod; MessageID :Integer; Priority :Integer=0);  //Priority for future use
+       procedure DisconnectAsync(ClassMethod :TSignalMethod; MessageID :Integer); overload;
+       procedure DisconnectAsync(ClassPointer :TObject); overload;
+       function Signal(MessageID :Cardinal; WParam, LParam :Integer; var Handled :Boolean) :Integer; overload;
+       function Signal(var aMessage: TMessage) :Boolean; overload;
+    end;
+
+implementation
+
+Type
     TSignalMethodsList = class (TMGList)
     protected
         function allocData :Pointer; override;
@@ -52,39 +119,98 @@ Type
         function Delete(AMethod :TSignalMethod) :Boolean; overload;
         function DeleteByClassMethod(AMethod :TSignalMethod) :Boolean;
         procedure DeleteByClass(ClassPointer :TObject);
-        function CallAllMethods(var Message: TMessage) :Boolean;
+        function CallAllMethods(var aMessage: TMessage) :Boolean;
     end;
 
-    TMGSignals = class
-    protected
-     {$ifdef WINDOWS}
-       rHandle  : HWND;
-     {$endif}
-       rClients : TMGTree16;
 
-       procedure FreeClassOnList(Tag :Integer; wMessageID :Integer; wMessageList :TObject);
-       procedure FreeLists(Tag :Integer; wMessageID :Integer; wMessageList :TObject);
 
-       procedure MainWndProc(var Message: TMessage);
-       procedure WndProc(var Message: TMessage); virtual;
-    public
-       constructor Create; reintroduce;
-       {$ifdef WINDOWS} overload;
-       constructor Create(HandleClassName, HandleWindowName :String); overload;
-       {$endif}
-       destructor Destroy; override;
-       procedure Connect(ClassMethod :TSignalMethod; MessageID :Integer);
-       procedure Disconnect(ClassMethod :TSignalMethod; MessageID :Integer); overload;
-       procedure Disconnect(ClassPointer :TObject); overload;
-       function Signal(MessageID :Cardinal; WParam, LParam :Integer; var Handled :Boolean) :Integer; overload;
-       function Signal(var Message: TMessage) :Boolean; overload;
+{ TMessagesList }
 
-       {$ifdef WINDOWS}
-       property Handle: HWND read rHandle;
-       {$endif}
-    end;
+function TMessagesList.allocData: Pointer;
+begin
+     GetMem(Result, sizeOf(TSignalMethod));
+end;
 
-implementation
+procedure TMessagesList.deallocData(pData: Pointer);
+begin
+     FreeMem(pData, sizeOf(TSignalMethod));
+end;
+
+function TMessagesList.Add(aMessage: TMessage): PMessage;
+begin
+     Result :=Add;
+     Result^ :=aMessage;
+end;
+
+
+{ TSignalsAsyncThread }
+
+procedure TSignalsAsyncThread._Signal;
+begin
+     Self.msgSignals.Signal(curMsg^);
+end;
+
+procedure TSignalsAsyncThread.Execute;
+begin
+     //Get the Message from the First Position (Head)
+     curMsg :=msgList.GetFirst;
+     while (curMsg<>Nil) do
+     begin
+          //Process the Message
+          //maxm: For Future use may be 3 msgSignals owned by priority
+          Synchronize(_Signal);
+
+         msgList.DeleteFirst;
+         curMsg :=msgList.GetFirst;
+     end;
+end;
+
+constructor TSignalsAsyncThread.Create;
+begin
+     inherited Create(true);
+     msgList :=TMessagesList.Create;
+end;
+
+destructor TSignalsAsyncThread.Destroy;
+begin
+     msgList.Free;
+     inherited Destroy;
+end;
+
+procedure TSignalsAsyncThread.Connect(ClassMethod: TSignalMethod;  MessageID: Integer; Priority :Integer=0);
+begin
+     Self.msgSignals.Connect(ClassMethod, MessageID);
+end;
+
+procedure TSignalsAsyncThread.Disconnect(ClassMethod: TSignalMethod; MessageID: Integer);
+begin
+     Self.msgSignals.Disconnect(ClassMethod, MessageID);
+end;
+
+procedure TSignalsAsyncThread.Disconnect(ClassPointer: TObject);
+begin
+     Self.msgSignals.Disconnect(ClassPointer);
+end;
+
+procedure TSignalsAsyncThread.Signal(MessageID: Cardinal; WParam, LParam: Integer);
+Var
+   aMessage :TMessage;
+
+begin
+     aMessage.Msg :=MessageID;
+     aMessage.WParam :=WParam;
+     aMessage.LParam :=LParam;
+     Signal(aMessage);
+end;
+
+procedure TSignalsAsyncThread.Signal(aMessage: TMessage);
+begin
+     //Add the Message to Last Position (Tail)
+     msgList.Add(aMessage);
+     //Wakeup
+     Self.Resume;
+end;
+
 
 // =============================================================================
 
@@ -188,7 +314,7 @@ begin
      FindClose;
 end;
 
-function TSignalMethodsList.CallAllMethods(var Message: TMessage) :Boolean;
+function TSignalMethodsList.CallAllMethods(var aMessage: TMessage) :Boolean;
 Var
    Pt  :PSignalMethod;
 
@@ -199,7 +325,7 @@ begin
      while (Pt<>Nil) do
      begin
           if Assigned(Pt^)
-          then Result :=Pt^(Message)
+          then Result :=Pt^(aMessage)
           else Result :=False;
 
           if Result
@@ -212,66 +338,28 @@ end;
 
 // =============================================================================
 
-constructor TMGSignals.Create;
+constructor TMGSignalsManager.Create;
 begin
      inherited Create;
      rClients :=TMGTree16.Create;
-     {$ifdef WINDOWS}
-       rHandle :=0;
-     {$endif}
 end;
 
-{$ifdef WINDOWS}
-constructor TMGSignals.Create(HandleClassName, HandleWindowName :String);
-begin
-     Create;
- //    rHandle := ObjectInstance.AllocateHWnd(MainWndProc, HandleClassName, HandleWindowName);
-end;
-{$endif}
 
-procedure TMGSignals.FreeLists(Tag :Integer; wMessageID :Integer; wMessageList :TObject);
+procedure TMGSignalsManager.FreeLists(Tag :Integer; wMessageID :Integer; wMessageList :TObject);
 begin
      if (wMessageList<>Nil)
      then TSignalMethodsList(wMessageList).Free;
 end;
 
-destructor TMGSignals.Destroy;
+destructor TMGSignalsManager.Destroy;
 begin
-{$ifdef WINDOWS}
-//     if (rHandle<>0)
-//     then ObjectInstance.DeallocateHWnd(rHandle);
-{$endif}
-
      rClients.Clear(0, FreeLists);
      rClients.Free;
      inherited Destroy;
 end;
 
-procedure TMGSignals.MainWndProc(var Message: TMessage);
-begin
-  try
-    WndProc(Message);
-  except
-    Application.HandleException(Self);
-  end;
-end;
 
-procedure TMGSignals.WndProc(var Message: TMessage);
-Var
-   Handled :Boolean;
-
-begin
-     with Message do
-     begin
-          Result := Signal(Msg, wParam, lParam, Handled);
-          {$ifdef WINDOWS}
-          if not(Handled)
-          then Result := DefWindowProc(rHandle, Msg, wParam, lParam);
-          {$endif}
-     end;
-end;
-
-procedure TMGSignals.Connect(ClassMethod :TSignalMethod; MessageID :Integer);
+procedure TMGSignalsManager.Connect(ClassMethod :TSignalMethod; MessageID :Integer);
 Var
    TreeData :PMGTree16Data;
    theList  :TSignalMethodsList;
@@ -290,7 +378,7 @@ begin
      end;
 end;
 
-procedure TMGSignals.Disconnect(ClassMethod :TSignalMethod; MessageID :Integer);
+procedure TMGSignalsManager.Disconnect(ClassMethod :TSignalMethod; MessageID :Integer);
 Var
    uMessageID   :Integer;
    uMessageList :TObject;
@@ -308,7 +396,7 @@ begin
       end;
 end;
 
-procedure TMGSignals.FreeClassOnList(Tag :Integer; wMessageID :Integer; wMessageList :TObject);
+procedure TMGSignalsManager.FreeClassOnList(Tag :Integer; wMessageID :Integer; wMessageList :TObject);
 Var
    ClassPointer :TObject;
 
@@ -320,24 +408,24 @@ begin
      end;
 end;
 
-procedure TMGSignals.Disconnect(ClassPointer :TObject);
+procedure TMGSignalsManager.Disconnect(ClassPointer :TObject);
 begin
      rClients.WalkOnTree(Integer(ClassPointer), FreeClassOnList);
 end;
 
-function TMGSignals.Signal(MessageID :Cardinal; WParam, LParam :Integer; var Handled :Boolean) :Integer;
+function TMGSignalsManager.Signal(MessageID :Cardinal; WParam, LParam :Integer; var Handled :Boolean) :Integer;
 Var
-   Message :TMessage;
+   aMessage :TMessage;
 
 begin
-     Message.Msg :=MessageID;
-     Message.WParam :=WParam;
-     Message.LParam :=LParam;
-     Handled :=Signal(Message);
-     Result :=Message.Result;
+     aMessage.Msg :=MessageID;
+     aMessage.WParam :=WParam;
+     aMessage.LParam :=LParam;
+     Handled :=Signal(aMessage);
+     Result :=aMessage.Result;
 end;
 
-function TMGSignals.Signal(var Message: TMessage):Boolean;
+function TMGSignalsManager.Signal(var aMessage: TMessage):Boolean;
 Var
    uMessageID :Integer;
    uMessageList :TObject;
@@ -345,9 +433,67 @@ Var
 begin
      Result :=False;
 
-     if rClients.Find(Message.Msg, uMessageID, uMessageList)
+     if rClients.Find(aMessage.Msg, uMessageID, uMessageList)
      then if (uMessageList<>Nil)
-          then Result :=TSignalMethodsList(uMessageList).CallAllMethods(Message);
+          then Result :=TSignalMethodsList(uMessageList).CallAllMethods(aMessage);
+end;
+
+{ TMGSignals }
+
+constructor TMGSignals.Create;
+begin
+     signals_async :=TSignalsAsyncThread.Create;
+     signals_sync  :=TMGSignalsManager.Create;
+end;
+
+destructor TMGSignals.Destroy;
+begin
+     signals_async.Free;
+     signals_sync.Free;
+     inherited Destroy;
+end;
+
+procedure TMGSignals.Connect(ClassMethod: TSignalMethod; MessageID: Integer);
+begin
+     signals_sync.Connect(ClassMethod, MessageID);
+end;
+
+procedure TMGSignals.Disconnect(ClassMethod: TSignalMethod; MessageID: Integer);
+begin
+     signals_sync.Disconnect(ClassMethod, MessageID);
+end;
+
+procedure TMGSignals.Disconnect(ClassPointer: TObject);
+begin
+     signals_sync.Disconnect(ClassPointer);
+end;
+
+procedure TMGSignals.ConnectAsync(ClassMethod: TSignalMethod; MessageID: Integer; Priority :Integer=0);
+begin
+     signals_async.Connect(ClassMethod, MessageID, Priority);
+end;
+
+procedure TMGSignals.DisconnectAsync(ClassMethod: TSignalMethod; MessageID: Integer);
+begin
+     signals_async.Disconnect(ClassMethod, MessageID);
+end;
+
+procedure TMGSignals.DisconnectAsync(ClassPointer: TObject);
+begin
+     signals_async.Disconnect(ClassPointer);
+end;
+
+function TMGSignals.Signal(MessageID: Cardinal; WParam, LParam: Integer;
+  var Handled: Boolean): Integer;
+begin
+     Result :=signals_sync.Signal(MessageID, WParam, LParam, Handled);
+     signals_async.Signal(MessageID, WParam, LParam);
+end;
+
+function TMGSignals.Signal(var aMessage: TMessage): Boolean;
+begin
+     Result :=signals_sync.Signal(aMessage);
+     signals_async.Signal(aMessage);
 end;
 
 end.

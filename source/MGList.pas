@@ -35,6 +35,8 @@ Type
   TObjWalkFunction = procedure (Tag :Integer; ptData :Pointer) of object;
 
 
+  { TMGList }
+
   TMGList = class
     protected
         rListInit,
@@ -67,6 +69,8 @@ Type
         function Add :Pointer; overload;
         function Insert(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=nil) :Integer; overload;
         function Insert(pData :Pointer; ATag :Pointer; CompareFunction : TObjCompareFunction) :Integer; overload;
+        function DeleteFirst :Boolean;
+        function DeleteLast :Boolean;
         function Delete(Index :Integer) :Boolean; overload;
         function Delete(pData :Pointer; ATag :Pointer; CompareFunction : TLocalCompareFunction=Nil) :Boolean; overload;
         function Delete(pData :Pointer; ATag :Pointer; CompareFunction : TObjCompareFunction) :Boolean; overload;
@@ -77,6 +81,8 @@ Type
 
         function FindFirst: Pointer; virtual;
         function FindNext : Pointer; virtual;
+        function GetFirst : Pointer;
+        function GetLast : Pointer;
         function GetCurrent : Pointer; virtual;
         function GetData(DataPointer :Pointer; DataName :String) :Variant; virtual;
         function DeleteCurrent :Boolean;
@@ -244,6 +250,16 @@ begin
                 Result :=GetCurrent;
            end
       else Result :=Nil;
+end;
+
+function TMGList.GetFirst: Pointer;
+begin
+     Result :=rListInit^.Data;
+end;
+
+function TMGList.GetLast: Pointer;
+begin
+     Result :=rListEnd^.Data;
 end;
 
 function TMGList.GetCurrent : Pointer;
@@ -513,6 +529,26 @@ begin
      auxPointer :=AllocData_Compare(ATag, CompareFunction);
      Result := Insert(pData, auxPointer, _LocalToObj_Compare);
      FreeMem(auxPointer);
+end;
+
+function TMGList.DeleteFirst: Boolean;
+begin
+     try
+        InternalDelete(rListInit);
+        Result :=True;
+     except
+       Result :=False;
+     end;
+end;
+
+function TMGList.DeleteLast: Boolean;
+begin
+     try
+        InternalDelete(rListEnd);
+        Result :=True;
+     except
+       Result :=False;
+     end;
 end;
 
 

@@ -1,7 +1,7 @@
 object Main: TMain
-  Left = 168
+  Left = 261
   Height = 720
-  Top = 125
+  Top = 124
   Width = 893
   ActiveControl = Panel4
   Caption = 'titel'
@@ -544,10 +544,9 @@ object Main: TMain
   OnClose = MainClose
   OnCreate = MainCreate
   OnResize = FormResize
-  OnShow = FormShow
   Position = poDefault
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object StatusBar1: TStatusBar
     Left = 0
     Height = 21
@@ -960,7 +959,6 @@ object Main: TMain
           Height = 26
           Top = 14
           Width = 90
-          AutoComplete = False
           ItemHeight = 0
           ItemIndex = 0
           Items.Strings = (
@@ -971,7 +969,6 @@ object Main: TMain
             'wav'
             'wma'
           )
-          ItemWidth = 0
           OnChange = filetypeboxChange
           PopupMenu = SearchMenu
           Style = csDropDownList
@@ -3503,8 +3500,9 @@ object Main: TMain
       50FF000000000000000000000000000000000000000000000000000000000000
       0000
     }
+    Visible = True
     OnDblClick = TrayIconDblClick
-    left = 360
+    left = 368
     top = 368
   end
   object ImageListNormal: TImageList
@@ -4250,7 +4248,6 @@ object Main: TMain
   end
   object PopupMenuTray: TPopupMenu
     Images = ImageListNormal
-    OnPopup = PopupMenuTrayPopup
     left = 504
     top = 368
     object itemTrayPrev: TMenuItem

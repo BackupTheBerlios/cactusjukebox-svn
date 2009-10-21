@@ -1,7 +1,7 @@
 object BigCoverImg: TBigCoverImg
   Left = 132
   Height = 688
-  Top = 174
+  Top = 177
   Width = 952
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
@@ -12,7 +12,7 @@ object BigCoverImg: TBigCoverImg
   OnClose = FormClose
   Position = poDefaultPosOnly
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object BackImg: TImage
     Left = 0
     Height = 688

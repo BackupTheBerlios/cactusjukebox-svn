@@ -98,13 +98,11 @@ type
     TCJ_Signals = class
     public
        procedure Connect(ClassMethod :TCJ_SignalMethod; MessageID :Integer); virtual; abstract;
-       procedure ConnectAsync(ClassMethod :TCJ_SignalMethod; MessageID :Integer); virtual; abstract;
+       procedure ConnectAsync(ClassMethod :TCJ_SignalMethod; MessageID :Integer; Priority :Integer=0); virtual; abstract;
        procedure Disconnect(ClassMethod :TCJ_SignalMethod; MessageID :Integer); virtual; overload; abstract;
        procedure Disconnect(ClassPointer :TObject); virtual; overload; abstract;
        function Signal(MessageID :Cardinal; WParam, LParam :Integer; var Handled :Boolean) :Integer; virtual; overload; abstract;
-       function Signal(var Message: TMessage) :Boolean; virtual; overload; abstract;
-       procedure SignalAsync(MessageID :Cardinal; WParam, LParam :Integer); virtual; overload; abstract;
-       procedure SignalAsync(var Message: TMessage); virtual; overload; abstract;
+       function Signal(var aMessage: TMessage) :Boolean; virtual; overload; abstract;
     end;
 
     TCJ_Interface = class

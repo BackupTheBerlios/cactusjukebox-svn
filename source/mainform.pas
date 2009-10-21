@@ -268,7 +268,6 @@ Type
     Procedure FormMouseDown(Sender: TOBject; Button: TMouseButton;
                             Shift: TShiftState; X, Y: Integer);
     Procedure FormResize(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure itemTrayExitClick(Sender: TObject);
     procedure itemTrayPlayClick(Sender: TObject);
     Procedure LibModeBtnClick(Sender: TObject);
@@ -1320,10 +1319,6 @@ Begin
   Panel1.Width := Width-oldSplitterWidth-8;
 End;
 
-procedure TMain.FormShow(Sender: TObject);
-begin
-     Self.TrayIcon.Show();
-end;
 
 procedure TMain.WMSize(var Message: TLMSize);
 begin
@@ -2129,10 +2124,6 @@ Begin
   Self.fromTrayDBLClick :=False;
   oldWindowState :=Self.WindowState;
   //Build of Interfaces and Plugins List (may be moved....)
-  AppTrayIcon :=Self.TrayIcon;
-  ImageListNormal :=Self.ImageListNormal;
-  ImageListHot :=Self.ImageListHot;
-  ImageListDis :=Self.ImageListDis;
   MenuOwner :=Self;
   CJ_Interface :=TCJ_Interface_Impl.Create;
   global_vars.AppMainMenu :=Self.Mainmenu1;
@@ -2140,6 +2131,7 @@ Begin
   global_vars.ImageListNormal :=Self.ImageListNormal;
   PluginsList :=TCJ_PluginsList.Create;
   PluginsList.LoadFromINI;
+  Self.TrayIcon.Hint:='Cactus Juke Box...';
 End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

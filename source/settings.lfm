@@ -1,7 +1,7 @@
 object Settings: TSettings
   Left = 454
   Height = 522
-  Top = 186
+  Top = 206
   Width = 483
   ActiveControl = PageControl1
   BorderIcons = [biSystemMenu, biMinimize]
@@ -13,12 +13,12 @@ object Settings: TSettings
   OnCreate = FormCreate
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object savebut: TButton
     Left = 112
-    Height = 36
-    Top = 470
-    Width = 50
+    Height = 34
+    Top = 472
+    Width = 52
     Anchors = [akLeft, akBottom]
     AutoSize = True
     BorderSpacing.InnerBorder = 4
@@ -28,9 +28,9 @@ object Settings: TSettings
   end
   object cancelbut: TButton
     Left = 272
-    Height = 36
-    Top = 470
-    Width = 60
+    Height = 34
+    Top = 472
+    Width = 63
     Anchors = [akLeft, akBottom]
     AutoSize = True
     BorderSpacing.InnerBorder = 4
@@ -284,7 +284,6 @@ object Settings: TSettings
         ItemHeight = 0
         OnMouseDown = PluginListMouseDown
         TabOrder = 0
-        TopIndex = -1
       end
       object PluginInfo: TMemo
         Left = 14
@@ -340,8 +339,8 @@ object Settings: TSettings
         Width = 425
         Anchors = [akTop, akLeft, akRight]
         Caption = 'Paths to additional application needed for Cactus Jukebox'
-        ClientHeight = 168
-        ClientWidth = 421
+        ClientHeight = 138
+        ClientWidth = 415
         TabOrder = 0
         object Llame: TLabel
           Left = 22
@@ -363,7 +362,7 @@ object Settings: TSettings
           Left = 38
           Height = 24
           Top = 111
-          Width = 383
+          Width = 387
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 0
           Text = 'default'
@@ -372,7 +371,7 @@ object Settings: TSettings
           Left = 38
           Height = 24
           Top = 39
-          Width = 383
+          Width = 387
           Anchors = [akTop, akLeft, akRight]
           TabOrder = 1
           Text = 'default'
@@ -398,8 +397,8 @@ object Settings: TSettings
         Width = 409
         Anchors = [akTop, akLeft, akRight]
         Caption = 'File name format string'
-        ClientHeight = 112
-        ClientWidth = 405
+        ClientHeight = 82
+        ClientWidth = 399
         TabOrder = 2
         object Label3: TLabel
           Left = 11
@@ -441,8 +440,8 @@ object Settings: TSettings
         Width = 409
         Anchors = [akTop, akLeft, akRight]
         Caption = 'Mpeg3 ID3 type'
-        ClientHeight = 44
-        ClientWidth = 405
+        ClientHeight = 14
+        ClientWidth = 399
         TabOrder = 0
         object v1_prio: TRadioButton
           Left = 78
@@ -473,8 +472,8 @@ object Settings: TSettings
         Width = 409
         Anchors = [akTop, akLeft, akRight]
         Caption = 'Incomplete metadata handling'
-        ClientHeight = 111
-        ClientWidth = 405
+        ClientHeight = 81
+        ClientWidth = 399
         TabOrder = 1
         object Label7: TLabel
           Tag = 8
@@ -519,13 +518,13 @@ object Settings: TSettings
     end
     object TabSheet6: TTabSheet
       Caption = 'LastFM API'
-      ClientHeight = 411
-      ClientWidth = 463
+      ClientHeight = 408
+      ClientWidth = 459
       object Label8: TLabel
         Left = 78
-        Height = 15
+        Height = 17
         Top = 198
-        Width = 120
+        Width = 114
         Caption = 'Preferred image size'
         ParentColor = False
       end
@@ -584,25 +583,25 @@ object Settings: TSettings
       end
       object Label10: TLabel
         Left = 22
-        Height = 15
+        Height = 17
         Top = 54
-        Width = 338
+        Width = 322
         Caption = 'Cactus Jukebox can retrieve song information from LastFM.'
         ParentColor = False
       end
       object Label11: TLabel
         Left = 22
-        Height = 15
+        Height = 17
         Top = 78
-        Width = 359
+        Width = 332
         Caption = 'No private data is submitted. Only artist name and album title.'
         ParentColor = False
       end
       object ClearCover: TButton
         Left = 310
-        Height = 36
+        Height = 34
         Top = 134
-        Width = 89
+        Width = 90
         AutoSize = True
         BorderSpacing.InnerBorder = 4
         Caption = 'Clear cache'
@@ -611,15 +610,15 @@ object Settings: TSettings
       end
       object CoverDownload: TCheckBox
         Left = 22
-        Height = 21
+        Height = 23
         Top = 142
-        Width = 251
+        Width = 241
         Caption = 'Download album cover art form internet'
         TabOrder = 1
       end
       object AlbumCoverSizeBox: TComboBox
         Left = 214
-        Height = 28
+        Height = 26
         Top = 190
         Width = 120
         ItemHeight = 0

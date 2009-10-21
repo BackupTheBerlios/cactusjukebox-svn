@@ -1,7 +1,7 @@
 object playwin: Tplaywin
   Left = 372
   Height = 213
-  Top = 364
+  Top = 384
   Width = 396
   BorderStyle = bsDialog
   Caption = 'Cactus Audio Player'
@@ -53,9 +53,11 @@ object playwin: Tplaywin
   OnKeyUp = playwinKeyUp
   PopupMenu = PopupMenu1
   ShowInTaskBar = stAlways
-  LCLVersion = '0.9.25'
+  LCLVersion = '0.9.29'
   object BackgroundImg: TImage
+    Left = 0
     Height = 206
+    Top = 0
     Width = 392
   end
   object ToolbarImg: TImage

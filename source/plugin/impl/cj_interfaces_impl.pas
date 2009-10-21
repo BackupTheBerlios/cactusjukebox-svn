@@ -74,13 +74,11 @@ type
        rSignals :TMGSignals;
     public
        procedure Connect(ClassMethod :TCJ_SignalMethod; MessageID :Integer); override;
-       procedure ConnectAsync(ClassMethod :TCJ_SignalMethod; MessageID :Integer); override;
+       procedure ConnectAsync(ClassMethod :TCJ_SignalMethod; MessageID :Integer; Priority :Integer=0); override;
        procedure Disconnect(ClassMethod :TCJ_SignalMethod; MessageID :Integer); override; overload;
        procedure Disconnect(ClassPointer :TObject); override; overload;
        function Signal(MessageID :Cardinal; WParam, LParam :Integer; var Handled :Boolean) :Integer; override; overload;
-       function Signal(var Message: TMessage) :Boolean; override; overload;
-       procedure SignalAsync(MessageID :Cardinal; WParam, LParam :Integer); override; overload;
-       procedure SignalAsync(var Message: TMessage); override; overload;
+       function Signal(var aMessage: TMessage) :Boolean; override; overload;
 
        constructor Create;
        destructor Destroy; override;
@@ -604,10 +602,9 @@ begin
   rSignals.Connect(ClassMethod, MessageID);
 end;
 
-procedure TCJ_Signals_Impl.ConnectAsync(ClassMethod: TCJ_SignalMethod;
-  MessageID: Integer);
+procedure TCJ_Signals_Impl.ConnectAsync(ClassMethod: TCJ_SignalMethod; MessageID: Integer; Priority :Integer=0);
 begin
-  //rSignals.ConnectAsync(ClassMethod, MessageID);
+  rSignals.ConnectAsync(ClassMethod, MessageID, Priority);
 end;
 
 procedure TCJ_Signals_Impl.Disconnect(ClassMethod: TCJ_SignalMethod;
@@ -627,20 +624,9 @@ begin
   Result:=rSignals.Signal(MessageID, WParam, LParam, Handled);
 end;
 
-function TCJ_Signals_Impl.Signal(var Message: TMessage): Boolean;
+function TCJ_Signals_Impl.Signal(var aMessage: TMessage): Boolean;
 begin
-  Result:=rSignals.Signal(Message);
-end;
-
-procedure TCJ_Signals_Impl.SignalAsync(MessageID: Cardinal; WParam,
-  LParam: Integer);
-begin
-  //rSignals.SignalAsync(MessageID, WParam, LParam);
-end;
-
-procedure TCJ_Signals_Impl.SignalAsync(var Message: TMessage);
-begin
-  //rSignals.SignalAsync(Message);
+  Result:=rSignals.Signal(aMessage);
 end;
 
 

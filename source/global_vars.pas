@@ -25,10 +25,12 @@ Var
    AppMainMenu          :TMainMenu =Nil;
    AppTrayIcon          :TTrayIcon =Nil;
    ImageListNormal      :TImageList;
-   ImageListHot         :TImageList;
-   ImageListDis         :TImageList;
    PluginsSeparatorItem :TMenuItem=Nil;
-   AppPath              :String;
+   PATH_Home,
+   PATH_Data,
+   PATH_Config,
+   PATH_Plugins          :String;
+
 
 procedure RegisterPlugin(Name, DLLFileName :String);
 
@@ -42,12 +44,26 @@ Var
    theINI  :TIniFile;
 
 begin
-     theINI :=TIniFile.Create(AppPath+INI_PLUGINS);
+     theINI :=TIniFile.Create(PATH_Config+INI_PLUGINS);
      theINI.WriteString(Name, 'DLL', DLLFileName);
      theINI.Free;
 end;
 
+procedure CalcPathValues;
+begin
+   PATH_Home :=IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'));
+{$ifdef CactusRPM}
+   PATH_Data :='/usr/share/cactusjukebox/';
+   PATH_Config :=IncludeTrailingPathDelimiter(PATH_Home+'.cactusjukebox');
+ {$else}
+   PATH_Data :=IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
+   SetCurrentDir(PATH_Data);
+   PATH_Config :=PATH_Data;
+{$endif}
+   PATH_Plugins :=IncludeTrailingPathDelimiter(PATH_Config+'plugings');
+end;
+
 initialization
-              AppPath :=paramstr(0);
+              CalcPathValues;
 
 end.

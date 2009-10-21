@@ -1,7 +1,7 @@
 object cdrip: Tcdrip
   Left = 261
   Height = 547
-  Top = 45
+  Top = 65
   Width = 540
   ActiveControl = artistedit
   BorderIcons = [biSystemMenu]
@@ -14,7 +14,7 @@ object cdrip: Tcdrip
   OnCreate = FormCreate
   Position = poMainFormCenter
   ShowInTaskBar = stNever
-  LCLVersion = '0.9.27'
+  LCLVersion = '0.9.29'
   object LArtist: TLabel
     Left = 24
     Height = 12
@@ -39,7 +39,7 @@ object cdrip: Tcdrip
     Left = 40
     Height = 17
     Top = 392
-    Width = 168
+    Width = 126
     Caption = 'Outfile naming scheme'
     ParentColor = False
   end
@@ -75,15 +75,15 @@ object cdrip: Tcdrip
       Left = 208
       Height = 17
       Top = 16
-      Width = 91
+      Width = 67
       Caption = 'Bitrate kbit/s'
       ParentColor = False
     end
     object writetagscheck: TCheckBox
       Left = 56
-      Height = 24
+      Height = 23
       Top = 44
-      Width = 132
+      Width = 107
       Caption = 'Write ID3-Tags'
       Checked = True
       State = cbChecked
@@ -91,9 +91,9 @@ object cdrip: Tcdrip
     end
     object encodecheck: TCheckBox
       Left = 16
-      Height = 24
+      Height = 23
       Top = 16
-      Width = 135
+      Width = 109
       Caption = 'Encode to mp3'
       Checked = True
       OnChange = encodecheckChange
@@ -102,9 +102,10 @@ object cdrip: Tcdrip
     end
     object bitratebox: TComboBox
       Left = 289
-      Height = 27
+      Height = 26
       Top = 12
       Width = 63
+      ItemHeight = 0
       ItemIndex = 2
       Items.Strings = (
         '64'
@@ -120,9 +121,9 @@ object cdrip: Tcdrip
     end
     object subfoldercheck: TCheckBox
       Left = 216
-      Height = 24
+      Height = 23
       Top = 45
-      Width = 184
+      Width = 147
       Caption = 'Create artist subfolder'
       Checked = True
       State = cbChecked
@@ -130,9 +131,9 @@ object cdrip: Tcdrip
     end
     object paranoia: TCheckBox
       Left = 16
-      Height = 24
+      Height = 23
       Top = 80
-      Width = 314
+      Width = 250
       Caption = 'Deep error eorrection (using libparanoia)'
       TabOrder = 4
       Visible = False
@@ -140,7 +141,7 @@ object cdrip: Tcdrip
   end
   object artistedit: TEdit
     Left = 96
-    Height = 23
+    Height = 26
     Top = 8
     Width = 264
     TabOrder = 3
@@ -148,7 +149,7 @@ object cdrip: Tcdrip
   end
   object albumedit: TEdit
     Left = 96
-    Height = 23
+    Height = 26
     Top = 40
     Width = 264
     TabOrder = 4
@@ -156,9 +157,9 @@ object cdrip: Tcdrip
   end
   object querrybtn: TButton
     Left = 384
-    Height = 38
+    Height = 34
     Top = 24
-    Width = 110
+    Width = 95
     AutoSize = True
     BorderSpacing.InnerBorder = 4
     Caption = 'Query CDDB'
@@ -225,9 +226,10 @@ object cdrip: Tcdrip
   end
   object outputfolderbox: TComboBox
     Left = 24
-    Height = 27
+    Height = 26
     Top = 352
     Width = 344
+    ItemHeight = 0
     TabOrder = 9
     Text = 'outputfolderbox'
   end
@@ -243,17 +245,19 @@ object cdrip: Tcdrip
   end
   object drivebox: TComboBox
     Left = 424
-    Height = 27
+    Height = 26
     Top = 128
     Width = 96
+    ItemHeight = 0
     TabOrder = 11
     Text = ' '
   end
   object FileNameType: TComboBox
     Left = 184
-    Height = 27
+    Height = 26
     Top = 384
     Width = 184
+    ItemHeight = 0
     ItemIndex = 0
     Items.Strings = (
       'Track - Artist - Title'

@@ -23,6 +23,7 @@ uses
  {$ifdef linux}
    cthreads,
  {$endif}
+  global_vars,
   Interfaces,SysUtils,
   Forms, status, settings, player, graphics, editid3, directories, skin,
   cdrip, mediacol, BigCoverImg, mainform, cddb,
@@ -35,6 +36,8 @@ var
 
 
   {$i cactus_const.inc}
+
+{$IFDEF WINDOWS}{$R mp3proj.rc}{$ENDIF}
 
 begin
   Application.Title:='cactus';
@@ -67,6 +70,7 @@ begin
   DebugOutLn('##### Application init  #####', 2);
   Application.Initialize;
 
+(*
 //   Init config object
 {$ifdef CactusRPM}
    CactusConfig:=TConfigObject.create(IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'))+'.cactusjukebox'+DirectorySeparator+configname);
@@ -80,6 +84,22 @@ begin
    CactusConfig.HomeDir:=IncludeTrailingPathDelimiter(GetEnvironmentVariable('HOME'));
    CactusConfig.DataPrefix:=IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
    CactusConfig.ConfigPrefix:=IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0)));
+   if DirectoryExists('lib')=false then  mkdir('lib');
+{$endif}
+*)
+//   Init config object
+{$ifdef CactusRPM}
+   CactusConfig:=TConfigObject.create(PATH_Config+CONFIGNAME);
+   CactusConfig.HomeDir:=PATH_Home;
+   CactusConfig.DataPrefix:=PATH_Data;
+   CactusConfig.ConfigPrefix:=PATH_Config;
+   DebugOutLn('This is Cactus RPM.', 2);
+ {$else}
+   SetCurrentDir(ExtractFilePath(ParamStr(0)));
+   CactusConfig:=TConfigObject.create(CONFIGNAME);
+   CactusConfig.HomeDir:=PATH_Home;
+   CactusConfig.DataPrefix:=PATH_Data;
+   CactusConfig.ConfigPrefix:=PATH_Config;
    if DirectoryExists('lib')=false then  mkdir('lib');
 {$endif}
 

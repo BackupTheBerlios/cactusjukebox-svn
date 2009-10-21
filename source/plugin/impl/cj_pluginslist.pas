@@ -15,7 +15,7 @@ unit cj_pluginslist;
 {$mode delphi}{$H+}
 interface
 
-uses dynlibs, MGList, cj_plugin, cj_interfaces, cj_interfaces_impl;
+uses dynlibs, global_vars, MGList, cj_plugin, cj_interfaces, cj_interfaces_impl;
 
 type
     TCJ_PluginDescr = record
@@ -45,7 +45,7 @@ Var
 
 implementation
 
-uses Classes, Controls, SysUtils, Forms, Dialogs, inifiles, global_vars;
+uses Classes, Controls, SysUtils, Forms, Dialogs, inifiles;
 
 const
      ERR_LOAD_PLUGIN  ='Error Loading %s'#13#10'%s'#13#10'Try to Load at next time?';
@@ -136,7 +136,7 @@ var
    end;
 
 begin
-     theINI :=TIniFile.Create(AppPath+INI_PLUGINS);
+     theINI :=TIniFile.Create(PATH_Config+INI_PLUGINS);
      INIpackList :=TStringList.Create;
      try
         theINI.ReadSections(INIpackList);
@@ -151,7 +151,7 @@ begin
              begin
                   curPlugin :=self.Add;
                   //xDllPath :=ProcessVarValue(theINI.ReadString(CurSect, 'DLL', ''));
-                  xDllPath :=AppPath+INI_PLUGINS+'/'+theINI.ReadString(CurSect, 'DLL', '');
+                  xDllPath :=PATH_Plugins+theINI.ReadString(CurSect, 'DLL', '');
                   xEnabled :=theINI.ReadBool(CurSect, 'ENABLED', True);
                   xDllHandle := LoadLibrary(PChar(xDllPath));
                   if (xDllHandle=0)
