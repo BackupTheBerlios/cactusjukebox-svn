@@ -42,13 +42,13 @@ THTTPCallbackProc = function : boolean of object;
       FUrl: string;
     Protected 
       Procedure Execute;override;
-    Public 
-      Constructor Create(Suspd : boolean);
+    Public
       fStatus : byte;
       URL: string;
       Errorcode: string;
       ReceiveProc: THTTPCallbackProc;
       ReceiveData: ^TMemoryStream;
+      Constructor Create(Suspd : boolean);
   End;
 { TScanThread }
 
@@ -80,12 +80,11 @@ THTTPCallbackProc = function : boolean of object;
       procedure SendRequest(callback: THTTPCallbackProc);
     Public 
     { public declarations }
+      CoverSize: TCoverSize;
       property data_ready: boolean read FData_Ready;
       property AlbumInfo: TAlbumInfoRecord read FAlbumInfo;
       procedure album_getInfos(artist, album:string);
       procedure album_downloadCover(artist, album, savepath:string);
-
-      CoverSize: TCoverSize;
   End;
 
   Implementation
@@ -206,7 +205,7 @@ begin
   FArtist:=artist;
   furl := Furlprefix + Format('?method=album.getinfo&api_key=%s&artist=%s&album=%s', [FAPIKey, FArtist, FAlbum]);
   furl := AnsiReplaceStr(furl, ' ', '%20');
-  AlbumInfo.CoverSavePath:=savepath;
+  FAlbumInfo.CoverSavePath:=savepath;
   DebugOutLn('Sending album cover request to last.fm... ', 5);
   DebugOutLn(furl, 5);
   SendRequest(@album_downloadCoverRCV);

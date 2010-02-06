@@ -1,5 +1,3 @@
-{ Questo è un file risorse generato automaticamente da Lazarus }
-
 LazarusResources.Add('Tplaywin','FORMDATA',[
   'TPF0'#8'Tplaywin'#7'playwin'#4'Left'#3't'#1#6'Height'#3#213#0#3'Top'#3#128#1
   +#5'Width'#3#140#1#11'BorderStyle'#7#8'bsDialog'#7'Caption'#6#19'Cactus Audio'

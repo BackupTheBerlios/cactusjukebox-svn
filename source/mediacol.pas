@@ -36,6 +36,10 @@ Type
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     TMediaFileClass = Class
       Private 
+       FTitle, FAlbum, FArtist: string;
+       FStreamUrl: string;
+       FMediaType: TMediaType;
+
        Procedure read_tag_ogg;
        Procedure read_tag_flac;
        Procedure read_tag_wma;
@@ -48,11 +52,20 @@ Type
        Procedure SetAlbum(aValue: String);
        Procedure SetTitle(aValue: String);
        Procedure setStreamUrl(aValue: String);
-       FTitle, FAlbum, FArtist: string;
-       FStreamUrl: string;
-       FMediaType: TMediaType;
 
-      Public 
+      Public
+       Path: String;
+       CoverPath: ansistring;
+       Collection: TMediaCollectionClass;
+       Comment: ansistring;
+       GenreID: Byte;
+       Year, Track: string[4];
+       Filetype: string[5];
+       Size: int64;
+       ID, Bitrate, Samplerate, Playlength, Action: longint;
+       Playtime: string;
+       index: integer;
+
        constructor create(filepath:String; ParentCollection: TMediaCollectionClass);
        constructor create(ParentCollection: TMediaCollectionClass);
        destructor destroy;
@@ -64,39 +77,41 @@ Type
        Function FullPathNameFromTag_dryrun(var strFormat: string): string;
        Function move2path(strFilePath: string): Boolean;
        Function LibraryPath(): string;
-       Path: String;
-       CoverPath: ansistring;
-       Collection: TMediaCollectionClass;
+
        property Artist: string read FArtist write SetArtist;
        property Album: string read FAlbum write SetAlbum;
        property Title: string read FTitle write SetTitle;
        property StreamUrl: string read FStreamUrl write SetStreamUrl;
-       Comment: ansistring;
-       GenreID: Byte;
-       Year, Track: string[4];
-       Filetype: string[5];
-       Size: int64;
-       ID, Bitrate, Samplerate, Playlength, Action: longint;
-       Playtime: string;
-       index: integer;
        property MediaType: TMediaType read FMEdiaType;
-    End;
+
+      End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 { TMediaCollectionClass }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     TMediaCollectionClass = Class(Tlist)
      Private
-      Function GetItems(index: integer): TMediaFileClass;
-      Procedure Recursive_AddDir(dir: String);
-      Procedure SetAutoEnum(Const AValue: boolean);
-      Procedure SetSorted(Const AValue: boolean);
       FSorted, FEnumerated, FAutoEnum: Boolean;
       FSrchAscending: Boolean;
       FSrchPos: Integer;
       FSrchArtist, FSrchAlbum: String;
       FSrchType: TSrchType;
+      Function GetItems(index: integer): TMediaFileClass;
+      Procedure Recursive_AddDir(dir: String);
+      Procedure SetAutoEnum(Const AValue: boolean);
+      Procedure SetSorted(Const AValue: boolean);
      Public
+      syncronize: Procedure (dir: String) Of object;
+      Savepath: string;
+      DirList: TStringList;
+      PathFmt: TPathFmt;
+      property Items[index: integer]: TMediaFileClass read GetItems;
+      property sorted: boolean read FSorted write SetSorted;
+      // when Sorted is set true, add/insert always adds at right position
+      // on changing state from false to true whole collection is getting sorted once
+      property AutoEnum: boolean read FAutoEnum write SetAutoEnum;
+      property enumerated: boolean read FEnumerated;
+
       constructor create;
       destructor destroy;
       Procedure Assign(SourceCol:TMediaCollectionClass);
@@ -130,17 +145,6 @@ Type
 
       Function getIndexByPath(path: String): integer;
 
-      syncronize: Procedure (dir: String) Of object;
-
-      property Items[index: integer]: TMediaFileClass read GetItems;
-      property sorted: boolean read FSorted write SetSorted;
-      // when Sorted is set true, add/insert always adds at right position
-      // on changing state from false to true whole collection is getting sorted once
-      property AutoEnum: boolean read FAutoEnum write SetAutoEnum;
-      property enumerated: boolean read FEnumerated;
-      Savepath: string;
-      DirList: TStringList;
-      PathFmt: TPathFmt;
     End;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -263,6 +267,7 @@ Var i: integer;
   NumEntries: Integer;
   MedFileObj: TMediaFileClass;
   sortState: boolean;
+  tmpstring: string;
 Begin
   savepath := path;
   sortState := FSorted;
@@ -301,11 +306,14 @@ Begin
         If PathFmt = FRelative Then MedFileObj.Path := RPath+MedFileObj.Path;
         readln(lfile, MedFileObj.id);
         inc(linecount);
-        readln(lfile, MedFileObj.artist);
+        readln(lfile, tmpstring);
+        MedFileObj.artist:=tmpstring;
         inc(linecount);
-        readln(lfile, MedFileObj.album);
+        readln(lfile, tmpstring);
+        MedFileObj.album:=tmpstring;
         inc(linecount);
-        readln(lfile, MedFileObj.title);
+        readln(lfile, tmpstring);
+        MedFileObj.title:=tmpstring;
         inc(linecount);
         readln(lfile, MedFileObj.year);
         inc(linecount);

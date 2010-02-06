@@ -115,7 +115,8 @@ Begin
         ReadLn(sfile, tmps1);
         ReadLn(sfile, tmps2);
         i := add(tmps2, tmps1);
-        ReadLn(sfile, TStreamInfoItemClass(Objects[i]).Description);
+//        ReadLn(sfile, TStreamInfoItemClass(Objects[i]).Description);
+        //TODO: reactivate stream collection loading
       End;
     result:=true;
   Except

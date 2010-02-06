@@ -135,15 +135,16 @@ Type
     LastFMAPI: TLastfmAPIObject;
     bEModeActive: boolean;
 
+    MedFileObj: TMediaFileClass;
+    MedColObj: TMediaCollectionClass;
+    StreamInfoObj: TStreamInfoItemClass;
+
     GenreIDtoCBIndex: array[0..255, 0..255] of integer;  //used to translate genre id to checkbox item index
 
     // Edit-mode specific variable
     ptrControls: array Of array Of ^TControl;
     // ..
     Procedure show_tags();
-    MedFileObj: TMediaFileClass;
-    MedColObj: TMediaCollectionClass;
-    StreamInfoObj: TStreamInfoItemClass;
   Public
     { public declarations }
     fileid: integer;
@@ -450,7 +451,8 @@ Procedure TEditID3.FormCreate(Sender: TObject);
 
 Var 
   i: integer;
-  GenreList: TStringlist;
+  GenreList, numberlist: TStringlist;
+  Aname, Avalue: string;
 Begin
   // initialize index of labels and text boxes on form - used for edit-mode
   SetLength(ptrControls, 8);
@@ -492,15 +494,18 @@ Begin
 
   GenreList:=TStringList.Create;
   for i:= 0 to high(ID3Genre) do begin
-      GenreList.Add(ID3Genre[i]);
-      GenreList.Objects[i]:=tobject(pointer(i));
+      GenreList.Add(ID3Genre[i]+'='+IntToStr(i));
   end;
   GenreList.Sorted:=true;
 
   for i:= 0 to high(ID3Genre) do begin
-      GenreIDtoCBIndex[0,i]:=integer(GenreList.Objects[i]);
-      GenreIDtoCBIndex[integer(GenreList.Objects[i]),0]:=i;
-      GenreBox.Items.Add(GenreList[i]);
+      GenreList.GetNameValue(i, Aname, Avalue);
+
+      GenreIDtoCBIndex[0,i]:=StrToInt(Avalue);
+
+      GenreIDtoCBIndex[StrToInt(Avalue),0]:=i;
+
+      GenreBox.Items.Add(Aname);
   end;
 
 

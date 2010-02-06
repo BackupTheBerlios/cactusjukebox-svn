@@ -37,6 +37,9 @@ type
      function GetProcessOutput:string;
      function GetMPlayerPlaying: boolean;
    Public
+     ExternalConfigFile: string;
+     UseExternalConfig: boolean;
+
      constructor create; override;
      destructor destroy;
 
@@ -68,8 +71,7 @@ type
 
      property MPlayerPath: string read FMPlayerPath;
      property playing: boolean read GetMPlayerPlaying;
-     ExternalConfigFile: string;
-     UseExternalConfig: boolean;
+
   end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

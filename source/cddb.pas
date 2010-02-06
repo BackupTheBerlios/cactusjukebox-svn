@@ -42,14 +42,14 @@ TCddbObject = class
     destructor destroy;
   private
     { private declarations }
-    procedure OnReceiveProc(asocket: TLSocket);
-    procedure OnErrorProc(const msg: string; asocket: TLSocket);
-    procedure OnDisconnectProc(asocket: TLSocket);
-    procedure OnConnectProc(asocket: TLSocket);
     orphantext: string;
     Connection: TLTcp;
     FServer, FUser, FSoftware, FVersion, FHostname: string;
     FPort: word;
+    procedure OnReceiveProc(asocket: TLSocket);
+    procedure OnErrorProc(const msg: string; asocket: TLSocket);
+    procedure OnDisconnectProc(asocket: TLSocket);
+    procedure OnConnectProc(asocket: TLSocket);
   public
     { public declarations }
 

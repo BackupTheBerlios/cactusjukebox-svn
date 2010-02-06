@@ -39,23 +39,23 @@ Type
   { TSkin }
 
   TSkin = Class
-    Private 
-    Function getpath: string;
+   Private
     FSkinPrefix: string;
     FSKinName: string;
     FSkinPath: string;
     FDefaultPath: string;
-    Public 
+    Function getpath: string;
+   Public
+    play, previous, next, pause, stop: TButtonImageData;
+    mute, info, open, view : TButtonImageData;
+    Pplay, Pprevious, Pnext, Ppause, Pstop: TButtonImageData;
+    Background, Time, Title, Toolbar, Trackbar, TitleBack: TImageData;
     destructor destroy;
     constructor create(DefaultSkin, SkinPrefix: String);
     Procedure load_skin(skinfile: String);
     property SkinPath: string read getpath;
     property DefaultPath: string read FDefaultPath;
     property Name: string read FSkinName;
-    play, previous, next, pause, stop: TButtonImageData;
-    mute, info, open, view : TButtonImageData;
-    Pplay, Pprevious, Pnext, Ppause, Pstop: TButtonImageData;
-    Background, Time, Title, Toolbar, Trackbar, TitleBack: TImageData;
   End;
 
 

@@ -438,13 +438,8 @@ Type
     Procedure update_player_hdd_relations;
     Procedure VolumebarMouseUp(Sender: TObject; Button: TMouseButton;
                                Shift: TShiftState; X, Y: Integer);
-    Private 
-    { private declarations }
-    Procedure MoveNode(TargetNode, SourceNode : TTreeNode);
-    Procedure ApplicationIdle(Sender: TObject; Var Done: Boolean);
-    Procedure update_player_display;
-    Function LoadFile(path: String): boolean;
-
+  Private
+  { private declarations }
     ctrl_pressed, SplitterResize: boolean;
 
     oldSplitterWidth, LoopCount: integer;
@@ -457,14 +452,12 @@ Type
     bPnlPlaytimeNegated: boolean;
     oldWindowState :TWindowState;
     fromTrayDBLClick :Boolean;
+    Procedure MoveNode(TargetNode, SourceNode : TTreeNode);
+    Procedure ApplicationIdle(Sender: TObject; Var Done: Boolean);
+    Procedure update_player_display;
+    Function LoadFile(path: String): boolean;
 
-    Public 
-    Procedure update_playlist;
-    Procedure disconnectDAP;
-    Function connectDAP: byte;
-    Procedure ScanSyncronize(dir:String);
-    Procedure update_artist_view;
-
+  Public
     player_connected, playermode: boolean;
     playpos: integer;
     playnode: TTreeNode;
@@ -476,6 +469,14 @@ Type
 
     skinmenuitems: array[1..16] Of TMenuItem;
 
+    TestPluginI :TCJ_MenuItem;
+
+    Procedure update_playlist;
+    Procedure disconnectDAP;
+    Function connectDAP: byte;
+    Procedure ScanSyncronize(dir:String);
+    Procedure update_artist_view;
+
     { public declarations }
     procedure WMSize(var Message: TLMSize); message LM_Size;
 
@@ -484,7 +485,6 @@ Type
     function SayMsgHello(var Message: TMessage):Boolean;
     function SayMsgHello2(var Message: TMessage):Boolean;
 
-    TestPluginI :TCJ_MenuItem;
   End;
 
 
@@ -493,16 +493,16 @@ Type
    { TScanThread }
 
   TScanThread = Class(TThread)
-    Private 
+   Private
     Procedure ShowStatus;
     Protected 
     Procedure Execute;
     override;
-    Public 
-    Constructor Create(Suspd : boolean);
+   Public
     fStatus : byte;
     tmpcollection: TMediaCollectionClass;
     PTargetCollection: TMediaCollectionClass;
+    Constructor Create(Suspd : boolean);
   End;
 
  { TScanThread }
@@ -516,21 +516,21 @@ Type
   TSyncThread = Class(TThread)
     Private 
     Procedure SyncStatus;
-    Protected 
-    Procedure Execute;
-    override;
+    Protected
     CopyList, TargetList, DeleteList: TStringList;
     DeletedCnt, DeleteTotal, CopyTotal, CopiedCnt: Integer;
     OpSuccess, finished: boolean;
     SAction: TSyncAction;
     TargetCollection: TMediaCollectionClass;
+    Procedure Execute;
+    override;
     Public 
+    Target: String;
     Constructor Create(Suspd : boolean);
     destructor Destroy;
     override;
     Procedure CopyFile( fromFile, toFile: String);
     Procedure DeleteFile( path: String);
-    Target: String;
   End;
 
  { TSyncThread }

@@ -11,11 +11,11 @@ uses
 { TPlaylistitemClass }
 type
 TPlaylistitemClass = class
-     constructor create;
-     destructor destroy;
      Artist, Title, Path, Album: string;
      LengthMS, id:longint;
      Played: boolean;
+     constructor create;
+     destructor destroy;
      procedure update(MedFileObj: TMediaFileClass);
    end;
   PPlaylistItemClass = ^TPlaylistitemClass;
@@ -29,6 +29,9 @@ type
    private
      function GetItems(index: integer):TPlaylistitemClass;
    public
+     CurrentTrack: integer;
+     property Items[index: integer]: TPlaylistitemClass read GetItems;
+
      constructor create;
      destructor destroy;
      function TotalPlayTime: int64;
@@ -47,8 +50,6 @@ type
      function ItemCount:integer;
      function LoadFromFile(path:string):byte;
      function SaveToFile(path:string):byte;
-     CurrentTrack: integer;
-     property Items[index: integer]: TPlaylistitemClass read GetItems;
    end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

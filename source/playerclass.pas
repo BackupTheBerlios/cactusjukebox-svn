@@ -43,6 +43,9 @@ TPlayerClass = class
      procedure SetCurrentTrack(index: integer);
      property FCurrentTrack: Integer read GetCurrentTrack write SetCurrentTrack;
    Public
+     OutputMode: TOutputMode;
+     Playlist: TPlaylistClass;
+
      constructor create;virtual;
      destructor destroy;virtual;
 
@@ -70,14 +73,12 @@ TPlayerClass = class
      procedure Mute;virtual; abstract;    // Mute audio output
      function Muted:boolean;virtual; abstract;   //Get mute state
 
-
-     OutputMode: TOutputMode;
-     Playlist: TPlaylistClass;
      property CurrentTrack: Integer read GetCurrentTrack;
      property playing: boolean read FPlaying;
      property paused: boolean read FPaused;
      property volume:byte read FVolume write Set_Volume;
      property PlaybackMode: TPlaybackMode read FPlaybackMode;
+
   end;
 
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
