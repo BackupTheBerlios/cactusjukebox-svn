@@ -3471,14 +3471,14 @@ Begin
                   Playlist.Items.InsertItem(tmpitem, Targetitem.Index+1);
                   sourceitem.Delete;
                   If ind>tmpitem.Index-1 Then PlayerObj.Playlist.move(ind, tmpitem.Index)
-                  Else PlayerObj.Playlist.move(ind, tmpitem.Index-1);
+                  Else PlayerObj.Playlist.move(ind, tmpitem.Index);
                   DebugOutLn('MOVE', 3)
                 End
               Else
                 Begin
                   Playlist.Items.AddItem(tmpitem);
                   sourceitem.Delete;
-                  PlayerObj.Playlist.move(ind, tmpitem.Index-1);
+                  PlayerObj.Playlist.move(ind, tmpitem.Index);
                   DebugOutLn('ADD', 3);
                 End;
             End;
