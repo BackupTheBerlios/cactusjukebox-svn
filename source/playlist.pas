@@ -142,13 +142,14 @@ begin
        current_track_tmp:= CurrentTrack;
        if (CurrentTrack>dest) and (CurrentTrack<=target+1) then dec(current_track_tmp);
 
-       if (CurrentTrack<dest) and (CurrentTrack>=target-1) then inc(current_track_tmp);
+       if (CurrentTrack<dest) and (CurrentTrack>=target) then inc(current_track_tmp);
 
        if (CurrentTrack=dest) then begin
              if dest<target then current_track_tmp:=target+1 else current_track_tmp:=target;
        end;
        write('dest');writeln(dest);
        write('target');writeln(target);
+       write('curtrack_before');writeln(CurrentTrack);
        CurrentTrack:=current_track_tmp;
 
        writeln(CurrentTrack);

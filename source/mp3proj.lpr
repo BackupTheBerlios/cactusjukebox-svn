@@ -39,6 +39,8 @@ var
 
 {$IFDEF WINDOWS}{$R mp3proj.rc}{$ENDIF}
 
+{$R mp3proj.res}
+
 begin
   Application.Title:='cactus';
  {$ifdef CactusDebug}

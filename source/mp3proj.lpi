@@ -16,7 +16,7 @@
       <AutoIncrementBuild Value="True"/>
       <CurrentMajorRevNr Value="3"/>
       <CurrentMinorRevNr Value="5"/>
-      <CurrentBuildNr Value="723"/>
+      <CurrentBuildNr Value="731"/>
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
@@ -235,6 +235,7 @@
       <OtherUnitFiles Value="fmodintf/;tagreader/;plugin/sdk/;plugin/impl/"/>
       <UnitOutputDirectory Value="../source/obj"/>
       <SrcPath Value="/home/daseeb/devel/units/synapse/source/lib/"/>
+      <LCLWidgetType Value="gtk2"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
