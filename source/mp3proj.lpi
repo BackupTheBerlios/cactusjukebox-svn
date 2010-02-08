@@ -16,7 +16,7 @@
       <AutoIncrementBuild Value="True"/>
       <CurrentMajorRevNr Value="3"/>
       <CurrentMinorRevNr Value="5"/>
-      <CurrentBuildNr Value="736"/>
+      <CurrentBuildNr Value="737"/>
     </VersionInfo>
     <PublishOptions>
       <Version Value="2"/>
@@ -40,7 +40,7 @@
         <MinVersion Major="1" Valid="True"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="33">
+    <Units Count="32">
       <Unit0>
         <Filename Value="mp3proj.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -219,11 +219,6 @@
         <Filename Value="plugin/TO-DO.txt"/>
         <IsPartOfProject Value="True"/>
       </Unit31>
-      <Unit32>
-        <Filename Value="aws.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="aws"/>
-      </Unit32>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
